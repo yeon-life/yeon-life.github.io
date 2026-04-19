@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연의 사랑방 위젯 — 설치 테스트</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', -apple-system, sans-serif;
+      background: #fafafa;
+      color: #222;
+      margin: 0;
+      padding: 80px 40px;
+      line-height: 1.7;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 2rem; margin-bottom: 30px; }
+    code {
+      background: #222; color: #6ae;
+      padding: 2px 8px; border-radius: 3px;
+      font-size: 0.95rem;
+    }
+    pre {
+      background: #222; color: #eee;
+      padding: 20px; border-radius: 6px;
+      font-size: 0.88rem;
+      overflow-x: auto;
+    }
+    .banner {
+      background: #fff; border-left: 3px solid #B08E61;
+      padding: 20px 24px; margin: 30px 0;
+      font-size: 0.95rem;
+    }
+    .banner strong { color: #5D4037; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>연의 사랑방 위젯 — 설치 테스트 페이지</h1>
+
+    <div class="banner">
+      <strong>✅ 위젯이 제대로 작동하면</strong><br>
+      오른쪽 아래에 검은색 "緣에 묻다" 플로팅 버튼이 보이고,<br>
+      클릭하면 다섯 겹 응답이 펼쳐지는 모달이 열립니다.
+    </div>
+
+    <p>이 페이지는 사랑방 위젯이 어떤 호스트 페이지(연에이젼트, 연플래너, 수풀AI 등 어떤 프로젝트든)에 설치해도 똑같이 작동하는지 확인하기 위한 <strong>샘플 페이지</strong>입니다.</p>
+
+    <h2>설치 방법</h2>
+    <p>HTML의 <code>&lt;/body&gt;</code> 직전에 한 줄만 넣으면 끝:</p>
+    <pre>&lt;script src="saranbang-widget.js"&gt;&lt;/script&gt;</pre>
+
+    <h2>선택 옵션 (필요할 때만)</h2>
+    <pre>&lt;script&gt;
+  window.YeonSaranbangConfig = {
+    lang: 'ko',                 // 'ko' 또는 'en' (기본: 자동 감지)
+    position: 'bottom-right',   // 'bottom-right' 또는 'bottom-left'
+    host: 'Yeon Agent'          // 위젯이 어디에 설치됐는지 표시용
+  };
+&lt;/script&gt;
+&lt;script src="saranbang-widget.js"&gt;&lt;/script&gt;</pre>
+
+    <h2>JavaScript API</h2>
+    <pre>YeonSaranbang.open();        // 수동으로 모달 열기
+YeonSaranbang.close();       // 수동으로 닫기
+YeonSaranbang.setLang('en'); // 언어 전환
+YeonSaranbang.version;       // 현재 버전 확인</pre>
+
+    <h2>특징</h2>
+    <ul>
+      <li>단일 파일 — 외부 의존성 없음 (Google Fonts만 자동 로드)</li>
+      <li>CSS 스코핑 — 모든 클래스에 <code>ys-</code> 접두어. 호스트 페이지 스타일과 충돌 없음</li>
+      <li>접근성 — ESC 키로 닫기, aria 속성 포함</li>
+      <li>반응형 — 모바일·태블릿·PC 자동 대응</li>
+      <li>언어 자동 감지 — <code>&lt;html lang&gt;</code> 또는 브라우저 언어 기반</li>
+    </ul>
+
+    <h2>설치 위치</h2>
+    <ul>
+      <li>Y Life 홈페이지 — 이미 설치됨 (index.html 등 모든 페이지)</li>
+      <li>연에이젼트 — 설치 예정</li>
+      <li>연플래너 / 수풀AI / 스무고개 — 필요 시 추가 가능</li>
+    </ul>
+  </div>
+
+  <!-- ↓↓↓ 위젯 로드 (이 한 줄이 핵심) ↓↓↓ -->
+  <script src="saranbang-widget.js"></script>
+</body>
+</html>

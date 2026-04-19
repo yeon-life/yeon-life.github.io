@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연소사 緣小師 · 필진 포트폴리오 — Y Life</title>
+<meta name="description" content="연소사(緣小師 이진우) — 가르침보다 지켜봄으로 아이는 자란다. 자기주도 학습 12년차 교육자의 개인 필진 공간.">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  /* === 필진 페이지 전용 스타일 === */
+
+  /* 필진 히어로 */
+  .writer-hero {
+    padding: 100px 5% 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .writer-photo {
+    background: var(--bg-paper-alt);
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 6rem;
+    color: var(--thread);
+    font-weight: 800;
+    border: 1px solid var(--border);
+  }
+  .writer-tag {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .writer-hero h1 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 3.2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .writer-hero h1 .hanja {
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    margin-left: 8px;
+  }
+  .writer-declaration {
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    font-family: 'Nanum Myeongjo', serif;
+    line-height: 1.5;
+  }
+  .stat-bar {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .stat-item .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--thread);
+    font-weight: 700;
+  }
+  .stat-item .label {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  .writer-intro {
+    margin-top: 28px;
+    color: var(--ink);
+    font-size: 1rem;
+  }
+
+  /* 긴 자기소개 */
+  .writer-about {
+    padding: 80px 5%;
+    max-width: 860px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .writer-about .section-tag {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .writer-about h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 28px;
+  }
+  .writer-about p {
+    margin-bottom: 18px;
+    color: var(--ink-soft);
+    line-height: 1.9;
+  }
+
+  /* 관심 영역 태그 */
+  .writer-interests {
+    padding: 60px 5%;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .interests-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .interests-head h3 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+  .interests-head .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--thread);
+  }
+  .interest-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tag-pill {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--ink-soft);
+    font-size: 0.88rem;
+    color: var(--ink);
+    transition: 0.2s;
+    cursor: default;
+  }
+  .tag-pill:hover {
+    background: var(--ink);
+    color: var(--bg-paper);
+    border-color: var(--ink);
+  }
+
+  /* 포트폴리오 */
+  .writer-portfolio {
+    padding: 80px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .portfolio-head {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .portfolio-head .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .portfolio-head h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .portfolio-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 28px 26px;
+    transition: 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .portfolio-card:hover {
+    border-color: var(--thread);
+  }
+  .portfolio-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--thread);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    letter-spacing: 0.08em;
+  }
+  .portfolio-card h4 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.4;
+  }
+  .portfolio-card p {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  .portfolio-card .cat {
+    font-size: 0.75rem;
+    color: var(--wood);
+    letter-spacing: 0.05em;
+    padding-top: 8px;
+    border-top: 1px dotted var(--border);
+    margin-top: auto;
+  }
+
+  /* 대표 문장 */
+  .quote-box {
+    padding: 100px 8%;
+    text-align: center;
+    background: var(--bg-paper-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .quote-box blockquote {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--wood);
+    line-height: 1.55;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .quote-box cite {
+    display: block;
+    margin-top: 20px;
+    font-style: normal;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--thread);
+  }
+
+  /* 전체 아카이브 */
+  .writer-archive {
+    padding: 80px 5%;
+    max-width: 980px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .archive-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .archive-head h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+  .archive-filters {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: 0.2s;
+  }
+  .filter-btn.active,
+  .filter-btn:hover {
+    color: var(--ink);
+    border-bottom-color: var(--thread);
+  }
+  .archive-list {
+    list-style: none;
+  }
+  .archive-list li {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px dotted var(--border);
+    align-items: baseline;
+  }
+  .archive-list li:hover {
+    background: var(--bg-paper-alt);
+  }
+  .archive-date {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--thread);
+  }
+  .archive-title {
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .archive-cat {
+    font-size: 0.8rem;
+    color: var(--wood);
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 600px) {
+    .archive-list li { grid-template-columns: 1fr; gap: 4px; }
+    .archive-cat { text-align: left; }
+  }
+
+  /* 구독 섹션 */
+  .subscribe-section {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 100px 8%;
+    text-align: center;
+  }
+  .subscribe-section .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+  }
+  .subscribe-section h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .subscribe-section p {
+    opacity: 0.7;
+    max-width: 500px;
+    margin: 0 auto 36px;
+  }
+  .subscribe-form {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    max-width: 520px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .subscribe-input {
+    border: none;
+    border-bottom: 1px solid var(--bg-paper);
+    background: transparent;
+    padding: 10px 0;
+    color: var(--bg-paper);
+    font-family: inherit;
+    font-size: 1rem;
+    min-width: 280px;
+    outline: none;
+  }
+  .subscribe-input::placeholder { color: rgba(248, 246, 242, 0.5); }
+  .subscribe-input:focus { border-bottom-color: var(--thread); }
+  .btn-minimal {
+    padding: 10px 28px;
+    background: transparent;
+    border: 1px solid var(--bg-paper);
+    color: var(--bg-paper);
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-minimal:hover {
+    background: var(--thread);
+    border-color: var(--thread);
+    color: var(--bg-paper);
+  }
+  .subscribe-archive {
+    margin-top: 30px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+  .subscribe-archive a {
+    color: var(--thread);
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    padding-bottom: 2px;
+  }
+  .subscribe-archive a:hover { border-bottom-color: var(--thread); }
+
+  /* 독자 편지함 */
+  .letter-box {
+    padding: 80px 5%;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .letter-box .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .letter-box h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .letter-box p {
+    color: var(--ink-soft);
+    margin-bottom: 30px;
+  }
+  .letter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .letter-form textarea {
+    border: 1px solid var(--border);
+    background: white;
+    padding: 18px;
+    min-height: 120px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    outline: none;
+  }
+  .letter-form textarea:focus { border-color: var(--thread); }
+  .letter-form .row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .letter-form input {
+    flex: 1;
+    min-width: 180px;
+    border: none;
+    border-bottom: 1px solid var(--ink);
+    background: transparent;
+    padding: 10px 0;
+    font-family: inherit;
+    outline: none;
+  }
+  .letter-form input:focus { border-bottom-color: var(--thread); }
+  .letter-form .letter-submit {
+    align-self: center;
+    padding: 12px 36px;
+    background: var(--ink);
+    color: var(--bg-paper);
+    border: 1px solid var(--ink);
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .letter-form .letter-submit:hover {
+    background: var(--thread);
+    border-color: var(--thread);
+  }
+
+  /* 사이트 헤더 (공통) */
+  .site-header {
+    padding: 24px 5%;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-logo {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .site-logo .hanja { color: var(--wood); margin-right: 6px; }
+  .site-nav {
+    display: flex;
+    gap: 28px;
+  }
+  .site-nav a {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .site-nav a:hover { color: var(--thread); }
+  @media (max-width: 600px) {
+    .site-nav { display: none; }
+  }
+
+  /* 사이트 푸터 */
+  .site-footer {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 60px 5% 40px;
+    text-align: center;
+  }
+  .site-footer .hanja {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 3rem;
+    font-weight: 800;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .site-footer p {
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  .site-footer .copy {
+    margin-top: 30px;
+    opacity: 0.4;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* 반응형 */
+  @media (max-width: 900px) {
+    .writer-hero { grid-template-columns: 1fr; gap: 30px; padding: 60px 5%; }
+    .writer-hero h1 { font-size: 2.4rem; }
+    .quote-box blockquote { font-size: 1.4rem; }
+    .subscribe-form { flex-direction: column; align-items: center; }
+    .subscribe-input { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="site-logo"><span class="hanja">緣</span>Y LIFE</a>
+  <nav class="site-nav">
+    <a href="index.html">홈</a>
+    <a href="writers.html">필진</a>
+    <a href="column.html">서재</a>
+    <a href="news.html">시선</a>
+    <a href="question-forest.html">질문숲</a>
+  </nav>
+</header>
+
+<!-- 1. 프로필 히어로 -->
+<section class="writer-hero">
+  <div class="writer-photo">緣</div>
+  <div>
+    <div class="writer-tag">Main Writer · 緣小師</div>
+    <h1>연소사<span class="hanja">(緣小師 · 이진우)</span></h1>
+    <p class="writer-declaration">가르침보다 지켜봄으로 아이는 자란다</p>
+
+    <div class="stat-bar">
+      <div class="stat-item">
+        <div class="num">47</div>
+        <div class="label">누적 칼럼</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">18,421</div>
+        <div class="label">총 읽힘</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">12Y</div>
+        <div class="label">활동 연차</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">울산</div>
+        <div class="label">근거지</div>
+      </div>
+    </div>
+
+    <div class="writer-intro">
+      울산에서 학원을 운영하며 12년 넘게 자기주도 학습을 가르쳐온 교육자입니다.
+    </div>
+  </div>
+</section>
+
+<!-- 2. 긴 자기소개 -->
+<section class="writer-about">
+  <div class="section-tag">About</div>
+  <h2>연(緣)이라는 이름으로</h2>
+  <p>연(緣)이라는 이름은 "있는 그대로, 스스로 그러함"을 뜻합니다. 저는 학원의 학생을 가르치는 일을 넘어, 한 사람의 삶이 스스로 자라는 결을 찾도록 돕는 일이 선생의 자리라 믿습니다.</p>
+  <p>5.2.5.5 복습법, 의식적 몰입, 배려·배움·놀기의 균형, 100일 습관 — 모두 교실에서 수없이 실험하고 다듬어온 실천법입니다. 연플래너·수풀AI·스무고개 상담카드 같은 디지털 도구도 이 철학을 실천하기 위해 직접 만들었습니다.</p>
+  <p>글은 수업이 끝난 뒤 깊은 밤에 씁니다. 학생의 하루, 학부모의 고민, 동료 교사의 이야기를 오래 들여다보고 한 편의 글로 길어올립니다. 빠른 답보다 오래 남는 질문을 쓰려 합니다.</p>
+</section>
+
+<!-- 3. 관심 영역 태그 -->
+<section class="writer-interests">
+  <div class="interests-head">
+    <h3>관심 영역</h3>
+    <span class="en">AREAS OF THOUGHT</span>
+  </div>
+  <div class="interest-tags">
+    <span class="tag-pill">자기주도 학습</span>
+    <span class="tag-pill">의식적 몰입</span>
+    <span class="tag-pill">부모와 아이</span>
+    <span class="tag-pill">참사람 되기</span>
+    <span class="tag-pill">울산의 교실</span>
+    <span class="tag-pill">디지털과 교육</span>
+    <span class="tag-pill">100일 습관</span>
+    <span class="tag-pill">5.2.5.5 복습법</span>
+  </div>
+</section>
+
+<!-- 4. 작업물 포트폴리오 -->
+<section class="writer-portfolio">
+  <div class="portfolio-head">
+    <span class="en">Selected Works</span>
+    <h2>최근 쓰인 글</h2>
+  </div>
+  <div class="portfolio-grid">
+    <article class="portfolio-card">
+      <div class="portfolio-meta"><span>2026.04.10</span><span>7분</span></div>
+      <h4>100일 습관에서 가장 위험한 시기는</h4>
+      <p>15일에서 21일 사이. 이 일주일이 뇌가 '이게 정말 나의 새 일상인가?'를 판단하는 분기점이다…</p>
+      <div class="cat">자기주도</div>
+    </article>
+    <article class="portfolio-card">
+      <div class="portfolio-meta"><span>2026.04.05</span><span>9분</span></div>
+      <h4>아이의 말을 들을 때 가장 먼저 버려야 할 것</h4>
+      <p>판단이다. 아이는 답을 원하는 게 아니라, 자신이 이해받고 있다는 감각을 원한다…</p>
+      <div class="cat">학부모</div>
+    </article>
+    <article class="portfolio-card">
+      <div class="portfolio-meta"><span>2026.03.28</span><span>5분</span></div>
+      <h4>의식적 몰입은 결과가 아니라 과정입니다</h4>
+      <p>진짜 몰입은 집중에서 흩어짐, 다시 돌아옴이 반복되는 그 과정 전체에 있기 때문이다…</p>
+      <div class="cat">철학</div>
+    </article>
+    <article class="portfolio-card">
+      <div class="portfolio-meta"><span>2026.03.20</span><span>6분</span></div>
+      <h4>학원에 가기 싫다 말한 아이, 부모가 놓친 것</h4>
+      <p>그 말 속에는 세 가지 다른 목소리가 겹쳐 있다. 어느 것 하나 단순하지 않다…</p>
+      <div class="cat">교실</div>
+    </article>
+  </div>
+</section>
+
+<!-- 5. 대표 문장 -->
+<div class="quote-box">
+  <blockquote>"완벽한 하루가 쌓이는 것이 아니라,<br>불완전한 하루가 이어지는 것이 진짜 꾸준함입니다."</blockquote>
+  <cite>— 연소사</cite>
+</div>
+
+<!-- 6. 전체 아카이브 -->
+<section class="writer-archive">
+  <div class="archive-head">
+    <h2>전체 아카이브</h2>
+    <div class="archive-filters">
+      <button class="filter-btn active" data-cat="all">전체</button>
+      <button class="filter-btn" data-cat="자기주도">자기주도</button>
+      <button class="filter-btn" data-cat="학부모">학부모</button>
+      <button class="filter-btn" data-cat="철학">철학</button>
+      <button class="filter-btn" data-cat="교실">교실</button>
+    </div>
+  </div>
+  <ul class="archive-list" id="archiveList">
+    <li data-cat="자기주도"><span class="archive-date">2026.04.10</span><span class="archive-title">100일 습관에서 가장 위험한 시기는</span><span class="archive-cat">자기주도</span></li>
+    <li data-cat="학부모"><span class="archive-date">2026.04.05</span><span class="archive-title">아이의 말을 들을 때 가장 먼저 버려야 할 것</span><span class="archive-cat">학부모</span></li>
+    <li data-cat="철학"><span class="archive-date">2026.03.28</span><span class="archive-title">의식적 몰입은 결과가 아니라 과정입니다</span><span class="archive-cat">철학</span></li>
+    <li data-cat="교실"><span class="archive-date">2026.03.20</span><span class="archive-title">학원에 가기 싫다 말한 아이, 부모가 놓친 것</span><span class="archive-cat">교실</span></li>
+    <li data-cat="자기주도"><span class="archive-date">2026.03.15</span><span class="archive-title">자기주도의 역설 — '시키는 대로'를 먼저 배운 아이들</span><span class="archive-cat">자기주도</span></li>
+    <li data-cat="학부모"><span class="archive-date">2026.03.08</span><span class="archive-title">아이 옆에서 책 읽는 부모의 힘</span><span class="archive-cat">학부모</span></li>
+    <li data-cat="교실"><span class="archive-date">2026.02.28</span><span class="archive-title">시골 학교 한 곳이 지역 전체를 바꾼 10년</span><span class="archive-cat">교실</span></li>
+    <li data-cat="철학"><span class="archive-date">2026.02.20</span><span class="archive-title">속도 대신 깊이로, 자극 대신 성찰로</span><span class="archive-cat">철학</span></li>
+  </ul>
+</section>
+
+<!-- 7. 구독 섹션 -->
+<section class="subscribe-section">
+  <span class="en">Newsletter</span>
+  <h2>연소사의 생각 조각을 메일함으로 받으세요</h2>
+  <p>새 글이 올라오면 첫 독자로 받아보실 수 있습니다. 월 1~2회. 광고·판매 없음.</p>
+  <form class="subscribe-form" onsubmit="handleSubscribe(event)">
+    <input type="email" class="subscribe-input" placeholder="이메일 주소를 입력해 주세요" required>
+    <button type="submit" class="btn-minimal">구독하기</button>
+  </form>
+  <div class="subscribe-archive">
+    <a href="#archive">지난 뉴스레터 아카이브 보기 →</a>
+  </div>
+</section>
+
+<!-- 8. 독자 편지함 -->
+<section class="letter-box">
+  <span class="en">Letter Box</span>
+  <h2>연소사에게 편지를 남기세요</h2>
+  <p>짧은 질문이든 긴 고민이든 상관없어요. 익명도 가능합니다.</p>
+  <form class="letter-form" onsubmit="handleLetter(event)">
+    <textarea placeholder="마음에 품은 한 마디를 편히 적어주세요…" required></textarea>
+    <div class="row">
+      <input type="text" placeholder="이름 (선택 — 비워두시면 '익명의 이')">
+      <input type="email" placeholder="이메일 (선택 — 답장 원하실 때만)">
+    </div>
+    <button type="submit" class="letter-submit">편지 보내기</button>
+  </form>
+</section>
+
+<!-- 푸터 -->
+<footer class="site-footer">
+  <span class="hanja">緣</span>
+  <p>Y LIFE · 연소사의 필진 공간</p>
+  <p>ULSAN · REPUBLIC OF KOREA</p>
+  <p>yeon@y-life.com</p>
+  <div class="copy">© 2026 Y LIFE · CONNECTED BY 緣</div>
+</footer>
+
+<script>
+  // 아카이브 필터
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('#archiveList li').forEach(li => {
+        li.style.display = (cat === 'all' || li.dataset.cat === cat) ? 'grid' : 'none';
+      });
+    });
+  });
+
+  // 구독 처리 (현재는 localStorage · 실배포 시 Buttondown·Substack 연동)
+  function handleSubscribe(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    const subs = JSON.parse(localStorage.getItem('yeon_subscribers') || '[]');
+    if (!subs.includes(email)) subs.push(email);
+    localStorage.setItem('yeon_subscribers', JSON.stringify(subs));
+    alert('구독 신청이 접수되었어요. 가까운 시일에 첫 편지를 보내드리겠습니다.');
+    e.target.reset();
+  }
+
+  // 편지 처리
+  function handleLetter(e) {
+    e.preventDefault();
+    const [text, name, email] = e.target.querySelectorAll('textarea, input');
+    const letters = JSON.parse(localStorage.getItem('yeon_letters') || '[]');
+    letters.push({ text: text.value, name: name.value || '익명의 이', email: email.value, date: new Date().toISOString() });
+    localStorage.setItem('yeon_letters', JSON.stringify(letters));
+    alert('편지가 도착했습니다. 읽고 천천히 답하겠습니다.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>

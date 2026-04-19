@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "lang": "ko",
+    "title": "Y Life — 연(然)의 집",
+    "description": "연소사의 교육 철학과 연프로젝트가 모이는 곳. 스스로 계획하고, 의식적으로 몰입하고, 배려·배움·놀기로 균형 잡힌 참사람을 기릅니다."
+  },
+  "nav": {
+    "home": "홈",
+    "about": "소개",
+    "philosophy": "철학",
+    "notice": "공지사항",
+    "contact": "문의",
+    "search": "검색",
+    "login": "학생 로그인",
+    "lang_switch": "한국어"
+  },
+  "hero": {
+    "badge": "Y Life — 연(然)의 집",
+    "title_part1": "스스로 계획하고,",
+    "title_part2": "의식적으로 몰입하고,",
+    "title_part3": "배려·배움·놀기로 균형 잡힌",
+    "title_part4": "참사람을 기릅니다.",
+    "subtitle": "연소사의 교육 철학과 모든 연프로젝트가 모이는 집",
+    "cta_explore": "철학 둘러보기",
+    "cta_enter": "입장하기"
+  },
+  "portals": {
+    "title": "어떤 문으로 들어오시나요?",
+    "subtitle": "당신에게 맞는 공간으로 안내합니다",
+    "student": {
+      "label": "학생 공간",
+      "tagline": "스스로 자라는 나",
+      "description": "작품 갤러리, 100일 습관, 오늘의 그림, 연플래너 바로가기",
+      "cta": "학생 공간으로"
+    },
+    "parent": {
+      "label": "학부모 공간",
+      "tagline": "함께 지켜보는 우리",
+      "description": "교육 철학, 아이를 지켜보는 법, 수업 자료, 카톡 공유 링크",
+      "cta": "학부모 공간으로"
+    },
+    "news": {
+      "label": "소식 & 앱",
+      "tagline": "연의 도구들과 새 소식",
+      "description": "연플래너, 수풀AI, 스무고개 상담카드, 업데이트 소식",
+      "cta": "소식 보러가기"
+    },
+    "column": {
+      "label": "연소사 칼럼",
+      "tagline": "생각이 쌓이는 서재",
+      "description": "교육, 자기주도, 참사람, 삶의 태도에 대한 글들",
+      "cta": "칼럼 읽으러"
+    }
+  },
+  "today_quote": {
+    "label": "오늘의 한 문장",
+    "text": "하루에 5분이라도, 스스로 정한 일을 해내는 기쁨을 느껴보세요.",
+    "author": "연소사"
+  },
+  "philosophy": {
+    "title": "연(然)의 세 기둥",
+    "subtitle": "이 집이 서 있는 땅, 세 가지 생각",
+    "pillar1": {
+      "title": "5.2.5.5 학습법",
+      "summary": "5분·2분·5시간·5일 — 복습의 리듬을 몸에 새깁니다.",
+      "description": "배운 직후 5분, 학습 직후 2분, 5시간 뒤, 5일 뒤. 이 네 번의 복습이 지식을 진짜 내 것으로 만듭니다."
+    },
+    "pillar2": {
+      "title": "의식적 몰입",
+      "summary": "오래 앉아있는 것이 아니라, 깨어 있는 시간을 만듭니다.",
+      "description": "명상, 손글씨, 정해진 의식(ritual)으로 마음을 모으고, 그렇게 모인 시간이 진짜 공부입니다."
+    },
+    "pillar3": {
+      "title": "배려·배움·놀기",
+      "summary": "하루를 세 가지로 나누어, 삶의 균형을 기릅니다.",
+      "description": "남을 위한 시간(배려), 나를 키우는 시간(배움), 나를 회복하는 시간(놀기). 이 셋이 균형을 이룰 때 참사람이 자랍니다."
+    },
+    "cta": "철학 전체 보기"
+  },
+  "latest_columns": {
+    "title": "최근 연소사 칼럼",
+    "subtitle": "생각이 쌓이는 서재에서 꺼낸 세 편",
+    "placeholder": "칼럼 준비 중",
+    "placeholder_desc": "곧 첫 칼럼이 올라옵니다.",
+    "cta": "칼럼 전체 보기"
+  },
+  "ecosystem": {
+    "title": "연의 도구들",
+    "subtitle": "철학을 실천하는 앱과 프로그램",
+    "planner": {
+      "name": "연플래너",
+      "description": "자기주도 학습을 위한 디지털 플래너"
+    },
+    "supul": {
+      "name": "수풀AI",
+      "description": "세 가지 풀이로 개념을 익히는 수학 AI"
+    },
+    "card": {
+      "name": "스무고개 상담카드",
+      "description": "나를 탐색하는 스무 개의 질문"
+    },
+    "draw": {
+      "name": "연그림도구",
+      "description": "어디에나 쓸 수 있는 독립 그리기 모듈"
+    }
+  },
+  "footer": {
+    "about": "Y Life는 연소사(이진우) 선생님의 교육 철학을 담는 디지털 집입니다.",
+    "location": "울산, 대한민국",
+    "contact_title": "연락",
+    "contact_kakao": "카카오톡",
+    "contact_email": "이메일",
+    "links_title": "바로가기",
+    "link_privacy": "개인정보처리방침",
+    "link_terms": "이용약관",
+    "copyright": "© 2026 Y Life. All rights reserved."
+  },
+  "common": {
+    "coming_soon": "준비 중입니다",
+    "coming_soon_desc": "곧 찾아뵙겠습니다.",
+    "back_home": "홈으로 돌아가기",
+    "read_more": "더 보기"
+  },
+  "pages": {
+    "student": {
+      "title": "학생 공간",
+      "subtitle": "스스로 자라는 나",
+      "intro": "오늘도 한 걸음 자라는 너를 위한 공간. 작품을 올리고, 친구들의 기록을 보고, 나의 리듬을 만들어가세요."
+    },
+    "parent": {
+      "title": "학부모 공간",
+      "subtitle": "함께 지켜보는 우리",
+      "intro": "아이는 가르침보다 지켜봄으로 자랍니다. 이곳에서 아이와 함께 걸어갈 방향을 찾아보세요."
+    },
+    "news": {
+      "title": "소식 & 앱",
+      "subtitle": "연의 도구들과 새 소식",
+      "intro": "연프로젝트의 모든 도구를 한 자리에서 만나고, 새로운 소식과 업데이트를 가장 먼저 확인하세요."
+    },
+    "column": {
+      "title": "연소사 칼럼",
+      "subtitle": "생각이 쌓이는 서재",
+      "intro": "교육, 자기주도, 참사람, 삶의 태도에 대한 연소사의 글들. 주기적으로 새 글이 올라옵니다."
+    }
+  }
+}

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F8F6F2" />
+  <title data-i18n="pages.news.title">연의 시선 — Y Life</title>
+  <meta name="description" content="한국과 세계, 진실한 시각으로 바라본 세상의 이야기" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .scope-heading {
+      margin: 80px 0 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 14px;
+    }
+    .scope-heading h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .scope-heading .scope-sub {
+      font-style: italic;
+      color: var(--wood);
+      font-size: 0.95rem;
+    }
+    @media (max-width: 640px) {
+      .scope-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+    .world-article {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 40px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 0.3s ease;
+    }
+    .world-article:hover { background: var(--bg-paper-alt); padding-left: 20px; padding-right: 20px; }
+    @media (max-width: 768px) {
+      .world-article { grid-template-columns: 1fr; gap: 14px; }
+    }
+    .world-article-meta {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--thread);
+    }
+    .world-article-cat {
+      display: inline-block;
+      padding: 3px 10px;
+      border: 1px solid var(--thread);
+      color: var(--thread);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .world-article h3 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .world-article-excerpt {
+      font-size: 0.98rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+    }
+
+    .recruit-banner {
+      background: var(--ink);
+      color: var(--bg-paper);
+      padding: 80px 60px;
+      margin-top: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .recruit-banner::before {
+      content: "緣";
+      position: absolute;
+      top: 40px; right: 50px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 6rem;
+      color: var(--thread);
+      opacity: 0.15;
+    }
+    .recruit-tag {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--thread);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .recruit-banner h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+    .recruit-banner p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      opacity: 0.85;
+      max-width: 620px;
+      margin-bottom: 34px;
+    }
+    .recruit-cta {
+      display: inline-block;
+      padding: 16px 34px;
+      background: var(--thread);
+      color: var(--ink);
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .recruit-cta:hover {
+      background: var(--bg-paper);
+      color: var(--ink);
+      letter-spacing: 0.2em;
+    }
+    @media (max-width: 640px) {
+      .recruit-banner { padding: 60px 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-bar">
+    <div class="container inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">緣</span>
+        <span>Y LIFE</span>
+      </a>
+      <nav class="nav-center">
+        <a href="index.html" data-i18n="nav.home">홈</a>
+        <a href="index.html#philosophy" data-i18n="nav.philosophy">철학</a>
+        <a href="news.html" data-i18n="nav.notice">소식</a>
+        <a href="index.html#contact" data-i18n="nav.contact">문의</a>
+      </nav>
+      <div class="nav-right">
+        <button class="lang-toggle" data-lang-toggle>
+          <span data-lang-toggle-label>KOREAN / ENGLISH</span>
+        </button>
+        <button class="menu-btn" data-menu-btn aria-label="메뉴">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-drawer" data-mobile-drawer>
+      <a href="index.html" data-i18n="nav.home">홈</a>
+      <a href="index.html#philosophy" data-i18n="nav.philosophy">철학</a>
+      <a href="news.html" data-i18n="nav.notice">소식</a>
+      <a href="index.html#contact" data-i18n="nav.contact">문의</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <header class="page-header">
+      <span class="page-tag" data-i18n="pages.news.tag">WITNESSING</span>
+      <h1 class="page-title" data-i18n="pages.news.title">연의 시선</h1>
+      <p class="page-subtitle" data-i18n="pages.news.subtitle">한국과 세계, 진실한 시각으로</p>
+      <p class="page-intro" data-i18n="pages.news.intro">속도 대신 깊이로, 자극 대신 성찰로. 연소사(緣小師)가 바라보는 세상의 이야기를 나눕니다.</p>
+    </header>
+
+    <!-- 한국 소식 -->
+    <section>
+      <div class="scope-heading">
+        <h2 data-i18n="pages.news.korea_heading">한국 소식</h2>
+        <span class="scope-sub" data-i18n="pages.news.korea_sub">가까이에서 길어올린 한국의 한 장면</span>
+      </div>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.k1_cat">교실</div>
+          <div data-i18n="pages.news.k1_date">2026.04.15</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.k1_title">"학원에 가기 싫어요" — 그 말 속에 숨은 세 가지</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.k1_excerpt">한 아이의 거절이 부모의 귀에 닿기까지. 울산의 한 가족이 3개월 동안 천천히 풀어낸 대화의 기록.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.k2_cat">지역</div>
+          <div data-i18n="pages.news.k2_date">2026.04.11</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.k2_title">시골 학교 한 곳이 지역 전체를 바꾼 10년</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.k2_excerpt">전교생 서른 명의 초등학교가 마을 카페·도서관·공방으로 이어졌다. 학교가 동네가 되는 방식에 관하여.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.k3_cat">청년</div>
+          <div data-i18n="pages.news.k3_date">2026.04.06</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.k3_title">어른이 되어 학교에 다시 간다는 것</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.k3_excerpt">평생학습관에서 만난 40대 학생들. 늦은 배움이 먼저 배운 이들에게 돌려주는 것들.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.k4_cat">자기주도</div>
+          <div data-i18n="pages.news.k4_date">2026.03.30</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.k4_title">자기주도의 역설 — '시키는 대로'를 먼저 배운 아이들</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.k4_excerpt">자유가 주어졌을 때 오히려 멈춰선 학생들의 사례. 주도성은 어디에서 오는가에 대한 긴 관찰.</p>
+        </div>
+      </a>
+    </section>
+
+    <!-- 지구촌 소식 -->
+    <section>
+      <div class="scope-heading">
+        <h2 data-i18n="pages.news.world_heading">지구촌 소식</h2>
+        <span class="scope-sub" data-i18n="pages.news.world_sub">세계에서 길어올린 한 장면</span>
+      </div>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.w1_cat">교육</div>
+          <div data-i18n="pages.news.w1_date">2026.04.16</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.w1_title">AI가 대답하지 못하는 질문 — 울산의 한 교실에서</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.w1_excerpt">AI 시대에 아이들이 던진 "선생님이 없으면 질문을 누가 받아줘요?" 라는 물음.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.w2_cat">공동체</div>
+          <div data-i18n="pages.news.w2_date">2026.04.12</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.w2_title">한 마을이 아이의 일기를 함께 읽는다는 것</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.w2_excerpt">전라도의 작은 학교에서 학부모와 이웃이 함께 모여 일기를 낭독하는 풍경.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.w3_cat">삶</div>
+          <div data-i18n="pages.news.w3_date">2026.04.07</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.w3_title">속도를 늦춘 학교의 성적이 오른 이유</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.w3_excerpt">숙제를 절반으로, 수업을 10분 늦춘 한 학교의 3년 기록.</p>
+        </div>
+      </a>
+
+      <a href="#" class="world-article">
+        <div class="world-article-meta">
+          <div class="world-article-cat" data-i18n="pages.news.w4_cat">디지털</div>
+          <div data-i18n="pages.news.w4_date">2026.04.02</div>
+        </div>
+        <div>
+          <h3 data-i18n="pages.news.w4_title">스마트폰이 사라진 하루, 아이들은 무엇을 했나</h3>
+          <p class="world-article-excerpt" data-i18n="pages.news.w4_excerpt">휴대폰을 모두 모아놓은 한 캠프의 관찰 기록. 지루함 너머에서 발견된 오래된 감각들.</p>
+        </div>
+      </a>
+    </section>
+
+    <!-- 필진 모집 배너 -->
+    <section class="recruit-banner">
+      <span class="recruit-tag" data-i18n="pages.news.recruit_tag">JOIN US</span>
+      <h2 data-i18n="pages.news.recruit_title">진실한 시각을 가진 필진을 모집합니다</h2>
+      <p data-i18n="pages.news.recruit_body">Y Life는 속도보다 깊이를, 선동보다 경청을 택하는 필진을 상시 모집합니다. 세상의 한 장면을 당신의 시선으로 길어올리실 분이라면, 메일로 기록 세 편을 보내주세요.</p>
+      <a href="mailto:yeon@y-life.com" class="recruit-cta" data-i18n="pages.news.recruit_cta">yeon@y-life.com 으로 지원</a>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div data-i18n="footer.copyright">© 2026 Y LIFE · CONNECTED BY 緣</div>
+        <div class="ink-mark">緣</div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="saranbang-float" data-saranbang-float>
+    <span class="hanja">緣</span>
+    <span data-i18n="saranbang.float">緣에 묻다</span>
+  </button>
+
+  <div class="saranbang-modal" data-saranbang-modal role="dialog" aria-modal="true">
+    <div class="saranbang-modal-inner">
+      <button class="saranbang-modal-close" data-saranbang-close aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <h2 class="sarang-title" data-i18n="saranbang.title">연(緣)의 사랑방</h2>
+      <p class="sarang-sub" data-i18n="saranbang.sub">당신의 한 문장이 누군가의 인연이 될 때</p>
+      <form>
+        <textarea data-i18n-attr="placeholder:saranbang.placeholder" placeholder="마음에 품은 질문을 가볍게 놓아주세요..." rows="1"></textarea>
+        <div class="sarang-form-footer">
+          <span class="sarang-hint" data-i18n="saranbang.hint">익명 가능 · AI가 다섯 겹 응답과 배치를 도와드립니다</span>
+          <button type="submit" class="sarang-submit" data-i18n="saranbang.submit">인연을 묻다</button>
+        </div>
+      </form>
+      <div class="saranbang-responses" data-saranbang-modal-responses>
+        <div class="saranbang-routing" data-i18n="saranbang.routing"></div>
+        <div class="layer"><div class="layer-tag" data-i18n="saranbang.layer_guide_tag">Guidance</div><div class="layer-label" data-i18n="saranbang.layer_guide_label">한 줄의 길잡이</div><p data-i18n-html="saranbang.layer_guide_body"></p></div>
+        <div class="layer"><div class="layer-tag" data-i18n="saranbang.layer_column_tag">Essay</div><div class="layer-label" data-i18n="saranbang.layer_column_label">연소사의 한 편</div><p data-i18n-html="saranbang.layer_column_body"></p></div>
+        <div class="layer"><div class="layer-tag" data-i18n="saranbang.layer_voice_tag">Voice</div><div class="layer-label" data-i18n="saranbang.layer_voice_label">다른 이의 한 마디</div><p data-i18n-html="saranbang.layer_voice_body"></p></div>
+        <div class="layer"><div class="layer-tag" data-i18n="saranbang.layer_step_tag">Today</div><div class="layer-label" data-i18n="saranbang.layer_step_label">오늘의 한 걸음</div><p data-i18n-html="saranbang.layer_step_body"></p></div>
+        <div class="layer"><div class="layer-tag" data-i18n="saranbang.layer_mirror_tag">Mirror</div><div class="layer-label" data-i18n="saranbang.layer_mirror_label">더 깊은 세 질문</div><ol><li data-i18n="saranbang.layer_mirror_q1"></li><li data-i18n="saranbang.layer_mirror_q2"></li><li data-i18n="saranbang.layer_mirror_q3"></li></ol></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="locales/locales.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/saranbang.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>필진 — Y Life</title>
+<meta name="description" content="Y Life의 필진들. 각자의 시선으로 세상을 읽고 글을 쓰는 이들.">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  .writers-hero {
+    padding: 120px 5% 80px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .writers-hero .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .writers-hero h1 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    line-height: 1.2;
+  }
+  .writers-hero p {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .writers-grid-wrap {
+    padding: 80px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .writers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+  }
+  .writer-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 32px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: 0.3s;
+  }
+  .writer-card:hover {
+    border-color: var(--thread);
+    transform: translateY(-2px);
+  }
+  .writer-card-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .writer-card-photo {
+    width: 72px;
+    height: 96px;
+    background: var(--bg-paper-alt);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--thread);
+    flex-shrink: 0;
+  }
+  .writer-card-name {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+  .writer-card-name .hanja {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-left: 6px;
+  }
+  .writer-card-role {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--thread);
+    margin-top: 4px;
+  }
+  .writer-card-declaration {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--wood);
+    padding: 14px 0;
+    border-top: 1px dashed var(--border);
+    border-bottom: 1px dashed var(--border);
+  }
+  .writer-card-recent {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .writer-card-recent strong {
+    color: var(--ink);
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .writer-card-meta {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dotted var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  .writer-card-arrow {
+    color: var(--thread);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    letter-spacing: 0.1em;
+  }
+
+  /* 모집 배너 */
+  .recruit-banner {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 80px 8%;
+    text-align: center;
+    margin-top: 60px;
+  }
+  .recruit-banner .hanja-bg {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 5rem;
+    font-weight: 800;
+    opacity: 0.08;
+    display: block;
+    margin-bottom: -40px;
+  }
+  .recruit-banner .en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--thread);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .recruit-banner h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .recruit-banner p {
+    max-width: 560px;
+    margin: 0 auto 30px;
+    opacity: 0.8;
+    line-height: 1.8;
+  }
+  .recruit-btn {
+    padding: 14px 36px;
+    background: transparent;
+    border: 1px solid var(--bg-paper);
+    color: var(--bg-paper);
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+  }
+  .recruit-btn:hover {
+    background: var(--thread);
+    border-color: var(--thread);
+  }
+
+  /* 사이트 헤더/푸터 (writer 페이지와 동일) */
+  .site-header {
+    padding: 24px 5%;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-logo {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .site-logo .hanja { color: var(--wood); margin-right: 6px; }
+  .site-nav { display: flex; gap: 28px; }
+  .site-nav a {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .site-nav a:hover,
+  .site-nav a.active { color: var(--thread); }
+  @media (max-width: 600px) { .site-nav { display: none; } }
+
+  .site-footer {
+    background: var(--ink);
+    color: var(--bg-paper);
+    padding: 60px 5% 40px;
+    text-align: center;
+  }
+  .site-footer .hanja {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 3rem;
+    font-weight: 800;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .site-footer p { opacity: 0.7; font-size: 0.9rem; margin-bottom: 8px; }
+  .site-footer .copy {
+    margin-top: 30px;
+    opacity: 0.4;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 600px) {
+    .writers-hero { padding: 80px 5% 50px; }
+    .writers-hero h1 { font-size: 2.2rem; }
+    .writer-card-head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="site-logo"><span class="hanja">緣</span>Y LIFE</a>
+  <nav class="site-nav">
+    <a href="index.html">홈</a>
+    <a href="writers.html" class="active">필진</a>
+    <a href="column.html">서재</a>
+    <a href="news.html">시선</a>
+    <a href="question-forest.html">질문숲</a>
+  </nav>
+</header>
+
+<!-- 히어로 -->
+<section class="writers-hero">
+  <span class="en">Writers · 필진</span>
+  <h1>각자의 시선으로<br>세상을 읽고 씁니다</h1>
+  <p>Y Life의 필진들은 서로 다른 자리에서 서로 다른 눈으로 살고 있습니다. 교실에서·부엌에서·길 위에서. 같은 연(緣)이 이어주는 다른 목소리를 만나보세요.</p>
+</section>
+
+<!-- 필진 그리드 -->
+<section class="writers-grid-wrap">
+  <div class="writers-grid">
+
+    <a href="writer-yeonsosa.html" class="writer-card">
+      <div class="writer-card-head">
+        <div class="writer-card-photo">緣</div>
+        <div>
+          <div class="writer-card-name">연소사<span class="hanja">緣小師 · 이진우</span></div>
+          <div class="writer-card-role">MAIN WRITER · 교사·교육자</div>
+        </div>
+      </div>
+      <div class="writer-card-declaration">"가르침보다 지켜봄으로 아이는 자란다"</div>
+      <div class="writer-card-recent">
+        <strong>최근 글</strong>
+        100일 습관에서 가장 위험한 시기는 · 2026.04.10
+      </div>
+      <div class="writer-card-meta">
+        <span>47편 · 18,421회</span>
+        <span class="writer-card-arrow">자세히 →</span>
+      </div>
+    </a>
+
+    <!-- 빈 자리 — 미래 필진 -->
+    <div class="writer-card" style="border-style: dashed; opacity: 0.7;">
+      <div class="writer-card-head">
+        <div class="writer-card-photo" style="color: var(--ink-soft); opacity: 0.5;">?</div>
+        <div>
+          <div class="writer-card-name" style="color: var(--ink-soft);">여기 있을 수 있는 당신</div>
+          <div class="writer-card-role">FUTURE WRITER</div>
+        </div>
+      </div>
+      <div class="writer-card-declaration" style="color: var(--ink-soft);">"당신의 시선은 어떤 결인가요?"</div>
+      <div class="writer-card-recent" style="opacity: 0.7;">
+        교사·학부모·청년·어른 누구든. 세상을 보는 진실한 시선이 있다면, 여기에 자리가 있습니다.
+      </div>
+      <div class="writer-card-meta">
+        <span style="opacity: 0.6;">— 필진 모집 중</span>
+        <a href="#recruit" class="writer-card-arrow">신청하기 →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 모집 배너 -->
+<section class="recruit-banner" id="recruit">
+  <span class="hanja-bg">緣</span>
+  <span class="en">Join Us</span>
+  <h2>당신의 시선을 Y Life 에 들여주세요</h2>
+  <p>전문 작가가 아니어도 괜찮습니다. 자기 자리에서 꾸준히 써온 이야기가 있다면, 짧은 글 한 편과 함께 신청해 주세요. 연소사 선생님이 직접 읽고 답합니다.</p>
+  <a href="mailto:yeon@y-life.com?subject=[Y Life 필진 신청]" class="recruit-btn">필진 신청하기 →</a>
+</section>
+
+<!-- 푸터 -->
+<footer class="site-footer">
+  <span class="hanja">緣</span>
+  <p>Y LIFE · 연소사의 필진 공간</p>
+  <p>ULSAN · REPUBLIC OF KOREA</p>
+  <p>yeon@y-life.com</p>
+  <div class="copy">© 2026 Y LIFE · CONNECTED BY 緣</div>
+</footer>
+
+</body>
+</html>

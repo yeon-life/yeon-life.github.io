@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "lang": "en",
+    "title": "Y Life — Home of Yeon (然)",
+    "description": "Where Yeonsosa's educational philosophy and the Yeon Project meet. Raising whole persons who plan themselves, engage mindfully, and balance caring, learning, and playing."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "philosophy": "Philosophy",
+    "notice": "Announcements",
+    "contact": "Contact",
+    "search": "Search",
+    "login": "Student Login",
+    "lang_switch": "English"
+  },
+  "hero": {
+    "badge": "Y Life — Home of Yeon",
+    "title_part1": "Plan with yourself,",
+    "title_part2": "engage with awareness,",
+    "title_part3": "and balance caring, learning, and playing",
+    "title_part4": "to grow into a whole person.",
+    "subtitle": "A digital home for Yeonsosa's educational philosophy and the Yeon Project",
+    "cta_explore": "Explore the philosophy",
+    "cta_enter": "Enter"
+  },
+  "portals": {
+    "title": "Which door are you coming through?",
+    "subtitle": "We'll guide you to the space that fits you",
+    "student": {
+      "label": "For Students",
+      "tagline": "I grow myself",
+      "description": "Work gallery, 100-day habits, today's drawing, Yeon Planner",
+      "cta": "Enter student space"
+    },
+    "parent": {
+      "label": "For Parents",
+      "tagline": "We watch together",
+      "description": "Philosophy, how to observe your child, class materials, shareable links",
+      "cta": "Enter parent space"
+    },
+    "news": {
+      "label": "News & Apps",
+      "tagline": "Tools of Yeon and fresh news",
+      "description": "Yeon Planner, Supul AI, Twenty-Questions Cards, latest updates",
+      "cta": "See the news"
+    },
+    "column": {
+      "label": "Yeonsosa's Column",
+      "tagline": "A library where thoughts gather",
+      "description": "Essays on education, self-direction, wholeness, and a life well-lived",
+      "cta": "Read the columns"
+    }
+  },
+  "today_quote": {
+    "label": "Today's one line",
+    "text": "Even for five minutes a day, feel the joy of doing something you set for yourself.",
+    "author": "Yeonsosa"
+  },
+  "philosophy": {
+    "title": "Three Pillars of Yeon",
+    "subtitle": "The ground this house stands on",
+    "pillar1": {
+      "title": "The 5·2·5·5 Method",
+      "summary": "Five minutes. Two minutes. Five hours. Five days. A rhythm of review.",
+      "description": "Five minutes right after class, two minutes right after studying, then five hours later, then five days later. These four passes turn knowledge into something truly your own."
+    },
+    "pillar2": {
+      "title": "Mindful Engagement",
+      "summary": "Not sitting long — staying awake.",
+      "description": "Through meditation, handwriting, and small rituals, we gather the mind. The time gathered that way is what real learning is made of."
+    },
+    "pillar3": {
+      "title": "Caring · Learning · Playing",
+      "summary": "Divide the day in three. Grow balance.",
+      "description": "Time for others (caring), time for yourself (learning), time to recover (playing). When these three balance, a whole person grows."
+    },
+    "cta": "See full philosophy"
+  },
+  "latest_columns": {
+    "title": "Recent columns",
+    "subtitle": "Three pieces from the library",
+    "placeholder": "Columns coming soon",
+    "placeholder_desc": "The first column will be here shortly.",
+    "cta": "All columns"
+  },
+  "ecosystem": {
+    "title": "Tools of Yeon",
+    "subtitle": "Apps and programs that put the philosophy into practice",
+    "planner": {
+      "name": "Yeon Planner",
+      "description": "A digital planner for self-directed learners"
+    },
+    "supul": {
+      "name": "Supul AI",
+      "description": "A math AI that teaches through three different solutions"
+    },
+    "card": {
+      "name": "Twenty-Questions Cards",
+      "description": "Twenty questions to explore who you are"
+    },
+    "draw": {
+      "name": "Yeon Drawing Tool",
+      "description": "A standalone drawing module usable anywhere"
+    }
+  },
+  "footer": {
+    "about": "Y Life is the digital home of Yeonsosa (Jinwoo Lee)'s educational philosophy.",
+    "location": "Ulsan, South Korea",
+    "contact_title": "Contact",
+    "contact_kakao": "KakaoTalk",
+    "contact_email": "Email",
+    "links_title": "Links",
+    "link_privacy": "Privacy Policy",
+    "link_terms": "Terms of Use",
+    "copyright": "© 2026 Y Life. All rights reserved."
+  },
+  "common": {
+    "coming_soon": "Coming soon",
+    "coming_soon_desc": "We'll see you here shortly.",
+    "back_home": "Back to home",
+    "read_more": "Read more"
+  },
+  "pages": {
+    "student": {
+      "title": "For Students",
+      "subtitle": "I grow myself",
+      "intro": "A space for the you who grows one step today. Share your work, see your friends' records, and build your own rhythm."
+    },
+    "parent": {
+      "title": "For Parents",
+      "subtitle": "We watch together",
+      "intro": "Children grow more by being watched than by being taught. Find here the direction to walk alongside your child."
+    },
+    "news": {
+      "title": "News & Apps",
+      "subtitle": "Tools of Yeon and fresh news",
+      "intro": "Meet all the Yeon Project tools in one place, and stay first to hear the latest news and updates."
+    },
+    "column": {
+      "title": "Yeonsosa's Column",
+      "subtitle": "A library where thoughts gather",
+      "intro": "Essays by Yeonsosa on education, self-direction, wholeness, and a life well-lived. New pieces published regularly."
+    }
+  }
+}

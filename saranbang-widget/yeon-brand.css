@@ -1,0 +1,113 @@
+/* ==========================================================================
+   연(緣) 브랜드 키트 — 연에이젼트 및 다른 연프로젝트용 공통 변수
+   이 파일을 <link>로 포함하면, 해당 프로젝트에서 Y Life와 동일한
+   색상·폰트·간격을 CSS 변수로 바로 쓸 수 있습니다.
+
+   사용법:
+     <link rel="stylesheet" href="yeon-brand.css">
+
+   적용:
+     .my-button { background: var(--yeon-ink); color: var(--yeon-paper); }
+     .my-title { font-family: var(--yeon-font-title); }
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  /* === 컬러 (한지·먹·나무·실타래) === */
+  --yeon-paper: #F8F6F2;          /* 배경 한지색 */
+  --yeon-paper-alt: #F0EBE1;      /* 약간 짙은 한지 */
+  --yeon-ink: #1D1D1B;            /* 본문 먹색 */
+  --yeon-ink-soft: #3C3C38;       /* 부드러운 먹 */
+  --yeon-wood: #5D4037;           /* 제목·포인트 나무색 */
+  --yeon-wood-light: #8B6F5C;
+  --yeon-thread: #B08E61;         /* 실타래 금빛 갈색 (강조) */
+  --yeon-thread-soft: rgba(176, 142, 97, 0.15);
+  --yeon-border: rgba(29, 29, 27, 0.08);
+  --yeon-border-strong: rgba(29, 29, 27, 0.4);
+  --yeon-muted: rgba(29, 29, 27, 0.5);
+  --yeon-white: #FFFFFF;
+
+  /* === 상태 === */
+  --yeon-success: #6B8F71;
+  --yeon-error: #8F6B6B;
+
+  /* === 폰트 === */
+  --yeon-font-body: 'Noto Serif KR', 'Nanum Myeongjo', serif;
+  --yeon-font-title: 'Nanum Myeongjo', serif;
+  --yeon-font-accent: 'Playfair Display', serif;
+
+  /* === 타이포그래피 === */
+  --yeon-text-xs: 0.75rem;
+  --yeon-text-sm: 0.88rem;
+  --yeon-text-base: 1rem;
+  --yeon-text-lg: 1.15rem;
+  --yeon-text-xl: 1.35rem;
+  --yeon-text-2xl: 1.7rem;
+  --yeon-text-3xl: 2.2rem;
+  --yeon-letter-tight: -0.02em;
+  --yeon-letter-normal: 0;
+  --yeon-letter-wide: 0.15em;
+  --yeon-letter-widest: 0.3em;
+
+  /* === 간격 === */
+  --yeon-sp-1: 4px;
+  --yeon-sp-2: 8px;
+  --yeon-sp-3: 12px;
+  --yeon-sp-4: 16px;
+  --yeon-sp-6: 24px;
+  --yeon-sp-8: 32px;
+  --yeon-sp-12: 48px;
+  --yeon-sp-16: 64px;
+  --yeon-sp-20: 80px;
+  --yeon-sp-24: 96px;
+
+  /* === 그림자 === */
+  --yeon-shadow-sm: 0 1px 2px rgba(29, 29, 27, 0.04);
+  --yeon-shadow-md: 0 6px 20px rgba(29, 29, 27, 0.06);
+  --yeon-shadow-lg: 0 20px 50px rgba(29, 29, 27, 0.08);
+}
+
+/* === 유틸리티 클래스 (선택적 사용) === */
+.yeon-body {
+  font-family: var(--yeon-font-body);
+  background: var(--yeon-paper);
+  color: var(--yeon-ink);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.yeon-title {
+  font-family: var(--yeon-font-title);
+  font-weight: 800;
+  letter-spacing: var(--yeon-letter-tight);
+  color: var(--yeon-ink);
+}
+
+.yeon-accent {
+  font-family: var(--yeon-font-accent);
+  letter-spacing: var(--yeon-letter-wide);
+  color: var(--yeon-thread);
+}
+
+.yeon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yeon-sp-2);
+  padding: var(--yeon-sp-4) var(--yeon-sp-8);
+  font-family: var(--yeon-font-body);
+  font-size: var(--yeon-text-sm);
+  letter-spacing: var(--yeon-letter-wide);
+  border: 1px solid var(--yeon-ink);
+  background: var(--yeon-ink);
+  color: var(--yeon-paper);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.yeon-btn:hover { background: var(--yeon-wood); border-color: var(--yeon-wood); }
+
+.yeon-btn-ghost {
+  background: transparent;
+  color: var(--yeon-ink);
+}
+.yeon-btn-ghost:hover { background: var(--yeon-ink); color: var(--yeon-paper); }
