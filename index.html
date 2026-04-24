@@ -3,438 +3,949 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y Life | 삶 · 인연 · 소통, 그 깊은 연(緣)으로 잇다</title>
-    <meta name="description" content="연소사(緣小師)가 전하는 세상의 시선. 삶 · 인연 · 소통이 자연스럽게 이어지는 디지털 집, Y Life.">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <title>y-life.kr | 오픈 지식 생산 플랫폼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --bg-paper: #F8F6F2;      /* 한지 배경 */
-            --bg-paper-alt: #F0EBE1;  /* 짙은 한지 */
-            --ink: #1D1D1B;           /* 먹색 본문 */
-            --ink-soft: #3C3C38;      /* 부드러운 먹 */
-            --wood: #5D4037;          /* 나무색 */
-            --thread: #B08E61;        /* 실타래 금빛 */
-            --border: rgba(29, 29, 27, 0.08);
+            --color-bg: #F0F4F5;
+            --color-surface: #D4E0E3;
+            --color-primary: #5A7A82;
+            --color-muted: #A8B5B8;
+            --color-text: #2C3E42;
+            --color-text-light: #6B8A90;
+            --color-white: #FFF;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: var(--bg-paper);
-            color: var(--ink);
-            font-family: 'Noto Serif KR', serif;
-            line-height: 1.8;
-            word-break: keep-all;
-            overflow-x: hidden;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
         }
-        /* 공통 레이아웃 */
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
-        section { padding: 100px 0; border-bottom: 1px solid var(--border); }
-        /* 네비게이션 */
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+
+        /* ===== 헤더 ===== */
+        header {
+            background-color: var(--color-white);
+            border-bottom: 1px solid var(--color-surface);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-primary);
+            min-width: max-content;
+        }
+
         nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 40px 0; border-bottom: 1px solid var(--ink);
-            position: sticky; top: 0; background: var(--bg-paper); z-index: 100;
+            display: flex;
+            gap: 32px;
+            flex: 1;
         }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; color: var(--ink); }
-        .logo span { font-family: 'Noto Serif KR'; font-weight: 200; margin-right: 10px; }
-        .nav-links a { text-decoration: none; color: var(--ink); margin-left: 30px; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; }
-        .nav-links a:hover { color: var(--thread); }
-        .lang-toggle { display: none; } /* 비활성 상태 */
-        .settings-gear { margin-left: 20px; opacity: 0.3; cursor: pointer; transition: 0.3s; font-size: 1.1rem; }
-        .settings-gear:hover { opacity: 0.7; color: var(--thread); }
-        /* 히어로 섹션 */
+
+        nav a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-primary);
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--color-text);
+        }
+
+        .btn-header {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+            min-width: max-content;
+        }
+
+        .btn-header:hover {
+            filter: brightness(0.9);
+        }
+
+        /* ===== 히어로 섹션 ===== */
         .hero {
-            padding: 120px 0; display: grid; grid-template-columns: 1.5fr 1fr; align-items: center;
-            position: relative; overflow: hidden;
+            background-color: var(--color-bg);
+            padding: 80px 24px;
+            text-align: center;
         }
-        .hero-content { z-index: 2; }
-        .time-badge { font-family: 'Playfair Display'; font-style: italic; font-size: 0.8rem; color: var(--thread); margin-bottom: 20px; display: block; }
-        .hero-title { font-family: 'Nanum Myeongjo', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2; margin-bottom: 30px; }
-        .hero-sub { font-size: 1.2rem; color: var(--wood); max-width: 500px; margin-bottom: 40px; }
-        .hero-btns { display: flex; gap: 20px; }
-        .btn { padding: 15px 40px; text-decoration: none; font-size: 0.9rem; transition: 0.4s; border: 1px solid var(--ink); cursor: pointer; display: inline-block; }
-        .btn-primary { background: var(--ink); color: white; }
-        .btn-secondary { background: transparent; color: var(--ink); }
-        .btn:hover { background: var(--thread); border-color: var(--thread); color: white; }
-        .watermark {
-            position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
-            font-size: 25rem; opacity: 0.03; font-weight: 200; pointer-events: none; z-index: 1;
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .vertical-motto {
-            writing-mode: vertical-rl; font-family: 'Nanum Myeongjo'; font-size: 1.2rem;
-            letter-spacing: 0.5em; color: var(--thread); border-left: 1px solid var(--thread); padding-left: 20px;
-            justify-self: end;
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--color-text);
+            line-height: 1.3;
         }
-        /* 개인 대시보드 훅 (재방문자용) */
-        #personal-dash { display: none; background: var(--bg-paper-alt); padding: 30px; margin-bottom: 60px; border: 1px dashed var(--thread); animation: fadeIn 1.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        /* 4 관문 카드 */
-        .gates-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-            background: var(--border); border: 1px solid var(--border); margin-top: 40px;
+
+        .hero p {
+            font-size: 18px;
+            color: var(--color-text-light);
+            margin-bottom: 32px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .gate-card {
-            background: var(--bg-paper); padding: 60px 30px; text-decoration: none; color: var(--ink);
-            transition: 0.4s; display: flex; flex-direction: column; position: relative;
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
         }
-        .gate-card:hover { background: var(--bg-paper-alt); }
-        .gate-badge { position: absolute; top: 14px; right: 14px; font-family: 'Playfair Display'; font-style: italic; font-size: 0.7rem; color: var(--thread); opacity: 0.8; }
-        .fav-icon { position: absolute; top: 14px; left: 14px; opacity: 0.1; transition: 0.3s; cursor: pointer; font-size: 1.1rem; }
-        .gate-card:hover .fav-icon { opacity: 0.5; }
-        .fav-icon.active { opacity: 1; color: var(--thread); }
-        .gate-tag { font-family: 'Playfair Display'; font-style: italic; font-size: 0.8rem; color: var(--thread); margin-bottom: 10px; }
-        .gate-card h3 { font-family: 'Nanum Myeongjo'; font-size: 1.4rem; margin-bottom: 15px; }
-        /* 연(緣)의 사랑방 */
-        .sarangbang { background: white; border: 1px solid var(--ink); padding: 80px; margin: 50px 0; }
-        .sarang-header { text-align: center; margin-bottom: 60px; }
-        .sarang-header h2 { font-family: 'Nanum Myeongjo'; font-size: 2.5rem; margin-bottom: 10px; }
-        .input-underline {
-            width: 100%; border: none; border-bottom: 1px solid var(--ink); background: transparent;
-            font-size: 1.8rem; font-family: 'Noto Serif KR'; padding: 20px 0; outline: none;
-            transition: 0.3s;
+
+        .btn-primary:hover {
+            filter: brightness(0.9);
         }
-        .input-underline:focus { border-bottom-width: 2px; border-color: var(--thread); }
-        .btn-sarang { margin-top: 40px; float: right; }
-        /* 사랑방 응답 레이어 */
-        .response-container { display: none; margin-top: 80px; clear: both; }
-        .layer { padding: 30px 0; opacity: 0; transform: translateY(20px); transition: 0.8s; border-bottom: 1px dashed var(--border); }
-        .layer.active { opacity: 1; transform: translateY(0); }
-        .layer-label { font-size: 0.75rem; color: var(--thread); font-weight: 800; display: flex; align-items: center; margin-bottom: 10px; }
-        .layer-label::before { content: ""; width: 20px; height: 1px; background: var(--thread); margin-right: 10px; }
-        /* 오늘의 한 문장 & 세 기둥 */
-        .quote-block { text-align: center; padding: 120px 0; font-family: 'Nanum Myeongjo'; font-size: 1.8rem; font-style: italic; color: var(--wood); }
-        .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; }
-        .pillars h4 { font-family: 'Nanum Myeongjo'; font-size: 1.4rem; margin-bottom: 15px; border-bottom: 1px solid var(--ink); display: inline-block; }
-        /* 최근 칼럼 & 연의 도구들 */
-        .column-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
-        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 40px; }
-        .article-card { border: 1px solid var(--border); padding: 30px; transition: 0.3s; text-decoration: none; color: inherit; }
-        .article-card:hover { border-color: var(--thread); background: white; }
-        .tool-card { background: white; border: 1px solid var(--border); padding: 30px; position: relative; transition: 0.3s; }
-        .tool-card:hover { border-color: var(--thread); }
-        /* 푸터 */
-        footer { padding: 100px 0; background: var(--ink); color: #E0E0E0; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; font-size: 0.85rem; }
-        .footer-brand { font-family: 'Playfair Display'; font-weight: 700; font-size: 1.5rem; color: white; margin-bottom: 20px; }
-        .footer-nav a { display: block; color: #AAA; text-decoration: none; margin-bottom: 10px; }
-        .footer-nav a:hover { color: var(--thread); }
-        .footer-bottom { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; display: flex; justify-content: space-between; align-items: center; font-family: 'Playfair Display'; font-size: 0.75rem; letter-spacing: 0.15em; }
-        /* 플로팅 버튼 */
-        .floating-btn {
-            position: fixed; bottom: 40px; right: 40px; width: 60px; height: 60px;
-            background: var(--ink); color: white; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-family: 'Nanum Myeongjo';
-            font-size: 1.5rem; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 999;
-            transition: 0.3s; border: none;
+
+        /* ===== 섹션 공통 ===== */
+        section {
+            padding: 80px 24px;
         }
-        .floating-btn:hover { transform: scale(1.1); background: var(--thread); }
-        /* 반응형 */
-        @media (max-width: 1100px) {
-            .hero { grid-template-columns: 1fr; text-align: center; }
-            .vertical-motto { display: none; }
-            .gates-grid, .pillars, .column-grid { grid-template-columns: repeat(2, 1fr); }
-            .tools-grid { grid-template-columns: repeat(2, 1fr); }
-            footer { grid-template-columns: 1fr; }
+
+        .white-bg {
+            background-color: var(--color-white);
         }
-        @media (max-width: 600px) {
-            .gates-grid, .pillars, .column-grid, .tools-grid { grid-template-columns: 1fr; }
-            .sarangbang { padding: 40px 20px; }
-            .hero-btns { justify-content: center; }
+
+        .light-bg {
+            background-color: var(--color-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--color-text);
+        }
+
+        section > .container > p {
+            font-size: 15px;
+            color: var(--color-text-light);
+            margin-bottom: 48px;
+        }
+
+        /* ===== 기능 카드 ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background-color: var(--color-white);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--color-primary);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--color-text);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== 사용 사례 ===== */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .case-card {
+            background-color: var(--color-white);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .case-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--color-primary);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .case-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text);
+        }
+
+        .case-domain {
+            font-size: 12px;
+            color: var(--color-primary);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .case-card p {
+            font-size: 13px;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== 아골라 섹션 ===== */
+        .agora-intro {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .agora-tag {
+            display: inline-block;
+            background-color: var(--color-surface);
+            color: var(--color-primary);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .agora-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .agora-card {
+            background-color: var(--color-white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--color-primary);
+            transition: transform 0.2s;
+        }
+
+        .agora-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .agora-card .writer-tag {
+            font-size: 11px;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .agora-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        .agora-card p {
+            font-size: 13px;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+
+        .agora-cta {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* ===== 사이트 빌더 섹션 ===== */
+        .builder-intro {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .builder-card {
+            background-color: var(--color-white);
+            border-radius: 12px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .builder-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .builder-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background-color: var(--color-surface);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .builder-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-primary);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .builder-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text);
+        }
+
+        .builder-card p {
+            font-size: 13px;
+            color: var(--color-text-light);
+            line-height: 1.5;
+        }
+
+        .builder-example {
+            background-color: var(--color-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-top: 16px;
+        }
+
+        .builder-example-text {
+            flex: 1;
+        }
+
+        .builder-example-text .ex-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .builder-example-text h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .builder-example-text p {
+            font-size: 14px;
+            color: var(--color-text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .btn-link {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-link:hover {
+            filter: brightness(0.9);
+        }
+
+        .builder-example-badge {
+            flex: 0 0 200px;
+            background-color: var(--color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .builder-example-badge .badge-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .builder-example-badge p {
+            font-size: 13px;
+            color: var(--color-text-light);
+            line-height: 1.5;
+        }
+
+        .builder-example-badge strong {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .builder-example {
+                flex-direction: column;
+            }
+            .builder-example-badge {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        /* ===== 뉴스 섹션 ===== */
+        .news-intro {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .news-intro p {
+            font-size: 15px;
+            color: var(--color-text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .news-card {
+            background-color: var(--color-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--color-surface);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .news-card:hover {
+            background-color: var(--color-surface);
+            transform: translateY(-2px);
+        }
+
+        .news-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        .news-card p {
+            font-size: 12px;
+            color: var(--color-text-light);
+            margin-bottom: 12px;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--color-muted);
+        }
+
+        /* ===== CTA 섹션 ===== */
+        .cta {
+            background-color: var(--color-primary);
+            padding: 80px 24px;
+            text-align: center;
+            color: var(--color-white);
+        }
+
+        .cta h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--color-white);
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            color: var(--color-white);
+        }
+
+        .btn-cta {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn-cta:hover {
+            filter: brightness(0.95);
+        }
+
+        /* ===== 푸터 ===== */
+        footer {
+            background-color: #2C3E42;
+            color: var(--color-white);
+            padding: 48px 24px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        footer p {
+            margin-bottom: 12px;
+        }
+
+        footer p:last-child {
+            opacity: 0.7;
+        }
+
+        /* ===== 반응형 ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            nav {
+                order: 3;
+                width: 100%;
+                gap: 16px;
+                font-size: 13px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            section h2 {
+                font-size: 24px;
+            }
+
+            .features-grid,
+            .cases-grid,
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cta h2 {
+                font-size: 28px;
+            }
+
+            .cta p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-
-    <!-- ========== 네비게이션 ========== -->
-    <nav>
-        <a href="index.html" class="logo"><span>緣</span> Y LIFE</a>
-        <div class="nav-links">
-            <a href="index.html">홈</a>
-            <a href="#philosophy">철학</a>
-            <a href="news.html">소식</a>
-            <a href="writers.html">필진</a>
-            <a href="#contact">문의</a>
-            <span class="settings-gear" title="내 방 설정">⚙︎</span>
+    <!-- ===== 헤더 ===== -->
+    <header>
+        <div class="header-container">
+            <div class="logo">y-life.kr</div>
+            <nav>
+                <a href="#agora">아골라</a>
+                <a href="#agonran">아곤란</a>
+                <a href="#builder">사이트 빌더</a>
+                <a href="#news">뉴스</a>
+            </nav>
+            <button class="btn-header">시작하기</button>
         </div>
-    </nav>
+    </header>
 
-    <!-- ========== 히어로 ========== -->
-    <section class="hero">
-        <div class="hero-content">
-            <span class="time-badge" id="time-badge">오전 7:30 · 고요한 시작</span>
-            <h1 class="hero-title">삶 · 인연 · 소통,<br>그 깊은 <b>연(緣)</b>으로 잇다</h1>
-            <p class="hero-sub">연소사(緣小師)가 전하는 세상의 시선. 삶과 인연이 깊은 소통으로 이어지는 자리, 그 길을 함께 걷습니다.</p>
-            <div class="hero-btns">
-                <a href="#philosophy" class="btn btn-primary">철학 둘러보기</a>
-                <a href="#sarangbang-section" class="btn btn-secondary">入</a>
-            </div>
+    <!-- ===== 히어로 섹션 ===== -->
+    <section class="hero light-bg">
+        <div class="hero-container">
+            <h1>당신의 지식을 당신의 것으로</h1>
+            <p>
+                자신의 홈페이지를 만들고, 포트폴리오를 정리하고,<br>
+                책을 출판하고, 지역 뉴스를 통해 의견을 나누세요.<br>
+                y-life.kr은 당신의 모든 것을 담을 수 있는 플랫폼입니다.
+            </p>
+            <button class="btn-primary">플랫폼 둘러보기</button>
         </div>
-        <div class="vertical-motto">닿음이 곧 배움이라</div>
-        <div class="watermark">緣</div>
     </section>
 
-    <!-- ========== 개인 대시보드 (재방문자용 · 기본 숨김) ========== -->
-    <div id="personal-dash">
-        <span class="gate-tag" style="margin-bottom: 5px;">Welcome Back</span>
-        <p>오늘도 오셨네요. 어제 읽다 마신 <strong>'의식적 몰입의 가치'</strong> 이어서 보실까요?</p>
-        <a href="#" style="font-size: 0.8rem; color: var(--thread); margin-top: 10px; display: inline-block;">이어서 보기 →</a>
-    </div>
-
-    <!-- ========== 4 관문 ========== -->
-    <div class="gates-grid" id="main-gates">
-        <a href="student.html" class="gate-card" data-id="gate-1">
-            <span class="fav-icon" onclick="event.preventDefault(); toggleFav(this);">☆</span>
-            <div class="gate-tag gate-en">Connecting</div>
-            <h3>배움의 인연</h3>
-            <p style="font-size: 0.9rem; opacity: 0.6;">학생의 공간</p>
-        </a>
-        <a href="parent.html" class="gate-card" data-id="gate-2">
-            <span class="fav-icon" onclick="event.preventDefault(); toggleFav(this);">☆</span>
-            <div class="gate-tag gate-en">Guiding</div>
-            <h3>부모의 지혜</h3>
-            <p style="font-size: 0.9rem; opacity: 0.6;">학부모의 공간</p>
-        </a>
-        <a href="news.html" class="gate-card" data-id="gate-3">
-            <span class="fav-icon" onclick="event.preventDefault(); toggleFav(this);">☆</span>
-            <div class="gate-tag gate-en">Witnessing</div>
-            <h3>연의 시선</h3>
-            <p style="font-size: 0.9rem; opacity: 0.6;">한국과 세계, 진실한 시각으로</p>
-        </a>
-        <a href="column.html" class="gate-card" data-id="gate-4">
-            <span class="fav-icon" onclick="event.preventDefault(); toggleFav(this);">☆</span>
-            <div class="gate-tag gate-en">Thinking</div>
-            <h3>연의 서재</h3>
-            <p style="font-size: 0.9rem; opacity: 0.6;">연소사 칼럼</p>
-        </a>
-    </div>
-    <p id="adaptive-note" style="display: none; font-size: 0.75rem; text-align: right; margin-top: 15px; opacity: 0.4; font-family: 'Playfair Display'; font-style: italic;">
-        ✿ 당신이 자주 찾으시는 순서로 인사드려요 · <span style="text-decoration: underline; cursor: pointer;" onclick="resetAdaptive()">처음으로</span>
-    </p>
-
-    <!-- ========== 연(緣)의 사랑방 ========== -->
-    <section id="sarangbang-section">
-        <div class="sarangbang">
-            <div class="sarang-header">
-                <span class="gate-tag">연의 사랑방</span>
-                <h2>지금 마음에 있는 것을 꺼내놓으세요</h2>
-                <p style="opacity: 0.6;">당신의 한 문장이 누군가의 인연이 될 때</p>
-            </div>
-            <div style="position: relative;">
-                <input type="text" id="sarang-input" class="input-underline" placeholder="마음에 품은 질문을 가볍게 놓아주세요…">
-                <button class="btn btn-primary btn-sarang" onclick="triggerSarang()">인연을 묻다</button>
-            </div>
-            <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.5; clear: both;">익명 가능 · AI가 다섯 겹 응답과 배치를 도와드립니다</p>
-            <div class="response-container" id="response-area">
-                <div class="layer" id="l1"><span class="layer-label">🕯️ Guidance · 한 줄의 길잡이</span><p id="ans1"></p></div>
-                <div class="layer" id="l2"><span class="layer-label">📖 Essay · 연소사의 한 편</span><p id="ans2"></p></div>
-                <div class="layer" id="l3"><span class="layer-label">🫶 Voice · 다른 이의 한 마디</span><p id="ans3"></p></div>
-                <div class="layer" id="l4"><span class="layer-label">👣 Today · 오늘의 한 걸음</span><p id="ans4"></p></div>
-                <div class="layer" id="l5"><span class="layer-label">🪞 Mirror · 더 깊은 세 질문</span><p id="ans5"></p></div>
+    <!-- ===== 핵심 기능 3가지 ===== -->
+    <section id="features" class="white-bg">
+        <div class="container">
+            <h2>y-life.kr의 3가지 핵심</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2L15.09 8.26h6.79L17.55 12.74l3.09 6.26-5.34-3.48-5.34 3.48 3.09-6.26-5.34-3.48h6.79z"/>
+                        </svg>
+                    </div>
+                    <h3>자신의 플랫폼을 만드세요</h3>
+                    <p>홈페이지, 포트폴리오, 책을 쉽고 자유롭게 만들 수 있습니다. 복잡한 코딩 없이도 당신의 이야기를 담을 수 있는 공간입니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3>뉴스를 통해 소통하세요</h3>
+                    <p>주변에서 일어나는 가장 주요한 소식을 놓치지 않고, 자신의 의견을 내놓고, 다른 사람과 대화를 나누세요.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"/>
+                            <path d="M9.5 9a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0m9 9H5.5v-2a4.5 4.5 0 0 1 9 0z"/>
+                        </svg>
+                    </div>
+                    <h3>당신의 콘텐츠는 당신의 것</h3>
+                    <p>y-life.kr에서 만든 모든 것은 당신의 자산입니다. 언제든 당신의 공간으로 옮겨갈 수 있습니다.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== 오늘의 한 문장 + 세 기둥 ========== -->
-    <section id="philosophy">
-        <div class="quote-block">
-            "완벽한 하루가 쌓이는 것이 아니라,<br>불완전한 하루가 이어지는 것이 진짜 꾸준함입니다."<br>
-            <span style="font-size: 1rem; font-style: normal; opacity: 0.5; margin-top: 20px; display: block;">— 연소사</span>
-        </div>
-        <div class="pillars">
-            <div>
-                <h4>5.2.5.5 학습법</h4>
-                <p style="font-size: 0.9rem; opacity: 0.7;">5분·2분·5시간·5일. 복습의 리듬을 몸에 새겨 삶의 무기로 만듭니다.</p>
+    <!-- ===== 아골라 (어른들의 목소리) ===== -->
+    <section id="agora" class="light-bg">
+        <div class="container">
+            <div class="agora-intro">
+                <div class="agora-tag">어른들의 목소리</div>
+                <h2>아골라</h2>
+                <p>부모님, 선생님, 지역 어른들이 삶의 경험과 지혜를 나누는 공간입니다.<br>
+                   한 사람의 이야기가 누군가의 길을 밝혀줄 수 있습니다.</p>
             </div>
-            <div>
-                <h4>의식적 몰입</h4>
-                <p style="font-size: 0.9rem; opacity: 0.7;">오래 앉아있는 것이 아니라, 깨어 있는 1분을 늘려가는 연습.</p>
+            <div class="agora-grid">
+                <div class="agora-card">
+                    <div class="writer-tag">학부모 · 이윤서</div>
+                    <h4>우리 아이가 처음으로 스스로 책상 앞에 앉은 날</h4>
+                    <p>억지로 시킨 게 아닌데, 그날 아이가 먼저 책상 앞에 앉았습니다. 그 하루가 어떻게 가능했는지 나눠봅니다.</p>
+                </div>
+                <div class="agora-card">
+                    <div class="writer-tag">선생님 · 박준혁</div>
+                    <h4>20년 가르치면서 배운 것 — 학생에게 말 걸기</h4>
+                    <p>말 한 마디가 아이의 한 해를 바꾸기도 합니다. 어떤 말이 그런 힘을 갖는지 이야기합니다.</p>
+                </div>
+                <div class="agora-card">
+                    <div class="writer-tag">지역 어른 · 김대현</div>
+                    <h4>울산에서 40년, 이 동네가 달라진 것들</h4>
+                    <p>어른이 기억하는 동네의 모습. 기록으로 남기지 않으면 사라질 이야기들입니다.</p>
+                </div>
             </div>
-            <div>
-                <h4>배려 · 배움 · 놀기</h4>
-                <p style="font-size: 0.9rem; opacity: 0.7;">하루를 셋으로 나누어 삶의 균형과 기쁨을 동시에 기릅니다.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== 최근 칼럼 (연의 서재) ========== -->
-    <section>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <h2 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">연의 서재</h2>
-            <a href="column.html" style="color: var(--thread); text-decoration: none; font-size: 0.9rem;">전체 보기 →</a>
-        </div>
-        <div class="column-grid">
-            <a href="#" class="article-card">
-                <span class="gate-tag">2026.04.10 · 자기주도</span>
-                <h4 style="margin: 15px 0;">"100일 습관에서 가장 위험한 시기는"</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6;">15일에서 21일 사이. 이 일주일이 뇌가 '이게 정말 나의 새 일상인가?'를 판단하는…</p>
-            </a>
-            <a href="#" class="article-card">
-                <span class="gate-tag">2026.04.05 · 학부모</span>
-                <h4 style="margin: 15px 0;">"아이의 말을 들을 때 가장 먼저 버려야 할 것"</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6;">판단이다. 아이는 답을 원하는 게 아니라, 자신이 이해받고 있다는 감각을 원한다…</p>
-            </a>
-            <a href="#" class="article-card">
-                <span class="gate-tag">2026.03.28 · 철학</span>
-                <h4 style="margin: 15px 0;">"의식적 몰입은 결과가 아니라 과정입니다"</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6;">진짜 몰입은 집중에서 흩어짐, 다시 돌아옴이 반복되는 그 과정 전체에 있기 때문…</p>
-            </a>
-        </div>
-    </section>
-
-    <!-- ========== 연(緣)의 도구들 ========== -->
-    <section>
-        <span class="gate-tag">Digital Tools</span>
-        <h2 class="hero-title" style="font-size: 2.5rem; margin-top: 10px;">연(緣)의 도구들</h2>
-        <div class="tools-grid">
-            <div class="tool-card">
-                <h4>연플래너</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 10px;">자기주도 학습을 위한 디지털 플래너. 5.2.5.5 복습 자동 추적.</p>
-            </div>
-            <div class="tool-card">
-                <h4>수풀AI</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 10px;">세 가지 풀이로 개념을 익히는 수학 AI.</p>
-            </div>
-            <div class="tool-card">
-                <h4>스무고개 상담카드</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 10px;">나를 탐색하는 스무 개의 질문.</p>
-            </div>
-            <div class="tool-card">
-                <h4>연그림도구</h4>
-                <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 10px;">어디에나 붙여 쓸 수 있는 독립 그리기 모듈.</p>
+            <div class="agora-cta">
+                <button class="btn-outline">아골라에서 글 쓰기</button>
             </div>
         </div>
     </section>
 
-    <!-- ========== 푸터 ========== -->
-    <footer id="contact">
-        <div class="footer-info">
-            <div class="footer-brand">緣 Y LIFE</div>
-            <p>Y Life는 연소사(緣小師 이진우) 선생님의 교육 철학을 담는 디지털 집입니다. 스스로 자라는 사람들이 모여 서로의 성장을 지켜보는 곳.</p>
+    <!-- ===== 아곤란 (아이들의 목소리) ===== -->
+    <section id="agonran" class="white-bg">
+        <div class="container">
+            <div class="agora-intro">
+                <div class="agora-tag" style="background-color: #E8F4F8; color: #3A7CA5;">아이들의 목소리</div>
+                <h2>아곤란</h2>
+                <p>학생과 청소년들이 자신의 생각, 질문, 꿈을 마음껏 펼치는 공간입니다.<br>
+                   작은 목소리도 여기서는 당당하게 들립니다.</p>
+            </div>
+            <div class="agora-grid">
+                <div class="agora-card" style="border-left-color: #3A7CA5;">
+                    <div class="writer-tag" style="color: #3A7CA5;">중학생 · 최지아</div>
+                    <h4>내가 왜 공부를 해야 하는지 모르겠다는 친구에게</h4>
+                    <p>나도 그런 때가 있었어. 근데 어느 날 딱 하나를 발견했고, 그게 달라지게 했어.</p>
+                </div>
+                <div class="agora-card" style="border-left-color: #3A7CA5;">
+                    <div class="writer-tag" style="color: #3A7CA5;">고등학생 · 이준서</div>
+                    <h4>우리 동네에 청소년 공간이 없다는 것</h4>
+                    <p>갈 곳이 없어서 편의점 앞에 앉아 있는 게 우리 잘못인가요? 솔직하게 써봤습니다.</p>
+                </div>
+                <div class="agora-card" style="border-left-color: #3A7CA5;">
+                    <div class="writer-tag" style="color: #3A7CA5;">초등학생 · 박하윤</div>
+                    <h4>내가 직접 만든 도서관 추천 목록</h4>
+                    <p>친구들한테 꼭 읽혔으면 하는 책 다섯 권. 읽고 나서 제 삶이 조금 달라진 책들이에요.</p>
+                </div>
+            </div>
+            <div class="agora-cta">
+                <button class="btn-outline" style="color: #3A7CA5; border-color: #3A7CA5;">아곤란에서 글 쓰기</button>
+            </div>
         </div>
-        <div class="footer-nav">
-            <h5 style="margin-bottom: 20px; color: white;">Navigate</h5>
-            <a href="#sarangbang-section">緣의 사랑방</a>
-            <a href="question-forest.html">질문 숲</a>
-            <a href="writers.html">필진</a>
-            <a href="#">개인정보처리방침</a>
+    </section>
+
+    <!-- ===== 사이트 빌더 ===== -->
+    <section id="builder" class="light-bg">
+        <div class="container">
+            <div class="builder-intro">
+                <h2>내 공간을 직접 만드세요</h2>
+                <p>코딩 없이도 누구나 자신만의 홈페이지, 쇼핑몰, 포트폴리오, 블로그를 만들 수 있습니다.<br>
+                   만든 사이트는 사람들과의 소통과 홍보 공간이 됩니다.</p>
+            </div>
+            <div class="builder-grid">
+                <div class="builder-card">
+                    <div class="builder-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                    </div>
+                    <h3>홈페이지</h3>
+                    <p>나를 소개하고 내 이야기를 담는 공간</p>
+                </div>
+                <div class="builder-card">
+                    <div class="builder-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                    </div>
+                    <h3>쇼핑몰</h3>
+                    <p>내 상품과 서비스를 판매하는 공간</p>
+                </div>
+                <div class="builder-card">
+                    <div class="builder-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </div>
+                    <h3>포트폴리오</h3>
+                    <p>내 작업물과 경력을 보여주는 공간</p>
+                </div>
+                <div class="builder-card">
+                    <div class="builder-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                    </div>
+                    <h3>블로그</h3>
+                    <p>내 생각과 지식을 꾸준히 기록하는 공간</p>
+                </div>
+            </div>
+
+            <!-- 사용 예시: yeon.ai.kr -->
+            <div class="builder-example">
+                <div class="builder-example-text">
+                    <div class="ex-label">사이트 빌더 사용 예시</div>
+                    <h3>연학원플레이스 — yeon.ai.kr</h3>
+                    <p>연소사님이 y-life.kr 사이트 빌더로 직접 만든 학원 홈페이지입니다.<br>
+                       학생 연결(Connecting), 방향 안내(Guiding), 성장 기록(Witnessing), 함께 생각하기(Thinking)를 한 곳에 담았습니다.</p>
+                    <a href="https://yeon.ai.kr" target="_blank"><button class="btn-link">연학원플레이스 보러가기</button></a>
+                </div>
+                <div class="builder-example-badge">
+                    <div class="badge-icon">🏫</div>
+                    <strong>연학원플레이스</strong>
+                    <p>yeon.ai.kr<br>사이트 빌더로 제작</p>
+                </div>
+            </div>
         </div>
-        <div class="footer-contact">
-            <h5 style="margin-bottom: 20px; color: white;">Contact</h5>
-            <p>ULSAN · REPUBLIC OF KOREA</p>
-            <p><a href="mailto:yeon@y-life.com" style="color: #E0E0E0;">yeon@y-life.com</a></p>
-            <p style="margin-top: 20px;">@yeon_life</p>
+    </section>
+
+    <!-- ===== 사용 사례 ===== -->
+    <section id="cases" class="white-bg">
+        <div class="container">
+            <h2>y-life.kr을 사용하는 사람들</h2>
+            <p>교육기관부터 개인 크리에이터까지, 누구나 자신의 공간을 만들고 있습니다.</p>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="case-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <h3>학원/교육기관</h3>
+                    <div class="case-domain">academy.y-life.kr</div>
+                    <p>학생들과 학부모들을 위한 투명한 소통 공간</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54L6.5 17h11z"/>
+                        </svg>
+                    </div>
+                    <h3>개인 포트폴리오</h3>
+                    <div class="case-domain">mywork.y-life.kr</div>
+                    <p>나의 작업물과 경력을 보여주는 공간</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54L6.5 17h11z"/>
+                        </svg>
+                    </div>
+                    <h3>소상공인</h3>
+                    <div class="case-domain">myshop.y-life.kr</div>
+                    <p>사업과 지역 소식을 함께 나누는 공간</p>
+                </div>
+            </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Y LIFE · CONNECTED BY 緣</p>
-            <div style="opacity: 0.5;">Made in Ulsan, Korea</div>
+    </section>
+
+    <!-- ===== 뉴스 섹션 ===== -->
+    <section id="news" class="white-bg">
+        <div class="container">
+            <h2>지역 뉴스, 함께 나누기</h2>
+            <div class="news-intro">
+                <p>당신 주변의 주요 소식을 놓치지 않고, 의견을 나누는 공간</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h4>지역 교육청, 새로운 정책 발표</h4>
+                    <p>지역 교육청</p>
+                    <div class="news-footer">
+                        <span>조회 1,240</span>
+                        <span>평가 9.2</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <h4>우리 동네 소상공인 지원 확대</h4>
+                    <p>지방 행정</p>
+                    <div class="news-footer">
+                        <span>조회 892</span>
+                        <span>평가 8.7</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <h4>지역 문화 행사 소개</h4>
+                    <p>문화위원회</p>
+                    <div class="news-footer">
+                        <span>조회 654</span>
+                        <span>평가 8.1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA 섹션 ===== -->
+    <section class="cta">
+        <div class="container">
+            <h2>지금 시작하세요</h2>
+            <p>당신의 이야기를 당신의 방식으로 세상과 나누세요.</p>
+            <button class="btn-cta">가입하기</button>
+        </div>
+    </section>
+
+    <!-- ===== 푸터 ===== -->
+    <footer>
+        <div class="container">
+            <p>© 2026 y-life.kr. 모든 권리 보유.</p>
+            <p>당신의 지식을 당신의 것으로 만드는 오픈 플랫폼</p>
         </div>
     </footer>
-
-</div>
-
-<!-- 플로팅 緣 버튼 -->
-<button class="floating-btn" onclick="document.getElementById('sarangbang-section').scrollIntoView({behavior:'smooth'})" aria-label="緣에 묻다">緣</button>
-
-<script>
-/* ==========================================================================
-   시간대 배지 · 인사말 자동 변경
-   ========================================================================== */
-(function updateTimeBadge() {
-  const hour = new Date().getHours();
-  let label = '오후 3:00 · 깊어지는 시간';
-  if (hour < 6) label = '새벽 · 아직 세상이 조용한 시간';
-  else if (hour < 9) label = '오전 ' + hour + ':00 · 고요한 시작';
-  else if (hour < 12) label = '오전 ' + hour + ':00 · 집중이 열리는 시간';
-  else if (hour < 14) label = '정오 · 잠시 쉬어가는 시간';
-  else if (hour < 18) label = '오후 ' + (hour-12) + ':00 · 깊어지는 시간';
-  else if (hour < 22) label = '저녁 · 돌아보는 시간';
-  else label = '밤 · 내일을 예비하는 시간';
-  const el = document.getElementById('time-badge');
-  if (el) el.textContent = label;
-})();
-
-/* ==========================================================================
-   사랑방 데모 응답 (추후 연에이젼트와 연결)
-   ========================================================================== */
-function triggerSarang() {
-  const input = document.getElementById('sarang-input').value;
-  if(!input.trim()) { alert('마음의 질문을 한 줄 적어주세요.'); return; }
-  const area = document.getElementById('response-area');
-  area.style.display = 'block';
-  const data = [
-    "가장 단순한 것이 가장 강력한 법입니다. 그 질문 속에 이미 답이 있을지도 모릅니다.",
-    "선생님의 칼럼 '자기주도의 역설' 편을 읽어보시면 비슷한 고민을 만날 수 있습니다.",
-    "지현 님(고1)도 같은 고민을 하셨지만, 지금은 자신만의 리듬을 찾으셨다고 해요.",
-    "오늘 밤, 스마트폰을 멀리하고 종이에 지금의 감정을 딱 세 줄만 적어보세요.",
-    "당신이 진정으로 두려워하는 것은 실패인가요, 아니면 타인의 시선인가요?"
-  ];
-  // 레이어 초기화 후 재현
-  document.querySelectorAll('.layer').forEach(l => l.classList.remove('active'));
-  data.forEach((text, i) => {
-    const layer = document.getElementById('l' + (i+1));
-    const ans = document.getElementById('ans' + (i+1));
-    setTimeout(() => {
-      ans.innerText = text;
-      layer.classList.add('active');
-    }, i * 600);
-  });
-  // 응답으로 부드럽게 스크롤
-  setTimeout(() => {
-    area.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 200);
-}
-
-/* ==========================================================================
-   즐겨찾기(☆) 토글 — 수동 고정
-   ========================================================================== */
-function toggleFav(starEl) {
-  starEl.classList.toggle('active');
-  starEl.textContent = starEl.classList.contains('active') ? '★' : '☆';
-  // 로컬스토리지 기록 (adaptive-ui.js가 이 키를 읽음)
-  try {
-    const pinned = JSON.parse(localStorage.getItem('yLife_pinned') || '[]');
-    const card = starEl.closest('.gate-card');
-    const id = card ? card.dataset.id : null;
-    if (!id) return;
-    const idx = pinned.indexOf(id);
-    if (starEl.classList.contains('active') && idx === -1) pinned.push(id);
-    if (!starEl.classList.contains('active') && idx !== -1) pinned.splice(idx, 1);
-    localStorage.setItem('yLife_pinned', JSON.stringify(pinned));
-  } catch(e) {}
-}
-
-/* ==========================================================================
-   재방문자 개인 대시보드 노출 (adaptive-ui.js와 연동)
-   3회 이상 방문 기록이 있으면 자연스럽게 등장
-   ========================================================================== */
-(function tryShowPersonalDash() {
-  try {
-    const stats = JSON.parse(localStorage.getItem('yLife_user_stats') || '{}');
-    const total = Object.entries(stats)
-      .filter(([k]) => !k.startsWith('_'))
-      .reduce((s, [,v]) => s + v, 0);
-    if (total >= 3) {
-      setTimeout(() => {
-        const dash = document.getElementById('personal-dash');
-        if (dash) dash.style.display = 'block';
-      }, 1200);
-    }
-  } catch(e) {}
-})();
-
-/* ==========================================================================
-   적응형 안내 노트 (adaptive-ui.js가 재배치했을 때만 표시)
-   ========================================================================== */
-function resetAdaptive() {
-  try {
-    localStorage.removeItem('yLife_user_stats');
-    localStorage.removeItem('yLife_pinned');
-  } catch(e) {}
-  location.reload();
-}
-</script>
-
-<!-- 적응형 UI 로직 (4 관문 자동 재배치 + 배지) -->
-<script src="js/adaptive-ui.js"></script>
-
 </body>
 </html>
