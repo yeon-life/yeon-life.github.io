@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사이트 빌더 가이드 — y-life.kr</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #e9f5f2;
+  --surface: #b0cfc8;
+  --surface-alt: #dfe6d3;
+  --primary: #6eb5a6;
+  --primary-dk: #586e69;
+  --text: #2a2e2c;
+  --text-soft: #697870;
+  --muted: #959e9c;
+  --border: rgba(42,46,44,0.12);
+  --font-serif: 'Nanum Myeongjo', serif;
+  --font-sans: 'Noto Sans KR', -apple-system, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.7; }
+a { color: var(--primary-dk); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Top bar */
+.top-bar {
+  background: var(--primary-dk);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-bar-logo { font-family: var(--font-serif); font-size: 17px; font-weight: 700; color: #fff; }
+.top-bar-links { display: flex; gap: 16px; }
+.top-bar-link { color: rgba(255,255,255,0.8); font-size: 13px; }
+.top-bar-link:hover { color: #fff; text-decoration: none; }
+
+/* Layout */
+.page-wrap { display: flex; max-width: 1100px; margin: 0 auto; padding: 32px 16px; gap: 32px; }
+
+/* Sidebar TOC */
+.toc {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 72px;
+  align-self: flex-start;
+}
+.toc-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.toc-list { list-style: none; }
+.toc-list li { margin-bottom: 2px; }
+.toc-list a {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-soft);
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+.toc-list a:hover, .toc-list a.active {
+  color: var(--primary-dk);
+  background: rgba(110,181,166,0.12);
+  border-left-color: var(--primary);
+  text-decoration: none;
+}
+.toc-list .toc-sub a { padding-left: 20px; font-size: 11px; }
+
+/* Main content */
+.main-content { flex: 1; min-width: 0; }
+
+/* Hero */
+.guide-hero {
+  background: var(--primary-dk);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 32px;
+}
+.guide-hero-title { font-family: var(--font-serif); font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+.guide-hero-sub { font-size: 14px; opacity: 0.82; line-height: 1.6; }
+.guide-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.guide-tag { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+/* Section */
+.guide-section { margin-bottom: 40px; scroll-margin-top: 80px; }
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-num {
+  width: 28px; height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  flex-shrink: 0;
+}
+.section-body { font-size: 14px; color: var(--text-soft); line-height: 1.8; }
+.section-body p { margin-bottom: 12px; }
+.section-body strong { color: var(--text); }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.feature-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.15s;
+}
+.feature-card:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(110,181,166,0.2); }
+.fc-icon { font-size: 22px; margin-bottom: 8px; }
+.fc-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.fc-desc { font-size: 11px; color: var(--text-soft); line-height: 1.5; }
+
+/* Block type grid */
+.block-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 16px 0; }
+.block-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.block-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+.block-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.block-desc { font-size: 10px; color: var(--text-soft); margin-top: 1px; }
+
+/* Step list */
+.step-list { list-style: none; margin: 16px 0; }
+.step-list li {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step-list li:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-text { font-size: 13px; color: var(--text-soft); }
+.step-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+/* Code block */
+.code-block {
+  background: var(--primary-dk);
+  color: #e9f5f2;
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+/* Toolbar diagram */
+.toolbar-demo {
+  background: #2a2e2c;
+  border-radius: 10px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.tb-logo { font-family: var(--font-serif); color: #fff; font-size: 15px; font-weight: 700; }
+.tb-sep { width: 1px; height: 22px; background: rgba(255,255,255,0.2); }
+.tb-mode { display: flex; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden; }
+.tb-mode span { padding: 4px 12px; font-size: 11px; color: rgba(255,255,255,0.6); }
+.tb-mode span.active { background: rgba(255,255,255,0.2); color: #fff; }
+.tb-icon { width: 30px; height: 30px; background: rgba(255,255,255,0.08); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); font-size: 14px; cursor: default; }
+.tb-icon:hover { background: rgba(255,255,255,0.15); }
+.tb-right { margin-left: auto; display: flex; gap: 8px; }
+.tb-btn { padding: 5px 14px; border-radius: 5px; font-size: 11px; font-weight: 600; cursor: default; }
+.tb-btn.ai { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.2); }
+.tb-btn.pub { background: #6eb5a6; color: #fff; border: none; }
+.tb-label { font-size: 9px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 2px; }
+.tb-group { display: flex; flex-direction: column; align-items: center; }
+
+/* Apply section */
+.apply-box {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+.apply-box h4 { font-size: 14px; font-weight: 700; color: var(--primary-dk); margin-bottom: 12px; }
+
+/* Callout */
+.callout {
+  display: flex;
+  gap: 12px;
+  background: rgba(110,181,166,0.12);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; }
+
+/* Update log */
+.update-log { list-style: none; }
+.update-log li { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.update-log li:last-child { border-bottom: none; }
+.update-date { color: var(--muted); flex-shrink: 0; width: 80px; }
+.update-content { color: var(--text-soft); }
+
+/* CTA */
+.cta-bar {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 12px;
+  padding: 28px 32px;
+  text-align: center;
+  margin-top: 40px;
+}
+.cta-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.cta-sub { font-size: 13px; opacity: 0.88; margin-bottom: 18px; }
+.cta-btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--primary-dk);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.cta-btn:hover { opacity: 0.9; text-decoration: none; }
+
+@media (max-width: 768px) {
+  .toc { display: none; }
+  .guide-hero { padding: 28px 20px; }
+  .guide-hero-title { font-size: 22px; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="top-bar-logo">y-life 사이트 빌더 가이드</span>
+  <div class="top-bar-links">
+    <a href="builder.html" class="top-bar-link">→ 빌더 열기</a>
+    <a href="index.html" class="top-bar-link">홈</a>
+    <a href="domain-guide.html" class="top-bar-link">도메인 가이드</a>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">목차</div>
+    <ul class="toc-list">
+      <li><a href="#overview">빌더란 무엇인가</a></li>
+      <li><a href="#features">주요 기능</a></li>
+      <li><a href="#toolbar">툴바 완전 해설</a></li>
+      <li><a href="#blocks">블록 종류</a></li>
+      <li><a href="#edit">편집 방법</a></li>
+      <li><a href="#theme">테마 시스템</a></li>
+      <li><a href="#publish">발행 방법</a></li>
+      <li><a href="#apply">연플래닝에 적용하기</a></li>
+      <li><a href="#roadmap">앞으로 추가될 기능</a></li>
+      <li><a href="#log">업데이트 기록</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <div class="guide-hero">
+      <div class="guide-hero-title">y-life 사이트 빌더</div>
+      <div class="guide-hero-sub">
+        코딩 없이 홈페이지를 만드는 도구입니다. 블록을 쌓듯 섹션을 추가하고,
+        클릭으로 텍스트를 수정하고, 완성된 HTML을 한 번에 다운로드할 수 있습니다.
+        연플래닝·학원 홈페이지·소개 페이지 모두 이 빌더 하나로 만들 수 있습니다.
+      </div>
+      <div class="guide-hero-tags">
+        <span class="guide-tag">코딩 불필요</span>
+        <span class="guide-tag">실시간 편집</span>
+        <span class="guide-tag">실행취소/다시실행</span>
+        <span class="guide-tag">4가지 테마</span>
+        <span class="guide-tag">쇼핑몰 블록</span>
+        <span class="guide-tag">AI 안내</span>
+      </div>
+    </div>
+
+    <!-- 1. Overview -->
+    <section class="guide-section" id="overview">
+      <h2 class="section-title"><span class="section-num">1</span>빌더란 무엇인가</h2>
+      <div class="section-body">
+        <p>
+          y-life 사이트 빌더(<code>builder.html</code>)는 <strong>단일 HTML 파일</strong>로 동작하는
+          시각적 페이지 편집기입니다. 구글 사이트(Google Sites)처럼 블록을 쌓아 홈페이지를 구성하고,
+          완성하면 독립 HTML 파일로 내보내거나 GitHub Pages에 바로 올릴 수 있습니다.
+        </p>
+        <p>
+          서버나 데이터베이스가 필요 없습니다. 브라우저만 있으면 됩니다. 작성 내용은
+          브라우저의 localStorage에 자동으로 저장되어, 창을 닫았다가 다시 열어도 그대로 남습니다.
+        </p>
+        <p>
+          <strong>연플래닝·연학원관리 홈페이지</strong>에도 동일하게 적용할 수 있습니다.
+          아래 <a href="#apply">연플래닝 적용하기</a> 섹션을 참고하세요.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Features -->
+    <section class="guide-section" id="features">
+      <h2 class="section-title"><span class="section-num">2</span>주요 기능</h2>
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="fc-icon">✏️</div>
+          <div class="fc-title">클릭해서 바로 편집</div>
+          <div class="fc-desc">텍스트를 클릭하면 그 자리에서 바로 수정됩니다. 별도 입력창 없음.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🖱️</div>
+          <div class="fc-title">더블클릭 방사형 메뉴</div>
+          <div class="fc-desc">빈 공간 더블클릭 → 9개 블록 아이콘이 원형으로 펼쳐집니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">↕️</div>
+          <div class="fc-title">드래그로 순서 변경</div>
+          <div class="fc-desc">블록 왼쪽 핸들을 드래그해서 섹션 순서를 바꿉니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">↔️</div>
+          <div class="fc-title">간격 드래그 조절</div>
+          <div class="fc-desc">블록 하단 스트립을 위아래로 드래그해서 여백을 조정합니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">↩️</div>
+          <div class="fc-title">실행 취소 / 다시 실행</div>
+          <div class="fc-desc">Ctrl+Z / Ctrl+Y로 최대 40단계 되돌리기가 됩니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🖼️</div>
+          <div class="fc-title">이미지 업로드</div>
+          <div class="fc-desc">이미지 영역을 클릭하면 파일 탐색기가 열려 바로 교체됩니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🎨</div>
+          <div class="fc-title">4가지 테마</div>
+          <div class="fc-desc">Mint Tide / Warm Earth / Mauve Fog / Forest Dark 중 선택.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🛒</div>
+          <div class="fc-title">쇼핑몰 블록</div>
+          <div class="fc-desc">상품 카드를 추가해 간이 판매 페이지를 만들 수 있습니다.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🤖</div>
+          <div class="fc-title">AI 안내 (예정)</div>
+          <div class="fc-desc">Claude Haiku로 홈페이지 제작 과정을 안내받을 수 있습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Toolbar -->
+    <section class="guide-section" id="toolbar">
+      <h2 class="section-title"><span class="section-num">3</span>툴바 완전 해설</h2>
+      <div class="section-body">
+        <p>화면 맨 위 검정 막대가 툴바입니다. 구글 사이트와 유사한 구성입니다.</p>
+      </div>
+
+      <div class="toolbar-demo">
+        <span class="tb-logo">y-life</span>
+        <div class="tb-sep"></div>
+        <div class="tb-mode">
+          <span class="active">편집</span>
+          <span>미리보기</span>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="tb-group"><div class="tb-icon">↩</div><div class="tb-label">실행취소</div></div>
+        <div class="tb-group"><div class="tb-icon">↪</div><div class="tb-label">다시실행</div></div>
+        <div class="tb-sep"></div>
+        <div class="tb-group"><div class="tb-icon">🔗</div><div class="tb-label">링크복사</div></div>
+        <div class="tb-group"><div class="tb-icon">⚙</div><div class="tb-label">설정</div></div>
+        <div class="tb-group"><div class="tb-icon">🗑</div><div class="tb-label">전체삭제</div></div>
+        <div class="tb-right">
+          <span class="tb-btn ai">AI</span>
+          <span class="tb-btn pub">발행</span>
+        </div>
+      </div>
+
+      <ul class="step-list">
+        <li>
+          <div class="step-num">①</div>
+          <div class="step-text">
+            <strong>편집 / 미리보기 전환</strong>
+            편집 모드에서는 좌측 패널과 블록 컨트롤이 표시됩니다.
+            미리보기 모드에서는 실제 방문자 화면처럼 보이며, 우측 하단에 연필 아이콘이 나타나 다시 편집 모드로 돌아올 수 있습니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">②</div>
+          <div class="step-text">
+            <strong>↩ 실행 취소 (Ctrl+Z) / ↪ 다시 실행 (Ctrl+Y)</strong>
+            블록 추가·삭제·텍스트 수정·순서 변경 등 모든 작업을 최대 40단계 되돌릴 수 있습니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">③</div>
+          <div class="step-text">
+            <strong>🔗 링크 복사</strong>
+            현재 페이지 URL을 클립보드에 복사합니다. 미리보기 URL을 공유할 때 사용합니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">④</div>
+          <div class="step-text">
+            <strong>⚙ 설정</strong>
+            사이트 이름, 파비콘, 메타 설명 등 고급 설정 패널을 엽니다. (추가 개발 중)
+          </div>
+        </li>
+        <li>
+          <div class="step-num">⑤</div>
+          <div class="step-text">
+            <strong>🗑 전체 삭제</strong>
+            현재 페이지의 모든 블록을 삭제합니다. 확인 창이 먼저 뜹니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">⑥</div>
+          <div class="step-text">
+            <strong>AI 버튼</strong>
+            우측에서 AI 안내 패널을 열고 닫습니다. Claude Haiku로 홈페이지 제작을 도와줍니다. (연결 예정)
+          </div>
+        </li>
+        <li>
+          <div class="step-num">⑦</div>
+          <div class="step-text">
+            <strong>발행 버튼</strong>
+            HTML 다운로드, GitHub Pages 배포, 임베드 코드 복사 옵션이 나타납니다.
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 4. Block types -->
+    <section class="guide-section" id="blocks">
+      <h2 class="section-title"><span class="section-num">4</span>블록 종류 (16가지)</h2>
+      <div class="section-body">
+        <p>왼쪽 패널 <strong>삽입</strong> 탭 또는 캔버스 더블클릭 방사형 메뉴에서 블록을 추가합니다.</p>
+      </div>
+      <div class="block-grid">
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">히어로</div><div class="block-desc">대문 제목+버튼</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">텍스트</div><div class="block-desc">제목+본문 단락</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">이미지+글</div><div class="block-desc">사진 옆에 설명</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">카드</div><div class="block-desc">아이콘 카드 그리드</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">YouTube</div><div class="block-desc">동영상 임베드</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">지도</div><div class="block-desc">Google Maps</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">버튼</div><div class="block-desc">CTA 버튼</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">소셜</div><div class="block-desc">SNS 링크 모음</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">갤러리</div><div class="block-desc">사진 그리드</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">인용</div><div class="block-desc">명언·인용구</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">구분선</div><div class="block-desc">섹션 구분</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">간격</div><div class="block-desc">빈 공간 조절</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">연락 폼</div><div class="block-desc">문의 양식</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">뉴스</div><div class="block-desc">최신 소식 목록</div></div></div>
+        <div class="block-item"><div class="block-dot"></div><div><div class="block-name">캐러셀</div><div class="block-desc">슬라이드 이미지</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">쇼핑몰</div><div class="block-desc">상품 카드 3열</div></div></div>
+      </div>
+    </section>
+
+    <!-- 5. Editing -->
+    <section class="guide-section" id="edit">
+      <h2 class="section-title"><span class="section-num">5</span>편집 방법</h2>
+      <ul class="step-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>텍스트 직접 편집</strong>
+            제목, 본문, 버튼 텍스트 등을 클릭하면 그 자리에서 바로 수정됩니다. 수정 후 다른 곳을 클릭하면 자동 저장됩니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>이미지 교체</strong>
+            이미지 영역에 마우스를 올리면 "이미지 교체" 오버레이가 나타납니다. 클릭하면 파일 탐색기가 열려 로컬 이미지를 선택할 수 있습니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>블록 순서 변경 (드래그)</strong>
+            블록 왼쪽 끝에 점 6개 핸들이 있습니다. 이 핸들을 드래그해서 다른 위치에 놓으면 순서가 바뀝니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <strong>블록 간격 조절 (리사이즈 스트립)</strong>
+            각 블록 하단에 얇은 회색 줄이 있습니다. 이 줄을 위아래로 드래그하면 블록의 상하 여백(paddingV)이 실시간으로 변합니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div class="step-text">
+            <strong>방사형 메뉴로 블록 삽입</strong>
+            캔버스 빈 공간을 더블클릭하면 그 위치에 원형 메뉴가 나타납니다. 9가지 블록 아이콘 중 하나를 클릭하면 해당 블록이 삽입됩니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">6</div>
+          <div class="step-text">
+            <strong>속성 패널 (우측)</strong>
+            블록을 클릭하면 오른쪽에 속성 패널이 열립니다. 텍스트 정렬, 배경색, 이미지 방향 등 세부 설정을 조정할 수 있습니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">7</div>
+          <div class="step-text">
+            <strong>블록 제어 버튼</strong>
+            블록에 마우스를 올리면 우측 상단에 ↑ ↓ (이동), 복제, 삭제 버튼이 나타납니다.
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 6. Theme -->
+    <section class="guide-section" id="theme">
+      <h2 class="section-title"><span class="section-num">6</span>테마 시스템</h2>
+      <div class="section-body">
+        <p>왼쪽 패널 <strong>테마</strong> 탭에서 4가지 색상 테마 중 하나를 선택해 사이트 전체 분위기를 바꿀 수 있습니다.</p>
+      </div>
+      <div class="card-grid">
+        <div class="feature-card" style="border-left: 4px solid #6eb5a6;">
+          <div class="fc-title">🌿 Mint Tide</div>
+          <div class="fc-desc">기본 테마. 민트·틸 계열. 학습 앱, 집중이 필요한 화면에 적합합니다.</div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid #ad9d82;">
+          <div class="fc-title">🌾 Warm Earth</div>
+          <div class="fc-desc">따뜻한 베이지·카키 계열. 학부모용 보고서, 안내문에 어울립니다.</div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid #b2a7b8;">
+          <div class="fc-title">🌸 Mauve Fog</div>
+          <div class="fc-desc">소프트 모브 계열. 상담, 감성적인 화면에 좋습니다.</div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid #2b3b32;">
+          <div class="fc-title">🌲 Forest Dark</div>
+          <div class="fc-desc">딥 포레스트 다크 테마. 야간 모드, 집중 모드에 사용합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Publish -->
+    <section class="guide-section" id="publish">
+      <h2 class="section-title"><span class="section-num">7</span>발행 방법</h2>
+      <div class="section-body">
+        <p>툴바 오른쪽 <strong>발행</strong> 버튼을 클릭하면 세 가지 방법이 나타납니다.</p>
+      </div>
+      <ul class="step-list">
+        <li>
+          <div class="step-num">A</div>
+          <div class="step-text">
+            <strong>HTML 다운로드</strong>
+            만든 페이지를 독립 HTML 파일로 저장합니다. 이메일로 보내거나 USB에 저장하거나 다른 웹서버에 올릴 수 있습니다.
+            편집 컨트롤이 제거된 순수 HTML 파일이 만들어집니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">B</div>
+          <div class="step-text">
+            <strong>GitHub Pages 배포</strong>
+            yeon-life/yeon-life.github.io 리포지토리에 올려 <code>https://yeon-life.github.io</code>에 공개합니다.
+            PowerShell에서 <code>git push</code>로 진행합니다.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">C</div>
+          <div class="step-text">
+            <strong>임베드 코드</strong>
+            다른 사이트에 이 사이트를 iframe으로 삽입할 수 있는 코드를 복사합니다.
+          </div>
+        </li>
+      </ul>
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <span>나만의 도메인(예: <code>yeon-plan.kr</code>)을 연결하고 싶다면
+          <a href="domain-guide.html">도메인 연결 가이드</a>를 참고하세요.
+          가비아에서 도메인을 구입하고 DNS 설정만 하면 됩니다.</span>
+      </div>
+    </section>
+
+    <!-- 8. Apply to 연플래닝 -->
+    <section class="guide-section" id="apply">
+      <h2 class="section-title"><span class="section-num">8</span>연플래닝 홈페이지에 적용하기</h2>
+      <div class="section-body">
+        <p>
+          현재 연플래닝 홈페이지(<code>sites.google.com/view/yeon-eng</code>)는 구글 사이트로 제작되어 있습니다.
+          y-life 빌더를 사용해 독립적인 연플래닝 전용 홈페이지로 이전할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="apply-box">
+        <h4>📋 권장 페이지 구성</h4>
+        <ul class="step-list">
+          <li><div class="step-num">1</div><div class="step-text"><strong>홈 (메인)</strong> — 히어로 블록으로 학원 소개, 카드 블록으로 핵심 특징 3가지</div></li>
+          <li><div class="step-num">2</div><div class="step-text"><strong>수업 소개</strong> — 이미지+글 블록으로 수업 방식 설명, YouTube 블록으로 소개 영상</div></li>
+          <li><div class="step-num">3</div><div class="step-text"><strong>선생님 소개</strong> — 이미지+글 블록, 인용 블록으로 교육 철학</div></li>
+          <li><div class="step-num">4</div><div class="step-text"><strong>수업료 안내</strong> — 카드 블록으로 수업 플랜, 쇼핑몰 블록으로 교재 판매</div></li>
+          <li><div class="step-num">5</div><div class="step-text"><strong>오시는 길</strong> — 지도 블록, 연락 폼 블록</div></li>
+        </ul>
+      </div>
+
+      <div class="apply-box">
+        <h4>🎨 연플래닝용 추천 설정</h4>
+        <ul class="step-list">
+          <li><div class="step-num">✓</div><div class="step-text"><strong>테마:</strong> Mint Tide (기본) — 집중, 학습 분위기에 잘 맞습니다</div></li>
+          <li><div class="step-num">✓</div><div class="step-text"><strong>히어로 블록:</strong> 학원 이름 + "함께 성장하는 영어 학습" 같은 한 줄 문구 + 상담 신청 버튼</div></li>
+          <li><div class="step-num">✓</div><div class="step-text"><strong>소셜 블록:</strong> Instagram, YouTube, KakaoTalk 채널 링크</div></li>
+          <li><div class="step-num">✓</div><div class="step-text"><strong>연락 폼:</strong> 학부모 문의를 받을 수 있도록 하단에 배치</div></li>
+        </ul>
+      </div>
+
+      <div class="apply-box">
+        <h4>🚀 이전 절차</h4>
+        <ul class="step-list">
+          <li><div class="step-num">1</div><div class="step-text"><strong>builder.html 열기</strong> — <code>yeon-life.github.io/builder.html</code> 접속</div></li>
+          <li><div class="step-num">2</div><div class="step-text"><strong>페이지 추가</strong> — 왼쪽 패널 → 페이지 탭 → 페이지 추가 클릭</div></li>
+          <li><div class="step-num">3</div><div class="step-text"><strong>블록 구성</strong> — 더블클릭 또는 삽입 탭으로 블록을 추가하고 내용 입력</div></li>
+          <li><div class="step-num">4</div><div class="step-text"><strong>HTML 내보내기</strong> — 발행 → HTML 다운로드</div></li>
+          <li><div class="step-num">5</div><div class="step-text"><strong>GitHub 업로드</strong> — <code>yeon-life.github.io</code> 리포에 <code>yeon-plan.html</code>로 저장</div></li>
+          <li><div class="step-num">6</div><div class="step-text"><strong>도메인 연결 (선택)</strong> — <code>yeon-plan.kr</code> 같은 전용 도메인 구입 후 CNAME 설정</div></li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <span class="callout-icon">🌱</span>
+        <span>
+          연플래닝과 연라이프는 같은 GitHub 저장소(<code>yeon-life.github.io</code>)에서 함께 관리할 수 있습니다.
+          각 페이지를 별도 HTML 파일(<code>yeon-plan.html</code>, <code>index.html</code>)로 올리면
+          같은 도메인 아래 여러 사이트를 운영할 수 있습니다.
+        </span>
+      </div>
+    </section>
+
+    <!-- 9. Roadmap -->
+    <section class="guide-section" id="roadmap">
+      <h2 class="section-title"><span class="section-num">9</span>앞으로 추가될 기능</h2>
+      <div class="block-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">AI 홈페이지 조언</div><div class="block-desc">Claude Haiku 연결 — 구성 제안, 문구 개선</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">결제 연동</div><div class="block-desc">쇼핑몰 블록에 실제 결제 수단 연결</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">사이트 설정 패널</div><div class="block-desc">사이트 이름·파비콘·OG 태그 설정</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">공동 편집</div><div class="block-desc">여러 사람이 같은 페이지를 함께 수정</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">폼 제출 수신</div><div class="block-desc">연락 폼 제출 내용을 이메일로 수신</div></div></div>
+        <div class="block-item"><div class="block-dot" style="background:#ad9d82"></div><div><div class="block-name">다국어 지원</div><div class="block-desc">영어·일본어 병행 페이지 제작</div></div></div>
+      </div>
+    </section>
+
+    <!-- 10. Update log -->
+    <section class="guide-section" id="log">
+      <h2 class="section-title"><span class="section-num">10</span>업데이트 기록</h2>
+      <ul class="update-log">
+        <li><span class="update-date">2026-04-26</span><span class="update-content">툴바 아이콘 추가 (↩ 실행취소, ↪ 다시실행, 🔗 링크복사, ⚙ 설정, 🗑 삭제) · Ctrl+Z/Y 단축키 · 쇼핑몰 블록 · AI 패널 · 방사형 메뉴 (9종) · 좌측 탭 패널 (삽입/페이지/테마)</span></li>
+        <li><span class="update-date">2026-04-19</span><span class="update-content">builder.html 초기 버전 · 기본 블록 편집 · 드래그 순서 변경 · 이미지 업로드 · 간격 드래그 조절</span></li>
+        <li><span class="update-date">2026-04-19</span><span class="update-content">domain-guide.html — 가비아 도메인 연결 가이드 (8단계)</span></li>
+        <li><span class="update-date">2026-04-19</span><span class="update-content">index.html JS SyntaxError 수정 (regex 리터럴 개행 문제) · 관리자 5회 클릭 진입 복구</span></li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-bar">
+      <div class="cta-title">지금 바로 만들어보세요</div>
+      <div class="cta-sub">클릭 몇 번으로 연플래닝 홈페이지를 완성할 수 있습니다.</div>
+      <a href="builder.html" class="cta-btn">사이트 빌더 열기 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// TOC scroll highlight
+const sections = document.querySelectorAll('.guide-section');
+const tocLinks = document.querySelectorAll('.toc-list a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 90) current = s.id; });
+  tocLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
