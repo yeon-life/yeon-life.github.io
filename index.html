@@ -643,6 +643,11 @@ body.font-large{font-size:17px;}
   <div class="modal">
     <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
     <h2>로그인</h2>
+    <div id="googleBtnLogin" class="google-btn-wrap"></div>
+    <div id="googleBtnLoginFallback" style="display:none;text-align:center;font-size:12px;color:var(--ink-faint);margin-bottom:4px;">
+      설정 → 구글 Client ID를 입력하면 구글 로그인이 활성화됩니다
+    </div>
+    <div class="social-divider"><span>또는 아이디로 로그인</span></div>
     <div class="form-group"><label>아이디 또는 이메일</label>
       <input type="text" id="loginId" placeholder="아이디 입력"></div>
     <div class="form-group"><label>비밀번호</label>
@@ -652,8 +657,6 @@ body.font-large{font-size:17px;}
       <button class="btn-sm" onclick="closeModal('loginModal')">취소</button>
       <button class="btn-primary" onclick="doLogin()">로그인</button>
     </div>
-    <div class="social-divider"><span>또는 소셜 로그인</span></div>
-    <div id="googleBtnLogin" class="google-btn-wrap"></div>
     <p class="form-link" onclick="switchModal('loginModal','signupModal')">처음이신가요? 가입하기</p>
   </div>
 </div>
@@ -665,6 +668,11 @@ body.font-large{font-size:17px;}
   <div class="modal">
     <button class="modal-close" onclick="closeModal('signupModal')">✕</button>
     <h2>새 계정 만들기</h2>
+    <div id="googleBtnSignup" class="google-btn-wrap"></div>
+    <div id="googleBtnSignupFallback" style="display:none;text-align:center;font-size:12px;color:var(--ink-faint);margin-bottom:4px;">
+      설정 → 구글 Client ID를 입력하면 구글로 가입할 수 있습니다
+    </div>
+    <div class="social-divider"><span>또는 직접 가입</span></div>
     <div class="form-group"><label>아이디 <small style="color:var(--ink-faint)">(영문·숫자, 4자 이상)</small></label>
       <input type="text" id="signupId" placeholder="example123"></div>
     <div class="form-group"><label>별명 <small style="color:var(--ink-faint)">(광장에 표시되는 이름)</small></label>
@@ -678,8 +686,6 @@ body.font-large{font-size:17px;}
       <button class="btn-sm" onclick="closeModal('signupModal')">취소</button>
       <button class="btn-primary" onclick="doSignup()">가입하기</button>
     </div>
-    <div class="social-divider"><span>또는 소셜 로그인</span></div>
-    <div id="googleBtnSignup" class="google-btn-wrap"></div>
     <p class="form-link" onclick="switchModal('signupModal','loginModal')">이미 계정이 있으신가요? 로그인</p>
   </div>
 </div>
@@ -1710,8 +1716,8 @@ function saveThought(key,val){
 function openModal(id){
   if(id==='settingsModal') initSettingsModal();
   document.getElementById(id).classList.add('open');
-  if(id==='loginModal')  setTimeout(()=>renderGoogleBtn('googleBtnLogin'),100);
-  if(id==='signupModal') setTimeout(()=>renderGoogleBtn('googleBtnSignup'),100);
+  if(id==='loginModal')  { renderGoogleBtn('googleBtnLogin');  setTimeout(()=>renderGoogleBtn('googleBtnLogin'),300); }
+  if(id==='signupModal') { renderGoogleBtn('googleBtnSignup'); setTimeout(()=>renderGoogleBtn('googleBtnSignup'),300); }
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function switchModal(closeId,openId){closeModal(closeId);openModal(openId);}
@@ -2346,7 +2352,21 @@ function renderGoogleBtn(containerId){
   if(!wrap) return;
   wrap.innerHTML = '';
   if(!GOOGLE_CLIENT_ID){
-    wrap.innerHTML = `<p style="font-size:12px;color:var(--ink-soft);text-align:center">구글 로그인을 사용하려면<br>설정 → Google Client ID를 입력하세요.</p>`;
+    // Client ID 없어도 버튼은 보여주고, 클릭 시 설정으로 안내
+    wrap.innerHTML = `<button onclick="closeModal('loginModal');closeModal('signupModal');openModal('settingsModal');"
+      style="display:flex;align-items:center;justify-content:center;gap:10px;
+             width:100%;max-width:280px;margin:0 auto;padding:10px 16px;
+             border:1px solid #dadce0;border-radius:4px;background:#fff;
+             font-size:14px;font-weight:500;color:#3c4043;cursor:pointer;
+             box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:box-shadow .2s;"
+      onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.14)'"
+      onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+      구글로 로그인 · 가입하기
+    </button>
+    <p style="font-size:11px;color:var(--ink-faint);text-align:center;margin-top:6px;">
+      ⚙ 설정에서 Google Client ID를 입력하면 바로 사용 가능해요
+    </p>`;
     return;
   }
   if(!window.google){ wrap.innerHTML=''; return; }
