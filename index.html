@@ -474,7 +474,7 @@ body.dark-mode .plaza-card.agonran-card{background:#5E7062;}
 
 /* ─── 빠른 이동 메뉴 ─── */
 .quick-nav{position:relative;}
-.quick-nav-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
+.quick-nav-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;font-size:13px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
 .quick-nav-btn:hover{color:var(--gold);border-color:var(--gold);}
 .quick-nav-drop{
   display:none;position:absolute;top:calc(100% + 8px);right:0;
@@ -490,7 +490,7 @@ body.dark-mode .plaza-card.agonran-card{background:#5E7062;}
 .qn-item svg{flex-shrink:0;stroke:currentColor;}
 
 /* ─── 설정 버튼 ─── */
-.settings-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
+.settings-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;font-size:13px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
 .settings-btn:hover{color:var(--gold);border-color:var(--gold);}
 /* ─── 설정 모달 ─── */
 .settings-section{border-top:1px solid var(--border);padding:16px 0;}
@@ -2448,9 +2448,7 @@ function _saveExpandedBody(key,text){
   LS.set('ylife_news_body_cache',cache);
 }
 function _renderExpandedBody(text){
-  const paras=text.split(/
-
-+/).filter(p=>p.trim());
+  const paras=text.split(/\n{2,}/).filter(p=>p.trim());
   return `<div class="nds-article-expanded">${
     paras.map(p=>`<p>${p.trim()}</p>`).join('')
   }<div class="nds-expand-note">✦ Gemini AI가 생성한 기사 전문입니다</div></div>`;
@@ -3628,6 +3626,7 @@ function previewFontSize(val){
   /* UI 컴포넌트(button, header, nav, modal) 제외 — 본문 텍스트만 */
   el.textContent=`
     body{font-size:${val}px;}
+    .site-header *{font-size:revert!important;}
     p,.hwadu-text,.post-body,.nds-article-body,.nds-article-desc,
     .nds-thought-text,.section-sub,.eco-desc,.editorial-body,
     .journal-card p,.hero p{font-size:${val}px!important;}
