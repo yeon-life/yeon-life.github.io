@@ -55,11 +55,16 @@
   --border:rgba(42,32,24,0.08); --border-md:rgba(42,32,24,0.16);
   --surface:#FFFDF8;
 
-  --font-serif:'Nanum Myeongjo',serif;
+  --font-serif:'Nanum Myeongjo','Noto Sans KR',serif;
   --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+
+/* ── yeon.ai.kr 헤더 링크 ── */
+.yeon-ai-badge{display:flex;align-items:center;gap:5px;padding:3px 10px 3px 8px;border:1px solid rgba(176,128,64,.35);border-radius:20px;font-size:11px;color:var(--gold);text-decoration:none;font-weight:600;letter-spacing:.03em;transition:background .15s;white-space:nowrap;}
+.yeon-ai-badge:hover{background:var(--gold-soft);}
+.yeon-ai-badge svg{flex-shrink:0;}
 body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;}
 a{color:inherit;text-decoration:none;}
 button{cursor:pointer;font-family:var(--font-sans);border:none;}
@@ -163,8 +168,19 @@ input,textarea,select{font-family:var(--font-sans);}
 .nds-thoughts-title{font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--ink);}
 .nds-thoughts-sub{font-size:12px;color:var(--ink-faint);margin-top:3px;}
 .nds-thought-input-wrap{padding:14px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.nds-thought-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--ink);background:var(--bg);resize:none;min-height:72px;line-height:1.6;font-family:inherit;}
+.nds-thought-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--ink);background:var(--bg);resize:vertical;min-height:140px;max-height:320px;line-height:1.6;font-family:inherit;}
 .nds-thought-input:focus{outline:none;border-color:var(--thread);}
+/* ── 생각 AI 도우미 ── */
+.nds-ai-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.nds-ai-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--thread);cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s;}
+.nds-ai-btn:hover{background:var(--gold-soft);}
+.nds-char-count{font-size:11px;color:var(--ink-faint);}
+.nds-char-count.warn{color:#C05020;}
+.nds-guideline{font-size:11px;color:var(--ink-faint);margin-top:4px;line-height:1.5;padding:6px 10px;background:var(--surface);border-radius:6px;display:none;}
+.nds-guideline.show{display:block;}
+.nds-ai-suggest{font-size:12px;color:var(--ink);background:var(--gold-soft);border:1px solid rgba(176,128,64,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px;line-height:1.6;display:none;}
+.nds-ai-suggest.show{display:block;}
+
 .nds-thought-submit{margin-top:8px;background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:600;cursor:pointer;float:right;}
 .nds-thought-submit:hover{opacity:0.85;}
 .nds-thought-login{font-size:13px;color:var(--ink-faint);text-align:center;padding:14px;}
@@ -193,7 +209,7 @@ input,textarea,select{font-family:var(--font-sans);}
 .mys-body{flex:1;overflow-y:auto;padding:32px 40px;max-width:860px;margin:0 auto;width:100%;}
 .mys-profile{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
 .mys-avatar-lg{width:56px;height:56px;border-radius:50%;background:var(--thread);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;}
-.mys-name{font-family:var(--font-serif);font-size:22px;font-weight:700;color:var(--ink);}
+.mys-name{font-family:var(--font-sans);font-size:22px;font-weight:700;color:var(--ink);}
 .mys-role-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--surface);color:var(--thread);border:1px solid var(--border);margin-top:4px;}
 .mys-section-title{font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--gold);}
 .mys-thought-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;}
@@ -1278,8 +1294,13 @@ body.dark-mode .admin-content{background:#1A1612;}
         <button class="btn-add" style="margin-top:12px" onclick="adminAddNews()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>뉴스 추가
         </button>
-        <div class="admin-actions-bar">
+        <div class="admin-actions-bar" style="flex-wrap:wrap;gap:8px;">
           <button class="btn-primary" onclick="saveNews()">변경사항 저장</button>
+          <button class="btn-sm" onclick="batchGenerateImages()" id="batchImgBtn"
+            style="background:rgba(176,128,64,.15);border:1px solid rgba(176,128,64,.4);color:#B08040;font-weight:600;">
+            ✦ 이미지 일괄 생성
+          </button>
+          <div id="batchImgStatus" style="font-size:12px;color:var(--ink-faint);align-self:center;"></div>
         </div>
       </div>
 
@@ -1443,6 +1464,10 @@ body.dark-mode .admin-content{background:#1A1612;}
       <span class="logo-kanji" id="logoKanji" title="비밀의 문">緣</span>
       y-life.kr
     </div>
+    <a class="yeon-ai-badge" href="https://yeon.ai.kr" target="_blank" rel="noopener">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      yeon.ai.kr
+    </a>
     <nav class="main-nav">
       <a href="#hwadu">화두</a>
       <a href="#news">소식</a>
@@ -2117,6 +2142,21 @@ body.dark-mode .admin-content{background:#1A1612;}
         <div class="footer-brand">緣 y-life.kr</div>
         <div class="footer-tagline">삶·인연·소통, 그 깊은 연(緣)으로 잇다<br>함께 만들어 갈 아름다운 세상 — 우리들의 대화 자체가 곧 그 공동 목표점.</div>
       </div>
+      <div style="border-left:1px solid rgba(248,242,234,.1);padding-left:28px;">
+        <div style="font-size:13px;font-weight:700;color:rgba(248,242,234,.8);margin-bottom:6px;letter-spacing:.04em;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          yeon.ai.kr
+        </div>
+        <div style="font-size:12px;color:rgba(248,242,234,.45);line-height:1.7;margin-bottom:10px;">
+          수풀AI · 연플래너 · 영풀 등<br>연소사의 교육 AI 프로젝트 모음
+        </div>
+        <a href="https://yeon.ai.kr" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--gold);border:1px solid rgba(176,128,64,.4);border-radius:20px;padding:4px 12px;text-decoration:none;transition:background .15s;"
+          onmouseover="this.style.background='rgba(176,128,64,.12)'" onmouseout="this.style.background='none'">
+          바로가기
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
       <div class="footer-links">
         <a href="#hwadu">화두</a>
         <a href="#news">소식</a>
@@ -2475,12 +2515,58 @@ function renderNdsThoughtInput(){
     wrap.innerHTML=`<div class="nds-thought-login">로그인하면 생각을 남길 수 있어요.<br><a onclick="openModal('loginModal');closeNewsDetail()">로그인하기 →</a></div>`;
     return;
   }
-  /* 이미 남긴 생각 있으면 불러오기 */
   const mine=getNewsThoughts(_currentNewsKey).find(t=>t.authorId===currentUser.id);
+  const MAX=300;
   wrap.innerHTML=`
-    <textarea class="nds-thought-input" id="ndsThoughtTextarea" placeholder="이 기사를 읽고 어떤 생각이 드셨나요?">${mine?mine.text:''}</textarea>
+    <div class="nds-ai-suggest" id="ndsAiSuggest"></div>
+    <div class="nds-guideline show" id="ndsGuideline">
+      ✏️ <strong>작성 가이드</strong> · 최대 ${MAX}자<br>
+      이 기사에서 가장 마음에 걸리는 부분은 무엇인가요?<br>
+      그 이유와 함께 솔직하게 적어보세요.
+    </div>
+    <div class="nds-ai-bar">
+      <button class="nds-ai-btn" onclick="ndsAiHelp()">✦ AI 생각 도우미</button>
+      <span class="nds-char-count" id="ndsCharCount">0 / ${MAX}</span>
+    </div>
+    <textarea class="nds-thought-input" id="ndsThoughtTextarea"
+      placeholder="이 기사를 읽고 어떤 생각이 드셨나요? (최대 ${MAX}자)"
+      maxlength="${MAX}"
+      oninput="ndsUpdateCount(this,${MAX})"
+    >${mine?mine.text:''}</textarea>
     <button class="nds-thought-submit" onclick="submitNdsThought()">생각 남기기</button>
     <div style="clear:both"></div>`;
+  /* 글자 수 초기 세팅 */
+  const ta=document.getElementById('ndsThoughtTextarea');
+  if(ta&&ta.value) ndsUpdateCount(ta,MAX);
+  /* 기존 글 있으면 안내 숨기기 */
+  if(mine) document.getElementById('ndsGuideline').classList.remove('show');
+}
+function ndsUpdateCount(ta,max){
+  const cnt=ta.value.length;
+  const el=document.getElementById('ndsCharCount');
+  if(el){el.textContent=cnt+' / '+max;el.className='nds-char-count'+(cnt>=max*0.9?' warn':'');}
+}
+async function ndsAiHelp(){
+  const key=localStorage.getItem('ylife_gemini_key');
+  const btn=document.querySelector('.nds-ai-btn');
+  const suggest=document.getElementById('ndsAiSuggest');
+  if(!key){
+    suggest.textContent='⚙️ 설정에서 Gemini API 키를 입력하면 AI 도우미를 사용할 수 있어요.';
+    suggest.classList.add('show');return;
+  }
+  if(btn){btn.textContent='⏳ 생각 중...';btn.disabled=true;}
+  const title=document.getElementById('ndsArticleTitle')?.textContent||'이 기사';
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:`다음 뉴스 기사에 대해 독자가 생각을 남기도록 돕는 짧은 생각 씨앗 문장 1~2개를 한국어로 만들어 주세요. 기사 제목: "${title}". 형식: "혹시 ~라는 생각이 드셨나요?" 또는 "이 기사에서 ~한 부분이 마음에 걸렸습니다." 처럼 부드럽게. 100자 이내로.`}]}]})
+    });
+    const d=await res.json();
+    const txt=d?.candidates?.[0]?.content?.parts?.[0]?.text||'생각의 씨앗을 가져오지 못했어요.';
+    suggest.textContent='💡 '+txt.trim();
+    suggest.classList.add('show');
+  }catch(e){suggest.textContent='AI 연결에 실패했어요.';suggest.classList.add('show');}
+  if(btn){btn.innerHTML='✦ AI 생각 도우미';btn.disabled=false;}
 }
 function submitNdsThought(){
   const text=document.getElementById('ndsThoughtTextarea')?.value||'';
@@ -3141,6 +3227,42 @@ function saveNews(){
   if(_pendingNews){LS.set('ylife_news',_pendingNews);_pendingNews=null;}
   renderNews();
   alert('뉴스가 저장되었습니다.');
+}
+async function batchGenerateImages(){
+  const key=LS.get('ylife_gemini_key')||'';
+  if(!key){
+    alert('Gemini API 키를 먼저 설정에서 입력해주세요.');return;
+  }
+  const btn=document.getElementById('batchImgBtn');
+  const status=document.getElementById('batchImgStatus');
+  const data=JSON.parse(JSON.stringify(getNewsData()));
+  const cats=Object.keys(data);
+  let total=0,done=0,skipped=0;
+  /* 이미지 없는 항목 수 파악 */
+  cats.forEach(cat=>data[cat].forEach(n=>{if(!n.img)total++;}));
+  if(total===0){status.textContent='모든 뉴스에 이미지가 있습니다.';return;}
+  btn.disabled=true;
+  btn.textContent='⏳ 생성 중...';
+  status.textContent=`0 / ${total} 생성 중...`;
+  for(const cat of cats){
+    for(let i=0;i<data[cat].length;i++){
+      const n=data[cat][i];
+      if(n.img){skipped++;continue;}
+      status.textContent=`${done} / ${total} — "${n.title.slice(0,16)}..."`;
+      try{
+        const url=await generateNewsImage(n.title,cat);
+        if(url){data[cat][i].img=url;done++;}
+        else{done++;} /* 실패해도 건너뜀 */
+      }catch{done++;}
+      /* 1초 간격 (API rate limit 방지) */
+      await new Promise(r=>setTimeout(r,1000));
+    }
+  }
+  LS.set('ylife_news',data);
+  renderNews();
+  btn.disabled=false;
+  btn.textContent='✦ 이미지 일괄 생성';
+  status.textContent=`✓ ${done}개 생성 완료! (${skipped}개 이미 있음)`;
 }
 function loadPostMgmt(){renderPostMgmtTable();}
 function switchPostMgmtTab(forum){
