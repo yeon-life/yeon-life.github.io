@@ -98,7 +98,7 @@ input,textarea,select{font-family:var(--font-sans);}
 .user-avatar{width:30px;height:30px;border-radius:50%;background:var(--thread);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
 
 /* ─── 모달 공통 ─── */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
 .modal-backdrop.open{display:flex;}
 
 /* ─── 전체화면 글쓰기 광장 ─── */
@@ -245,7 +245,7 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-ai-apply{background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;}
 .pws-ai-discard{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 14px;font-size:12px;color:var(--ink-soft);cursor:pointer;}
 .pws-err{font-size:12px;color:#c0392b;padding:0 36px 10px;}
-.modal{background:var(--bg);border-radius:16px;width:100%;max-width:440px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.18);position:relative;}
+.modal{background:var(--bg);border-radius:16px;width:100%;max-width:440px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.18);position:relative;max-height:90vh;overflow-y:auto;}
 .modal-lg{max-width:680px;}
 .modal-xl{max-width:900px;max-height:90vh;overflow-y:auto;}
 .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--ink-faint);cursor:pointer;line-height:1;}
@@ -817,7 +817,7 @@ body.dark-mode .admin-content{background:#1A1612;}
      모달: 설정
 ═══════════════════════════════════ -->
 <div class="modal-backdrop" id="settingsModal">
-  <div class="modal">
+  <div class="modal" style="max-width:520px;">
     <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
     <h2>⚙ 설정</h2>
 
