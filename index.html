@@ -709,11 +709,18 @@ body.font-large{font-size:17px;}
 .font-size-ctrl input[type=range]{width:120px;accent-color:var(--thread);}
 .font-size-val{font-size:12px;font-weight:700;color:var(--thread);min-width:32px;}
 /* 색상 프리셋 */
-.color-preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
-.color-preset{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .15s;position:relative;}
-.color-preset.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700;}
-.color-preset:hover{transform:scale(1.12);}
-.color-preset.active{border-color:var(--ink-deep);}
+.color-preset-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center;}
+.color-preset{width:38px;height:38px;border-radius:10px;cursor:pointer;border:3px solid transparent;transition:all .18s;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.18);}
+.color-preset.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+.color-preset:hover{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.color-preset.active{border-color:#1A150E;box-shadow:0 0 0 2px #1A150E,0 4px 10px rgba(0,0,0,.2);}
+/* 커스텀 컬러 피커 */
+.color-custom-wrap{display:flex;align-items:center;gap:8px;margin-top:12px;}
+.color-custom-input{width:42px;height:38px;border:none;border-radius:10px;cursor:pointer;padding:0;background:none;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.color-custom-label{font-size:12px;color:var(--ink-faint);}
+.color-theme-name{font-size:11px;font-weight:600;color:var(--thread);margin-top:6px;letter-spacing:.03em;}
+/* 폰트 실시간 프리뷰 박스 */
+.font-preview-box{font-size:13px;color:var(--ink-faint);margin-top:6px;padding:6px 10px;background:var(--surface);border-radius:6px;transition:font-size .1s;}
 /* 관리자 버튼 영역 */
 .admin-actions-bar{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
 /* 다크모드 보정 */
@@ -1360,29 +1367,38 @@ body.dark-mode .admin-content{background:#1A1612;}
         <!-- 디자인 설정 -->
         <div class="settings-group">
           <h3>디자인 설정</h3>
-          <div class="setting-row">
+          <div class="setting-row" style="flex-wrap:wrap;gap:10px;">
             <div>
               <div class="setting-label">기본 글씨 크기</div>
               <div class="setting-desc">사이트 전체 본문 크기를 조절합니다</div>
             </div>
-            <div class="font-size-ctrl">
-              <span style="font-size:11px;color:var(--ink-faint)">작게</span>
-              <input type="range" min="13" max="18" step="1" value="15" id="cfg-fontsize"
-                oninput="previewFontSize(this.value)">
-              <span class="font-size-val" id="fontsize-val">15px</span>
+            <div>
+              <div class="font-size-ctrl">
+                <span style="font-size:11px;color:var(--ink-faint)">작게</span>
+                <input type="range" min="13" max="18" step="1" value="15" id="cfg-fontsize"
+                  oninput="previewFontSize(this.value)">
+                <span class="font-size-val" id="fontsize-val">15px</span>
+              </div>
+              <div class="font-preview-box" id="fontPreviewBox">이 글씨가 실시간으로 변합니다 — 가나다라마바사</div>
             </div>
           </div>
-          <div class="setting-row" style="flex-wrap:wrap;gap:10px;">
+          <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
             <div>
               <div class="setting-label">색상 테마</div>
-              <div class="setting-desc">사이트 색상 분위기를 선택합니다</div>
+              <div class="setting-desc">프리셋 선택 또는 직접 색상을 고르세요</div>
             </div>
             <div class="color-preset-row" id="colorPresetRow">
               <div class="color-preset active" style="background:#B08040" title="Warm Linen (기본)" data-theme="warm-linen" onclick="applyColorTheme('warm-linen',this)"></div>
-              <div class="color-preset" style="background:#6eb5a6" title="Mint Tide" data-theme="mint-tide" onclick="applyColorTheme('mint-tide',this)"></div>
-              <div class="color-preset" style="background:#697FA3" title="Agora Blue" data-theme="agora-blue" onclick="applyColorTheme('agora-blue',this)"></div>
-              <div class="color-preset" style="background:#b2a7b8" title="Mauve Fog" data-theme="mauve-fog" onclick="applyColorTheme('mauve-fog',this)"></div>
+              <div class="color-preset" style="background:#4A9B8A" title="Mint Tide" data-theme="mint-tide" onclick="applyColorTheme('mint-tide',this)"></div>
+              <div class="color-preset" style="background:#3D5F8A" title="Agora Blue" data-theme="agora-blue" onclick="applyColorTheme('agora-blue',this)"></div>
+              <div class="color-preset" style="background:#7B6B88" title="Mauve Fog" data-theme="mauve-fog" onclick="applyColorTheme('mauve-fog',this)"></div>
               <div class="color-preset" style="background:#5D4037" title="Wood Dark" data-theme="wood-dark" onclick="applyColorTheme('wood-dark',this)"></div>
+            </div>
+            <div class="color-custom-wrap">
+              <input type="color" class="color-custom-input" id="colorCustomPicker" value="#B08040"
+                oninput="applyCustomColor(this.value)" title="직접 색상 선택">
+              <span class="color-custom-label">직접 선택</span>
+              <span class="color-theme-name" id="colorThemeName">Warm Linen</span>
             </div>
           </div>
         </div>
@@ -3366,44 +3382,119 @@ function deleteHwaduItem(i){
   LS.set('ylife_hwadu_list',list);
   renderHwaduList();
 }
-/* ── 글씨 크기 조절 ── */
+/* ── 글씨 크기 실시간 조절 ── */
 function previewFontSize(val){
+  val=parseInt(val);
   document.getElementById('fontsize-val').textContent=val+'px';
-  document.documentElement.style.setProperty('--font-size-base',val+'px');
-  document.body.style.fontSize=val+'px';
+  /* 실시간: 공통 스타일 태그로 override */
+  let el=document.getElementById('live-fontsize');
+  if(!el){el=document.createElement('style');el.id='live-fontsize';document.head.appendChild(el);}
+  el.textContent=`body,p,span,div,li,td,th,input,textarea,button,a{font-size:${val}px!important;}
+  h1{font-size:${val*2.2}px!important;}h2{font-size:${val*1.7}px!important;}
+  h3{font-size:${val*1.35}px!important;}.section-title{font-size:${Math.max(22,val*1.8)}px!important;}`;
+  /* 프리뷰 박스 */
+  const box=document.getElementById('fontPreviewBox');
+  if(box)box.style.fontSize=val+'px';
   LS.set('ylife_fontsize',val);
 }
-/* ── 색상 테마 적용 ── */
+/* ── 색상 테마 ── */
 const COLOR_THEMES={
-  'warm-linen':{'--gold':'#B08040','--thread':'#B08040','--color-primary':'#7A6A52','--color-bg':'#F8F2EA','--color-surface':'#EDE5D8'},
-  'mint-tide':  {'--gold':'#6eb5a6','--thread':'#6eb5a6','--color-primary':'#586e69','--color-bg':'#e9f5f2','--color-surface':'#b0cfc8'},
-  'agora-blue': {'--gold':'#697FA3','--thread':'#697FA3','--color-primary':'#3D5F8A','--color-bg':'#EEF1F6','--color-surface':'#D4DCE8'},
-  'mauve-fog':  {'--gold':'#9A8FA5','--thread':'#9A8FA5','--color-primary':'#615b63','--color-bg':'#ebf2ed','--color-surface':'#d8cede'},
-  'wood-dark':  {'--gold':'#B08040','--thread':'#B08040','--color-primary':'#5D4037','--color-bg':'#F2EBE0','--color-surface':'#E0D4C4'},
+  'warm-linen':{
+    '--gold':'#B08040','--thread':'#B08040','--color-primary':'#7A6A52',
+    '--color-bg':'#F8F2EA','--color-surface':'#EDE5D8','--color-text':'#2A2018',
+    '--agora':'#3D5F8A','--agonran':'#3D6E3D','--ink-deep':'#1A150E',
+    name:'Warm Linen'},
+  'mint-tide':{
+    '--gold':'#4A9B8A','--thread':'#4A9B8A','--color-primary':'#3A7A6C',
+    '--color-bg':'#E8F5F2','--color-surface':'#C8E6E0','--color-text':'#1A2E2A',
+    '--agora':'#2D6B7A','--agonran':'#3A6B4A','--ink-deep':'#0E2420',
+    name:'Mint Tide'},
+  'agora-blue':{
+    '--gold':'#3D5F8A','--thread':'#3D5F8A','--color-primary':'#2E4A70',
+    '--color-bg':'#EBF0F8','--color-surface':'#C8D8EE','--color-text':'#1A2030',
+    '--agora':'#2E4A70','--agonran':'#3A6B4A','--ink-deep':'#0E1828',
+    name:'Agora Blue'},
+  'mauve-fog':{
+    '--gold':'#7B5E88','--thread':'#7B5E88','--color-primary':'#614870',
+    '--color-bg':'#EEE8F4','--color-surface':'#D8CCE4','--color-text':'#20102A',
+    '--agora':'#3D5F8A','--agonran':'#4A6A5A','--ink-deep':'#180E22',
+    name:'Mauve Fog'},
+  'wood-dark':{
+    '--gold':'#B08040','--thread':'#A06830','--color-primary':'#5D4037',
+    '--color-bg':'#F2EBE0','--color-surface':'#E0D0C0','--color-text':'#1E1208',
+    '--agora':'#3D5F5A','--agonran':'#4A5E2A','--ink-deep':'#0E0800',
+    name:'Wood Dark'},
 };
+function _applyThemeVars(vars,hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  Object.entries(vars).forEach(([k,v])=>{if(k!=='name')document.documentElement.style.setProperty(k,v);});
+  /* 파생 투명도 색상 재계산 */
+  document.documentElement.style.setProperty('--gold-soft',`rgba(${r},${g},${b},0.12)`);
+  document.documentElement.style.setProperty('--agora-s',`rgba(${r},${g},${b},0.1)`);
+  document.documentElement.style.setProperty('--agonran-s',`rgba(${r},${g},${b},0.1)`);
+}
 function applyColorTheme(theme,el){
   document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
+  if(el)el.classList.add('active');
   const vars=COLOR_THEMES[theme]||COLOR_THEMES['warm-linen'];
-  Object.entries(vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+  const hex=vars['--gold'];
+  _applyThemeVars(vars,hex);
+  const picker=document.getElementById('colorCustomPicker');
+  if(picker)picker.value=hex;
+  const nameEl=document.getElementById('colorThemeName');
+  if(nameEl)nameEl.textContent=vars.name||theme;
   LS.set('ylife_color_theme',theme);
+  LS.set('ylife_custom_color',null);
+}
+function applyCustomColor(hex){
+  /* 커스텀: gold/thread만 변경, bg/surface는 유지 */
+  document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('active'));
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  /* 밝기 계산으로 배경색 자동 생성 */
+  const lightness=(r*299+g*587+b*114)/1000;
+  const bgLight=lightness>100;
+  document.documentElement.style.setProperty('--gold',hex);
+  document.documentElement.style.setProperty('--thread',hex);
+  document.documentElement.style.setProperty('--color-primary',hex);
+  document.documentElement.style.setProperty('--gold-soft',`rgba(${r},${g},${b},0.12)`);
+  document.documentElement.style.setProperty('--agora-s',`rgba(${r},${g},${b},0.1)`);
+  const nameEl=document.getElementById('colorThemeName');
+  if(nameEl)nameEl.textContent='사용자 지정 '+hex;
+  LS.set('ylife_custom_color',hex);
+  LS.set('ylife_color_theme',null);
 }
 function initDesignSettings(){
+  /* 폰트 크기 복원 */
   const fs=LS.get('ylife_fontsize');
   if(fs){
     const el=document.getElementById('cfg-fontsize');
     const label=document.getElementById('fontsize-val');
-    if(el){el.value=fs;}
-    if(label){label.textContent=fs+'px';}
-    document.body.style.fontSize=fs+'px';
+    if(el)el.value=fs;
+    if(label)label.textContent=fs+'px';
+    previewFontSize(fs);
   }
+  /* 커스텀 색상 복원 */
+  const customHex=LS.get('ylife_custom_color');
+  if(customHex){
+    applyCustomColor(customHex);
+    const picker=document.getElementById('colorCustomPicker');
+    if(picker)picker.value=customHex;
+    return;
+  }
+  /* 프리셋 테마 복원 */
   const theme=LS.get('ylife_color_theme');
   if(theme){
     const vars=COLOR_THEMES[theme];
-    if(vars) Object.entries(vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+    if(vars){
+      const hex=vars['--gold'];
+      _applyThemeVars(vars,hex);
+      const picker=document.getElementById('colorCustomPicker');
+      if(picker)picker.value=hex;
+      const nameEl=document.getElementById('colorThemeName');
+      if(nameEl)nameEl.textContent=vars.name||theme;
+    }
     document.querySelectorAll('.color-preset').forEach(p=>{
-      if(p.dataset.theme===theme) p.classList.add('active');
-      else p.classList.remove('active');
+      p.classList.toggle('active',p.dataset.theme===theme);
     });
   }
 }
