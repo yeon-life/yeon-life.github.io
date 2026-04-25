@@ -3625,9 +3625,15 @@ function previewFontSize(val){
   /* 실시간: 공통 스타일 태그로 override */
   let el=document.getElementById('live-fontsize');
   if(!el){el=document.createElement('style');el.id='live-fontsize';document.head.appendChild(el);}
-  el.textContent=`body,p,span,div,li,td,th,input,textarea,button,a{font-size:${val}px!important;}
-  h1{font-size:${val*2.2}px!important;}h2{font-size:${val*1.7}px!important;}
-  h3{font-size:${val*1.35}px!important;}.section-title{font-size:${Math.max(22,val*1.8)}px!important;}`;
+  /* UI 컴포넌트(button, header, nav, modal) 제외 — 본문 텍스트만 */
+  el.textContent=`
+    body{font-size:${val}px;}
+    p,.hwadu-text,.post-body,.nds-article-body,.nds-article-desc,
+    .nds-thought-text,.section-sub,.eco-desc,.editorial-body,
+    .journal-card p,.hero p{font-size:${val}px!important;}
+    .section-title{font-size:${Math.max(22,val*1.8)}px!important;}
+    .hwadu-text{font-size:${Math.max(18,val*1.4)}px!important;}
+  `;
   /* 프리뷰 박스 */
   const box=document.getElementById('fontPreviewBox');
   if(box)box.style.fontSize=val+'px';
