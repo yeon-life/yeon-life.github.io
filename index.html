@@ -95,6 +95,62 @@ input,textarea,select{font-family:var(--font-sans);}
 /* ─── 모달 공통 ─── */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-backdrop.open{display:flex;}
+
+/* ─── 전체화면 글쓰기 광장 ─── */
+#plazaWriteScreen{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:var(--bg);}
+#plazaWriteScreen.open{display:flex;animation:fadeSlideUp 0.28s cubic-bezier(.22,1,.36,1);}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.pws-topbar{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.pws-topbar-left{display:flex;align-items:center;gap:14px;}
+.pws-back{background:none;border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:13px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;gap:6px;}
+.pws-back:hover{background:var(--surface);color:var(--ink);}
+.pws-forum-badge{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;}
+.pws-forum-badge .badge-dot{width:8px;height:8px;border-radius:50%;}
+.pws-forum-badge.agora .badge-dot{background:#697FA3;}
+.pws-forum-badge.agonran .badge-dot{background:#7D9080;}
+.pws-forum-badge.agora{color:#3D5F8A;}
+.pws-forum-badge.agonran{color:#3D6E3D;}
+.pws-submit{background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:8px;padding:7px 22px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity 0.18s;}
+.pws-submit:hover{opacity:0.85;}
+.pws-body{display:flex;flex:1;overflow:hidden;}
+
+/* 왼쪽 사이드 */
+.pws-side{width:300px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.pws-side-head{padding:28px 24px 20px;border-bottom:1px solid var(--border);}
+.pws-kanji{font-family:var(--font-serif);font-size:56px;font-weight:700;line-height:1;}
+.pws-forum-name{font-family:var(--font-serif);font-size:20px;font-weight:700;margin-top:4px;}
+.pws-forum-desc{font-size:12px;color:var(--ink-soft);line-height:1.7;margin-top:6px;}
+.agora .pws-kanji,.agora .pws-forum-name{color:#3D5F8A;}
+.agonran .pws-kanji,.agonran .pws-forum-name{color:#3D6E3D;}
+.pws-side-list{flex:1;overflow-y:auto;padding:16px 0;}
+.pws-side-list-title{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--ink-faint);padding:0 20px 10px;text-transform:uppercase;}
+.pws-recent-item{padding:10px 20px;border-bottom:1px solid var(--border-light, #EDE5D8);cursor:pointer;transition:background 0.15s;}
+.pws-recent-item:hover{background:var(--surface);}
+.pws-recent-title{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pws-recent-meta{font-size:11px;color:var(--ink-faint);margin-top:2px;}
+.pws-tip{margin:12px 16px;padding:12px 14px;background:var(--surface);border-radius:10px;font-size:12px;color:var(--ink-soft);line-height:1.65;}
+.pws-tip strong{color:var(--ink);}
+
+/* 오른쪽 에디터 */
+.pws-editor{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.pws-title-wrap{padding:28px 36px 0;}
+.pws-title-input{width:100%;border:none;outline:none;font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);background:transparent;resize:none;line-height:1.35;border-bottom:2px solid var(--border);padding-bottom:16px;}
+.pws-title-input::placeholder{color:var(--ink-faint);}
+.pws-body-wrap{flex:1;padding:20px 36px;overflow-y:auto;display:flex;flex-direction:column;gap:0;}
+.pws-body-input{flex:1;width:100%;min-height:260px;border:none;outline:none;font-size:15px;color:var(--ink);background:transparent;resize:none;line-height:1.9;font-family:var(--font-sans, 'Noto Sans KR', sans-serif);}
+.pws-body-input::placeholder{color:var(--ink-faint);}
+.pws-char-count{font-size:11px;color:var(--ink-faint);text-align:right;margin-top:8px;}
+
+/* AI 보조 바 (하단) */
+.pws-ai-bar{border-top:1px solid var(--border);padding:10px 36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;}
+.pws-ai-label{font-size:11px;font-weight:600;color:var(--ink-faint);letter-spacing:.06em;margin-right:4px;}
+.pws-ai-cmd{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all 0.15s;}
+.pws-ai-cmd:hover{background:var(--thread);color:#fff;border-color:var(--thread);}
+.pws-ai-result{margin:0 36px 12px;background:var(--surface);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--ink);line-height:1.7;display:none;}
+.pws-ai-result-actions{display:flex;gap:8px;margin-top:10px;}
+.pws-ai-apply{background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;}
+.pws-ai-discard{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 14px;font-size:12px;color:var(--ink-soft);cursor:pointer;}
+.pws-err{font-size:12px;color:#c0392b;padding:0 36px 10px;}
 .modal{background:var(--bg);border-radius:16px;width:100%;max-width:440px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.18);position:relative;}
 .modal-lg{max-width:680px;}
 .modal-xl{max-width:900px;max-height:90vh;overflow-y:auto;}
@@ -151,9 +207,9 @@ input,textarea,select{font-family:var(--font-sans);}
 .hero-dark .hero-stats{border-top-color:rgba(248,242,234,0.15);}
 .hero-dark .btn-lg.outline{border-color:rgba(248,242,234,0.3);color:rgba(248,242,234,0.7);}
 .hero-dark .btn-lg.outline:hover{border-color:var(--gold);color:#F8F2EA;}
-/* 아골라 카드 색 */
-.plaza-card{background:var(--surface);}
-#agora .plaza-card{box-shadow:0 2px 12px rgba(61,95,138,0.08);}
+/* 광장 카드 — 다크모드에서도 고유 색 유지 */
+body.dark-mode .plaza-card.agora-card{background:#506080;}
+body.dark-mode .plaza-card.agonran-card{background:#5E7062;}
 /* 화두 강조선 */
 .hwadu-box{border-color:var(--gold);background:rgba(176,128,64,0.07);}
 /* 에디토리얼 왼쪽 선 */
@@ -166,56 +222,95 @@ input,textarea,select{font-family:var(--font-sans);}
 .post-item:hover .post-title{color:var(--gold);}
 
 /* ─── 화두(話頭) ─── */
-.hwadu-box{max-width:860px;margin:0 auto;border:1px solid var(--thread);border-radius:16px;padding:36px 40px;text-align:center;background:var(--thread-soft);}
-.hwadu-label{font-size:11px;letter-spacing:3px;color:var(--thread);text-transform:uppercase;margin-bottom:16px;}
-.hwadu-text{font-family:var(--font-serif);font-size:clamp(18px,3vw,26px);font-weight:700;color:var(--ink);line-height:1.5;margin-bottom:16px;}
-.hwadu-meta{font-size:12px;color:var(--ink-faint);}
-.hwadu-actions{display:flex;justify-content:center;gap:12px;margin-top:20px;}
+.hwadu-box{
+  position:relative;
+  max-width:860px;margin:0 auto;
+  background:var(--color-surface);
+  border-left:5px solid var(--gold);
+  padding:40px 48px;
+  border-radius:4px 20px 20px 4px;
+  box-shadow:10px 10px 0px var(--color-primary);
+  text-align:left;
+}
+.hwadu-label{font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:block;}
+.hwadu-text{font-family:var(--font-serif);font-size:clamp(18px,2.5vw,26px);font-weight:700;color:var(--color-text);line-height:1.8;margin-bottom:20px;}
+.hwadu-meta{font-size:13px;color:var(--ink-faint);margin-top:8px;padding-top:16px;border-top:1px solid var(--border);}
+.hwadu-actions{display:flex;gap:12px;margin-top:24px;}
 .hwadu-btn{background:none;border:1px solid var(--border-md);border-radius:8px;padding:8px 20px;font-size:13px;color:var(--ink-soft);transition:all 0.2s;}
-.hwadu-btn:hover{border-color:var(--thread);color:var(--ink);}
-.hwadu-btn.active{background:var(--thread);border-color:var(--thread);color:#fff;}
+.hwadu-btn:hover{border-color:var(--gold);color:var(--gold);}
+.hwadu-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;}
 
 /* ─── 뉴스 탭 ─── */
-.news-tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;scrollbar-width:none;}
+.news-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px;scrollbar-width:none;}
 .news-tabs::-webkit-scrollbar{display:none;}
-.news-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;color:#fff;background:none;border:1px solid rgba(255,255,255,0.35);white-space:nowrap;transition:all 0.2s;}
+.news-tab{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:24px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.22);white-space:nowrap;transition:all 0.2s;}
 .news-tab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.news-tab.active,.news-tab:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
-.news-tab[data-cat="sky"].active,.news-tab[data-cat="sky"]:hover{background:var(--sky);border-color:var(--sky);}
-.news-tab[data-cat="land"].active,.news-tab[data-cat="land"]:hover{background:var(--land);border-color:var(--land);}
-.news-tab[data-cat="sea"].active,.news-tab[data-cat="sea"]:hover{background:var(--sea);border-color:var(--sea);}
+.news-tab:hover{background:rgba(255,255,255,0.18);color:#fff;border-color:rgba(255,255,255,0.45);}
+.news-tab.active{background:#fff;color:var(--ink-deep);border-color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.18);}
+.news-tab[data-cat="sky"].active{background:var(--sky);color:#fff;border-color:var(--sky);}
+.news-tab[data-cat="land"].active{background:var(--land);color:#fff;border-color:var(--land);}
+.news-tab[data-cat="sea"].active{background:var(--sea);color:#fff;border-color:var(--sea);}
 .news-panel{display:none;}
 .news-panel.active{display:block;}
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
-.news-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;transition:box-shadow 0.2s;}
-.news-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
-.news-cat-badge{font-size:10px;letter-spacing:1.5px;color:var(--thread);text-transform:uppercase;margin-bottom:8px;}
+
+/* ─── 뉴스 카드 (이미지 카드형) ─── */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.news-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow 0.22s,transform 0.22s;display:flex;flex-direction:column;}
+.news-card:hover{box-shadow:0 8px 28px rgba(0,0,0,0.13);transform:translateY(-3px);}
+.card-image{height:130px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.card-image[data-cat="local"]{background:linear-gradient(135deg,#8B6A4E 0%,#5D4037 100%);}
+.card-image[data-cat="region"]{background:linear-gradient(135deg,#4A6E8A 0%,#2C4A6E 100%);}
+.card-image[data-cat="korea"]{background:linear-gradient(135deg,#8B3A3A 0%,#6A2828 100%);}
+.card-image[data-cat="world"]{background:linear-gradient(135deg,#5A4A7A 0%,#3D2E6E 100%);}
+.card-image[data-cat="sky"]{background:linear-gradient(135deg,#4A7AAA 0%,#2C5A8A 100%);}
+.card-image[data-cat="land"]{background:linear-gradient(135deg,#5A7A3A 0%,#3A5A28 100%);}
+.card-image[data-cat="sea"]{background:linear-gradient(135deg,#2A7A7A 0%,#1A5A62 100%);}
+.card-image svg{width:44px;height:44px;stroke:rgba(255,255,255,0.55);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.card-content{padding:16px 18px;display:flex;flex-direction:column;flex:1;}
+.category-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--thread);margin-bottom:8px;}
 .news-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:8px;}
-.news-date{font-size:11px;color:var(--ink-faint);}
-.news-thought{margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);}
+.news-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:8px;}
+.news-body{font-size:13px;color:var(--ink);line-height:1.75;margin:10px 0 8px;padding:12px;background:var(--bg-alt);border-radius:8px;border-left:3px solid var(--gold);display:none;white-space:pre-wrap;word-break:keep-all;}
+.news-body.open{display:block;}
+.news-actions{display:flex;gap:8px;margin:8px 0 4px;align-items:center;}
+.news-expand-btn{font-size:11px;color:var(--gold);background:none;border:1px solid var(--gold);border-radius:12px;padding:3px 10px;cursor:pointer;transition:all .15s;}
+.news-expand-btn:hover{background:var(--gold);color:#fff;}
+.news-link{font-size:11px;color:var(--ink-faint);text-decoration:underline;transition:color .15s;}
+.news-link:hover{color:var(--gold);}
+.news-date{font-size:11px;color:var(--ink-faint);margin-top:auto;padding-top:8px;}
+.news-thought{margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);}
 .news-thought input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:12px;color:var(--ink);outline:none;}
 .news-thought input:focus{border-color:var(--thread);}
 
-/* ─── 광장 (아골라 / 아곤란) ─── */
-.plaza-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+/* ─── 광장 (아골라 / 아곤란) — Claude Design 2026 ─── */
+.plaza-eyebrow{font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:10px;}
+.plaza-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 @media(max-width:768px){.plaza-grid{grid-template-columns:1fr;}}
-.plaza-card{border:1px solid var(--border);border-radius:16px;padding:24px;background:#fff;}
-.plaza-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.plaza-badge{display:flex;align-items:center;gap:8px;font-family:var(--font-serif);font-size:18px;font-weight:700;}
-.plaza-badge.agora{color:var(--agora);}
-.plaza-badge.agonran{color:var(--agonran);}
-.plaza-badge svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.plaza-write-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--ink-soft);transition:all 0.2s;}
-.plaza-write-btn:hover{border-color:var(--thread);color:var(--ink);}
-.post-list{display:flex;flex-direction:column;gap:0;}
-.post-item{padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
-.post-item:last-child{border-bottom:none;}
-.post-item:hover .post-title{color:var(--thread);}
-.post-title{font-size:14px;font-weight:500;color:var(--ink);transition:color 0.15s;line-height:1.4;}
-.post-meta{display:flex;align-items:center;gap:10px;margin-top:4px;font-size:11px;color:var(--ink-faint);}
-.post-meta-item{display:flex;align-items:center;gap:3px;}
-.post-meta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.post-empty{text-align:center;padding:32px 0;color:var(--ink-soft);font-size:13px;}
+.plaza-card{border-radius:22px;padding:36px 32px;position:relative;overflow:hidden;border:none;}
+.plaza-card.agora-card{background:#697FA3;}
+.plaza-card.agonran-card{background:#7D9080;}
+.plaza-deco{position:absolute;top:28px;right:28px;}
+.plaza-deco svg{width:48px;height:48px;stroke:rgba(255,255,255,0.42);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.plaza-kanji{font-family:var(--font-serif);font-size:72px;font-weight:700;color:rgba(255,255,255,0.95);line-height:1;}
+.plaza-sublabel{font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,0.58);margin:16px 0 6px;font-weight:500;}
+.plaza-card-title{font-family:var(--font-serif);font-size:26px;font-weight:700;color:#fff;display:flex;align-items:baseline;gap:10px;}
+.plaza-card-title small{font-size:13px;font-weight:400;opacity:0.58;font-family:var(--font-serif);}
+.plaza-card-desc{font-size:14px;color:rgba(255,255,255,0.82);line-height:1.75;margin:16px 0 18px;}
+.plaza-card .post-list{display:flex;flex-direction:column;}
+.plaza-card .post-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.18);cursor:pointer;display:flex;align-items:flex-start;gap:8px;}
+.plaza-card .post-item::before{content:'•';color:rgba(255,255,255,0.5);flex-shrink:0;margin-top:1px;}
+.plaza-card .post-item:last-child{border-bottom:none;}
+.plaza-card .post-title{font-size:13px;color:rgba(255,255,255,0.88);line-height:1.45;font-weight:400;transition:color .15s;}
+.plaza-card .post-item:hover .post-title{color:#fff;}
+.plaza-card .post-meta{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:11px;color:rgba(255,255,255,0.45);}
+.plaza-card .post-meta-item{display:flex;align-items:center;gap:3px;}
+.plaza-card .post-meta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.plaza-card .post-empty{font-size:13px;color:rgba(255,255,255,0.48);padding:14px 0;}
+.plaza-btn-group{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}
+.plaza-btn-fill{background:#fff;color:#2A2018;border:none;border-radius:24px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:opacity .15s;}
+.plaza-btn-fill:hover{opacity:.88;}
+.plaza-btn-outline{background:none;color:#fff;border:1.5px solid rgba(255,255,255,0.62);border-radius:24px;padding:10px 24px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:background .15s;}
+.plaza-btn-outline:hover{background:rgba(255,255,255,0.1);}
 
 /* ─── 인연의 다리 ─── */
 .bridge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
@@ -329,20 +424,29 @@ body.dark-mode{
   --bg-insight:#1E1A18;
   --bg:#1A1612;--bg-alt:#2A2420;
 }
-body.dark-mode .plaza-card,body.dark-mode .modal,body.dark-mode .eco-card{background:#2A2420;}
+body.dark-mode .modal,body.dark-mode .eco-card{background:#2A2420;}
 body.dark-mode .admin-body,body.dark-mode .admin-sidebar{background:#1A1612;}
 /* 다크모드 — 섹션 글씨 강제 표시 */
+body.dark-mode .hwadu-box{background:#2A2420;box-shadow:10px 10px 0px #3A3028;}
 body.dark-mode .hwadu-text{color:#E8DDD0 !important;}
-body.dark-mode .hwadu-meta{color:#A89888 !important;}
+body.dark-mode .hwadu-meta{color:#A89888 !important;border-color:#3A3028 !important;}
 body.dark-mode .hwadu-btn{color:#A89888 !important;border-color:#4A4038 !important;}
+body.dark-mode .hwadu-btn:hover{border-color:var(--gold) !important;color:var(--gold) !important;}
 body.dark-mode .builder-cta h3{color:#E8DDD0 !important;}
 body.dark-mode .builder-cta p{color:#A89888 !important;}
 body.dark-mode .builder-cta{border-color:#4A4038 !important;}
 body.dark-mode .section-title{color:#E8DDD0 !important;}
 body.dark-mode .section-sub{color:#A89888 !important;}
 body.dark-mode .section-title span{color:var(--gold) !important;}
+body.dark-mode .news-card{background:#2A2420;border-color:rgba(255,255,255,0.08);}
+body.dark-mode .card-content{background:#2A2420;}
 body.dark-mode .news-title{color:#E8DDD0 !important;}
+body.dark-mode .news-desc{color:#A89888 !important;}
 body.dark-mode .news-date{color:#6A6058 !important;}
+body.dark-mode .news-body{background:#1E1A16;color:#D8CEC4;}
+body.dark-mode .news-thought input{background:#1E1A16;border-color:rgba(255,255,255,0.12);color:#D8CEC4;}
+body.dark-mode .category-tag{color:var(--gold);}
+body.dark-mode .news-tab.active{background:rgba(255,255,255,0.9);color:var(--ink-deep);}
 body.dark-mode .post-title{color:#E8DDD0 !important;}
 body.dark-mode .post-empty{color:#6A6058 !important;}
 body.dark-mode .bridge-name{color:#E8DDD0 !important;}
@@ -419,48 +523,85 @@ body.font-large{font-size:17px;}
 .comment-input-row button{padding:9px 16px;background:var(--thread);color:#fff;border-radius:8px;font-size:13px;border:none;}
 
 /* ─── 관리자 대시보드 ─── */
-.admin-overlay{position:fixed;inset:0;background:var(--bg);z-index:900;display:none;flex-direction:column;}
+.admin-overlay{position:fixed;inset:0;background:var(--color-bg);z-index:900;display:none;flex-direction:column;}
 .admin-overlay.open{display:flex;}
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:#fff;}
-.admin-header h1{font-family:var(--font-serif);font-size:20px;display:flex;align-items:center;gap:8px;}
-.admin-header h1 svg{width:20px;height:20px;stroke:var(--thread);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.admin-close{background:none;border:none;font-size:22px;color:var(--ink-faint);cursor:pointer;}
+/* 헤더 */
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(176,128,64,0.22);background:#1A150E;height:54px;flex-shrink:0;}
+.admin-header h1{font-family:var(--font-serif);font-size:17px;display:flex;align-items:center;gap:8px;color:#F8F2EA;}
+.admin-header h1 svg{width:17px;height:17px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.admin-header-right{display:flex;align-items:center;gap:14px;}
+.admin-user-badge{font-size:11px;color:rgba(248,242,234,0.42);letter-spacing:.02em;}
+.admin-close{background:none;border:none;font-size:17px;color:rgba(248,242,234,0.45);cursor:pointer;padding:4px 8px;transition:color .15s;line-height:1;}
+.admin-close:hover{color:#F8F2EA;}
+/* 레이아웃 */
 .admin-body{display:flex;flex:1;overflow:hidden;}
-.admin-sidebar{width:200px;border-right:1px solid var(--border);background:#fff;padding:16px 0;flex-shrink:0;}
-.admin-nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:all 0.15s;}
-.admin-nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.admin-nav-item:hover{background:var(--bg-alt);color:var(--ink);}
-.admin-nav-item.active{background:var(--thread-soft);color:var(--thread);}
-.admin-content{flex:1;overflow-y:auto;padding:28px;}
+.admin-sidebar{width:210px;border-right:1px solid var(--border);background:#EEE6D6;padding:8px 0;flex-shrink:0;display:flex;flex-direction:column;gap:2px;}
+.admin-nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--ink-faint);padding:10px 16px 4px;margin-top:4px;}
+.admin-nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:all .15s;margin:0 8px;border-radius:8px;}
+.admin-nav-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.admin-nav-item:hover{background:rgba(176,128,64,0.1);color:var(--ink);}
+.admin-nav-item.active{background:rgba(176,128,64,0.18);color:var(--thread);}
+.admin-nav-item.active svg{stroke:var(--thread);}
+.admin-content{flex:1;overflow-y:auto;padding:24px 28px;background:var(--color-bg);}
 .admin-panel{display:none;}
 .admin-panel.active{display:block;}
-.admin-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
-.admin-stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;}
-.admin-stat-num{font-family:var(--font-serif);font-size:28px;font-weight:800;color:var(--thread);}
-.admin-stat-label{font-size:12px;color:var(--ink-faint);margin-top:4px;}
+/* 통계 카드 */
+.admin-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-bottom:28px;}
+.admin-stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;position:relative;overflow:hidden;}
+.admin-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);border-radius:12px 12px 0 0;}
+.admin-stat-num{font-family:var(--font-serif);font-size:30px;font-weight:800;color:var(--thread);}
+.admin-stat-label{font-size:11px;color:var(--ink-faint);margin-top:4px;font-weight:500;}
+.admin-stat-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);opacity:.07;}
+.admin-stat-icon svg{width:36px;height:36px;stroke:var(--thread);fill:none;stroke-width:1.5;}
+/* 섹션 타이틀 */
+.admin-section-title{font-size:15px;font-weight:600;margin-bottom:14px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.admin-section-title::before{content:'';display:block;width:3px;height:15px;background:var(--gold);border-radius:2px;}
+/* 테이블 */
 .admin-table{width:100%;border-collapse:collapse;font-size:13px;}
-.admin-table th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--ink-soft);font-weight:500;}
+.admin-table th{text-align:left;padding:9px 12px;border-bottom:2px solid var(--border);color:var(--ink-soft);font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
 .admin-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink);}
-.admin-table tr:hover td{background:var(--bg-alt);}
-.admin-section-title{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--ink);}
-.settings-group{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
-.settings-group h3{font-size:15px;font-weight:600;margin-bottom:16px;}
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.admin-table tr:hover td{background:rgba(176,128,64,0.04);}
+/* 설정 카드 */
+.settings-group{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:16px;}
+.settings-group h3{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:14px;color:var(--ink-soft);padding-bottom:10px;border-bottom:1px solid var(--border);text-transform:uppercase;}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);gap:16px;}
 .setting-row:last-child{border-bottom:none;}
-.setting-label{font-size:14px;color:var(--ink);}
-.setting-input{padding:6px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px;background:var(--bg);}
-.toggle{position:relative;width:44px;height:24px;}
+.setting-label{font-size:13px;color:var(--ink);font-weight:500;}
+.setting-desc{font-size:11px;color:var(--ink-faint);margin-top:2px;}
+.setting-input{padding:6px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);}
+/* 토글 */
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
 .toggle input{opacity:0;width:0;height:0;}
 .toggle-slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:12px;transition:.3s;}
 .toggle-slider:before{position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
 .toggle input:checked+.toggle-slider{background:var(--thread);}
 .toggle input:checked+.toggle-slider:before{transform:translateX(20px);}
+/* 뉴스 편집 */
 .news-edit-list{display:flex;flex-direction:column;gap:12px;}
-.news-edit-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;}
-.news-edit-item input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;margin-bottom:6px;background:var(--bg);}
-.news-edit-actions{display:flex;gap:6px;justify-content:flex-end;}
-.btn-danger{background:#8F6B6B;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;}
-.btn-add{display:flex;align-items:center;gap:6px;background:var(--thread-soft);border:1px dashed var(--thread);border-radius:8px;padding:10px;width:100%;justify-content:center;font-size:13px;color:var(--thread);}
+.news-edit-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;}
+.news-edit-item label{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--ink-soft);display:block;margin-bottom:3px;text-transform:uppercase;}
+.news-edit-item input,.news-edit-item textarea{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;margin-bottom:8px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);}
+.news-edit-item textarea{resize:vertical;min-height:60px;line-height:1.6;}
+.news-edit-actions{display:flex;gap:6px;justify-content:flex-end;margin-top:4px;}
+.btn-danger{background:#8F6B6B;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--font-sans);}
+.btn-add{display:flex;align-items:center;gap:6px;background:rgba(176,128,64,0.08);border:1.5px dashed var(--thread);border-radius:8px;padding:10px;width:100%;justify-content:center;font-size:13px;color:var(--thread);cursor:pointer;transition:background .15s;}
+.btn-add:hover{background:rgba(176,128,64,0.14);}
+/* 글씨 크기 슬라이더 */
+.font-size-ctrl{display:flex;align-items:center;gap:10px;}
+.font-size-ctrl input[type=range]{width:120px;accent-color:var(--thread);}
+.font-size-val{font-size:12px;font-weight:700;color:var(--thread);min-width:32px;}
+/* 색상 프리셋 */
+.color-preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.color-preset{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .15s;position:relative;}
+.color-preset.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700;}
+.color-preset:hover{transform:scale(1.12);}
+.color-preset.active{border-color:var(--ink-deep);}
+/* 관리자 버튼 영역 */
+.admin-actions-bar{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+/* 다크모드 보정 */
+body.dark-mode .admin-sidebar{background:#221E1A;}
+body.dark-mode .settings-group,body.dark-mode .admin-stat,body.dark-mode .news-edit-item{background:#2A2420;}
+body.dark-mode .admin-content{background:#1A1612;}
 
 /* ─── 비밀의 문 힌트 ─── */
 .secret-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(29,29,27,0.85);color:#fff;padding:8px 18px;border-radius:20px;font-size:12px;z-index:600;opacity:0;transition:opacity 0.3s;pointer-events:none;}
@@ -535,7 +676,8 @@ body.font-large{font-size:17px;}
   .hero{padding:48px 4% 40px;}
   .hero-stats{gap:24px;}
   .section{padding:40px 4%;}
-  .hwadu-box{padding:24px 20px;}
+  .hwadu-box{padding:28px 24px;box-shadow:6px 6px 0px var(--color-primary);border-radius:4px 14px 14px 4px;}
+  .hwadu-actions{flex-wrap:wrap;}
   .admin-sidebar{width:56px;}
   .admin-nav-item span{display:none;}
 }
@@ -693,7 +835,85 @@ body.font-large{font-size:17px;}
 <!-- ════════════════════════════════
      모달: 글쓰기
 ═══════════════════════════════════ -->
-<div class="modal-backdrop" id="writeModal">
+<!-- ════════════════════════════════
+     전체화면 글쓰기 광장
+═══════════════════════════════════ -->
+<div id="plazaWriteScreen">
+  <!-- 상단 바 -->
+  <div class="pws-topbar">
+    <div class="pws-topbar-left">
+      <button class="pws-back" onclick="closePlazaWrite()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        광장으로
+      </button>
+      <div class="pws-forum-badge" id="pwsForumBadge">
+        <span class="badge-dot"></span>
+        <span id="pwsForumName">아골라</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span id="pwsErrMsg" class="pws-err" style="padding:0"></span>
+      <button class="pws-submit" onclick="doPlazaSubmit()">게시하기 →</button>
+    </div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="pws-body">
+    <!-- 왼쪽 사이드 -->
+    <div class="pws-side" id="pwsSide">
+      <div class="pws-side-head" id="pwsSideHead">
+        <div class="pws-kanji" id="pwsKanji">議</div>
+        <div class="pws-forum-name" id="pwsSideName">아골라</div>
+        <div class="pws-forum-desc" id="pwsSideDesc">깊이를 잃지 않는 토론.<br>답이 아니라 더 좋은 물음을 찾는 곳.</div>
+      </div>
+      <div class="pws-side-list">
+        <div class="pws-side-list-title">최근 글</div>
+        <div id="pwsRecentList"></div>
+      </div>
+      <div class="pws-tip" id="pwsTip">
+        <strong>💡 마음씨 있는 글쓰기</strong><br>
+        상대의 입장을 먼저 이해하고,<br>
+        내 생각을 솔직하게 담아보세요.
+      </div>
+    </div>
+
+    <!-- 오른쪽 에디터 -->
+    <div class="pws-editor">
+      <input type="hidden" id="pwsForum" value="agora">
+      <div class="pws-title-wrap">
+        <textarea class="pws-title-input" id="pwsTitle" rows="1" placeholder="제목을 입력하세요" oninput="autoResizeTitle(this)"></textarea>
+      </div>
+      <div class="pws-body-wrap">
+        <textarea class="pws-body-input" id="pwsBody" placeholder="마음씨가 담긴 글을 써주세요..." oninput="updateCharCount()"></textarea>
+        <div class="pws-char-count" id="pwsCharCount">0자</div>
+      </div>
+
+      <!-- AI 보조 결과 -->
+      <div class="pws-ai-result" id="pwsAiResult">
+        <div style="font-size:11px;font-weight:600;color:var(--ink-faint);margin-bottom:6px;">AI 제안</div>
+        <div id="pwsAiResultText" style="white-space:pre-wrap"></div>
+        <div class="pws-ai-result-actions">
+          <button class="pws-ai-apply" onclick="applyPwsAiResult()">이 내용으로 교체</button>
+          <button class="pws-ai-discard" onclick="discardPwsAiResult()">취소</button>
+        </div>
+      </div>
+
+      <!-- AI 바 -->
+      <div class="pws-ai-bar">
+        <span class="pws-ai-label">AI 보조</span>
+        <button class="pws-ai-cmd" onclick="pwsAiAssist('polish')">✦ 글다듬기</button>
+        <button class="pws-ai-cmd" onclick="pwsAiAssist('spell')">✦ 맞춤법</button>
+        <button class="pws-ai-cmd" onclick="pwsAiAssist('expand')">✦ 내용 확장</button>
+        <button class="pws-ai-cmd" onclick="pwsAiAssist('summary')">✦ 요약</button>
+        <button class="pws-ai-cmd" onclick="pwsAiAssist('formal')">✦ 격식체로</button>
+        <span id="pwsAiLoading" style="font-size:12px;color:var(--ink-faint);display:none">AI 생각 중…</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- (기존 writeModal — 호환성 유지용, 숨김) -->
+<div class="modal-backdrop" id="writeModal" style="display:none!important">
   <div class="modal modal-lg">
     <button class="modal-close" onclick="closeModal('writeModal')">✕</button>
     <h2 id="writeModalTitle">글쓰기</h2>
@@ -798,124 +1018,188 @@ body.font-large{font-size:17px;}
      관리자 대시보드
 ═══════════════════════════════════ -->
 <div class="admin-overlay" id="adminOverlay">
+
+  <!-- 헤더 -->
   <div class="admin-header">
     <h1>
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       관리자 대시보드
     </h1>
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="font-size:12px;color:var(--ink-faint)">y-life.kr 관리자</span>
-      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    <div class="admin-header-right">
+      <span class="admin-user-badge" id="adminUserLabel">y-life.kr</span>
+      <button class="admin-close" title="닫기" onclick="closeAdmin()">✕</button>
     </div>
   </div>
+
   <div class="admin-body">
+
+    <!-- 사이드바 -->
     <div class="admin-sidebar">
+      <div class="admin-nav-section">콘텐츠</div>
       <div class="admin-nav-item active" onclick="showAdminPanel('dashboard',this)">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         <span>대시보드</span>
       </div>
       <div class="admin-nav-item" onclick="showAdminPanel('news-mgmt',this)">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v4H4zM4 12h16M4 16h8"/></svg>
         <span>뉴스 관리</span>
       </div>
       <div class="admin-nav-item" onclick="showAdminPanel('post-mgmt',this)">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>게시판 관리</span>
       </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('hwadu-mgmt',this)">
+        <svg viewBox="0 0 24 24"><path d="M8 9h8M8 13h6"/><rect x="3" y="3" width="18" height="16" rx="2"/><path d="M7 19v2M12 19v2M17 19v2"/></svg>
+        <span>화두 편집</span>
+      </div>
+      <div class="admin-nav-section">관리</div>
       <div class="admin-nav-item" onclick="showAdminPanel('user-mgmt',this)">
         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span>회원 관리</span>
-      </div>
-      <div class="admin-nav-item" onclick="showAdminPanel('hwadu-mgmt',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        <span>화두 편집</span>
       </div>
       <div class="admin-nav-item" onclick="showAdminPanel('settings',this)">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M12 2v2M4.93 4.93l1.41 1.41M2 12h2M4.93 19.07l1.41-1.41M12 20v2M19.07 19.07l-1.41-1.41M22 12h-2"/></svg>
         <span>설정</span>
       </div>
     </div>
+
+    <!-- 메인 콘텐츠 -->
     <div class="admin-content">
 
-      <!-- 대시보드 -->
+      <!-- ① 대시보드 -->
       <div class="admin-panel active" id="panel-dashboard">
         <div class="admin-section-title">현황 요약</div>
         <div class="admin-stat-grid" id="adminStatGrid"></div>
-        <div class="admin-section-title" style="margin-top:24px">최근 게시글</div>
+        <div class="admin-section-title" style="margin-top:28px">최근 게시글</div>
         <div id="adminRecentPosts"></div>
       </div>
 
-      <!-- 뉴스 관리 -->
+      <!-- ② 뉴스 관리 -->
       <div class="admin-panel" id="panel-news-mgmt">
         <div class="admin-section-title">뉴스 관리</div>
         <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">각 카테고리의 뉴스를 추가·수정·삭제합니다. 변경 후 저장하면 홈페이지에 즉시 반영됩니다.</p>
         <div id="newsMgmtTabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
         <div id="newsMgmtContent"></div>
         <button class="btn-add" style="margin-top:12px" onclick="adminAddNews()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          뉴스 추가
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>뉴스 추가
         </button>
-        <div style="margin-top:16px;text-align:right">
+        <div class="admin-actions-bar">
           <button class="btn-primary" onclick="saveNews()">변경사항 저장</button>
         </div>
       </div>
 
-      <!-- 게시판 관리 -->
+      <!-- ③ 게시판 관리 -->
       <div class="admin-panel" id="panel-post-mgmt">
         <div class="admin-section-title">게시판 관리</div>
-        <div style="margin-bottom:12px;display:flex;gap:8px">
+        <div style="margin-bottom:14px;display:flex;gap:8px">
           <button class="news-tab active" id="postMgmtTab-agora" onclick="switchPostMgmtTab('agora')">아골라</button>
           <button class="news-tab" id="postMgmtTab-agonran" onclick="switchPostMgmtTab('agonran')">아곤란</button>
         </div>
         <div id="postMgmtTable"></div>
       </div>
 
-      <!-- 회원 관리 -->
+      <!-- ④ 화두 편집 -->
+      <div class="admin-panel" id="panel-hwadu-mgmt">
+        <div class="admin-section-title">화두(話頭) 편집</div>
+        <div class="settings-group">
+          <h3>오늘의 화두</h3>
+          <div class="form-group"><label>화두 내용</label>
+            <textarea id="adminHwaduText" style="min-height:90px"></textarea></div>
+          <div class="form-group"><label>출처 / 제안자</label>
+            <input type="text" id="adminHwaduBy"></div>
+          <div class="admin-actions-bar" style="border:none;padding:0;margin-top:8px;">
+            <button class="btn-primary" onclick="saveHwadu()">화두 저장</button>
+          </div>
+        </div>
+        <div class="admin-section-title" style="margin-top:24px">화두 예비 목록</div>
+        <div id="hwaduList" style="display:flex;flex-direction:column;gap:8px"></div>
+        <button class="btn-add" style="margin-top:10px" onclick="adminAddHwadu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>화두 추가
+        </button>
+      </div>
+
+      <!-- ⑤ 회원 관리 -->
       <div class="admin-panel" id="panel-user-mgmt">
         <div class="admin-section-title">회원 관리</div>
         <div id="userMgmtTable"></div>
       </div>
 
-      <!-- 화두 편집 -->
-      <div class="admin-panel" id="panel-hwadu-mgmt">
-        <div class="admin-section-title">화두(話頭) 편집</div>
-        <div class="settings-group">
-          <div class="form-group"><label>오늘의 화두</label>
-            <textarea id="adminHwaduText" style="min-height:80px"></textarea></div>
-          <div class="form-group"><label>출처 / 제안자</label>
-            <input type="text" id="adminHwaduBy"></div>
-          <div class="form-actions"><button class="btn-primary" onclick="saveHwadu()">화두 저장</button></div>
-        </div>
-        <div class="admin-section-title" style="margin-top:24px">화두 예비 목록</div>
-        <div id="hwaduList" style="display:flex;flex-direction:column;gap:8px"></div>
-        <button class="btn-add" style="margin-top:10px" onclick="adminAddHwadu()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          화두 추가
-        </button>
-      </div>
-
-      <!-- 설정 -->
+      <!-- ⑥ 설정 -->
       <div class="admin-panel" id="panel-settings">
         <div class="admin-section-title">사이트 설정</div>
+
+        <!-- 기본 정보 -->
         <div class="settings-group">
           <h3>기본 정보</h3>
-          <div class="setting-row"><span class="setting-label">사이트 이름</span><input class="setting-input" id="cfg-sitename" value="y-life.kr"></div>
-          <div class="setting-row"><span class="setting-label">슬로건</span><input class="setting-input" id="cfg-slogan" value="삶·인연·소통"></div>
+          <div class="setting-row">
+            <span class="setting-label">사이트 이름</span>
+            <input class="setting-input" id="cfg-sitename" value="y-life.kr">
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">슬로건</span>
+            <input class="setting-input" id="cfg-slogan" value="삶·인연·소통">
+          </div>
         </div>
+
+        <!-- 디자인 설정 -->
+        <div class="settings-group">
+          <h3>디자인 설정</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">기본 글씨 크기</div>
+              <div class="setting-desc">사이트 전체 본문 크기를 조절합니다</div>
+            </div>
+            <div class="font-size-ctrl">
+              <span style="font-size:11px;color:var(--ink-faint)">작게</span>
+              <input type="range" min="13" max="18" step="1" value="15" id="cfg-fontsize"
+                oninput="previewFontSize(this.value)">
+              <span class="font-size-val" id="fontsize-val">15px</span>
+            </div>
+          </div>
+          <div class="setting-row" style="flex-wrap:wrap;gap:10px;">
+            <div>
+              <div class="setting-label">색상 테마</div>
+              <div class="setting-desc">사이트 색상 분위기를 선택합니다</div>
+            </div>
+            <div class="color-preset-row" id="colorPresetRow">
+              <div class="color-preset active" style="background:#B08040" title="Warm Linen (기본)" data-theme="warm-linen" onclick="applyColorTheme('warm-linen',this)"></div>
+              <div class="color-preset" style="background:#6eb5a6" title="Mint Tide" data-theme="mint-tide" onclick="applyColorTheme('mint-tide',this)"></div>
+              <div class="color-preset" style="background:#697FA3" title="Agora Blue" data-theme="agora-blue" onclick="applyColorTheme('agora-blue',this)"></div>
+              <div class="color-preset" style="background:#b2a7b8" title="Mauve Fog" data-theme="mauve-fog" onclick="applyColorTheme('mauve-fog',this)"></div>
+              <div class="color-preset" style="background:#5D4037" title="Wood Dark" data-theme="wood-dark" onclick="applyColorTheme('wood-dark',this)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 기능 설정 -->
         <div class="settings-group">
           <h3>기능 설정</h3>
-          <div class="setting-row"><span class="setting-label">회원가입 허용</span><label class="toggle"><input type="checkbox" id="cfg-signup" checked><span class="toggle-slider"></span></label></div>
-          <div class="setting-row"><span class="setting-label">댓글 허용</span><label class="toggle"><input type="checkbox" id="cfg-comment" checked><span class="toggle-slider"></span></label></div>
-          <div class="setting-row"><span class="setting-label">비로그인 글 읽기 허용</span><label class="toggle"><input type="checkbox" id="cfg-public-read" checked><span class="toggle-slider"></span></label></div>
+          <div class="setting-row">
+            <span class="setting-label">회원가입 허용</span>
+            <label class="toggle"><input type="checkbox" id="cfg-signup" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">댓글 허용</span>
+            <label class="toggle"><input type="checkbox" id="cfg-comment" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">비로그인 글 읽기 허용</span>
+            <label class="toggle"><input type="checkbox" id="cfg-public-read" checked><span class="toggle-slider"></span></label>
+          </div>
         </div>
+
+        <!-- 관리자 비밀번호 -->
         <div class="settings-group">
-          <h3>관리자 비밀번호 변경</h3>
+          <h3>관리자 비밀번호</h3>
           <div class="form-group"><label>새 비밀번호</label><input type="password" id="newAdminPw"></div>
           <div class="form-group"><label>확인</label><input type="password" id="newAdminPw2"></div>
           <div class="form-msg" id="adminPwMsg"></div>
-          <div class="form-actions"><button class="btn-primary" onclick="changeAdminPw()">비밀번호 변경</button></div>
+          <div class="admin-actions-bar" style="border:none;padding:0;margin-top:8px;">
+            <button class="btn-primary" onclick="changeAdminPw()">비밀번호 변경</button>
+          </div>
         </div>
-        <div style="text-align:right;margin-top:16px">
+
+        <div class="admin-actions-bar">
           <button class="btn-primary" onclick="saveSettings()">설정 저장</button>
         </div>
       </div>
@@ -1102,10 +1386,10 @@ body.font-large{font-size:17px;}
 <!-- ════════════════════════════════
      광장: 아골라 + 아곤란
 ═══════════════════════════════════ -->
-<section class="section bg-alt" id="agora" style="position:relative;overflow:hidden;">
+<section class="section" id="agora" style="background:var(--color-bg);position:relative;overflow:hidden;">
 
-  <!-- 아고라 스케치 배경 -->
-  <div class="agora-sketch" aria-hidden="true">
+  <!-- 아고라 스케치 배경 (숨김) -->
+  <div class="agora-sketch" aria-hidden="true" style="display:none;">
     <svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg"
          preserveAspectRatio="xMidYMax meet"
          style="width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
@@ -1305,49 +1589,59 @@ body.font-large{font-size:17px;}
   <div class="section-inner">
     <div class="section-header">
       <div>
-        <div class="section-title"><span>광장</span> — 아골라 &amp; 아곤란</div>
-        <div class="section-sub" style="color:#fff">성인의 사유 공간 &amp; 학생의 생각 광장</div>
+        <div class="plaza-eyebrow">廣場 · 두 개의 마당</div>
+        <div class="section-title" style="font-size:clamp(28px,5vw,48px);font-family:var(--font-serif);">광장</div>
+        <div class="section-sub">어른은 토론하고, 학생은 묻는다. 두 마당이 나란히 열린다.</div>
       </div>
     </div>
     <div class="plaza-grid">
+
       <!-- 아골라 -->
-      <div class="plaza-card">
-        <div class="plaza-card-header">
-          <div class="plaza-badge agora">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>아골라
-          </div>
-          <button class="plaza-write-btn" onclick="openWrite('agora','')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            글쓰기
-          </button>
+      <div class="plaza-card agora-card">
+        <div class="plaza-deco">
+          <svg viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="18"/>
+            <line x1="24" y1="6" x2="24" y2="42"/>
+            <line x1="6" y1="24" x2="42" y2="24"/>
+            <line x1="11.5" y1="11.5" x2="36.5" y2="36.5"/>
+            <line x1="36.5" y1="11.5" x2="11.5" y2="36.5"/>
+            <circle cx="24" cy="24" r="9"/>
+          </svg>
         </div>
-        <div class="section-sub" style="margin-bottom:12px">성인의 자유로운 사유·토론 공간</div>
+        <div class="plaza-kanji">議</div>
+        <div class="plaza-sublabel">성인 토론의 마당</div>
+        <div class="plaza-card-title">아골라 <small>阿閣羅</small></div>
+        <div class="plaza-card-desc">깊이를 잃지 않는 토론.<br>답이 아니라 더 좋은 물음을 찾는 곳.</div>
         <div class="post-list" id="agoraList">
           <div class="post-empty">첫 번째 글을 남겨보세요</div>
         </div>
-        <div style="text-align:center;margin-top:12px">
-          <button class="section-more" onclick="openWrite('agora','')">+ 더 쓰기</button>
+        <div class="plaza-btn-group">
+          <button class="plaza-btn-fill" onclick="openWrite('agora','')">토론 글쓰기</button>
+          <button class="plaza-btn-outline" onclick="document.getElementById('agora').scrollIntoView({behavior:'smooth'})">전체 보기</button>
         </div>
       </div>
+
       <!-- 아곤란 -->
-      <div class="plaza-card" id="agonran">
-        <div class="plaza-card-header">
-          <div class="plaza-badge agonran">
-            <svg viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4a5 5 0 0 1 10 0v4M17 20h5M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg>아곤란
-          </div>
-          <button class="plaza-write-btn" onclick="openWrite('agonran','')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            글쓰기
-          </button>
+      <div class="plaza-card agonran-card" id="agonran">
+        <div class="plaza-deco">
+          <svg viewBox="0 0 48 48">
+            <path d="M24 4 L44 24 L24 44 L4 24 Z"/>
+            <path d="M24 14 L34 24 L24 34 L14 24 Z"/>
+          </svg>
         </div>
-        <div class="section-sub" style="margin-bottom:12px">학생의 질문·고민·생각 광장</div>
+        <div class="plaza-kanji">問</div>
+        <div class="plaza-sublabel">학생 질문의 마당</div>
+        <div class="plaza-card-title">아곤란 <small>阿昆蘭</small></div>
+        <div class="plaza-card-desc">물음에 점수가 매겨지지 않는 곳.<br>서툰 질문이 가장 빛나는 자리.</div>
         <div class="post-list" id="agonranList">
           <div class="post-empty">첫 번째 생각을 나눠보세요</div>
         </div>
-        <div style="text-align:center;margin-top:12px">
-          <button class="section-more" onclick="openWrite('agonran','')">+ 더 쓰기</button>
+        <div class="plaza-btn-group">
+          <button class="plaza-btn-fill" onclick="openWrite('agonran','')">질문 올리기</button>
+          <button class="plaza-btn-outline" onclick="document.getElementById('agonran').scrollIntoView({behavior:'smooth'})">전체 보기</button>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1619,54 +1913,54 @@ let currentPostMgmtForum='agora';
 function defaultNews(){
   return {
     local:[
-      {title:'울산 쇠부리축제 개막 — 전통 제철 문화 체험 행사 성황',date:'2026.04.25',thought:''},
-      {title:'울산 수산물경매시장 거래량 역대 최대치 기록',date:'2026.04.24',thought:''},
-      {title:'언양 지석묘군 훼손 논란 — 문화재 보호 조치 요구',date:'2026.04.24',thought:''},
-      {title:'울산 동성부부 법원 소송 — 가족관계 등록 판결 주목',date:'2026.04.23',thought:''},
-      {title:'울산 미세먼지 주의보 발령 — 외출 자제 권고',date:'2026.04.25',thought:''},
+      {title:'울산 쇠부리축제 개막 — 전통 제철 문화 체험 행사 성황',desc:'울산 북구 달천철장에서 열린 쇠부리축제가 25일 개막했다. 전통 제철 기술 시연, 철기 유물 전시, 체험 부스 등 다채로운 행사가 마련되어 가족 단위 관람객들의 발길이 이어졌다.',date:'2026.04.25',thought:''},
+      {title:'울산 수산물경매시장 거래량 역대 최대치 기록',desc:'울산 남구 수산물경매시장이 올해 1분기 거래량에서 역대 최대치를 기록했다. 동해 어획량 증가와 물류 인프라 개선이 주요 원인으로 꼽히며, 시는 유통 시설 현대화를 추진 중이다.',date:'2026.04.24',thought:''},
+      {title:'언양 지석묘군 훼손 논란 — 문화재 보호 조치 요구',desc:'울주군 언양읍 일대 청동기 시대 지석묘군이 주변 공사로 훼손 위기에 놓였다는 주장이 제기됐다. 문화재 단체들은 즉각적인 공사 중단과 정밀 실태 조사를 촉구하고 있다.',date:'2026.04.24',thought:''},
+      {title:'울산 동성부부 법원 소송 — 가족관계 등록 판결 주목',desc:'울산 거주 동성 부부가 가족관계 등록 거부 처분 취소를 요청하는 행정 소송을 제기했다. 법조계는 이번 판결이 향후 동성 결합 법적 지위 논의에 중요한 선례가 될 것으로 보고 있다.',date:'2026.04.23',thought:''},
+      {title:'울산 미세먼지 주의보 발령 — 외출 자제 권고',desc:'울산시는 25일 오전 미세먼지 주의보를 발령하고 시민들에게 외출 자제와 마스크 착용을 권고했다. 북서풍을 타고 유입된 중국발 황사가 주요 원인으로, 오후 늦게 해소될 전망이다.',date:'2026.04.25',thought:''},
     ],
     region:[
-      {title:'현대차 울산공장 EV 전환 로드맵 발표 — 2028년 완전 전기화',date:'2026.04.25',thought:''},
-      {title:'경남·울산 광역교통망 연결 협약 체결',date:'2026.04.24',thought:''},
-      {title:'남해안 관광벨트 조성 사업 착공 — 경남·전남·울산 공동',date:'2026.04.23',thought:''},
-      {title:'태화강 생태복원 2단계 사업 예산 확보',date:'2026.04.22',thought:''},
-      {title:'울산·경남 청년창업지원금 신청 접수 시작',date:'2026.04.25',thought:''},
+      {title:'현대차 울산공장 EV 전환 로드맵 발표 — 2028년 완전 전기화',desc:'현대자동차가 울산 1~5공장의 전기차 전환 로드맵을 공식 발표했다. 2028년까지 내연기관 생산 라인을 단계적으로 EV 라인으로 전환하며, 약 1조 원의 시설 투자와 함께 신규 고용 창출도 병행된다.',date:'2026.04.25',thought:''},
+      {title:'경남·울산 광역교통망 연결 협약 체결',desc:'경남도와 울산시가 광역 교통망 연계 협약을 체결했다. 창원~울산 BRT(간선급행버스체계) 노선 신설과 광역 철도 환승 체계 구축이 핵심으로, 2028년 개통을 목표로 한다.',date:'2026.04.24',thought:''},
+      {title:'남해안 관광벨트 조성 사업 착공 — 경남·전남·울산 공동',desc:'경남·전남·울산 3개 시도가 공동으로 추진하는 남해안 광역 관광벨트 조성 사업이 착공됐다. 해안 경관도로, 해양 레저 클러스터, 역사 문화 탐방로 등을 포함한 총 4,200억 원 규모 사업이다.',date:'2026.04.23',thought:''},
+      {title:'태화강 생태복원 2단계 사업 예산 확보',desc:'울산시가 태화강 생태복원 2단계 사업 국비 350억 원을 확보했다. 중·상류 습지 확충과 외래 식물 제거, 연어 산란장 조성 등이 포함되며 2027년 완공 목표다.',date:'2026.04.22',thought:''},
+      {title:'울산·경남 청년창업지원금 신청 접수 시작',desc:'울산·경남 청년창업 공동지원 사업의 올해 신청 접수가 시작됐다. 만 18~39세 예비·초기 창업자를 대상으로 최대 5,000만 원의 사업화 자금과 멘토링이 제공된다.',date:'2026.04.25',thought:''},
     ],
     korea:[
-      {title:'1분기 GDP 성장률 +1.7% — 수출 회복세 지속',date:'2026.04.25',thought:''},
-      {title:'KOSPI 6388포인트 — 사상 최고치 경신',date:'2026.04.24',thought:''},
-      {title:'전세사기특별법 개정안 국회 본회의 통과',date:'2026.04.23',thought:''},
-      {title:'이재명 대통령 인도 순방 마치고 귀환',date:'2026.04.25',thought:''},
-      {title:'한국은행 신현송 총재 취임 — 통화정책 방향 주목',date:'2026.04.22',thought:''},
-      {title:'국민연금 개혁안 국회 제출 — 보험료율 13% 인상 핵심',date:'2026.04.25',thought:''},
+      {title:'1분기 GDP 성장률 +1.7% — 수출 회복세 지속',desc:'한국은행이 발표한 올해 1분기 실질 GDP 성장률(전분기 대비)이 +1.7%로 집계됐다. 반도체·자동차 수출 호조가 성장을 이끌었으며, 민간 소비도 완만한 회복세를 보였다.',date:'2026.04.25',thought:''},
+      {title:'KOSPI 6388포인트 — 사상 최고치 경신',desc:'코스피 지수가 25일 장중 6,388포인트를 기록하며 사상 최고치를 경신했다. 외국인 순매수 확대와 반도체주 강세가 지수 상승을 이끌었으며, 코스닥도 함께 상승 마감했다.',date:'2026.04.24',thought:''},
+      {title:'전세사기특별법 개정안 국회 본회의 통과',desc:'전세 피해자 지원 범위를 확대하는 전세사기특별법 개정안이 국회 본회의를 통과했다. 피해자 인정 요건 완화, 긴급 주거 지원 기간 연장, 보증금 반환 소송 비용 국가 지원 등이 골자다.',date:'2026.04.23',thought:''},
+      {title:'이재명 대통령 인도 순방 마치고 귀환',desc:'이재명 대통령이 4박 5일간의 인도 공식 방문을 마치고 귀국했다. 모디 총리와의 정상회담에서 반도체·방산·우주 분야 협력 MOU를 체결했으며, 양국 교역 목표를 500억 달러로 상향 합의했다.',date:'2026.04.25',thought:''},
+      {title:'한국은행 신현송 총재 취임 — 통화정책 방향 주목',desc:'신현송 한국은행 총재가 공식 취임했다. 취임사에서 "물가 안정을 최우선 과제로 삼되 성장 동력 훼손 없는 통화정책을 추진하겠다"고 밝혀 금리 방향에 관심이 쏠리고 있다.',date:'2026.04.22',thought:''},
+      {title:'국민연금 개혁안 국회 제출 — 보험료율 13% 인상 핵심',desc:'정부가 보험료율을 현행 9%에서 13%로 인상하는 내용의 국민연금 개혁안을 국회에 제출했다. 소득대체율 43% 유지와 수급 개시 연령 단계적 조정도 포함되어 있어 국회 심의 과정에서 논란이 예상된다.',date:'2026.04.25',thought:''},
     ],
     world:[
-      {title:'한-인도 정상회담 — 이재명·모디, 첨단기술 협력 협약',date:'2026.04.25',thought:''},
-      {title:'복합극한기후 발생 빈도 산업화 이전 대비 5배 — IPCC 보고',date:'2026.04.24',thought:''},
-      {title:'Blue Origin 뉴글렌 FAA 비행 정지 — 안전 점검',date:'2026.04.24',thought:''},
-      {title:'말레이시아 실종 한국인 구조 — 외교부 영사 지원',date:'2026.04.23',thought:''},
-      {title:'KATSEYE 방한 — K팝 글로벌 그룹 서울 공연',date:'2026.04.25',thought:''},
+      {title:'한-인도 정상회담 — 이재명·모디, 첨단기술 협력 협약',desc:'한국과 인도 정상이 뉴델리에서 회담을 갖고 반도체, 방산, 우주 분야 전략적 협력 협약을 체결했다. 양국은 2030년까지 교역 500억 달러 달성을 목표로 첨단 산업 공급망 협력을 강화하기로 했다.',date:'2026.04.25',thought:''},
+      {title:'복합극한기후 발생 빈도 산업화 이전 대비 5배 — IPCC 보고',desc:'IPCC(기후변화에 관한 정부간 협의체)가 발표한 특별 보고서에 따르면 홍수·가뭄·폭염이 동시 발생하는 복합극한기후의 빈도가 산업화 이전보다 5배 증가한 것으로 나타났다.',date:'2026.04.24',thought:''},
+      {title:'Blue Origin 뉴글렌 FAA 비행 정지 — 안전 점검',desc:'미 연방항공청(FAA)이 Blue Origin의 뉴글렌 로켓에 대해 잠정 비행 정지 명령을 내렸다. 지난 발사에서 발견된 1단 추진체 이상 징후를 정밀 점검하기 위한 조치로, 다음 발사 일정에 영향이 불가피하다.',date:'2026.04.24',thought:''},
+      {title:'말레이시아 실종 한국인 구조 — 외교부 영사 지원',desc:'말레이시아 코타키나발루 인근 해상에서 실종됐던 한국인 관광객 3명이 현지 해경에 의해 구조됐다. 외교부는 현지 영사를 급파해 의료 지원과 귀국 절차를 돕고 있다.',date:'2026.04.23',thought:''},
+      {title:'KATSEYE 방한 — K팝 글로벌 그룹 서울 공연',desc:'하이브와 글로벌 레이블 공동 제작 그룹 KATSEYE가 서울에서 첫 단독 콘서트를 개최했다. 한국·미국·필리핀 출신 6인조 걸그룹으로, 글로벌 팬덤과 함께 K팝의 새로운 세계화 모델로 주목받고 있다.',date:'2026.04.25',thought:''},
     ],
     sky:[
-      {title:'혜성 PanSTARRS C/2023 V4 — 맨눈 관측 가능 시기 임박',date:'2026.04.25',thought:''},
-      {title:'SpaceX 스타링크 17-16 발사 성공 — 위성 인터넷 확장',date:'2026.04.24',thought:''},
-      {title:'Rocket Lab, 일본 위성 궤도 투입 성공',date:'2026.04.23',thought:''},
-      {title:'달-레굴루스 엄폐 현상 — 25일 새벽 관측 기회',date:'2026.04.25',thought:''},
-      {title:'기상청 "2026년 역대 최고기온 경신 전망"',date:'2026.04.24',thought:''},
+      {title:'혜성 PanSTARRS C/2023 V4 — 맨눈 관측 가능 시기 임박',desc:'혜성 C/2023 V4(PanSTARRS)가 5월 초 근일점 통과를 앞두고 밝기가 5등급대로 높아지고 있다. 천문학자들은 이달 말~다음 달 초 새벽 동쪽 하늘에서 쌍안경 없이도 관측 가능할 것으로 전망한다.',date:'2026.04.25',thought:''},
+      {title:'SpaceX 스타링크 17-16 발사 성공 — 위성 인터넷 확장',desc:'SpaceX가 팔콘9 로켓을 이용해 스타링크 17-16 미션으로 위성 23기를 저궤도에 성공적으로 투입했다. 이로써 스타링크 위성 총수는 6,800기를 넘어섰으며, 한국 서비스 품질도 지속 향상될 전망이다.',date:'2026.04.24',thought:''},
+      {title:'Rocket Lab, 일본 위성 궤도 투입 성공',desc:'Rocket Lab의 일렉트론 로켓이 일본 우주항공연구개발기구(JAXA)의 소형 지구관측위성을 예정 궤도에 정확히 투입했다. 이번 발사는 뉴질랜드 마히아 발사장에서 진행됐으며 완벽한 성공으로 기록됐다.',date:'2026.04.23',thought:''},
+      {title:'달-레굴루스 엄폐 현상 — 25일 새벽 관측 기회',desc:'25일 새벽 2시경 달이 사자자리 1등성 레굴루스를 가리는 엄폐 현상이 한반도 전역에서 관측됐다. 망원경 없이도 육안으로 확인 가능했으며, 천문 동호회 회원들의 활발한 관측 기록이 이어졌다.',date:'2026.04.25',thought:''},
+      {title:'기상청 "2026년 역대 최고기온 경신 전망"',desc:'기상청이 발표한 올해 기후 전망 보고서에 따르면 2026년 연평균 기온이 관측 사상 최고치를 경신할 가능성이 높다. 엘니뇨 현상 약화에도 불구하고 지구 온난화 기조가 기온 상승을 주도한다는 분석이다.',date:'2026.04.24',thought:''},
     ],
     land:[
-      {title:'기후변화로 사과 주산지 강원도로 이동 — 농촌진흥청 발표',date:'2026.04.25',thought:''},
-      {title:'복합극한기후, 농업 피해 5배 증가 — 기상청 경고',date:'2026.04.24',thought:''},
-      {title:'전국 스마트팜 보급률 23% 증가 — 청년농 중심 확산',date:'2026.04.23',thought:''},
-      {title:'산림 탄소흡수원 고시 면적 확대 — 탄소중립 기여',date:'2026.04.22',thought:''},
-      {title:'농업위성 1호 발사 계획 확정 — 2027년 목표',date:'2026.04.25',thought:''},
+      {title:'기후변화로 사과 주산지 강원도로 이동 — 농촌진흥청 발표',desc:'농촌진흥청이 발표한 기후변화 대응 농업 지도에 따르면 2040년경에는 경북 중심의 사과 주산지가 강원도와 경기 북부로 이동할 것으로 예측됐다. 배, 복숭아 등 다른 과수도 유사한 북상 패턴이 전망된다.',date:'2026.04.25',thought:''},
+      {title:'복합극한기후, 농업 피해 5배 증가 — 기상청 경고',desc:'기상청 분석에 따르면 최근 10년간 홍수와 가뭄이 겹치는 복합 극한기후로 인한 농업 피해 규모가 이전 10년 대비 5배 이상 증가했다. 피해 보상 체계와 작물 다양화 정책 수립이 시급하다는 지적이다.',date:'2026.04.24',thought:''},
+      {title:'전국 스마트팜 보급률 23% 증가 — 청년농 중심 확산',desc:'농림축산식품부가 발표한 스마트팜 현황에 따르면 올해 1분기 전국 스마트팜 보급률이 지난해 대비 23% 증가했다. 특히 30·40대 청년 농업인의 도입률이 높아 농촌 고령화 문제 해결에도 기여할 것으로 기대된다.',date:'2026.04.23',thought:''},
+      {title:'산림 탄소흡수원 고시 면적 확대 — 탄소중립 기여',desc:'산림청이 탄소흡수원 공식 고시 면적을 기존 대비 12% 확대했다. 이번 조치로 국가 온실가스 인벤토리상 산림 부문 흡수량이 늘어나 2030 NDC(국가 온실가스 감축 목표) 달성에 도움이 될 전망이다.',date:'2026.04.22',thought:''},
+      {title:'농업위성 1호 발사 계획 확정 — 2027년 목표',desc:'농림축산식품부와 한국항공우주연구원이 공동 개발 중인 농업전용 관측위성 1호의 발사 일정을 2027년 하반기로 확정했다. 작물 생육 모니터링, 병충해 조기 탐지, 토양 수분 분석 등에 활용될 예정이다.',date:'2026.04.25',thought:''},
     ],
     sea:[
-      {title:'한반도 주변 해수면 온도 1.6°C 상승 — 해양수산부',date:'2026.04.25',thought:''},
-      {title:'3월 한국 바다 평균 수온 역대 2위 기록',date:'2026.04.24',thought:''},
-      {title:'해양 온난화가 지구 자전 속도 늦춘다 — 네이처 연구',date:'2026.04.23',thought:''},
-      {title:'해수부, 연안 생태복원 예산 147억 집행 계획',date:'2026.04.22',thought:''},
-      {title:'해양기후변화 전망 보고서 발표 — 2040년 시나리오',date:'2026.04.25',thought:''},
+      {title:'한반도 주변 해수면 온도 1.6°C 상승 — 해양수산부',desc:'해양수산부가 발표한 해양 기후 관측 결과에 따르면 한반도 주변 해역의 평균 해수면 온도가 1980년대 대비 1.6°C 상승한 것으로 나타났다. 난류성 어종의 북상과 한류성 어종의 감소가 뚜렷해지고 있다.',date:'2026.04.25',thought:''},
+      {title:'3월 한국 바다 평균 수온 역대 2위 기록',desc:'국립해양조사원이 집계한 3월 평균 해수 표면 온도가 역대 2위를 기록했다. 전반적인 수온 상승 추세 속에 동해 북부 냉수대 형성이 지연되면서 명태·오징어 어획에 영향이 우려된다.',date:'2026.04.24',thought:''},
+      {title:'해양 온난화가 지구 자전 속도 늦춘다 — 네이처 연구',desc:'국제 학술지 네이처에 발표된 연구에 따르면 해양 온난화로 인한 해수 팽창과 극지방 빙하 융해가 지구 자전 속도를 미세하게 늦추고 있는 것으로 나타났다. GPS 및 원자시계 보정에 영향을 줄 수 있다.',date:'2026.04.23',thought:''},
+      {title:'해수부, 연안 생태복원 예산 147억 집행 계획',desc:'해양수산부가 올해 연안 생태복원 사업에 147억 원을 집행할 계획을 밝혔다. 갯벌 복원, 해조류 숲 조성, 산호 이식 등을 통해 연안 생태계 건강성을 회복하고 어업인 소득 증대에도 기여한다는 방침이다.',date:'2026.04.22',thought:''},
+      {title:'해양기후변화 전망 보고서 발표 — 2040년 시나리오',desc:'한국해양과학기술원(KIOST)이 발간한 해양기후변화 전망 보고서는 2040년까지 동해 수온 2°C 추가 상승과 서해 저산소 현상 심화를 예측했다. 보고서는 해양 생태계 보전을 위한 긴급 대응책 마련을 촉구했다.',date:'2026.04.25',thought:''},
     ],
   };
 }
@@ -1681,17 +1975,38 @@ function renderNews(){
   const cat=currentNewsCat;
   const items=data[cat]||[];
   const saved=LS.get('ylife_news_thoughts')||{};
+  const CAT_ICON={
+    local:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+    region:'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+    korea:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/>',
+    world:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+    sky:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>',
+    land:'<path d="M12 22V12M12 12C12 7 7 3 2 3M12 12c0-5 5-9 10-9M2 22h20"/>',
+    sea:'<path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 7c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/>',
+  };
   let html=`<div class="news-grid">`;
   items.forEach((n,i)=>{
     const key=`${cat}_${i}`;
     const t=saved[key]||n.thought||'';
+    const bodyId=`nbody_${key}`;
     html+=`<div class="news-card">
-      <div class="news-cat-badge">${CAT_LABEL[cat]}</div>
-      <div class="news-title">${n.title}</div>
-      <div class="news-date">${n.date}</div>
-      <div class="news-thought">
-        <input type="text" placeholder="내 생각 한 줄..." value="${escHtml(t)}"
-          onchange="saveThought('${key}',this.value)">
+      <div class="card-image" data-cat="${cat}">
+        <svg viewBox="0 0 24 24">${CAT_ICON[cat]||''}</svg>
+      </div>
+      <div class="card-content">
+        <span class="category-tag">${CAT_LABEL[cat]}</span>
+        <div class="news-title">${n.title}</div>
+        ${n.desc?`<div class="news-desc">${n.desc}</div>`:''}
+        ${n.body||n.link?`<div class="news-actions">
+          ${n.body?`<button class="news-expand-btn" onclick="toggleNewsBody('${bodyId}',this)">▶ 본문 보기</button>`:''}
+          ${n.link?`<a class="news-link" href="${n.link}" target="_blank" rel="noopener">원문 →</a>`:''}
+        </div>`:''}
+        ${n.body?`<div class="news-body" id="${bodyId}">${escHtml(n.body)}</div>`:''}
+        <div class="news-date">${n.date}</div>
+        <div class="news-thought">
+          <input type="text" placeholder="내 생각 한 줄..." value="${escHtml(t)}"
+            onchange="saveThought('${key}',this.value)">
+        </div>
       </div>
     </div>`;
   });
@@ -1708,6 +2023,12 @@ function saveThought(key,val){
   const s=LS.get('ylife_news_thoughts')||{};
   s[key]=val;
   LS.set('ylife_news_thoughts',s);
+}
+function toggleNewsBody(id,btn){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+  btn.textContent=el.classList.contains('open')?'▼ 본문 닫기':'▶ 본문 보기';
 }
 
 /* ════════════════════════════════
@@ -1820,14 +2141,136 @@ function renderHeader(){
 /* ════════════════════════════════
    게시판
 ════════════════════════════════ */
+/* ── 전체화면 글쓰기 광장 ── */
+const PWS_META={
+  agora:{
+    kanji:'議',name:'아골라',hanja:'阿閣羅',
+    desc:'깊이를 잃지 않는 토론.<br>답이 아니라 더 좋은 물음을 찾는 곳.',
+    tip:'<strong>💡 토론의 마음씨</strong><br>상대의 입장을 먼저 이해하고,<br>내 생각을 솔직하게 담아보세요.',
+    color:'agora'
+  },
+  agonran:{
+    kanji:'問',name:'아곤란',hanja:'阿昆蘭',
+    desc:'물음에 점수가 매겨지지 않는 곳.<br>서툰 질문이 가장 빛나는 자리.',
+    tip:'<strong>💡 질문의 마음씨</strong><br>어떤 질문도 부끄럽지 않아요.<br>궁금한 것을 솔직하게 써보세요.',
+    color:'agonran'
+  }
+};
 function openWrite(forum,prefix){
   if(!currentUser){openModal('loginModal');return;}
-  document.getElementById('writeForum').value=forum;
-  document.getElementById('writeModalTitle').textContent=forum==='agora'?'아골라 글쓰기':'아곤란 글쓰기';
-  document.getElementById('writeTitle').value=prefix;
-  document.getElementById('writeBody').value='';
-  document.getElementById('writeMsg').textContent='';
-  openModal('writeModal');
+  const m=PWS_META[forum]||PWS_META.agora;
+  /* 포럼 정보 세팅 */
+  document.getElementById('pwsForum').value=forum;
+  document.getElementById('pwsKanji').textContent=m.kanji;
+  document.getElementById('pwsSideName').textContent=m.name;
+  document.getElementById('pwsSideDesc').innerHTML=m.desc;
+  document.getElementById('pwsTip').innerHTML=m.tip;
+  document.getElementById('pwsForumName').textContent=m.name;
+  const badge=document.getElementById('pwsForumBadge');
+  badge.className='pws-forum-badge '+m.color;
+  const side=document.getElementById('pwsSide');
+  side.className='pws-side '+m.color;
+  /* 에디터 초기화 */
+  document.getElementById('pwsTitle').value=prefix||'';
+  document.getElementById('pwsBody').value='';
+  document.getElementById('pwsErrMsg').textContent='';
+  document.getElementById('pwsCharCount').textContent='0자';
+  discardPwsAiResult();
+  /* 최근 글 로드 */
+  renderPwsRecentList(forum);
+  /* 열기 */
+  const scr=document.getElementById('plazaWriteScreen');
+  scr.classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('pwsTitle').focus(),200);
+}
+function closePlazaWrite(){
+  document.getElementById('plazaWriteScreen').classList.remove('open');
+  document.body.style.overflow='';
+}
+function renderPwsRecentList(forum){
+  const posts=getPosts(forum).slice(0,8);
+  const el=document.getElementById('pwsRecentList');
+  if(!posts.length){el.innerHTML='<div style="padding:12px 20px;font-size:12px;color:var(--ink-faint)">아직 글이 없습니다.</div>';return;}
+  el.innerHTML=posts.map(p=>`
+    <div class="pws-recent-item" onclick="openPost('${p.id}')">
+      <div class="pws-recent-title">${escHtml(p.title)}</div>
+      <div class="pws-recent-meta">${escHtml(p.author)} · ${p.date}</div>
+    </div>`).join('');
+}
+function autoResizeTitle(el){
+  el.style.height='auto';
+  el.style.height=el.scrollHeight+'px';
+}
+function updateCharCount(){
+  const v=document.getElementById('pwsBody').value;
+  document.getElementById('pwsCharCount').textContent=v.length.toLocaleString()+'자';
+}
+function doPlazaSubmit(){
+  if(!currentUser)return;
+  const title=document.getElementById('pwsTitle').value.trim();
+  const body=document.getElementById('pwsBody').value.trim();
+  const forum=document.getElementById('pwsForum').value;
+  const err=document.getElementById('pwsErrMsg');
+  if(!title){err.textContent='제목을 입력해주세요.';return;}
+  if(!body){err.textContent='내용을 입력해주세요.';return;}
+  err.textContent='';
+  const posts=allPosts();
+  posts.unshift({
+    id:Date.now().toString(),forum,title,body,
+    author:currentUser.nick,authorId:currentUser.id,
+    date:new Date().toLocaleDateString('ko'),
+    likes:[],comments:[],views:0
+  });
+  LS.set('ylife_posts',posts);
+  closePlazaWrite();
+  renderPlaza();updateStats();updateInsights();
+  /* 광장 섹션으로 부드럽게 이동 */
+  setTimeout(()=>document.getElementById('agora')?.scrollIntoView({behavior:'smooth'}),100);
+}
+/* AI 보조 (기존 Gemini 키 재사용) */
+async function pwsAiAssist(cmd){
+  const body=document.getElementById('pwsBody').value.trim();
+  if(!body){document.getElementById('pwsErrMsg').textContent='먼저 내용을 입력해주세요.';return;}
+  const loading=document.getElementById('pwsAiLoading');
+  loading.style.display='inline';
+  discardPwsAiResult();
+  const PROMPTS={
+    polish:'아래 글을 더 자연스럽고 읽기 좋게 다듬어주세요. 원래 의미는 유지하세요.\n\n',
+    spell:'아래 글의 맞춤법과 문장 부호를 교정해주세요.\n\n',
+    expand:'아래 글의 핵심 주장을 유지하면서 내용을 더 풍부하게 확장해주세요.\n\n',
+    summary:'아래 글을 3문장 이내로 핵심만 요약해주세요.\n\n',
+    formal:'아래 글을 격식 있는 문어체로 바꿔주세요.\n\n'
+  };
+  const prompt=(PROMPTS[cmd]||PROMPTS.polish)+body;
+  try{
+    const key=LS.get('ylife_gemini_key')||'';
+    if(!key){
+      document.getElementById('pwsErrMsg').textContent='Gemini API 키가 없습니다. 원래 글쓰기 창에서 키를 먼저 저장해주세요.';
+      loading.style.display='none';return;
+    }
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+    });
+    const d=await res.json();
+    const text=d?.candidates?.[0]?.content?.parts?.[0]?.text||'결과 없음';
+    document.getElementById('pwsAiResultText').textContent=text;
+    document.getElementById('pwsAiResult').style.display='block';
+  }catch(e){
+    document.getElementById('pwsErrMsg').textContent='AI 오류: '+e.message;
+  }
+  loading.style.display='none';
+}
+function applyPwsAiResult(){
+  const text=document.getElementById('pwsAiResultText').textContent;
+  document.getElementById('pwsBody').value=text;
+  updateCharCount();
+  discardPwsAiResult();
+}
+function discardPwsAiResult(){
+  document.getElementById('pwsAiResult').style.display='none';
+  document.getElementById('pwsAiResultText').textContent='';
 }
 function doSubmitPost(){
   if(!currentUser)return;
@@ -2059,7 +2502,7 @@ function switchNewsMgmtCat(cat,el){
   renderNewsMgmtContent();
 }
 function renderNewsMgmtContent(){
-  const data=getNewsData();
+  const data=_pendingNews||getNewsData();
   const items=data[currentNewsMgmtCat]||[];
   document.getElementById('newsMgmtContent').innerHTML=`<div class="news-edit-list" id="newsEditList">${
     items.map((n,i)=>`<div class="news-edit-item" data-idx="${i}">
@@ -2077,16 +2520,21 @@ function updateNewsItem(idx,field,val){
   _pendingNews[currentNewsMgmtCat][idx][field]=val;
 }
 function deleteNewsItem(idx){
-  const data=_pendingNews||JSON.parse(JSON.stringify(getNewsData()));
-  data[currentNewsMgmtCat].splice(idx,1);
-  _pendingNews=data;
+  if(!_pendingNews)_pendingNews=JSON.parse(JSON.stringify(getNewsData()));
+  _pendingNews[currentNewsMgmtCat].splice(idx,1);
   renderNewsMgmtContent();
 }
 function adminAddNews(){
-  const data=_pendingNews||JSON.parse(JSON.stringify(getNewsData()));
-  data[currentNewsMgmtCat].push({title:'새 뉴스 제목',date:new Date().toLocaleDateString('ko'),thought:''});
-  _pendingNews=data;
+  if(!_pendingNews)_pendingNews=JSON.parse(JSON.stringify(getNewsData()));
+  const today=new Date();
+  const dateStr=today.getFullYear()+'.'+(String(today.getMonth()+1).padStart(2,'0'))+'.'+String(today.getDate()).padStart(2,'0');
+  _pendingNews[currentNewsMgmtCat].push({title:'새 뉴스 제목',date:dateStr,thought:'',url:''});
   renderNewsMgmtContent();
+  /* 새로 추가된 항목으로 스크롤 */
+  setTimeout(()=>{
+    const list=document.getElementById('newsEditList');
+    if(list)list.lastElementChild?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },80);
 }
 function saveNews(){
   if(_pendingNews){LS.set('ylife_news',_pendingNews);_pendingNews=null;}
@@ -2171,6 +2619,47 @@ function deleteHwaduItem(i){
   list.splice(i,1);
   LS.set('ylife_hwadu_list',list);
   renderHwaduList();
+}
+/* ── 글씨 크기 조절 ── */
+function previewFontSize(val){
+  document.getElementById('fontsize-val').textContent=val+'px';
+  document.documentElement.style.setProperty('--font-size-base',val+'px');
+  document.body.style.fontSize=val+'px';
+  LS.set('ylife_fontsize',val);
+}
+/* ── 색상 테마 적용 ── */
+const COLOR_THEMES={
+  'warm-linen':{'--gold':'#B08040','--thread':'#B08040','--color-primary':'#7A6A52','--color-bg':'#F8F2EA','--color-surface':'#EDE5D8'},
+  'mint-tide':  {'--gold':'#6eb5a6','--thread':'#6eb5a6','--color-primary':'#586e69','--color-bg':'#e9f5f2','--color-surface':'#b0cfc8'},
+  'agora-blue': {'--gold':'#697FA3','--thread':'#697FA3','--color-primary':'#3D5F8A','--color-bg':'#EEF1F6','--color-surface':'#D4DCE8'},
+  'mauve-fog':  {'--gold':'#9A8FA5','--thread':'#9A8FA5','--color-primary':'#615b63','--color-bg':'#ebf2ed','--color-surface':'#d8cede'},
+  'wood-dark':  {'--gold':'#B08040','--thread':'#B08040','--color-primary':'#5D4037','--color-bg':'#F2EBE0','--color-surface':'#E0D4C4'},
+};
+function applyColorTheme(theme,el){
+  document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  const vars=COLOR_THEMES[theme]||COLOR_THEMES['warm-linen'];
+  Object.entries(vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+  LS.set('ylife_color_theme',theme);
+}
+function initDesignSettings(){
+  const fs=LS.get('ylife_fontsize');
+  if(fs){
+    const el=document.getElementById('cfg-fontsize');
+    const label=document.getElementById('fontsize-val');
+    if(el){el.value=fs;}
+    if(label){label.textContent=fs+'px';}
+    document.body.style.fontSize=fs+'px';
+  }
+  const theme=LS.get('ylife_color_theme');
+  if(theme){
+    const vars=COLOR_THEMES[theme];
+    if(vars) Object.entries(vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+    document.querySelectorAll('.color-preset').forEach(p=>{
+      if(p.dataset.theme===theme) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+  }
 }
 function saveSettings(){
   const s={
@@ -2324,7 +2813,7 @@ init();
 /* ════════════════════════════════
    구글 소셜 로그인
    ════════════════════════════════ */
-let GOOGLE_CLIENT_ID = localStorage.getItem('ylife_google_client_id') || '';
+let GOOGLE_CLIENT_ID = '93942249284-nm9mookvhfe50n6i8upsfvev3gl8d1a7.apps.googleusercontent.com';
 
 function saveGoogleClientId(){
   const val = document.getElementById('googleClientIdInput').value.trim();
@@ -2351,29 +2840,11 @@ function renderGoogleBtn(containerId){
   const wrap = document.getElementById(containerId);
   if(!wrap) return;
   wrap.innerHTML = '';
-  if(!GOOGLE_CLIENT_ID){
-    // Client ID 없어도 버튼은 보여주고, 클릭 시 설정으로 안내
-    wrap.innerHTML = `<button onclick="closeModal('loginModal');closeModal('signupModal');openModal('settingsModal');"
-      style="display:flex;align-items:center;justify-content:center;gap:10px;
-             width:100%;max-width:280px;margin:0 auto;padding:10px 16px;
-             border:1px solid #dadce0;border-radius:4px;background:#fff;
-             font-size:14px;font-weight:500;color:#3c4043;cursor:pointer;
-             box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:box-shadow .2s;"
-      onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.14)'"
-      onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-      구글로 로그인 · 가입하기
-    </button>
-    <p style="font-size:11px;color:var(--ink-faint);text-align:center;margin-top:6px;">
-      ⚙ 설정에서 Google Client ID를 입력하면 바로 사용 가능해요
-    </p>`;
-    return;
-  }
-  if(!window.google){ wrap.innerHTML=''; return; }
+  if(!window.google){ return; }
   try {
     google.accounts.id.renderButton(wrap, {
       theme:'outline', size:'large', text:'signin_with',
-      locale:'ko', width:280, shape:'rectangular',
+      locale:'ko', width:300, shape:'rectangular',
     });
   } catch(e){ console.warn('Google button render error:', e); }
 }
@@ -2415,6 +2886,7 @@ function handleGoogleCredential(response){
 // Google GSI 스크립트 로드 완료 후 초기화
 window.addEventListener('load', function(){
   setTimeout(initGoogleAuth, 500);
+  initDesignSettings();
 });
 
 /* ════════════════════════════════
