@@ -1,951 +1,2061 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>y-life.kr | 오픈 지식 생산 플랫폼</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --color-bg: #F0F4F5;
-            --color-surface: #D4E0E3;
-            --color-primary: #5A7A82;
-            --color-muted: #A8B5B8;
-            --color-text: #2C3E42;
-            --color-text-light: #6B8A90;
-            --color-white: #FFF;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-        }
-
-        body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button {
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            font-family: inherit;
-        }
-
-        /* ===== 헤더 ===== */
-        header {
-            background-color: var(--color-white);
-            border-bottom: 1px solid var(--color-surface);
-            padding: 16px 24px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-primary);
-            min-width: max-content;
-        }
-
-        nav {
-            display: flex;
-            gap: 32px;
-            flex: 1;
-        }
-
-        nav a {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--color-primary);
-            transition: color 0.2s;
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            color: var(--color-text);
-        }
-
-        .btn-header {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-weight: 500;
-            min-width: max-content;
-        }
-
-        .btn-header:hover {
-            filter: brightness(0.9);
-        }
-
-        /* ===== 히어로 섹션 ===== */
-        .hero {
-            background-color: var(--color-bg);
-            padding: 80px 24px;
-            text-align: center;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: var(--color-text);
-            line-height: 1.3;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: var(--color-text-light);
-            margin-bottom: 32px;
-            line-height: 1.8;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn-primary {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            border-radius: 8px;
-            padding: 14px 32px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            filter: brightness(0.9);
-        }
-
-        /* ===== 섹션 공통 ===== */
-        section {
-            padding: 80px 24px;
-        }
-
-        .white-bg {
-            background-color: var(--color-white);
-        }
-
-        .light-bg {
-            background-color: var(--color-bg);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        section h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: var(--color-text);
-        }
-
-        section > .container > p {
-            font-size: 15px;
-            color: var(--color-text-light);
-            margin-bottom: 48px;
-        }
-
-        /* ===== 기능 카드 ===== */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-
-        .feature-card {
-            background-color: var(--color-white);
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feature-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--color-primary);
-            fill: none;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--color-text);
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            color: var(--color-text-light);
-            line-height: 1.6;
-        }
-
-        /* ===== 사용 사례 ===== */
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .case-card {
-            background-color: var(--color-white);
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .case-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .case-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--color-primary);
-            fill: none;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .case-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--color-text);
-        }
-
-        .case-domain {
-            font-size: 12px;
-            color: var(--color-primary);
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-
-        .case-card p {
-            font-size: 13px;
-            color: var(--color-text-light);
-            line-height: 1.6;
-        }
-
-        /* ===== 아골라 섹션 ===== */
-        .agora-intro {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .agora-tag {
-            display: inline-block;
-            background-color: var(--color-surface);
-            color: var(--color-primary);
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .agora-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .agora-card {
-            background-color: var(--color-white);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--color-primary);
-            transition: transform 0.2s;
-        }
-
-        .agora-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .agora-card .writer-tag {
-            font-size: 11px;
-            color: var(--color-primary);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .agora-card h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--color-text);
-            line-height: 1.4;
-        }
-
-        .agora-card p {
-            font-size: 13px;
-            color: var(--color-text-light);
-            line-height: 1.6;
-        }
-
-        .agora-cta {
-            text-align: center;
-            margin-top: 32px;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--color-primary);
-            border: 2px solid var(--color-primary);
-            border-radius: 8px;
-            padding: 10px 24px;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-        }
-
-        /* ===== 사이트 빌더 섹션 ===== */
-        .builder-intro {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .builder-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
-        }
-
-        .builder-card {
-            background-color: var(--color-white);
-            border-radius: 12px;
-            padding: 28px 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .builder-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .builder-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 16px;
-            background-color: var(--color-surface);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .builder-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--color-primary);
-            fill: none;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .builder-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--color-text);
-        }
-
-        .builder-card p {
-            font-size: 13px;
-            color: var(--color-text-light);
-            line-height: 1.5;
-        }
-
-        .builder-example {
-            background-color: var(--color-white);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            margin-top: 16px;
-        }
-
-        .builder-example-text {
-            flex: 1;
-        }
-
-        .builder-example-text .ex-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-primary);
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-
-        .builder-example-text h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--color-text);
-            margin-bottom: 12px;
-        }
-
-        .builder-example-text p {
-            font-size: 14px;
-            color: var(--color-text-light);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .btn-link {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .btn-link:hover {
-            filter: brightness(0.9);
-        }
-
-        .builder-example-badge {
-            flex: 0 0 200px;
-            background-color: var(--color-surface);
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .builder-example-badge .badge-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
-
-        .builder-example-badge p {
-            font-size: 13px;
-            color: var(--color-text-light);
-            line-height: 1.5;
-        }
-
-        .builder-example-badge strong {
-            display: block;
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--color-text);
-            margin-bottom: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .builder-example {
-                flex-direction: column;
-            }
-            .builder-example-badge {
-                flex: none;
-                width: 100%;
-            }
-        }
-
-        /* ===== 뉴스 섹션 ===== */
-        .news-intro {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .news-intro p {
-            font-size: 15px;
-            color: var(--color-text-light);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .news-card {
-            background-color: var(--color-bg);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--color-surface);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .news-card:hover {
-            background-color: var(--color-surface);
-            transform: translateY(-2px);
-        }
-
-        .news-card h4 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--color-text);
-            line-height: 1.4;
-        }
-
-        .news-card p {
-            font-size: 12px;
-            color: var(--color-text-light);
-            margin-bottom: 12px;
-        }
-
-        .news-footer {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--color-muted);
-        }
-
-        /* ===== CTA 섹션 ===== */
-        .cta {
-            background-color: var(--color-primary);
-            padding: 80px 24px;
-            text-align: center;
-            color: var(--color-white);
-        }
-
-        .cta h2 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--color-white);
-        }
-
-        .cta p {
-            font-size: 18px;
-            margin-bottom: 32px;
-            opacity: 0.95;
-            color: var(--color-white);
-        }
-
-        .btn-cta {
-            background-color: var(--color-white);
-            color: var(--color-primary);
-            border-radius: 8px;
-            padding: 14px 32px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .btn-cta:hover {
-            filter: brightness(0.95);
-        }
-
-        /* ===== 푸터 ===== */
-        footer {
-            background-color: #2C3E42;
-            color: var(--color-white);
-            padding: 48px 24px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        footer p {
-            margin-bottom: 12px;
-        }
-
-        footer p:last-child {
-            opacity: 0.7;
-        }
-
-        /* ===== 반응형 ===== */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            nav {
-                order: 3;
-                width: 100%;
-                gap: 16px;
-                font-size: 13px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            section h2 {
-                font-size: 24px;
-            }
-
-            .features-grid,
-            .cases-grid,
-            .news-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .cta h2 {
-                font-size: 28px;
-            }
-
-            .cta p {
-                font-size: 16px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>y-life.kr — 삶·인연·소통, 그 깊은 연(緣)으로 잇다</title>
+<meta name="description" content="y-life.kr — 오픈 지식 생산 플랫폼. 여기서 쓴 모든 것은 당신의 자산입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ─ 연 디자인 시스템 · Warm Linen 기반 + 섹션 포인트 ─ */
+
+  /* 기본 톤 — 아이보리 따뜻한 베이지 */
+  --color-bg:#F8F2EA;
+  --color-surface:#EDE5D8;
+  --color-primary:#7A6A52;   /* Warm Linen Primary */
+  --color-muted:#B8B0A4;
+  --color-text:#2A2018;
+  --color-text-light:#7A6E62;
+
+  /* 포인트 색 1 — 인연의 금실 (화두·강조) */
+  --gold:#B08040;
+  --gold-soft:rgba(176,128,64,0.12);
+
+  /* 포인트 색 2 — 깊은 먹색 (헤더·제목) */
+  --ink-deep:#1A150E;
+
+  /* 포인트 색 3 — 아골라 청(靑) */
+  --agora:#3D5F8A;
+  --agora-s:rgba(61,95,138,0.1);
+
+  /* 포인트 색 4 — 아곤란 녹(綠) */
+  --agonran:#3D6E3D;
+  --agonran-s:rgba(61,110,61,0.1);
+
+  /* 뉴스 카테고리 */
+  --sky:#3E5E8A; --land:#5A6E3A; --sea:#2E6870;
+
+  /* 섹션 배경 다변화 */
+  --bg-hwadu:#EEE6D6;       /* 화두 — 더 짙은 아이보리 */
+  --bg-agora:#B8C2CC;       /* 아골라 — 검정 더 섞은 슬레이트 */
+  --bg-editorial:#F0EBE0;   /* 에디토리얼 — 따뜻한 크림 */
+  --bg-journal:#C8D4C4;     /* 시민 저널 — 세이지 그린 (어둡게) */
+  --bg-news:#B8B2C2;        /* 뉴스 — 라벤더 채도↓ 명도↓ */
+  --bg-insight:#A09080;     /* 베스트 인사이트 — 두 단계 어둡게 */
+
+  /* 하위 호환 */
+  --bg:var(--color-bg); --bg-alt:var(--color-surface);
+  --ink:var(--color-text); --ink-soft:var(--color-text-light);
+  --ink-faint:var(--color-muted);
+  --wood:#5D4037; --thread:var(--gold);
+  --thread-soft:var(--gold-soft);
+  --border:rgba(42,32,24,0.08); --border-md:rgba(42,32,24,0.16);
+  --surface:#FFFDF8;
+
+  --font-serif:'Nanum Myeongjo',serif;
+  --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:var(--font-sans);border:none;}
+input,textarea,select{font-family:var(--font-sans);}
+
+/* ─── 헤더 ─── */
+.site-header{background:rgba(26,21,14,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(176,128,64,0.25);position:sticky;top:0;z-index:200;}
+.site-header .logo{color:#F8F2EA;}
+.site-header .logo-kanji{color:var(--gold);border-color:var(--gold);}
+.site-header .main-nav a{color:rgba(248,242,234,0.7);}
+.site-header .main-nav a:hover{color:#F8F2EA;}
+.site-header .main-nav a::after{background:var(--gold);}
+.site-header .btn-sm{color:rgba(248,242,234,0.7);border-color:rgba(248,242,234,0.2);}
+.site-header .btn-sm:hover{background:rgba(248,242,234,0.08);color:#F8F2EA;}
+.site-header .btn-primary{background:var(--gold);}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 4%;display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px;}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-weight:800;font-size:20px;color:var(--ink);white-space:nowrap;cursor:pointer;}
+.logo-kanji{font-size:15px;color:var(--thread);border:1px solid var(--thread);width:28px;height:28px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.logo-kanji:hover{background:var(--thread-soft);}
+.main-nav{display:flex;align-items:center;flex:1;justify-content:center;gap:0;}
+.main-nav a{padding:8px 14px;font-size:13px;font-weight:500;color:var(--ink-soft);position:relative;transition:color 0.2s;white-space:nowrap;}
+.main-nav a:hover{color:var(--ink);}
+.main-nav a::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--thread);transition:width 0.2s;}
+.main-nav a:hover::after{width:60%;}
+.header-actions{display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.btn-sm{background:none;color:var(--ink-soft);border:1px solid var(--border-md);border-radius:6px;padding:6px 14px;font-size:13px;font-weight:500;transition:all 0.2s;}
+.btn-sm:hover{background:var(--bg-alt);color:var(--ink);}
+.btn-primary{background:var(--wood);color:#fff;border:none;border-radius:6px;padding:6px 16px;font-size:13px;font-weight:500;transition:filter 0.2s;}
+.btn-primary:hover{filter:brightness(0.88);}
+.user-badge{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--thread);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+
+/* ─── 모달 공통 ─── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--bg);border-radius:16px;width:100%;max-width:440px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.18);position:relative;}
+.modal-lg{max-width:680px;}
+.modal-xl{max-width:900px;max-height:90vh;overflow-y:auto;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--ink-faint);cursor:pointer;line-height:1;}
+.modal-close:hover{color:var(--ink);}
+.modal h2{font-family:var(--font-serif);font-size:22px;margin-bottom:20px;color:var(--ink);}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:6px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px;transition:border-color 0.2s;outline:none;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--thread);}
+.form-group textarea{resize:vertical;min-height:100px;}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;}
+.form-msg{font-size:12px;color:#8F6B6B;margin-top:8px;min-height:16px;}
+.form-link{font-size:13px;color:var(--thread);cursor:pointer;text-align:center;margin-top:12px;}
+.form-link:hover{text-decoration:underline;}
+
+/* ─── 히어로 ─── */
+.hero{padding:80px 4% 64px;text-align:center;max-width:900px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--thread);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--thread);margin-bottom:28px;}
+.hero h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.25;color:var(--ink);margin-bottom:20px;}
+.hero h1 em{color:var(--thread);font-style:normal;}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--ink-soft);max-width:600px;margin:0 auto 36px;}
+.hero-cta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.btn-lg{padding:14px 28px;font-size:15px;font-weight:600;border-radius:10px;transition:all 0.2s;}
+.btn-lg.primary{background:var(--wood);color:#fff;}
+.btn-lg.primary:hover{filter:brightness(0.88);}
+.btn-lg.outline{background:none;border:1.5px solid var(--border-md);color:var(--ink-soft);}
+.btn-lg.outline:hover{border-color:var(--thread);color:var(--ink);}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:48px;padding-top:36px;border-top:1px solid var(--border);}
+.stat-item{text-align:center;}
+.stat-num{font-family:var(--font-serif);font-size:28px;font-weight:800;color:var(--thread);}
+.stat-label{font-size:12px;color:var(--ink-faint);margin-top:2px;}
+
+/* ─── 섹션 공통 ─── */
+.section{padding:60px 4%;border-bottom:3mm solid #fff;}
+.section:last-of-type{border-bottom:none;}
+.section-inner{max-width:1280px;margin:0 auto;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;}
+.section-title{font-family:var(--font-serif);font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--ink);}
+.section-title span{color:var(--thread);}
+.section-sub{font-size:13px;color:var(--ink-soft);margin-top:4px;}
+.section-more{font-size:13px;color:var(--thread);white-space:nowrap;cursor:pointer;}
+.section-more:hover{text-decoration:underline;}
+.bg-alt{background:var(--color-surface);}
+/* 섹션별 배경 */
+#hwadu{background:var(--bg-hwadu);}
+#agora{background:var(--bg-agora);}
+.section.bg-editorial{background:var(--bg-editorial);}
+/* 히어로 — 어두운 배경 위 밝은 글자 */
+.hero-dark{background:var(--ink-deep);}
+.hero-dark .hero h1,.hero-dark .hero h1 em,.hero-dark .hero-sub,
+.hero-dark .stat-num,.hero-dark .stat-label{color:#F8F2EA;}
+.hero-dark .hero-badge{border-color:var(--gold);color:var(--gold);}
+.hero-dark .hero-stats{border-top-color:rgba(248,242,234,0.15);}
+.hero-dark .btn-lg.outline{border-color:rgba(248,242,234,0.3);color:rgba(248,242,234,0.7);}
+.hero-dark .btn-lg.outline:hover{border-color:var(--gold);color:#F8F2EA;}
+/* 아골라 카드 색 */
+.plaza-card{background:var(--surface);}
+#agora .plaza-card{box-shadow:0 2px 12px rgba(61,95,138,0.08);}
+/* 화두 강조선 */
+.hwadu-box{border-color:var(--gold);background:rgba(176,128,64,0.07);}
+/* 에디토리얼 왼쪽 선 */
+.editorial-box{border-left-color:var(--gold);background:var(--gold-soft);}
+/* 인사이트 순위 색 */
+.insight-rank{color:var(--gold);}
+/* 뉴스 탭 active — 카테고리 색 유지, 기본 active는 골드 */
+.news-tab.active{background:var(--ink-deep);border-color:var(--ink-deep);}
+/* 게시글 제목 hover */
+.post-item:hover .post-title{color:var(--gold);}
+
+/* ─── 화두(話頭) ─── */
+.hwadu-box{max-width:860px;margin:0 auto;border:1px solid var(--thread);border-radius:16px;padding:36px 40px;text-align:center;background:var(--thread-soft);}
+.hwadu-label{font-size:11px;letter-spacing:3px;color:var(--thread);text-transform:uppercase;margin-bottom:16px;}
+.hwadu-text{font-family:var(--font-serif);font-size:clamp(18px,3vw,26px);font-weight:700;color:var(--ink);line-height:1.5;margin-bottom:16px;}
+.hwadu-meta{font-size:12px;color:var(--ink-faint);}
+.hwadu-actions{display:flex;justify-content:center;gap:12px;margin-top:20px;}
+.hwadu-btn{background:none;border:1px solid var(--border-md);border-radius:8px;padding:8px 20px;font-size:13px;color:var(--ink-soft);transition:all 0.2s;}
+.hwadu-btn:hover{border-color:var(--thread);color:var(--ink);}
+.hwadu-btn.active{background:var(--thread);border-color:var(--thread);color:#fff;}
+
+/* ─── 뉴스 탭 ─── */
+.news-tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;scrollbar-width:none;}
+.news-tabs::-webkit-scrollbar{display:none;}
+.news-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;color:#fff;background:none;border:1px solid rgba(255,255,255,0.35);white-space:nowrap;transition:all 0.2s;}
+.news-tab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.news-tab.active,.news-tab:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+.news-tab[data-cat="sky"].active,.news-tab[data-cat="sky"]:hover{background:var(--sky);border-color:var(--sky);}
+.news-tab[data-cat="land"].active,.news-tab[data-cat="land"]:hover{background:var(--land);border-color:var(--land);}
+.news-tab[data-cat="sea"].active,.news-tab[data-cat="sea"]:hover{background:var(--sea);border-color:var(--sea);}
+.news-panel{display:none;}
+.news-panel.active{display:block;}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.news-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;transition:box-shadow 0.2s;}
+.news-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.news-cat-badge{font-size:10px;letter-spacing:1.5px;color:var(--thread);text-transform:uppercase;margin-bottom:8px;}
+.news-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+.news-date{font-size:11px;color:var(--ink-faint);}
+.news-thought{margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);}
+.news-thought input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:12px;color:var(--ink);outline:none;}
+.news-thought input:focus{border-color:var(--thread);}
+
+/* ─── 광장 (아골라 / 아곤란) ─── */
+.plaza-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:768px){.plaza-grid{grid-template-columns:1fr;}}
+.plaza-card{border:1px solid var(--border);border-radius:16px;padding:24px;background:#fff;}
+.plaza-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.plaza-badge{display:flex;align-items:center;gap:8px;font-family:var(--font-serif);font-size:18px;font-weight:700;}
+.plaza-badge.agora{color:var(--agora);}
+.plaza-badge.agonran{color:var(--agonran);}
+.plaza-badge svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.plaza-write-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--ink-soft);transition:all 0.2s;}
+.plaza-write-btn:hover{border-color:var(--thread);color:var(--ink);}
+.post-list{display:flex;flex-direction:column;gap:0;}
+.post-item{padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.post-item:last-child{border-bottom:none;}
+.post-item:hover .post-title{color:var(--thread);}
+.post-title{font-size:14px;font-weight:500;color:var(--ink);transition:color 0.15s;line-height:1.4;}
+.post-meta{display:flex;align-items:center;gap:10px;margin-top:4px;font-size:11px;color:var(--ink-faint);}
+.post-meta-item{display:flex;align-items:center;gap:3px;}
+.post-meta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.post-empty{text-align:center;padding:32px 0;color:var(--ink-soft);font-size:13px;}
+
+/* ─── 인연의 다리 ─── */
+.bridge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.bridge-card{border:1px solid var(--border);border-radius:12px;padding:20px;background:#fff;text-align:center;transition:box-shadow 0.2s;}
+.bridge-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.bridge-icon{display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.bridge-icon svg{width:52px;height:52px;stroke:var(--thread);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.bridge-name{font-size:15px;font-weight:600;color:var(--ink);}
+.bridge-desc{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+
+/* ─── 베스트 인사이트 ─── */
+.insight-list{display:flex;flex-direction:column;gap:12px;}
+.insight-item{display:flex;align-items:flex-start;gap:16px;padding:16px;background:#fff;border:1px solid var(--border);border-radius:12px;}
+.insight-rank{font-family:var(--font-serif);font-size:24px;font-weight:800;color:var(--thread);opacity:0.5;min-width:32px;}
+.insight-content{flex:1;}
+.insight-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.insight-by{font-size:11px;color:var(--ink-faint);}
+
+/* ─── 에디토리얼 ─── */
+.editorial-box{max-width:760px;margin:0 auto;border-left:4px solid var(--thread);padding:24px 28px;background:var(--thread-soft);border-radius:0 12px 12px 0;}
+.editorial-label{font-size:11px;letter-spacing:2px;color:var(--thread);margin-bottom:10px;}
+.editorial-text{font-family:var(--font-serif);font-size:18px;color:var(--ink);line-height:1.7;}
+.editorial-by{font-size:12px;color:var(--ink-faint);margin-top:12px;}
+
+/* ─── 시민 저널 ─── */
+.journal-strip{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+.journal-strip::-webkit-scrollbar{display:none;}
+.journal-card{min-width:260px;border:1px solid var(--border);border-radius:12px;padding:18px;background:#fff;flex-shrink:0;}
+.journal-tag{font-size:10px;letter-spacing:1.5px;color:var(--agora);text-transform:uppercase;margin-bottom:8px;}
+.journal-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.45;}
+.journal-meta{font-size:11px;color:var(--ink-faint);margin-top:8px;}
+.journal-verify{display:flex;align-items:center;gap:4px;font-size:11px;color:#6B8F71;margin-top:6px;}
+.journal-verify svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ─── 사이트 빌더 CTA ─── */
+.builder-cta{border:2px dashed var(--border-md);border-radius:20px;padding:48px 32px;text-align:center;max-width:700px;margin:0 auto;}
+.builder-cta-icon{width:64px;height:64px;border-radius:16px;background:rgba(192,122,42,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.builder-cta-icon svg{width:32px;height:32px;stroke:#C07A2A;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.builder-cta h3{font-family:var(--font-serif);font-size:22px;margin-bottom:10px;}
+.builder-cta p{font-size:14px;color:var(--ink-soft);max-width:480px;margin:0 auto 24px;}
+.builder-cta-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+
+/* ─── 생태계 ─── */
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+.eco-card{border:1px solid var(--border);border-radius:12px;padding:24px 20px 20px;background:#fff;text-align:center;}
+.eco-icon{display:flex;justify-content:center;align-items:center;margin-bottom:14px;color:var(--gold);}
+.eco-icon svg{width:56px;height:56px;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none;}
+.eco-name{font-size:14px;font-weight:600;color:var(--ink);}
+.eco-url{font-size:11px;color:var(--thread);margin-top:4px;}
+
+/* ─── 설정 버튼 ─── */
+.settings-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
+.settings-btn:hover{color:var(--gold);border-color:var(--gold);}
+/* ─── 설정 모달 ─── */
+.settings-section{border-top:1px solid var(--border);padding:16px 0;}
+.settings-section:first-of-type{border-top:none;padding-top:8px;}
+.settings-section-title{font-size:11px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.settings-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.settings-label{font-size:14px;color:var(--ink);}
+/* 토글 스위치 */
+.toggle-switch{position:relative;width:42px;height:24px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border-md);border-radius:24px;transition:.3s;cursor:pointer;}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle-switch input:checked+.toggle-slider{background:var(--gold);}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(18px);}
+/* 글씨 크기 버튼 */
+.font-size-btns{display:flex;gap:6px;}
+.font-size-btns button{background:none;border:1px solid var(--border-md);border-radius:6px;padding:4px 12px;font-size:12px;color:var(--ink-soft);cursor:pointer;}
+.font-size-btns button.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+/* 다크모드 변수 */
+body.dark-mode{
+  --color-bg:#1A1612;--color-surface:#2C2620;--color-primary:#C8A870;
+  --color-muted:#6A6058;--color-text:#E8DDD0;--color-text-light:#A89888;
+  --border:#3A3028;--border-md:#4A4038;--surface:#2C2620;
+  --ink:#E8DDD0;--ink-soft:#A89888;--ink-faint:#6A6058;
+}
+body.dark-mode .plaza-card,body.dark-mode .modal,body.dark-mode .eco-card{background:#2C2620;}
+body.dark-mode .admin-body,body.dark-mode .admin-sidebar{background:#1A1612;}
+/* 글씨 크기 */
+body.font-small{font-size:13px;}
+body.font-large{font-size:17px;}
+
+/* ─── AI 글쓰기 보조 ─── */
+.ai-assist-bar{display:flex;align-items:center;gap:10px;margin:8px 0 4px;}
+.ai-assist-toggle{display:flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid var(--gold);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;}
+.ai-assist-toggle:hover{background:rgba(176,128,64,0.22);}
+.ai-assist-hint{font-size:11px;color:var(--color-text-light,#7A6E62);}
+.ai-panel{background:var(--color-bg,#F8F2EA);border:1px solid var(--border,#DDD5C8);border-radius:10px;padding:14px;margin-bottom:8px;}
+.ai-panel-inner{display:flex;flex-direction:column;gap:10px;}
+.ai-cmd-row{display:flex;flex-wrap:wrap;gap:6px;}
+.ai-cmd{background:#fff;border:1px solid var(--border,#DDD5C8);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--gold);cursor:pointer;transition:all .15s;}
+.ai-cmd:hover{background:var(--gold);color:#fff;}
+.ai-result-box{background:#fff;border:1px solid var(--gold);border-radius:8px;padding:12px;}
+.ai-result-label{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:6px;}
+.ai-result-text{font-size:14px;line-height:1.7;color:var(--ink,#2A2018);white-space:pre-wrap;max-height:180px;overflow-y:auto;}
+.ai-result-actions{display:flex;gap:8px;margin-top:10px;}
+.ai-apply-btn{background:var(--gold);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;}
+.ai-apply-btn:hover{filter:brightness(.9);}
+.ai-discard-btn{background:none;border:1px solid var(--border,#DDD5C8);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--ink-soft,#7A6E62);}
+.ai-loading{display:flex;align-items:center;padding:4px 0;}
+.ai-loading-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:4px;animation:aiDot 1.2s infinite ease-in-out;}
+.ai-loading-dot:nth-child(2){animation-delay:.2s;}
+.ai-loading-dot:nth-child(3){animation-delay:.4s;}
+@keyframes aiDot{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1);opacity:1}}
+.ai-key-row{display:flex;align-items:center;gap:8px;}
+.ai-key-row input{padding:6px 10px;border:1px solid var(--border,#DDD5C8);border-radius:6px;font-size:13px;background:#fff;}
+.ai-key-save{background:var(--color-primary,#7A6A52);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;}
+.ai-key-link{font-size:12px;color:var(--gold);text-decoration:none;white-space:nowrap;}
+
+/* ─── 푸터 ─── */
+.site-footer{background:var(--ink);color:rgba(255,255,255,0.65);padding:48px 4% 32px;}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1fr auto;gap:32px;margin-bottom:32px;}
+.footer-brand{font-family:var(--font-serif);font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;}
+.footer-tagline{font-size:13px;line-height:1.6;}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.5);transition:color 0.2s;}
+.footer-links a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;font-size:12px;display:flex;justify-content:space-between;}
+
+/* ─── 게시글 상세 모달 ─── */
+.post-detail-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.post-detail-title{font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px;}
+.post-detail-meta{font-size:12px;color:var(--ink-faint);}
+.post-detail-body{font-size:15px;line-height:1.85;color:var(--ink-soft);margin-bottom:24px;white-space:pre-wrap;}
+.post-detail-actions{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.like-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border-md);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--ink-soft);transition:all 0.2s;}
+.like-btn:hover,.like-btn.liked{background:rgba(176,142,97,0.15);border-color:var(--thread);color:var(--thread);}
+.like-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.comments-section h3{font-size:16px;font-weight:600;margin-bottom:16px;}
+.comment-list{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+.comment-item{background:var(--bg-alt);border-radius:10px;padding:12px 14px;}
+.comment-nick{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.comment-text{font-size:13px;color:var(--ink-soft);}
+.comment-date{font-size:11px;color:var(--ink-faint);margin-top:4px;}
+.comment-input-row{display:flex;gap:8px;}
+.comment-input-row input{flex:1;padding:9px 12px;border:1px solid var(--border-md);border-radius:8px;font-size:13px;background:var(--bg);outline:none;}
+.comment-input-row input:focus{border-color:var(--thread);}
+.comment-input-row button{padding:9px 16px;background:var(--thread);color:#fff;border-radius:8px;font-size:13px;border:none;}
+
+/* ─── 관리자 대시보드 ─── */
+.admin-overlay{position:fixed;inset:0;background:var(--bg);z-index:900;display:none;flex-direction:column;}
+.admin-overlay.open{display:flex;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:#fff;}
+.admin-header h1{font-family:var(--font-serif);font-size:20px;display:flex;align-items:center;gap:8px;}
+.admin-header h1 svg{width:20px;height:20px;stroke:var(--thread);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.admin-close{background:none;border:none;font-size:22px;color:var(--ink-faint);cursor:pointer;}
+.admin-body{display:flex;flex:1;overflow:hidden;}
+.admin-sidebar{width:200px;border-right:1px solid var(--border);background:#fff;padding:16px 0;flex-shrink:0;}
+.admin-nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:all 0.15s;}
+.admin-nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.admin-nav-item:hover{background:var(--bg-alt);color:var(--ink);}
+.admin-nav-item.active{background:var(--thread-soft);color:var(--thread);}
+.admin-content{flex:1;overflow-y:auto;padding:28px;}
+.admin-panel{display:none;}
+.admin-panel.active{display:block;}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
+.admin-stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;}
+.admin-stat-num{font-family:var(--font-serif);font-size:28px;font-weight:800;color:var(--thread);}
+.admin-stat-label{font-size:12px;color:var(--ink-faint);margin-top:4px;}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px;}
+.admin-table th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--ink-soft);font-weight:500;}
+.admin-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink);}
+.admin-table tr:hover td{background:var(--bg-alt);}
+.admin-section-title{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--ink);}
+.settings-group{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
+.settings-group h3{font-size:15px;font-weight:600;margin-bottom:16px;}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.setting-row:last-child{border-bottom:none;}
+.setting-label{font-size:14px;color:var(--ink);}
+.setting-input{padding:6px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px;background:var(--bg);}
+.toggle{position:relative;width:44px;height:24px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:12px;transition:.3s;}
+.toggle-slider:before{position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle input:checked+.toggle-slider{background:var(--thread);}
+.toggle input:checked+.toggle-slider:before{transform:translateX(20px);}
+.news-edit-list{display:flex;flex-direction:column;gap:12px;}
+.news-edit-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;}
+.news-edit-item input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;margin-bottom:6px;background:var(--bg);}
+.news-edit-actions{display:flex;gap:6px;justify-content:flex-end;}
+.btn-danger{background:#8F6B6B;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;}
+.btn-add{display:flex;align-items:center;gap:6px;background:var(--thread-soft);border:1px dashed var(--thread);border-radius:8px;padding:10px;width:100%;justify-content:center;font-size:13px;color:var(--thread);}
+
+/* ─── 비밀의 문 힌트 ─── */
+.secret-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(29,29,27,0.85);color:#fff;padding:8px 18px;border-radius:20px;font-size:12px;z-index:600;opacity:0;transition:opacity 0.3s;pointer-events:none;}
+.secret-hint.show{opacity:1;}
+
+/* ─── 지구 캔버스 ─── */
+.hero-dark{position:relative;overflow:hidden;}
+#earthCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.hero{position:relative;z-index:2;}
+
+/* ─── 반응형 ─── */
+@media(max-width:900px){
+  .main-nav{display:none;}
+  .footer-top{grid-template-columns:1fr;}
+  .footer-links{flex-wrap:wrap;}
+}
+@media(max-width:600px){
+  .hero{padding:48px 4% 40px;}
+  .hero-stats{gap:24px;}
+  .section{padding:40px 4%;}
+  .hwadu-box{padding:24px 20px;}
+  .admin-sidebar{width:56px;}
+  .admin-nav-item span{display:none;}
+}
+</style>
 </head>
 <body>
-    <!-- ===== 헤더 ===== -->
-    <header>
-        <div class="header-container">
-            <div class="logo">y-life.kr</div>
-            <nav>
-                <a href="#agora">아골라</a>
-                <a href="#agonran">아곤란</a>
-                <a href="#builder">사이트 빌더</a>
-                <a href="#news">뉴스</a>
-            </nav>
-            <button class="btn-header">시작하기</button>
-        </div>
-    </header>
 
-    <!-- ===== 히어로 섹션 ===== -->
-    <section class="hero light-bg">
-        <div class="hero-container">
-            <h1>당신의 지식을 당신의 것으로</h1>
-            <p>
-                자신의 홈페이지를 만들고, 포트폴리오를 정리하고,<br>
-                책을 출판하고, 지역 뉴스를 통해 의견을 나누세요.<br>
-                y-life.kr은 당신의 모든 것을 담을 수 있는 플랫폼입니다.
-            </p>
-            <button class="btn-primary">플랫폼 둘러보기</button>
-        </div>
-    </section>
+<!-- ─── 비밀의 문 힌트 ─── -->
+<div class="secret-hint" id="secretHint">緣 클릭 중... 관리자 모드</div>
 
-    <!-- ===== 핵심 기능 3가지 ===== -->
-    <section id="features" class="white-bg">
-        <div class="container">
-            <h2>y-life.kr의 3가지 핵심</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2L15.09 8.26h6.79L17.55 12.74l3.09 6.26-5.34-3.48-5.34 3.48 3.09-6.26-5.34-3.48h6.79z"/>
-                        </svg>
-                    </div>
-                    <h3>자신의 플랫폼을 만드세요</h3>
-                    <p>홈페이지, 포트폴리오, 책을 쉽고 자유롭게 만들 수 있습니다. 복잡한 코딩 없이도 당신의 이야기를 담을 수 있는 공간입니다.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                        </svg>
-                    </div>
-                    <h3>뉴스를 통해 소통하세요</h3>
-                    <p>주변에서 일어나는 가장 주요한 소식을 놓치지 않고, 자신의 의견을 내놓고, 다른 사람과 대화를 나누세요.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"/>
-                            <path d="M9.5 9a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0m9 9H5.5v-2a4.5 4.5 0 0 1 9 0z"/>
-                        </svg>
-                    </div>
-                    <h3>당신의 콘텐츠는 당신의 것</h3>
-                    <p>y-life.kr에서 만든 모든 것은 당신의 자산입니다. 언제든 당신의 공간으로 옮겨갈 수 있습니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ════════════════════════════════
+     모달: 설정
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+    <h2>⚙ 설정</h2>
 
-    <!-- ===== 아골라 (어른들의 목소리) ===== -->
-    <section id="agora" class="light-bg">
-        <div class="container">
-            <div class="agora-intro">
-                <div class="agora-tag">어른들의 목소리</div>
-                <h2>아골라</h2>
-                <p>부모님, 선생님, 지역 어른들이 삶의 경험과 지혜를 나누는 공간입니다.<br>
-                   한 사람의 이야기가 누군가의 길을 밝혀줄 수 있습니다.</p>
-            </div>
-            <div class="agora-grid">
-                <div class="agora-card">
-                    <div class="writer-tag">학부모 · 이윤서</div>
-                    <h4>우리 아이가 처음으로 스스로 책상 앞에 앉은 날</h4>
-                    <p>억지로 시킨 게 아닌데, 그날 아이가 먼저 책상 앞에 앉았습니다. 그 하루가 어떻게 가능했는지 나눠봅니다.</p>
-                </div>
-                <div class="agora-card">
-                    <div class="writer-tag">선생님 · 박준혁</div>
-                    <h4>20년 가르치면서 배운 것 — 학생에게 말 걸기</h4>
-                    <p>말 한 마디가 아이의 한 해를 바꾸기도 합니다. 어떤 말이 그런 힘을 갖는지 이야기합니다.</p>
-                </div>
-                <div class="agora-card">
-                    <div class="writer-tag">지역 어른 · 김대현</div>
-                    <h4>울산에서 40년, 이 동네가 달라진 것들</h4>
-                    <p>어른이 기억하는 동네의 모습. 기록으로 남기지 않으면 사라질 이야기들입니다.</p>
-                </div>
-            </div>
-            <div class="agora-cta">
-                <button class="btn-outline">아골라에서 글 쓰기</button>
-            </div>
+    <!-- 표시 설정 -->
+    <div class="settings-section">
+      <div class="settings-section-title">표시 설정</div>
+      <div class="settings-row">
+        <span class="settings-label">다크 모드</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" onchange="applyDarkMode(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">글씨 크기</span>
+        <div class="font-size-btns">
+          <button onclick="setFontSize('small')" id="fs-small">작게</button>
+          <button onclick="setFontSize('normal')" id="fs-normal" class="active">보통</button>
+          <button onclick="setFontSize('large')" id="fs-large">크게</button>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- ===== 아곤란 (아이들의 목소리) ===== -->
-    <section id="agonran" class="white-bg">
-        <div class="container">
-            <div class="agora-intro">
-                <div class="agora-tag" style="background-color: #E8F4F8; color: #3A7CA5;">아이들의 목소리</div>
-                <h2>아곤란</h2>
-                <p>학생과 청소년들이 자신의 생각, 질문, 꿈을 마음껏 펼치는 공간입니다.<br>
-                   작은 목소리도 여기서는 당당하게 들립니다.</p>
-            </div>
-            <div class="agora-grid">
-                <div class="agora-card" style="border-left-color: #3A7CA5;">
-                    <div class="writer-tag" style="color: #3A7CA5;">중학생 · 최지아</div>
-                    <h4>내가 왜 공부를 해야 하는지 모르겠다는 친구에게</h4>
-                    <p>나도 그런 때가 있었어. 근데 어느 날 딱 하나를 발견했고, 그게 달라지게 했어.</p>
-                </div>
-                <div class="agora-card" style="border-left-color: #3A7CA5;">
-                    <div class="writer-tag" style="color: #3A7CA5;">고등학생 · 이준서</div>
-                    <h4>우리 동네에 청소년 공간이 없다는 것</h4>
-                    <p>갈 곳이 없어서 편의점 앞에 앉아 있는 게 우리 잘못인가요? 솔직하게 써봤습니다.</p>
-                </div>
-                <div class="agora-card" style="border-left-color: #3A7CA5;">
-                    <div class="writer-tag" style="color: #3A7CA5;">초등학생 · 박하윤</div>
-                    <h4>내가 직접 만든 도서관 추천 목록</h4>
-                    <p>친구들한테 꼭 읽혔으면 하는 책 다섯 권. 읽고 나서 제 삶이 조금 달라진 책들이에요.</p>
-                </div>
-            </div>
-            <div class="agora-cta">
-                <button class="btn-outline" style="color: #3A7CA5; border-color: #3A7CA5;">아곤란에서 글 쓰기</button>
-            </div>
+    <!-- AI 도우미 -->
+    <div class="settings-section">
+      <div class="settings-section-title">AI 글쓰기 도우미</div>
+      <div class="settings-row" style="align-items:flex-start;flex-direction:column;gap:8px">
+        <span class="settings-label">Gemini API 키</span>
+        <div style="display:flex;gap:8px;width:100%">
+          <input type="password" id="settingsGeminiKey" placeholder="AIza..." style="flex:1;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px">
+          <button class="btn-primary" style="font-size:13px;padding:8px 14px" onclick="saveGeminiKeyFromSettings()">저장</button>
         </div>
-    </section>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:12px;color:var(--gold)">키 무료 발급 → Google AI Studio</a>
+        <div id="geminiKeyStatus" style="font-size:12px;color:var(--ink-soft)"></div>
+      </div>
+    </div>
 
-    <!-- ===== 사이트 빌더 ===== -->
-    <section id="builder" class="light-bg">
-        <div class="container">
-            <div class="builder-intro">
-                <h2>내 공간을 직접 만드세요</h2>
-                <p>코딩 없이도 누구나 자신만의 홈페이지, 쇼핑몰, 포트폴리오, 블로그를 만들 수 있습니다.<br>
-                   만든 사이트는 사람들과의 소통과 홍보 공간이 됩니다.</p>
-            </div>
-            <div class="builder-grid">
-                <div class="builder-card">
-                    <div class="builder-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                    </div>
-                    <h3>홈페이지</h3>
-                    <p>나를 소개하고 내 이야기를 담는 공간</p>
-                </div>
-                <div class="builder-card">
-                    <div class="builder-icon">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                        </svg>
-                    </div>
-                    <h3>쇼핑몰</h3>
-                    <p>내 상품과 서비스를 판매하는 공간</p>
-                </div>
-                <div class="builder-card">
-                    <div class="builder-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                    </div>
-                    <h3>포트폴리오</h3>
-                    <p>내 작업물과 경력을 보여주는 공간</p>
-                </div>
-                <div class="builder-card">
-                    <div class="builder-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                        </svg>
-                    </div>
-                    <h3>블로그</h3>
-                    <p>내 생각과 지식을 꾸준히 기록하는 공간</p>
-                </div>
-            </div>
-
-            <!-- 사용 예시: yeon.ai.kr -->
-            <div class="builder-example">
-                <div class="builder-example-text">
-                    <div class="ex-label">사이트 빌더 사용 예시</div>
-                    <h3>연학원플레이스 — yeon.ai.kr</h3>
-                    <p>연소사님이 y-life.kr 사이트 빌더로 직접 만든 학원 홈페이지입니다.<br>
-                       학생 연결(Connecting), 방향 안내(Guiding), 성장 기록(Witnessing), 함께 생각하기(Thinking)를 한 곳에 담았습니다.</p>
-                    <a href="https://yeon.ai.kr" target="_blank"><button class="btn-link">연학원플레이스 보러가기</button></a>
-                </div>
-                <div class="builder-example-badge">
-                    <div class="badge-icon">🏫</div>
-                    <strong>연학원플레이스</strong>
-                    <p>yeon.ai.kr<br>사이트 빌더로 제작</p>
-                </div>
-            </div>
+    <!-- 내 계정 (로그인 시에만) -->
+    <div class="settings-section" id="settingsAccountSection" style="display:none">
+      <div class="settings-section-title">내 계정</div>
+      <div class="settings-row">
+        <span class="settings-label">비밀번호 변경</span>
+        <button class="btn-sm" onclick="openChangePwPanel()">변경하기</button>
+      </div>
+      <div id="changePwPanel" style="display:none;margin-top:8px">
+        <div class="form-group" style="margin-bottom:8px">
+          <input type="password" id="oldPwInput" placeholder="현재 비밀번호" style="width:100%;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px">
         </div>
-    </section>
-
-    <!-- ===== 사용 사례 ===== -->
-    <section id="cases" class="white-bg">
-        <div class="container">
-            <h2>y-life.kr을 사용하는 사람들</h2>
-            <p>교육기관부터 개인 크리에이터까지, 누구나 자신의 공간을 만들고 있습니다.</p>
-            <div class="cases-grid">
-                <div class="case-card">
-                    <div class="case-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
-                    </div>
-                    <h3>학원/교육기관</h3>
-                    <div class="case-domain">academy.y-life.kr</div>
-                    <p>학생들과 학부모들을 위한 투명한 소통 공간</p>
-                </div>
-                <div class="case-card">
-                    <div class="case-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54L6.5 17h11z"/>
-                        </svg>
-                    </div>
-                    <h3>개인 포트폴리오</h3>
-                    <div class="case-domain">mywork.y-life.kr</div>
-                    <p>나의 작업물과 경력을 보여주는 공간</p>
-                </div>
-                <div class="case-card">
-                    <div class="case-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54L6.5 17h11z"/>
-                        </svg>
-                    </div>
-                    <h3>소상공인</h3>
-                    <div class="case-domain">myshop.y-life.kr</div>
-                    <p>사업과 지역 소식을 함께 나누는 공간</p>
-                </div>
-            </div>
+        <div class="form-group" style="margin-bottom:8px">
+          <input type="password" id="newPwInput" placeholder="새 비밀번호 (6자 이상)" style="width:100%;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px">
         </div>
-    </section>
+        <button class="btn-primary" style="font-size:13px;width:100%" onclick="doChangePw()">비밀번호 변경</button>
+        <div id="changePwMsg" style="font-size:12px;margin-top:6px;color:var(--ink-soft)"></div>
+      </div>
+      <div class="settings-row" style="margin-top:8px">
+        <span class="settings-label">로그아웃</span>
+        <button class="btn-sm" onclick="doLogout();closeModal('settingsModal')" style="color:#8F6B6B;border-color:#8F6B6B">로그아웃</button>
+      </div>
+    </div>
 
-    <!-- ===== 뉴스 섹션 ===== -->
-    <section id="news" class="white-bg">
-        <div class="container">
-            <h2>지역 뉴스, 함께 나누기</h2>
-            <div class="news-intro">
-                <p>당신 주변의 주요 소식을 놓치지 않고, 의견을 나누는 공간</p>
-            </div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h4>지역 교육청, 새로운 정책 발표</h4>
-                    <p>지역 교육청</p>
-                    <div class="news-footer">
-                        <span>조회 1,240</span>
-                        <span>평가 9.2</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <h4>우리 동네 소상공인 지원 확대</h4>
-                    <p>지방 행정</p>
-                    <div class="news-footer">
-                        <span>조회 892</span>
-                        <span>평가 8.7</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <h4>지역 문화 행사 소개</h4>
-                    <p>문화위원회</p>
-                    <div class="news-footer">
-                        <span>조회 654</span>
-                        <span>평가 8.1</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="form-msg" id="settingsMsg"></div>
+  </div>
+</div>
 
-    <!-- ===== CTA 섹션 ===== -->
-    <section class="cta">
-        <div class="container">
-            <h2>지금 시작하세요</h2>
-            <p>당신의 이야기를 당신의 방식으로 세상과 나누세요.</p>
-            <button class="btn-cta">가입하기</button>
-        </div>
-    </section>
+<!-- ════════════════════════════════
+     모달: 로그인
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2>로그인</h2>
+    <div class="form-group"><label>아이디 또는 이메일</label>
+      <input type="text" id="loginId" placeholder="아이디 입력"></div>
+    <div class="form-group"><label>비밀번호</label>
+      <input type="password" id="loginPw" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="form-msg" id="loginMsg"></div>
+    <div class="form-actions">
+      <button class="btn-sm" onclick="closeModal('loginModal')">취소</button>
+      <button class="btn-primary" onclick="doLogin()">로그인</button>
+    </div>
+    <p class="form-link" onclick="switchModal('loginModal','signupModal')">처음이신가요? 가입하기</p>
+  </div>
+</div>
 
-    <!-- ===== 푸터 ===== -->
-    <footer>
-        <div class="container">
-            <p>© 2026 y-life.kr. 모든 권리 보유.</p>
-            <p>당신의 지식을 당신의 것으로 만드는 오픈 플랫폼</p>
+<!-- ════════════════════════════════
+     모달: 회원가입
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="signupModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signupModal')">✕</button>
+    <h2>새 계정 만들기</h2>
+    <div class="form-group"><label>아이디 <small style="color:var(--ink-faint)">(영문·숫자, 4자 이상)</small></label>
+      <input type="text" id="signupId" placeholder="example123"></div>
+    <div class="form-group"><label>별명 <small style="color:var(--ink-faint)">(광장에 표시되는 이름)</small></label>
+      <input type="text" id="signupNick" placeholder="닉네임"></div>
+    <div class="form-group"><label>비밀번호</label>
+      <input type="password" id="signupPw" placeholder="6자 이상"></div>
+    <div class="form-group"><label>비밀번호 확인</label>
+      <input type="password" id="signupPw2" placeholder="동일하게 입력"></div>
+    <div class="form-msg" id="signupMsg"></div>
+    <div class="form-actions">
+      <button class="btn-sm" onclick="closeModal('signupModal')">취소</button>
+      <button class="btn-primary" onclick="doSignup()">가입하기</button>
+    </div>
+    <p class="form-link" onclick="switchModal('signupModal','loginModal')">이미 계정이 있으신가요? 로그인</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     모달: 글쓰기
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="writeModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('writeModal')">✕</button>
+    <h2 id="writeModalTitle">글쓰기</h2>
+    <input type="hidden" id="writeForum" value="agora">
+    <div class="form-group"><label>제목</label>
+      <input type="text" id="writeTitle" placeholder="제목을 입력하세요"></div>
+    <div class="form-group"><label>내용</label>
+      <textarea id="writeBody" placeholder="마음씨가 담긴 글을 써주세요..." style="min-height:180px"></textarea></div>
+
+    <!-- AI 글쓰기 보조 -->
+    <div class="ai-assist-bar">
+      <button class="ai-assist-toggle" onclick="toggleAiPanel()" id="aiToggleBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+        AI 글쓰기 도움
+      </button>
+      <span class="ai-assist-hint">Gemini가 글다듬기, 맞춤법, 문체 개선을 도와줍니다</span>
+    </div>
+
+    <div class="ai-panel" id="aiPanel" style="display:none">
+      <div class="ai-panel-inner">
+        <div class="ai-cmd-row">
+          <button class="ai-cmd" onclick="aiAssist('polish')">✦ 글다듬기</button>
+          <button class="ai-cmd" onclick="aiAssist('spell')">✦ 맞춤법 교정</button>
+          <button class="ai-cmd" onclick="aiAssist('expand')">✦ 내용 확장</button>
+          <button class="ai-cmd" onclick="aiAssist('summary')">✦ 요약하기</button>
+          <button class="ai-cmd" onclick="aiAssist('formal')">✦ 격식체로</button>
+          <button class="ai-cmd" onclick="aiAssist('casual')">✦ 구어체로</button>
         </div>
-    </footer>
+        <div class="ai-result-box" id="aiResultBox" style="display:none">
+          <div class="ai-result-label">AI 제안</div>
+          <div class="ai-result-text" id="aiResultText"></div>
+          <div class="ai-result-actions">
+            <button class="ai-apply-btn" onclick="applyAiResult()">이 내용으로 교체</button>
+            <button class="ai-discard-btn" onclick="discardAiResult()">취소</button>
+          </div>
+        </div>
+        <div class="ai-loading" id="aiLoading" style="display:none">
+          <span class="ai-loading-dot"></span><span class="ai-loading-dot"></span><span class="ai-loading-dot"></span>
+          <span style="margin-left:8px;font-size:13px;color:var(--color-text-light)">Gemini가 생각하는 중...</span>
+        </div>
+        <div class="ai-key-row" id="aiKeyRow">
+          <input type="password" id="geminiKeyInput" placeholder="Gemini API 키 (최초 1회만 입력)" style="flex:1">
+          <button class="ai-key-save" onclick="saveGeminiKey()">저장</button>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" class="ai-key-link">키 발급 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-msg" id="writeMsg"></div>
+    <div class="form-actions">
+      <button class="btn-sm" onclick="closeModal('writeModal')">취소</button>
+      <button class="btn-primary" onclick="doSubmitPost()">게시하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     모달: 게시글 상세
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="postModal">
+  <div class="modal modal-xl">
+    <button class="modal-close" onclick="closeModal('postModal')">✕</button>
+    <div class="post-detail-header">
+      <div class="post-detail-title" id="postDetailTitle"></div>
+      <div class="post-detail-meta" id="postDetailMeta"></div>
+    </div>
+    <div class="post-detail-body" id="postDetailBody"></div>
+    <div class="post-detail-actions">
+      <button class="like-btn" id="likeBtn" onclick="toggleLike()">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span id="likeCount">0</span> 공감
+      </button>
+    </div>
+    <div class="comments-section">
+      <h3>댓글 <span id="commentCount">0</span></h3>
+      <div class="comment-list" id="commentList"></div>
+      <div class="comment-input-row">
+        <input type="text" id="commentInput" placeholder="댓글을 입력하세요..." onkeydown="if(event.key==='Enter')doAddComment()">
+        <button onclick="doAddComment()">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     모달: 관리자 로그인
+═══════════════════════════════════ -->
+<div class="modal-backdrop" id="adminLoginModal">
+  <div class="modal" style="max-width:360px;text-align:center">
+    <button class="modal-close" onclick="closeModal('adminLoginModal')">✕</button>
+    <div style="font-size:32px;margin-bottom:12px">🔐</div>
+    <h2 style="font-size:18px;margin-bottom:16px">관리자 접근</h2>
+    <div class="form-group"><input type="password" id="adminPwInput" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')doAdminLogin()"></div>
+    <div class="form-msg" id="adminLoginMsg"></div>
+    <div class="form-actions" style="justify-content:center">
+      <button class="btn-primary" onclick="doAdminLogin()">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     관리자 대시보드
+═══════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-header">
+    <h1>
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      관리자 대시보드
+    </h1>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:12px;color:var(--ink-faint)">y-life.kr 관리자</span>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-sidebar">
+      <div class="admin-nav-item active" onclick="showAdminPanel('dashboard',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>대시보드</span>
+      </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('news-mgmt',this)">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg>
+        <span>뉴스 관리</span>
+      </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('post-mgmt',this)">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>게시판 관리</span>
+      </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('user-mgmt',this)">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>회원 관리</span>
+      </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('hwadu-mgmt',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>화두 편집</span>
+      </div>
+      <div class="admin-nav-item" onclick="showAdminPanel('settings',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M12 2v2M4.93 4.93l1.41 1.41M2 12h2M4.93 19.07l1.41-1.41M12 20v2M19.07 19.07l-1.41-1.41M22 12h-2"/></svg>
+        <span>설정</span>
+      </div>
+    </div>
+    <div class="admin-content">
+
+      <!-- 대시보드 -->
+      <div class="admin-panel active" id="panel-dashboard">
+        <div class="admin-section-title">현황 요약</div>
+        <div class="admin-stat-grid" id="adminStatGrid"></div>
+        <div class="admin-section-title" style="margin-top:24px">최근 게시글</div>
+        <div id="adminRecentPosts"></div>
+      </div>
+
+      <!-- 뉴스 관리 -->
+      <div class="admin-panel" id="panel-news-mgmt">
+        <div class="admin-section-title">뉴스 관리</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">각 카테고리의 뉴스를 추가·수정·삭제합니다. 변경 후 저장하면 홈페이지에 즉시 반영됩니다.</p>
+        <div id="newsMgmtTabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
+        <div id="newsMgmtContent"></div>
+        <button class="btn-add" style="margin-top:12px" onclick="adminAddNews()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          뉴스 추가
+        </button>
+        <div style="margin-top:16px;text-align:right">
+          <button class="btn-primary" onclick="saveNews()">변경사항 저장</button>
+        </div>
+      </div>
+
+      <!-- 게시판 관리 -->
+      <div class="admin-panel" id="panel-post-mgmt">
+        <div class="admin-section-title">게시판 관리</div>
+        <div style="margin-bottom:12px;display:flex;gap:8px">
+          <button class="news-tab active" id="postMgmtTab-agora" onclick="switchPostMgmtTab('agora')">아골라</button>
+          <button class="news-tab" id="postMgmtTab-agonran" onclick="switchPostMgmtTab('agonran')">아곤란</button>
+        </div>
+        <div id="postMgmtTable"></div>
+      </div>
+
+      <!-- 회원 관리 -->
+      <div class="admin-panel" id="panel-user-mgmt">
+        <div class="admin-section-title">회원 관리</div>
+        <div id="userMgmtTable"></div>
+      </div>
+
+      <!-- 화두 편집 -->
+      <div class="admin-panel" id="panel-hwadu-mgmt">
+        <div class="admin-section-title">화두(話頭) 편집</div>
+        <div class="settings-group">
+          <div class="form-group"><label>오늘의 화두</label>
+            <textarea id="adminHwaduText" style="min-height:80px"></textarea></div>
+          <div class="form-group"><label>출처 / 제안자</label>
+            <input type="text" id="adminHwaduBy"></div>
+          <div class="form-actions"><button class="btn-primary" onclick="saveHwadu()">화두 저장</button></div>
+        </div>
+        <div class="admin-section-title" style="margin-top:24px">화두 예비 목록</div>
+        <div id="hwaduList" style="display:flex;flex-direction:column;gap:8px"></div>
+        <button class="btn-add" style="margin-top:10px" onclick="adminAddHwadu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          화두 추가
+        </button>
+      </div>
+
+      <!-- 설정 -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="admin-section-title">사이트 설정</div>
+        <div class="settings-group">
+          <h3>기본 정보</h3>
+          <div class="setting-row"><span class="setting-label">사이트 이름</span><input class="setting-input" id="cfg-sitename" value="y-life.kr"></div>
+          <div class="setting-row"><span class="setting-label">슬로건</span><input class="setting-input" id="cfg-slogan" value="삶·인연·소통"></div>
+        </div>
+        <div class="settings-group">
+          <h3>기능 설정</h3>
+          <div class="setting-row"><span class="setting-label">회원가입 허용</span><label class="toggle"><input type="checkbox" id="cfg-signup" checked><span class="toggle-slider"></span></label></div>
+          <div class="setting-row"><span class="setting-label">댓글 허용</span><label class="toggle"><input type="checkbox" id="cfg-comment" checked><span class="toggle-slider"></span></label></div>
+          <div class="setting-row"><span class="setting-label">비로그인 글 읽기 허용</span><label class="toggle"><input type="checkbox" id="cfg-public-read" checked><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="settings-group">
+          <h3>관리자 비밀번호 변경</h3>
+          <div class="form-group"><label>새 비밀번호</label><input type="password" id="newAdminPw"></div>
+          <div class="form-group"><label>확인</label><input type="password" id="newAdminPw2"></div>
+          <div class="form-msg" id="adminPwMsg"></div>
+          <div class="form-actions"><button class="btn-primary" onclick="changeAdminPw()">비밀번호 변경</button></div>
+        </div>
+        <div style="text-align:right;margin-top:16px">
+          <button class="btn-primary" onclick="saveSettings()">설정 저장</button>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-body -->
+</div><!-- /admin-overlay -->
+
+<!-- ════════════════════════════════
+     헤더
+═══════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo" onclick="scrollToTop()">
+      <span class="logo-kanji" id="logoKanji" title="비밀의 문">緣</span>
+      y-life.kr
+    </div>
+    <nav class="main-nav">
+      <a href="#hwadu">화두</a>
+      <a href="#news">소식</a>
+      <a href="#agora">아골라</a>
+      <a href="#agonran">아곤란</a>
+      <a href="#bridge">인연의 다리</a>
+      <a href="#builder">사이트 빌더</a>
+    </nav>
+    <div class="header-actions" id="headerActions">
+      <button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
+      <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
+      <button class="settings-btn" onclick="openModal('settingsModal')" title="설정">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section class="hero-dark">
+  <canvas id="earthCanvas"></canvas>
+  <div class="hero">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      2026년 4월 25일 · 울산에서 시작하는 디지털 마을
+    </div>
+    <h1>삶·인연·소통<br><em>그 깊은 연(緣)으로 잇다</em></h1>
+    <p class="hero-sub">참된 것이 먼저 오는 자리. 말에는 마음씨가 그대로 담겨있습니다. 함께 묻고 따지면 결국 바른 곳으로.</p>
+    <div class="hero-cta">
+      <button class="btn-lg primary" onclick="openModal('signupModal')">마을 입주하기</button>
+      <button class="btn-lg outline" onclick="document.getElementById('agora').scrollIntoView({behavior:'smooth'})">광장 구경하기</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num" id="statUsers">0</div><div class="stat-label">마을 주민</div></div>
+      <div class="stat-item"><div class="stat-num" id="statPosts">0</div><div class="stat-label">광장 글</div></div>
+      <div class="stat-item"><div class="stat-num">2026</div><div class="stat-label">개원 연도</div></div>
+      <div class="stat-item"><div class="stat-num">울산</div><div class="stat-label">시작의 땅</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     화두(話頭)
+═══════════════════════════════════ -->
+<section class="section bg-alt" id="hwadu">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">오늘의 <span>화두(話頭)</span></div>
+        <div class="section-sub">함께 묻고 따지면 결국 바른 곳으로 — 사필귀정(事必歸正)</div>
+      </div>
+    </div>
+    <div class="hwadu-box">
+      <div class="hwadu-label">TODAY · 2026.04.25</div>
+      <div class="hwadu-text" id="hwaduText">
+        사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 '나'는 누구인가?
+      </div>
+      <div class="hwadu-meta" id="hwaduBy">— 연소사 제안 · Libet 실험에서 영감</div>
+      <div class="hwadu-actions">
+        <button class="hwadu-btn" onclick="openWrite('agora','이 화두에 대해: ')">아골라에서 토론</button>
+        <button class="hwadu-btn" onclick="openWrite('agonran','이 화두에 대해: ')">아곤란에서 생각</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     뉴스 : 우리 동네 소식 & 세상은?
+═══════════════════════════════════ -->
+<section class="section" id="news" style="background:var(--bg-news)">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">우리 동네 소식 <span>&</span> 세상은?</div>
+        <div class="section-sub" style="color:#fff">우리 동네부터 세계까지 — 매일 주요 5건 · 내 생각 한 줄</div>
+      </div>
+    </div>
+    <div class="news-tabs" id="newsTabs">
+      <button class="news-tab active" data-cat="local" onclick="switchNews('local',this)">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>우리동네
+      </button>
+      <button class="news-tab" data-cat="region" onclick="switchNews('region',this)">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>지역
+      </button>
+      <button class="news-tab" data-cat="korea" onclick="switchNews('korea',this)">
+        <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></svg>대한민국
+      </button>
+      <button class="news-tab" data-cat="world" onclick="switchNews('world',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>지구촌
+      </button>
+      <button class="news-tab" data-cat="sky" onclick="switchNews('sky',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>하늘
+      </button>
+      <button class="news-tab" data-cat="land" onclick="switchNews('land',this)">
+        <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 7 3 2 3M12 12c0-5 5-9 10-9M2 22h20"/></svg>땅
+      </button>
+      <button class="news-tab" data-cat="sea" onclick="switchNews('sea',this)">
+        <svg viewBox="0 0 24 24"><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 7c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg>바다
+      </button>
+    </div>
+    <div id="newsContent"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     광장: 아골라 + 아곤란
+═══════════════════════════════════ -->
+<section class="section bg-alt" id="agora">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span>광장</span> — 아골라 &amp; 아곤란</div>
+        <div class="section-sub" style="color:#fff">성인의 사유 공간 &amp; 학생의 생각 광장</div>
+      </div>
+    </div>
+    <div class="plaza-grid">
+      <!-- 아골라 -->
+      <div class="plaza-card">
+        <div class="plaza-card-header">
+          <div class="plaza-badge agora">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>아골라
+          </div>
+          <button class="plaza-write-btn" onclick="openWrite('agora','')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            글쓰기
+          </button>
+        </div>
+        <div class="section-sub" style="margin-bottom:12px">성인의 자유로운 사유·토론 공간</div>
+        <div class="post-list" id="agoraList">
+          <div class="post-empty">첫 번째 글을 남겨보세요</div>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <button class="section-more" onclick="openWrite('agora','')">+ 더 쓰기</button>
+        </div>
+      </div>
+      <!-- 아곤란 -->
+      <div class="plaza-card" id="agonran">
+        <div class="plaza-card-header">
+          <div class="plaza-badge agonran">
+            <svg viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4a5 5 0 0 1 10 0v4M17 20h5M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg>아곤란
+          </div>
+          <button class="plaza-write-btn" onclick="openWrite('agonran','')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            글쓰기
+          </button>
+        </div>
+        <div class="section-sub" style="margin-bottom:12px">학생의 질문·고민·생각 광장</div>
+        <div class="post-list" id="agonranList">
+          <div class="post-empty">첫 번째 생각을 나눠보세요</div>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <button class="section-more" onclick="openWrite('agonran','')">+ 더 쓰기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     인연의 다리
+═══════════════════════════════════ -->
+<section class="section" id="bridge">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span>인연의 다리</span></div>
+        <div class="section-sub">연라이프 생태계 — 연결된 공간들</div>
+      </div>
+    </div>
+    <div class="bridge-grid">
+      <a class="bridge-card" href="https://yeon.ai.kr" target="_blank">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="bridge-name">연마을</div>
+        <div class="bridge-desc">yeon.ai.kr — 지금 운영 중인 마을</div>
+      </a>
+      <a class="bridge-card" href="https://yeon.ai.kr/supul/su-pul.html" target="_blank">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="bridge-name">수풀AI</div>
+        <div class="bridge-desc">수학 완전학습 — AI 문제 분석</div>
+      </a>
+      <a class="bridge-card" href="https://yeon.ai.kr/yeongpul/yeong-pul.html" target="_blank">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <div class="bridge-name">영풀</div>
+        <div class="bridge-desc">영어 완전학습 — 어휘·문법·독해</div>
+      </a>
+      <a class="bridge-card" href="builder.html" target="_blank">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div class="bridge-name">사이트 빌더</div>
+        <div class="bridge-desc">나만의 홈페이지 직접 만들기</div>
+      </a>
+      <div class="bridge-card" style="opacity:0.5">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <div class="bridge-name">자서전 공방</div>
+        <div class="bridge-desc">준비 중 — 2027 예정</div>
+      </div>
+      <div class="bridge-card" style="opacity:0.5">
+        <div class="bridge-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM1 7h22M1 17h22"/></svg></div>
+        <div class="bridge-name">울산 광장</div>
+        <div class="bridge-desc">준비 중 — 울산 콘텐츠 큐레이션</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     베스트 인사이트
+═══════════════════════════════════ -->
+<section class="section" style="background:var(--bg-insight)">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">베스트 <span style="color:#fff">인사이트</span></div>
+        <div class="section-sub" style="color:#fff">이번 주 광장에서 가장 깊은 울림을 준 글</div>
+      </div>
+    </div>
+    <div class="insight-list" id="insightList">
+      <div class="post-empty" style="color:#fff">아직 인사이트가 없습니다. 광장에서 첫 글을 남겨보세요.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     에디토리얼
+═══════════════════════════════════ -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span>에디토리얼</span></div>
+        <div class="section-sub">y-life.kr이 이번 주 주목하는 한 가지</div>
+      </div>
+    </div>
+    <div class="editorial-box">
+      <div class="editorial-label">EDITORIAL · 2026.04.25</div>
+      <div class="editorial-text" id="editorialText">
+        사람은 무의식적 최면 상태에서의 행동을 자신인 것으로 착각하며 산다. 그래서 종교·정치 같은 믿음 체계가 가장 위험하다. 여기에 욕심이 덧붙여지면 사이비가 된다. y-life.kr은 그 틈을 여는 공간입니다.
+      </div>
+      <div class="editorial-by" id="editorialBy">— 연소사, 2026년 4월</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     시민 저널
+═══════════════════════════════════ -->
+<section class="section" style="background:var(--bg-journal)">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span>시민 저널</span></div>
+        <div class="section-sub">누구나 기자 — 사실 검증 6단계</div>
+      </div>
+      <button class="section-more" onclick="openWrite('agora','[시민저널] ')">기사 쓰기</button>
+    </div>
+    <div class="journal-strip">
+      <div class="journal-card">
+        <div class="journal-tag">검증 완료</div>
+        <div class="journal-title">울산 태화강 봄철 수질 현황 — 주민 직접 측정 리포트</div>
+        <div class="journal-meta">2026.04.25 · 연마을 주민</div>
+        <div class="journal-verify">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>6단계 검증 완료
+        </div>
+      </div>
+      <div class="journal-card">
+        <div class="journal-tag">검증 중</div>
+        <div class="journal-title">울산 쇠부리축제 — 행사 예산 대비 시민 만족도 분석</div>
+        <div class="journal-meta">2026.04.24 · 시민기자 A</div>
+        <div class="journal-verify" style="color:var(--thread)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>3/6 검증 진행
+        </div>
+      </div>
+      <div class="journal-card">
+        <div class="journal-tag">새 기사</div>
+        <div class="journal-title">언양 지석묘군 훼손 현장 — 현지 답사 기록</div>
+        <div class="journal-meta">2026.04.23 · 시민기자 B</div>
+        <div class="journal-verify" style="color:var(--ink-faint)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>검증 대기
+        </div>
+      </div>
+      <div class="journal-card" style="border:1px dashed var(--border-md);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer" onclick="openWrite('agora','[시민저널] ')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <div style="font-size:13px;color:var(--ink-faint)">기사 작성하기</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     사이트 빌더 CTA
+═══════════════════════════════════ -->
+<section class="section" id="builder">
+  <div class="section-inner">
+    <div class="section-header" style="justify-content:center">
+      <div style="text-align:center">
+        <div class="section-title">나만의 <span>홈페이지</span> 만들기</div>
+        <div class="section-sub">코딩 없이 — 구글 사이트처럼, 더 마음씨 있게</div>
+      </div>
+    </div>
+    <div class="builder-cta">
+      <div class="builder-cta-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>블록으로 쌓는 나만의 공간</h3>
+      <p>히어로 배너, 글 블록, 사진+글, 카드 그리드, 연락처 폼 — 원하는 블록을 골라 쌓으면 홈페이지가 완성됩니다. AI 도움도 선택할 수 있습니다.</p>
+      <div class="builder-cta-btns">
+        <a href="builder.html" class="btn-lg primary" style="text-decoration:none">직접 만들기 시작</a>
+        <a href="builder.html?mode=ai" class="btn-lg outline" style="text-decoration:none">AI와 함께 만들기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     생태계
+═══════════════════════════════════ -->
+<section class="section" style="background:#8A8880">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">연라이프 <span>생태계</span></div>
+        <div class="section-sub" style="color:#fff">y-life.kr을 통해 연결되는 공간들</div>
+      </div>
+    </div>
+    <div class="eco-grid">
+      <!-- 아골라 — 성인 광장 -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M2 20h20M4 20v-8M8 20v-8M12 20v-8M16 20v-8M20 20v-8M1 12l11-9 11 9"/></svg></div>
+        <div class="eco-name">아골라</div><div class="eco-url">성인 광장</div>
+      </div>
+      <!-- 아곤란 — 학생 광장 -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6M12 12v3"/><circle cx="12" cy="9" r="1" fill="currentColor"/></svg></div>
+        <div class="eco-name">아곤란</div><div class="eco-url">학생 광장</div>
+      </div>
+      <!-- 수풀AI -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><path d="M13 13h4M13 17h4M13 9h4"/></svg></div>
+        <div class="eco-name">수풀AI</div><div class="eco-url">yeon.ai.kr/supul</div>
+      </div>
+      <!-- 영풀 -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/><path d="M17 14l3 3-3 3"/></svg></div>
+        <div class="eco-name">영풀</div><div class="eco-url">yeon.ai.kr/yeongpul</div>
+      </div>
+      <!-- 시민 저널 -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/><path d="M15 16l2-2 2 2"/></svg></div>
+        <div class="eco-name">시민 저널</div><div class="eco-url">누구나 기자</div>
+      </div>
+      <!-- 사이트 빌더 -->
+      <div class="eco-card">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg></div>
+        <div class="eco-name">사이트 빌더</div><div class="eco-url">builder.html</div>
+      </div>
+      <!-- 자서전 공방 (준비 중) -->
+      <div class="eco-card" style="opacity:0.45">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 10h8M8 14h5"/></svg></div>
+        <div class="eco-name">자서전 공방</div><div class="eco-url">2027 예정</div>
+      </div>
+      <!-- 울산 상점 (준비 중) -->
+      <div class="eco-card" style="opacity:0.45">
+        <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0 2 2 2 2 0 0 0 2-2"/><path d="M5 11v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8"/><path d="M10 15h4v5h-4z"/></svg></div>
+        <div class="eco-name">울산 상점</div><div class="eco-url">2028 예정</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     푸터
+═══════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">緣 y-life.kr</div>
+        <div class="footer-tagline">삶·인연·소통, 그 깊은 연(緣)으로 잇다<br>함께 만들어 갈 아름다운 세상 — 우리들의 대화 자체가 곧 그 공동 목표점.</div>
+      </div>
+      <div class="footer-links">
+        <a href="#hwadu">화두</a>
+        <a href="#news">소식</a>
+        <a href="#agora">아골라</a>
+        <a href="builder.html">사이트 빌더</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 y-life.kr — 연라이프. 인연으로 오고, 인연으로 간다.</span>
+      <span>울산에서 시작</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════
+   데이터 & 스토리지
+════════════════════════════════ */
+const LS = {
+  get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  set(k,v){localStorage.setItem(k,JSON.stringify(v))},
+};
+function getUsers(){return LS.get('ylife_users')||[];}
+function getPosts(f){return (LS.get('ylife_posts')||[]).filter(p=>p.forum===f);}
+function allPosts(){return LS.get('ylife_posts')||[];}
+function getSettings(){return Object.assign({sitename:'y-life.kr',slogan:'삶·인연·소통',signup:true,comment:true,publicRead:true},LS.get('ylife_settings'));}
+function getNewsData(){
+  const def=defaultNews();
+  const saved=LS.get('ylife_news');
+  return saved||def;
+}
+function getHwadu(){return LS.get('ylife_hwadu')||{text:'사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 \'나\'는 누구인가?',by:'— 연소사 제안 · Libet 실험에서 영감'};}
+function getHwaduList(){return LS.get('ylife_hwadu_list')||[];}
+
+let currentUser=null;
+let adminLoggedIn=false;
+let currentPostId=null;
+let currentNewsCat='local';
+let currentNewsMgmtCat='local';
+let currentPostMgmtForum='agora';
+
+/* ════════════════════════════════
+   기본 뉴스 데이터 (2026-04-25)
+════════════════════════════════ */
+function defaultNews(){
+  return {
+    local:[
+      {title:'울산 쇠부리축제 개막 — 전통 제철 문화 체험 행사 성황',date:'2026.04.25',thought:''},
+      {title:'울산 수산물경매시장 거래량 역대 최대치 기록',date:'2026.04.24',thought:''},
+      {title:'언양 지석묘군 훼손 논란 — 문화재 보호 조치 요구',date:'2026.04.24',thought:''},
+      {title:'울산 동성부부 법원 소송 — 가족관계 등록 판결 주목',date:'2026.04.23',thought:''},
+      {title:'울산 미세먼지 주의보 발령 — 외출 자제 권고',date:'2026.04.25',thought:''},
+    ],
+    region:[
+      {title:'현대차 울산공장 EV 전환 로드맵 발표 — 2028년 완전 전기화',date:'2026.04.25',thought:''},
+      {title:'경남·울산 광역교통망 연결 협약 체결',date:'2026.04.24',thought:''},
+      {title:'남해안 관광벨트 조성 사업 착공 — 경남·전남·울산 공동',date:'2026.04.23',thought:''},
+      {title:'태화강 생태복원 2단계 사업 예산 확보',date:'2026.04.22',thought:''},
+      {title:'울산·경남 청년창업지원금 신청 접수 시작',date:'2026.04.25',thought:''},
+    ],
+    korea:[
+      {title:'1분기 GDP 성장률 +1.7% — 수출 회복세 지속',date:'2026.04.25',thought:''},
+      {title:'KOSPI 6388포인트 — 사상 최고치 경신',date:'2026.04.24',thought:''},
+      {title:'전세사기특별법 개정안 국회 본회의 통과',date:'2026.04.23',thought:''},
+      {title:'이재명 대통령 인도 순방 마치고 귀환',date:'2026.04.25',thought:''},
+      {title:'한국은행 신현송 총재 취임 — 통화정책 방향 주목',date:'2026.04.22',thought:''},
+      {title:'국민연금 개혁안 국회 제출 — 보험료율 13% 인상 핵심',date:'2026.04.25',thought:''},
+    ],
+    world:[
+      {title:'한-인도 정상회담 — 이재명·모디, 첨단기술 협력 협약',date:'2026.04.25',thought:''},
+      {title:'복합극한기후 발생 빈도 산업화 이전 대비 5배 — IPCC 보고',date:'2026.04.24',thought:''},
+      {title:'Blue Origin 뉴글렌 FAA 비행 정지 — 안전 점검',date:'2026.04.24',thought:''},
+      {title:'말레이시아 실종 한국인 구조 — 외교부 영사 지원',date:'2026.04.23',thought:''},
+      {title:'KATSEYE 방한 — K팝 글로벌 그룹 서울 공연',date:'2026.04.25',thought:''},
+    ],
+    sky:[
+      {title:'혜성 PanSTARRS C/2023 V4 — 맨눈 관측 가능 시기 임박',date:'2026.04.25',thought:''},
+      {title:'SpaceX 스타링크 17-16 발사 성공 — 위성 인터넷 확장',date:'2026.04.24',thought:''},
+      {title:'Rocket Lab, 일본 위성 궤도 투입 성공',date:'2026.04.23',thought:''},
+      {title:'달-레굴루스 엄폐 현상 — 25일 새벽 관측 기회',date:'2026.04.25',thought:''},
+      {title:'기상청 "2026년 역대 최고기온 경신 전망"',date:'2026.04.24',thought:''},
+    ],
+    land:[
+      {title:'기후변화로 사과 주산지 강원도로 이동 — 농촌진흥청 발표',date:'2026.04.25',thought:''},
+      {title:'복합극한기후, 농업 피해 5배 증가 — 기상청 경고',date:'2026.04.24',thought:''},
+      {title:'전국 스마트팜 보급률 23% 증가 — 청년농 중심 확산',date:'2026.04.23',thought:''},
+      {title:'산림 탄소흡수원 고시 면적 확대 — 탄소중립 기여',date:'2026.04.22',thought:''},
+      {title:'농업위성 1호 발사 계획 확정 — 2027년 목표',date:'2026.04.25',thought:''},
+    ],
+    sea:[
+      {title:'한반도 주변 해수면 온도 1.6°C 상승 — 해양수산부',date:'2026.04.25',thought:''},
+      {title:'3월 한국 바다 평균 수온 역대 2위 기록',date:'2026.04.24',thought:''},
+      {title:'해양 온난화가 지구 자전 속도 늦춘다 — 네이처 연구',date:'2026.04.23',thought:''},
+      {title:'해수부, 연안 생태복원 예산 147억 집행 계획',date:'2026.04.22',thought:''},
+      {title:'해양기후변화 전망 보고서 발표 — 2040년 시나리오',date:'2026.04.25',thought:''},
+    ],
+  };
+}
+
+const CAT_LABEL={local:'우리동네',region:'지역',korea:'대한민국',world:'지구촌',sky:'하늘',land:'땅',sea:'바다'};
+
+/* ════════════════════════════════
+   뉴스 렌더
+════════════════════════════════ */
+function renderNews(){
+  const data=getNewsData();
+  const cat=currentNewsCat;
+  const items=data[cat]||[];
+  const saved=LS.get('ylife_news_thoughts')||{};
+  let html=`<div class="news-grid">`;
+  items.forEach((n,i)=>{
+    const key=`${cat}_${i}`;
+    const t=saved[key]||n.thought||'';
+    html+=`<div class="news-card">
+      <div class="news-cat-badge">${CAT_LABEL[cat]}</div>
+      <div class="news-title">${n.title}</div>
+      <div class="news-date">${n.date}</div>
+      <div class="news-thought">
+        <input type="text" placeholder="내 생각 한 줄..." value="${escHtml(t)}"
+          onchange="saveThought('${key}',this.value)">
+      </div>
+    </div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('newsContent').innerHTML=html;
+}
+function switchNews(cat,el){
+  currentNewsCat=cat;
+  document.querySelectorAll('.news-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderNews();
+}
+function saveThought(key,val){
+  const s=LS.get('ylife_news_thoughts')||{};
+  s[key]=val;
+  LS.set('ylife_news_thoughts',s);
+}
+
+/* ════════════════════════════════
+   모달
+════════════════════════════════ */
+function openModal(id){
+  if(id==='settingsModal') initSettingsModal();
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function switchModal(closeId,openId){closeModal(closeId);openModal(openId);}
+document.querySelectorAll('.modal-backdrop').forEach(b=>{
+  b.addEventListener('click',e=>{if(e.target===b)b.classList.remove('open');});
+});
+
+/* ════════════════════════════════
+   인증
+════════════════════════════════ */
+function doLogin(){
+  const id=document.getElementById('loginId').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  const msg=document.getElementById('loginMsg');
+  if(!id||!pw){msg.textContent='아이디와 비밀번호를 입력하세요.';return;}
+  const users=getUsers();
+  const u=users.find(u=>u.id===id&&u.pw===hashPw(pw));
+  if(!u){msg.textContent='아이디 또는 비밀번호가 일치하지 않습니다.';return;}
+  currentUser=u;
+  LS.set('ylife_session',u.id);
+  closeModal('loginModal');
+  renderHeader();
+  renderPlaza();
+}
+function doSignup(){
+  const id=document.getElementById('signupId').value.trim();
+  const nick=document.getElementById('signupNick').value.trim();
+  const pw=document.getElementById('signupPw').value;
+  const pw2=document.getElementById('signupPw2').value;
+  const msg=document.getElementById('signupMsg');
+  if(!id||!nick||!pw){msg.textContent='모든 항목을 입력해주세요.';return;}
+  if(id.length<4){msg.textContent='아이디는 4자 이상이어야 합니다.';return;}
+  if(pw.length<6){msg.textContent='비밀번호는 6자 이상이어야 합니다.';return;}
+  if(pw!==pw2){msg.textContent='비밀번호가 일치하지 않습니다.';return;}
+  const users=getUsers();
+  if(users.find(u=>u.id===id)){msg.textContent='이미 사용 중인 아이디입니다.';return;}
+  const newUser={id,nick,pw:hashPw(pw),joinDate:new Date().toLocaleDateString('ko')};
+  users.push(newUser);
+  LS.set('ylife_users',users);
+  currentUser=newUser;
+  LS.set('ylife_session',newUser.id);
+  closeModal('signupModal');
+  renderHeader();
+  renderPlaza();
+  updateStats();
+}
+function doLogout(){
+  currentUser=null;
+  localStorage.removeItem('ylife_session');
+  renderHeader();
+  renderPlaza();
+}
+function hashPw(pw){
+  // 간단한 해시 (실제 서버 없이 로컬 저장용)
+  let h=0;for(let i=0;i<pw.length;i++){h=Math.imul(31,h)+pw.charCodeAt(i)|0;}return h.toString(36);
+}
+function restoreSession(){
+  const sid=LS.get('ylife_session');
+  if(sid){const u=getUsers().find(u=>u.id===sid);if(u)currentUser=u;}
+}
+
+/* ════════════════════════════════
+   헤더 렌더
+════════════════════════════════ */
+function renderHeader(){
+  const el=document.getElementById('headerActions');
+  if(currentUser){
+    el.innerHTML=`<div class="user-badge">
+      <div class="user-avatar">${currentUser.nick[0]}</div>
+      <span>${currentUser.nick}</span>
+      <button class="btn-sm" onclick="doLogout()">로그아웃</button>
+    </div>`;
+  }else{
+    el.innerHTML=`<button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
+      <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
+      <button class="settings-btn" onclick="openModal('settingsModal')" title="설정"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`;
+  }
+}
+
+/* ════════════════════════════════
+   게시판
+════════════════════════════════ */
+function openWrite(forum,prefix){
+  if(!currentUser){openModal('loginModal');return;}
+  document.getElementById('writeForum').value=forum;
+  document.getElementById('writeModalTitle').textContent=forum==='agora'?'아골라 글쓰기':'아곤란 글쓰기';
+  document.getElementById('writeTitle').value=prefix;
+  document.getElementById('writeBody').value='';
+  document.getElementById('writeMsg').textContent='';
+  openModal('writeModal');
+}
+function doSubmitPost(){
+  if(!currentUser)return;
+  const title=document.getElementById('writeTitle').value.trim();
+  const body=document.getElementById('writeBody').value.trim();
+  const forum=document.getElementById('writeForum').value;
+  const msg=document.getElementById('writeMsg');
+  if(!title){msg.textContent='제목을 입력해주세요.';return;}
+  if(!body){msg.textContent='내용을 입력해주세요.';return;}
+  const posts=allPosts();
+  const post={
+    id:Date.now().toString(),
+    forum,title,body,
+    author:currentUser.nick,
+    authorId:currentUser.id,
+    date:new Date().toLocaleDateString('ko'),
+    likes:[],comments:[],views:0
+  };
+  posts.unshift(post);
+  LS.set('ylife_posts',posts);
+  closeModal('writeModal');
+  renderPlaza();
+  updateStats();
+  updateInsights();
+}
+function renderPlaza(){
+  renderForum('agora','agoraList');
+  renderForum('agonran','agonranList');
+}
+function renderForum(forum,listId){
+  const el=document.getElementById(listId);
+  const posts=getPosts(forum).slice(0,8);
+  if(!posts.length){el.innerHTML=`<div class="post-empty">${forum==='agora'?'첫 번째 글을 남겨보세요':'첫 번째 생각을 나눠보세요'}</div>`;return;}
+  el.innerHTML=posts.map(p=>`
+    <div class="post-item" onclick="openPost('${p.id}')">
+      <div class="post-title">${escHtml(p.title)}</div>
+      <div class="post-meta">
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          ${escHtml(p.author)}
+        </span>
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${p.date}
+        </span>
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          ${p.likes.length}
+        </span>
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          ${p.comments.length}
+        </span>
+      </div>
+    </div>
+  `).join('');
+}
+function openPost(id){
+  const posts=allPosts();
+  const p=posts.find(x=>x.id===id);
+  if(!p)return;
+  currentPostId=id;
+  // 조회수
+  p.views=(p.views||0)+1;
+  LS.set('ylife_posts',posts);
+  document.getElementById('postDetailTitle').textContent=p.title;
+  document.getElementById('postDetailMeta').textContent=`${p.author} · ${p.date} · 조회 ${p.views}`;
+  document.getElementById('postDetailBody').textContent=p.body;
+  const liked=currentUser&&p.likes.includes(currentUser.id);
+  const lb=document.getElementById('likeBtn');
+  lb.className='like-btn'+(liked?' liked':'');
+  document.getElementById('likeCount').textContent=p.likes.length;
+  renderComments(p);
+  openModal('postModal');
+}
+function toggleLike(){
+  if(!currentUser){openModal('loginModal');return;}
+  const posts=allPosts();
+  const p=posts.find(x=>x.id===currentPostId);
+  if(!p)return;
+  const idx=p.likes.indexOf(currentUser.id);
+  if(idx>-1)p.likes.splice(idx,1);else p.likes.push(currentUser.id);
+  LS.set('ylife_posts',posts);
+  const liked=p.likes.includes(currentUser.id);
+  document.getElementById('likeBtn').className='like-btn'+(liked?' liked':'');
+  document.getElementById('likeCount').textContent=p.likes.length;
+  updateInsights();
+}
+function renderComments(p){
+  const list=document.getElementById('commentList');
+  document.getElementById('commentCount').textContent=p.comments.length;
+  if(!p.comments.length){list.innerHTML='<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">아직 댓글이 없습니다.</div>';return;}
+  list.innerHTML=p.comments.map(c=>`
+    <div class="comment-item">
+      <div class="comment-nick">${escHtml(c.author)}</div>
+      <div class="comment-text">${escHtml(c.text)}</div>
+      <div class="comment-date">${c.date}</div>
+    </div>
+  `).join('');
+}
+function doAddComment(){
+  if(!currentUser){openModal('loginModal');return;}
+  const inp=document.getElementById('commentInput');
+  const text=inp.value.trim();
+  if(!text)return;
+  const posts=allPosts();
+  const p=posts.find(x=>x.id===currentPostId);
+  if(!p)return;
+  p.comments.push({author:currentUser.nick,text,date:new Date().toLocaleDateString('ko')});
+  LS.set('ylife_posts',posts);
+  inp.value='';
+  renderComments(p);
+  renderPlaza();
+}
+
+/* ════════════════════════════════
+   통계 업데이트
+════════════════════════════════ */
+function updateStats(){
+  document.getElementById('statUsers').textContent=getUsers().length;
+  document.getElementById('statPosts').textContent=allPosts().length;
+}
+function updateInsights(){
+  const posts=allPosts().sort((a,b)=>b.likes.length-a.likes.length).slice(0,3);
+  const el=document.getElementById('insightList');
+  if(!posts.length){el.innerHTML='<div class="post-empty" style="color:#fff">아직 인사이트가 없습니다. 광장에서 첫 글을 남겨보세요.</div>';return;}
+  el.innerHTML=posts.map((p,i)=>`
+    <div class="insight-item" onclick="openPost('${p.id}')" style="cursor:pointer">
+      <div class="insight-rank">${i+1}</div>
+      <div class="insight-content">
+        <div class="insight-title">${escHtml(p.title)}</div>
+        <div class="insight-by">${escHtml(p.author)} · 공감 ${p.likes.length} · ${CAT_LABEL[p.forum]||p.forum}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ════════════════════════════════
+   화두 렌더
+════════════════════════════════ */
+function renderHwadu(){
+  const h=getHwadu();
+  document.getElementById('hwaduText').textContent=h.text;
+  document.getElementById('hwaduBy').textContent=h.by;
+}
+
+/* ════════════════════════════════
+   비밀의 문 — 緣 5번 클릭
+════════════════════════════════ */
+let logoClicks=[];
+document.getElementById('logoKanji').addEventListener('click',function(e){
+  e.stopPropagation();
+  const now=Date.now();
+  logoClicks=logoClicks.filter(t=>now-t<3000);
+  logoClicks.push(now);
+  const hint=document.getElementById('secretHint');
+  hint.classList.add('show');
+  clearTimeout(hint._t);
+  hint._t=setTimeout(()=>hint.classList.remove('show'),1500);
+  if(logoClicks.length>=5){
+    logoClicks=[];
+    hint.classList.remove('show');
+    openModal('adminLoginModal');
+    document.getElementById('adminPwInput').value='';
+    document.getElementById('adminLoginMsg').textContent='';
+  }
+});
+
+/* ════════════════════════════════
+   관리자 로그인
+════════════════════════════════ */
+function getAdminPw(){return LS.get('ylife_admin_pw')||'yeon2026';}
+function doAdminLogin(){
+  const pw=document.getElementById('adminPwInput').value;
+  if(pw===getAdminPw()){
+    adminLoggedIn=true;
+    closeModal('adminLoginModal');
+    openAdminDashboard();
+  }else{
+    document.getElementById('adminLoginMsg').textContent='비밀번호가 틀렸습니다.';
+  }
+}
+function openAdminDashboard(){
+  loadAdminDashboard();
+  document.getElementById('adminOverlay').classList.add('open');
+}
+function closeAdmin(){
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+function showAdminPanel(id,el){
+  document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='news-mgmt')loadNewsMgmt();
+  if(id==='post-mgmt')loadPostMgmt();
+  if(id==='user-mgmt')loadUserMgmt();
+  if(id==='hwadu-mgmt')loadHwaduMgmt();
+}
+function loadAdminDashboard(){
+  const users=getUsers();
+  const posts=allPosts();
+  document.getElementById('adminStatGrid').innerHTML=`
+    <div class="admin-stat"><div class="admin-stat-num">${users.length}</div><div class="admin-stat-label">전체 회원</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.length}</div><div class="admin-stat-label">전체 글</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.filter(p=>p.forum==='agora').length}</div><div class="admin-stat-label">아골라</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.filter(p=>p.forum==='agonran').length}</div><div class="admin-stat-label">아곤란</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+p.likes.length,0)}</div><div class="admin-stat-label">총 공감</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+p.comments.length,0)}</div><div class="admin-stat-label">총 댓글</div></div>
+  `;
+  const recent=posts.slice(0,10);
+  document.getElementById('adminRecentPosts').innerHTML=recent.length?`
+    <table class="admin-table">
+      <thead><tr><th>제목</th><th>작성자</th><th>광장</th><th>날짜</th><th>공감</th></tr></thead>
+      <tbody>${recent.map(p=>`<tr><td>${escHtml(p.title)}</td><td>${escHtml(p.author)}</td><td>${p.forum}</td><td>${p.date}</td><td>${p.likes.length}</td></tr>`).join('')}</tbody>
+    </table>`:'<p style="color:var(--ink-faint);font-size:13px">아직 게시글이 없습니다.</p>';
+}
+function loadNewsMgmt(){
+  const cats=Object.keys(CAT_LABEL);
+  document.getElementById('newsMgmtTabs').innerHTML=cats.map(c=>`
+    <button class="news-tab ${c===currentNewsMgmtCat?'active':''}" onclick="switchNewsMgmtCat('${c}',this)">${CAT_LABEL[c]}</button>
+  `).join('');
+  renderNewsMgmtContent();
+}
+function switchNewsMgmtCat(cat,el){
+  currentNewsMgmtCat=cat;
+  document.querySelectorAll('#newsMgmtTabs .news-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderNewsMgmtContent();
+}
+function renderNewsMgmtContent(){
+  const data=getNewsData();
+  const items=data[currentNewsMgmtCat]||[];
+  document.getElementById('newsMgmtContent').innerHTML=`<div class="news-edit-list" id="newsEditList">${
+    items.map((n,i)=>`<div class="news-edit-item" data-idx="${i}">
+      <input type="text" value="${escHtml(n.title)}" placeholder="뉴스 제목" onchange="updateNewsItem(${i},'title',this.value)">
+      <input type="text" value="${n.date}" placeholder="날짜" onchange="updateNewsItem(${i},'date',this.value)">
+      <div class="news-edit-actions">
+        <button class="btn-danger" onclick="deleteNewsItem(${i})">삭제</button>
+      </div>
+    </div>`).join('')
+  }</div>`;
+}
+let _pendingNews=null;
+function updateNewsItem(idx,field,val){
+  if(!_pendingNews)_pendingNews=JSON.parse(JSON.stringify(getNewsData()));
+  _pendingNews[currentNewsMgmtCat][idx][field]=val;
+}
+function deleteNewsItem(idx){
+  const data=_pendingNews||JSON.parse(JSON.stringify(getNewsData()));
+  data[currentNewsMgmtCat].splice(idx,1);
+  _pendingNews=data;
+  renderNewsMgmtContent();
+}
+function adminAddNews(){
+  const data=_pendingNews||JSON.parse(JSON.stringify(getNewsData()));
+  data[currentNewsMgmtCat].push({title:'새 뉴스 제목',date:new Date().toLocaleDateString('ko'),thought:''});
+  _pendingNews=data;
+  renderNewsMgmtContent();
+}
+function saveNews(){
+  if(_pendingNews){LS.set('ylife_news',_pendingNews);_pendingNews=null;}
+  renderNews();
+  alert('뉴스가 저장되었습니다.');
+}
+function loadPostMgmt(){renderPostMgmtTable();}
+function switchPostMgmtTab(forum){
+  currentPostMgmtForum=forum;
+  document.querySelectorAll('[id^="postMgmtTab-"]').forEach(t=>t.classList.remove('active'));
+  document.getElementById('postMgmtTab-'+forum).classList.add('active');
+  renderPostMgmtTable();
+}
+function renderPostMgmtTable(){
+  const posts=getPosts(currentPostMgmtForum);
+  document.getElementById('postMgmtTable').innerHTML=posts.length?`
+    <table class="admin-table">
+      <thead><tr><th>제목</th><th>작성자</th><th>날짜</th><th>공감</th><th>댓글</th><th>관리</th></tr></thead>
+      <tbody>${posts.map(p=>`<tr>
+        <td>${escHtml(p.title)}</td><td>${escHtml(p.author)}</td><td>${p.date}</td>
+        <td>${p.likes.length}</td><td>${p.comments.length}</td>
+        <td><button class="btn-danger" onclick="adminDeletePost('${p.id}')">삭제</button></td>
+      </tr>`).join('')}</tbody>
+    </table>`:'<p style="color:var(--ink-faint);font-size:13px">게시글이 없습니다.</p>';
+}
+function adminDeletePost(id){
+  if(!confirm('삭제하시겠습니까?'))return;
+  LS.set('ylife_posts',allPosts().filter(p=>p.id!==id));
+  renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
+}
+function loadUserMgmt(){
+  const users=getUsers();
+  document.getElementById('userMgmtTable').innerHTML=users.length?`
+    <table class="admin-table">
+      <thead><tr><th>아이디</th><th>별명</th><th>가입일</th><th>글수</th></tr></thead>
+      <tbody>${users.map(u=>`<tr>
+        <td>${escHtml(u.id)}</td><td>${escHtml(u.nick)}</td><td>${u.joinDate}</td>
+        <td>${allPosts().filter(p=>p.authorId===u.id).length}</td>
+      </tr>`).join('')}</tbody>
+    </table>`:'<p style="color:var(--ink-faint);font-size:13px">회원이 없습니다.</p>';
+}
+function loadHwaduMgmt(){
+  const h=getHwadu();
+  document.getElementById('adminHwaduText').value=h.text;
+  document.getElementById('adminHwaduBy').value=h.by;
+  renderHwaduList();
+}
+function renderHwaduList(){
+  const list=getHwaduList();
+  document.getElementById('hwaduList').innerHTML=list.map((h,i)=>`
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:flex-start;gap:8px">
+      <div style="flex:1;font-size:13px">${escHtml(h.text)}<div style="font-size:11px;color:var(--ink-faint);margin-top:4px">${escHtml(h.by)}</div></div>
+      <button class="btn-primary" style="font-size:11px;padding:4px 10px" onclick="setHwaduFromList(${i})">적용</button>
+      <button class="btn-danger" style="font-size:11px;padding:4px 10px" onclick="deleteHwaduItem(${i})">삭제</button>
+    </div>
+  `).join('');
+}
+function saveHwadu(){
+  const text=document.getElementById('adminHwaduText').value.trim();
+  const by=document.getElementById('adminHwaduBy').value.trim();
+  if(!text)return;
+  LS.set('ylife_hwadu',{text,by});
+  renderHwadu();
+  alert('화두가 저장되었습니다.');
+}
+function adminAddHwadu(){
+  const list=getHwaduList();
+  list.push({text:'새 화두를 입력하세요',by:'— 출처'});
+  LS.set('ylife_hwadu_list',list);
+  renderHwaduList();
+}
+function setHwaduFromList(i){
+  const list=getHwaduList();
+  LS.set('ylife_hwadu',list[i]);
+  renderHwadu();
+  document.getElementById('adminHwaduText').value=list[i].text;
+  document.getElementById('adminHwaduBy').value=list[i].by;
+  alert('화두가 적용되었습니다.');
+}
+function deleteHwaduItem(i){
+  const list=getHwaduList();
+  list.splice(i,1);
+  LS.set('ylife_hwadu_list',list);
+  renderHwaduList();
+}
+function saveSettings(){
+  const s={
+    sitename:document.getElementById('cfg-sitename').value,
+    slogan:document.getElementById('cfg-slogan').value,
+    signup:document.getElementById('cfg-signup').checked,
+    comment:document.getElementById('cfg-comment').checked,
+    publicRead:document.getElementById('cfg-public-read').checked,
+  };
+  LS.set('ylife_settings',s);
+  alert('설정이 저장되었습니다.');
+}
+function changeAdminPw(){
+  const p1=document.getElementById('newAdminPw').value;
+  const p2=document.getElementById('newAdminPw2').value;
+  const msg=document.getElementById('adminPwMsg');
+  if(p1.length<6){msg.textContent='6자 이상 입력하세요.';return;}
+  if(p1!==p2){msg.textContent='비밀번호가 일치하지 않습니다.';return;}
+  LS.set('ylife_admin_pw',p1);
+  msg.style.color='#6B8F71';
+  msg.textContent='비밀번호가 변경되었습니다.';
+}
+
+/* ════════════════════════════════
+   유틸
+════════════════════════════════ */
+function escHtml(s){
+  if(!s)return'';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ════════════════════════════════
+   지구 애니메이션 (Three.js 실사 텍스처)
+════════════════════════════════ */
+(function(){
+  const cnv=document.getElementById('earthCanvas');
+  if(!cnv)return;
+
+  function loadScript(src,cb){
+    const s=document.createElement('script');
+    s.src=src;s.onload=cb;document.head.appendChild(s);
+  }
+
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',function(){
+    const parent=cnv.parentElement;
+    let W=parent.offsetWidth, H=parent.offsetHeight;
+
+    // 렌더러
+    const renderer=new THREE.WebGLRenderer({canvas:cnv,alpha:true,antialias:true});
+    renderer.setSize(W,H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    renderer.setClearColor(0x000000,0);
+
+    // 씬
+    const scene=new THREE.Scene();
+
+    // 카메라 — 오른쪽 하단 구도
+    const camera=new THREE.PerspectiveCamera(38,W/H,0.1,100);
+    camera.position.set(0,0,3.2);
+
+    // 지구 구
+    const geo=new THREE.SphereGeometry(1.18,64,64);
+    const loader=new THREE.TextureLoader();
+    loader.crossOrigin='anonymous';
+
+    // 실사 텍스처 (three.js 공식 예제 — CORS OK)
+    const earthTex=loader.load(
+      'https://unpkg.com/three@0.128.0/examples/textures/planets/earth_atmos_2048.jpg',
+      undefined,undefined,
+      ()=>{ /* 실패 시 fallback 색상 유지 */ }
+    );
+    const mat=new THREE.MeshPhongMaterial({
+      map:earthTex,
+      specular:new THREE.Color(0x111111),
+      shininess:8,
+    });
+    const earth=new THREE.Mesh(geo,mat);
+    // 오른쪽 하단으로 오프셋
+    earth.position.set(0.9,-0.3,0);
+    scene.add(earth);
+
+    // 대기권 글로우 (반투명 셸)
+    const atmoGeo=new THREE.SphereGeometry(1.25,64,64);
+    const atmoMat=new THREE.MeshPhongMaterial({
+      color:new THREE.Color(0xB08040),
+      transparent:true,opacity:0.06,
+      side:THREE.FrontSide,
+      depthWrite:false,
+    });
+    const atmo=new THREE.Mesh(atmoGeo,atmoMat);
+    atmo.position.copy(earth.position);
+    scene.add(atmo);
+
+    // 조명 — 왼쪽 위에서 따뜻한 광원
+    scene.add(new THREE.AmbientLight(0x7A6050,0.65));
+    const sun=new THREE.DirectionalLight(0xFFE8B0,1.8);
+    sun.position.set(-4,2,3);
+    scene.add(sun);
+
+    // 히어로 텍스트 쪽 왼쪽 페이드 (2D canvas overlay)
+    const overlay=document.createElement('canvas');
+    overlay.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+    parent.appendChild(overlay);
+    function drawOverlay(){
+      overlay.width=parent.offsetWidth;
+      overlay.height=parent.offsetHeight;
+      const oc=overlay.getContext('2d');
+      const fade=oc.createLinearGradient(0,0,overlay.width*0.6,0);
+      fade.addColorStop(0,'rgba(15,10,6,0.88)');
+      fade.addColorStop(1,'transparent');
+      oc.fillStyle=fade;
+      oc.fillRect(0,0,overlay.width,overlay.height);
+    }
+    drawOverlay();
+
+    // 리사이즈
+    window.addEventListener('resize',()=>{
+      W=parent.offsetWidth;H=parent.offsetHeight;
+      camera.aspect=W/H;camera.updateProjectionMatrix();
+      renderer.setSize(W,H);
+      drawOverlay();
+    });
+
+    // 애니메이션
+    function animate(){
+      requestAnimationFrame(animate);
+      earth.rotation.y+=0.0008;
+      atmo.rotation.y=earth.rotation.y;
+      renderer.render(scene,camera);
+    }
+    animate();
+  });
+})();
+
+/* ════════════════════════════════
+   초기화
+════════════════════════════════ */
+function init(){
+  restoreSession();
+  renderHeader();
+  renderHwadu();
+  renderNews();
+  renderPlaza();
+  updateStats();
+  updateInsights();
+}
+init();
+
+/* ════════════════════════════════
+   설정 기능
+   ════════════════════════════════ */
+function initSettingsModal(){
+  // 다크모드
+  document.getElementById('darkModeToggle').checked = document.body.classList.contains('dark-mode');
+  // 글씨 크기
+  const fs = localStorage.getItem('ylife_font_size')||'normal';
+  document.querySelectorAll('.font-size-btns button').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('fs-'+fs);
+  if(btn) btn.classList.add('active');
+  // Gemini 키 상태
+  const k = localStorage.getItem('ylife_gemini_key');
+  const statusEl = document.getElementById('geminiKeyStatus');
+  if(statusEl) statusEl.textContent = k ? '✓ API 키 저장됨 (변경하려면 새 키 입력)' : '아직 키가 없습니다.';
+  if(k) document.getElementById('settingsGeminiKey').placeholder = '••••••••••••••••';
+  // 내 계정 섹션
+  const accSec = document.getElementById('settingsAccountSection');
+  if(accSec) accSec.style.display = currentUser ? 'block' : 'none';
+}
+
+function applyDarkMode(on){
+  document.body.classList.toggle('dark-mode', on);
+  localStorage.setItem('ylife_dark_mode', on ? '1' : '0');
+}
+
+function setFontSize(size){
+  document.body.classList.remove('font-small','font-large');
+  if(size!=='normal') document.body.classList.add('font-'+size);
+  localStorage.setItem('ylife_font_size', size);
+  document.querySelectorAll('.font-size-btns button').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('fs-'+size);
+  if(btn) btn.classList.add('active');
+}
+
+function saveGeminiKeyFromSettings(){
+  const k = document.getElementById('settingsGeminiKey').value.trim();
+  if(!k){alert('API 키를 입력하세요.'); return;}
+  localStorage.setItem('ylife_gemini_key', k);
+  document.getElementById('settingsGeminiKey').value='';
+  document.getElementById('geminiKeyStatus').textContent='✓ 저장 완료!';
+  setTimeout(()=>{document.getElementById('geminiKeyStatus').textContent='✓ API 키 저장됨 (변경하려면 새 키 입력)';},2000);
+}
+
+function openChangePwPanel(){
+  const p = document.getElementById('changePwPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
+}
+
+function doChangePw(){
+  if(!currentUser){return;}
+  const oldPw = document.getElementById('oldPwInput').value;
+  const newPw = document.getElementById('newPwInput').value;
+  const msg = document.getElementById('changePwMsg');
+  const users = LS.get('ylife_users') || [];
+  const u = users.find(x=>x.id===currentUser.id);
+  if(!u || u.pw !== oldPw){msg.textContent='현재 비밀번호가 틀렸습니다.'; return;}
+  if(newPw.length < 6){msg.textContent='새 비밀번호는 6자 이상이어야 합니다.'; return;}
+  u.pw = newPw;
+  LS.set('ylife_users', users);
+  msg.textContent='✓ 비밀번호가 변경되었습니다.';
+  document.getElementById('oldPwInput').value='';
+  document.getElementById('newPwInput').value='';
+}
+
+// 초기화 — 저장된 설정 적용
+(function applySavedSettings(){
+  if(localStorage.getItem('ylife_dark_mode')==='1') document.body.classList.add('dark-mode');
+  const fs = localStorage.getItem('ylife_font_size');
+  if(fs && fs!=='normal') document.body.classList.add('font-'+fs);
+})();
+
+/* ════════════════════════════════
+   AI 글쓰기 보조 — Gemini 1.5 Flash
+   ════════════════════════════════ */
+let _aiResult = '';
+
+function toggleAiPanel(){
+  const p = document.getElementById('aiPanel');
+  const btn = document.getElementById('aiToggleBtn');
+  const show = p.style.display === 'none';
+  p.style.display = show ? 'block' : 'none';
+  btn.style.background = show ? 'rgba(176,128,64,0.22)' : '';
+  // API 키 이미 있으면 키 입력창 숨김
+  const saved = localStorage.getItem('ylife_gemini_key');
+  document.getElementById('aiKeyRow').style.display = saved ? 'none' : 'flex';
+}
+
+function saveGeminiKey(){
+  const k = document.getElementById('geminiKeyInput').value.trim();
+  if(!k){alert('API 키를 입력하세요.'); return;}
+  localStorage.setItem('ylife_gemini_key', k);
+  document.getElementById('aiKeyRow').style.display = 'none';
+  document.getElementById('geminiKeyInput').value = '';
+  showWriteMsg('API 키 저장 완료 ✓');
+}
+
+async function aiAssist(type){
+  const key = localStorage.getItem('ylife_gemini_key');
+  if(!key){
+    document.getElementById('aiKeyRow').style.display = 'flex';
+    document.getElementById('geminiKeyInput').focus();
+    showWriteMsg('먼저 Gemini API 키를 입력해주세요.');
+    return;
+  }
+  const title = document.getElementById('writeTitle').value.trim();
+  const body  = document.getElementById('writeBody').value.trim();
+  if(!body && type !== 'expand'){showWriteMsg('내용을 먼저 입력하세요.'); return;}
+
+  const prompts = {
+    polish:  `다음 글을 자연스럽고 읽기 좋게 다듬어 주세요. 원래 의미와 어조는 유지하되, 더 매끄럽게 표현해 주세요. 결과물만 출력하세요.\n\n제목: ${title}\n내용:\n${body}`,
+    spell:   `다음 글의 맞춤법과 띄어쓰기를 교정해 주세요. 교정한 전문만 출력하세요.\n\n${body}`,
+    expand:  `다음 제목과 내용을 바탕으로 더 풍부하게 내용을 확장해 주세요. 확장된 글만 출력하세요.\n\n제목: ${title}\n내용:\n${body || '(내용 없음)'}`,
+    summary: `다음 글을 핵심만 3~5문장으로 요약해 주세요. 요약문만 출력하세요.\n\n${body}`,
+    formal:  `다음 글을 격식체(합니다/습니다)로 바꿔 주세요. 바꾼 글만 출력하세요.\n\n${body}`,
+    casual:  `다음 글을 친근한 구어체(해요/이에요)로 바꿔 주세요. 바꾼 글만 출력하세요.\n\n${body}`,
+  };
+
+  const loading = document.getElementById('aiLoading');
+  const resultBox = document.getElementById('aiResultBox');
+  resultBox.style.display = 'none';
+  loading.style.display = 'flex';
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          contents:[{parts:[{text: prompts[type]}]}],
+          generationConfig:{temperature:0.7, maxOutputTokens:1024}
+        })
+      }
+    );
+    const data = await res.json();
+    if(data.error){
+      showWriteMsg('Gemini 오류: ' + (data.error.message || '알 수 없는 오류'));
+      loading.style.display = 'none';
+      return;
+    }
+    _aiResult = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    document.getElementById('aiResultText').textContent = _aiResult;
+    loading.style.display = 'none';
+    resultBox.style.display = 'block';
+  } catch(e) {
+    loading.style.display = 'none';
+    showWriteMsg('네트워크 오류: ' + e.message);
+  }
+}
+
+function applyAiResult(){
+  if(_aiResult) document.getElementById('writeBody').value = _aiResult;
+  document.getElementById('aiResultBox').style.display = 'none';
+  _aiResult = '';
+}
+function discardAiResult(){
+  document.getElementById('aiResultBox').style.display = 'none';
+  _aiResult = '';
+}
+function showWriteMsg(msg){
+  const el = document.getElementById('writeMsg');
+  if(el){el.textContent = msg; setTimeout(()=>{el.textContent='';},3000);}
+}
+</script>
 </body>
 </html>
