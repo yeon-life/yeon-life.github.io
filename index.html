@@ -1060,7 +1060,7 @@ body.dark-mode .admin-content{background:#1A1612;}
       </div>
       <!-- 화두 박스 (화두에서 열 때만 표시) -->
       <div class="pws-hwadu-box" id="pwsHwaduBox" style="display:none">
-        <div class="pws-hwadu-label">오늘의 화두</div>
+        <div class="pws-hwadu-label">이 주의 화두</div>
         <div class="pws-hwadu-text" id="pwsHwaduText"></div>
         <div class="pws-hwadu-meta" id="pwsHwaduMeta"></div>
       </div>
@@ -2851,7 +2851,7 @@ const PWS_META={
 };
 function openWriteWithHwadu(forum){
   const h=getHwadu();
-  openWrite(forum,'이 화두에 대해: '+h.text, h);
+  openWrite(forum,'', h);  /* 제목 비움 — 화두는 왼쪽 사이드박스에만 표시 */
 }
 function openWrite(forum,prefix,hwadu){
   if(!currentUser){openModal('loginModal');return;}
@@ -2894,6 +2894,9 @@ function openWrite(forum,prefix,hwadu){
   }
   /* 에디터 초기화 */
   document.getElementById('pwsTitle').value=prefix||'';
+  document.getElementById('pwsTitle').placeholder=hwadu
+    ?'이 화두에 대한 나의 생각 (제목)'
+    :'제목을 입력하세요';
   autoResizeTitle(document.getElementById('pwsTitle'));
   document.getElementById('pwsBody').value='';
   document.getElementById('pwsErrMsg').textContent='';
