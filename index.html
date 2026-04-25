@@ -316,13 +316,44 @@ input,textarea,select{font-family:var(--font-sans);}
 .font-size-btns button.active{background:var(--gold);color:#fff;border-color:var(--gold);}
 /* 다크모드 변수 */
 body.dark-mode{
-  --color-bg:#1A1612;--color-surface:#2C2620;--color-primary:#C8A870;
+  --color-bg:#1A1612;--color-surface:#2A2420;--color-primary:#C8A870;
   --color-muted:#6A6058;--color-text:#E8DDD0;--color-text-light:#A89888;
-  --border:#3A3028;--border-md:#4A4038;--surface:#2C2620;
+  --border:#3A3028;--border-md:#4A4038;--surface:#2A2420;
   --ink:#E8DDD0;--ink-soft:#A89888;--ink-faint:#6A6058;
+  /* 섹션 배경 — 다크모드 재정의 */
+  --bg-hwadu:#25211D;
+  --bg-agora:#1C2530;
+  --bg-editorial:#221F18;
+  --bg-journal:#1C2620;
+  --bg-news:#222030;
+  --bg-insight:#1E1A18;
+  --bg:#1A1612;--bg-alt:#2A2420;
 }
-body.dark-mode .plaza-card,body.dark-mode .modal,body.dark-mode .eco-card{background:#2C2620;}
+body.dark-mode .plaza-card,body.dark-mode .modal,body.dark-mode .eco-card{background:#2A2420;}
 body.dark-mode .admin-body,body.dark-mode .admin-sidebar{background:#1A1612;}
+/* 다크모드 — 섹션 글씨 강제 표시 */
+body.dark-mode .hwadu-text{color:#E8DDD0 !important;}
+body.dark-mode .hwadu-meta{color:#A89888 !important;}
+body.dark-mode .hwadu-btn{color:#A89888 !important;border-color:#4A4038 !important;}
+body.dark-mode .builder-cta h3{color:#E8DDD0 !important;}
+body.dark-mode .builder-cta p{color:#A89888 !important;}
+body.dark-mode .builder-cta{border-color:#4A4038 !important;}
+body.dark-mode .section-title{color:#E8DDD0 !important;}
+body.dark-mode .section-sub{color:#A89888 !important;}
+body.dark-mode .section-title span{color:var(--gold) !important;}
+body.dark-mode .news-title{color:#E8DDD0 !important;}
+body.dark-mode .news-date{color:#6A6058 !important;}
+body.dark-mode .post-title{color:#E8DDD0 !important;}
+body.dark-mode .post-empty{color:#6A6058 !important;}
+body.dark-mode .bridge-name{color:#E8DDD0 !important;}
+body.dark-mode .bridge-desc{color:#A89888 !important;}
+body.dark-mode .bridge-card{background:#2A2420 !important;border-color:#3A3028 !important;}
+body.dark-mode .eco-card-title{color:#E8DDD0 !important;}
+body.dark-mode .eco-card-desc{color:#A89888 !important;}
+/* 다크모드 — 푸터 확실하게 어둡게 */
+body.dark-mode .site-footer{background:#0D0B09 !important;color:rgba(255,255,255,0.6);}
+body.dark-mode .footer-brand{color:rgba(255,255,255,0.85) !important;}
+body.dark-mode .footer-bottom{color:rgba(255,255,255,0.35) !important;border-color:rgba(255,255,255,0.08) !important;}
 /* 글씨 크기 */
 body.font-small{font-size:13px;}
 body.font-large{font-size:17px;}
