@@ -7,6 +7,7 @@
 <meta name="description" content="y-life.kr — 오픈 지식 생산 플랫폼. 여기서 쓴 모든 것은 당신의 자산입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root {
   /* ─ 연 디자인 시스템 · Warm Linen 기반 + 섹션 포인트 ─ */
@@ -113,7 +114,7 @@ input,textarea,select{font-family:var(--font-sans);}
 /* ─── 히어로 ─── */
 .hero{padding:80px 4% 64px;text-align:center;max-width:900px;margin:0 auto;}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--thread);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--thread);margin-bottom:28px;}
-.hero h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.25;color:var(--ink);margin-bottom:20px;}
+.hero h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,56px);font-weight:500;line-height:1.25;color:var(--ink);margin-bottom:20px;}
 .hero h1 em{color:var(--thread);font-style:normal;}
 .hero-sub{font-size:clamp(15px,2vw,18px);color:var(--ink-soft);max-width:600px;margin:0 auto 36px;}
 .hero-cta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
@@ -265,6 +266,34 @@ input,textarea,select{font-family:var(--font-sans);}
 .eco-name{font-size:14px;font-weight:600;color:var(--ink);}
 .eco-url{font-size:11px;color:var(--thread);margin-top:4px;}
 
+/* ─── 아고라 스케치 배경 ─── */
+.agora-sketch{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.agora-sketch svg{position:absolute;bottom:0;left:0;width:100%;height:auto;min-height:100%;}
+#agora .section-inner{position:relative;z-index:2;}
+
+/* ─── 소셜 로그인 ─── */
+.social-divider{display:flex;align-items:center;gap:12px;margin:16px 0 12px;}
+.social-divider::before,.social-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.social-divider span{font-size:11px;color:var(--ink-soft);white-space:nowrap;}
+.google-btn-wrap{display:flex;justify-content:center;min-height:44px;margin-bottom:4px;}
+
+/* ─── 빠른 이동 메뉴 ─── */
+.quick-nav{position:relative;}
+.quick-nav-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
+.quick-nav-btn:hover{color:var(--gold);border-color:var(--gold);}
+.quick-nav-drop{
+  display:none;position:absolute;top:calc(100% + 8px);right:0;
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  box-shadow:0 8px 28px rgba(0,0,0,0.12);padding:6px;min-width:196px;
+  z-index:1000;
+}
+.quick-nav-drop.open{display:block;animation:qnFade .15s ease;}
+@keyframes qnFade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.qn-label{font-size:10px;font-weight:700;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;padding:6px 10px 4px;}
+.qn-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--ink);cursor:pointer;transition:background .12s;text-decoration:none;white-space:nowrap;}
+.qn-item:hover{background:var(--gold-soft);color:var(--gold);}
+.qn-item svg{flex-shrink:0;stroke:currentColor;}
+
 /* ─── 설정 버튼 ─── */
 .settings-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
 .settings-btn:hover{color:var(--gold);border-color:var(--gold);}
@@ -324,6 +353,8 @@ body.font-large{font-size:17px;}
 .ai-key-row input{padding:6px 10px;border:1px solid var(--border,#DDD5C8);border-radius:6px;font-size:13px;background:#fff;}
 .ai-key-save{background:var(--color-primary,#7A6A52);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;}
 .ai-key-link{font-size:12px;color:var(--gold);text-decoration:none;white-space:nowrap;}
+.gemini-key-link-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid var(--gold);color:var(--gold);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;margin-top:2px;}
+.gemini-key-link-btn:hover{background:var(--gold);color:#fff;}
 
 /* ─── 푸터 ─── */
 .site-footer{background:var(--ink);color:rgba(255,255,255,0.65);padding:48px 4% 32px;}
@@ -404,10 +435,64 @@ body.font-large{font-size:17px;}
 .secret-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(29,29,27,0.85);color:#fff;padding:8px 18px;border-radius:20px;font-size:12px;z-index:600;opacity:0;transition:opacity 0.3s;pointer-events:none;}
 .secret-hint.show{opacity:1;}
 
-/* ─── 지구 캔버스 ─── */
+/* ─── CSS 지구 ─── */
 .hero-dark{position:relative;overflow:hidden;}
-#earthCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.hero-dark::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to right,rgba(15,10,6,0.94) 0%,rgba(15,10,6,0.72) 38%,rgba(15,10,6,0.2) 60%,transparent 75%);
+}
+.css-globe{
+  position:absolute;
+  right:-60px; top:50%;
+  transform:translateY(-48%);
+  width:540px; height:540px;
+  border-radius:50%;
+  background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Night-view-combined.jpg/1024px-Night-view-combined.jpg') 0 center;
+  background-size:auto 100%;
+  box-shadow:
+    inset 18px 8px 40px rgba(255,255,255,0.18),
+    inset -90px -30px 110px 20px rgba(0,0,0,0.96),
+    0 0 0 3px rgba(140,180,255,0.22),
+    0 0 40px rgba(120,170,255,0.55),
+    0 0 90px rgba(70,120,200,0.35),
+    0 0 160px rgba(50,90,170,0.14);
+  animation:globeSpin 44s linear infinite;
+  z-index:0; pointer-events:none;
+}
+.css-globe::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,0.07) 0%,rgba(0,0,0,0.55) 52%,rgba(0,0,0,0.93) 100%);
+}
+@keyframes globeSpin{
+  from{background-position:0 center;}
+  to{background-position:1024px center;}
+}
 .hero{position:relative;z-index:2;}
+
+/* ─── 유성 ─── */
+.shooting-stars{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+.meteor{
+  position:absolute;
+  width:180px;height:1.5px;
+  background:linear-gradient(to right,transparent 0%,rgba(255,252,230,0.95) 45%,rgba(255,255,255,0.7) 75%,transparent 100%);
+  border-radius:100px;
+  transform:rotate(-28deg);
+  opacity:0;
+}
+/* 공통 애니메이션 — 사이클 대부분 투명, 잠깐만 슉 */
+@keyframes meteor{
+  0%        {opacity:0; transform:rotate(-28deg) translateX(0);}
+  0.1%      {opacity:1;}
+  6%        {opacity:0; transform:rotate(-28deg) translateX(550px);}
+  6.1%,100% {opacity:0; transform:rotate(-28deg) translateX(0);}
+}
+/* 각 유성: 위치·크기·타이밍 모두 다르게 */
+.m1{top:8%; left:12%; animation:meteor 14s 0s   linear infinite;}
+.m2{top:4%; left:55%; animation:meteor 19s 5s   linear infinite; width:140px;}
+.m3{top:18%;left:30%; animation:meteor 11s 9s   linear infinite; width:220px; height:1.2px;}
+.m4{top:2%; left:72%; animation:meteor 22s 3s   linear infinite; width:110px;}
+.m5{top:12%;left:82%; animation:meteor 16s 13s  linear infinite; width:160px; transform:rotate(-35deg);}
+.m6{top:6%; left:40%; animation:meteor 25s 18s  linear infinite; width:90px;  height:1px;}
 
 /* ─── 반응형 ─── */
 @media(max-width:900px){
@@ -458,6 +543,24 @@ body.font-large{font-size:17px;}
       </div>
     </div>
 
+    <!-- 구글 소셜 로그인 -->
+    <div class="settings-section">
+      <div class="settings-section-title">구글 소셜 로그인</div>
+      <div class="settings-row" style="align-items:flex-start;flex-direction:column;gap:8px">
+        <span class="settings-label">Google Client ID</span>
+        <div style="display:flex;gap:8px;width:100%">
+          <input type="text" id="googleClientIdInput" placeholder="123456789-abc....apps.googleusercontent.com" style="flex:1;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:12px">
+          <button class="btn-primary" style="font-size:13px;padding:8px 14px;white-space:nowrap" onclick="saveGoogleClientId()">저장</button>
+        </div>
+        <div id="googleClientIdStatus" style="font-size:12px;color:var(--ink-soft)"></div>
+        <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="gemini-key-link-btn" style="font-size:12px;padding:6px 12px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Google Cloud Console에서 Client ID 발급
+        </a>
+        <p style="font-size:11px;color:var(--ink-soft);line-height:1.6;margin:0">승인된 JavaScript 원본에 <strong>https://yeon-life.github.io</strong> 추가 필요</p>
+      </div>
+    </div>
+
     <!-- AI 도우미 -->
     <div class="settings-section">
       <div class="settings-section-title">AI 글쓰기 도우미</div>
@@ -467,7 +570,10 @@ body.font-large{font-size:17px;}
           <input type="password" id="settingsGeminiKey" placeholder="AIza..." style="flex:1;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px">
           <button class="btn-primary" style="font-size:13px;padding:8px 14px" onclick="saveGeminiKeyFromSettings()">저장</button>
         </div>
-        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:12px;color:var(--gold)">키 무료 발급 → Google AI Studio</a>
+        <a href="https://aistudio.google.com/apikey" target="_blank" class="gemini-key-link-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Google AI Studio에서 무료 API 키 발급받기
+        </a>
         <div id="geminiKeyStatus" style="font-size:12px;color:var(--ink-soft)"></div>
       </div>
     </div>
@@ -515,6 +621,8 @@ body.font-large{font-size:17px;}
       <button class="btn-sm" onclick="closeModal('loginModal')">취소</button>
       <button class="btn-primary" onclick="doLogin()">로그인</button>
     </div>
+    <div class="social-divider"><span>또는 소셜 로그인</span></div>
+    <div id="googleBtnLogin" class="google-btn-wrap"></div>
     <p class="form-link" onclick="switchModal('loginModal','signupModal')">처음이신가요? 가입하기</p>
   </div>
 </div>
@@ -539,6 +647,8 @@ body.font-large{font-size:17px;}
       <button class="btn-sm" onclick="closeModal('signupModal')">취소</button>
       <button class="btn-primary" onclick="doSignup()">가입하기</button>
     </div>
+    <div class="social-divider"><span>또는 소셜 로그인</span></div>
+    <div id="googleBtnSignup" class="google-btn-wrap"></div>
     <p class="form-link" onclick="switchModal('signupModal','loginModal')">이미 계정이 있으신가요? 로그인</p>
   </div>
 </div>
@@ -797,6 +907,55 @@ body.font-large{font-size:17px;}
     <div class="header-actions" id="headerActions">
       <button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
       <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
+
+      <!-- 빠른 이동 메뉴 -->
+      <div class="quick-nav" id="quickNav">
+        <button class="quick-nav-btn" onclick="toggleQuickNav()" title="빠른 이동">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="quick-nav-drop" id="quickNavDrop">
+          <div class="qn-label">빠른 이동</div>
+          <a class="qn-item" onclick="goTo('hwadu')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            오늘의 화두
+          </a>
+          <a class="qn-item" onclick="goTo('news')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>
+            뉴스
+          </a>
+          <a class="qn-item" onclick="goTo('agora')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            광장 (아골라·아곤란)
+          </a>
+          <a class="qn-item" onclick="goTo('bridge')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            인연의 다리
+          </a>
+          <a class="qn-item" onclick="goTo('insight')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            베스트 인사이트
+          </a>
+          <a class="qn-item" onclick="goTo('editorial')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            에디토리얼
+          </a>
+          <a class="qn-item" onclick="goTo('journal')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            시민 저널
+          </a>
+          <a class="qn-item" onclick="goTo('builder')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            사이트 빌더
+          </a>
+          <a class="qn-item" onclick="goTo('eco')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            생태계
+          </a>
+        </div>
+      </div>
+
       <button class="settings-btn" onclick="openModal('settingsModal')" title="설정">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
@@ -808,7 +967,18 @@ body.font-large{font-size:17px;}
      HERO
 ═══════════════════════════════════ -->
 <section class="hero-dark">
-  <canvas id="earthCanvas"></canvas>
+  <div class="css-globe" aria-hidden="true"></div>
+
+  <!-- 유성 레이어 -->
+  <div class="shooting-stars" aria-hidden="true">
+    <div class="meteor m1"></div>
+    <div class="meteor m2"></div>
+    <div class="meteor m3"></div>
+    <div class="meteor m4"></div>
+    <div class="meteor m5"></div>
+    <div class="meteor m6"></div>
+  </div>
+
   <div class="hero">
     <div class="hero-badge">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
@@ -895,7 +1065,206 @@ body.font-large{font-size:17px;}
 <!-- ════════════════════════════════
      광장: 아골라 + 아곤란
 ═══════════════════════════════════ -->
-<section class="section bg-alt" id="agora">
+<section class="section bg-alt" id="agora" style="position:relative;overflow:hidden;">
+
+  <!-- 아고라 스케치 배경 -->
+  <div class="agora-sketch" aria-hidden="true">
+    <svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMax meet"
+         style="width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
+      <defs>
+        <style>
+          .sk{stroke:rgba(255,255,255,0.28);stroke-linecap:round;stroke-linejoin:round;fill:none;}
+          .sk-fill{fill:rgba(255,255,255,0.10);stroke:rgba(255,255,255,0.28);stroke-width:1;}
+          /* 사람 이동 애니메이션 */
+          @keyframes walkR{0%{transform:translateX(-120px)}100%{transform:translateX(1320px)}}
+          @keyframes walkL{0%{transform:translateX(1320px)}100%{transform:translateX(-120px)}}
+          @keyframes walkR2{0%{transform:translateX(-80px)}100%{transform:translateX(1280px)}}
+          @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+          .p1{animation:walkR 28s linear infinite;}
+          .p2{animation:walkL 34s linear infinite;}
+          .p3{animation:walkR2 22s linear infinite;}
+          .p4{animation:walkR 40s 8s linear infinite;}
+          .p5{animation:walkL 26s 5s linear infinite;}
+          .p6{animation:walkR2 32s 14s linear infinite;}
+          .p7{animation:walkL 20s 3s linear infinite;}
+          .p8{animation:walkR 36s 18s linear infinite;}
+        </style>
+      </defs>
+
+      <!-- 계단 -->
+      <rect x="0" y="295" width="1200" height="8" class="sk" stroke-width="1.2"/>
+      <rect x="0" y="307" width="1200" height="8" class="sk" stroke-width="1.2"/>
+      <rect x="0" y="319" width="1200" height="8" class="sk" stroke-width="1.2"/>
+
+      <!-- 기둥 (도리아 양식, 약간 스케치 느낌) -->
+      <!-- 기둥 배열: x=80,180,280,380,480,580,680,780,880,980,1080 -->
+      <g class="sk" stroke-width="1.4">
+        <!-- 기둥 1 -->
+        <rect x="74" y="120" width="16" height="175" rx="2"/>
+        <polygon points="60,120 104,120 100,108 64,108"/>
+        <rect x="62" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 2 -->
+        <rect x="174" y="120" width="16" height="175" rx="2"/>
+        <polygon points="160,120 204,120 200,108 164,108"/>
+        <rect x="162" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 3 -->
+        <rect x="274" y="120" width="16" height="175" rx="2"/>
+        <polygon points="260,120 304,120 300,108 264,108"/>
+        <rect x="262" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 4 -->
+        <rect x="374" y="120" width="16" height="175" rx="2"/>
+        <polygon points="360,120 404,120 400,108 364,108"/>
+        <rect x="362" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 5 -->
+        <rect x="474" y="120" width="16" height="175" rx="2"/>
+        <polygon points="460,120 504,120 500,108 464,108"/>
+        <rect x="462" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 6 -->
+        <rect x="574" y="120" width="16" height="175" rx="2"/>
+        <polygon points="560,120 604,120 600,108 564,108"/>
+        <rect x="562" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 7 -->
+        <rect x="674" y="120" width="16" height="175" rx="2"/>
+        <polygon points="660,120 704,120 700,108 664,108"/>
+        <rect x="662" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 8 -->
+        <rect x="774" y="120" width="16" height="175" rx="2"/>
+        <polygon points="760,120 804,120 800,108 764,108"/>
+        <rect x="762" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 9 -->
+        <rect x="874" y="120" width="16" height="175" rx="2"/>
+        <polygon points="860,120 904,120 900,108 864,108"/>
+        <rect x="862" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 10 -->
+        <rect x="974" y="120" width="16" height="175" rx="2"/>
+        <polygon points="960,120 1004,120 1000,108 964,108"/>
+        <rect x="962" y="104" width="40" height="6" rx="1"/>
+        <!-- 기둥 11 -->
+        <rect x="1074" y="120" width="16" height="175" rx="2"/>
+        <polygon points="1060,120 1104,120 1100,108 1064,108"/>
+        <rect x="1062" y="104" width="40" height="6" rx="1"/>
+      </g>
+
+      <!-- 엔타블러처 (기둥 위 가로대) -->
+      <rect x="58" y="98" width="1088" height="12" class="sk" stroke-width="1.6"/>
+      <!-- 페디먼트 삼각형 -->
+      <polygon points="58,98 602,28 1146,98" class="sk" stroke-width="1.3"/>
+      <!-- 페디먼트 내부 장식 선 -->
+      <line x1="200" y1="98" x2="380" y2="62" class="sk" stroke-width="0.8"/>
+      <line x1="600" y1="30" x2="600" y2="98" class="sk" stroke-width="0.8"/>
+      <line x1="820" y1="62" x2="1000" y2="98" class="sk" stroke-width="0.8"/>
+      <!-- 제단 -->
+      <rect x="530" y="230" width="140" height="65" class="sk-fill" stroke-width="1.2"/>
+      <rect x="520" y="220" width="160" height="14" class="sk-fill" stroke-width="1"/>
+
+      <!-- ══ 움직이는 사람들 ══ -->
+      <!-- 사람 형태: 원(머리) + 사다리꼴(몸) + 선(다리) -->
+
+      <!-- 사람1 — 오른쪽으로 -->
+      <g class="p1">
+        <g transform="translate(60,248)">
+          <circle cx="0" cy="-38" r="7" class="sk" stroke-width="1.3"/>
+          <path d="M-7,-31 L-9,0 L9,0 L7,-31z" class="sk" stroke-width="1.2"/>
+          <line x1="-5" y1="0" x2="-8" y2="20" class="sk" stroke-width="1.2"/>
+          <line x1="5" y1="0" x2="8" y2="20" class="sk" stroke-width="1.2"/>
+          <!-- 팔 -->
+          <line x1="-7" y1="-18" x2="-18" y2="-8" class="sk" stroke-width="1.1"/>
+          <line x1="7" y1="-18" x2="16" y2="-10" class="sk" stroke-width="1.1"/>
+        </g>
+      </g>
+
+      <!-- 사람2 — 왼쪽으로 -->
+      <g class="p2">
+        <g transform="translate(900,256)">
+          <circle cx="0" cy="-36" r="6" class="sk" stroke-width="1.3"/>
+          <path d="M-6,-30 L-8,0 L8,0 L6,-30z" class="sk" stroke-width="1.2"/>
+          <line x1="-4" y1="0" x2="-7" y2="18" class="sk" stroke-width="1.2"/>
+          <line x1="4" y1="0" x2="7" y2="18" class="sk" stroke-width="1.2"/>
+          <line x1="-6" y1="-16" x2="-15" y2="-6" class="sk" stroke-width="1.1"/>
+          <line x1="6" y1="-16" x2="15" y2="-8" class="sk" stroke-width="1.1"/>
+        </g>
+      </g>
+
+      <!-- 사람3 — 오른쪽, 빠름 -->
+      <g class="p3">
+        <g transform="translate(200,252)">
+          <circle cx="0" cy="-32" r="6" class="sk" stroke-width="1.2"/>
+          <path d="M-5,-26 L-7,0 L7,0 L5,-26z" class="sk" stroke-width="1.1"/>
+          <line x1="-4" y1="0" x2="-6" y2="16" class="sk" stroke-width="1.1"/>
+          <line x1="4" y1="0" x2="7" y2="16" class="sk" stroke-width="1.1"/>
+          <line x1="-5" y1="-14" x2="-13" y2="-5" class="sk" stroke-width="1"/>
+          <line x1="5" y1="-14" x2="13" y2="-7" class="sk" stroke-width="1"/>
+        </g>
+      </g>
+
+      <!-- 사람4 — 느린 오른쪽 (두루마기 걸친 느낌, 조금 큼) -->
+      <g class="p4">
+        <g transform="translate(400,244)">
+          <circle cx="0" cy="-44" r="8" class="sk" stroke-width="1.3"/>
+          <!-- 히마티온(망토) -->
+          <path d="M-10,-36 Q-18,-10 -12,10 L12,10 Q18,-10 10,-36z" class="sk" stroke-width="1.3"/>
+          <line x1="-8" y1="10" x2="-10" y2="28" class="sk" stroke-width="1.2"/>
+          <line x1="8" y1="10" x2="10" y2="28" class="sk" stroke-width="1.2"/>
+          <!-- 지팡이 -->
+          <line x1="14" y1="-30" x2="18" y2="30" class="sk" stroke-width="1.2"/>
+        </g>
+      </g>
+
+      <!-- 사람5 — 왼쪽 중간 -->
+      <g class="p5">
+        <g transform="translate(700,250)">
+          <circle cx="0" cy="-36" r="7" class="sk" stroke-width="1.3"/>
+          <path d="M-6,-29 L-9,2 L9,2 L6,-29z" class="sk" stroke-width="1.2"/>
+          <line x1="-5" y1="2" x2="-7" y2="20" class="sk" stroke-width="1.2"/>
+          <line x1="5" y1="2" x2="7" y2="20" class="sk" stroke-width="1.2"/>
+          <line x1="-6" y1="-16" x2="-16" y2="-6" class="sk" stroke-width="1.1"/>
+          <line x1="6" y1="-16" x2="14" y2="-9" class="sk" stroke-width="1.1"/>
+        </g>
+      </g>
+
+      <!-- 사람6 — 작게 멀리(원근감) -->
+      <g class="p6" opacity="0.6">
+        <g transform="translate(300,228)">
+          <circle cx="0" cy="-22" r="4" class="sk" stroke-width="1"/>
+          <path d="M-4,-18 L-5,2 L5,2 L4,-18z" class="sk" stroke-width="1"/>
+          <line x1="-3" y1="2" x2="-4" y2="12" class="sk" stroke-width="1"/>
+          <line x1="3" y1="2" x2="4" y2="12" class="sk" stroke-width="1"/>
+        </g>
+      </g>
+
+      <!-- 사람7 — 작게 멀리 왼쪽 -->
+      <g class="p7" opacity="0.55">
+        <g transform="translate(800,230)">
+          <circle cx="0" cy="-20" r="4" class="sk" stroke-width="1"/>
+          <path d="M-4,-16 L-5,2 L5,2 L4,-16z" class="sk" stroke-width="1"/>
+          <line x1="-3" y1="2" x2="-4" y2="12" class="sk" stroke-width="1"/>
+          <line x1="3" y1="2" x2="4" y2="12" class="sk" stroke-width="1"/>
+        </g>
+      </g>
+
+      <!-- 사람8 — 두 사람이 대화하는 모습 (같은 방향으로 이동) -->
+      <g class="p8">
+        <g transform="translate(500,252)">
+          <!-- 사람A -->
+          <circle cx="-14" cy="-36" r="6" class="sk" stroke-width="1.2"/>
+          <path d="M-20,-30 L-22,0 L-8,0 L-8,-30z" class="sk" stroke-width="1.1"/>
+          <line x1="-17" y1="0" x2="-19" y2="18" class="sk" stroke-width="1.1"/>
+          <line x1="-11" y1="0" x2="-9" y2="18" class="sk" stroke-width="1.1"/>
+          <!-- 팔 뻗어 대화 -->
+          <line x1="-8" y1="-16" x2="0" y2="-18" class="sk" stroke-width="1"/>
+          <!-- 사람B -->
+          <circle cx="14" cy="-36" r="6" class="sk" stroke-width="1.2"/>
+          <path d="M8,-30 L6,0 L20,0 L20,-30z" class="sk" stroke-width="1.1"/>
+          <line x1="9" y1="0" x2="7" y2="18" class="sk" stroke-width="1.1"/>
+          <line x1="17" y1="0" x2="19" y2="18" class="sk" stroke-width="1.1"/>
+          <!-- 대화 표시 -->
+          <line x1="8" y1="-16" x2="0" y2="-18" class="sk" stroke-width="1"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
   <div class="section-inner">
     <div class="section-header">
       <div>
@@ -1310,6 +1679,8 @@ function saveThought(key,val){
 function openModal(id){
   if(id==='settingsModal') initSettingsModal();
   document.getElementById(id).classList.add('open');
+  if(id==='loginModal')  setTimeout(()=>renderGoogleBtn('googleBtnLogin'),100);
+  if(id==='signupModal') setTimeout(()=>renderGoogleBtn('googleBtnSignup'),100);
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function switchModal(closeId,openId){closeModal(closeId);openModal(openId);}
@@ -1374,6 +1745,26 @@ function restoreSession(){
 /* ════════════════════════════════
    헤더 렌더
 ════════════════════════════════ */
+const QUICK_NAV_HTML=`<div class="quick-nav" id="quickNav">
+  <button class="quick-nav-btn" onclick="toggleQuickNav()" title="빠른 이동">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="quick-nav-drop" id="quickNavDrop">
+    <div class="qn-label">빠른 이동</div>
+    <a class="qn-item" onclick="goTo('hwadu')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>오늘의 화두</a>
+    <a class="qn-item" onclick="goTo('news')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>뉴스</a>
+    <a class="qn-item" onclick="goTo('agora')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>광장 (아골라·아곤란)</a>
+    <a class="qn-item" onclick="goTo('bridge')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>인연의 다리</a>
+    <a class="qn-item" onclick="goTo('insight')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>베스트 인사이트</a>
+    <a class="qn-item" onclick="goTo('editorial')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>에디토리얼</a>
+    <a class="qn-item" onclick="goTo('journal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>시민 저널</a>
+    <a class="qn-item" onclick="goTo('builder')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>사이트 빌더</a>
+    <a class="qn-item" onclick="goTo('eco')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>생태계</a>
+  </div>
+</div>`;
+
+const SETTINGS_BTN_HTML=`<button class="settings-btn" onclick="openModal('settingsModal')" title="설정"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`;
+
 function renderHeader(){
   const el=document.getElementById('headerActions');
   if(currentUser){
@@ -1381,11 +1772,11 @@ function renderHeader(){
       <div class="user-avatar">${currentUser.nick[0]}</div>
       <span>${currentUser.nick}</span>
       <button class="btn-sm" onclick="doLogout()">로그아웃</button>
-    </div>`;
+    </div>${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
   }else{
     el.innerHTML=`<button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
       <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
-      <button class="settings-btn" onclick="openModal('settingsModal')" title="설정"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`;
+      ${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
   }
 }
 
@@ -1776,12 +2167,12 @@ function escHtml(s){
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
 
 /* ════════════════════════════════
-   지구 애니메이션 (Three.js 실사 텍스처)
+   (Three.js 제거 — CSS 지구로 교체)
 ════════════════════════════════ */
 (function(){
-  const cnv=document.getElementById('earthCanvas');
-  if(!cnv)return;
-
+  // CSS 지구: Three.js 불필요, CSS animation으로 구현됨
+  if(false){
+  const cnv=null;
   function loadScript(src,cb){
     const s=document.createElement('script');
     s.src=src;s.onload=cb;document.head.appendChild(s);
@@ -1876,6 +2267,7 @@ function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
     }
     animate();
   });
+  } // end if(false)
 })();
 
 /* ════════════════════════════════
@@ -1891,6 +2283,108 @@ function init(){
   updateInsights();
 }
 init();
+
+/* ════════════════════════════════
+   구글 소셜 로그인
+   ════════════════════════════════ */
+let GOOGLE_CLIENT_ID = localStorage.getItem('ylife_google_client_id') || '';
+
+function saveGoogleClientId(){
+  const val = document.getElementById('googleClientIdInput').value.trim();
+  if(!val){alert('Client ID를 입력하세요.');return;}
+  localStorage.setItem('ylife_google_client_id', val);
+  GOOGLE_CLIENT_ID = val;
+  document.getElementById('googleClientIdStatus').textContent = '✓ 저장 완료 — 페이지 새로고침 후 구글 버튼이 나타납니다.';
+  document.getElementById('googleClientIdInput').value = '';
+  initGoogleAuth();
+}
+
+function initGoogleAuth(){
+  if(!GOOGLE_CLIENT_ID || !window.google) return;
+  try {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      ux_mode: 'popup',
+    });
+  } catch(e){ console.warn('Google Auth init error:', e); }
+}
+
+function renderGoogleBtn(containerId){
+  const wrap = document.getElementById(containerId);
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  if(!GOOGLE_CLIENT_ID){
+    wrap.innerHTML = `<p style="font-size:12px;color:var(--ink-soft);text-align:center">구글 로그인을 사용하려면<br>설정 → Google Client ID를 입력하세요.</p>`;
+    return;
+  }
+  if(!window.google){ wrap.innerHTML=''; return; }
+  try {
+    google.accounts.id.renderButton(wrap, {
+      theme:'outline', size:'large', text:'signin_with',
+      locale:'ko', width:280, shape:'rectangular',
+    });
+  } catch(e){ console.warn('Google button render error:', e); }
+}
+
+function handleGoogleCredential(response){
+  try {
+    // JWT payload 디코딩 (검증 불필요 — GSI가 이미 검증함)
+    const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    const { sub, email, name, picture } = payload;
+    const users = getUsers();
+    let user = users.find(u => u.googleSub === sub);
+    if(!user){
+      // 신규 — 자동 계정 생성
+      user = {
+        id: 'g_' + sub.slice(-10),
+        nick: name || email.split('@')[0],
+        email: email || '',
+        pw: '',
+        googleSub: sub,
+        provider: 'google',
+        joined: new Date().toLocaleDateString('ko'),
+      };
+      users.push(user);
+      LS.set('ylife_users', users);
+    }
+    currentUser = user;
+    LS.set('ylife_session', user.id);
+    closeModal('loginModal');
+    closeModal('signupModal');
+    renderHeader();
+    renderPlaza();
+    updateStats();
+  } catch(e){
+    console.error('Google 로그인 처리 오류:', e);
+    alert('구글 로그인 처리 중 오류가 발생했습니다.');
+  }
+}
+
+// Google GSI 스크립트 로드 완료 후 초기화
+window.addEventListener('load', function(){
+  setTimeout(initGoogleAuth, 500);
+});
+
+/* ════════════════════════════════
+   빠른 이동 메뉴
+   ════════════════════════════════ */
+function toggleQuickNav(){
+  const drop = document.getElementById('quickNavDrop');
+  drop.classList.toggle('open');
+}
+function goTo(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('quickNavDrop').classList.remove('open');
+}
+// 바깥 클릭 시 닫기
+document.addEventListener('click', function(e){
+  const nav = document.getElementById('quickNav');
+  if(nav && !nav.contains(e.target)){
+    document.getElementById('quickNavDrop').classList.remove('open');
+  }
+});
 
 /* ════════════════════════════════
    설정 기능
