@@ -131,6 +131,84 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-tip{margin:12px 16px;padding:12px 14px;background:var(--surface);border-radius:10px;font-size:12px;color:var(--ink-soft);line-height:1.65;}
 .pws-tip strong{color:var(--ink);}
 
+/* ─── 뉴스 더보기 ─── */
+.news-more-btn{background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:24px;color:rgba(255,255,255,0.88);font-size:13px;font-weight:600;padding:10px 26px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+.news-more-btn:hover{background:rgba(255,255,255,0.28);}
+.news-more-topic{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all 0.15s;}
+.news-more-topic:hover,.news-more-topic.sel{background:var(--thread);color:#fff;border-color:var(--thread);}
+/* 생성된 카드 이미지 */
+.nds-gen-img{width:100%;height:220px;object-fit:cover;border-radius:12px;margin-bottom:20px;display:block;}
+.nds-gen-img-placeholder{width:100%;height:220px;border-radius:12px;margin-bottom:20px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink-faint);}
+
+/* ─── 뉴스 상세 전체화면 ─── */
+#newsDetailScreen{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:var(--bg);}
+#newsDetailScreen.open{display:flex;animation:fadeSlideUp 0.26s cubic-bezier(.22,1,.36,1);}
+.nds-topbar{height:52px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.nds-back{background:none;border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:13px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;gap:6px;}
+.nds-back:hover{background:var(--surface);}
+.nds-cat-badge{font-size:12px;font-weight:600;color:var(--ink-soft);}
+.nds-orig-link{margin-left:auto;font-size:12px;color:var(--thread);text-decoration:none;}
+.nds-orig-link:hover{text-decoration:underline;}
+.nds-body{display:flex;flex:1;overflow:hidden;}
+/* 왼쪽: 기사 */
+.nds-article{flex:1;overflow-y:auto;padding:36px 48px;max-width:700px;}
+.nds-article-cat{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--thread);text-transform:uppercase;margin-bottom:12px;}
+.nds-article-title{font-family:var(--font-serif);font-size:clamp(20px,3vw,30px);font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:14px;}
+.nds-article-meta{font-size:12px;color:var(--ink-faint);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.nds-article-desc{font-size:15px;color:var(--ink-soft);line-height:1.85;margin-bottom:16px;font-weight:500;}
+.nds-article-body{font-size:14px;color:var(--ink);line-height:2;white-space:pre-wrap;}
+/* 오른쪽: 생각 */
+.nds-thoughts{width:340px;flex-shrink:0;border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.nds-thoughts-head{padding:20px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.nds-thoughts-title{font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--ink);}
+.nds-thoughts-sub{font-size:12px;color:var(--ink-faint);margin-top:3px;}
+.nds-thought-input-wrap{padding:14px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.nds-thought-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--ink);background:var(--bg);resize:none;min-height:72px;line-height:1.6;font-family:inherit;}
+.nds-thought-input:focus{outline:none;border-color:var(--thread);}
+.nds-thought-submit{margin-top:8px;background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:600;cursor:pointer;float:right;}
+.nds-thought-submit:hover{opacity:0.85;}
+.nds-thought-login{font-size:13px;color:var(--ink-faint);text-align:center;padding:14px;}
+.nds-thought-login a{color:var(--thread);cursor:pointer;}
+.nds-thought-list{flex:1;overflow-y:auto;padding:12px 0;}
+.nds-thought-item{padding:12px 20px;border-bottom:1px solid var(--border);}
+.nds-thought-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.nds-thought-avatar{width:26px;height:26px;border-radius:50%;background:var(--thread);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.nds-thought-nick{font-size:12px;font-weight:600;color:var(--ink);}
+.nds-thought-date{font-size:11px;color:var(--ink-faint);margin-left:auto;}
+.nds-thought-text{font-size:13px;color:var(--ink);line-height:1.7;}
+.nds-thought-reply-btn{font-size:11px;color:var(--thread);background:none;border:none;cursor:pointer;margin-top:5px;padding:0;}
+.nds-reply-form{margin-top:8px;display:none;}
+.nds-reply-form.open{display:block;}
+.nds-reply-input{width:100%;border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12px;background:var(--surface);resize:none;}
+.nds-reply-submit{font-size:11px;background:var(--thread);color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;margin-top:4px;float:right;}
+.nds-reply-list{margin-top:6px;}
+.nds-reply-item{padding:7px 10px;background:var(--surface);border-radius:8px;margin-top:4px;font-size:12px;color:var(--ink);}
+.nds-reply-nick{font-weight:600;margin-right:6px;color:var(--thread);}
+.nds-empty-thoughts{padding:32px 20px;text-align:center;font-size:13px;color:var(--ink-faint);}
+
+/* ─── 내 공간 ─── */
+#mySpaceScreen{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:var(--bg);}
+#mySpaceScreen.open{display:flex;animation:fadeSlideUp 0.26s cubic-bezier(.22,1,.36,1);}
+.mys-topbar{height:52px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.mys-body{flex:1;overflow-y:auto;padding:32px 40px;max-width:860px;margin:0 auto;width:100%;}
+.mys-profile{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
+.mys-avatar-lg{width:56px;height:56px;border-radius:50%;background:var(--thread);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;}
+.mys-name{font-family:var(--font-serif);font-size:22px;font-weight:700;color:var(--ink);}
+.mys-role-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--surface);color:var(--thread);border:1px solid var(--border);margin-top:4px;}
+.mys-section-title{font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--gold);}
+.mys-thought-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+.mys-thought-news-title{font-size:13px;font-weight:600;color:var(--thread);margin-bottom:6px;cursor:pointer;}
+.mys-thought-news-title:hover{text-decoration:underline;}
+.mys-thought-text{font-size:14px;color:var(--ink);line-height:1.7;padding:10px 14px;background:rgba(176,128,64,0.07);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;margin-bottom:10px;}
+.mys-replies{margin-top:8px;display:flex;flex-direction:column;gap:6px;}
+.mys-reply-item{font-size:12px;color:var(--ink);padding:7px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;}
+.mys-reply-nick{font-weight:600;color:var(--thread);margin-right:5px;}
+/* 화두 박스 (글쓰기 화면 내) */
+.pws-hwadu-box{margin:0 16px 12px;padding:14px 16px;background:rgba(176,128,64,0.08);border:1px solid rgba(176,128,64,0.3);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;}
+.pws-hwadu-label{font-size:9px;font-weight:700;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:7px;}
+.pws-hwadu-text{font-family:var(--font-serif);font-size:13px;color:var(--ink);line-height:1.75;font-weight:600;}
+.pws-hwadu-meta{font-size:11px;color:var(--ink-faint);margin-top:6px;}
+
 /* 오른쪽 에디터 */
 .pws-editor{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .pws-title-wrap{padding:28px 36px 0;}
@@ -823,6 +901,20 @@ body.dark-mode .admin-content{background:#1A1612;}
       <input type="password" id="signupPw" placeholder="6자 이상"></div>
     <div class="form-group"><label>비밀번호 확인</label>
       <input type="password" id="signupPw2" placeholder="동일하게 입력"></div>
+    <div class="form-group">
+      <label>나는 <small style="color:var(--ink-faint)">(광장 참여 권한에 영향)</small></label>
+      <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;flex:1;min-width:110px;" id="roleLabel-student">
+          <input type="radio" name="signupRole" value="student" checked onchange="updateRoleLabel()"> 🎒 학생
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;flex:1;min-width:110px;" id="roleLabel-adult">
+          <input type="radio" name="signupRole" value="adult" onchange="updateRoleLabel()"> 🧑 성인
+        </label>
+      </div>
+      <div id="roleHint" style="font-size:11px;color:var(--ink-faint);margin-top:6px;line-height:1.6;">
+        학생은 아골라·아곤란 모두 참여 가능합니다.
+      </div>
+    </div>
     <div class="form-msg" id="signupMsg"></div>
     <div class="form-actions">
       <button class="btn-sm" onclick="closeModal('signupModal')">취소</button>
@@ -835,6 +927,59 @@ body.dark-mode .admin-content{background:#1A1612;}
 <!-- ════════════════════════════════
      모달: 글쓰기
 ═══════════════════════════════════ -->
+<!-- ════════════════════════════════
+     뉴스 상세 전체화면
+═══════════════════════════════════ -->
+<div id="newsDetailScreen">
+  <div class="nds-topbar">
+    <button class="nds-back" onclick="closeNewsDetail()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      뉴스로
+    </button>
+    <span class="nds-cat-badge" id="ndsCatBadge"></span>
+    <a class="nds-orig-link" id="ndsOrigLink" href="#" target="_blank" rel="noopener" style="display:none">원문 보기 →</a>
+  </div>
+  <div class="nds-body">
+    <!-- 기사 본문 -->
+    <div class="nds-article">
+      <div class="nds-article-cat" id="ndsArticleCat"></div>
+      <div class="nds-article-title" id="ndsArticleTitle"></div>
+      <div class="nds-article-meta" id="ndsArticleMeta"></div>
+      <div class="nds-article-desc" id="ndsArticleDesc"></div>
+      <div class="nds-article-body" id="ndsArticleBody"></div>
+    </div>
+    <!-- 생각 패널 -->
+    <div class="nds-thoughts">
+      <div class="nds-thoughts-head">
+        <div class="nds-thoughts-title">💬 내 생각 남기기</div>
+        <div class="nds-thoughts-sub">이 기사를 읽고 어떤 생각이 드셨나요?</div>
+      </div>
+      <div class="nds-thought-input-wrap" id="ndsThoughtInputWrap">
+        <!-- 로그인 여부에 따라 렌더 -->
+      </div>
+      <div class="nds-thought-list" id="ndsThoughtList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     내 공간
+═══════════════════════════════════ -->
+<div id="mySpaceScreen">
+  <div class="mys-topbar">
+    <button class="nds-back" onclick="closeMySpace()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      돌아가기
+    </button>
+    <span style="font-size:14px;font-weight:600;color:var(--ink)">내 공간</span>
+  </div>
+  <div class="mys-body">
+    <div class="mys-profile" id="mysProfile"></div>
+    <div class="mys-section-title">내가 남긴 생각들</div>
+    <div id="mysThoughtList"></div>
+  </div>
+</div>
+
 <!-- ════════════════════════════════
      전체화면 글쓰기 광장
 ═══════════════════════════════════ -->
@@ -866,6 +1011,13 @@ body.dark-mode .admin-content{background:#1A1612;}
         <div class="pws-forum-name" id="pwsSideName">아골라</div>
         <div class="pws-forum-desc" id="pwsSideDesc">깊이를 잃지 않는 토론.<br>답이 아니라 더 좋은 물음을 찾는 곳.</div>
       </div>
+      <!-- 화두 박스 (화두에서 열 때만 표시) -->
+      <div class="pws-hwadu-box" id="pwsHwaduBox" style="display:none">
+        <div class="pws-hwadu-label">오늘의 화두</div>
+        <div class="pws-hwadu-text" id="pwsHwaduText"></div>
+        <div class="pws-hwadu-meta" id="pwsHwaduMeta"></div>
+      </div>
+
       <div class="pws-side-list">
         <div class="pws-side-list-title">최근 글</div>
         <div id="pwsRecentList"></div>
@@ -880,12 +1032,31 @@ body.dark-mode .admin-content{background:#1A1612;}
     <!-- 오른쪽 에디터 -->
     <div class="pws-editor">
       <input type="hidden" id="pwsForum" value="agora">
+
+      <!-- 접근 차단 안내 (아곤란 + 일반성인) -->
+      <div id="pwsAccessDenied" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:48px 36px;text-align:center;">
+        <div style="font-size:48px">🏫</div>
+        <div style="font-family:var(--font-serif);font-size:22px;font-weight:700;color:var(--ink)">아곤란은 학생의 마당입니다</div>
+        <div style="font-size:14px;color:var(--ink-soft);line-height:1.8;max-width:380px">
+          아곤란은 학생들이 자유롭게 질문하고 생각을 나누는 공간입니다.<br>
+          어른은 <strong>인증된 선생님</strong>만 참여할 수 있습니다.<br><br>
+          참여를 원하시면 관리자에게 선생님 인증을 요청해주세요.
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+          <button onclick="closePlazaWrite()" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 22px;font-size:13px;color:var(--ink-soft);cursor:pointer;">← 광장으로</button>
+          <button onclick="openWrite('agora','')" style="background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:8px;padding:9px 22px;font-size:13px;font-weight:600;cursor:pointer;">아골라에서 토론하기</button>
+        </div>
+      </div>
+
+      <!-- 실제 에디터 -->
+      <div id="pwsEditorInner">
       <div class="pws-title-wrap">
         <textarea class="pws-title-input" id="pwsTitle" rows="1" placeholder="제목을 입력하세요" oninput="autoResizeTitle(this)"></textarea>
       </div>
       <div class="pws-body-wrap">
         <textarea class="pws-body-input" id="pwsBody" placeholder="마음씨가 담긴 글을 써주세요..." oninput="updateCharCount()"></textarea>
         <div class="pws-char-count" id="pwsCharCount">0자</div>
+      </div>
       </div>
 
       <!-- AI 보조 결과 -->
@@ -899,7 +1070,7 @@ body.dark-mode .admin-content{background:#1A1612;}
       </div>
 
       <!-- AI 바 -->
-      <div class="pws-ai-bar">
+      <div class="pws-ai-bar" id="pwsAiBar">
         <span class="pws-ai-label">AI 보조</span>
         <button class="pws-ai-cmd" onclick="pwsAiAssist('polish')">✦ 글다듬기</button>
         <button class="pws-ai-cmd" onclick="pwsAiAssist('spell')">✦ 맞춤법</button>
@@ -1338,8 +1509,8 @@ body.dark-mode .admin-content{background:#1A1612;}
       </div>
       <div class="hwadu-meta" id="hwaduBy">— 연소사 제안 · Libet 실험에서 영감</div>
       <div class="hwadu-actions">
-        <button class="hwadu-btn" onclick="openWrite('agora','이 화두에 대해: ')">아골라에서 토론</button>
-        <button class="hwadu-btn" onclick="openWrite('agonran','이 화두에 대해: ')">아곤란에서 생각</button>
+        <button class="hwadu-btn" onclick="openWriteWithHwadu('agora')">아골라에서 토론</button>
+        <button class="hwadu-btn" onclick="openWriteWithHwadu('agonran')">아곤란에서 생각</button>
       </div>
     </div>
   </div>
@@ -1380,6 +1551,31 @@ body.dark-mode .admin-content{background:#1A1612;}
       </button>
     </div>
     <div id="newsContent"></div>
+
+    <!-- 더 보기 버튼 -->
+    <div style="text-align:center;margin-top:28px;">
+      <button class="news-more-btn" id="newsMoreBtn" onclick="openNewsMore()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        이 분야 뉴스 5개 더 보기
+      </button>
+    </div>
+
+    <!-- AI 뉴스 추가 드로어 -->
+    <div id="newsMoreDrawer" style="display:none;margin-top:20px;background:rgba(0,0,0,0.06);border-radius:16px;padding:24px 28px;">
+      <div style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px;">AI가 뉴스를 더 찾아드릴게요</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:16px;">어떤 주제의 뉴스를 보고 싶으신가요? (선택 또는 직접 입력)</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;" id="newsMoreTopicBtns"></div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input type="text" id="newsMoreKeyword" placeholder="직접 키워드 입력 (예: 울산 교육, 환경 정책...)"
+          style="flex:1;border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;background:var(--bg);color:var(--ink);">
+        <button onclick="fetchMoreNews()" id="newsMoreFetchBtn"
+          style="background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:10px;padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">
+          뉴스 가져오기
+        </button>
+      </div>
+      <div id="newsMoreStatus" style="font-size:12px;color:var(--ink-faint);margin-top:10px;"></div>
+      <div id="newsMoreResult"></div>
+    </div>
   </div>
 </section>
 
@@ -1987,9 +2183,9 @@ function renderNews(){
   let html=`<div class="news-grid">`;
   items.forEach((n,i)=>{
     const key=`${cat}_${i}`;
-    const t=saved[key]||n.thought||'';
-    const bodyId=`nbody_${key}`;
-    html+=`<div class="news-card">
+    const thoughts=getNewsThoughts(key);
+    const thoughtCount=thoughts.length;
+    html+=`<div class="news-card" onclick="openNewsDetail('${cat}',${i})" style="cursor:pointer">
       <div class="card-image" data-cat="${cat}">
         <svg viewBox="0 0 24 24">${CAT_ICON[cat]||''}</svg>
       </div>
@@ -1997,15 +2193,11 @@ function renderNews(){
         <span class="category-tag">${CAT_LABEL[cat]}</span>
         <div class="news-title">${n.title}</div>
         ${n.desc?`<div class="news-desc">${n.desc}</div>`:''}
-        ${n.body||n.link?`<div class="news-actions">
-          ${n.body?`<button class="news-expand-btn" onclick="toggleNewsBody('${bodyId}',this)">▶ 본문 보기</button>`:''}
-          ${n.link?`<a class="news-link" href="${n.link}" target="_blank" rel="noopener">원문 →</a>`:''}
-        </div>`:''}
-        ${n.body?`<div class="news-body" id="${bodyId}">${escHtml(n.body)}</div>`:''}
         <div class="news-date">${n.date}</div>
-        <div class="news-thought">
-          <input type="text" placeholder="내 생각 한 줄..." value="${escHtml(t)}"
-            onchange="saveThought('${key}',this.value)">
+        <div class="news-thought" style="pointer-events:none">
+          <input type="text" placeholder="클릭해서 기사 읽기 + 내 생각 남기기 →"
+            value="${thoughtCount>0?thoughtCount+'개의 생각이 달려있어요':''}" readonly
+            style="background:var(--surface);color:var(--ink-soft);cursor:pointer;">
         </div>
       </div>
     </div>`;
@@ -2019,10 +2211,318 @@ function switchNews(cat,el){
   el.classList.add('active');
   renderNews();
 }
+/* ══════════════════════════════════
+   뉴스 더보기 — Gemini 텍스트 + 이미지
+══════════════════════════════════ */
+const NEWS_MORE_TOPICS={
+  local:['울산 소식','동네 행사','지역 교육','울산 환경','울산 경제'],
+  region:['부산 소식','경남 소식','대구 소식','경북 소식','지방 정치'],
+  korea:['국내 정치','경제 동향','사회 이슈','문화 소식','스포츠'],
+  world:['미국 소식','일본·중국','유럽 소식','중동 뉴스','국제 경제'],
+  sky:['날씨·기상','우주·천문','항공 소식','기후변화','환경'],
+  land:['생태·자연','농업·식품','산림·공원','지진·지질','동식물'],
+  sea:['해양 환경','수산업','항만·해운','해양 과학','독도·영해']
+};
+let _selNewsMoreTopic='';
+function openNewsMore(){
+  const drawer=document.getElementById('newsMoreDrawer');
+  const isOpen=drawer.style.display!=='none';
+  drawer.style.display=isOpen?'none':'block';
+  if(!isOpen){
+    /* 카테고리별 주제 버튼 렌더 */
+    const topics=NEWS_MORE_TOPICS[currentNewsCat]||[];
+    document.getElementById('newsMoreTopicBtns').innerHTML=topics.map(t=>`
+      <button class="news-more-topic" onclick="selectMoreTopic('${t}',this)">${t}</button>`).join('');
+    _selNewsMoreTopic='';
+    document.getElementById('newsMoreKeyword').value='';
+    document.getElementById('newsMoreResult').innerHTML='';
+    document.getElementById('newsMoreStatus').textContent='';
+  }
+}
+function selectMoreTopic(topic,el){
+  _selNewsMoreTopic=topic;
+  document.querySelectorAll('.news-more-topic').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('newsMoreKeyword').value=topic;
+}
+async function fetchMoreNews(){
+  const keyword=document.getElementById('newsMoreKeyword').value.trim()||_selNewsMoreTopic||CAT_LABEL[currentNewsCat]||'';
+  if(!keyword){document.getElementById('newsMoreStatus').textContent='주제를 선택하거나 키워드를 입력해주세요.';return;}
+  const key=LS.get('ylife_gemini_key')||'';
+  if(!key){
+    document.getElementById('newsMoreStatus').innerHTML='Gemini API 키가 필요합니다. <a onclick="openModal(\'settingsModal\')" style="color:var(--thread);cursor:pointer">설정에서 입력 →</a>';
+    return;
+  }
+  const btn=document.getElementById('newsMoreFetchBtn');
+  btn.disabled=true;btn.textContent='검색 중…';
+  document.getElementById('newsMoreStatus').textContent='Gemini가 뉴스를 수집하고 있습니다…';
+  document.getElementById('newsMoreResult').innerHTML='';
+  const today=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  const prompt=`오늘은 ${today}입니다. "${keyword}" 관련 최신 뉴스 5개를 아래 JSON 배열로만 답해주세요. 다른 말 없이 JSON만.
+
+[
+  {
+    "title": "기사 제목 (실제 같은 구체적인 제목)",
+    "desc": "2-3문장 핵심 요약",
+    "body": "5-7문장 상세 본문. 구체적 수치·장소·인물 포함",
+    "date": "${today}"
+  }
+]
+
+조건: 한국어, 실제 뉴스처럼 구체적으로, 긍정/부정 균형있게, 최근 트렌드 반영`;
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:0.7,maxOutputTokens:2000}})
+    });
+    const d=await res.json();
+    let raw=d?.candidates?.[0]?.content?.parts?.[0]?.text||'[]';
+    raw=raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+    const items=JSON.parse(raw);
+    if(!Array.isArray(items)||!items.length)throw new Error('뉴스를 가져오지 못했습니다.');
+    /* localStorage에 추가 */
+    const data=getNewsData();
+    if(!data[currentNewsCat])data[currentNewsCat]=[];
+    const newItems=items.slice(0,5).map(n=>({...n,aiGenerated:true,keyword}));
+    data[currentNewsCat].push(...newItems);
+    LS.set('ylife_news',data);
+    document.getElementById('newsMoreStatus').textContent=`✓ ${newItems.length}개 뉴스를 추가했습니다!`;
+    renderNews();
+    /* 드로어 닫기 */
+    setTimeout(()=>{
+      document.getElementById('newsMoreDrawer').style.display='none';
+    },1200);
+  }catch(e){
+    document.getElementById('newsMoreStatus').textContent='오류: '+e.message;
+  }
+  btn.disabled=false;btn.textContent='뉴스 가져오기';
+}
+
+/* ── Imagen 3 이미지 생성 ── */
+const _imgCache={};
+async function generateNewsImage(title,cat){
+  const cacheKey=title.slice(0,30);
+  if(_imgCache[cacheKey])return _imgCache[cacheKey];
+  const key=LS.get('ylife_gemini_key')||'';
+  if(!key)return null;
+  const catKr=CAT_LABEL[cat]||'뉴스';
+  const prompt=`Editorial news illustration for: "${title}". Category: ${catKr}. Minimalist, warm tones, no text, simple composition, suitable for Korean news website.`;
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-fast-generate-001:predict?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({instances:[{prompt}],parameters:{sampleCount:1,aspectRatio:'16:9'}})
+    });
+    const d=await res.json();
+    const b64=d?.predictions?.[0]?.bytesBase64Encoded;
+    if(!b64)return null;
+    const url=`data:image/png;base64,${b64}`;
+    _imgCache[cacheKey]=url;
+    return url;
+  }catch{return null;}
+}
+
+/* ── 뉴스 생각 (멀티유저 배열) ── */
+function getNewsThoughts(key){
+  const all=LS.get('ylife_news_thoughts2')||{};
+  return all[key]||[];
+}
+function saveNewsThought(key,text){
+  if(!currentUser||!text.trim())return;
+  const all=LS.get('ylife_news_thoughts2')||{};
+  if(!all[key])all[key]=[];
+  /* 같은 유저가 이미 남긴 생각 있으면 업데이트 */
+  const existing=all[key].findIndex(t=>t.authorId===currentUser.id);
+  if(existing>=0){
+    all[key][existing].text=text.trim();
+    all[key][existing].date=new Date().toLocaleDateString('ko');
+  }else{
+    all[key].push({
+      id:Date.now().toString(),text:text.trim(),
+      author:currentUser.nick,authorId:currentUser.id,
+      date:new Date().toLocaleDateString('ko'),replies:[]
+    });
+  }
+  LS.set('ylife_news_thoughts2',all);
+}
+function addNewsReply(key,thoughtId,text){
+  if(!currentUser||!text.trim())return;
+  const all=LS.get('ylife_news_thoughts2')||{};
+  const thoughts=all[key]||[];
+  const t=thoughts.find(t=>t.id===thoughtId);
+  if(!t)return;
+  t.replies.push({id:Date.now().toString(),text:text.trim(),
+    author:currentUser.nick,authorId:currentUser.id,
+    date:new Date().toLocaleDateString('ko')});
+  LS.set('ylife_news_thoughts2',all);
+}
+/* 구 데이터 마이그레이션 */
 function saveThought(key,val){
-  const s=LS.get('ylife_news_thoughts')||{};
-  s[key]=val;
-  LS.set('ylife_news_thoughts',s);
+  /* 하위호환 유지 — 실제론 saveNewsThought 사용 */
+  if(currentUser)saveNewsThought(key,val);
+}
+
+/* ── 뉴스 상세 화면 ── */
+let _currentNewsKey=null;
+let _currentNewsItem=null;
+function openNewsDetail(cat,idx){
+  const data=getNewsData();
+  const n=(data[cat]||[])[idx];
+  if(!n)return;
+  _currentNewsKey=`${cat}_${idx}`;
+  _currentNewsItem={...n,cat,idx};
+  /* 기사 채우기 */
+  document.getElementById('ndsCatBadge').textContent=CAT_LABEL[cat]||cat;
+  document.getElementById('ndsArticleCat').textContent=CAT_LABEL[cat]||cat;
+  document.getElementById('ndsArticleTitle').textContent=n.title;
+  document.getElementById('ndsArticleMeta').textContent=n.date+(n.link?' · 외부 기사':(n.aiGenerated?' · AI 생성 뉴스':''));
+  document.getElementById('ndsArticleDesc').textContent=n.desc||'';
+  document.getElementById('ndsArticleBody').textContent=n.body||'';
+  const origLink=document.getElementById('ndsOrigLink');
+  if(n.link){origLink.href=n.link;origLink.style.display='';}
+  else origLink.style.display='none';
+  /* 이미지 — 플레이스홀더 먼저 */
+  const imgWrap=document.getElementById('ndsArticleTitle');
+  const imgEl=document.getElementById('ndsHeroImg');
+  if(imgEl)imgEl.remove();
+  const placeholder=document.createElement('div');
+  placeholder.id='ndsHeroImg';
+  placeholder.className='nds-gen-img-placeholder';
+  placeholder.textContent='🖼 이미지 생성 중…';
+  imgWrap.before(placeholder);
+  /* 비동기로 이미지 생성 */
+  generateNewsImage(n.title,cat).then(url=>{
+    const ph=document.getElementById('ndsHeroImg');
+    if(!ph)return;
+    if(url){
+      const img=document.createElement('img');
+      img.src=url;img.className='nds-gen-img';img.id='ndsHeroImg';img.alt=n.title;
+      ph.replaceWith(img);
+    }else{
+      ph.style.display='none';
+    }
+  });
+  /* 생각 패널 */
+  renderNdsThoughtInput();
+  renderNdsThoughtList();
+  /* 열기 */
+  document.getElementById('newsDetailScreen').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeNewsDetail(){
+  document.getElementById('newsDetailScreen').classList.remove('open');
+  document.body.style.overflow='';
+  renderNews(); /* 카드 생각 수 갱신 */
+}
+function renderNdsThoughtInput(){
+  const wrap=document.getElementById('ndsThoughtInputWrap');
+  if(!currentUser){
+    wrap.innerHTML=`<div class="nds-thought-login">로그인하면 생각을 남길 수 있어요.<br><a onclick="openModal('loginModal');closeNewsDetail()">로그인하기 →</a></div>`;
+    return;
+  }
+  /* 이미 남긴 생각 있으면 불러오기 */
+  const mine=getNewsThoughts(_currentNewsKey).find(t=>t.authorId===currentUser.id);
+  wrap.innerHTML=`
+    <textarea class="nds-thought-input" id="ndsThoughtTextarea" placeholder="이 기사를 읽고 어떤 생각이 드셨나요?">${mine?mine.text:''}</textarea>
+    <button class="nds-thought-submit" onclick="submitNdsThought()">생각 남기기</button>
+    <div style="clear:both"></div>`;
+}
+function submitNdsThought(){
+  const text=document.getElementById('ndsThoughtTextarea')?.value||'';
+  if(!text.trim()){return;}
+  saveNewsThought(_currentNewsKey,text);
+  renderNdsThoughtList();
+  renderNdsThoughtInput();
+}
+function renderNdsThoughtList(){
+  const thoughts=getNewsThoughts(_currentNewsKey);
+  const el=document.getElementById('ndsThoughtList');
+  if(!thoughts.length){
+    el.innerHTML=`<div class="nds-empty-thoughts">첫 번째 생각을 남겨보세요 ✍️</div>`;return;
+  }
+  el.innerHTML=thoughts.map(t=>`
+    <div class="nds-thought-item">
+      <div class="nds-thought-item-head">
+        <div class="nds-thought-avatar">${t.author[0]}</div>
+        <span class="nds-thought-nick">${escHtml(t.author)}</span>
+        <span class="nds-thought-date">${t.date}</span>
+      </div>
+      <div class="nds-thought-text">${escHtml(t.text)}</div>
+      ${currentUser?`<button class="nds-thought-reply-btn" onclick="toggleNdsReply('${t.id}')">↩ 답글</button>`:''}
+      <div class="nds-reply-form" id="replyForm_${t.id}">
+        <textarea class="nds-reply-input" placeholder="답글을 입력하세요..." rows="2" id="replyInput_${t.id}"></textarea>
+        <button class="nds-reply-submit" onclick="submitNdsReply('${t.id}')">달기</button>
+        <div style="clear:both"></div>
+      </div>
+      <div class="nds-reply-list">${(t.replies||[]).map(r=>`
+        <div class="nds-reply-item">
+          <span class="nds-reply-nick">${escHtml(r.author)}</span>${escHtml(r.text)}
+          <span style="font-size:10px;color:var(--ink-faint);margin-left:6px">${r.date}</span>
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function toggleNdsReply(thoughtId){
+  const form=document.getElementById('replyForm_'+thoughtId);
+  if(form)form.classList.toggle('open');
+}
+function submitNdsReply(thoughtId){
+  const input=document.getElementById('replyInput_'+thoughtId);
+  if(!input||!input.value.trim())return;
+  addNewsReply(_currentNewsKey,thoughtId,input.value);
+  renderNdsThoughtList();
+}
+
+/* ── 내 공간 ── */
+function openMySpace(){
+  if(!currentUser){openModal('loginModal');return;}
+  renderMySpace();
+  document.getElementById('mySpaceScreen').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMySpace(){
+  document.getElementById('mySpaceScreen').classList.remove('open');
+  document.body.style.overflow='';
+}
+function renderMySpace(){
+  /* 프로필 */
+  document.getElementById('mysProfile').innerHTML=`
+    <div class="mys-avatar-lg">${currentUser.nick[0]}</div>
+    <div>
+      <div class="mys-name">${escHtml(currentUser.nick)}</div>
+      <div class="mys-role-badge">${ROLE_LABEL[currentUser.role||'student']||'🎒 학생'}</div>
+      <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">가입일 ${currentUser.joinDate||'-'}</div>
+    </div>`;
+  /* 내가 남긴 뉴스 생각 */
+  const all=LS.get('ylife_news_thoughts2')||{};
+  const newsData=getNewsData();
+  const cards=[];
+  Object.entries(all).forEach(([key,thoughts])=>{
+    const mine=thoughts.find(t=>t.authorId===currentUser.id);
+    if(!mine)return;
+    const [cat,idx]=key.split('_');
+    const n=(newsData[cat]||[])[+idx];
+    if(!n)return;
+    const replies=thoughts.flatMap(t=>t.replies||[]).filter(r=>r.authorId!==currentUser.id&&thoughts.find(t=>t.authorId===currentUser.id));
+    cards.push({key,cat,n,mine,allThoughts:thoughts,replies});
+  });
+  const el=document.getElementById('mysThoughtList');
+  if(!cards.length){
+    el.innerHTML=`<div style="text-align:center;padding:48px;color:var(--ink-faint);font-size:14px">아직 남긴 생각이 없습니다.<br>뉴스를 읽고 첫 생각을 남겨보세요.</div>`;
+    return;
+  }
+  el.innerHTML=cards.map(({key,cat,n,mine,allThoughts,replies})=>`
+    <div class="mys-thought-card">
+      <div class="mys-thought-news-title" onclick="closeMySpace();openNewsDetail('${cat}',${key.split('_')[1]})">
+        [${CAT_LABEL[cat]||cat}] ${escHtml(n.title)}
+        <span style="font-size:11px;color:var(--ink-faint);margin-left:4px">${n.date}</span>
+      </div>
+      <div class="mys-thought-text">${escHtml(mine.text)}</div>
+      ${allThoughts.length>1?`<div style="font-size:12px;color:var(--ink-faint);margin-bottom:6px">다른 사람들의 생각 ${allThoughts.length-1}개</div>
+      <div class="mys-replies">${allThoughts.filter(t=>t.authorId!==currentUser.id).map(t=>`
+        <div class="mys-reply-item"><span class="mys-reply-nick">${escHtml(t.author)}</span>${escHtml(t.text)}</div>`).join('')}
+      </div>`:''}
+    </div>`).join('');
 }
 function toggleNewsBody(id,btn){
   const el=document.getElementById(id);
@@ -2063,6 +2563,21 @@ function doLogin(){
   renderHeader();
   renderPlaza();
 }
+function updateRoleLabel(){
+  const role=document.querySelector('input[name="signupRole"]:checked')?.value||'student';
+  const hints={
+    student:'학생은 아골라·아곤란 모두 참여 가능합니다.',
+    adult:'성인은 아골라(토론)만 참여 가능합니다. 아곤란은 인증된 선생님만 참여할 수 있습니다.'
+  };
+  const el=document.getElementById('roleHint');
+  if(el)el.textContent=hints[role]||'';
+}
+/* 역할 권한 체크 */
+function canWriteAgonran(user){
+  if(!user)return false;
+  const role=user.role||'student';
+  return role==='student'||role==='teacher'||role==='admin';
+}
 function doSignup(){
   const id=document.getElementById('signupId').value.trim();
   const nick=document.getElementById('signupNick').value.trim();
@@ -2075,7 +2590,8 @@ function doSignup(){
   if(pw!==pw2){msg.textContent='비밀번호가 일치하지 않습니다.';return;}
   const users=getUsers();
   if(users.find(u=>u.id===id)){msg.textContent='이미 사용 중인 아이디입니다.';return;}
-  const newUser={id,nick,pw:hashPw(pw),joinDate:new Date().toLocaleDateString('ko')};
+  const role=document.querySelector('input[name="signupRole"]:checked')?.value||'student';
+  const newUser={id,nick,pw:hashPw(pw),role,joinDate:new Date().toLocaleDateString('ko')};
   users.push(newUser);
   LS.set('ylife_users',users);
   currentUser=newUser;
@@ -2127,8 +2643,8 @@ function renderHeader(){
   const el=document.getElementById('headerActions');
   if(currentUser){
     el.innerHTML=`<div class="user-badge">
-      <div class="user-avatar">${currentUser.nick[0]}</div>
-      <span>${currentUser.nick}</span>
+      <div class="user-avatar" onclick="openMySpace()" title="내 공간" style="cursor:pointer">${currentUser.nick[0]}</div>
+      <span onclick="openMySpace()" style="cursor:pointer;text-decoration:underline dotted">${currentUser.nick}</span>
       <button class="btn-sm" onclick="doLogout()">로그아웃</button>
     </div>${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
   }else{
@@ -2156,7 +2672,11 @@ const PWS_META={
     color:'agonran'
   }
 };
-function openWrite(forum,prefix){
+function openWriteWithHwadu(forum){
+  const h=getHwadu();
+  openWrite(forum,'이 화두에 대해: '+h.text, h);
+}
+function openWrite(forum,prefix,hwadu){
   if(!currentUser){openModal('loginModal');return;}
   const m=PWS_META[forum]||PWS_META.agora;
   /* 포럼 정보 세팅 */
@@ -2170,8 +2690,34 @@ function openWrite(forum,prefix){
   badge.className='pws-forum-badge '+m.color;
   const side=document.getElementById('pwsSide');
   side.className='pws-side '+m.color;
+  /* 화두 박스 */
+  const hwaduBox=document.getElementById('pwsHwaduBox');
+  if(hwadu&&hwadu.text){
+    document.getElementById('pwsHwaduText').textContent=hwadu.text;
+    document.getElementById('pwsHwaduMeta').textContent=hwadu.by||'';
+    hwaduBox.style.display='block';
+  }else{
+    hwaduBox.style.display='none';
+  }
+  /* 아곤란 접근 권한 체크 */
+  const denied=document.getElementById('pwsAccessDenied');
+  const editorInner=document.getElementById('pwsEditorInner');
+  const aiBar=document.getElementById('pwsAiBar');
+  const pwsSubmitBtn=document.querySelector('.pws-submit');
+  if(forum==='agonran'&&!canWriteAgonran(currentUser)){
+    denied.style.display='flex';
+    editorInner.style.display='none';
+    if(aiBar)aiBar.style.display='none';
+    if(pwsSubmitBtn)pwsSubmitBtn.style.display='none';
+  }else{
+    denied.style.display='none';
+    editorInner.style.display='block';
+    if(aiBar)aiBar.style.display='flex';
+    if(pwsSubmitBtn)pwsSubmitBtn.style.display='';
+  }
   /* 에디터 초기화 */
   document.getElementById('pwsTitle').value=prefix||'';
+  autoResizeTitle(document.getElementById('pwsTitle'));
   document.getElementById('pwsBody').value='';
   document.getElementById('pwsErrMsg').textContent='';
   document.getElementById('pwsCharCount').textContent='0자';
@@ -2182,7 +2728,7 @@ function openWrite(forum,prefix){
   const scr=document.getElementById('plazaWriteScreen');
   scr.classList.add('open');
   document.body.style.overflow='hidden';
-  setTimeout(()=>document.getElementById('pwsTitle').focus(),200);
+  setTimeout(()=>document.getElementById('pwsBody').focus(),200);
 }
 function closePlazaWrite(){
   document.getElementById('plazaWriteScreen').classList.remove('open');
@@ -2565,16 +3111,39 @@ function adminDeletePost(id){
   LS.set('ylife_posts',allPosts().filter(p=>p.id!==id));
   renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
 }
+const ROLE_LABEL={'student':'🎒 학생','adult':'🧑 성인','teacher':'📚 선생님','admin':'⚙️ 관리자'};
 function loadUserMgmt(){
   const users=getUsers();
   document.getElementById('userMgmtTable').innerHTML=users.length?`
     <table class="admin-table">
-      <thead><tr><th>아이디</th><th>별명</th><th>가입일</th><th>글수</th></tr></thead>
+      <thead><tr><th>아이디</th><th>별명</th><th>역할</th><th>가입일</th><th>글수</th><th>관리</th></tr></thead>
       <tbody>${users.map(u=>`<tr>
-        <td>${escHtml(u.id)}</td><td>${escHtml(u.nick)}</td><td>${u.joinDate}</td>
+        <td>${escHtml(u.id)}</td>
+        <td>${escHtml(u.nick)}</td>
+        <td>
+          <select onchange="changeUserRole('${u.id}',this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--bg);">
+            ${['student','adult','teacher','admin'].map(r=>`<option value="${r}"${(u.role||'student')===r?' selected':''}>${ROLE_LABEL[r]}</option>`).join('')}
+          </select>
+        </td>
+        <td>${u.joinDate||'-'}</td>
         <td>${allPosts().filter(p=>p.authorId===u.id).length}</td>
+        <td><button class="btn-danger" style="font-size:11px;padding:3px 10px" onclick="adminDeleteUser('${u.id}')">삭제</button></td>
       </tr>`).join('')}</tbody>
     </table>`:'<p style="color:var(--ink-faint);font-size:13px">회원이 없습니다.</p>';
+}
+function changeUserRole(userId,newRole){
+  const users=getUsers();
+  const u=users.find(u=>u.id===userId);
+  if(!u)return;
+  u.role=newRole;
+  LS.set('ylife_users',users);
+  /* 현재 로그인한 사용자라면 세션도 갱신 */
+  if(currentUser&&currentUser.id===userId){currentUser.role=newRole;}
+}
+function adminDeleteUser(userId){
+  if(!confirm('이 회원을 삭제하시겠습니까?'))return;
+  LS.set('ylife_users',getUsers().filter(u=>u.id!==userId));
+  loadUserMgmt();
 }
 function loadHwaduMgmt(){
   const h=getHwadu();
