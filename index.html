@@ -231,21 +231,36 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-hwadu-text{font-family:var(--font-serif);font-size:13px;color:var(--ink);line-height:1.75;font-weight:600;}
 .pws-hwadu-meta{font-size:11px;color:var(--ink-faint);margin-top:6px;}
 
+/* 전체화면 글쓰기 — Bridge×Tide 팔레트 */
+#plazaWriteScreen{background:#F2F4F4;}
+#plazaWriteScreen .pws-topbar{background:#3A3A3A;border-bottom:1px solid rgba(0,0,0,0.2);}
+#plazaWriteScreen .pws-back{border-color:rgba(255,255,255,0.22);color:rgba(255,255,255,0.8);background:none;}
+#plazaWriteScreen .pws-back:hover{background:rgba(255,255,255,0.1);color:#fff;}
+#plazaWriteScreen .pws-forum-badge{color:rgba(255,255,255,0.85);}
+#plazaWriteScreen .pws-forum-badge .badge-dot{background:#B5BFC4;}
+#plazaWriteScreen .pws-submit{background:#B5BFC4;color:#3A3A3A;font-weight:700;}
+#plazaWriteScreen .pws-submit:hover{background:#a5afb4;}
+#plazaWriteScreen .pws-side{background:#E8E8E8;border-right:1px solid rgba(0,0,0,0.1);}
+#plazaWriteScreen .pws-side-head{border-bottom:1px solid rgba(0,0,0,0.08);}
+#plazaWriteScreen .pws-editor{background:#fff;}
+#plazaWriteScreen .pws-ai-bar{background:#F2F4F4;border-top:1px solid rgba(181,191,196,0.4);}
+#plazaWriteScreen .pws-tip{background:rgba(181,191,196,0.2);border-radius:10px;}
+
 /* 오른쪽 에디터 */
 .pws-editor{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .pws-title-wrap{padding:28px 36px 0;}
-.pws-title-input{width:100%;border:none;outline:none;font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);background:transparent;resize:none;line-height:1.35;border-bottom:2px solid var(--border);padding-bottom:16px;}
-.pws-title-input::placeholder{color:var(--ink-faint);}
+.pws-title-input{width:100%;border:none;outline:none;font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);background:transparent;resize:none;line-height:1.4;border-bottom:2px solid rgba(181,191,196,0.5);padding-bottom:16px;min-height:64px;overflow:hidden;display:block;}
+.pws-title-input::placeholder{color:#B0A6AE;}
 .pws-body-wrap{flex:1;padding:20px 36px;overflow-y:auto;display:flex;flex-direction:column;gap:0;}
 .pws-body-input{flex:1;width:100%;min-height:260px;border:none;outline:none;font-size:15px;color:var(--ink);background:transparent;resize:none;line-height:1.9;font-family:var(--font-sans, 'Noto Sans KR', sans-serif);}
-.pws-body-input::placeholder{color:var(--ink-faint);}
-.pws-char-count{font-size:11px;color:var(--ink-faint);text-align:right;margin-top:8px;}
+.pws-body-input::placeholder{color:#B0A6AE;}
+.pws-char-count{font-size:11px;color:#B0A6AE;text-align:right;margin-top:8px;}
 
 /* AI 보조 바 (하단) */
-.pws-ai-bar{border-top:1px solid var(--border);padding:10px 36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;}
-.pws-ai-label{font-size:11px;font-weight:600;color:var(--ink-faint);letter-spacing:.06em;margin-right:4px;}
-.pws-ai-cmd{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all 0.15s;}
-.pws-ai-cmd:hover{background:var(--thread);color:#fff;border-color:var(--thread);}
+.pws-ai-bar{border-top:1px solid rgba(181,191,196,0.4);padding:10px 36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;}
+.pws-ai-label{font-size:11px;font-weight:600;color:#828282;letter-spacing:.06em;margin-right:4px;}
+.pws-ai-cmd{background:#E8E8E8;border:1px solid rgba(181,191,196,0.4);border-radius:20px;padding:5px 14px;font-size:12px;color:#5C5C5C;cursor:pointer;transition:all 0.15s;}
+.pws-ai-cmd:hover{background:#B5BFC4;color:#3A3A3A;border-color:#B5BFC4;}
 .pws-ai-result{margin:0 36px 12px;background:var(--surface);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--ink);line-height:1.7;display:none;}
 .pws-ai-result-actions{display:flex;gap:8px;margin-top:10px;}
 .pws-ai-apply{background:var(--ink-deep);color:#F8F2EA;border:none;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;}
@@ -1106,7 +1121,7 @@ body.dark-mode .admin-content{background:#1A1612;}
       <!-- 실제 에디터 -->
       <div id="pwsEditorInner">
       <div class="pws-title-wrap">
-        <textarea class="pws-title-input" id="pwsTitle" rows="1" placeholder="제목을 입력하세요" oninput="autoResizeTitle(this)"></textarea>
+        <textarea class="pws-title-input" id="pwsTitle" rows="2" placeholder="제목을 입력하세요" oninput="autoResizeTitle(this)"></textarea>
       </div>
       <div class="pws-body-wrap">
         <textarea class="pws-body-input" id="pwsBody" placeholder="마음씨가 담긴 글을 써주세요..." oninput="updateCharCount()"></textarea>
