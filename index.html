@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>y-life.kr — 삶·인연·소통, 그 깊은 연(緣)으로 잇다</title>
 <meta name="description" content="y-life.kr — 오픈 지식 생산 플랫폼. 여기서 쓴 모든 것은 당신의 자산입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3448,6 +3451,8 @@ function doSubmitPost(){
   };
   posts.unshift(post);
   LS.set('ylife_posts',posts);
+  /* Firebase 즉시 업로드 */
+  pushPostToFirebase(post);
   closeModal('writeModal');
   renderPlaza();
   updateStats();
@@ -3455,6 +3460,7 @@ function doSubmitPost(){
 }
 /* ── 전체 화면 광장 열기/닫기 ── */
 let _apmAllPosts = [];  // 현재 포럼의 전체 글 캐시
+let _apmPollTimer = null; // 자동 새로고침 타이머
 
 function openAllPosts(forum){
   window._apmForum = forum;
@@ -3488,6 +3494,29 @@ function openAllPosts(forum){
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';  // 뒷 페이지 스크롤 막기
+
+  // 7초마다 자동으로 Firebase에서 새 글 당겨오기
+  if(_apmPollTimer) clearInterval(_apmPollTimer);
+  _apmPollTimer = setInterval(async ()=>{
+    const added = await syncFromFirebase(false);
+    if(added > 0){
+      // 새 글이 있을 때만 목록 갱신
+      const search = document.getElementById('apmSearch');
+      _apmAllPosts = getPosts(window._apmForum);
+      const q = search ? search.value.trim().toLowerCase() : '';
+      if(q){
+        const filtered = _apmAllPosts.filter(p=>
+          (p.title||'').toLowerCase().includes(q)||
+          (p.body||'').toLowerCase().includes(q)||
+          (p.author||'').toLowerCase().includes(q)
+        );
+        renderApmList(filtered);
+      } else {
+        renderApmList(_apmAllPosts);
+      }
+      renderPlaza();
+    }
+  }, 7000);
 }
 
 function renderApmList(posts){
@@ -3529,6 +3558,7 @@ function closeAllPosts(){
   const modal = document.getElementById('allPostsModal');
   modal.classList.remove('open');
   document.body.style.overflow = '';
+  if(_apmPollTimer){ clearInterval(_apmPollTimer); _apmPollTimer=null; }
 }
 
 function closeAllPostsOnBg(e){
@@ -3729,12 +3759,22 @@ function doAdminLogin(){
     document.getElementById('adminLoginMsg').textContent='비밀번호가 틀렸습니다.';
   }
 }
+let _adminSyncTimer = null;
 function openAdminDashboard(){
   loadAdminDashboard();
   document.getElementById('adminOverlay').classList.add('open');
+  // 30초마다 자동 동기화
+  _adminSyncTimer = setInterval(async ()=>{
+    await syncFromFirebase(false);
+    await syncUsersFromFirebase();
+    loadAdminDashboard();
+    const active = document.querySelector('.admin-panel.active');
+    if(active && active.id==='panel-user-mgmt') loadUserMgmt();
+  }, 30000);
 }
 function closeAdmin(){
   document.getElementById('adminOverlay').classList.remove('open');
+  if(_adminSyncTimer){ clearInterval(_adminSyncTimer); _adminSyncTimer=null; }
 }
 function showAdminPanel(id,el){
   document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
@@ -3915,7 +3955,7 @@ function loadUserMgmt(){
     const users=getUsers();
     document.getElementById('userMgmtTable').innerHTML=users.length?`
     <table class="admin-table">
-      <thead><tr><th>아이디</th><th>별명</th><th>역할</th><th>가입일</th><th>글수</th><th>관리</th></tr></thead>
+      <thead><tr><th>아이디</th><th>닉네임</th><th>역할</th><th>가입일</th><th>글수</th><th>관리</th></tr></thead>
       <tbody>${users.map(u=>`<tr>
         <td>${escHtml(u.id)}</td>
         <td>${escHtml(u.nick)}</td>
@@ -4548,6 +4588,105 @@ function saveGeminiKeyFromSettings(){
   document.getElementById('geminiKeyStatus').textContent='✓ 저장 완료!';
   setTimeout(()=>{document.getElementById('geminiKeyStatus').textContent='✓ API 키 저장됨 (변경하려면 새 키 입력)';},2000);
 }
+
+/* ════════════════════════════════
+   Firebase 실시간 공유 동기화
+   ════════════════════════════════ */
+const FIREBASE_URL = 'https://y-life-e191d-default-rtdb.firebaseio.com';
+function getFirebaseUrl(){ return FIREBASE_URL; }
+
+/* 글 1개 즉시 업로드 */
+async function pushPostToFirebase(post){
+  try{
+    await fetch(FIREBASE_URL+'/posts/'+post.id+'.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(post)
+    });
+  }catch(e){ console.warn('글 업로드 실패:',e); }
+}
+
+/* Firebase → 로컬 병합 (새 글만 추가, 기존 글 유지) */
+async function syncFromFirebase(showMsg){
+  try{
+    const res = await fetch(FIREBASE_URL+'/posts.json');
+    if(!res.ok) return 0;
+    const data = await res.json();
+    if(!data) return 0;
+    const fbPosts = Object.values(data);
+    const local = allPosts();
+    const localIds = new Set(local.map(p=>p.id));
+    let added = 0;
+    fbPosts.forEach(p=>{ if(!localIds.has(p.id)){ local.push(p); added++; } });
+    if(added){
+      local.sort((a,b)=>(b.ts||0)-(a.ts||0));
+      LS.set('ylife_posts', local);
+    }
+    if(showMsg) alert('동기화 완료! 새 글 '+added+'편을 받았습니다.');
+    return added;
+  }catch(e){ console.warn('Firebase 동기화 실패:',e); return 0; }
+}
+
+/* 회원 정보 업로드 */
+async function pushUserToFirebase(user){
+  try{
+    const safe={...user}; delete safe.pw;
+    await fetch(FIREBASE_URL+'/users/'+safe.id+'.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(safe)
+    });
+  }catch(e){ console.warn('회원 업로드 실패:',e); }
+}
+
+/* Firebase → 로컬 회원 병합 */
+async function syncUsersFromFirebase(){
+  try{
+    const res = await fetch(FIREBASE_URL+'/users.json');
+    if(!res.ok) return;
+    const data = await res.json();
+    if(!data) return;
+    const fbUsers = Object.values(data);
+    const local = LS.get('ylife_users')||[];
+    const localMap = {};
+    local.forEach(u=>{ localMap[u.id]=u; });
+    fbUsers.forEach(u=>{
+      if(!localMap[u.id]){ local.push(u); localMap[u.id]=u; }
+      else if(!localMap[u.id].role && u.role){ localMap[u.id].role=u.role; }
+    });
+    LS.set('ylife_users', local);
+  }catch(e){ console.warn('회원 동기화 실패:',e); }
+}
+
+/* 역할 변경 Firebase 반영 */
+async function pushUserRoleToFirebase(userId, role){
+  try{
+    await fetch(FIREBASE_URL+'/users/'+userId+'/role.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(role)
+    });
+  }catch(e){ console.warn('역할 업데이트 실패:',e); }
+}
+
+/* 페이지 로드 시: 로컬 글 중 Firebase에 없는 것 업로드 */
+async function pushLocalPostsToFirebase(){
+  try{
+    const res = await fetch(FIREBASE_URL+'/posts.json?shallow=true');
+    const fbKeys = res.ok ? (await res.json()||{}) : {};
+    const local = allPosts();
+    for(const p of local){
+      if(!fbKeys[p.id]) await pushPostToFirebase(p);
+    }
+  }catch(e){ console.warn('로컬 글 업로드 실패:',e); }
+}
+
+/* 페이지 로드 후 1.2초 뒤 자동 동기화 */
+setTimeout(()=>{
+  pushLocalPostsToFirebase();
+  syncFromFirebase(false);
+  syncUsersFromFirebase();
+}, 1200);
 
 function changeNick(){
   if(!currentUser) return;
