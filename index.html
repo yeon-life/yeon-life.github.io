@@ -120,7 +120,7 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-body{display:flex;flex:1;overflow:hidden;}
 
 /* 왼쪽 사이드 */
-.pws-side{width:300px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.pws-side{width:300px;flex-shrink:0;border-right:1px solid rgba(0,0,0,0.1);display:flex;flex-direction:column;overflow:hidden;position:relative;}
 .pws-side-head{padding:28px 24px 20px;border-bottom:1px solid var(--border);}
 .pws-kanji{font-family:var(--font-serif);font-size:56px;font-weight:700;line-height:1;}
 .pws-forum-name{font-family:var(--font-serif);font-size:20px;font-weight:700;margin-top:4px;}
@@ -135,6 +135,41 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-recent-meta{font-size:11px;color:var(--ink-faint);margin-top:2px;}
 .pws-tip{margin:12px 16px;padding:12px 14px;background:var(--surface);border-radius:10px;font-size:12px;color:var(--ink-soft);line-height:1.65;}
 .pws-tip strong{color:var(--ink);}
+
+/* ── 나의 기록장 메시지 ── */
+.pws-book-msg{margin:14px 16px 4px;padding:14px 16px;background:rgba(181,191,196,0.18);border:1px solid rgba(181,191,196,0.35);border-radius:12px;text-align:center;}
+.pws-book-icon{font-size:28px;margin-bottom:6px;line-height:1;}
+.pws-book-text{font-family:var(--font-serif);font-size:13px;font-weight:700;color:#3A3A3A;line-height:1.5;margin-bottom:5px;}
+.pws-book-sub{font-size:11px;color:#828282;line-height:1.6;}
+.pws-book-count{display:inline-block;margin-top:8px;background:#B5BFC4;color:#3A3A3A;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:.04em;}
+
+/* ── 나의 기록 목록 ── */
+.pws-side-list-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 8px;}
+.pws-side-list-title{font-size:10px;font-weight:700;letter-spacing:.08em;color:#828282;text-transform:uppercase;}
+.pws-post-count{font-size:10px;font-weight:700;color:#B5BFC4;background:rgba(181,191,196,0.2);padding:2px 8px;border-radius:10px;}
+.pws-recent-item{padding:10px 16px;border-bottom:1px solid rgba(0,0,0,0.06);cursor:pointer;transition:background 0.15s;}
+.pws-recent-item:hover{background:rgba(181,191,196,0.2);}
+.pws-recent-item-title{font-size:12px;font-weight:600;color:#3A3A3A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.pws-recent-item-body{font-size:11px;color:#828282;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;line-height:1.4;}
+.pws-recent-item-meta{display:flex;align-items:center;justify-content:space-between;}
+.pws-recent-item-date{font-size:10px;color:#B0A6AE;}
+.pws-recent-item-forum{font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;background:rgba(181,191,196,0.25);color:#828282;}
+.pws-no-posts{padding:20px 16px;text-align:center;}
+.pws-no-posts-icon{font-size:28px;margin-bottom:8px;opacity:0.5;}
+.pws-no-posts-text{font-size:12px;color:#828282;line-height:1.6;}
+.pws-view-all{display:block;margin:8px 16px;padding:7px 12px;background:none;border:1px dashed rgba(181,191,196,0.6);border-radius:8px;font-size:11px;color:#828282;text-align:center;cursor:pointer;transition:all 0.15s;width:calc(100% - 32px);}
+.pws-view-all:hover{background:rgba(181,191,196,0.15);border-color:#B5BFC4;color:#3A3A3A;}
+
+/* ── 기록 상세 보기 패널 ── */
+.pws-post-view{position:absolute;inset:0;background:#fff;z-index:10;display:none;flex-direction:column;overflow:hidden;}
+.pws-post-view.open{display:flex;}
+.pws-post-view-bar{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;gap:8px;flex-shrink:0;background:#F2F4F4;}
+.pws-post-view-back{background:none;border:none;font-size:12px;color:#828282;cursor:pointer;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:6px;}
+.pws-post-view-back:hover{background:rgba(181,191,196,0.2);color:#3A3A3A;}
+.pws-post-view-scroll{flex:1;overflow-y:auto;padding:20px 20px;}
+.pws-post-view-date{font-size:11px;color:#B0A6AE;margin-bottom:10px;}
+.pws-post-view-title{font-family:var(--font-serif);font-size:18px;font-weight:700;color:#3A3A3A;line-height:1.4;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(181,191,196,0.3);}
+.pws-post-view-body{font-size:13px;color:#5C5C5C;line-height:1.9;white-space:pre-wrap;word-break:break-word;}
 
 /* ─── 뉴스 더보기 ─── */
 .news-more-btn{background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:24px;color:rgba(255,255,255,0.88);font-size:13px;font-weight:600;padding:10px 26px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
@@ -1088,14 +1123,46 @@ body.dark-mode .admin-content{background:#1A1612;}
         <div class="pws-hwadu-meta" id="pwsHwaduMeta"></div>
       </div>
 
-      <div class="pws-side-list">
-        <div class="pws-side-list-title">최근 글</div>
-        <div id="pwsRecentList"></div>
+      <!-- 나의 기록장 메시지 -->
+      <div class="pws-book-msg">
+        <div class="pws-book-icon">📖</div>
+        <div class="pws-book-text">이 글들이 나만의 생각책이 됩니다</div>
+        <div class="pws-book-sub">질문·답변·토론이 이 기기에 쌓여<br>나중에 한 권의 책으로 묶을 수 있습니다</div>
+        <div class="pws-book-count" id="pwsBookCount">0편 저장됨</div>
       </div>
+
+      <!-- 나의 기록 목록 -->
+      <div class="pws-side-list" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+        <div class="pws-side-list-header">
+          <span class="pws-side-list-title">나의 기록</span>
+          <span class="pws-post-count" id="pwsPostCount">0편</span>
+        </div>
+        <div id="pwsRecentList" style="flex:1;overflow-y:auto;"></div>
+        <button class="pws-view-all" id="pwsViewAllBtn" onclick="openMyBook()" style="display:none">
+          전체 기록 보기 →
+        </button>
+      </div>
+
       <div class="pws-tip" id="pwsTip">
         <strong>💡 마음씨 있는 글쓰기</strong><br>
-        상대의 입장을 먼저 이해하고,<br>
-        내 생각을 솔직하게 담아보세요.
+        어떤 질문도 부끄럽지 않아요.<br>
+        궁금한 것을 솔직하게 써보세요.
+      </div>
+
+      <!-- 기록 상세 보기 -->
+      <div class="pws-post-view" id="pwsPostView">
+        <div class="pws-post-view-bar">
+          <button class="pws-post-view-back" onclick="closePwsPostView()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            기록 목록
+          </button>
+          <span style="font-size:11px;color:#B0A6AE;margin-left:auto;" id="pwsPostViewForum"></span>
+        </div>
+        <div class="pws-post-view-scroll">
+          <div class="pws-post-view-date" id="pwsPostViewDate"></div>
+          <div class="pws-post-view-title" id="pwsPostViewTitle"></div>
+          <div class="pws-post-view-body" id="pwsPostViewBody"></div>
+        </div>
       </div>
     </div>
 
@@ -2241,6 +2308,26 @@ const LS = {
 function getUsers(){return LS.get('ylife_users')||[];}
 function getPosts(f){return (LS.get('ylife_posts')||[]).filter(p=>p.forum===f);}
 function allPosts(){return LS.get('ylife_posts')||[];}
+
+/* ── 자동 스크랩 ── */
+function autoScrap(type, data){
+  /* type: 'post'|'thought'|'reply'  data: {title,body,source,sourceId,date} */
+  const scrap = LS.get('ylife_myscrap')||[];
+  const entry = {
+    id: Date.now().toString()+Math.floor(Math.random()*1000),
+    type, title: data.title||'',
+    body: data.body||'', source: data.source||'',
+    sourceId: data.sourceId||'',
+    date: data.date||new Date().toLocaleDateString('ko'),
+    ts: Date.now()
+  };
+  /* 같은 sourceId면 업데이트 */
+  const idx = scrap.findIndex(s=>s.sourceId&&s.sourceId===entry.sourceId);
+  if(idx>=0) scrap[idx]=entry; else scrap.unshift(entry);
+  if(scrap.length>500) scrap.splice(400);
+  LS.set('ylife_myscrap',scrap);
+}
+function getMyScraps(){return LS.get('ylife_myscrap')||[];}
 function getSettings(){return Object.assign({sitename:'y-life.kr',slogan:'삶·인연·소통',signup:true,comment:true,publicRead:true},LS.get('ylife_settings'));}
 function getNewsData(){
   const def=defaultNews();
@@ -2542,19 +2629,25 @@ function saveNewsThought(key,text){
   if(!currentUser||!text.trim())return;
   const all=LS.get('ylife_news_thoughts2')||{};
   if(!all[key])all[key]=[];
+  const today=new Date().toLocaleDateString('ko');
   /* 같은 유저가 이미 남긴 생각 있으면 업데이트 */
   const existing=all[key].findIndex(t=>t.authorId===currentUser.id);
   if(existing>=0){
     all[key][existing].text=text.trim();
-    all[key][existing].date=new Date().toLocaleDateString('ko');
+    all[key][existing].date=today;
   }else{
     all[key].push({
       id:Date.now().toString(),text:text.trim(),
       author:currentUser.nick,authorId:currentUser.id,
-      date:new Date().toLocaleDateString('ko'),replies:[]
+      date:today,replies:[]
     });
   }
   LS.set('ylife_news_thoughts2',all);
+  /* 자동 스크랩 — 뉴스 기사 제목 가져오기 */
+  try{
+    const newsTitle=document.getElementById('ndsArticleTitle')?.textContent||'뉴스 기사';
+    autoScrap('thought',{title:'[뉴스 생각] '+newsTitle.slice(0,40),body:text.trim(),source:'시민 저널',sourceId:'thought_'+key+'_'+(currentUser.id||''),date:today});
+  }catch(e){}
 }
 function addNewsReply(key,thoughtId,text){
   if(!currentUser||!text.trim())return;
@@ -3028,14 +3121,90 @@ function closePlazaWrite(){
   document.body.style.overflow='';
 }
 function renderPwsRecentList(forum){
-  const posts=getPosts(forum).slice(0,8);
-  const el=document.getElementById('pwsRecentList');
-  if(!posts.length){el.innerHTML='<div style="padding:12px 20px;font-size:12px;color:var(--ink-faint)">아직 글이 없습니다.</div>';return;}
-  el.innerHTML=posts.map(p=>`
-    <div class="pws-recent-item" onclick="openPost('${p.id}')">
-      <div class="pws-recent-title">${escHtml(p.title)}</div>
-      <div class="pws-recent-meta">${escHtml(p.author)} · ${p.date}</div>
-    </div>`).join('');
+  /* 스크랩 전체 (모든 창 자동 저장) + 이번 포럼 글 병합 */
+  const scraps = getMyScraps();
+  /* 이번 포럼 글도 스크랩에 없으면 포함 */
+  const me = currentUser;
+  const forumPosts = getPosts(forum).filter(p=>!me||p.author===me.nick||p.authorId===me.id);
+  forumPosts.forEach(p=>{
+    if(!scraps.find(s=>s.sourceId==='post_'+p.id)){
+      scraps.push({id:'fp_'+p.id,type:'post',title:p.title,body:p.body,
+        source:{agora:'아골라',agonran:'아곤란'}[p.forum]||p.forum,
+        sourceId:'post_'+p.id,date:p.date,ts:0});
+    }
+  });
+  scraps.sort((a,b)=>(b.ts||0)-(a.ts||0));
+
+  const total = scraps.length;
+  const shown = scraps.slice(0,15);
+
+  const countEl = document.getElementById('pwsPostCount');
+  const bookEl  = document.getElementById('pwsBookCount');
+  if(countEl) countEl.textContent = total+'편';
+  if(bookEl)  bookEl.textContent  = total+'편 저장됨';
+  const viewAllBtn = document.getElementById('pwsViewAllBtn');
+  if(viewAllBtn) viewAllBtn.style.display = total>6 ? 'block' : 'none';
+
+  const el = document.getElementById('pwsRecentList');
+  if(!el) return;
+  if(!total){
+    el.innerHTML = `<div class="pws-no-posts">
+      <div class="pws-no-posts-icon">✍️</div>
+      <div class="pws-no-posts-text">아직 기록이 없습니다.<br>글을 쓰면 여기에 자동으로 저장됩니다.</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = shown.map(s=>{
+    const snippet = (s.body||'').replace(/\n/g,' ').slice(0,42);
+    const typeIcon = {post:'📝',thought:'💭',reply:'↩️'}[s.type]||'📄';
+    return `<div class="pws-recent-item" onclick="viewPwsScrap('${escHtml(s.id)}')">
+      <div class="pws-recent-item-title">${typeIcon} ${escHtml(s.title||'(제목 없음)')}</div>
+      ${snippet?`<div class="pws-recent-item-body">${escHtml(snippet)}…</div>`:''}
+      <div class="pws-recent-item-meta">
+        <span class="pws-recent-item-date">${s.date||''}</span>
+        <span class="pws-recent-item-forum">${escHtml(s.source||'')}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function viewPwsScrap(id){
+  const all = getMyScraps();
+  /* 포럼 글도 찾기 */
+  let s = all.find(x=>x.id===id);
+  if(!s){
+    const pid = id.replace('fp_','');
+    const p = allPosts().find(x=>x.id===pid);
+    if(!p) return;
+    s = {title:p.title, body:p.body, source:{agora:'아골라',agonran:'아곤란'}[p.forum]||p.forum, date:p.date};
+  }
+  document.getElementById('pwsPostViewTitle').textContent = s.title||'';
+  document.getElementById('pwsPostViewBody').textContent  = s.body||'';
+  document.getElementById('pwsPostViewDate').textContent  = s.date||'';
+  document.getElementById('pwsPostViewForum').textContent = s.source||'';
+  document.getElementById('pwsPostView').classList.add('open');
+}
+function viewPwsPost(id){ viewPwsScrap('fp_'+id); }
+
+function viewPwsPost(id){
+  const all = allPosts();
+  const p = all.find(x=>x.id===id);
+  if(!p) return;
+  const forumLabel = {agora:'아골라', agonran:'아곤란'}[p.forum] || p.forum;
+  document.getElementById('pwsPostViewTitle').textContent = p.title||'';
+  document.getElementById('pwsPostViewBody').textContent  = p.body||'';
+  document.getElementById('pwsPostViewDate').textContent  = p.date||'';
+  document.getElementById('pwsPostViewForum').textContent = forumLabel;
+  document.getElementById('pwsPostView').classList.add('open');
+}
+function closePwsPostView(){
+  document.getElementById('pwsPostView').classList.remove('open');
+}
+function openMyBook(){
+  /* 전체 기록 보기 — 현재는 내 공간으로 이동 */
+  closePlazaWrite();
+  setTimeout(()=>openMySpace(), 200);
 }
 function autoResizeTitle(el){
   el.style.height='auto';
@@ -3054,14 +3223,16 @@ function doPlazaSubmit(){
   if(!title){err.textContent='제목을 입력해주세요.';return;}
   if(!body){err.textContent='내용을 입력해주세요.';return;}
   err.textContent='';
+  const newId=Date.now().toString();
+  const today=new Date().toLocaleDateString('ko');
   const posts=allPosts();
   posts.unshift({
-    id:Date.now().toString(),forum,title,body,
+    id:newId,forum,title,body,
     author:currentUser.nick,authorId:currentUser.id,
-    date:new Date().toLocaleDateString('ko'),
-    likes:[],comments:[],views:0
+    date:today, likes:[],comments:[],views:0
   });
   LS.set('ylife_posts',posts);
+  autoScrap('post',{title,body,source:{agora:'아골라',agonran:'아곤란'}[forum]||forum,sourceId:'post_'+newId,date:today});
   closePlazaWrite();
   renderPlaza();updateStats();updateInsights();
   /* 광장 섹션으로 부드럽게 이동 */
