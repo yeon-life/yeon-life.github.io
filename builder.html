@@ -98,9 +98,16 @@ input,textarea,select{font-family:var(--font-sans);}
 
 /* Pages Tab */
 .page-tree{padding:4px 0;}
-.page-tree-item{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;font-size:12px;color:var(--ink-soft);transition:background 0.15s;border-radius:6px;}
+.page-tree-item{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;font-size:12px;color:var(--ink-soft);transition:background 0.15s;border-radius:6px;position:relative;}
 .page-tree-item:hover,.page-tree-item.active{background:var(--builder-soft);color:var(--builder);}
 .page-tree-item svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.page-tree-item .page-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.page-tree-item .page-actions{display:none;align-items:center;gap:2px;flex-shrink:0;}
+.page-tree-item:hover .page-actions,.page-tree-item.active .page-actions{display:flex;}
+.page-act-btn{background:none;border:none;cursor:pointer;padding:2px 4px;border-radius:4px;color:var(--ink-soft);font-size:11px;line-height:1;transition:background .12s;}
+.page-act-btn:hover{background:var(--wash);color:var(--bridge-deep);}
+.page-act-btn.del:hover{color:#c0392b;background:rgba(192,57,43,0.1);}
+.page-rename-input{flex:1;font-size:12px;border:1px solid var(--tide);border-radius:4px;padding:2px 6px;background:#fff;color:var(--bridge-deep);outline:none;min-width:0;}
 .add-page-btn{width:100%;margin-top:8px;padding:8px 12px;border:1px dashed var(--border-md);border-radius:6px;background:var(--bg);color:var(--ink-soft);font-size:11px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:4px;}
 .add-page-btn:hover{border-color:var(--builder);color:var(--builder);background:var(--builder-soft);}
 
@@ -498,7 +505,58 @@ function renderBlockTypeGrid(){const grid=document.getElementById('blockTypeGrid
 function renderThemeTab(){const grid=document.getElementById('themeGrid');grid.innerHTML=Object.entries(THEMES).map(([id,theme])=>`<div class="theme-card ${currentTheme===id?'active':''}"><div class="theme-name">${theme.name}</div><div class="theme-swatches"><div class="theme-swatch" style="background-color:${theme.bg}"></div><div class="theme-swatch" style="background-color:${theme.surface}"></div><div class="theme-swatch" style="background-color:${theme.primary}"></div><div class="theme-swatch" style="background-color:${theme.text}"></div></div><button class="theme-apply-btn" onclick="applyTheme('${id}')">적용</button></div>`).join('');}
 function applyTheme(themeId){currentTheme=themeId;const theme=THEMES[themeId];document.documentElement.style.setProperty('--color-bg',theme.bg);document.documentElement.style.setProperty('--color-surface',theme.surface);document.documentElement.style.setProperty('--color-primary',theme.primary);document.documentElement.style.setProperty('--color-text',theme.text);localStorage.setItem('yeonTheme',themeId);renderThemeTab();renderCanvas();}
 function loadTheme(){const saved=localStorage.getItem('yeonTheme')||'mint-tide';applyTheme(saved);}
-function renderPageTree(){const tree=document.getElementById('pageTree');tree.innerHTML=Object.values(pages).map(p=>`<div class="page-tree-item ${p.id===currentPageId?'active':''}" onclick="switchPage('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><line x1="4" y1="8" x2="20" y2="8"></line></svg>${esc(p.name)}</div>`).join('');}
+function renderPageTree(){
+  const tree=document.getElementById('pageTree');
+  const pageList=Object.values(pages);
+  tree.innerHTML=pageList.map(p=>`
+    <div class="page-tree-item ${p.id===currentPageId?'active':''}" id="pti-${p.id}" onclick="switchPage('${p.id}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:12px;height:12px;flex-shrink:0">
+        <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+        <line x1="4" y1="8" x2="20" y2="8"/>
+      </svg>
+      <span class="page-name" id="pname-${p.id}">${esc(p.name)}</span>
+      <div class="page-actions" onclick="event.stopPropagation()">
+        <button class="page-act-btn" title="이름 변경" onclick="startRenamePage('${p.id}')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        ${pageList.length>1?`<button class="page-act-btn del" title="페이지 삭제" onclick="deletePage('${p.id}')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>`:''}
+      </div>
+    </div>`).join('');
+}
+function startRenamePage(pageId){
+  const nameEl=document.getElementById('pname-'+pageId);
+  if(!nameEl)return;
+  const cur=pages[pageId].name;
+  const input=document.createElement('input');
+  input.className='page-rename-input';
+  input.value=cur;
+  input.onclick=e=>e.stopPropagation();
+  input.onkeydown=e=>{
+    if(e.key==='Enter'){commitRenamePage(pageId,input.value);e.preventDefault();}
+    if(e.key==='Escape'){renderPageTree();}
+  };
+  input.onblur=()=>commitRenamePage(pageId,input.value);
+  nameEl.replaceWith(input);
+  input.focus();input.select();
+}
+function commitRenamePage(pageId,val){
+  const name=val.trim()||'새 페이지';
+  if(pages[pageId]) pages[pageId].name=name;
+  autoSave();renderPageTree();
+}
+function deletePage(pageId){
+  const pageList=Object.values(pages);
+  if(pageList.length<=1){alert('마지막 페이지는 삭제할 수 없습니다.');return;}
+  if(!confirm(`"${pages[pageId]?.name}" 페이지를 삭제할까요?\n이 페이지의 모든 블록이 삭제됩니다.`))return;
+  delete pages[pageId];
+  if(currentPageId===pageId){
+    currentPageId=Object.keys(pages)[0];
+  }
+  autoSave();renderCanvas();renderPageTree();updatePropsPanel();
+  document.getElementById('saveStatus').textContent='페이지 삭제됨';
+}
 function switchPage(pageId){currentPageId=pageId;selectedBlockId=null;renderCanvas();renderPageTree();updatePropsPanel();}
 function addPage(){const pageId='page-'+Date.now();pages[pageId]={id:pageId,name:'새 페이지',blocks:[]};autoSave();switchPage(pageId);renderPageTree();}
 function addBlock(type,insertAfter){const block=JSON.parse(JSON.stringify(BLOCK_DEFAULTS[type]));block.id='b'+Date.now()+Math.floor(Math.random()*1000);const blocks=currentBlocks();if(insertAfter==null||insertAfter<0){blocks.push(block);}else{blocks.splice(insertAfter+1,0,block);}renderCanvas();selectBlock(block.id);autoSave();closeRadialMenu();}
