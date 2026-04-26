@@ -4682,12 +4682,32 @@ async function pushUserRoleToFirebase(userId, role){
   }catch(e){ console.warn('Firebase role push 오류:', e); }
 }
 
+/* ── 로컬에만 있는 글을 Firebase로 업로드 ── */
+async function pushLocalPostsToFirebase(){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  try{
+    // Firebase에 있는 글 ID 목록 먼저 확인
+    const res = await fetch(url+'/posts.json?shallow=true');
+    const existing = await res.json() || {};
+    const localPosts = allPosts();
+    let uploaded = 0;
+    for(const p of localPosts){
+      if(!existing[p.id]){
+        await pushPostToFirebase(p);
+        uploaded++;
+      }
+    }
+    if(uploaded > 0) console.log('Firebase 업로드 완료: ' + uploaded + '개');
+  }catch(e){ console.warn('로컬 글 업로드 오류:', e); }
+}
+
 /* ── 페이지 로드 시 자동 동기화 ── */
-(function autoSyncOnLoad(){
-  if(getFirebaseUrl()){
-    setTimeout(()=>{ syncFromFirebase(false); syncUsersFromFirebase(); }, 800);
-  }
-})();
+setTimeout(()=>{
+  pushLocalPostsToFirebase();   // 내 기기 글 → Firebase
+  syncFromFirebase(false);      // Firebase 글 → 내 기기
+  syncUsersFromFirebase();      // 회원 정보 동기화
+}, 1200);
 
 /* ════════════════════════════════
    AI 글쓰기 보조 — Gemini 1.5 Flash
