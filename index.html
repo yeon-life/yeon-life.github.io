@@ -3361,31 +3361,52 @@ function updateCharCount(){
   const v=document.getElementById('pwsBody').value;
   document.getElementById('pwsCharCount').textContent=v.length.toLocaleString()+'자';
 }
+/* 마지막 게시 시각 (도배 방지) */
+let _lastPostTs = 0;
+
 function doPlazaSubmit(){
   if(!currentUser)return;
-  const title=document.getElementById('pwsTitle').value.trim();
-  const body=document.getElementById('pwsBody').value.trim();
+  const rawTitle=document.getElementById('pwsTitle').value.trim();
+  const rawBody=document.getElementById('pwsBody').value.trim();
   const forum=document.getElementById('pwsForum').value;
   const err=document.getElementById('pwsErrMsg');
-  if(!title){err.textContent='제목을 입력해주세요.';return;}
-  if(!body){err.textContent='내용을 입력해주세요.';return;}
+
+  /* 입력 검증 */
+  if(!rawTitle){err.textContent='제목을 입력해주세요.';return;}
+  if(!rawBody){err.textContent='내용을 입력해주세요.';return;}
+  if(rawTitle.length>200){err.textContent='제목은 200자 이내로 작성해주세요.';return;}
+  if(rawBody.length>5000){err.textContent='내용은 5000자 이내로 작성해주세요.';return;}
+
+  /* 도배 방지: 30초에 한 번만 */
+  const now=Date.now();
+  if(now-_lastPostTs<30000){
+    const remain=Math.ceil((30000-(now-_lastPostTs))/1000);
+    err.textContent=`잠깐! ${remain}초 후에 다시 올릴 수 있어요.`;
+    return;
+  }
+
+  /* XSS 방지: HTML 태그 제거 */
+  const title=rawTitle.replace(/<[^>]*>/g,'').substring(0,200);
+  const body=rawBody.replace(/<[^>]*>/g,'').substring(0,5000);
+
   err.textContent='';
+  _lastPostTs=now;
+
   const newId=Date.now().toString();
   const today=new Date().toLocaleDateString('ko');
   const newPost={
     id:newId,forum,title,body,
     author:currentUser.nick,authorId:currentUser.id,
-    date:today,ts:Date.now(),likes:[],comments:[],views:0
+    date:today,ts:now,likes:[],comments:[],views:0
   };
   const posts=allPosts();
   posts.unshift(newPost);
   LS.set('ylife_posts',posts);
   autoScrap('post',{title,body,source:{agora:'아골라',agonran:'아곤란'}[forum]||forum,sourceId:'post_'+newId,date:today});
-  /* Firebase 공유 업로드 */
+  /* Firebase 즉시 업로드 */
   pushPostToFirebase(newPost);
   closePlazaWrite();
   renderPlaza();updateStats();updateInsights();
-  /* 광장 섹션으로 부드럽게 이동 */
   setTimeout(()=>document.getElementById('agora')?.scrollIntoView({behavior:'smooth'}),100);
 }
 /* AI 보조 (기존 Gemini 키 재사용) */
@@ -3434,20 +3455,36 @@ function discardPwsAiResult(){
 }
 function doSubmitPost(){
   if(!currentUser)return;
-  const title=document.getElementById('writeTitle').value.trim();
-  const body=document.getElementById('writeBody').value.trim();
+  const rawTitle=document.getElementById('writeTitle').value.trim();
+  const rawBody=document.getElementById('writeBody').value.trim();
   const forum=document.getElementById('writeForum').value;
   const msg=document.getElementById('writeMsg');
-  if(!title){msg.textContent='제목을 입력해주세요.';return;}
-  if(!body){msg.textContent='내용을 입력해주세요.';return;}
+  if(!rawTitle){msg.textContent='제목을 입력해주세요.';return;}
+  if(!rawBody){msg.textContent='내용을 입력해주세요.';return;}
+  if(rawTitle.length>200){msg.textContent='제목은 200자 이내로 작성해주세요.';return;}
+  if(rawBody.length>5000){msg.textContent='내용은 5000자 이내로 작성해주세요.';return;}
+
+  /* 도배 방지 공유 */
+  const now=Date.now();
+  if(now-_lastPostTs<30000){
+    const remain=Math.ceil((30000-(now-_lastPostTs))/1000);
+    msg.textContent=`잠깐! ${remain}초 후에 다시 올릴 수 있어요.`;
+    return;
+  }
+  _lastPostTs=now;
+
+  /* XSS 방지 */
+  const title=rawTitle.replace(/<[^>]*>/g,'').substring(0,200);
+  const body=rawBody.replace(/<[^>]*>/g,'').substring(0,5000);
+
   const posts=allPosts();
   const post={
-    id:Date.now().toString(),
+    id:now.toString(),
     forum,title,body,
     author:currentUser.nick,
     authorId:currentUser.id,
     date:new Date().toLocaleDateString('ko'),
-    likes:[],comments:[],views:0
+    ts:now,likes:[],comments:[],views:0
   };
   posts.unshift(post);
   LS.set('ylife_posts',posts);
