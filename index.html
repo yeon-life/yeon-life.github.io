@@ -523,6 +523,29 @@ body.dark-mode .plaza-card.agonran-card{background:#5E7062;}
 .social-divider span{font-size:11px;color:var(--ink-soft);white-space:nowrap;}
 .google-btn-wrap{display:flex;justify-content:center;min-height:44px;margin-bottom:4px;}
 
+/* ─── QR 코드 팝업 ─── */
+.qr-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;flex-shrink:0;}
+.qr-btn:hover{color:var(--gold);border-color:var(--gold);}
+.site-header .qr-btn{color:rgba(248,242,234,0.7);border-color:rgba(248,242,234,0.2);}
+.site-header .qr-btn:hover{color:var(--gold);border-color:var(--gold);}
+.qr-popup{position:fixed;inset:0;z-index:800;display:none;align-items:center;justify-content:center;padding:20px;}
+.qr-popup.open{display:flex;}
+.qr-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);}
+.qr-card{position:relative;background:#fff;border-radius:20px;padding:32px 28px 24px;max-width:320px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.25);text-align:center;animation:qrPop .22s cubic-bezier(.22,1,.36,1);}
+@keyframes qrPop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.qr-close{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:#999;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.qr-close:hover{background:#f0f0f0;color:#333;}
+.qr-title{font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.qr-sub{font-size:12px;color:var(--ink-faint);margin-bottom:20px;line-height:1.5;}
+.qr-canvas-wrap{display:inline-flex;padding:14px;background:#fff;border:2px solid var(--border);border-radius:14px;margin-bottom:20px;}
+#qrCanvas{display:block;}
+.qr-url-row{display:flex;align-items:center;gap:8px;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:10px;padding:10px 12px;margin-bottom:14px;text-align:left;}
+.qr-url-text{flex:1;font-size:12px;color:#555;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;}
+.qr-copy-btn{flex-shrink:0;background:var(--gold);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:filter .15s;white-space:nowrap;}
+.qr-copy-btn:hover{filter:brightness(.88);}
+.qr-copy-btn.copied{background:var(--agonran);}
+.qr-hint{font-size:11px;color:#aaa;line-height:1.5;}
+
 /* ─── 빠른 이동 메뉴 ─── */
 .quick-nav{position:relative;}
 .quick-nav-btn{background:none;border:1px solid var(--border-md);border-radius:6px;padding:5px 8px;font-size:13px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;transition:all .2s;}
@@ -1485,11 +1508,12 @@ body.dark-mode .admin-content{background:#1A1612;}
             <div>
               <div class="font-size-ctrl">
                 <span style="font-size:11px;color:var(--ink-faint)">작게</span>
-                <input type="range" min="13" max="18" step="1" value="15" id="cfg-fontsize"
-                  oninput="previewFontSize(this.value)">
-                <span class="font-size-val" id="fontsize-val">15px</span>
+                <input type="range" min="13" max="20" step="1" value="15" id="cfg-fontsize"
+                  oninput="previewFontSize(this.value)" style="flex:1">
+                <span style="font-size:11px;color:var(--ink-faint)">크게</span>
+                <span class="font-size-val" id="fontsize-val" style="min-width:32px;text-align:right;font-weight:700;color:var(--thread)">15px</span>
               </div>
-              <div class="font-preview-box" id="fontPreviewBox">이 글씨가 실시간으로 변합니다 — 가나다라마바사</div>
+              <div class="font-preview-box" id="fontPreviewBox" style="font-size:15px;line-height:1.75">이 글씨가 실시간으로 변합니다 — 가나다라마바사 123</div>
             </div>
           </div>
           <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
@@ -1654,12 +1678,39 @@ body.dark-mode .admin-content{background:#1A1612;}
         </div>
       </div>
 
+      <button class="qr-btn" onclick="openQrPopup()" title="QR 코드로 공유">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/>
+          <path d="M14 14h2v2h-2zM18 14h3M18 18h3M14 18v3M14 21h2"/>
+        </svg>
+      </button>
       <button class="settings-btn" onclick="openModal('settingsModal')" title="설정">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
     </div>
   </div>
 </header>
+
+<!-- ════════════ QR 코드 팝업 ════════ -->
+<div class="qr-popup" id="qrPopup" onclick="closeQrOnBackdrop(event)">
+  <div class="qr-backdrop"></div>
+  <div class="qr-card">
+    <button class="qr-close" onclick="closeQrPopup()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="qr-title">y-life.kr QR 코드</div>
+    <div class="qr-sub">스마트폰으로 스캔하면<br>바로 접속됩니다</div>
+    <div class="qr-canvas-wrap">
+      <canvas id="qrCanvas" width="160" height="160"></canvas>
+    </div>
+    <div class="qr-url-row">
+      <span class="qr-url-text" id="qrUrlText">https://y-life.kr</span>
+      <button class="qr-copy-btn" id="qrCopyBtn" onclick="copyQrUrl()">링크 복사</button>
+    </div>
+    <div class="qr-hint">QR 이미지를 길게 누르거나<br>오른쪽 클릭으로 저장할 수 있어요</div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════
      HERO
@@ -3806,23 +3857,72 @@ function deleteHwaduItem(i){
 /* ── 글씨 크기 실시간 조절 ── */
 function previewFontSize(val){
   val=parseInt(val);
+  const d=val-15; /* 기준 15px 대비 증감 */
   document.getElementById('fontsize-val').textContent=val+'px';
-  /* 실시간: 공통 스타일 태그로 override */
   let el=document.getElementById('live-fontsize');
   if(!el){el=document.createElement('style');el.id='live-fontsize';document.head.appendChild(el);}
-  /* UI 컴포넌트(button, header, nav, modal) 제외 — 본문 텍스트만 */
   el.textContent=`
-    body{font-size:${val}px;}
-    .site-header *{font-size:revert!important;}
-    p,.hwadu-text,.post-body,.nds-article-body,.nds-article-desc,
-    .nds-thought-text,.section-sub,.eco-desc,.editorial-body,
-    .journal-card p,.hero p{font-size:${val}px!important;}
-    .section-title{font-size:${Math.max(22,val*1.8)}px!important;}
-    .hwadu-text{font-size:${Math.max(18,val*1.4)}px!important;}
+/* === 사이트 본문 글씨 크기 (기준 ${val}px) === */
+
+/* 히어로 섹션 */
+.hero-sub{font-size:${val+2}px!important;}
+.hero h1{font-size:clamp(${32+d}px,5vw,${56+d}px)!important;}
+
+/* 섹션 제목·설명 */
+.section-title{font-size:clamp(${22+d}px,3vw,${30+d}px)!important;}
+.section-sub{font-size:${val-1}px!important;}
+
+/* 화두 */
+.hwadu-text{font-size:${val+3}px!important;}
+.hwadu-sub,.hwadu-meta{font-size:${val-2}px!important;}
+
+/* 광장 카드 */
+.plaza-card-desc{font-size:${val-1}px!important;}
+.plaza-card .post-title{font-size:${val-2}px!important;}
+.plaza-card .post-meta{font-size:${val-4}px!important;}
+
+/* 뉴스 기사 */
+.nds-article-title{font-size:clamp(${20+d}px,3vw,${30+d}px)!important;}
+.nds-article-desc{font-size:${val}px!important;}
+.nds-article-body{font-size:${val-1}px!important;}
+.nds-article-expanded p{font-size:${val-1}px!important;}
+.nds-thought-text{font-size:${val-2}px!important;}
+
+/* 뉴스 목록 카드 */
+.news-card-title{font-size:${val-1}px!important;}
+.news-card-desc{font-size:${val-2}px!important;}
+
+/* 에디토리얼 */
+.editorial-text,.editorial-body{font-size:${val}px!important;}
+
+/* 생태계 */
+.eco-name{font-size:${val-1}px!important;}
+.eco-url{font-size:${val-4}px!important;}
+
+/* 게시글 목록 */
+.post-list-title,.post-item-title{font-size:${val-1}px!important;}
+.post-list-body,.post-item-body,.post-preview{font-size:${val-2}px!important;}
+.post-title{font-size:${val-2}px!important;}
+
+/* 내 공간 */
+.mys-thought-text{font-size:${val-1}px!important;}
+
+/* 일반 p 태그 (섹션 안) */
+.section-inner p, .section p{font-size:${val}px!important;}
+
+/* 헤더·UI·어드민은 건드리지 않음 */
+.site-header,.site-header *,
+.admin-panel,.admin-panel *,
+button,.btn,.btn-sm,.btn-primary,.btn-lg,
+.quick-nav,.quick-nav *,
+.modal-header,.settings-panel{font-size:revert!important;}
   `;
   /* 프리뷰 박스 */
   const box=document.getElementById('fontPreviewBox');
-  if(box)box.style.fontSize=val+'px';
+  if(box){
+    box.style.fontSize=val+'px';
+    box.style.lineHeight='1.75';
+  }
   LS.set('ylife_fontsize',val);
 }
 /* ── 색상 테마 ── */
@@ -4438,6 +4538,112 @@ document.addEventListener('keydown',function(e){
 
 /* 페이지 로드 시 저장된 CSS 복원 */
 initAihCss();
+
+
+/* ════════════════════════════════
+   QR 코드 팝업
+════════════════════════════════ */
+function openQrPopup(){
+  const popup = document.getElementById('qrPopup');
+  popup.classList.add('open');
+  // 팝업 열릴 때 QR 생성
+  const siteUrl = 'https://y-life.kr';
+  document.getElementById('qrUrlText').textContent = siteUrl;
+  drawQRCode('qrCanvas', siteUrl);
+}
+function closeQrPopup(){
+  document.getElementById('qrPopup').classList.remove('open');
+}
+function closeQrOnBackdrop(e){
+  if(e.target===document.getElementById('qrPopup') || e.target.classList.contains('qr-backdrop')){
+    closeQrPopup();
+  }
+}
+function copyQrUrl(){
+  const url = document.getElementById('qrUrlText').textContent;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = document.getElementById('qrCopyBtn');
+    btn.textContent='✓ 복사 완료!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='링크 복사';btn.classList.remove('copied');},2000);
+  }).catch(()=>{
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('qrCopyBtn');
+    btn.textContent='✓ 복사 완료!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='링크 복사';btn.classList.remove('copied');},2000);
+  });
+}
+
+/* QR 코드 Canvas 직접 그리기 (외부 라이브러리 없음) */
+function drawQRCode(canvasId, text){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const size = 160;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // QR 코드 라이브러리 동적 로드
+  if(window.QRCode){
+    _renderQR(canvas, text, size);
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  script.onload = ()=>{ _renderQR(canvas, text, size); };
+  script.onerror = ()=>{ _drawFallbackQR(ctx, text, size); };
+  document.head.appendChild(script);
+}
+
+function _renderQR(canvas, text, size){
+  // qrcode.js 는 div 타겟 기반 — 임시 div 사용
+  const tmp = document.createElement('div');
+  tmp.style.display='none';
+  document.body.appendChild(tmp);
+  try{
+    new QRCode(tmp, {
+      text: text,
+      width: size,
+      height: size,
+      colorDark: '#2A2018',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    // 생성된 canvas 내용을 타겟 canvas로 복사
+    setTimeout(()=>{
+      const src = tmp.querySelector('canvas');
+      if(src){
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,size,size);
+        ctx.drawImage(src,0,0,size,size);
+      }
+      document.body.removeChild(tmp);
+    }, 150);
+  }catch(e){
+    document.body.removeChild(tmp);
+    _drawFallbackQR(canvas.getContext('2d'), text, size);
+  }
+}
+
+function _drawFallbackQR(ctx, text, size){
+  // 라이브러리 로드 실패 시 심플 placeholder
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,size,size);
+  ctx.fillStyle='#2A2018';
+  ctx.font='bold 13px sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('y-life.kr', size/2, size/2-8);
+  ctx.font='11px sans-serif';
+  ctx.fillStyle='#888';
+  ctx.fillText('QR 생성 중...', size/2, size/2+12);
+}
 
 </script>
 </body>
