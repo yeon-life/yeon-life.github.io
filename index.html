@@ -3106,6 +3106,7 @@ function doSignup(){
   LS.set('ylife_users',users);
   currentUser=newUser;
   LS.set('ylife_session',newUser.id);
+  pushUserToFirebase(newUser);
   closeModal('signupModal');
   renderHeader();
   renderPlaza();
@@ -3826,8 +3827,10 @@ function showAgoraBlockMsg(){
   }
 }
 function loadUserMgmt(){
-  const users=getUsers();
-  document.getElementById('userMgmtTable').innerHTML=users.length?`
+  // Firebase에서 먼저 최신 회원 목록 가져오기
+  syncUsersFromFirebase().then(()=>{
+    const users=getUsers();
+    document.getElementById('userMgmtTable').innerHTML=users.length?`
     <table class="admin-table">
       <thead><tr><th>아이디</th><th>별명</th><th>역할</th><th>가입일</th><th>글수</th><th>관리</th></tr></thead>
       <tbody>${users.map(u=>`<tr>
@@ -3843,6 +3846,7 @@ function loadUserMgmt(){
         <td><button class="btn-danger" style="font-size:11px;padding:3px 10px" onclick="adminDeleteUser('${u.id}')">삭제</button></td>
       </tr>`).join('')}</tbody>
     </table>`:'<p style="color:var(--ink-faint);font-size:13px">회원이 없습니다.</p>';
+  });
 }
 function changeUserRole(userId,newRole){
   const users=getUsers();
@@ -3852,6 +3856,8 @@ function changeUserRole(userId,newRole){
   LS.set('ylife_users',users);
   /* 현재 로그인한 사용자라면 세션도 갱신 */
   if(currentUser&&currentUser.id===userId){currentUser.role=newRole;}
+  /* Firebase에도 역할 반영 */
+  pushUserRoleToFirebase(userId, newRole);
 }
 function adminDeleteUser(userId){
   if(!confirm('이 회원을 삭제하시겠습니까?'))return;
@@ -4342,7 +4348,8 @@ function renderGoogleBtn(containerId){
 function handleGoogleCredential(response){
   try {
     // JWT payload 디코딩 (검증 불필요 — GSI가 이미 검증함)
-    const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    const b64 = response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    const payload = JSON.parse(decodeURIComponent(atob(b64).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')));
     const { sub, email, name, picture } = payload;
     const users = getUsers();
     let user = users.find(u => u.googleSub === sub);
@@ -4359,6 +4366,7 @@ function handleGoogleCredential(response){
       };
       users.push(user);
       LS.set('ylife_users', users);
+      pushUserToFirebase(user);
     }
     currentUser = user;
     LS.set('ylife_session', user.id);
@@ -4493,6 +4501,100 @@ function doChangePw(){
   if(localStorage.getItem('ylife_dark_mode')==='1') document.body.classList.add('dark-mode');
   const fs = localStorage.getItem('ylife_font_size');
   if(fs && fs!=='normal') document.body.classList.add('font-'+fs);
+})();
+
+/* ════════════════════════════════
+   Firebase Realtime Database 연동
+   ════════════════════════════════ */
+function getFirebaseUrl(){ return (localStorage.getItem('ylife_firebase_url')||'').replace(/\/$/,''); }
+
+function saveFirebaseConfig(){
+  const url = document.getElementById('firebaseDbUrl').value.trim().replace(/\/$/,'');
+  if(!url){ alert('Firebase URL을 입력해주세요.'); return; }
+  localStorage.setItem('ylife_firebase_url', url);
+  const fbStatus = document.getElementById('firebaseStatus');
+  if(fbStatus) fbStatus.textContent = '✓ 저장됨 — 동기화 중...';
+  syncFromFirebase(true);
+  syncUsersFromFirebase();
+}
+
+/* ── 게시글 동기화 ── */
+async function pushPostToFirebase(post){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  try{
+    await fetch(url+'/posts/'+post.id+'.json', {method:'PUT', body:JSON.stringify(post)});
+  }catch(e){ console.warn('Firebase post push 오류:', e); }
+}
+
+async function syncFromFirebase(showMsg){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  const fbStatus = document.getElementById('firebaseStatus');
+  try{
+    const res = await fetch(url+'/posts.json');
+    const data = await res.json();
+    if(!data){ if(showMsg && fbStatus) fbStatus.textContent='✓ 연결됨 (게시글 없음)'; return; }
+    const remote = Object.values(data);
+    const local = allPosts();
+    const localIds = new Set(local.map(p=>p.id));
+    let added = 0;
+    remote.forEach(p=>{ if(p&&p.id&&!localIds.has(p.id)){ local.push(p); added++; } });
+    if(added>0){ local.sort((a,b)=>(b.ts||0)-(a.ts||0)); LS.set('ylife_posts', local); renderPlaza(); updateStats(); }
+    if(showMsg && fbStatus) fbStatus.textContent = '✓ 연결됨: '+remote.length+'개 게시글 동기화';
+  }catch(e){
+    console.warn('Firebase sync 오류:', e);
+    if(showMsg && fbStatus) fbStatus.textContent = '⚠ 연결 실패 — URL을 확인해주세요';
+  }
+}
+
+/* ── 회원 동기화 ── */
+async function pushUserToFirebase(user){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  // 비밀번호는 절대 올리지 않음
+  const safe = Object.assign({}, user);
+  delete safe.pw;
+  try{
+    await fetch(url+'/users/'+safe.id+'.json', {method:'PUT', body:JSON.stringify(safe)});
+  }catch(e){ console.warn('Firebase user push 오류:', e); }
+}
+
+async function syncUsersFromFirebase(){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  try{
+    const res = await fetch(url+'/users.json');
+    const data = await res.json();
+    if(!data) return;
+    const remote = Object.values(data);
+    const local = getUsers();
+    const localIds = new Set(local.map(u=>u.id));
+    let added = 0;
+    remote.forEach(u=>{ if(u&&u.id&&!localIds.has(u.id)){ local.push(u); added++; } });
+    if(added>0){ LS.set('ylife_users', local); }
+    // 역할 변경 동기화: 로컬 사용자의 역할을 Firebase 기준으로 덮어쓰기
+    remote.forEach(ru=>{
+      const lu = local.find(u=>u.id===ru.id);
+      if(lu && ru.role && lu.role !== ru.role){ lu.role = ru.role; }
+    });
+    LS.set('ylife_users', local);
+  }catch(e){ console.warn('Firebase user sync 오류:', e); }
+}
+
+async function pushUserRoleToFirebase(userId, role){
+  const url = getFirebaseUrl();
+  if(!url) return;
+  try{
+    await fetch(url+'/users/'+userId+'/role.json', {method:'PUT', body:JSON.stringify(role)});
+  }catch(e){ console.warn('Firebase role push 오류:', e); }
+}
+
+/* ── 페이지 로드 시 자동 동기화 ── */
+(function autoSyncOnLoad(){
+  if(getFirebaseUrl()){
+    setTimeout(()=>{ syncFromFirebase(false); syncUsersFromFirebase(); }, 800);
+  }
 })();
 
 /* ════════════════════════════════
