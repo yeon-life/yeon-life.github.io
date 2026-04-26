@@ -2069,9 +2069,10 @@ body.dark-mode .admin-content{background:#1A1612;}
           <div class="post-empty">첫 번째 글을 남겨보세요</div>
         </div>
         <div class="plaza-btn-group">
-          <button class="plaza-btn-fill" onclick="openWrite('agora','')">토론 글쓰기</button>
+          <button class="plaza-btn-fill" id="agoraWriteBtn" onclick="openWrite('agora','')">토론 글쓰기</button>
           <button class="plaza-btn-outline" onclick="document.getElementById('agora').scrollIntoView({behavior:'smooth'})">전체 보기</button>
         </div>
+        <div id="agoraStudentHint" style="display:none;font-size:11px;color:var(--ink-faint);margin-top:6px;text-align:center;">🔒 아골라 글쓰기는 성인·학생 대표 전용</div>
       </div>
 
       <!-- 아곤란 -->
@@ -3071,6 +3072,7 @@ const QUICK_NAV_HTML=`<div class="quick-nav" id="quickNav">
   </div>
 </div>`;
 
+const QR_BTN_HTML=`<button class="qr-btn" onclick="openQrPopup()" title="QR 코드로 공유"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/><path d="M14 14h2v2h-2zM18 14h3M18 18h3M14 18v3M14 21h2"/></svg></button>`;
 const SETTINGS_BTN_HTML=`<button class="settings-btn" onclick="openModal('settingsModal')" title="설정"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`;
 
 function renderHeader(){
@@ -3080,11 +3082,20 @@ function renderHeader(){
       <div class="user-avatar" onclick="openMySpace()" title="내 공간" style="cursor:pointer">${currentUser.nick[0]}</div>
       <span onclick="openMySpace()" style="cursor:pointer;text-decoration:underline dotted">${currentUser.nick}</span>
       <button class="btn-sm" onclick="doLogout()">로그아웃</button>
-    </div>${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
+    </div>${QR_BTN_HTML}${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
   }else{
     el.innerHTML=`<button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
       <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
-      ${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
+      ${QR_BTN_HTML}${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
+  }
+  /* 아골라 버튼 — 일반 학생에겐 힌트 표시 */
+  const hint=document.getElementById('agoraStudentHint');
+  const writeBtn=document.getElementById('agoraWriteBtn');
+  if(hint&&writeBtn){
+    const isStudent=currentUser&&(currentUser.role||'student')==='student';
+    hint.style.display=isStudent?'block':'none';
+    writeBtn.style.opacity=isStudent?'0.55':'1';
+    writeBtn.title=isStudent?'아골라 글쓰기는 성인·학생 대표 전용입니다':'';
   }
 }
 
@@ -3112,6 +3123,11 @@ function openWriteWithHwadu(forum){
 }
 function openWrite(forum,prefix,hwadu){
   if(!currentUser){openModal('loginModal');return;}
+  /* 아골라 — 일반 학생 차단 */
+  if(forum==='agora'&&!canWriteAgora(currentUser)){
+    showAgoraBlockMsg();
+    return;
+  }
   const m=PWS_META[forum]||PWS_META.agora;
   /* 포럼 정보 세팅 */
   document.getElementById('pwsForum').value=forum;
@@ -3699,7 +3715,38 @@ function adminDeletePost(id){
   LS.set('ylife_posts',allPosts().filter(p=>p.id!==id));
   renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
 }
-const ROLE_LABEL={'student':'🎒 학생','adult':'🧑 성인','teacher':'📚 선생님','admin':'⚙️ 관리자'};
+const ROLE_LABEL={'student':'🎒 학생','student_rep':'🏅 학생 대표','adult':'🧑 성인','teacher':'📚 선생님','admin':'⚙️ 관리자'};
+/* 아골라 글쓰기 가능 역할 — 학생(일반)은 제외 */
+function canWriteAgora(user){
+  if(!user) return false;
+  const r=user.role||'student';
+  return r==='adult'||r==='teacher'||r==='admin'||r==='student_rep';
+}
+function showAgoraBlockMsg(){
+  let modal=document.getElementById('agoraBlockModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='agoraBlockModal';
+    modal.style.cssText='position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px);';
+    modal.innerHTML=`
+      <div style="background:#fff;border-radius:20px;padding:36px 32px 28px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:qrPop .2s cubic-bezier(.22,1,.36,1);">
+        <div style="font-size:40px;margin-bottom:12px;">議</div>
+        <div style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--agora);margin-bottom:8px;">아골라는 성인 토론의 마당</div>
+        <div style="font-size:14px;color:var(--ink-soft);line-height:1.75;margin-bottom:20px;">
+          아골라에는 성인·선생님·<strong>인증 학생 대표</strong>만<br>글을 남길 수 있어요.<br>
+          <span style="font-size:12px;color:var(--ink-faint);">학생은 아곤란에서 자유롭게 질문하고<br>생각을 나눌 수 있습니다.</span>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button onclick="document.getElementById('agoraBlockModal').remove();openWrite('agonran','')" style="background:var(--agonran);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;">아곤란으로 이동</button>
+          <button onclick="document.getElementById('agoraBlockModal').remove()" style="background:var(--color-surface,#EDE5D8);border:none;border-radius:10px;padding:10px 20px;font-size:13px;color:var(--ink-soft);cursor:pointer;">닫기</button>
+        </div>
+      </div>`;
+    modal.addEventListener('click',function(e){if(e.target===modal)modal.remove();});
+    document.body.appendChild(modal);
+  } else {
+    modal.style.display='flex';
+  }
+}
 function loadUserMgmt(){
   const users=getUsers();
   document.getElementById('userMgmtTable').innerHTML=users.length?`
@@ -3710,7 +3757,7 @@ function loadUserMgmt(){
         <td>${escHtml(u.nick)}</td>
         <td>
           <select onchange="changeUserRole('${u.id}',this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--bg);">
-            ${['student','adult','teacher','admin'].map(r=>`<option value="${r}"${(u.role||'student')===r?' selected':''}>${ROLE_LABEL[r]}</option>`).join('')}
+            ${['student','student_rep','adult','teacher','admin'].map(r=>`<option value="${r}"${(u.role||'student')===r?' selected':''}>${ROLE_LABEL[r]}</option>`).join('')}
           </select>
         </td>
         <td>${u.joinDate||'-'}</td>
