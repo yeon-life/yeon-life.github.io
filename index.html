@@ -302,33 +302,41 @@ input,textarea,select{font-family:var(--font-sans);}
 .pws-ai-discard{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 14px;font-size:12px;color:var(--ink-soft);cursor:pointer;}
 .pws-err{font-size:12px;color:#c0392b;padding:0 36px 10px;}
 /* ── 광장 전체 보기 모달 ── */
-.all-posts-modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;background:rgba(0,0,0,0.48);backdrop-filter:blur(4px);overflow-y:auto;}
-.all-posts-modal.open{display:flex;}
-.all-posts-box{background:var(--bg);border-radius:20px;width:100%;max-width:680px;box-shadow:0 24px 64px rgba(0,0,0,0.2);overflow:hidden;animation:qrPop .2s cubic-bezier(.22,1,.36,1);margin:auto;}
-.apm-header{display:flex;align-items:center;gap:14px;padding:22px 28px 18px;border-bottom:1px solid var(--border);}
-.apm-kanji{font-family:var(--font-serif);font-size:40px;font-weight:700;line-height:1;}
-.apm-kanji.agora{color:var(--agora);}
-.apm-kanji.agonran{color:var(--agonran);}
+/* ── 전체 화면 광장 ── */
+.all-posts-modal{position:fixed;inset:0;z-index:700;display:none;flex-direction:column;background:var(--bg);}
+.all-posts-modal.open{display:flex;animation:forumOpen .28s cubic-bezier(.22,1,.36,1);}
+@keyframes forumOpen{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+.all-posts-box{display:flex;flex-direction:column;height:100%;width:100%;}
+/* 상단 헤더 바 */
+.apm-header{display:flex;align-items:center;gap:16px;padding:18px 28px;color:#fff;flex-shrink:0;}
+.apm-header.agora-hd{background:var(--agora,#697FA3);}
+.apm-header.agonran-hd{background:var(--agonran,#7D9080);}
+.apm-kanji{font-family:var(--font-serif);font-size:44px;font-weight:700;line-height:1;opacity:.85;}
 .apm-title-wrap{flex:1;}
-.apm-title{font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--ink);}
-.apm-sub{font-size:12px;color:var(--ink-faint);margin-top:2px;}
-.apm-close{background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:20px;padding:4px;line-height:1;transition:color .15s;}
-.apm-close:hover{color:var(--ink);}
-.apm-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:var(--bg-alt);}
-.apm-count{font-size:12px;color:var(--ink-faint);}
-.apm-write-btn{background:var(--agora);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:filter .15s;}
+.apm-title{font-family:var(--font-serif);font-size:22px;font-weight:700;color:#fff;}
+.apm-sub{font-size:12px;color:rgba(255,255,255,0.68);margin-top:2px;}
+.apm-close{background:rgba(255,255,255,0.18);border:none;cursor:pointer;color:#fff;font-size:18px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+.apm-close:hover{background:rgba(255,255,255,0.32);}
+/* 툴바 */
+.apm-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:var(--bg-alt);border-bottom:1px solid var(--border);flex-shrink:0;gap:12px;flex-wrap:wrap;}
+.apm-toolbar-left{display:flex;align-items:center;gap:12px;}
+.apm-count{font-size:13px;color:var(--ink-faint);font-weight:500;}
+.apm-search{border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;width:200px;transition:border-color .15s;}
+.apm-search:focus{border-color:var(--agora);}
+.apm-write-btn{background:var(--agora);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;transition:filter .15s;flex-shrink:0;}
 .apm-write-btn.agonran{background:var(--agonran);}
 .apm-write-btn:hover{filter:brightness(.88);}
-.apm-list{max-height:60vh;overflow-y:auto;padding:8px 0;}
-.apm-item{display:flex;gap:12px;padding:14px 28px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
-.apm-item:last-child{border-bottom:none;}
+/* 목록 */
+.apm-list{flex:1;overflow-y:auto;padding:0;}
+.apm-item{display:flex;gap:16px;padding:18px 28px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;align-items:flex-start;}
 .apm-item:hover{background:var(--bg-alt);}
+.apm-item-num{flex-shrink:0;font-family:var(--font-serif);font-size:22px;color:var(--ink-faint);opacity:.3;line-height:1.1;min-width:32px;text-align:right;padding-top:2px;}
 .apm-item-body{flex:1;min-width:0;}
-.apm-item-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.apm-item-preview{font-size:12px;color:var(--ink-soft);margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
-.apm-item-meta{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:11px;color:var(--ink-faint);}
-.apm-item-num{flex-shrink:0;font-family:var(--font-serif);font-size:18px;color:var(--ink-faint);opacity:.4;line-height:1.2;min-width:28px;text-align:right;}
-.apm-empty{padding:48px;text-align:center;color:var(--ink-faint);font-size:14px;}
+.apm-item-title{font-size:15px;font-weight:600;color:var(--ink);line-height:1.5;}
+.apm-item-preview{font-size:13px;color:var(--ink-soft);margin-top:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.6;}
+.apm-item-meta{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:12px;color:var(--ink-faint);}
+.apm-empty{padding:80px 28px;text-align:center;color:var(--ink-faint);font-size:15px;line-height:2;}
+@media(min-width:768px){.apm-item{padding:20px 48px;}.apm-item-title{font-size:16px;}.apm-search{width:260px;}}
 
 .modal{background:var(--bg);border-radius:16px;width:100%;max-width:440px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.18);position:relative;max-height:90vh;overflow-y:auto;}
 .modal-lg{max-width:680px;}
@@ -1769,18 +1777,21 @@ body.dark-mode .admin-content{background:#1A1612;}
 </div>
 
 <!-- ════ 광장 전체 보기 모달 ════ -->
-<div class="all-posts-modal" id="allPostsModal" onclick="closeAllPostsOnBg(event)">
+<div class="all-posts-modal" id="allPostsModal">
   <div class="all-posts-box">
-    <div class="apm-header">
+    <div class="apm-header agora-hd" id="apmHeader">
       <div class="apm-kanji" id="apmKanji">議</div>
       <div class="apm-title-wrap">
         <div class="apm-title" id="apmTitle">아골라</div>
         <div class="apm-sub" id="apmSub">성인 토론의 마당</div>
       </div>
-      <button class="apm-close" onclick="closeAllPosts()">✕</button>
+      <button class="apm-close" onclick="closeAllPosts()" title="닫기">✕</button>
     </div>
     <div class="apm-toolbar">
-      <span class="apm-count" id="apmCount">글 0편</span>
+      <div class="apm-toolbar-left">
+        <span class="apm-count" id="apmCount">글 0편</span>
+        <input class="apm-search" id="apmSearch" type="text" placeholder="검색…" oninput="filterApmList(this.value)">
+      </div>
       <button class="apm-write-btn" id="apmWriteBtn" onclick="closeAllPosts();openWrite(window._apmForum,'')">글쓰기</button>
     </div>
     <div class="apm-list" id="apmList"></div>
@@ -2125,7 +2136,7 @@ body.dark-mode .admin-content{background:#1A1612;}
     <div class="plaza-grid">
 
       <!-- 아골라 -->
-      <div class="plaza-card agora-card">
+      <div class="plaza-card agora-card" onclick="openAllPosts('agora')" style="cursor:pointer;">
         <div class="plaza-deco">
           <svg viewBox="0 0 48 48">
             <circle cx="24" cy="24" r="18"/>
@@ -2144,14 +2155,14 @@ body.dark-mode .admin-content{background:#1A1612;}
           <div class="post-empty">첫 번째 글을 남겨보세요</div>
         </div>
         <div class="plaza-btn-group">
-          <button class="plaza-btn-fill" id="agoraWriteBtn" onclick="openWrite('agora','')">토론 글쓰기</button>
-          <button class="plaza-btn-outline" onclick="openAllPosts('agora')">전체 보기</button>
+          <button class="plaza-btn-fill" id="agoraWriteBtn" onclick="event.stopPropagation();openWrite('agora','')">토론 글쓰기</button>
+          <button class="plaza-btn-outline" onclick="event.stopPropagation();openAllPosts('agora')">전체 보기</button>
         </div>
         <div id="agoraStudentHint" style="display:none;font-size:11px;color:var(--ink-faint);margin-top:6px;text-align:center;">🔒 아골라 글쓰기는 성인·학생 대표 전용</div>
       </div>
 
       <!-- 아곤란 -->
-      <div class="plaza-card agonran-card" id="agonran">
+      <div class="plaza-card agonran-card" id="agonran" onclick="openAllPosts('agonran')" style="cursor:pointer;">
         <div class="plaza-deco">
           <svg viewBox="0 0 48 48">
             <path d="M24 4 L44 24 L24 44 L4 24 Z"/>
@@ -2166,8 +2177,8 @@ body.dark-mode .admin-content{background:#1A1612;}
           <div class="post-empty">첫 번째 생각을 나눠보세요</div>
         </div>
         <div class="plaza-btn-group">
-          <button class="plaza-btn-fill" onclick="openWrite('agonran','')">질문 올리기</button>
-          <button class="plaza-btn-outline" onclick="openAllPosts('agonran')">전체 보기</button>
+          <button class="plaza-btn-fill" onclick="event.stopPropagation();openWrite('agonran','')">질문 올리기</button>
+          <button class="plaza-btn-outline" onclick="event.stopPropagation();openAllPosts('agonran')">전체 보기</button>
         </div>
       </div>
 
@@ -3452,6 +3463,88 @@ function doSubmitPost(){
   updateStats();
   updateInsights();
 }
+/* ── 전체 화면 광장 열기/닫기 ── */
+let _apmAllPosts = [];  // 현재 포럼의 전체 글 캐시
+
+function openAllPosts(forum){
+  window._apmForum = forum;
+  const isAgora = forum === 'agora';
+  const modal   = document.getElementById('allPostsModal');
+  const header  = document.getElementById('apmHeader');
+  const kanji   = document.getElementById('apmKanji');
+  const title   = document.getElementById('apmTitle');
+  const sub     = document.getElementById('apmSub');
+  const writeBtn= document.getElementById('apmWriteBtn');
+  const search  = document.getElementById('apmSearch');
+
+  // 헤더 색상
+  header.className = 'apm-header ' + (isAgora ? 'agora-hd' : 'agonran-hd');
+  kanji.textContent = isAgora ? '議' : '問';
+  title.textContent = isAgora ? '아골라' : '아곤란';
+  sub.textContent   = isAgora ? '성인 토론의 마당' : '학생 질문의 마당';
+  writeBtn.className= 'apm-write-btn' + (isAgora ? '' : ' agonran');
+  writeBtn.textContent = isAgora ? '토론 글쓰기' : '질문 올리기';
+
+  // 글쓰기 권한 체크
+  const canWrite = isAgora ? (currentUser && canWriteAgora(currentUser)) : !!currentUser;
+  writeBtn.style.display = canWrite ? '' : 'none';
+
+  // 검색창 초기화
+  if(search) search.value = '';
+
+  // 글 목록 렌더
+  _apmAllPosts = getPosts(forum);
+  renderApmList(_apmAllPosts);
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';  // 뒷 페이지 스크롤 막기
+}
+
+function renderApmList(posts){
+  const listEl  = document.getElementById('apmList');
+  const countEl = document.getElementById('apmCount');
+  countEl.textContent = '글 ' + posts.length + '편';
+  if(!posts.length){
+    listEl.innerHTML = '<div class="apm-empty">아직 글이 없습니다.<br>첫 번째 생각을 나눠보세요.</div>';
+    return;
+  }
+  listEl.innerHTML = posts.map((p, i) => `
+    <div class="apm-item" onclick="openPost('${p.id}')">
+      <div class="apm-item-num">${posts.length - i}</div>
+      <div class="apm-item-body">
+        <div class="apm-item-title">${escHtml(p.title)}</div>
+        <div class="apm-item-preview">${escHtml(p.body||'')}</div>
+        <div class="apm-item-meta">
+          <span>${escHtml(p.author||'익명')}</span>
+          <span>${p.date||''}</span>
+          ${p.comments&&p.comments.length ? `<span>💬 ${p.comments.length}</span>` : ''}
+          ${p.likes&&p.likes.length ? `<span>♡ ${p.likes.length}</span>` : ''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterApmList(keyword){
+  const q = keyword.trim().toLowerCase();
+  if(!q){ renderApmList(_apmAllPosts); return; }
+  const filtered = _apmAllPosts.filter(p =>
+    (p.title||'').toLowerCase().includes(q) ||
+    (p.body||'').toLowerCase().includes(q) ||
+    (p.author||'').toLowerCase().includes(q)
+  );
+  renderApmList(filtered);
+}
+
+function closeAllPosts(){
+  const modal = document.getElementById('allPostsModal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeAllPostsOnBg(e){
+  if(e.target === document.getElementById('allPostsModal')) closeAllPosts();
+}
+
 function renderPlaza(){
   renderForum('agora','agoraList');
   renderForum('agonran','agonranList');
@@ -4385,6 +4478,14 @@ function handleGoogleCredential(response){
 window.addEventListener('load', function(){
   setTimeout(initGoogleAuth, 500);
   initDesignSettings();
+});
+
+/* ESC 키로 광장 닫기 */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    const modal = document.getElementById('allPostsModal');
+    if(modal && modal.classList.contains('open')) closeAllPosts();
+  }
 });
 
 /* ════════════════════════════════
