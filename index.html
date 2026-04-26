@@ -455,11 +455,12 @@ body.dark-mode .plaza-card.agonran-card{background:#5E7062;}
 
 /* ─── 생태계 ─── */
 .eco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
-.eco-card{border:1px solid var(--border);border-radius:12px;padding:24px 20px 20px;background:#fff;text-align:center;}
-.eco-icon{display:flex;justify-content:center;align-items:center;margin-bottom:14px;color:var(--gold);}
+.eco-card{border:1px solid rgba(255,255,255,0.25);border-radius:14px;padding:24px 20px 20px;background:#fff;text-align:center;cursor:pointer;transition:transform 0.18s,box-shadow 0.18s;text-decoration:none;display:block;}
+.eco-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.18);text-decoration:none;}
+.eco-icon{display:flex;justify-content:center;align-items:center;margin-bottom:14px;color:#6eb5a6;}
 .eco-icon svg{width:56px;height:56px;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none;}
 .eco-name{font-size:14px;font-weight:600;color:var(--ink);}
-.eco-url{font-size:11px;color:var(--thread);margin-top:4px;}
+.eco-url{font-size:11px;color:#6eb5a6;margin-top:4px;}
 
 /* ─── 아고라 스케치 배경 ─── */
 .agora-sketch{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
@@ -2126,48 +2127,48 @@ body.dark-mode .admin-content{background:#1A1612;}
   <div class="section-inner">
     <div class="section-header">
       <div>
-        <div class="section-title">연라이프 <span>생태계</span></div>
-        <div class="section-sub" style="color:#fff">y-life.kr을 통해 연결되는 공간들</div>
+        <div class="section-title">연라이프 <span style="color:#fff">생태계</span></div>
+        <div class="section-sub" style="color:rgba(255,255,255,0.75)">y-life.kr을 통해 연결되는 공간들</div>
       </div>
     </div>
     <div class="eco-grid">
       <!-- 아골라 — 성인 광장 -->
-      <div class="eco-card">
+      <a class="eco-card" href="#agora" onclick="document.getElementById('agora').scrollIntoView({behavior:'smooth'});return false;">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M2 20h20M4 20v-8M8 20v-8M12 20v-8M16 20v-8M20 20v-8M1 12l11-9 11 9"/></svg></div>
         <div class="eco-name">아골라</div><div class="eco-url">성인 광장</div>
-      </div>
+      </a>
       <!-- 아곤란 — 학생 광장 -->
-      <div class="eco-card">
+      <a class="eco-card" href="#agonran" onclick="document.getElementById('agonran').scrollIntoView({behavior:'smooth'});return false;">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6M12 12v3"/><circle cx="12" cy="9" r="1" fill="currentColor"/></svg></div>
         <div class="eco-name">아곤란</div><div class="eco-url">학생 광장</div>
-      </div>
+      </a>
       <!-- 수풀AI -->
-      <div class="eco-card">
+      <a class="eco-card" href="https://yeon.ai.kr/supul" target="_blank">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><path d="M13 13h4M13 17h4M13 9h4"/></svg></div>
         <div class="eco-name">수풀AI</div><div class="eco-url">yeon.ai.kr/supul</div>
-      </div>
+      </a>
       <!-- 영풀 -->
-      <div class="eco-card">
+      <a class="eco-card" href="https://yeon.ai.kr/yeongpul" target="_blank">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/><path d="M17 14l3 3-3 3"/></svg></div>
         <div class="eco-name">영풀</div><div class="eco-url">yeon.ai.kr/yeongpul</div>
-      </div>
+      </a>
       <!-- 시민 저널 -->
-      <div class="eco-card">
+      <a class="eco-card" href="#journal" onclick="document.getElementById('journal').scrollIntoView({behavior:'smooth'});return false;">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/><path d="M15 16l2-2 2 2"/></svg></div>
         <div class="eco-name">시민 저널</div><div class="eco-url">누구나 기자</div>
-      </div>
+      </a>
       <!-- 사이트 빌더 -->
-      <div class="eco-card">
+      <a class="eco-card" href="builder.html">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg></div>
         <div class="eco-name">사이트 빌더</div><div class="eco-url">builder.html</div>
-      </div>
+      </a>
       <!-- 자서전 공방 (준비 중) -->
-      <div class="eco-card" style="opacity:0.45">
+      <div class="eco-card" style="opacity:0.45;cursor:default;" onclick="void(0)">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 10h8M8 14h5"/></svg></div>
         <div class="eco-name">자서전 공방</div><div class="eco-url">2027 예정</div>
       </div>
       <!-- 울산 상점 (준비 중) -->
-      <div class="eco-card" style="opacity:0.45">
+      <div class="eco-card" style="opacity:0.45;cursor:default;" onclick="void(0)">
         <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0 2 2 2 2 0 0 0 2-2"/><path d="M5 11v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8"/><path d="M10 15h4v5h-4z"/></svg></div>
         <div class="eco-name">울산 상점</div><div class="eco-url">2028 예정</div>
       </div>
