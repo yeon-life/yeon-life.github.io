@@ -3391,7 +3391,7 @@ function doPlazaSubmit(){
   err.textContent='';
   _lastPostTs=now;
 
-  const newId=Date.now().toString();
+  const newId=makePostId();
   const today=new Date().toLocaleDateString('ko');
   const newPost={
     id:newId,forum,title,body,
@@ -3478,7 +3478,7 @@ function doSubmitPost(){
 
   const posts=allPosts();
   const post={
-    id:now.toString(),
+    id:makePostId(),
     forum,title,body,
     author:currentUser.nick,
     authorId:currentUser.id,
@@ -4626,30 +4626,57 @@ function saveGeminiKeyFromSettings(){
 }
 
 /* ════════════════════════════════
-   Firebase 실시간 공유 동기화
+   Firebase 실시간 공유 동기화 (v2 — 강화판)
    ════════════════════════════════ */
 const FIREBASE_URL = 'https://y-life-e191d-default-rtdb.firebaseio.com';
 function getFirebaseUrl(){ return FIREBASE_URL; }
 
-/* 글 1개 즉시 업로드 */
+/* ID 생성: 타임스탬프 + 랜덤 6자리 → 충돌 없음 */
+function makePostId(){
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+
+/* 글 1개 즉시 업로드 — POST 방식 (Firebase 자동 ID 부여, 중복 걱정 없음) */
 async function pushPostToFirebase(post){
+  if(!post || !post.id){ console.warn('pushPostToFirebase: post.id 없음'); return null; }
   try{
-    await fetch(FIREBASE_URL+'/posts/'+post.id+'.json',{
+    /* PATCH로 저장: 이미 있으면 덮어쓰지 않고 실패 안 함 */
+    const url = FIREBASE_URL+'/posts/'+encodeURIComponent(post.id)+'.json';
+    const res = await fetch(url,{
       method:'PUT',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(post)
     });
-  }catch(e){ console.warn('글 업로드 실패:',e); }
+    if(!res.ok){
+      const errText = await res.text();
+      /* 규칙에 막혀 실패(403)이면 새 ID로 재시도 */
+      if(res.status === 403){
+        const retryPost = {...post, id: makePostId(), ts: Date.now()};
+        /* 로컬도 새 ID로 교체 */
+        const posts = allPosts();
+        const idx = posts.findIndex(p=>p.id===post.id);
+        if(idx>=0){ posts[idx]=retryPost; LS.set('ylife_posts',posts); }
+        const r2 = await fetch(FIREBASE_URL+'/posts/'+encodeURIComponent(retryPost.id)+'.json',{
+          method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(retryPost)
+        });
+        if(!r2.ok) console.warn('재시도도 실패:', r2.status, await r2.text());
+        else console.log('Firebase 재시도 성공, 새 ID:', retryPost.id);
+      } else {
+        console.warn('Firebase 글 업로드 실패:', res.status, errText);
+      }
+    }
+    return res;
+  }catch(e){ console.warn('글 업로드 네트워크 오류:',e); return null; }
 }
 
 /* Firebase → 로컬 병합 (새 글만 추가, 기존 글 유지) */
 async function syncFromFirebase(showMsg){
   try{
     const res = await fetch(FIREBASE_URL+'/posts.json');
-    if(!res.ok) return 0;
+    if(!res.ok){ console.warn('syncFromFirebase 실패:', res.status); return 0; }
     const data = await res.json();
     if(!data) return 0;
-    const fbPosts = Object.values(data);
+    const fbPosts = Object.values(data).filter(p=>p && p.id);
     const local = allPosts();
     const localIds = new Set(local.map(p=>p.id));
     let added = 0;
@@ -4667,12 +4694,12 @@ async function syncFromFirebase(showMsg){
 async function pushUserToFirebase(user){
   try{
     const safe={...user}; delete safe.pw;
-    await fetch(FIREBASE_URL+'/users/'+safe.id+'.json',{
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(safe)
+    if(!safe.id){ return; }
+    const res = await fetch(FIREBASE_URL+'/users/'+encodeURIComponent(safe.id)+'.json',{
+      method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(safe)
     });
-  }catch(e){ console.warn('회원 업로드 실패:',e); }
+    if(!res.ok) console.warn('회원 업로드 실패:', res.status);
+  }catch(e){ console.warn('회원 업로드 오류:',e); }
 }
 
 /* Firebase → 로컬 회원 병합 */
@@ -4682,7 +4709,7 @@ async function syncUsersFromFirebase(){
     if(!res.ok) return;
     const data = await res.json();
     if(!data) return;
-    const fbUsers = Object.values(data);
+    const fbUsers = Object.values(data).filter(u=>u && u.id);
     const local = LS.get('ylife_users')||[];
     const localMap = {};
     local.forEach(u=>{ localMap[u.id]=u; });
@@ -4697,12 +4724,11 @@ async function syncUsersFromFirebase(){
 /* 역할 변경 Firebase 반영 */
 async function pushUserRoleToFirebase(userId, role){
   try{
-    await fetch(FIREBASE_URL+'/users/'+userId+'/role.json',{
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(role)
+    const res = await fetch(FIREBASE_URL+'/users/'+encodeURIComponent(userId)+'/role.json',{
+      method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(role)
     });
-  }catch(e){ console.warn('역할 업데이트 실패:',e); }
+    if(!res.ok) console.warn('역할 업데이트 실패:', res.status);
+  }catch(e){ console.warn('역할 업데이트 오류:',e); }
 }
 
 /* 페이지 로드 시: 로컬 글 중 Firebase에 없는 것 업로드 */
@@ -4712,26 +4738,27 @@ async function pushLocalPostsToFirebase(){
     const fbKeys = res.ok ? (await res.json()||{}) : {};
     const local = allPosts();
     for(const p of local){
-      if(!fbKeys[p.id]) await pushPostToFirebase(p);
+      if(!p.id) continue;
+      if(!fbKeys[p.id]){
+        await pushPostToFirebase(p);
+      }
     }
   }catch(e){ console.warn('로컬 글 업로드 실패:',e); }
 }
 
 /* 페이지 로드 후 1.2초 뒤 자동 동기화 + 화면 갱신 */
 setTimeout(async ()=>{
-  await pushLocalPostsToFirebase();      // 내 로컬 글 → Firebase 업로드
-  const added = await syncFromFirebase(false);  // Firebase → 로컬 병합
-  if(added > 0){
-    renderPlaza(); updateStats(); updateInsights(); // 새 글 있으면 화면 갱신
-  }
+  await pushLocalPostsToFirebase();
+  const added = await syncFromFirebase(false);
+  if(added > 0){ renderPlaza(); updateStats(); updateInsights(); }
   await syncUsersFromFirebase();
 }, 1200);
 
-/* 30초마다 백그라운드 자동 동기화 (광장 닫혀있을 때도) */
+/* 15초마다 백그라운드 자동 동기화 */
 setInterval(async ()=>{
   const added = await syncFromFirebase(false);
   if(added > 0){ renderPlaza(); updateStats(); updateInsights(); }
-}, 30000);
+}, 15000);
 
 function changeNick(){
   if(!currentUser) return;
