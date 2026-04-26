@@ -4717,12 +4717,21 @@ async function pushLocalPostsToFirebase(){
   }catch(e){ console.warn('로컬 글 업로드 실패:',e); }
 }
 
-/* 페이지 로드 후 1.2초 뒤 자동 동기화 */
-setTimeout(()=>{
-  pushLocalPostsToFirebase();
-  syncFromFirebase(false);
-  syncUsersFromFirebase();
+/* 페이지 로드 후 1.2초 뒤 자동 동기화 + 화면 갱신 */
+setTimeout(async ()=>{
+  await pushLocalPostsToFirebase();      // 내 로컬 글 → Firebase 업로드
+  const added = await syncFromFirebase(false);  // Firebase → 로컬 병합
+  if(added > 0){
+    renderPlaza(); updateStats(); updateInsights(); // 새 글 있으면 화면 갱신
+  }
+  await syncUsersFromFirebase();
 }, 1200);
+
+/* 30초마다 백그라운드 자동 동기화 (광장 닫혀있을 때도) */
+setInterval(async ()=>{
+  const added = await syncFromFirebase(false);
+  if(added > 0){ renderPlaza(); updateStats(); updateInsights(); }
+}, 30000);
 
 function changeNick(){
   if(!currentUser) return;
