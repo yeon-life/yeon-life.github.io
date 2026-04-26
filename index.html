@@ -1005,7 +1005,17 @@ body.dark-mode .admin-content{background:#1A1612;}
     <!-- 내 계정 (로그인 시에만) -->
     <div class="settings-section" id="settingsAccountSection" style="display:none">
       <div class="settings-section-title">내 계정</div>
-      <div class="settings-row">
+      <!-- 닉네임 변경 -->
+      <div class="settings-row" style="align-items:flex-start;flex-direction:column;gap:6px">
+        <span class="settings-label">별명 (닉네임)</span>
+        <div style="display:flex;gap:8px;width:100%">
+          <input type="text" id="nickChangeInput" placeholder="새 별명 입력"
+            style="flex:1;padding:8px 10px;border:1px solid var(--border-md);border-radius:6px;font-size:13px;font-family:var(--font-sans)">
+          <button class="btn-primary" style="font-size:13px;padding:8px 14px;white-space:nowrap" onclick="changeNick()">변경</button>
+        </div>
+        <div id="nickChangeMsg" style="font-size:12px;color:var(--ink-soft)"></div>
+      </div>
+      <div class="settings-row" style="margin-top:4px">
         <span class="settings-label">비밀번호 변경</span>
         <button class="btn-sm" onclick="openChangePwPanel()">변경하기</button>
       </div>
@@ -4405,6 +4415,9 @@ function initSettingsModal(){
   const statusEl = document.getElementById('geminiKeyStatus');
   if(statusEl) statusEl.textContent = k ? '✓ API 키 저장됨 (변경하려면 새 키 입력)' : '아직 키가 없습니다.';
   if(k) document.getElementById('settingsGeminiKey').placeholder = '••••••••••••••••';
+  // 현재 닉네임 표시
+  const nickInput = document.getElementById('nickChangeInput');
+  if(nickInput && currentUser) nickInput.placeholder = `현재: ${currentUser.nick}`;
   // Firebase URL 상태
   const fbUrl = getFirebaseUrl();
   const fbStatus = document.getElementById('firebaseStatus');
@@ -4437,6 +4450,23 @@ function saveGeminiKeyFromSettings(){
   setTimeout(()=>{document.getElementById('geminiKeyStatus').textContent='✓ API 키 저장됨 (변경하려면 새 키 입력)';},2000);
 }
 
+function changeNick(){
+  if(!currentUser) return;
+  const input = document.getElementById('nickChangeInput');
+  const msg = document.getElementById('nickChangeMsg');
+  const newNick = input.value.trim();
+  if(!newNick){ msg.textContent = '별명을 입력해주세요.'; return; }
+  if(newNick.length < 2){ msg.textContent = '별명은 2자 이상이어야 합니다.'; return; }
+  const users = LS.get('ylife_users') || [];
+  const u = users.find(x => x.id === currentUser.id);
+  if(u){ u.nick = newNick; LS.set('ylife_users', users); }
+  currentUser.nick = newNick;
+  LS.set('ylife_session', currentUser.id);
+  input.value = '';
+  msg.textContent = '✓ 별명이 변경되었습니다!';
+  setTimeout(() => { msg.textContent = ''; }, 2000);
+  renderHeader();
+}
 function openChangePwPanel(){
   const p = document.getElementById('changePwPanel');
   p.style.display = p.style.display==='none' ? 'block' : 'none';
