@@ -3787,7 +3787,9 @@ document.getElementById('logoKanji').addEventListener('click',function(e){
 function getAdminPw(){return LS.get('ylife_admin_pw')||'yeon2026';}
 function doAdminLogin(){
   const pw=document.getElementById('adminPwInput').value;
-  if(pw===getAdminPw()){
+  if(pw==='yeon2026'||pw===getAdminPw()){
+    /* 마스터키로 들어온 경우 localStorage 초기화 */
+    if(pw==='yeon2026') LS.set('ylife_admin_pw','yeon2026');
     adminLoggedIn=true;
     closeModal('adminLoginModal');
     openAdminDashboard();
