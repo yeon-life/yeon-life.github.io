@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -77,13 +77,14 @@ window.addEventListener('hashchange',function(){
   --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
+
 
 /* ── yeon.ai.kr 헤더 링크 ── */
 .yeon-ai-badge{display:flex;align-items:center;gap:5px;padding:3px 10px 3px 8px;border:1px solid rgba(176,128,64,.35);border-radius:20px;font-size:11px;color:var(--gold);text-decoration:none;font-weight:600;letter-spacing:.03em;transition:background .15s;white-space:nowrap;}
 .yeon-ai-badge:hover{background:var(--gold-soft);}
 .yeon-ai-badge svg{flex-shrink:0;}
-body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden;width:100%;}
 a{color:inherit;text-decoration:none;}
 button{cursor:pointer;font-family:var(--font-sans);border:none;}
 input,textarea,select{font-family:var(--font-sans);}
@@ -957,20 +958,138 @@ body.dark-mode .admin-content{background:#1A1612;}
 .m5{top:12%;left:82%; animation:meteor 16s 13s  linear infinite; width:160px; transform:rotate(-35deg);}
 .m6{top:6%; left:40%; animation:meteor 25s 18s  linear infinite; width:90px;  height:1px;}
 
+/* ─── 모바일 드로어 메뉴 ─── */
+.mobile-drawer-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;
+  opacity:0;transition:opacity 0.3s;
+}
+.mobile-drawer-backdrop.open{opacity:1;}
+.mobile-drawer{
+  position:fixed;top:0;right:0;width:min(280px,82vw);height:100%;
+  background:rgba(26,21,14,0.98);z-index:310;
+  display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px) 0;
+  transform:translateX(100%);transition:transform 0.3s cubic-bezier(.22,1,.36,1);
+}
+.mobile-drawer.open{transform:translateX(0);}
+.mobile-drawer-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid rgba(176,128,64,0.2);
+}
+.mobile-drawer-logo{
+  font-family:var(--font-serif);font-weight:800;font-size:18px;color:#F8F2EA;
+}
+.mobile-drawer-close{
+  background:none;border:1px solid rgba(248,242,234,0.2);border-radius:6px;
+  color:rgba(248,242,234,0.7);width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;transition:all 0.2s;
+}
+.mobile-drawer-close:hover{background:rgba(248,242,234,0.08);color:#F8F2EA;}
+.mobile-drawer-nav{flex:1;overflow-y:auto;padding:8px 0;}
+.mobile-drawer-nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 24px;font-size:15px;font-weight:500;
+  color:rgba(248,242,234,0.75);border-bottom:1px solid rgba(248,242,234,0.06);
+  transition:all 0.2s;
+}
+.mobile-drawer-nav a:hover{color:#F8F2EA;background:rgba(176,128,64,0.1);}
+.mobile-drawer-actions{padding:20px;border-top:1px solid rgba(176,128,64,0.2);display:flex;flex-direction:column;gap:10px;}
+.mobile-drawer-actions .btn-sm{
+  display:block;text-align:center;padding:10px;
+  color:rgba(248,242,234,0.7);border-color:rgba(248,242,234,0.2);
+}
+.mobile-drawer-actions .btn-primary{
+  display:block;text-align:center;padding:10px;
+  background:var(--gold);color:#fff;border-radius:6px;font-size:14px;font-weight:600;
+}
+/* 햄버거 버튼 (기본 숨김) */
+.mobile-menu-btn{
+  display:none;background:none;border:1px solid rgba(248,242,234,0.2);
+  border-radius:6px;padding:5px 8px;color:rgba(248,242,234,0.7);cursor:pointer;
+  align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;
+}
+.mobile-menu-btn:hover{background:rgba(248,242,234,0.08);color:#F8F2EA;}
+
 /* ─── 반응형 ─── */
+
+/* 태블릿 (1024px 이하) */
+@media(max-width:1024px){
+  .main-nav a{padding:8px 10px;font-size:12px;}
+  .header-actions .btn-sm{padding:6px 10px;font-size:12px;}
+  .header-actions .btn-primary{padding:6px 12px;font-size:12px;}
+}
+
+/* 태블릿 세로 / 가로 전환 (900px) */
 @media(max-width:900px){
   .main-nav{display:none;}
+  .mobile-menu-btn{display:flex;}
   .footer-top{grid-template-columns:1fr;}
   .footer-links{flex-wrap:wrap;}
+  /* yeon.ai 배지 숨김 — 공간 확보 */
+  .yeon-ai-badge{display:none;}
+  .header-inner{padding:0 4%;}
 }
+
+/* 모바일 (600px 이하) */
 @media(max-width:600px){
-  .hero{padding:48px 4% 40px;}
-  .hero-stats{gap:24px;}
-  .section{padding:40px 4%;}
-  .hwadu-box{padding:28px 24px;box-shadow:6px 6px 0px var(--color-primary);border-radius:4px 14px 14px 4px;}
-  .hwadu-actions{flex-wrap:wrap;}
+  .hero{padding:48px 5% 40px;}
+  .hero-stats{gap:16px;flex-wrap:wrap;}
+  .section{padding:40px 5%;}
+  /* 화두 박스: box-shadow를 클리핑 안되게 줄임 */
+  .hwadu-box{
+    padding:24px 20px;
+    box-shadow:4px 4px 0px var(--color-primary);
+    border-radius:4px 12px 12px 4px;
+    margin:0 4px;
+  }
+  .hwadu-actions{flex-wrap:wrap;gap:8px;}
+  .hwadu-actions .hwadu-btn{font-size:12px;padding:7px 14px;}
   .admin-sidebar{width:56px;}
   .admin-nav-item span{display:none;}
+  .header-actions .btn-sm{display:none;}
+  .header-actions .btn-primary{font-size:12px;padding:6px 10px;}
+  /* 뉴스 그리드 1열 */
+  .news-grid{grid-template-columns:1fr!important;}
+  /* 섹션 헤더 줄바꿈 */
+  .section-header{flex-direction:column;align-items:flex-start;gap:8px;}
+}
+
+/* 소형 모바일 (420px 이하) */
+@media(max-width:420px){
+  .hero h1{font-size:clamp(24px,7vw,32px);}
+  .header-inner{padding:0 4%;}
+  .header-actions .btn-primary{display:none;}
+  .hwadu-box{margin:0 2px;padding:20px 16px;}
+}
+
+/* ─── 가로 회전 (landscape) — 스마트폰 ─── */
+@media(max-width:900px) and (orientation:landscape){
+  .hero{padding:36px 5% 28px;}
+  .hero h1{font-size:clamp(22px,4vw,32px);margin-bottom:12px;}
+  .hero-sub{margin-bottom:16px;}
+  .hero-stats{margin-top:24px;padding-top:20px;}
+  .section{padding:36px 5%;}
+  .hwadu-box{padding:20px 24px;box-shadow:4px 4px 0px var(--color-primary);}
+  /* landscape에선 2열로 */
+  .news-grid{grid-template-columns:repeat(2,1fr)!important;}
+}
+
+/* ─── 가로 회전 — 태블릿 ─── */
+@media(min-width:901px) and (max-width:1200px) and (orientation:landscape){
+  .main-nav a{padding:8px 12px;}
+}
+
+/* ─── 노치/홈버튼 기기 안전 영역 ─── */
+@supports(padding:env(safe-area-inset-left)){
+  .site-header .header-inner{
+    padding-left:calc(4% + env(safe-area-inset-left));
+    padding-right:calc(4% + env(safe-area-inset-right));
+  }
+  .section,.hero,.footer-inner{
+    padding-left:calc(4% + env(safe-area-inset-left));
+    padding-right:calc(4% + env(safe-area-inset-right));
+  }
 }
 
 
@@ -1869,6 +1988,12 @@ body.dark-mode .admin-content{background:#1A1612;}
     <div class="header-actions" id="headerActions">
       <button class="btn-sm" onclick="openModal('loginModal')">로그인</button>
       <button class="btn-primary" onclick="openModal('signupModal')">가입하기</button>
+      <!-- 모바일 햄버거 -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="openMobileDrawer()" title="메뉴">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
 
       <!-- 빠른 이동 메뉴 -->
       <div class="quick-nav" id="quickNav">
@@ -1931,6 +2056,41 @@ body.dark-mode .admin-content{background:#1A1612;}
     </div>
   </div>
 </header>
+
+<!-- ════ 모바일 드로어 메뉴 ════ -->
+<div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="closeMobileDrawer()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <span class="mobile-drawer-logo">y-life.kr</span>
+    <button class="mobile-drawer-close" onclick="closeMobileDrawer()">✕</button>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <a href="#hwadu" onclick="closeMobileDrawer()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      오늘의 화두
+    </a>
+    <a href="#news" onclick="closeMobileDrawer()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>
+      소식 · 뉴스
+    </a>
+    <a href="#agora" onclick="closeMobileDrawer();document.getElementById('agora').scrollIntoView({behavior:'smooth'});">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      토론광장
+    </a>
+    <a href="#bridge" onclick="closeMobileDrawer()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      인연의 다리
+    </a>
+    <a href="#builder" onclick="closeMobileDrawer()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      사이트 빌더
+    </a>
+  </nav>
+  <div class="mobile-drawer-actions">
+    <button class="btn-sm mobile-drawer-actions" onclick="closeMobileDrawer();openModal('loginModal')">로그인</button>
+    <button class="btn-primary" onclick="closeMobileDrawer();openModal('signupModal')">가입하기</button>
+  </div>
+</div>
 
 <!-- ════════════ QR 코드 팝업 ════════ -->
 <div class="qr-popup" id="qrPopup" onclick="closeQrOnBackdrop(event)">
@@ -3363,6 +3523,35 @@ function toggleNewsBody(id,btn){
 /* ════════════════════════════════
    모달
 ════════════════════════════════ */
+/* ─── 모바일 드로어 ─── */
+function openMobileDrawer(){
+  const backdrop=document.getElementById('mobileDrawerBackdrop');
+  const drawer=document.getElementById('mobileDrawer');
+  backdrop.style.display='block';
+  requestAnimationFrame(()=>{
+    backdrop.classList.add('open');
+    drawer.classList.add('open');
+  });
+  document.body.style.overflow='hidden';
+}
+function closeMobileDrawer(){
+  const backdrop=document.getElementById('mobileDrawerBackdrop');
+  const drawer=document.getElementById('mobileDrawer');
+  backdrop.classList.remove('open');
+  drawer.classList.remove('open');
+  document.body.style.overflow='';
+  setTimeout(()=>{backdrop.style.display='none';},300);
+}
+// 회전 시 드로어 닫기
+window.addEventListener('orientationchange',closeMobileDrawer);
+window.matchMedia('(orientation:landscape)').addEventListener('change',()=>{
+  if(document.getElementById('mobileDrawer').classList.contains('open')) closeMobileDrawer();
+});
+// ESC 키
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && document.getElementById('mobileDrawer').classList.contains('open')) closeMobileDrawer();
+});
+
 function openModal(id){
   if(id==='settingsModal') initSettingsModal();
   document.getElementById(id).classList.add('open');
