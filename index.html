@@ -957,6 +957,74 @@ body.dark-mode .admin-content{background:#1A1612;}
   .admin-sidebar{width:56px;}
   .admin-nav-item span{display:none;}
 }
+
+
+/* ════════════════════════════════
+   관리자 대시보드 색상 사용자 설정
+   - 글씨가 안 보이는 문제를 막기 위해 관리자 화면은 별도 변수로 제어
+════════════════════════════════ */
+:root{
+  --admin-bg:#F8F2EA;
+  --admin-panel:#FFFDF8;
+  --admin-sidebar:#EEE6D6;
+  --admin-header:#1A150E;
+  --admin-text:#2A2018;
+  --admin-muted:#6F6256;
+  --admin-accent:#B08040;
+  --admin-border:#D8CBB8;
+  --admin-danger:#8F6B6B;
+}
+.admin-overlay{background:var(--admin-bg)!important;color:var(--admin-text)!important;}
+.admin-header{background:var(--admin-header)!important;border-bottom:1px solid var(--admin-accent)!important;}
+.admin-header h1{color:#fff!important;}
+.admin-header h1 svg{stroke:var(--admin-accent)!important;}
+.admin-user-badge{color:rgba(255,255,255,.72)!important;}
+.admin-close{color:rgba(255,255,255,.72)!important;}
+.admin-close:hover{color:#fff!important;}
+.admin-body{background:var(--admin-bg)!important;color:var(--admin-text)!important;}
+.admin-sidebar{background:var(--admin-sidebar)!important;border-right:1px solid var(--admin-border)!important;}
+.admin-nav-section{color:var(--admin-muted)!important;}
+.admin-nav-item{color:var(--admin-muted)!important;}
+.admin-nav-item:hover{background:rgba(176,128,64,.12)!important;color:var(--admin-text)!important;}
+.admin-nav-item.active{background:rgba(176,128,64,.22)!important;color:var(--admin-accent)!important;font-weight:700!important;}
+.admin-nav-item.active svg{stroke:var(--admin-accent)!important;}
+.admin-content{background:var(--admin-bg)!important;color:var(--admin-text)!important;}
+.admin-panel,.settings-group,.admin-stat,.news-edit-item,.admin-post-detail{background:var(--admin-panel)!important;color:var(--admin-text)!important;border-color:var(--admin-border)!important;}
+.admin-section-title{color:var(--admin-text)!important;}
+.admin-section-title::before{background:var(--admin-accent)!important;}
+.admin-table th{color:var(--admin-muted)!important;border-bottom-color:var(--admin-border)!important;}
+.admin-table td{color:var(--admin-text)!important;border-bottom-color:var(--admin-border)!important;}
+.admin-table tr:hover td{background:rgba(176,128,64,.08)!important;}
+.admin-stat-num{color:var(--admin-accent)!important;}
+.admin-stat-label,.setting-desc,.admin-post-preview,.admin-post-detail-meta,.admin-comment-admin-meta{color:var(--admin-muted)!important;}
+.admin-stat::before{background:var(--admin-accent)!important;}
+.admin-post-rule{background:rgba(176,128,64,.10)!important;border-color:rgba(176,128,64,.35)!important;border-left-color:var(--admin-accent)!important;color:var(--admin-muted)!important;}
+.admin-post-rule strong,.admin-post-title-cell,.admin-post-detail-title,.admin-comment-admin-title,.admin-comment-admin-text{color:var(--admin-text)!important;}
+.admin-post-search,.setting-input,.settings-group input,.settings-group textarea,.settings-group select{background:#fff!important;color:var(--admin-text)!important;border-color:var(--admin-border)!important;}
+.admin-post-search:focus,.setting-input:focus,.settings-group input:focus,.settings-group textarea:focus{border-color:var(--admin-accent)!important;outline:none!important;}
+.btn-primary{background:var(--admin-accent)!important;color:#fff!important;}
+.btn-soft{background:#fff!important;color:var(--admin-text)!important;border:1px solid var(--admin-border)!important;}
+.btn-warn,.btn-danger{background:var(--admin-danger)!important;color:#fff!important;}
+.news-tab{color:var(--admin-muted)!important;background:var(--admin-panel)!important;border-color:var(--admin-border)!important;}
+.news-tab.active{background:var(--admin-accent)!important;color:#fff!important;border-color:var(--admin-accent)!important;}
+.admin-forum-badge{background:rgba(176,128,64,.14)!important;color:var(--admin-text)!important;}
+.admin-spam-badge{background:rgba(143,79,79,.14)!important;color:#8F4F4F!important;border-color:rgba(143,79,79,.28)!important;}
+.admin-theme-box{border:1px solid var(--admin-border);border-radius:14px;padding:14px;background:var(--admin-panel);}
+.admin-theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;width:100%;}
+.admin-color-field{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--admin-border);border-radius:10px;background:var(--admin-panel);}
+.admin-color-field label{font-size:13px;font-weight:600;color:var(--admin-text);}
+.admin-color-field input[type="color"]{width:42px;height:32px;padding:0;border:1px solid var(--admin-border);border-radius:8px;background:none;cursor:pointer;}
+.admin-theme-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.admin-theme-presets button{border-radius:20px;border:1px solid var(--admin-border);padding:7px 13px;font-size:12px;background:var(--admin-panel);color:var(--admin-text);cursor:pointer;}
+.admin-theme-presets button:hover{border-color:var(--admin-accent);color:var(--admin-accent);}
+.admin-theme-preview{margin-top:12px;border-radius:12px;overflow:hidden;border:1px solid var(--admin-border);background:var(--admin-bg);}
+.admin-theme-preview-head{background:var(--admin-header);color:#fff;padding:10px 12px;font-size:13px;font-weight:700;}
+.admin-theme-preview-body{display:flex;min-height:78px;}
+.admin-theme-preview-side{width:110px;background:var(--admin-sidebar);padding:10px;font-size:12px;color:var(--admin-muted);}
+.admin-theme-preview-main{flex:1;background:var(--admin-bg);padding:10px;color:var(--admin-text);font-size:12px;}
+.admin-theme-preview-card{background:var(--admin-panel);border:1px solid var(--admin-border);border-radius:8px;padding:8px;margin-top:6px;}
+.admin-theme-preview-accent{display:inline-block;background:var(--admin-accent);color:#fff;border-radius:16px;padding:4px 10px;font-size:11px;margin-top:6px;}
+
 </style>
 </head>
 <body>
@@ -1533,6 +1601,8 @@ body.dark-mode .admin-content{background:#1A1612;}
         <div class="admin-post-toolbar">
           <input class="admin-post-search" id="postMgmtSearch" type="text" placeholder="제목·내용·작성자 검색" oninput="renderPostMgmtTable()">
           <button class="btn-soft" onclick="adminToggleSpamOnly()" id="postMgmtSpamBtn">의심글만 보기</button>
+          <button class="btn-soft" onclick="adminAutoSelectSuspiciousPosts()">의심글 자동 선택</button>
+          <button class="btn-danger" onclick="adminDeleteSelectedPosts()">선택 삭제</button>
           <button class="btn-warn" onclick="adminDeleteSpamPosts()">반복/장난글 정리</button>
           <button class="btn-soft" onclick="syncFromFirebase(true).then(()=>{renderPostMgmtTable();renderPlaza();updateStats();updateInsights();})">동기화</button>
         </div>
@@ -1639,6 +1709,41 @@ body.dark-mode .admin-content{background:#1A1612;}
                 oninput="applyCustomColor(this.value)" title="직접 색상 선택">
               <span class="color-custom-label">직접 선택</span>
               <span class="color-theme-name" id="colorThemeName">Warm Linen</span>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- 관리자 대시보드 색상 설정 -->
+        <div class="settings-group admin-theme-box">
+          <h3>관리자 대시보드 색상</h3>
+          <p class="setting-desc" style="margin-bottom:10px">관리자 화면은 별도 색상으로 조정합니다. 글씨가 안 보이면 <strong>고대비 밝은색</strong>을 누르세요.</p>
+          <div class="admin-theme-presets">
+            <button type="button" onclick="applyAdminThemePreset('light')">고대비 밝은색</button>
+            <button type="button" onclick="applyAdminThemePreset('cream')">따뜻한 크림</button>
+            <button type="button" onclick="applyAdminThemePreset('dark')">고대비 다크</button>
+            <button type="button" onclick="applyAdminThemePreset('green')">아곤란 초록</button>
+            <button type="button" onclick="resetAdminTheme()">기본값</button>
+          </div>
+          <div class="admin-theme-grid">
+            <div class="admin-color-field"><label>전체 배경</label><input type="color" id="cfg-admin-bg" value="#F8F2EA" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>내용 카드</label><input type="color" id="cfg-admin-panel" value="#FFFDF8" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>왼쪽 메뉴</label><input type="color" id="cfg-admin-sidebar" value="#EEE6D6" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>상단 바</label><input type="color" id="cfg-admin-header" value="#1A150E" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>기본 글씨</label><input type="color" id="cfg-admin-text" value="#2A2018" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>보조 글씨</label><input type="color" id="cfg-admin-muted" value="#6F6256" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>강조색</label><input type="color" id="cfg-admin-accent" value="#B08040" oninput="previewAdminTheme()"></div>
+            <div class="admin-color-field"><label>선 색상</label><input type="color" id="cfg-admin-border" value="#D8CBB8" oninput="previewAdminTheme()"></div>
+          </div>
+          <div class="admin-theme-preview">
+            <div class="admin-theme-preview-head">관리자 대시보드 미리보기</div>
+            <div class="admin-theme-preview-body">
+              <div class="admin-theme-preview-side">대시보드<br>게시판 관리<br>설정</div>
+              <div class="admin-theme-preview-main">글씨 확인용 문장입니다.
+                <div class="admin-theme-preview-card">카드 배경과 표 글씨가 잘 보이면 정상입니다.</div>
+                <span class="admin-theme-preview-accent">강조 버튼</span>
+              </div>
             </div>
           </div>
         </div>
@@ -2485,14 +2590,53 @@ const LS = {
   set(k,v){localStorage.setItem(k,JSON.stringify(v))},
 };
 function getUsers(){return LS.get('ylife_users')||[];}
+function getDeletedPostIds(){return new Set(LS.get('ylife_deleted_post_ids')||[]);}
+function markPostDeletedLocal(id){
+  if(!id) return;
+  const ids=LS.get('ylife_deleted_post_ids')||[];
+  if(!ids.includes(id)){ids.push(id);LS.set('ylife_deleted_post_ids',ids.slice(-2000));}
+}
+function hasMojibake(s){return /[ÃÂÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöùúûüýþÿ ]|ê|ë|ì|í|î|ï|ð|ñ|ò|ó|ô|õ|ö|ù|ú|û|ü|ý|þ|ÿ/.test(String(s||''));}
+function tryFixMojibake(s){
+  s=String(s||'').trim();
+  if(!s) return '';
+  try{
+    const decoded=decodeURIComponent(escape(s));
+    if(decoded && decoded!==s && !hasMojibake(decoded)) return decoded;
+  }catch(e){}
+  return s;
+}
+function cleanNick(n){
+  let s=tryFixMojibake(n).replace(/<[^>]*>/g,'').replace(/[\r\n\t]+/g,' ').replace(/\s+/g,' ').trim();
+  if(!s) return '익명';
+  if(s.length>24) s=s.slice(0,24);
+  if(hasMojibake(s)) return '익명';
+  return s;
+}
+function nickLooksBroken(n){return !String(n||'').trim() || hasMojibake(n);}
+function displayNick(author,authorId){
+  const users=getUsers();
+  const u=authorId?users.find(x=>x.id===authorId):null;
+  if(u && u.nick && !nickLooksBroken(u.nick)) return cleanNick(u.nick);
+  return cleanNick(author);
+}
 function normalizePost(p){
   if(!p) return p;
   if(!Array.isArray(p.likes)) p.likes=[];
   if(!Array.isArray(p.comments)) p.comments=[];
+  p.author=displayNick(p.author,p.authorId);
+  p.comments=p.comments.map(c=>({...c,author:displayNick(c.author,c.authorId)}));
   return p;
 }
-function allPosts(){return (LS.get('ylife_posts')||[]).map(normalizePost);}
+function allPosts(){
+  const deleted=getDeletedPostIds();
+  return (LS.get('ylife_posts')||[]).filter(p=>p&&p.id&&!deleted.has(p.id)&&!p.deleted).map(normalizePost);
+}
 function getPosts(f){return allPosts().filter(p=>p.forum===f);}
+function savePostsFiltered(posts){
+  const deleted=getDeletedPostIds();
+  LS.set('ylife_posts',(posts||[]).filter(p=>p&&p.id&&!deleted.has(p.id)&&!p.deleted).map(normalizePost));
+}
 
 /* ── 자동 스크랩 ── */
 function autoScrap(type, data){
@@ -2823,7 +2967,7 @@ function saveNewsThought(key,text){
   }else{
     all[key].push({
       id:Date.now().toString(),text:text.trim(),
-      author:currentUser.nick,authorId:currentUser.id,
+      author:cleanNick(currentUser.nick),authorId:currentUser.id,
       date:today,replies:[]
     });
   }
@@ -2841,7 +2985,7 @@ function addNewsReply(key,thoughtId,text){
   const t=thoughts.find(t=>t.id===thoughtId);
   if(!t)return;
   t.replies.push({id:Date.now().toString(),text:text.trim(),
-    author:currentUser.nick,authorId:currentUser.id,
+    author:cleanNick(currentUser.nick),authorId:currentUser.id,
     date:new Date().toLocaleDateString('ko')});
   LS.set('ylife_news_thoughts2',all);
 }
@@ -3055,9 +3199,9 @@ function closeMySpace(){
 function renderMySpace(){
   /* 프로필 */
   document.getElementById('mysProfile').innerHTML=`
-    <div class="mys-avatar-lg">${currentUser.nick[0]}</div>
+    <div class="mys-avatar-lg">${cleanNick(currentUser.nick)[0]}</div>
     <div>
-      <div class="mys-name">${escHtml(currentUser.nick)}</div>
+      <div class="mys-name">${escHtml(cleanNick(currentUser.nick))}</div>
       <div class="mys-role-badge">${ROLE_LABEL[currentUser.role||'student']||'🎒 학생'}</div>
       <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">가입일 ${currentUser.joinDate||'-'}</div>
     </div>`;
@@ -3148,7 +3292,7 @@ function canWriteAgonran(user){
 }
 function doSignup(){
   const id=document.getElementById('signupId').value.trim();
-  const nick=document.getElementById('signupNick').value.trim();
+  const nick=cleanNick(document.getElementById('signupNick').value.trim());
   const pw=document.getElementById('signupPw').value;
   const pw2=document.getElementById('signupPw2').value;
   const msg=document.getElementById('signupMsg');
@@ -3182,7 +3326,7 @@ function hashPw(pw){
 }
 function restoreSession(){
   const sid=LS.get('ylife_session');
-  if(sid){const u=getUsers().find(u=>u.id===sid);if(u)currentUser=u;}
+  if(sid){const u=getUsers().find(u=>u.id===sid);if(u){u.nick=cleanNick(u.nick);currentUser=u;}}
 }
 
 /* ════════════════════════════════
@@ -3213,8 +3357,8 @@ function renderHeader(){
   const el=document.getElementById('headerActions');
   if(currentUser){
     el.innerHTML=`<div class="user-badge">
-      <div class="user-avatar" onclick="openMySpace()" title="내 공간" style="cursor:pointer">${currentUser.nick[0]}</div>
-      <span onclick="openMySpace()" style="cursor:pointer;text-decoration:underline dotted">${currentUser.nick}</span>
+      <div class="user-avatar" onclick="openMySpace()" title="내 공간" style="cursor:pointer">${cleanNick(currentUser.nick)[0]}</div>
+      <span onclick="openMySpace()" style="cursor:pointer;text-decoration:underline dotted">${escHtml(cleanNick(currentUser.nick))}</span>
       <button class="btn-sm" onclick="doLogout()">로그아웃</button>
     </div>${QR_BTN_HTML}${QUICK_NAV_HTML}${SETTINGS_BTN_HTML}`;
   }else{
@@ -3450,7 +3594,7 @@ function doPlazaSubmit(){
   const today=new Date().toLocaleDateString('ko');
   const newPost={
     id:newId,forum,title,body,
-    author:currentUser.nick,authorId:currentUser.id,
+    author:cleanNick(currentUser.nick),authorId:currentUser.id,
     date:today,ts:now,likes:[],comments:[],views:0
   };
   const posts=allPosts();
@@ -3535,7 +3679,7 @@ function doSubmitPost(){
   const post={
     id:makePostId(),
     forum,title,body,
-    author:currentUser.nick,
+    author:cleanNick(currentUser.nick),
     authorId:currentUser.id,
     date:new Date().toLocaleDateString('ko'),
     ts:now,likes:[],comments:[],views:0
@@ -3670,7 +3814,7 @@ function renderForum(forum,listId){
       <div class="post-meta">
         <span class="post-meta-item">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          ${escHtml(p.author)}
+          ${escHtml(displayNick(p.author,p.authorId))}
         </span>
         <span class="post-meta-item">
           <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -3697,7 +3841,7 @@ function openPost(id){
   p.views=(p.views||0)+1;
   LS.set('ylife_posts',posts);
   document.getElementById('postDetailTitle').textContent=p.title;
-  document.getElementById('postDetailMeta').textContent=`${p.author} · ${p.date} · 조회 ${p.views}`;
+  document.getElementById('postDetailMeta').textContent=`${displayNick(p.author,p.authorId)} · ${p.date} · 조회 ${p.views}`;
   document.getElementById('postDetailBody').textContent=p.body;
   const liked=currentUser&&p.likes.includes(currentUser.id);
   const lb=document.getElementById('likeBtn');
@@ -3727,7 +3871,7 @@ function renderComments(p){
   if(!comments.length){list.innerHTML='<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">아직 댓글이 없습니다.</div>';return;}
   list.innerHTML=comments.map(c=>`
     <div class="comment-item">
-      <div class="comment-nick">${escHtml(c.author)}</div>
+      <div class="comment-nick">${escHtml(displayNick(c.author,c.authorId))}</div>
       <div class="comment-text">${escHtml(c.text)}</div>
       <div class="comment-date">${c.date}</div>
     </div>
@@ -3742,7 +3886,7 @@ function doAddComment(){
   const p=posts.find(x=>x.id===currentPostId);
   if(!p)return;
   if(!Array.isArray(p.comments)) p.comments=[];
-  p.comments.push({author:currentUser.nick,text,date:new Date().toLocaleDateString('ko')});
+  p.comments.push({author:cleanNick(currentUser.nick),authorId:currentUser.id,text,date:new Date().toLocaleDateString('ko')});
   LS.set('ylife_posts',posts);
   inp.value='';
   renderComments(p);
@@ -3765,7 +3909,7 @@ function updateInsights(){
       <div class="insight-rank">${i+1}</div>
       <div class="insight-content">
         <div class="insight-title">${escHtml(p.title)}</div>
-        <div class="insight-by">${escHtml(p.author)} · 공감 ${(p.likes||[]).length} · ${CAT_LABEL[p.forum]||p.forum}</div>
+        <div class="insight-by">${escHtml(displayNick(p.author,p.authorId))} · 공감 ${(p.likes||[]).length} · ${CAT_LABEL[p.forum]||p.forum}</div>
       </div>
     </div>
   `).join('');
@@ -4009,21 +4153,18 @@ async function batchGenerateImages(){
 }
 function loadPostMgmt(){renderPostMgmtTable();}
 let postMgmtSpamOnly=false;
+let adminSelectedPostIds=new Set();
 function switchPostMgmtTab(forum){
   currentPostMgmtForum=forum;
+  adminSelectedPostIds.clear();
   document.querySelectorAll('[id^="postMgmtTab-"]').forEach(t=>t.classList.remove('active'));
   document.getElementById('postMgmtTab-'+forum).classList.add('active');
   const detail=document.getElementById('postMgmtDetail');
   if(detail){detail.classList.remove('open');detail.innerHTML='';}
   renderPostMgmtTable();
 }
-function jsArg(v){
-  return String(v||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
-}
-function shortText(v,n){
-  const s=String(v||'').replace(/\s+/g,' ').trim();
-  return s.length>n?s.slice(0,n)+'…':s;
-}
+function jsArg(v){return String(v||'').replace(/\/g,'\\').replace(/'/g,"\'").replace(/\n/g,' ');}
+function shortText(v,n){const s=String(v||'').replace(/\s+/g,' ').trim();return s.length>n?s.slice(0,n)+'…':s;}
 function isAdminSuspiciousText(text){
   const s=String(text||'').trim();
   if(!s) return true;
@@ -4031,129 +4172,89 @@ function isAdminSuspiciousText(text){
   if(compact.length<2) return true;
   if(/(.)\1{5,}/u.test(compact)) return true;
   if(/[ㄱ-ㅎㅏ-ㅣ]{6,}/u.test(compact)) return true;
-  const chars=[...compact];
-  const unique=new Set(chars).size;
+  if(/[a-zA-Z]{40,}/.test(compact)) return true;
+  const chars=[...compact]; const unique=new Set(chars).size;
   if(compact.length>=10 && unique<=3) return true;
   return false;
 }
-function isAdminSuspiciousPost(p){
-  const title=p?.title||'';
-  const body=p?.body||'';
-  const comments=Array.isArray(p?.comments)?p.comments:[];
-  return isAdminSuspiciousText(title) || isAdminSuspiciousText(body) || comments.some(c=>isAdminSuspiciousText(c.text));
-}
-function adminToggleSpamOnly(){
-  postMgmtSpamOnly=!postMgmtSpamOnly;
-  const btn=document.getElementById('postMgmtSpamBtn');
-  if(btn) btn.textContent=postMgmtSpamOnly?'전체 글 보기':'의심글만 보기';
-  renderPostMgmtTable();
-}
-function forumLabel(forum){
-  return forum==='agora'?'아골라':(forum==='agonran'?'아곤란':(forum||'-'));
-}
-function getPostMgmtSource(){
-  const posts=currentPostMgmtForum==='all'?allPosts():getPosts(currentPostMgmtForum);
-  return posts.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')) || String(b.id||'').localeCompare(String(a.id||'')));
-}
-function renderPostMgmtTable(){
+function isAdminSuspiciousPost(p){const comments=Array.isArray(p?.comments)?p.comments:[];return isAdminSuspiciousText(p?.title||'')||isAdminSuspiciousText(p?.body||'')||comments.some(c=>isAdminSuspiciousText(c.text));}
+function adminToggleSpamOnly(){postMgmtSpamOnly=!postMgmtSpamOnly;const btn=document.getElementById('postMgmtSpamBtn');if(btn) btn.textContent=postMgmtSpamOnly?'전체 글 보기':'의심글만 보기';renderPostMgmtTable();}
+function forumLabel(forum){return forum==='agora'?'아골라':(forum==='agonran'?'아곤란':(forum||'-'));}
+function getPostMgmtSource(){const posts=currentPostMgmtForum==='all'?allPosts():getPosts(currentPostMgmtForum);return posts.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)||String(b.date||'').localeCompare(String(a.date||''))||String(b.id||'').localeCompare(String(a.id||'')));}
+function getPostMgmtFilteredPosts(){
   const q=(document.getElementById('postMgmtSearch')?.value||'').trim().toLowerCase();
   let posts=getPostMgmtSource();
-  if(q){
-    posts=posts.filter(p=>
-      (p.title||'').toLowerCase().includes(q)||
-      (p.body||'').toLowerCase().includes(q)||
-      (p.author||'').toLowerCase().includes(q)||
-      forumLabel(p.forum).toLowerCase().includes(q)
-    );
-  }
+  if(q){posts=posts.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.body||'').toLowerCase().includes(q)||displayNick(p.author,p.authorId).toLowerCase().includes(q)||forumLabel(p.forum).toLowerCase().includes(q));}
   if(postMgmtSpamOnly) posts=posts.filter(isAdminSuspiciousPost);
+  return posts;
+}
+function adminToggleSelectPost(id,checked){if(checked) adminSelectedPostIds.add(id); else adminSelectedPostIds.delete(id); updateAdminSelectionCount();}
+function adminToggleSelectVisible(checked){getPostMgmtFilteredPosts().forEach(p=>{if(checked) adminSelectedPostIds.add(p.id); else adminSelectedPostIds.delete(p.id);});renderPostMgmtTable();}
+function updateAdminSelectionCount(){const el=document.getElementById('adminSelectionCount');if(el) el.textContent=adminSelectedPostIds.size+'개 선택됨';}
+function adminAutoSelectSuspiciousPosts(){
+  const targets=getPostMgmtFilteredPosts().filter(isAdminSuspiciousPost);
+  targets.forEach(p=>adminSelectedPostIds.add(p.id));
+  postMgmtSpamOnly=true;
+  const btn=document.getElementById('postMgmtSpamBtn'); if(btn) btn.textContent='전체 글 보기';
+  renderPostMgmtTable(); alert('의심글 '+targets.length+'개를 자동 선택했습니다. 확인 후 [선택 삭제]를 누르세요.');
+}
+function renderPostMgmtTable(){
+  const posts=getPostMgmtFilteredPosts();
   const basePosts=getPostMgmtSource();
   const suspiciousCount=basePosts.filter(isAdminSuspiciousPost).length;
   const scopeLabel=currentPostMgmtForum==='all'?'전체':forumLabel(currentPostMgmtForum);
+  const allVisibleSelected=posts.length && posts.every(p=>adminSelectedPostIds.has(p.id));
   document.getElementById('postMgmtTable').innerHTML=posts.length?`
-    <div style="font-size:12px;color:var(--ink-faint);margin:0 0 8px">${scopeLabel} · 총 ${posts.length}개 표시 · 의심글 ${suspiciousCount}개</div>
+    <div class="admin-selection-bar">
+      <label style="display:flex;align-items:center;gap:6px"><input class="admin-post-check" type="checkbox" ${allVisibleSelected?'checked':''} onchange="adminToggleSelectVisible(this.checked)"> 현재 목록 전체 선택</label>
+      <span class="admin-selection-count" id="adminSelectionCount">${adminSelectedPostIds.size}개 선택됨</span>
+      <span>${scopeLabel} · 총 ${posts.length}개 표시 · 의심글 ${suspiciousCount}개</span>
+    </div>
     <table class="admin-table">
-      <thead><tr><th>공간</th><th>제목 / 미리보기</th><th>작성자</th><th>날짜</th><th>공감</th><th>댓글</th><th>관리</th></tr></thead>
+      <thead><tr><th class="admin-check-cell">선택</th><th>공간</th><th>제목 / 미리보기</th><th>작성자</th><th>날짜</th><th>공감</th><th>댓글</th><th>관리</th></tr></thead>
       <tbody>${posts.map(p=>`
       <tr>
+        <td class="admin-check-cell"><input class="admin-post-check" type="checkbox" ${adminSelectedPostIds.has(p.id)?'checked':''} onchange="adminToggleSelectPost('${jsArg(p.id)}',this.checked)"></td>
         <td><span class="admin-forum-badge ${p.forum==='agonran'?'agonran':'agora'}">${forumLabel(p.forum)}</span></td>
-        <td>
-          <div class="admin-post-title-cell">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div>
-          <div class="admin-post-preview">${escHtml(shortText(p.body||'',80))}</div>
-        </td>
-        <td>${escHtml(p.author||'익명')}</td>
-        <td>${p.date||'-'}</td>
-        <td>${(p.likes||[]).length}</td>
-        <td>${(p.comments||[]).length}</td>
-        <td>
-          <div class="admin-post-actions">
-            <button class="btn-soft" onclick="adminViewPost('${jsArg(p.id)}')">보기</button>
-            <button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">삭제</button>
-          </div>
-        </td>
-      </tr>`).join('')}</tbody>
-    </table>`:`<p style="color:var(--ink-faint);font-size:13px">표시할 게시글이 없습니다.</p>`;
+        <td><div class="admin-post-title-cell">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-preview">${escHtml(shortText(p.body||'',100))}</div></td>
+        <td>${escHtml(displayNick(p.author,p.authorId))}${nickLooksBroken(p.author)?'<span class="admin-nick-warn">닉네임 보정</span>':''}</td>
+        <td>${p.date||'-'}</td><td>${(p.likes||[]).length}</td><td>${(p.comments||[]).length}</td>
+        <td><div class="admin-post-actions"><button class="btn-soft" onclick="adminViewPost('${jsArg(p.id)}')">보기</button><button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">삭제</button></div></td>
+      </tr>`).join('')}</tbody></table>`:`<p style="color:var(--ink-faint);font-size:13px">표시할 게시글이 없습니다.</p>`;
 }
 function adminViewPost(id){
-  const p=allPosts().find(x=>x.id===id);
-  const box=document.getElementById('postMgmtDetail');
-  if(!p||!box)return;
+  const p=allPosts().find(x=>x.id===id); const box=document.getElementById('postMgmtDetail'); if(!p||!box)return;
   const comments=Array.isArray(p.comments)?p.comments:[];
   box.classList.add('open');
-  box.innerHTML=`
-    <div class="admin-post-detail-head">
-      <div>
-        <div class="admin-post-detail-title">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div>
-        <div class="admin-post-detail-meta">공간 ${forumLabel(p.forum)} · ${escHtml(p.author||'익명')} · ${p.date||'-'} · 공감 ${(p.likes||[]).length} · 댓글 ${comments.length}</div>
-      </div>
-      <div class="admin-post-actions">
-        <button class="btn-soft" onclick="openPost('${jsArg(p.id)}')">사용자 화면으로 보기</button>
-        <button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">글 삭제</button>
-        <button class="btn-soft" onclick="document.getElementById('postMgmtDetail').classList.remove('open')">닫기</button>
-      </div>
-    </div>
-    <div class="admin-post-detail-body">${escHtml(p.body||'내용 없음')}</div>
-    <div class="admin-comment-admin-list">
-      <div class="admin-comment-admin-title">댓글 관리 ${comments.length}개</div>
-      ${comments.length?comments.map((c,i)=>`
-        <div class="admin-comment-admin-item">
-          <div style="flex:1">
-            <div class="admin-comment-admin-meta">${escHtml(c.author||'익명')} · ${c.date||'-'} ${isAdminSuspiciousText(c.text)?'<span class="admin-spam-badge">확인 필요</span>':''}</div>
-            <div class="admin-comment-admin-text">${escHtml(c.text||'')}</div>
-          </div>
-          <button class="btn-danger" onclick="adminDeleteComment('${jsArg(p.id)}',${i})">댓글 삭제</button>
-        </div>`).join(''):'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">댓글이 없습니다.</div>'}
-    </div>`;
+  box.innerHTML=`<div class="admin-post-detail-head"><div><div class="admin-post-detail-title">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-detail-meta">공간 ${forumLabel(p.forum)} · ${escHtml(displayNick(p.author,p.authorId))} · ${p.date||'-'} · 공감 ${(p.likes||[]).length} · 댓글 ${comments.length}</div></div><div class="admin-post-actions"><button class="btn-soft" onclick="openPost('${jsArg(p.id)}')">사용자 화면으로 보기</button><button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">글 삭제</button><button class="btn-soft" onclick="document.getElementById('postMgmtDetail').classList.remove('open')">닫기</button></div></div><div class="admin-post-detail-body">${escHtml(p.body||'내용 없음')}</div><div class="admin-comment-admin-list"><div class="admin-comment-admin-title">댓글 관리 ${comments.length}개</div>${comments.length?comments.map((c,i)=>`<div class="admin-comment-admin-item"><div style="flex:1"><div class="admin-comment-admin-meta">${escHtml(displayNick(c.author,c.authorId))} · ${c.date||'-'} ${isAdminSuspiciousText(c.text)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-comment-admin-text">${escHtml(c.text||'')}</div></div><button class="btn-danger" onclick="adminDeleteComment('${jsArg(p.id)}',${i})">댓글 삭제</button></div>`).join(''):'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">댓글이 없습니다.</div>'}</div>`;
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function adminDeletePost(id){
   if(!confirm('이 게시글을 삭제하시겠습니까?'))return;
-  LS.set('ylife_posts',allPosts().filter(p=>p.id!==id));
-  await deletePostFromFirebase(id);
-  const detail=document.getElementById('postMgmtDetail');
-  if(detail){detail.classList.remove('open');detail.innerHTML='';}
+  markPostDeletedLocal(id); savePostsFiltered(allPosts().filter(p=>p.id!==id)); await deletePostFromFirebase(id); adminSelectedPostIds.delete(id);
+  const detail=document.getElementById('postMgmtDetail'); if(detail){detail.classList.remove('open');detail.innerHTML='';}
+  renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
+}
+async function adminDeleteSelectedPosts(){
+  const ids=[...adminSelectedPostIds]; if(!ids.length){alert('선택된 글이 없습니다.');return;}
+  if(!confirm(`선택한 글 ${ids.length}개를 삭제하시겠습니까?`))return;
+  for(const id of ids){markPostDeletedLocal(id);} savePostsFiltered(allPosts().filter(p=>!adminSelectedPostIds.has(p.id)));
+  for(const id of ids){await deletePostFromFirebase(id);} adminSelectedPostIds.clear();
+  const detail=document.getElementById('postMgmtDetail'); if(detail){detail.classList.remove('open');detail.innerHTML='';}
   renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
 }
 async function adminDeleteComment(id,index){
-  const posts=allPosts();
-  const p=posts.find(x=>x.id===id);
-  if(!p||!Array.isArray(p.comments)||!p.comments[index])return;
-  if(!confirm('이 댓글을 삭제하시겠습니까?'))return;
-  p.comments.splice(index,1);
-  LS.set('ylife_posts',posts);
-  await pushPostToFirebase(p);
+  const posts=allPosts(); const p=posts.find(x=>x.id===id); if(!p||!Array.isArray(p.comments)||!p.comments[index])return;
+  if(!confirm('이 댓글을 삭제하시겠습니까?'))return; p.comments.splice(index,1); savePostsFiltered(posts); await pushPostToFirebase(p);
   renderPostMgmtTable();adminViewPost(id);renderPlaza();updateInsights();
 }
 async function adminDeleteSpamPosts(){
-  const posts=allPosts();
-  const targets=posts.filter(p=>(currentPostMgmtForum==='all'||p.forum===currentPostMgmtForum) && isAdminSuspiciousPost(p));
+  const posts=allPosts(); const targets=posts.filter(p=>(currentPostMgmtForum==='all'||p.forum===currentPostMgmtForum)&&isAdminSuspiciousPost(p));
   if(!targets.length){alert('정리할 의심글이 없습니다.');return;}
-  if(!confirm(`의심글 ${targets.length}개를 삭제하시겠습니까?\n\n삭제 전에 [의심글만 보기]로 꼭 확인하는 것이 좋습니다.`))return;
-  const targetIds=new Set(targets.map(p=>p.id));
-  LS.set('ylife_posts',posts.filter(p=>!targetIds.has(p.id)));
-  for(const id of targetIds){await deletePostFromFirebase(id);}
-  const detail=document.getElementById('postMgmtDetail');
-  if(detail){detail.classList.remove('open');detail.innerHTML='';}
+  if(!confirm(`의심글 ${targets.length}개를 삭제하시겠습니까?\n\n검토 없이 바로 삭제됩니다. 검토하려면 [의심글 자동 선택]을 먼저 누르세요.`))return;
+  const targetIds=new Set(targets.map(p=>p.id)); for(const id of targetIds){markPostDeletedLocal(id);} savePostsFiltered(posts.filter(p=>!targetIds.has(p.id)));
+  for(const id of targetIds){await deletePostFromFirebase(id);} adminSelectedPostIds.clear();
+  const detail=document.getElementById('postMgmtDetail'); if(detail){detail.classList.remove('open');detail.innerHTML='';}
   renderPostMgmtTable();renderPlaza();updateStats();updateInsights();
 }
 const ROLE_LABEL={'student':'🎒 학생','student_rep':'🏅 학생 대표','adult':'🧑 성인','teacher':'📚 선생님','admin':'⚙️ 관리자'};
@@ -4494,6 +4595,7 @@ function initDesignSettings(){
     if(label)label.textContent=fs+'px';
     previewFontSize(fs);
   }
+  initAdminThemeSettings();
   /* 커스텀 색상 복원 */
   const customHex=LS.get('ylife_custom_color');
   if(customHex){
@@ -4519,6 +4621,52 @@ function initDesignSettings(){
     });
   }
 }
+
+
+/* ── 관리자 대시보드 색상 설정 ── */
+const ADMIN_THEME_DEFAULTS={
+  bg:'#F8F2EA',panel:'#FFFDF8',sidebar:'#EEE6D6',header:'#1A150E',
+  text:'#2A2018',muted:'#6F6256',accent:'#B08040',border:'#D8CBB8'
+};
+const ADMIN_THEME_PRESETS={
+  light:{bg:'#F7F7F2',panel:'#FFFFFF',sidebar:'#EFE8D8',header:'#1F1A14',text:'#111111',muted:'#555555',accent:'#9A6A25',border:'#D7CAB8'},
+  cream:{bg:'#F8F2EA',panel:'#FFFDF8',sidebar:'#EEE6D6',header:'#1A150E',text:'#2A2018',muted:'#6F6256',accent:'#B08040',border:'#D8CBB8'},
+  dark:{bg:'#151515',panel:'#242424',sidebar:'#1E1E1E',header:'#000000',text:'#F2F2F2',muted:'#C5C5C5',accent:'#D6A84F',border:'#4A4A4A'},
+  green:{bg:'#F1F5EC',panel:'#FFFFFF',sidebar:'#E1EAD8',header:'#263D25',text:'#172016',muted:'#53614F',accent:'#4F7A3A',border:'#C7D4BF'}
+};
+function applyAdminTheme(t,save){
+  t=Object.assign({},ADMIN_THEME_DEFAULTS,t||{});
+  const vars={
+    '--admin-bg':t.bg,'--admin-panel':t.panel,'--admin-sidebar':t.sidebar,'--admin-header':t.header,
+    '--admin-text':t.text,'--admin-muted':t.muted,'--admin-accent':t.accent,'--admin-border':t.border
+  };
+  Object.entries(vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+  const ids={bg:'cfg-admin-bg',panel:'cfg-admin-panel',sidebar:'cfg-admin-sidebar',header:'cfg-admin-header',text:'cfg-admin-text',muted:'cfg-admin-muted',accent:'cfg-admin-accent',border:'cfg-admin-border'};
+  Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id); if(el)el.value=t[k];});
+  if(save)LS.set('ylife_admin_theme',t);
+}
+function getAdminThemeFromInputs(){
+  const val=(id,fallback)=>{const el=document.getElementById(id);return el?el.value:fallback;};
+  return {
+    bg:val('cfg-admin-bg',ADMIN_THEME_DEFAULTS.bg),
+    panel:val('cfg-admin-panel',ADMIN_THEME_DEFAULTS.panel),
+    sidebar:val('cfg-admin-sidebar',ADMIN_THEME_DEFAULTS.sidebar),
+    header:val('cfg-admin-header',ADMIN_THEME_DEFAULTS.header),
+    text:val('cfg-admin-text',ADMIN_THEME_DEFAULTS.text),
+    muted:val('cfg-admin-muted',ADMIN_THEME_DEFAULTS.muted),
+    accent:val('cfg-admin-accent',ADMIN_THEME_DEFAULTS.accent),
+    border:val('cfg-admin-border',ADMIN_THEME_DEFAULTS.border)
+  };
+}
+function previewAdminTheme(){applyAdminTheme(getAdminThemeFromInputs(),true);}
+function applyAdminThemePreset(name){applyAdminTheme(ADMIN_THEME_PRESETS[name]||ADMIN_THEME_DEFAULTS,true);}
+function resetAdminTheme(){applyAdminTheme(ADMIN_THEME_DEFAULTS,true);}
+function initAdminThemeSettings(){
+  const saved=LS.get('ylife_admin_theme');
+  applyAdminTheme(saved||ADMIN_THEME_DEFAULTS,false);
+}
+function saveAdminThemeSettings(){LS.set('ylife_admin_theme',getAdminThemeFromInputs());}
+
 function saveSettings(){
   const s={
     sitename:document.getElementById('cfg-sitename').value,
@@ -4528,6 +4676,7 @@ function saveSettings(){
     publicRead:document.getElementById('cfg-public-read').checked,
   };
   LS.set('ylife_settings',s);
+  saveAdminThemeSettings();
   alert('설정이 저장되었습니다.');
 }
 function changeAdminPw(){
@@ -4719,7 +4868,7 @@ function handleGoogleCredential(response){
       // 신규 — 자동 계정 생성
       user = {
         id: 'g_' + sub.slice(-10),
-        nick: name || email.split('@')[0],
+        nick: cleanNick(name || email.split('@')[0]),
         email: email || '',
         pw: '',
         googleSub: sub,
@@ -4815,31 +4964,50 @@ async function pushPostToFirebase(post){
   }catch(e){ console.warn('Firebase 네트워크 오류:',e); return null; }
 }
 
+async function fetchDeletedPostIdsFromFirebase(){
+  try{
+    const res=await fetch(FIREBASE_URL+'/deletedPosts.json');
+    if(!res.ok) return getDeletedPostIds();
+    const data=await res.json();
+    const ids=Object.keys(data||{});
+    if(ids.length){const merged=new Set([...(LS.get('ylife_deleted_post_ids')||[]),...ids]);LS.set('ylife_deleted_post_ids',[...merged].slice(-2000));}
+    return getDeletedPostIds();
+  }catch(e){return getDeletedPostIds();}
+}
+async function markPostDeletedFirebase(id){
+  if(!id) return;
+  try{await fetch(FIREBASE_URL+'/deletedPosts/'+encodeURIComponent(id)+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,deletedAt:Date.now()})});}
+  catch(e){console.warn('Firebase 삭제 기록 저장 오류:',e);}
+}
 async function deletePostFromFirebase(id){
   if(!id) return null;
+  markPostDeletedLocal(id);
+  await markPostDeletedFirebase(id);
   try{
     const res = await fetch(FIREBASE_URL+'/posts/'+encodeURIComponent(id)+'.json',{method:'DELETE'});
-    if(!res.ok) console.warn('Firebase 게시글 삭제 실패:', res.status, await res.text());
+    if(!res.ok){
+      console.warn('Firebase 게시글 삭제 실패:', res.status, await res.text());
+      try{await fetch(FIREBASE_URL+'/posts/'+encodeURIComponent(id)+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({deleted:true,deletedAt:Date.now(),title:'삭제된 글',body:''})});}catch(e){}
+    }
     return res;
   }catch(e){ console.warn('Firebase 게시글 삭제 네트워크 오류:',e); return null; }
 }
 
 async function syncFromFirebase(showMsg){
   try{
+    const deletedIds=await fetchDeletedPostIdsFromFirebase();
+    let localRaw=LS.get('ylife_posts')||[];
+    localRaw=localRaw.filter(p=>p&&p.id&&!deletedIds.has(p.id)&&!p.deleted);
     const res = await fetch(FIREBASE_URL+'/posts.json');
-    if(!res.ok){ console.warn('syncFromFirebase 실패:', res.status); return 0; }
+    if(!res.ok){ console.warn('syncFromFirebase 실패:', res.status); savePostsFiltered(localRaw); return 0; }
     const data = await res.json();
-    if(!data) return 0;
-    const fbPosts = Object.values(data).filter(p=>p && p.id);
-    const local = allPosts();
-    const localIds = new Set(local.map(p=>p.id));
+    const fbPosts = Object.values(data||{}).filter(p=>p && p.id && !p.deleted && !deletedIds.has(p.id));
+    const byId=new Map(localRaw.map(p=>[p.id,p]));
     let added = 0;
-    fbPosts.forEach(p=>{
-      p.likes=p.likes||[]; p.comments=p.comments||[];
-      if(!localIds.has(p.id)){ local.push(p); added++; }
-    });
-    if(added){ local.sort((a,b)=>(b.ts||0)-(a.ts||0)); LS.set('ylife_posts', local); }
-    if(showMsg) alert('동기화 완료! 새 글 '+added+'편을 받았습니다.');
+    fbPosts.forEach(p=>{p.likes=p.likes||[]; p.comments=p.comments||[]; if(!byId.has(p.id)){added++;} byId.set(p.id,p);});
+    const merged=[...byId.values()].filter(p=>p&&p.id&&!deletedIds.has(p.id)&&!p.deleted).map(normalizePost).sort((a,b)=>(b.ts||0)-(a.ts||0));
+    LS.set('ylife_posts', merged);
+    if(showMsg) alert('동기화 완료! 새 글 '+added+'편을 받았습니다. 삭제 기록도 반영했습니다.');
     return added;
   }catch(e){ console.warn('Firebase 동기화 오류:',e); return 0; }
 }
