@@ -2596,7 +2596,7 @@ function markPostDeletedLocal(id){
   const ids=LS.get('ylife_deleted_post_ids')||[];
   if(!ids.includes(id)){ids.push(id);LS.set('ylife_deleted_post_ids',ids.slice(-2000));}
 }
-function hasMojibake(s){return /[ÃÂÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöùúûüýþÿ�]|ê|ë|ì|í|î|ï|ð|ñ|ò|ó|ô|õ|ö|ù|ú|û|ü|ý|þ|ÿ/.test(String(s||''));}
+function hasMojibake(s){return /[ÃÂÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöùúûüýþÿ ]|ê|ë|ì|í|î|ï|ð|ñ|ò|ó|ô|õ|ö|ù|ú|û|ü|ý|þ|ÿ/.test(String(s||''));}
 function tryFixMojibake(s){
   s=String(s||'').trim();
   if(!s) return '';
@@ -4198,7 +4198,7 @@ function switchPostMgmtTab(forum){
   if(detail){detail.classList.remove('open');detail.innerHTML='';}
   renderPostMgmtTable();
 }
-function jsArg(v){return String(v||'').replace(/\/g,'\\').replace(/'/g,"\'").replace(/\n/g,' ');}
+function jsArg(v){return String(v||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');}
 function shortText(v,n){const s=String(v||'').replace(/\s+/g,' ').trim();return s.length>n?s.slice(0,n)+'…':s;}
 function isAdminSuspiciousText(text){
   const s=String(text||'').trim();
