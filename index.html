@@ -2596,7 +2596,7 @@ function markPostDeletedLocal(id){
   const ids=LS.get('ylife_deleted_post_ids')||[];
   if(!ids.includes(id)){ids.push(id);LS.set('ylife_deleted_post_ids',ids.slice(-2000));}
 }
-function hasMojibake(s){return /[ÃÂÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöùúûüýþÿ ]|ê|ë|ì|í|î|ï|ð|ñ|ò|ó|ô|õ|ö|ù|ú|û|ü|ý|þ|ÿ/.test(String(s||''));}
+function hasMojibake(s){return /[ÃÂÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöùúûüýþÿ�]|ê|ë|ì|í|î|ï|ð|ñ|ò|ó|ô|õ|ö|ù|ú|û|ü|ý|þ|ÿ/.test(String(s||''));}
 function tryFixMojibake(s){
   s=String(s||'').trim();
   if(!s) return '';
