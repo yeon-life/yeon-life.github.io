@@ -3962,26 +3962,61 @@ function renderHwadu(){
 }
 
 /* ════════════════════════════════
-   비밀의 문 — 緣 5번 클릭
+   비밀의 문 — 안정화 버전
+   1) 緣 3번 클릭
+   2) Ctrl + Alt + A
+   3) 주소 끝에 #admin 입력
 ════════════════════════════════ */
 let logoClicks=[];
-document.getElementById('logoKanji').addEventListener('click',function(e){
-  e.stopPropagation();
-  const now=Date.now();
-  logoClicks=logoClicks.filter(t=>now-t<3000);
-  logoClicks.push(now);
+function openAdminSecretDoor(){
+  const modal=document.getElementById('adminLoginModal');
+  const input=document.getElementById('adminPwInput');
+  const msg=document.getElementById('adminLoginMsg');
+  if(!modal){alert('관리자 로그인 창을 찾지 못했습니다. index.html을 다시 확인해 주세요.');return;}
+  openModal('adminLoginModal');
+  if(input){input.value='';setTimeout(()=>input.focus(),80);}
+  if(msg)msg.textContent='';
+}
+function showSecretHint(text){
   const hint=document.getElementById('secretHint');
+  if(!hint) return;
+  hint.textContent=text||'緣 클릭 중... 관리자 모드';
   hint.classList.add('show');
   clearTimeout(hint._t);
   hint._t=setTimeout(()=>hint.classList.remove('show'),1500);
-  if(logoClicks.length>=5){
-    logoClicks=[];
-    hint.classList.remove('show');
-    openModal('adminLoginModal');
-    document.getElementById('adminPwInput').value='';
-    document.getElementById('adminLoginMsg').textContent='';
+}
+function bindSecretDoor(){
+  const kanji=document.getElementById('logoKanji');
+  if(kanji && !kanji.dataset.adminBound){
+    kanji.dataset.adminBound='1';
+    kanji.style.cursor='pointer';
+    kanji.title='비밀의 문: 빠르게 3번 클릭';
+    kanji.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const now=Date.now();
+      logoClicks=logoClicks.filter(t=>now-t<2500);
+      logoClicks.push(now);
+      showSecretHint(`관리자 문 ${logoClicks.length}/3`);
+      if(logoClicks.length>=3){
+        logoClicks=[];
+        openAdminSecretDoor();
+      }
+    },true);
+  }
+}
+bindSecretDoor();
+document.addEventListener('DOMContentLoaded',bindSecretDoor);
+document.addEventListener('keydown',function(e){
+  if(e.ctrlKey && e.altKey && String(e.key).toLowerCase()==='a'){
+    e.preventDefault();
+    openAdminSecretDoor();
   }
 });
+window.addEventListener('hashchange',function(){
+  if(location.hash==='#admin') openAdminSecretDoor();
+});
+if(location.hash==='#admin') setTimeout(openAdminSecretDoor,300);
 
 /* ════════════════════════════════
    관리자 로그인
