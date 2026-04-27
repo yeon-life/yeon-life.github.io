@@ -3857,14 +3857,14 @@ function loadAdminDashboard(){
     <div class="admin-stat"><div class="admin-stat-num">${posts.length}</div><div class="admin-stat-label">전체 글</div></div>
     <div class="admin-stat"><div class="admin-stat-num">${posts.filter(p=>p.forum==='agora').length}</div><div class="admin-stat-label">아골라</div></div>
     <div class="admin-stat"><div class="admin-stat-num">${posts.filter(p=>p.forum==='agonran').length}</div><div class="admin-stat-label">아곤란</div></div>
-    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+p.likes.length,0)}</div><div class="admin-stat-label">총 공감</div></div>
-    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+p.comments.length,0)}</div><div class="admin-stat-label">총 댓글</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+(p.likes||[]).length,0)}</div><div class="admin-stat-label">총 공감</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${posts.reduce((s,p)=>s+(p.comments||[]).length,0)}</div><div class="admin-stat-label">총 댓글</div></div>
   `;
   const recent=posts.slice(0,10);
   document.getElementById('adminRecentPosts').innerHTML=recent.length?`
     <table class="admin-table">
       <thead><tr><th>제목</th><th>작성자</th><th>광장</th><th>날짜</th><th>공감</th></tr></thead>
-      <tbody>${recent.map(p=>`<tr><td>${escHtml(p.title)}</td><td>${escHtml(p.author)}</td><td>${p.forum}</td><td>${p.date}</td><td>${p.likes.length}</td></tr>`).join('')}</tbody>
+      <tbody>${recent.map(p=>`<tr><td>${escHtml(p.title||'')}</td><td>${escHtml(p.author||'')}</td><td>${p.forum||''}</td><td>${p.date||''}</td><td>${(p.likes||[]).length}</td></tr>`).join('')}</tbody>
     </table>`:'<p style="color:var(--ink-faint);font-size:13px">아직 게시글이 없습니다.</p>';
 }
 function loadNewsMgmt(){
@@ -3970,7 +3970,7 @@ function renderPostMgmtTable(){
       <thead><tr><th>제목</th><th>작성자</th><th>날짜</th><th>공감</th><th>댓글</th><th>관리</th></tr></thead>
       <tbody>${posts.map(p=>`<tr>
         <td>${escHtml(p.title)}</td><td>${escHtml(p.author)}</td><td>${p.date}</td>
-        <td>${p.likes.length}</td><td>${p.comments.length}</td>
+        <td>${(p.likes||[]).length}</td><td>${(p.comments||[]).length}</td>
         <td><button class="btn-danger" onclick="adminDeletePost('${p.id}')">삭제</button></td>
       </tr>`).join('')}</tbody>
     </table>`:'<p style="color:var(--ink-faint);font-size:13px">게시글이 없습니다.</p>';
@@ -4649,7 +4649,10 @@ async function syncFromFirebase(showMsg){
     const local = allPosts();
     const localIds = new Set(local.map(p=>p.id));
     let added = 0;
-    fbPosts.forEach(p=>{ if(!localIds.has(p.id)){ local.push(p); added++; } });
+    fbPosts.forEach(p=>{
+      p.likes=p.likes||[]; p.comments=p.comments||[];
+      if(!localIds.has(p.id)){ local.push(p); added++; }
+    });
     if(added){ local.sort((a,b)=>(b.ts||0)-(a.ts||0)); LS.set('ylife_posts', local); }
     if(showMsg) alert('동기화 완료! 새 글 '+added+'편을 받았습니다.');
     return added;
