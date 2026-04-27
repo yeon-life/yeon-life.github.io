@@ -10,7 +10,22 @@
 <meta name="description" content="y-life.kr — 오픈 지식 생산 플랫폼. 여기서 쓴 모든 것은 당신의 자산입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer>
+
+/* Ctrl+Alt+A 관리자 입구 + #admin 주소 입구 */
+document.addEventListener('keydown',function(e){
+  if(e.ctrlKey && e.altKey && String(e.key||'').toLowerCase()==='a'){
+    e.preventDefault();
+    if(typeof openModal==='function') openModal('adminLoginModal');
+  }
+});
+window.addEventListener('load',function(){
+  if(location.hash==='#admin') setTimeout(()=>{ if(typeof openModal==='function') openModal('adminLoginModal'); },300);
+});
+window.addEventListener('hashchange',function(){
+  if(location.hash==='#admin' && typeof openModal==='function') openModal('adminLoginModal');
+});
+</script>
 <style>
 :root {
   /* ─ 연 디자인 시스템 · Warm Linen 기반 + 섹션 포인트 ─ */
@@ -1025,6 +1040,21 @@ body.dark-mode .admin-content{background:#1A1612;}
 .admin-theme-preview-card{background:var(--admin-panel);border:1px solid var(--admin-border);border-radius:8px;padding:8px;margin-top:6px;}
 .admin-theme-preview-accent{display:inline-block;background:var(--admin-accent);color:#fff;border-radius:16px;padding:4px 10px;font-size:11px;margin-top:6px;}
 
+
+
+/* ════════════════════════════════
+   Y-LIFE 안전 운영 패치: 긴 문자·장난글·관리자 화면 깨짐 방지
+════════════════════════════════ */
+.admin-table{table-layout:fixed;width:100%;}
+.admin-table th,.admin-table td{white-space:normal!important;word-break:break-word!important;overflow-wrap:anywhere!important;vertical-align:top;}
+.admin-post-title-cell,.admin-post-preview,.admin-post-detail-title,.admin-post-detail-body,
+.admin-comment-admin-text,.apm-item-title,.apm-item-preview,.post-title,.comment-text,#postDetailBody,#postDetailTitle{
+  white-space:normal!important;word-break:break-word!important;overflow-wrap:anywhere!important;max-width:100%;
+}
+.admin-post-preview,.apm-item-preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.admin-post-detail-body{max-height:360px;overflow:auto;background:rgba(255,255,255,.72);}
+.ylife-warning-box{background:rgba(176,128,64,.09);border:1px solid rgba(176,128,64,.28);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 13px;font-size:12px;color:var(--ink-soft);line-height:1.65;margin:8px 0 12px;}
+.ylife-warning-box strong{color:var(--ink);}
 </style>
 </head>
 <body>
@@ -2624,8 +2654,10 @@ function normalizePost(p){
   if(!p) return p;
   if(!Array.isArray(p.likes)) p.likes=[];
   if(!Array.isArray(p.comments)) p.comments=[];
+  p.title=cleanUserText(p.title,120);
+  p.body=cleanUserText(p.body,2000);
   p.author=displayNick(p.author,p.authorId);
-  p.comments=p.comments.map(c=>({...c,author:displayNick(c.author,c.authorId)}));
+  p.comments=p.comments.map(c=>({...c,author:displayNick(c.author,c.authorId),text:cleanUserText(c.text,300)})).filter(c=>c.text);
   return p;
 }
 function allPosts(){
@@ -2636,6 +2668,91 @@ function getPosts(f){return allPosts().filter(p=>p.forum===f);}
 function savePostsFiltered(posts){
   const deleted=getDeletedPostIds();
   LS.set('ylife_posts',(posts||[]).filter(p=>p&&p.id&&!deleted.has(p.id)&&!p.deleted).map(normalizePost));
+}
+
+
+/* ════════════════════════════════
+   안전 입력/출력 공통 함수
+   - 장난글 원천 차단
+   - 관리자 대시보드 깨짐 방지
+   - Firebase 저장 전 정리
+════════════════════════════════ */
+function stripDangerousControls(text){
+  return String(text||'')
+    .replace(/[\u202A-\u202E\u2066-\u2069]/g,'')
+    .replace(/[\u200B-\u200F\uFEFF]/g,'')
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g,'');
+}
+function collapseLongRuns(text){
+  return String(text||'')
+    .replace(/([^\s])\1{7,}/gu,'$1$1$1$1…')
+    .replace(/([ㄱ-ㅎㅏ-ㅣ])\1{5,}/gu,'$1$1$1…');
+}
+function cleanUserText(text, maxLen){
+  let s = stripDangerousControls(text)
+    .replace(/[<>]/g,'')
+    .replace(/\r\n/g,'\n')
+    .replace(/\n{4,}/g,'\n\n\n')
+    .trim();
+  s = collapseLongRuns(s);
+  if(maxLen && s.length > maxLen) s = s.slice(0,maxLen);
+  return s;
+}
+function safePreviewText(text, maxLen=80){
+  let s = cleanUserText(text, maxLen + 10).replace(/\s+/g,' ').trim();
+  if(s.length > maxLen) s = s.slice(0,maxLen) + '…';
+  return s;
+}
+function hasTooMuchRepeat(text){
+  const compact = String(text||'').replace(/\s+/g,'');
+  if(/(.)\1{7,}/u.test(compact)) return true;
+  if(/[ㄱ-ㅎㅏ-ㅣ]{8,}/u.test(compact)) return true;
+  const chars=[...compact];
+  if(chars.length>=12 && new Set(chars).size<=3) return true;
+  return false;
+}
+function hasTooManySymbols(text){
+  const t=String(text||'');
+  const symbols = t.replace(/[가-힣a-zA-Z0-9\s.,!?~'"“”‘’()\-:;·]/g,'');
+  return symbols.length >= 12;
+}
+function hasMeaningfulContent(text, min=6){
+  const meaningful=(String(text||'').match(/[가-힣a-zA-Z0-9]/g)||[]).length;
+  return meaningful >= min;
+}
+function validatePostBeforeSave(title, body, msgEl){
+  const all = `${title||''} ${body||''}`;
+  function fail(m){ if(msgEl) msgEl.textContent=m; else alert(m); return false; }
+  if(!title || title.length < 2) return fail('제목을 두 글자 이상 입력해 주세요.');
+  if(title.length > 40) return fail('제목이 너무 깁니다. 40자 이내로 줄여 주세요.');
+  if(!body || body.length < 10) return fail('본문을 10자 이상 입력해 주세요.');
+  if(body.length > 1200) return fail('본문이 너무 깁니다. 1200자 이내로 줄여 주세요.');
+  if(hasTooMuchRepeat(all)) return fail('의미 없는 반복 문자나 장난성 글은 등록할 수 없습니다.');
+  if(hasTooManySymbols(all)) return fail('특수문자가 너무 많습니다. 내용을 정리해서 다시 작성해 주세요.');
+  if(!hasMeaningfulContent(all,8)) return fail('내용을 조금 더 의미 있게 작성해 주세요.');
+  return true;
+}
+function validateCommentBeforeSave(text){
+  const clean=cleanUserText(text,300);
+  if(clean.length < 2){alert('댓글을 두 글자 이상 입력해 주세요.');return false;}
+  if(clean.length > 300){alert('댓글은 300자 이내로 작성해 주세요.');return false;}
+  if(hasTooMuchRepeat(clean) || hasTooManySymbols(clean) || !hasMeaningfulContent(clean,3)){
+    alert('의미 없는 반복 문자, 장난성 댓글, 특수문자 과다 입력은 등록할 수 없습니다.');return false;
+  }
+  return true;
+}
+function sanitizePostForSave(post){
+  const p={...(post||{})};
+  p.title=cleanUserText(p.title,40);
+  p.body=cleanUserText(p.body,1200);
+  p.author=cleanNick(p.author);
+  p.likes=Array.isArray(p.likes)?p.likes:[];
+  p.comments=(Array.isArray(p.comments)?p.comments:[]).map(c=>({
+    ...c,
+    author:cleanNick(c.author),
+    text:cleanUserText(c.text,300)
+  })).filter(c=>c.text && !hasTooMuchRepeat(c.text));
+  return p;
 }
 
 /* ── 자동 스크랩 ── */
@@ -3653,16 +3770,11 @@ function discardPwsAiResult(){
 }
 function doSubmitPost(){
   if(!currentUser)return;
-  const rawTitle=document.getElementById('writeTitle').value.trim();
-  const rawBody=document.getElementById('writeBody').value.trim();
+  const title=cleanUserText(document.getElementById('writeTitle').value,40);
+  const body=cleanUserText(document.getElementById('writeBody').value,1200);
   const forum=document.getElementById('writeForum').value;
   const msg=document.getElementById('writeMsg');
-  if(!rawTitle){msg.textContent='제목을 입력해주세요.';return;}
-  if(!rawBody){msg.textContent='내용을 입력해주세요.';return;}
-  if(rawTitle.length>200){msg.textContent='제목은 200자 이내로 작성해주세요.';return;}
-  if(rawBody.length>5000){msg.textContent='내용은 5000자 이내로 작성해주세요.';return;}
-
-  /* 도배 방지 공유 */
+  if(!validatePostBeforeSave(title,body,msg)) return;
   const now=Date.now();
   if(now-_lastPostTs<30000){
     const remain=Math.ceil((30000-(now-_lastPostTs))/1000);
@@ -3670,28 +3782,17 @@ function doSubmitPost(){
     return;
   }
   _lastPostTs=now;
-
-  /* XSS 방지 */
-  const title=rawTitle.replace(/<[^>]*>/g,'').substring(0,200);
-  const body=rawBody.replace(/<[^>]*>/g,'').substring(0,5000);
-
   const posts=allPosts();
-  const post={
-    id:makePostId(),
-    forum,title,body,
-    author:cleanNick(currentUser.nick),
-    authorId:currentUser.id,
-    date:new Date().toLocaleDateString('ko'),
-    ts:now,likes:[],comments:[],views:0
-  };
+  const post=sanitizePostForSave({
+    id:makePostId(),forum,title,body,
+    author:cleanNick(currentUser.nick),authorId:currentUser.id,
+    date:new Date().toLocaleDateString('ko'),ts:now,likes:[],comments:[],views:0
+  });
   posts.unshift(post);
-  LS.set('ylife_posts',posts);
-  /* Firebase 즉시 업로드 */
+  savePostsFiltered(posts);
   pushPostToFirebase(post);
   closeModal('writeModal');
-  renderPlaza();
-  updateStats();
-  updateInsights();
+  renderPlaza();updateStats();updateInsights();
 }
 /* ── 전체 화면 광장 열기/닫기 ── */
 let _apmAllPosts = [];  // 현재 포럼의 전체 글 캐시
@@ -3766,8 +3867,8 @@ function renderApmList(posts){
     <div class="apm-item" onclick="openPost('${p.id}')">
       <div class="apm-item-num">${posts.length - i}</div>
       <div class="apm-item-body">
-        <div class="apm-item-title">${escHtml(p.title)}</div>
-        <div class="apm-item-preview">${escHtml(p.body||'')}</div>
+        <div class="apm-item-title">${escHtml(safePreviewText(p.title,60))}</div>
+        <div class="apm-item-preview">${escHtml(safePreviewText(p.body||'',120))}</div>
         <div class="apm-item-meta">
           <span>${escHtml(p.author||'익명')}</span>
           <span>${p.date||''}</span>
@@ -3810,7 +3911,7 @@ function renderForum(forum,listId){
   if(!posts.length){el.innerHTML=`<div class="post-empty">${forum==='agora'?'첫 번째 글을 남겨보세요':'첫 번째 생각을 나눠보세요'}</div>`;return;}
   el.innerHTML=posts.map(p=>`
     <div class="post-item" onclick="openPost('${p.id}')">
-      <div class="post-title">${escHtml(p.title)}</div>
+      <div class="post-title">${escHtml(safePreviewText(p.title,60))}</div>
       <div class="post-meta">
         <span class="post-meta-item">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -3880,17 +3981,18 @@ function renderComments(p){
 function doAddComment(){
   if(!currentUser){openModal('loginModal');return;}
   const inp=document.getElementById('commentInput');
-  const text=inp.value.trim();
+  const text=cleanUserText(inp.value,300);
   if(!text)return;
+  if(!validateCommentBeforeSave(text)) return;
   const posts=allPosts();
   const p=posts.find(x=>x.id===currentPostId);
   if(!p)return;
   if(!Array.isArray(p.comments)) p.comments=[];
-  p.comments.push({author:cleanNick(currentUser.nick),authorId:currentUser.id,text,date:new Date().toLocaleDateString('ko')});
-  LS.set('ylife_posts',posts);
+  p.comments.push({author:cleanNick(currentUser.nick),authorId:currentUser.id,text,date:new Date().toLocaleDateString('ko'),ts:Date.now()});
+  savePostsFiltered(posts);
+  pushPostToFirebase(p);
   inp.value='';
-  renderComments(p);
-  renderPlaza();
+  renderComments(p);renderPlaza();
 }
 
 /* ════════════════════════════════
@@ -4094,7 +4196,7 @@ function loadAdminDashboard(){
   document.getElementById('adminRecentPosts').innerHTML=recent.length?`
     <table class="admin-table">
       <thead><tr><th>제목</th><th>작성자</th><th>광장</th><th>날짜</th><th>공감</th></tr></thead>
-      <tbody>${recent.map(p=>`<tr><td>${escHtml(p.title||'')}</td><td>${escHtml(p.author||'')}</td><td>${p.forum||''}</td><td>${p.date||''}</td><td>${(p.likes||[]).length}</td></tr>`).join('')}</tbody>
+      <tbody>${recent.map(p=>`<tr><td>${escHtml(safePreviewText(p.title||'',60))}</td><td>${escHtml(displayNick(p.author,p.authorId))}</td><td>${p.forum||''}</td><td>${p.date||''}</td><td>${(p.likes||[]).length}</td></tr>`).join('')}</tbody>
     </table>`:'<p style="color:var(--ink-faint);font-size:13px">아직 게시글이 없습니다.</p>';
 }
 function loadNewsMgmt(){
@@ -4199,17 +4301,16 @@ function switchPostMgmtTab(forum){
   renderPostMgmtTable();
 }
 function jsArg(v){return String(v||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');}
-function shortText(v,n){const s=String(v||'').replace(/\s+/g,' ').trim();return s.length>n?s.slice(0,n)+'…':s;}
+function shortText(v,n){return safePreviewText(v,n||80);}
 function isAdminSuspiciousText(text){
-  const s=String(text||'').trim();
+  const s=cleanUserText(text,1600).trim();
   if(!s) return true;
   const compact=s.replace(/\s+/g,'');
   if(compact.length<2) return true;
-  if(/(.)\1{5,}/u.test(compact)) return true;
-  if(/[ㄱ-ㅎㅏ-ㅣ]{6,}/u.test(compact)) return true;
+  if(hasTooMuchRepeat(compact)) return true;
   if(/[a-zA-Z]{40,}/.test(compact)) return true;
-  const chars=[...compact]; const unique=new Set(chars).size;
-  if(compact.length>=10 && unique<=3) return true;
+  if(hasTooManySymbols(compact)) return true;
+  if(!hasMeaningfulContent(compact,3)) return true;
   return false;
 }
 function isAdminSuspiciousPost(p){const comments=Array.isArray(p?.comments)?p.comments:[];return isAdminSuspiciousText(p?.title||'')||isAdminSuspiciousText(p?.body||'')||comments.some(c=>isAdminSuspiciousText(c.text));}
@@ -4251,7 +4352,7 @@ function renderPostMgmtTable(){
       <tr>
         <td class="admin-check-cell"><input class="admin-post-check" type="checkbox" ${adminSelectedPostIds.has(p.id)?'checked':''} onchange="adminToggleSelectPost('${jsArg(p.id)}',this.checked)"></td>
         <td><span class="admin-forum-badge ${p.forum==='agonran'?'agonran':'agora'}">${forumLabel(p.forum)}</span></td>
-        <td><div class="admin-post-title-cell">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-preview">${escHtml(shortText(p.body||'',100))}</div></td>
+        <td><div class="admin-post-title-cell">${escHtml(safePreviewText(p.title||'제목 없음',60))}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-preview">${escHtml(safePreviewText(p.body||'',110))}</div></td>
         <td>${escHtml(displayNick(p.author,p.authorId))}${nickLooksBroken(p.author)?'<span class="admin-nick-warn">닉네임 보정</span>':''}</td>
         <td>${p.date||'-'}</td><td>${(p.likes||[]).length}</td><td>${(p.comments||[]).length}</td>
         <td><div class="admin-post-actions"><button class="btn-soft" onclick="adminViewPost('${jsArg(p.id)}')">보기</button><button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">삭제</button></div></td>
@@ -4261,7 +4362,7 @@ function adminViewPost(id){
   const p=allPosts().find(x=>x.id===id); const box=document.getElementById('postMgmtDetail'); if(!p||!box)return;
   const comments=Array.isArray(p.comments)?p.comments:[];
   box.classList.add('open');
-  box.innerHTML=`<div class="admin-post-detail-head"><div><div class="admin-post-detail-title">${escHtml(p.title||'제목 없음')}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-detail-meta">공간 ${forumLabel(p.forum)} · ${escHtml(displayNick(p.author,p.authorId))} · ${p.date||'-'} · 공감 ${(p.likes||[]).length} · 댓글 ${comments.length}</div></div><div class="admin-post-actions"><button class="btn-soft" onclick="openPost('${jsArg(p.id)}')">사용자 화면으로 보기</button><button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">글 삭제</button><button class="btn-soft" onclick="document.getElementById('postMgmtDetail').classList.remove('open')">닫기</button></div></div><div class="admin-post-detail-body">${escHtml(p.body||'내용 없음')}</div><div class="admin-comment-admin-list"><div class="admin-comment-admin-title">댓글 관리 ${comments.length}개</div>${comments.length?comments.map((c,i)=>`<div class="admin-comment-admin-item"><div style="flex:1"><div class="admin-comment-admin-meta">${escHtml(displayNick(c.author,c.authorId))} · ${c.date||'-'} ${isAdminSuspiciousText(c.text)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-comment-admin-text">${escHtml(c.text||'')}</div></div><button class="btn-danger" onclick="adminDeleteComment('${jsArg(p.id)}',${i})">댓글 삭제</button></div>`).join(''):'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">댓글이 없습니다.</div>'}</div>`;
+  box.innerHTML=`<div class="admin-post-detail-head"><div><div class="admin-post-detail-title">${escHtml(safePreviewText(p.title||'제목 없음',100))}${isAdminSuspiciousPost(p)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-post-detail-meta">공간 ${forumLabel(p.forum)} · ${escHtml(displayNick(p.author,p.authorId))} · ${p.date||'-'} · 공감 ${(p.likes||[]).length} · 댓글 ${comments.length}</div></div><div class="admin-post-actions"><button class="btn-soft" onclick="openPost('${jsArg(p.id)}')">사용자 화면으로 보기</button><button class="btn-danger" onclick="adminDeletePost('${jsArg(p.id)}')">글 삭제</button><button class="btn-soft" onclick="document.getElementById('postMgmtDetail').classList.remove('open')">닫기</button></div></div><div class="admin-post-detail-body">${escHtml(cleanUserText(p.body||'내용 없음',2000))}</div><div class="admin-comment-admin-list"><div class="admin-comment-admin-title">댓글 관리 ${comments.length}개</div>${comments.length?comments.map((c,i)=>`<div class="admin-comment-admin-item"><div style="flex:1"><div class="admin-comment-admin-meta">${escHtml(displayNick(c.author,c.authorId))} · ${c.date||'-'} ${isAdminSuspiciousText(c.text)?'<span class="admin-spam-badge">확인 필요</span>':''}</div><div class="admin-comment-admin-text">${escHtml(cleanUserText(c.text||'',300))}</div></div><button class="btn-danger" onclick="adminDeleteComment('${jsArg(p.id)}',${i})">댓글 삭제</button></div>`).join(''):'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">댓글이 없습니다.</div>'}</div>`;
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function adminDeletePost(id){
@@ -4971,6 +5072,7 @@ function makePostId(){
 }
 
 async function pushPostToFirebase(post){
+  post=sanitizePostForSave(post);
   if(!post || !post.id){ console.warn('pushPostToFirebase: id 없음'); return null; }
   try{
     const url = FIREBASE_URL+'/posts/'+encodeURIComponent(post.id)+'.json';
@@ -5036,7 +5138,7 @@ async function syncFromFirebase(showMsg){
     const res = await fetch(FIREBASE_URL+'/posts.json');
     if(!res.ok){ console.warn('syncFromFirebase 실패:', res.status); savePostsFiltered(localRaw); return 0; }
     const data = await res.json();
-    const fbPosts = Object.values(data||{}).filter(p=>p && p.id && !p.deleted && !deletedIds.has(p.id));
+    const fbPosts = Object.values(data||{}).filter(p=>p && p.id && !p.deleted && !deletedIds.has(p.id)).map(sanitizePostForSave);
     const byId=new Map(localRaw.map(p=>[p.id,p]));
     let added = 0;
     fbPosts.forEach(p=>{p.likes=p.likes||[]; p.comments=p.comments||[]; if(!byId.has(p.id)){added++;} byId.set(p.id,p);});
