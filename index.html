@@ -2443,8 +2443,14 @@ const LS = {
   set(k,v){localStorage.setItem(k,JSON.stringify(v))},
 };
 function getUsers(){return LS.get('ylife_users')||[];}
-function getPosts(f){return (LS.get('ylife_posts')||[]).filter(p=>p.forum===f);}
-function allPosts(){return LS.get('ylife_posts')||[];}
+function normalizePost(p){
+  if(!p) return p;
+  if(!Array.isArray(p.likes)) p.likes=[];
+  if(!Array.isArray(p.comments)) p.comments=[];
+  return p;
+}
+function allPosts(){return (LS.get('ylife_posts')||[]).map(normalizePost);}
+function getPosts(f){return allPosts().filter(p=>p.forum===f);}
 
 /* ── 자동 스크랩 ── */
 function autoScrap(type, data){
@@ -3579,8 +3585,8 @@ function renderApmList(posts){
         <div class="apm-item-meta">
           <span>${escHtml(p.author||'익명')}</span>
           <span>${p.date||''}</span>
-          ${p.comments&&p.comments.length ? `<span>💬 ${p.comments.length}</span>` : ''}
-          ${p.likes&&p.likes.length ? `<span>♡ ${p.likes.length}</span>` : ''}
+          ${(p.comments||[]).length ? `<span>💬 ${(p.comments||[]).length}</span>` : ''}
+          ${(p.likes||[]).length ? `<span>♡ ${(p.likes||[]).length}</span>` : ''}
         </div>
       </div>
     </div>`).join('');
@@ -3630,11 +3636,11 @@ function renderForum(forum,listId){
         </span>
         <span class="post-meta-item">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          ${p.likes.length}
+          ${(p.likes||[]).length}
         </span>
         <span class="post-meta-item">
           <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          ${p.comments.length}
+          ${(p.comments||[]).length}
         </span>
       </div>
     </div>
@@ -3654,7 +3660,7 @@ function openPost(id){
   const liked=currentUser&&p.likes.includes(currentUser.id);
   const lb=document.getElementById('likeBtn');
   lb.className='like-btn'+(liked?' liked':'');
-  document.getElementById('likeCount').textContent=p.likes.length;
+  document.getElementById('likeCount').textContent=(p.likes||[]).length;
   renderComments(p);
   openModal('postModal');
 }
@@ -3663,19 +3669,21 @@ function toggleLike(){
   const posts=allPosts();
   const p=posts.find(x=>x.id===currentPostId);
   if(!p)return;
+  if(!Array.isArray(p.likes)) p.likes=[];
   const idx=p.likes.indexOf(currentUser.id);
   if(idx>-1)p.likes.splice(idx,1);else p.likes.push(currentUser.id);
   LS.set('ylife_posts',posts);
   const liked=p.likes.includes(currentUser.id);
   document.getElementById('likeBtn').className='like-btn'+(liked?' liked':'');
-  document.getElementById('likeCount').textContent=p.likes.length;
+  document.getElementById('likeCount').textContent=(p.likes||[]).length;
   updateInsights();
 }
 function renderComments(p){
   const list=document.getElementById('commentList');
-  document.getElementById('commentCount').textContent=p.comments.length;
-  if(!p.comments.length){list.innerHTML='<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">아직 댓글이 없습니다.</div>';return;}
-  list.innerHTML=p.comments.map(c=>`
+  const comments=(p&&Array.isArray(p.comments))?p.comments:[];
+  document.getElementById('commentCount').textContent=comments.length;
+  if(!comments.length){list.innerHTML='<div style="font-size:13px;color:var(--ink-faint);padding:8px 0">아직 댓글이 없습니다.</div>';return;}
+  list.innerHTML=comments.map(c=>`
     <div class="comment-item">
       <div class="comment-nick">${escHtml(c.author)}</div>
       <div class="comment-text">${escHtml(c.text)}</div>
@@ -3691,6 +3699,7 @@ function doAddComment(){
   const posts=allPosts();
   const p=posts.find(x=>x.id===currentPostId);
   if(!p)return;
+  if(!Array.isArray(p.comments)) p.comments=[];
   p.comments.push({author:currentUser.nick,text,date:new Date().toLocaleDateString('ko')});
   LS.set('ylife_posts',posts);
   inp.value='';
@@ -3706,7 +3715,7 @@ function updateStats(){
   document.getElementById('statPosts').textContent=allPosts().length;
 }
 function updateInsights(){
-  const posts=allPosts().sort((a,b)=>b.likes.length-a.likes.length).slice(0,3);
+  const posts=allPosts().sort((a,b)=>(b.likes||[]).length-(a.likes||[]).length).slice(0,3);
   const el=document.getElementById('insightList');
   if(!posts.length){el.innerHTML='<div class="post-empty" style="color:#fff">아직 인사이트가 없습니다. 광장에서 첫 글을 남겨보세요.</div>';return;}
   el.innerHTML=posts.map((p,i)=>`
@@ -3714,7 +3723,7 @@ function updateInsights(){
       <div class="insight-rank">${i+1}</div>
       <div class="insight-content">
         <div class="insight-title">${escHtml(p.title)}</div>
-        <div class="insight-by">${escHtml(p.author)} · 공감 ${p.likes.length} · ${CAT_LABEL[p.forum]||p.forum}</div>
+        <div class="insight-by">${escHtml(p.author)} · 공감 ${(p.likes||[]).length} · ${CAT_LABEL[p.forum]||p.forum}</div>
       </div>
     </div>
   `).join('');
