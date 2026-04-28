@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>삼산 초등부 스무고개 첫 시작</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{--teal:#2d7a74;--teal-soft:#e6f4f1;--mint:#f4fbf9;--ink:#22302d;--muted:#61716d;--line:#b9d6d0;--accent:#d05c2d;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;}
+body{font-family:"Pretendard",-apple-system,sans-serif;background:radial-gradient(circle at top,rgba(255,255,255,0.95),transparent 30%),linear-gradient(180deg,#d7ece7 0%,#f4fbf9 100%);color:#22302d;-webkit-font-smoothing:antialiased;}
+.wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px;}
+.card{width:min(100%,460px);background:rgba(255,255,255,0.9);border:1px solid rgba(45,122,116,0.12);border-radius:28px;padding:28px 22px 24px;box-shadow:0 18px 50px rgba(45,122,116,0.14);backdrop-filter:blur(10px);}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.14em;color:#2d7a74;text-transform:uppercase;margin-bottom:12px;}
+.title{font-size:34px;line-height:1.1;font-weight:800;margin-bottom:14px;letter-spacing:-0.04em;}
+.desc{font-size:15px;line-height:1.7;color:#61716d;margin-bottom:24px;}
+.guide{background:#e6f4f1;border-radius:18px;padding:16px;margin-bottom:18px;}
+.guide strong{display:block;font-size:15px;margin-bottom:6px;}
+.guide p{font-size:14px;line-height:1.6;color:#61716d;}
+.field{margin-bottom:14px;}
+label{display:block;font-size:13px;font-weight:700;color:#61716d;margin-bottom:6px;}
+input[type="text"]{width:100%;border:1.5px solid #b9d6d0;border-radius:14px;background:#fff;padding:14px 15px;font:16px/1.4 "Pretendard",sans-serif;color:#22302d;}
+input[type="text"]:focus{outline:2px solid #2d7a74;border-color:transparent;}
+.submit{width:100%;border:none;border-radius:16px;background:#d05c2d;color:#fff;padding:15px 18px;font:800 17px/1.4 "Pretendard",sans-serif;cursor:pointer;}
+.status{min-height:24px;margin-top:12px;font-size:13px;color:#61716d;text-align:center;}
+.status.error{color:#bf3f29;}
+.done{display:none;text-align:center;padding-top:8px;}
+.done.show{display:block;}
+.done .emoji{font-size:54px;margin-bottom:12px;}
+.done h2{font-size:24px;line-height:1.35;margin-bottom:8px;}
+.done p{font-size:14px;color:#61716d;line-height:1.7;}
+.form-area.hide{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<div class="eyebrow">Samsan Elementary</div>
+<h1 class="title">삼산 초등부<br>스무고개 첫 시작</h1>
+<p class="desc">오늘 수업 주제를 확인하고, 이름을 입력한 뒤 참여 버튼을 눌러 주세요.</p>
+<div class="form-area" id="formArea">
+<div class="guide"><strong>나도 참여하기</strong><p>자신의 이름을 입력하면 선생님 화면에 바로 올라갑니다.</p></div>
+<form id="joinForm">
+<div class="field"><label for="studentName">이름</label><input id="studentName" type="text" placeholder="이름 입력" autocomplete="name"></div>
+<button class="submit" type="submit">참여 등록</button>
+<div class="status" id="statusText">이름만 입력하면 바로 참여할 수 있어요.</div>
+</form>
+</div>
+<div class="done" id="doneArea">
+<div class="emoji">🙌</div>
+<h2><span id="doneName"></span> 학생 등록 완료</h2>
+<p>이제 선생님 안내를 기다려 주세요.<br>스무고개 활동을 곧 시작합니다.</p>
+</div>
+</div>
+</div>
+<script>
+const form=document.getElementById("joinForm"),formArea=document.getElementById("formArea"),doneArea=document.getElementById("doneArea"),statusText=document.getElementById("statusText"),studentName=document.getElementById("studentName"),doneName=document.getElementById("doneName");
+form.addEventListener("submit",(e)=>{e.preventDefault();const name=studentName.value.trim();if(!name){statusText.textContent="이름을 입력해 주세요.";statusText.classList.add("error");studentName.focus();return;}doneName.textContent=name;formArea.classList.add("hide");doneArea.classList.add("show");});
+</script>
+</body>
+</html>
