@@ -3,60 +3,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>삼산 초등부 스무고개 첫 시작</title>
+<title>내가 잘하는 것 TOP 5 — 삼산 초등부</title>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
-:root{--teal:#2d7a74;--teal-soft:#e6f4f1;--mint:#f4fbf9;--ink:#22302d;--muted:#61716d;--line:#b9d6d0;--accent:#d05c2d;}
+:root{--bg:#e9f5f2;--surface:#ffffff;--primary:#6eb5a6;--deep:#586e69;--accent:#dbd2a4;--text:#2a2e2c;--muted:#697870;--line:#b0cfc8;--sage:#dfe6d3;--error:#615b63;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{min-height:100%;}
-body{font-family:"Pretendard",-apple-system,sans-serif;background:radial-gradient(circle at top,rgba(255,255,255,0.95),transparent 30%),linear-gradient(180deg,#d7ece7 0%,#f4fbf9 100%);color:#22302d;-webkit-font-smoothing:antialiased;}
-.wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px;}
-.card{width:min(100%,460px);background:rgba(255,255,255,0.9);border:1px solid rgba(45,122,116,0.12);border-radius:28px;padding:28px 22px 24px;box-shadow:0 18px 50px rgba(45,122,116,0.14);backdrop-filter:blur(10px);}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.14em;color:#2d7a74;text-transform:uppercase;margin-bottom:12px;}
-.title{font-size:34px;line-height:1.1;font-weight:800;margin-bottom:14px;letter-spacing:-0.04em;}
-.desc{font-size:15px;line-height:1.7;color:#61716d;margin-bottom:24px;}
-.guide{background:#e6f4f1;border-radius:18px;padding:16px;margin-bottom:18px;}
-.guide strong{display:block;font-size:15px;margin-bottom:6px;}
-.guide p{font-size:14px;line-height:1.6;color:#61716d;}
-.field{margin-bottom:14px;}
-label{display:block;font-size:13px;font-weight:700;color:#61716d;margin-bottom:6px;}
-input[type="text"]{width:100%;border:1.5px solid #b9d6d0;border-radius:14px;background:#fff;padding:14px 15px;font:16px/1.4 "Pretendard",sans-serif;color:#22302d;}
-input[type="text"]:focus{outline:2px solid #2d7a74;border-color:transparent;}
-.submit{width:100%;border:none;border-radius:16px;background:#d05c2d;color:#fff;padding:15px 18px;font:800 17px/1.4 "Pretendard",sans-serif;cursor:pointer;}
-.status{min-height:24px;margin-top:12px;font-size:13px;color:#61716d;text-align:center;}
-.status.error{color:#bf3f29;}
-.done{display:none;text-align:center;padding-top:8px;}
-.done.show{display:block;}
-.done .emoji{font-size:54px;margin-bottom:12px;}
-.done h2{font-size:24px;line-height:1.35;margin-bottom:8px;}
-.done p{font-size:14px;color:#61716d;line-height:1.7;}
-.form-area.hide{display:none;}
+html,body{min-height:100%;font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+.wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 0 48px;}
+.top-bar{width:100%;background:var(--deep);padding:16px 20px 12px;position:sticky;top:0;z-index:100;}
+.top-bar .lesson-tag{font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
+.progress-row{display:flex;align-items:center;gap:8px;}
+.progress-steps{display:flex;gap:6px;flex:1;}
+.step-dot{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,0.25);transition:background 0.3s;}
+.step-dot.done{background:var(--primary);}
+.step-dot.active{background:var(--accent);}
+.step-label{font-size:12px;color:rgba(255,255,255,0.65);white-space:nowrap;}
+.card{width:min(100%,480px);background:var(--surface);border-radius:24px;padding:28px 22px 24px;margin:24px 16px 0;box-shadow:0 8px 32px rgba(45,122,116,0.12);}
+.step-emoji{font-size:40px;margin-bottom:12px;display:block;}
+.step-num{font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--primary);text-transform:uppercase;margin-bottom:6px;}
+.step-title{font-size:26px;font-weight:800;line-height:1.2;margin-bottom:10px;letter-spacing:-0.03em;}
+.step-desc{font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:22px;}
+.hint-box{background:var(--sage);border-radius:14px;padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.6;color:var(--muted);}
+.hint-box strong{color:var(--deep);font-size:13px;}
+.q-block{margin-bottom:18px;}
+.q-label{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.q-badge{background:var(--primary);color:white;font-size:11px;font-weight:700;border-radius:20px;padding:2px 8px;}
+input[type="text"],textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);padding:14px 15px;font:15px/1.5 'Pretendard',sans-serif;color:var(--text);resize:none;transition:border-color 0.2s;}
+input[type="text"]:focus,textarea:focus{outline:2px solid var(--primary);border-color:transparent;}
+input[type="text"].big{font-size:20px;font-weight:700;letter-spacing:-0.02em;}
+.chip-area{margin-bottom:20px;}
+.chip-hint{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{border:1.5px solid var(--line);border-radius:20px;padding:8px 14px;font:14px/1 'Pretendard',sans-serif;color:var(--muted);background:var(--bg);cursor:pointer;transition:all 0.15s;user-select:none;}
+.chip.selected{background:var(--primary);color:white;border-color:var(--primary);font-weight:700;}
+.selected-count{font-size:13px;color:var(--primary);font-weight:700;margin-top:10px;}
+.sentence-area{background:linear-gradient(135deg,var(--sage) 0%,var(--accent) 100%);border-radius:16px;padding:18px;margin-bottom:20px;}
+.sentence-area .label{font-size:13px;font-weight:700;color:var(--deep);margin-bottom:10px;}
+.sentence-area textarea{background:rgba(255,255,255,0.7);border-color:transparent;}
+.btn{width:100%;border:none;border-radius:14px;padding:16px 20px;font:700 16px/1 'Pretendard',sans-serif;cursor:pointer;transition:filter 0.2s;}
+.btn:hover{filter:brightness(0.93);}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-next{background:var(--deep);color:#fff;margin-top:8px;}
+.status-msg{text-align:center;font-size:13px;color:var(--error);margin-top:10px;min-height:20px;}
+.done-card{width:min(100%,480px);margin:32px 16px 0;text-align:center;}
+.done-emoji-big{font-size:72px;display:block;margin-bottom:16px;animation:pop 0.5s ease;}
+@keyframes pop{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+.done-name{font-size:28px;font-weight:800;color:var(--deep);margin-bottom:6px;letter-spacing:-0.03em;}
+.done-sub{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:28px;}
+.top5-result{background:var(--surface);border-radius:20px;padding:20px;box-shadow:0 4px 20px rgba(45,122,116,0.1);text-align:left;margin-bottom:20px;}
+.top5-result h3{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:12px;letter-spacing:0.06em;}
+.top5-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg);font-size:15px;font-weight:600;color:var(--text);}
+.top5-item:last-child{border-bottom:none;}
+.top5-rank{width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sentence-result{background:linear-gradient(135deg,var(--deep) 0%,var(--primary) 100%);border-radius:16px;padding:18px;color:white;font-size:15px;line-height:1.7;font-weight:500;text-align:center;margin-bottom:20px;}
+.screen{display:none;}
+.screen.active{display:block;}
 </style>
 </head>
 <body>
+<div class="top-bar" id="topBar" style="display:none">
+  <div class="lesson-tag">삼산 초등부 · 내가 잘하는 것 TOP 5</div>
+  <div class="progress-row">
+    <div class="progress-steps">
+      <div class="step-dot" id="dot0"></div>
+      <div class="step-dot" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+    <div class="step-label" id="stepLabel">1 / 4</div>
+  </div>
+</div>
 <div class="wrap">
-<div class="card">
-<div class="eyebrow">Samsan Elementary</div>
-<h1 class="title">삼산 초등부<br>스무고개 첫 시작</h1>
-<p class="desc">오늘 수업 주제를 확인하고, 이름을 입력한 뒤 참여 버튼을 눌러 주세요.</p>
-<div class="form-area" id="formArea">
-<div class="guide"><strong>나도 참여하기</strong><p>자신의 이름을 입력하면 선생님 화면에 바로 올라갑니다.</p></div>
-<form id="joinForm">
-<div class="field"><label for="studentName">이름</label><input id="studentName" type="text" placeholder="이름 입력" autocomplete="name"></div>
-<button class="submit" type="submit">참여 등록</button>
-<div class="status" id="statusText">이름만 입력하면 바로 참여할 수 있어요.</div>
-</form>
-</div>
-<div class="done" id="doneArea">
-<div class="emoji">🙌</div>
-<h2><span id="doneName"></span> 학생 등록 완료</h2>
-<p>이제 선생님 안내를 기다려 주세요.<br>스무고개 활동을 곧 시작합니다.</p>
-</div>
-</div>
+  <div class="screen active" id="s0">
+    <div class="card">
+      <span class="step-emoji">✨</span>
+      <div class="step-num">Samsan Elementary</div>
+      <h1 class="step-title">내가 잘하는 것<br>TOP 5 찾기</h1>
+      <p class="step-desc">오늘 나만의 강점을 찾는 여행을 시작합니다.<br>이름을 입력하고 시작 버튼을 눌러 주세요!</p>
+      <div class="q-block">
+        <div class="q-label">이름</div>
+        <input type="text" class="big" id="inputName" placeholder="내 이름 입력" autocomplete="name">
+      </div>
+      <button class="btn btn-primary" onclick="startActivity()">🚀 활동 시작하기</button>
+      <div class="status-msg" id="s0err"></div>
+    </div>
+  </div>
+  <div class="screen" id="s1">
+    <div class="card">
+      <span class="step-emoji">🗺️</span>
+      <div class="step-num">활동 1 · 나의 보물 찾기</div>
+      <h2 class="step-title">나에 대해<br>솔직하게 답해봐!</h2>
+      <p class="step-desc">글로 써도 되고, 짧게 단어만 써도 돼. 떠오르는 대로 적어봐!</p>
+      <div class="hint-box"><strong>💡 막힐 때 힌트</strong><br>어제 하루 중 제일 재미있었던 거 하나만 떠올려봐.</div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">Q1</span> 할 때 시간 가는 줄 모르는 것은?</div>
+        <input type="text" id="q1" placeholder="예) 레고 조립, 그림 그리기…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">Q2</span> 친구들이 나한테 자주 부탁하는 것은?</div>
+        <input type="text" id="q2" placeholder="예) 설명해달라고, 같이 놀자고…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">Q3</span> 다른 사람보다 빨리 할 수 있는 것은?</div>
+        <input type="text" id="q3" placeholder="예) 암기, 달리기, 색칠하기…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">Q4</span> 하고 나면 기분이 좋아지는 것은?</div>
+        <input type="text" id="q4" placeholder="예) 청소, 요리 돕기, 글쓰기…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">Q5</span> 한 번도 안 질려본 것은?</div>
+        <input type="text" id="q5" placeholder="예) 게임, 음악 듣기, 책 읽기…">
+      </div>
+      <button class="btn btn-next" onclick="goStep(2)">다음 → 친구 인터뷰</button>
+      <div class="status-msg" id="s1err"></div>
+    </div>
+  </div>
+  <div class="screen" id="s2">
+    <div class="card">
+      <span class="step-emoji">🤝</span>
+      <div class="step-num">활동 2 · 친구 인터뷰</div>
+      <h2 class="step-title">친구가 말해준<br>나의 강점은?</h2>
+      <p class="step-desc">짝 친구와 인터뷰를 마쳤나요? 친구가 말해준 내용을 적어봐!</p>
+      <div class="hint-box"><strong>🌟 포인트</strong><br>내가 생각 못 했는데 친구가 말해준 강점 — 그게 가장 값진 발견이야!</div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">인터뷰 1</span> 친구가 말해준 "내가 잘하는 것"은?</div>
+        <input type="text" id="iv1" placeholder="친구가 말해준 내 강점…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">인터뷰 2</span> 친구가 "같이 있으면 좋을 때"는?</div>
+        <input type="text" id="iv2" placeholder="예) 같이 웃을 때, 설명해줄 때…">
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span class="q-badge">인터뷰 3</span> 친구가 "나한테 배우고 싶은 것"은?</div>
+        <input type="text" id="iv3" placeholder="예) 그림 그리기, 발표하는 법…">
+      </div>
+      <button class="btn btn-next" onclick="goStep(3)">다음 → 나의 TOP 5 선정</button>
+      <div class="status-msg" id="s2err"></div>
+    </div>
+  </div>
+  <div class="screen" id="s3">
+    <div class="card">
+      <span class="step-emoji">🏆</span>
+      <div class="step-num">활동 3 · 나의 TOP 5</div>
+      <h2 class="step-title">내 강점<br>TOP 5를 골라봐!</h2>
+      <p class="step-desc">앞에서 찾은 것들 중에서 "확실히 내 것이다!" 싶은 다섯 가지를 골라봐.</p>
+      <div class="chip-area">
+        <div class="chip-hint">탭해서 선택 (최대 5개)</div>
+        <div class="chips" id="chipArea"></div>
+        <div class="selected-count" id="selectedCount">0 / 5 선택됨</div>
+      </div>
+      <div class="sentence-area">
+        <div class="label">✍️ 나를 소개하는 한 문장</div>
+        <textarea id="sentence" rows="3" placeholder="나는 __을 잘하고, __을 잘하는 사람입니다."></textarea>
+      </div>
+      <button class="btn btn-next" onclick="submitAll()">🎉 완성! 제출하기</button>
+      <div class="status-msg" id="s3err"></div>
+    </div>
+  </div>
+  <div class="screen" id="sDone">
+    <div class="done-card">
+      <span class="done-emoji-big">🎊</span>
+      <div class="done-name" id="doneName"></div>
+      <div class="done-sub">강점을 찾았어요!<br>선생님 안내에 따라 발표 준비해봐요.</div>
+      <div class="top5-result"><h3>⭐ 나의 TOP 5</h3><div id="top5List"></div></div>
+      <div class="sentence-result" id="sentenceResult"></div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;padding:0 8px;text-align:center">오늘 찾은 다섯 가지는 시작이에요.<br>앞으로 더 많이 찾게 될 거예요! 🌱</div>
+    </div>
+  </div>
 </div>
 <script>
-const form=document.getElementById("joinForm"),formArea=document.getElementById("formArea"),doneArea=document.getElementById("doneArea"),statusText=document.getElementById("statusText"),studentName=document.getElementById("studentName"),doneName=document.getElementById("doneName");
-form.addEventListener("submit",(e)=>{e.preventDefault();const name=studentName.value.trim();if(!name){statusText.textContent="이름을 입력해 주세요.";statusText.classList.add("error");studentName.focus();return;}doneName.textContent=name;formArea.classList.add("hide");doneArea.classList.add("show");});
+let studentName='',answers={},selectedChips=[];
+function startActivity(){
+  const name=document.getElementById('inputName').value.trim();
+  if(!name){showErr('s0err','이름을 입력해 주세요!');document.getElementById('inputName').focus();return;}
+  studentName=name;showErr('s0err','');buildChips();goStep(1);
+}
+function goStep(n){
+  if(n===2){
+    const q1=document.getElementById('q1').value.trim();
+    if(!q1){showErr('s1err','Q1은 꼭 입력해 주세요!');return;}
+    answers.q1=q1;answers.q2=document.getElementById('q2').value.trim();
+    answers.q3=document.getElementById('q3').value.trim();answers.q4=document.getElementById('q4').value.trim();
+    answers.q5=document.getElementById('q5').value.trim();showErr('s1err','');rebuildChips();
+  }
+  if(n===3){
+    answers.iv1=document.getElementById('iv1').value.trim();
+    answers.iv2=document.getElementById('iv2').value.trim();
+    answers.iv3=document.getElementById('iv3').value.trim();rebuildChips();
+  }
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  const bar=document.getElementById('topBar');
+  if(n===0){bar.style.display='none';return;}
+  bar.style.display='block';
+  ['dot0','dot1','dot2','dot3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.className='step-dot'+(i<n-1?' done':i===n-1?' active':'');
+  });
+  document.getElementById('stepLabel').textContent=n+' / 4';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function buildChips(){
+  const vals=[answers.q1,answers.q2,answers.q3,answers.q4,answers.q5,answers.iv1,answers.iv2,answers.iv3].filter(v=>v&&v.trim());
+  window._chipData=[...new Set(vals)];if(!window._chipData.length)window._chipData=['강점 1','강점 2','강점 3'];
+  renderChips();
+}
+function rebuildChips(){
+  const vals=['q1','q2','q3','q4','q5','iv1','iv2','iv3'].map(id=>document.getElementById(id)?.value.trim()).filter(v=>v);
+  window._chipData=[...new Set(vals)];if(!window._chipData.length)window._chipData=['강점 1','강점 2','강점 3'];
+  selectedChips=selectedChips.filter(c=>window._chipData.includes(c));renderChips();
+}
+function renderChips(){
+  const area=document.getElementById('chipArea');area.innerHTML='';
+  (window._chipData||[]).forEach(val=>{
+    const btn=document.createElement('button');
+    btn.className='chip'+(selectedChips.includes(val)?' selected':'');
+    btn.textContent=val;btn.onclick=()=>toggleChip(val,btn);area.appendChild(btn);
+  });updateCount();
+}
+function toggleChip(val,btn){
+  if(selectedChips.includes(val)){selectedChips=selectedChips.filter(c=>c!==val);btn.classList.remove('selected');}
+  else{if(selectedChips.length>=5)return;selectedChips.push(val);btn.classList.add('selected');}
+  updateCount();
+}
+function updateCount(){document.getElementById('selectedCount').textContent=selectedChips.length+' / 5 선택됨';}
+function submitAll(){
+  if(selectedChips.length===0){showErr('s3err','강점을 하나 이상 선택해 주세요!');return;}
+  const sentence=document.getElementById('sentence').value.trim();
+  showErr('s3err','');
+  document.getElementById('doneName').textContent=studentName+' 학생, 완성!';
+  const list=document.getElementById('top5List');list.innerHTML='';
+  selectedChips.slice(0,5).forEach((item,i)=>{
+    const div=document.createElement('div');div.className='top5-item';
+    div.innerHTML='<div class="top5-rank">'+(i+1)+'</div><span>'+item+'</span>';list.appendChild(div);
+  });
+  const sentEl=document.getElementById('sentenceResult');
+  if(sentence){sentEl.textContent='"'+sentence+'"';sentEl.style.display='block';}else{sentEl.style.display='none';}
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sDone').classList.add('active');
+  document.getElementById('topBar').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showErr(id,msg){const el=document.getElementById(id);if(el)el.textContent=msg;}
 </script>
 </body>
 </html>
