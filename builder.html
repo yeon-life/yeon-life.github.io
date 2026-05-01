@@ -455,6 +455,36 @@ body.preview-mode .canvas-page{box-shadow:none;}
 .block-wrapper[data-anim='slide-right'].anim-on{animation:yeon-right .6s cubic-bezier(.2,0,.2,1) forwards;}
 body.preview-mode .block-wrapper[data-anim]:not([data-anim='none']){opacity:0;}
 body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
+
+/* ── 테마 피커 모달 ── */
+.theme-picker-overlay{position:fixed;inset:0;z-index:8000;background:rgba(20,20,20,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;}
+.theme-picker-overlay.open{display:flex;}
+.theme-picker-modal{background:#fff;border-radius:16px;width:min(92vw,860px);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.25);}
+.theme-picker-header{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;}
+.theme-picker-title{font-family:var(--font-serif);font-size:22px;font-weight:700;color:var(--ink);}
+.theme-picker-sub{font-size:13px;color:var(--ink-faint);margin-top:4px;}
+.theme-picker-close{width:32px;height:32px;border:none;background:var(--bg-alt);border-radius:50%;cursor:pointer;font-size:16px;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;}
+.theme-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:24px 28px 28px;overflow-y:auto;}
+.theme-card{border:2px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#fafafa;}
+.theme-card:hover{border-color:var(--builder-accent);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.12);}
+.theme-card-preview{height:180px;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.theme-card-body{padding:14px 16px;}
+.theme-card-name{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px;}
+.theme-card-desc{font-size:12px;color:var(--ink-faint);line-height:1.5;}
+.theme-card-tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;margin-top:8px;letter-spacing:.03em;}
+/* 테마별 미리보기 블록 */
+.tp-hero{padding:18px 16px 12px;display:flex;flex-direction:column;gap:6px;}
+.tp-hero-title{font-family:var(--font-serif);font-weight:700;font-size:16px;line-height:1.3;}
+.tp-hero-sub{font-size:10px;opacity:.7;line-height:1.4;}
+.tp-hero-btn{display:inline-block;padding:5px 14px;border-radius:20px;font-size:10px;font-weight:600;margin-top:4px;align-self:flex-start;}
+.tp-blocks{display:flex;flex-direction:column;gap:5px;padding:8px 12px;flex:1;}
+.tp-block{border-radius:4px;height:14px;opacity:.35;}
+.tp-block.wide{width:80%;}
+.tp-block.mid{width:60%;}
+.tp-block.short{width:40%;}
+.tp-cards{display:flex;gap:4px;padding:0 12px;margin-top:4px;}
+.tp-card{flex:1;height:28px;border-radius:4px;opacity:.3;}
+@media(max-width:620px){.theme-picker-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -493,7 +523,25 @@ body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2"/><path d="M12 6v6l4 2"/></svg>
       AI
     </button>
+    <button class="toolbar-btn outline" onclick="showTemplatePicker()" style="display:flex;align-items:center;gap:5px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      템플릿
+    </button>
     <button class="toolbar-btn outline" onclick="openPublishModal()">발행</button>
+  </div>
+</div>
+
+<!-- 테마 피커 모달 -->
+<div class="theme-picker-overlay" id="themePickerOverlay" onclick="if(event.target===this)closeTemplatePicker()">
+  <div class="theme-picker-modal">
+    <div class="theme-picker-header">
+      <div>
+        <div class="theme-picker-title">완성형 홈페이지 템플릿</div>
+        <div class="theme-picker-sub">클릭 한 번으로 완성된 페이지 레이아웃을 시작하세요 — 내용은 자유롭게 바꿀 수 있습니다</div>
+      </div>
+      <button class="theme-picker-close" onclick="closeTemplatePicker()">✕</button>
+    </div>
+    <div class="theme-picker-grid" id="themePickerGrid"></div>
   </div>
 </div>
 
@@ -1078,6 +1126,167 @@ function updatePropsPanel(){
   const anim=b.animation||'none';
   html+=`<div class="props-section"><div class="props-section-title">등장 애니메이션</div><div class="props-field"><select onchange="updB('animation',this.value)"><option value="none"${anim==='none'?' selected':''}>없음</option><option value="fade-in"${anim==='fade-in'?' selected':''}>페이드 인</option><option value="slide-up"${anim==='slide-up'?' selected':''}>위로 슬라이드</option><option value="slide-left"${anim==='slide-left'?' selected':''}>왼쪽에서 슬라이드</option><option value="slide-right"${anim==='slide-right'?' selected':''}>오른쪽에서 슬라이드</option></select></div></div>`;
   panel.innerHTML = html;
+}
+
+/* ─── 완성형 홈페이지 템플릿 ─── */
+const PAGE_TEMPLATES=[
+  {
+    id:'blog',
+    name:'블로그',
+    desc:'개인 이야기, 여행, 일상을 담는 감성 블로그',
+    tag:'글쓰기 · 기록',
+    tagColor:'#6eb5a6',
+    heroBg:'#e9f5f2',
+    heroText:'#2a2e2c',
+    accentColor:'#6eb5a6',
+    preview:`<div class="tp-hero" style="background:#e9f5f2">
+      <div class="tp-hero-title" style="color:#2a2e2c">나의 이야기를 담다</div>
+      <div class="tp-hero-sub" style="color:#4a7a6a">일상, 여행, 그리고 생각들을 기록하는 공간</div>
+      <div class="tp-hero-btn" style="background:#6eb5a6;color:#fff">글 읽기</div>
+    </div>
+    <div class="tp-cards" style="margin-top:6px">
+      <div class="tp-card" style="background:#6eb5a6"></div>
+      <div class="tp-card" style="background:#b0cfc8"></div>
+      <div class="tp-card" style="background:#e9f5f2;border:1px solid #ccc"></div>
+    </div>
+    <div class="tp-blocks" style="margin-top:4px">
+      <div class="tp-block wide" style="background:#6eb5a6"></div>
+      <div class="tp-block mid" style="background:#b0cfc8"></div>
+    </div>`,
+    blocks:[
+      {type:'hero',title:'나의 이야기를 담다',sub:'일상, 여행, 그리고 생각들을 기록하는 공간입니다. 천천히 둘러보세요.',btnText:'글 읽기',btnUrl:'#',bg:'#e9f5f2',paddingV:80,align:'center',titleSize:42,animation:'fade-in'},
+      {type:'columns',cols:2,paddingV:40,bg:'',animation:'slide-up',columns:[
+        {title:'✏️ 최근 글',body:'여행의 끝에서 새로운 시작을 발견했습니다. 낯선 골목마다 숨어있는 이야기들이 나를 기다리고 있었어요.',imgUrl:''},
+        {title:'📷 이번 주 사진',body:'렌즈를 통해 포착한 일상의 아름다운 순간들. 평범한 하루도 특별하게 기억하는 방법.',imgUrl:''}
+      ]},
+      {type:'cards',title:'카테고리',paddingV:48,bg:'#f4faf8',animation:'slide-up',cards:[
+        {icon:'map',name:'여행',desc:'국내외 여행지의 숨겨진 이야기와 실용적인 정보들'},
+        {icon:'sun',name:'일상',desc:'작은 행복을 발견하는 매일매일의 소소한 기록'},
+        {icon:'book',name:'독서',desc:'읽고 생각하고 느낀 것들을 함께 나눕니다'}
+      ]},
+      {type:'gallery',title:'사진 일기',images:[],paddingV:40,bg:'',animation:'fade-in'},
+      {type:'quote',text:'"여행은 목적지가 아니라 과정 속에 있다. 오늘도 한 걸음씩."',author:'— 나의 블로그',paddingV:48,bg:'#e9f5f2',animation:'fade-in'},
+      {type:'contact',title:'함께 이야기해요',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'남기고 싶은 말이 있으신가요?',paddingV:56,bg:'',animation:'slide-up'}
+    ]
+  },
+  {
+    id:'portfolio',
+    name:'포트폴리오',
+    desc:'나의 작업과 역량을 세련되게 보여주는 사이트',
+    tag:'디자인 · 개발 · 창작',
+    tagColor:'#615b63',
+    heroBg:'#1d1d1b',
+    heroText:'#f5f5f5',
+    accentColor:'#b2a7b8',
+    preview:`<div class="tp-hero" style="background:#1d1d1b">
+      <div class="tp-hero-title" style="color:#f5f5f5">김연소 — UX 디자이너</div>
+      <div class="tp-hero-sub" style="color:#b2a7b8">사용자 중심의 경험을 디자인합니다</div>
+      <div class="tp-hero-btn" style="background:#b2a7b8;color:#1d1d1b">작업 보기</div>
+    </div>
+    <div style="display:flex;gap:4px;padding:6px 12px">
+      <div style="flex:2;height:36px;background:#ebf2ed;border-radius:4px;opacity:.6"></div>
+      <div style="flex:3;height:36px;background:#ddd;border-radius:4px;opacity:.4;padding:4px 6px">
+        <div style="height:6px;background:#888;border-radius:2px;width:70%;opacity:.5"></div>
+        <div style="height:4px;background:#aaa;border-radius:2px;width:50%;opacity:.3;margin-top:3px"></div>
+      </div>
+    </div>
+    <div class="tp-cards">
+      <div class="tp-card" style="background:#b2a7b8"></div>
+      <div class="tp-card" style="background:#615b63"></div>
+      <div class="tp-card" style="background:#ebf2ed;border:1px solid #ccc"></div>
+    </div>`,
+    blocks:[
+      {type:'hero',title:'김연소 — UX 디자이너',sub:'사용자 중심의 경험을 디자인합니다. 좋은 디자인은 보이지 않는 곳에서 작동합니다.',btnText:'작업 보기',btnUrl:'#portfolio',bg:'#1d1d1b',paddingV:100,align:'center',titleSize:38,animation:'fade-in'},
+      {type:'imgtext',imgSide:'left',title:'안녕하세요',body:'저는 사용자의 삶을 더 편리하게 만드는 디지털 경험을 설계합니다. 10년간 다양한 서비스의 UX/UI를 디자인하며 사람과 기술의 접점을 연구해왔습니다.\n\n함께 일하고 싶으신가요? 아래 연락처로 편하게 연락해 주세요.',imgAlt:'프로필',imgUrl:'',paddingV:56,ratio:'1:2',bg:'#ebf2ed',animation:'slide-left'},
+      {type:'cards',title:'핵심 역량',paddingV:48,bg:'',animation:'slide-up',cards:[
+        {icon:'target',name:'UX 리서치',desc:'사용자 인터뷰, 사용성 테스트, 데이터 분석을 통한 인사이트 도출'},
+        {icon:'pen',name:'UI 디자인',desc:'Figma 기반의 컴포넌트 시스템 설계와 프로토타이핑'},
+        {icon:'globe',name:'프론트엔드',desc:'HTML/CSS/React로 직접 구현하는 인터랙티브 경험'},
+        {icon:'users',name:'협업',desc:'개발팀, 기획팀과의 긴밀한 소통으로 최상의 결과물 도출'}
+      ]},
+      {type:'gallery',title:'작업물',images:[],paddingV:48,bg:'#f8f6f2',animation:'fade-in'},
+      {type:'quote',text:'"디자인은 어떻게 보이느냐가 아니라, 어떻게 작동하느냐다."',author:'— Steve Jobs',paddingV:48,bg:'#1d1d1b',animation:'fade-in'},
+      {type:'button',text:'이력서 다운로드 (PDF)',url:'#',align:'center',variant:'outline',size:'medium',paddingV:32,bg:'',animation:'slide-up'},
+      {type:'contact',title:'협업 문의',placeholder_name:'성함',placeholder_email:'이메일',placeholder_msg:'프로젝트 내용을 간략히 알려주세요',paddingV:56,bg:'',animation:'slide-up'}
+    ]
+  },
+  {
+    id:'shop',
+    name:'온라인 상점',
+    desc:'상품과 브랜드 스토리를 담은 감성 쇼핑 페이지',
+    tag:'쇼핑 · 브랜드',
+    tagColor:'#ad9d82',
+    heroBg:'#d4cdc1',
+    heroText:'#2a2e2c',
+    accentColor:'#ad9d82',
+    preview:`<div class="tp-hero" style="background:#d4cdc1">
+      <div class="tp-hero-title" style="color:#2a2e2c">연의 공방</div>
+      <div class="tp-hero-sub" style="color:#5a4e3a">손으로 만든 것들의 온기를 전합니다</div>
+      <div class="tp-hero-btn" style="background:#ad9d82;color:#fff">상품 보기</div>
+    </div>
+    <div style="display:flex;gap:4px;padding:6px 12px;margin-top:2px">
+      <div style="flex:1;height:32px;background:#ad9d82;border-radius:4px;opacity:.5"></div>
+      <div style="flex:2;height:32px;background:#dbd2a4;border-radius:4px;opacity:.5"></div>
+    </div>
+    <div class="tp-cards">
+      <div class="tp-card" style="background:#ad9d82"></div>
+      <div class="tp-card" style="background:#dbd2a4"></div>
+      <div class="tp-card" style="background:#d4cdc1;border:1px solid #ccc"></div>
+    </div>`,
+    blocks:[
+      {type:'hero',title:'연의 공방',sub:'손으로 만든 것들의 온기를 전합니다. 하나하나 정성껏 만든 작품을 만나보세요.',btnText:'상품 보기',btnUrl:'#products',bg:'#d4cdc1',paddingV:88,align:'center',titleSize:44,animation:'fade-in'},
+      {type:'columns',cols:2,paddingV:48,bg:'#f0ebe1',animation:'slide-up',columns:[
+        {title:'브랜드 스토리',body:'2018년, 작은 작업실에서 시작한 연의 공방은 "사람의 손이 닿은 물건에는 이야기가 담긴다"는 믿음으로 만들어졌습니다.\n\n빠르고 대량으로 만든 것이 아닌, 하나하나 시간을 들여 완성한 작품들로 일상에 따뜻함을 더합니다.',imgUrl:''},
+        {title:'제작 방식',body:'모든 제품은 작가가 직접 손으로 제작하며, 자연 소재만을 사용합니다. 대량 생산은 하지 않으며 각 작품은 고유한 번호를 가지고 있습니다.\n\n주문 제작도 가능합니다. 특별한 선물을 원하신다면 문의해 주세요.',imgUrl:''}
+      ]},
+      {type:'cards',title:'카테고리',paddingV:48,bg:'',animation:'slide-up',cards:[
+        {icon:'home',name:'홈 데코',desc:'공간을 따뜻하게 채워줄 소품들 — 캔들, 화분, 액자'},
+        {icon:'gift',name:'선물 세트',desc:'소중한 사람을 위한 특별한 패키지 — 맞춤 제작 가능'},
+        {icon:'sun',name:'시즌 한정',desc:'계절마다 선보이는 한정 컬렉션 — 수량이 적습니다'}
+      ]},
+      {type:'imgtext',imgSide:'right',title:'이달의 대표 작품',body:'순백의 도자 머그컵 — 아침의 커피 한 잔을 특별하게.\n\n천연 유약으로 마감하여 식기세척기 사용이 가능하며, 사용할수록 손에 익는 형태로 설계되었습니다.\n\n₩38,000 / 2개 세트 ₩68,000',imgAlt:'대표 상품',imgUrl:'',paddingV:56,ratio:'3:1',bg:'#faf8f4',animation:'slide-right'},
+      {type:'gallery',title:'작품 갤러리',images:[],paddingV:40,bg:'',animation:'fade-in'},
+      {type:'button',text:'전체 상품 보러 가기',url:'#products',align:'center',variant:'primary',size:'large',paddingV:40,bg:'',animation:'slide-up'},
+      {type:'contact',title:'주문 · 문의하기',placeholder_name:'성함',placeholder_email:'연락처 (이메일)',placeholder_msg:'주문하실 상품명과 수량, 또는 맞춤 제작 문의 내용을 적어주세요.',paddingV:56,bg:'#d4cdc1',animation:'slide-up'}
+    ]
+  }
+];
+
+function showTemplatePicker(){
+  const grid=document.getElementById('themePickerGrid');
+  grid.innerHTML=PAGE_TEMPLATES.map(t=>`
+    <div class="theme-card" onclick="applyPageTemplate('${t.id}')">
+      <div class="theme-card-preview">${t.preview}</div>
+      <div class="theme-card-body">
+        <div class="theme-card-name">${t.name}</div>
+        <div class="theme-card-desc">${t.desc}</div>
+        <span class="theme-card-tag" style="background:${t.accentColor}22;color:${t.accentColor}">${t.tag}</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('themePickerOverlay').classList.add('open');
+}
+
+function closeTemplatePicker(){
+  document.getElementById('themePickerOverlay').classList.remove('open');
+}
+
+function applyPageTemplate(id){
+  const tmpl=PAGE_TEMPLATES.find(t=>t.id===id);
+  if(!tmpl)return;
+  const hasContent=currentBlocks().length>0;
+  if(hasContent&&!confirm('현재 페이지의 내용이 모두 지워지고 템플릿으로 교체됩니다.\n계속할까요?'))return;
+  const page=pages[currentPageId];
+  if(!page)return;
+  page.blocks=tmpl.blocks.map(b=>{
+    const block=JSON.parse(JSON.stringify(b));
+    block.id='b'+Date.now()+Math.floor(Math.random()*99999);
+    return block;
+  });
+  selectedBlockId=null;
+  closeTemplatePicker();
+  renderCanvas();autoSave();
+  document.getElementById('saveStatus').textContent='템플릿 적용됨';
 }
 
 /* ─── 배경색 피커 공통 ─── */
