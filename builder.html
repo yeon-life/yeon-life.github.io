@@ -98,14 +98,18 @@ input,textarea,select{font-family:var(--font-sans);}
 
 /* Pages Tab */
 .page-tree{padding:4px 0;}
-.page-tree-item{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;font-size:12px;color:var(--ink-soft);transition:background 0.15s;border-radius:6px;position:relative;}
+.page-tree-item{display:flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;cursor:pointer;font-size:12px;color:var(--ink-soft);transition:background 0.15s;border-radius:6px;position:relative;}
 .page-tree-item:hover,.page-tree-item.active{background:var(--builder-soft);color:var(--builder);}
-.page-tree-item svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
 .page-tree-item .page-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.page-tree-item .page-actions{display:none;align-items:center;gap:2px;flex-shrink:0;}
+.page-tree-item .page-actions{display:none;align-items:center;gap:1px;flex-shrink:0;}
 .page-tree-item:hover .page-actions,.page-tree-item.active .page-actions{display:flex;}
+.page-tree-toggle{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:3px;color:var(--ink-faint);transition:background 0.1s;}
+.page-tree-toggle:hover{background:var(--wash);}
+.page-tree-toggle svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.page-tree-pageicon{width:12px;height:12px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 .page-act-btn{background:none;border:none;cursor:pointer;padding:2px 4px;border-radius:4px;color:var(--ink-soft);font-size:11px;line-height:1;transition:background .12s;}
 .page-act-btn:hover{background:var(--wash);color:var(--bridge-deep);}
+.page-act-btn.add-child:hover{color:var(--builder);background:var(--builder-soft);}
 .page-act-btn.del:hover{color:#c0392b;background:rgba(192,57,43,0.1);}
 .page-rename-input{flex:1;font-size:12px;border:1px solid var(--tide);border-radius:4px;padding:2px 6px;background:#fff;color:var(--bridge-deep);outline:none;min-width:0;}
 .add-page-btn{width:100%;margin-top:8px;padding:8px 12px;border:1px dashed var(--border-md);border-radius:6px;background:var(--bg);color:var(--ink-soft);font-size:11px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:4px;}
@@ -190,7 +194,9 @@ input,textarea,select{font-family:var(--font-sans);}
 .b-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
 .b-card-item{border:1px solid var(--border);border-radius:12px;padding:20px 16px;text-align:center;position:relative;background:var(--bg);transition:all 0.15s;}
 .b-card-item:hover{border-color:var(--builder);background:var(--builder-soft);}
-.b-card-icon{font-size:32px;margin-bottom:8px;cursor:pointer;outline:none;min-height:40px;display:flex;align-items:center;justify-content:center;}
+.b-card-icon{margin-bottom:8px;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;position:relative;border-radius:8px;transition:background 0.15s;}.b-card-icon:hover{background:var(--builder-soft);}.b-card-icon svg{width:32px;height:32px;stroke:var(--builder);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.card-icon-picker{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);width:180px;}
+.card-icon-opt{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:background 0.1s;}.card-icon-opt:hover{background:var(--builder-soft);}.card-icon-opt svg{width:18px;height:18px;stroke:var(--ink-soft);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}.card-icon-opt:hover svg{stroke:var(--builder);}
 .b-card-name{font-weight:600;font-size:14px;margin-bottom:6px;outline:none;color:var(--ink);}
 .b-card-desc{font-size:12px;color:var(--ink-soft);outline:none;line-height:1.5;white-space:pre-wrap;word-break:break-word;}
 .b-card-del{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:rgba(143,107,107,0.7);color:#fff;border:none;font-size:11px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.15s;}
@@ -293,14 +299,29 @@ input,textarea,select{font-family:var(--font-sans);}
 input.file-hidden{display:none!important;}
 
 /* Radial Menu */
-.radial-menu{position:fixed;display:none;z-index:600;}
-.radial-menu.open{display:block;}
-.radial-menu-center{width:54px;height:54px;border-radius:50%;background:var(--bridge-deep);box-shadow:0 4px 20px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:26px;position:relative;z-index:2;border:2px solid var(--tide);}
-.radial-menu-item{position:absolute;width:54px;height:54px;border-radius:50%;background:#fff;border:2px solid var(--tide);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;opacity:0;transform:scale(0);left:50%;top:50%;margin-left:-27px;margin-top:-27px;flex-direction:column;color:var(--bridge);text-align:center;font-size:10px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.12);}
-.radial-menu.open .radial-menu-item{opacity:1;transform:scale(1);}
-.radial-menu-item:hover{background:var(--tide);color:var(--bridge-deep);border-color:var(--tide);}
-.radial-menu-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:2px;}
-.radial-menu-more{text-align:center;margin-top:8px;font-size:10px;color:var(--ink-faint);cursor:pointer;text-decoration:underline;}
+.radial-overlay{position:fixed;inset:0;z-index:598;}
+.radial-menu{position:fixed;z-index:599;pointer-events:none;}
+.radial-menu.open{pointer-events:all;}
+.radial-menu-center{width:52px;height:52px;border-radius:50%;background:var(--builder);box-shadow:0 4px 20px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;position:absolute;left:0;top:0;transform:translate(-50%,-50%);z-index:2;transition:transform 0.18s,box-shadow 0.18s;border:2px solid rgba(255,255,255,0.3);}
+.radial-menu-center:hover{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,0.3);}
+.radial-menu-item{position:absolute;width:58px;height:58px;border-radius:14px;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translate(-50%,-50%) scale(0.3);left:0;top:0;flex-direction:column;gap:4px;box-shadow:0 3px 12px rgba(0,0,0,0.1);transition:opacity 0.22s cubic-bezier(.34,1.56,.64,1),transform 0.22s cubic-bezier(.34,1.56,.64,1),background 0.12s,border-color 0.12s;}
+.radial-menu.open .radial-menu-item{opacity:1;}
+.radial-menu-item:hover{background:var(--builder-soft);border-color:var(--builder);}
+.radial-menu-item:hover svg{stroke:var(--builder);}
+.radial-menu-item svg{width:22px;height:22px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.radial-menu-item span{font-size:9px;font-weight:700;color:var(--ink-faint);letter-spacing:-0.2px;}
+.radial-menu-item:hover span{color:var(--builder);}
+.radial-more-btn{position:absolute;width:36px;height:36px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translate(-50%,-50%) scale(0.3);left:0;top:0;box-shadow:0 2px 8px rgba(0,0,0,0.08);transition:opacity 0.22s 0.25s cubic-bezier(.34,1.56,.64,1),transform 0.22s 0.25s cubic-bezier(.34,1.56,.64,1);font-size:10px;font-weight:700;color:var(--ink-faint);}
+.radial-menu.open .radial-more-btn{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.radial-more-btn:hover{background:var(--builder-soft);border-color:var(--builder);color:var(--builder);}
+.radial-all-grid{position:absolute;left:0;top:0;transform:translate(-50%,-50%) translateY(100px);background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:10px;display:none;grid-template-columns:repeat(4,1fr);gap:6px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:3;width:260px;}
+.radial-all-grid.show{display:grid;}
+.radial-all-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;}
+.radial-all-item:hover{background:var(--builder-soft);border-color:var(--builder);}
+.radial-all-item svg{width:20px;height:20px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.radial-all-item:hover svg{stroke:var(--builder);}
+.radial-all-item span{font-size:9px;font-weight:600;color:var(--ink-faint);}
+.radial-all-item:hover span{color:var(--builder);}
 
 /* AI Panel */
 .ai-panel{position:fixed;bottom:20px;right:20px;width:300px;background:var(--bridge-deep);color:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:1px solid rgba(181,191,196,0.2);overflow:hidden;display:none;z-index:300;}
@@ -322,6 +343,41 @@ input.file-hidden{display:none!important;}
 .float-edit-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
 .float-edit-tooltip{position:fixed;bottom:80px;left:24px;background:var(--ink);color:#fff;padding:8px 12px;border-radius:6px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s;z-index:250;}
 .float-edit-btn:hover~.float-edit-tooltip{opacity:1;}
+
+/* Setup Modal */
+.setup-modal{position:fixed;inset:0;background:rgba(42,46,44,0.6);display:flex;align-items:center;justify-content:center;z-index:900;backdrop-filter:blur(4px);}
+.setup-modal.hidden{display:none;}
+.setup-box{background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.2);width:min(540px,92vw);padding:40px 36px 32px;position:relative;overflow:hidden;}
+.setup-progress{display:flex;gap:6px;margin-bottom:32px;}
+.setup-progress-dot{height:4px;border-radius:2px;flex:1;background:var(--border);transition:background 0.3s;}
+.setup-progress-dot.active{background:var(--builder);}
+.setup-step{display:none;}.setup-step.active{display:block;}
+.setup-logo{font-size:22px;font-weight:800;color:var(--builder);letter-spacing:-0.5px;margin-bottom:6px;}
+.setup-title{font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3;}
+.setup-sub{font-size:14px;color:var(--ink-soft);margin-bottom:28px;line-height:1.6;}
+.setup-field{margin-bottom:18px;}
+.setup-field label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+.setup-field input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;color:var(--ink);outline:none;transition:border-color 0.15s;box-sizing:border-box;}
+.setup-field input:focus{border-color:var(--builder);}
+.setup-field input::placeholder{color:var(--ink-faint);}
+.setup-purpose-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;}
+.setup-purpose-card{border:1.5px solid var(--border);border-radius:12px;padding:16px 10px;text-align:center;cursor:pointer;transition:all 0.15s;user-select:none;}
+.setup-purpose-card:hover{border-color:var(--builder);background:var(--builder-soft);}
+.setup-purpose-card.selected{border-color:var(--builder);background:var(--builder-soft);box-shadow:0 0 0 2px var(--builder);}
+.setup-purpose-icon{width:40px;height:40px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:10px;}
+.setup-purpose-icon svg{width:22px;height:22px;stroke:var(--builder);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.setup-purpose-name{font-size:12px;font-weight:700;color:var(--ink-soft);}
+.setup-purpose-card.selected .setup-purpose-name{color:var(--builder);}
+.setup-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.setup-btn{padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all 0.15s;}
+.setup-btn-primary{background:var(--builder);color:#fff;}.setup-btn-primary:hover{filter:brightness(0.92);}
+.setup-btn-secondary{background:none;border:1.5px solid var(--border);color:var(--ink-soft);}.setup-btn-secondary:hover{border-color:var(--builder);color:var(--builder);}
+.setup-btn-skip{background:none;border:none;color:var(--ink-faint);font-size:13px;cursor:pointer;text-decoration:underline;}
+.setup-summary{background:var(--bg);border-radius:12px;padding:16px 18px;margin-bottom:8px;}
+.setup-summary-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);}
+.setup-summary-row:last-child{border:none;}
+.setup-summary-label{color:var(--ink-faint);font-weight:600;}
+.setup-summary-val{color:var(--ink);font-weight:500;}
 
 /* Publish Modal */
 .publish-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:700;}
@@ -451,6 +507,83 @@ body.preview-mode .canvas-page{box-shadow:none;}
 
 <input type="file" id="fileInput" class="file-hidden" accept="image/*">
 
+<!-- ── 사이트 셋업 모달 ── -->
+<div class="setup-modal hidden" id="setupModal">
+  <div class="setup-box">
+    <div class="setup-progress">
+      <div class="setup-progress-dot active" id="sdot0"></div>
+      <div class="setup-progress-dot" id="sdot1"></div>
+      <div class="setup-progress-dot" id="sdot2"></div>
+    </div>
+
+    <!-- Step 1: 기본 정보 -->
+    <div class="setup-step active" id="sstep0">
+      <div class="setup-logo">y-life 빌더</div>
+      <div class="setup-title">새 사이트를 시작해볼까요?</div>
+      <div class="setup-sub">먼저 사이트의 기본 정보를 입력해 주세요.<br>나중에 언제든지 바꿀 수 있어요.</div>
+      <div class="setup-field">
+        <label>사이트 이름</label>
+        <input type="text" id="sSetupName" placeholder="예: 연플래닝학원, 김민준의 블로그" maxlength="40">
+      </div>
+      <div class="setup-field">
+        <label>도메인 주소 (없으면 나중에 입력)</label>
+        <input type="text" id="sSetupDomain" placeholder="예: mysite.kr, myname.com">
+      </div>
+      <div class="setup-nav">
+        <button class="setup-btn-skip" onclick="skipSetup()">건너뛰기</button>
+        <button class="setup-btn setup-btn-primary" onclick="setupNext(1)">다음 →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: 사이트 목적 -->
+    <div class="setup-step" id="sstep1">
+      <div class="setup-title">어떤 사이트를 만드시나요?</div>
+      <div class="setup-sub">목적에 맞는 구성을 자동으로 추천해 드릴게요.</div>
+      <div class="setup-purpose-grid" id="purposeGrid">
+        <div class="setup-purpose-card" data-purpose="academy" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div class="setup-purpose-name">학원 / 교육</div>
+        </div>
+        <div class="setup-purpose-card" data-purpose="personal" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+          <div class="setup-purpose-name">개인 소개</div>
+        </div>
+        <div class="setup-purpose-card" data-purpose="shop" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+          <div class="setup-purpose-name">쇼핑몰</div>
+        </div>
+        <div class="setup-purpose-card" data-purpose="blog" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="setup-purpose-name">블로그</div>
+        </div>
+        <div class="setup-purpose-card" data-purpose="portfolio" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+          <div class="setup-purpose-name">포트폴리오</div>
+        </div>
+        <div class="setup-purpose-card" data-purpose="other" onclick="selectPurpose(this)">
+          <div class="setup-purpose-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="setup-purpose-name">기타</div>
+        </div>
+      </div>
+      <div class="setup-nav">
+        <button class="setup-btn setup-btn-secondary" onclick="setupNext(0)">← 이전</button>
+        <button class="setup-btn setup-btn-primary" onclick="setupNext(2)">다음 →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: 확인 & 시작 -->
+    <div class="setup-step" id="sstep2">
+      <div class="setup-title">이렇게 시작할게요!</div>
+      <div class="setup-sub">아래 정보로 사이트를 만들어드릴게요.</div>
+      <div class="setup-summary" id="setupSummary"></div>
+      <div class="setup-nav">
+        <button class="setup-btn setup-btn-secondary" onclick="setupNext(1)">← 이전</button>
+        <button class="setup-btn setup-btn-primary" onclick="completeSetup()">🚀 시작하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="publish-modal" id="publishModal">
   <div class="publish-modal-content">
     <button class="publish-modal-close" onclick="closePublishModal()">✕</button>
@@ -492,12 +625,68 @@ function undo(){if(historyIdx<=0)return;historyIdx--;historyLock=true;pages=JSON
 function redo(){if(historyIdx>=historyStack.length-1)return;historyIdx++;historyLock=true;pages=JSON.parse(historyStack[historyIdx]);historyLock=false;selectedBlockId=null;renderCanvas();renderPageTree();updatePropsPanel();updateHistoryBtns();document.getElementById('saveStatus').textContent='다시 실행';}
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!e.shiftKey){e.preventDefault();undo();}else if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.key==='z'&&e.shiftKey))){e.preventDefault();redo();}});
 const THEMES={'mint-tide':{name:'Mint Tide',bg:'#e9f5f2',surface:'#b0cfc8',primary:'#6eb5a6',text:'#2a2e2c'},'warm-earth':{name:'Warm Earth',bg:'#d4cdc1',surface:'#dbd2a4',primary:'#ad9d82',text:'#2a2e2c'},'mauve-fog':{name:'Mauve Fog',bg:'#ebf2ed',surface:'#b2a7b8',primary:'#615b63',text:'#37334f'},'forest-dark':{name:'Forest Dark',bg:'#2b3b32',surface:'#586e69',primary:'#6eb5a6',text:'#e9f5f2'}};
-const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left'},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40},cards:{type:'cards',title:'카드 그리드',paddingV:48,cards:[{icon:'🌟',name:'카드 1',desc:'설명을 입력하세요'},{icon:'🌿',name:'카드 2',desc:'설명을 입력하세요'},{icon:'🎯',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48},news:{type:'news',title:'최근 소식',paddingV:40},gallery:{type:'gallery',title:'갤러리',images:[],paddingV:40},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0}};
+const CARD_ICONS={star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',smile:'<circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',bulb:'<line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="3" x2="12" y2="5"/><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.2 4.16-3 5.2V19H9v-1.8A6 6 0 0 1 6 12a6 6 0 0 1 6-6z"/>',users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',check:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',globe:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',pen:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',sun:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',gift:'<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',map:'<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'};
+function getCardIconSVG(icon){const path=CARD_ICONS[icon];if(path)return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;return`<span style="font-size:28px;line-height:1">${icon||'⭐'}</span>`;}
+const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left'},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40},cards:{type:'cards',title:'카드 그리드',paddingV:48,cards:[{icon:'star',name:'카드 1',desc:'설명을 입력하세요'},{icon:'leaf',name:'카드 2',desc:'설명을 입력하세요'},{icon:'target',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48},news:{type:'news',title:'최근 소식',paddingV:40},gallery:{type:'gallery',title:'갤러리',images:[],paddingV:40},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0}};
 const BLOCK_TYPES=[{type:'hero',name:'히어로',icon:'<polyline points="6 3 6 15 18 15 18 3"></polyline><line x1="6" y1="8" x2="18" y2="8"></line>'},{type:'text',name:'텍스트',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>'},{type:'imgtext',name:'이미지+글',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>'},{type:'cards',name:'카드',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'youtube',name:'YouTube',icon:'<rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="8" x2="7" y2="16"></line><line x1="12" y1="8" x2="12" y2="16"></line><line x1="17" y1="8" x2="17" y2="16"></line>'},{type:'map',name:'지도',icon:'<circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path>'},{type:'button',name:'버튼',icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="15" x2="14" y2="15"></line>'},{type:'social',name:'소셜',icon:'<circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>'},{type:'gallery',name:'갤러리',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'quote',name:'인용',icon:'<path d="M3 21c0 7 2 11 13 13"></path><path d="M21 3c0 7 2 11 13 13"></path>'},{type:'divider',name:'구분선',icon:'<line x1="3" y1="12" x2="21" y2="12"></line>'},{type:'spacer',name:'간격',icon:'<line x1="6" y1="3" x2="6" y2="21"></line><line x1="12" y1="3" x2="12" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line>'},{type:'contact',name:'연락',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line>'},{type:'news',name:'뉴스',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="15" x2="21" y2="15"></line>'},{type:'carousel',name:'캐러셀',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line>'}];
 function toggleSettingsPanel(){alert('설정: 사이트 이름·파비콘·메타 설명 등 고급 설정은 곧 추가됩니다.');}
-function init(){loadPages();renderBlockTypeGrid();renderThemeTab();renderPageTree();renderCanvas();loadTheme();attachCanvasEvents();pushHistory();}
-function loadPages(){const saved=localStorage.getItem('yeonPages');if(saved){pages=JSON.parse(saved);}else{pages={'page-main':{id:'page-main',name:'홈',blocks:[]}};};}
-function currentBlocks(){if(!pages[currentPageId]){pages[currentPageId]={id:currentPageId,name:'페이지',blocks:[]};}return pages[currentPageId].blocks;}
+
+/* ─── 셋업 모달 ─── */
+let _setupPurpose='other';
+function showSetupModal(){document.getElementById('setupModal').classList.remove('hidden');}
+function hideSetupModal(){document.getElementById('setupModal').classList.add('hidden');}
+function skipSetup(){localStorage.setItem('yeonSetupDone','1');hideSetupModal();}
+function selectPurpose(el){document.querySelectorAll('.setup-purpose-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');_setupPurpose=el.dataset.purpose;}
+function setupNext(step){
+  document.querySelectorAll('.setup-step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.setup-progress-dot').forEach((d,i)=>d.classList.toggle('active',i<=step));
+  document.getElementById('sstep'+step).classList.add('active');
+  if(step===2){
+    const name=document.getElementById('sSetupName').value.trim()||'내 사이트';
+    const domain=document.getElementById('sSetupDomain').value.trim()||'(미정)';
+    const purposeLabels={academy:'학원/교육',personal:'개인 소개',shop:'쇼핑몰',blog:'블로그',portfolio:'포트폴리오',other:'기타'};
+    document.getElementById('setupSummary').innerHTML=`
+      <div class="setup-summary-row"><span class="setup-summary-label">사이트 이름</span><span class="setup-summary-val">${esc(name)}</span></div>
+      <div class="setup-summary-row"><span class="setup-summary-label">도메인</span><span class="setup-summary-val">${esc(domain)}</span></div>
+      <div class="setup-summary-row"><span class="setup-summary-label">목적</span><span class="setup-summary-val">${purposeLabels[_setupPurpose]||'기타'}</span></div>
+      <div class="setup-summary-row"><span class="setup-summary-label">추천 구성</span><span class="setup-summary-val">히어로 + 소개 + 카드 블록</span></div>`;
+  }
+}
+function completeSetup(){
+  const name=document.getElementById('sSetupName').value.trim()||'내 사이트';
+  const domain=document.getElementById('sSetupDomain').value.trim();
+  localStorage.setItem('yeonSetupDone','1');
+  localStorage.setItem('yeonSiteName',name);
+  if(domain)localStorage.setItem('yeonSiteDomain',domain);
+  // 목적별 스타터 블록 생성
+  const templates={
+    academy:{title:name,sub:'함께 배우고 함께 성장합니다',ct:'우리 수업',cards:[{icon:'book',name:'국어',desc:'글쓰기와 독해 능력 향상'},{icon:'pen',name:'수학',desc:'개념부터 탄탄하게'},{icon:'globe',name:'영어',desc:'자신감 있게 말하기'}]},
+    personal:{title:name,sub:'안녕하세요, 저를 소개합니다',ct:'제가 잘하는 것들',cards:[{icon:'bulb',name:'아이디어',desc:'새로운 생각을 즐깁니다'},{icon:'users',name:'소통',desc:'사람들과 연결됩니다'},{icon:'book',name:'배움',desc:'매일 성장합니다'}]},
+    shop:{title:name,sub:'맛있는 음식, 따뜻한 공간',ct:'추천 상품',cards:[{icon:'star',name:'베스트',desc:'가장 인기 있는 상품'},{icon:'heart',name:'신상품',desc:'새로 들어온 상품'},{icon:'gift',name:'선물세트',desc:'특별한 날을 위해'}]},
+    blog:{title:name,sub:'생각을 나누는 공간',ct:'주제',cards:[{icon:'sun',name:'일상',desc:'소소한 하루 이야기'},{icon:'book',name:'독서',desc:'읽은 책 기록'},{icon:'chat',name:'생각',desc:'마음속 이야기'}]},
+    portfolio:{title:name,sub:'제 작업들을 소개합니다',ct:'주요 작업',cards:[{icon:'globe',name:'웹 개발',desc:'반응형 웹사이트'},{icon:'pen',name:'UI 디자인',desc:'사용자 친화적 디자인'},{icon:'camera',name:'모바일',desc:'앱 기획 및 개발'}]},
+    other:{title:name,sub:'환영합니다',ct:'주요 내용',cards:[{icon:'star',name:'항목 1',desc:'내용을 입력하세요'},{icon:'check',name:'항목 2',desc:'내용을 입력하세요'},{icon:'heart',name:'항목 3',desc:'내용을 입력하세요'}]}
+  };
+  const t=templates[_setupPurpose]||templates.other;
+  const theme=THEMES[currentTheme];
+  const heroBlock={...JSON.parse(JSON.stringify(BLOCK_DEFAULTS.hero)),id:'b'+Date.now()+'1',title:t.title,sub:t.sub,bg:theme?.bg||'#e9f5f2'};
+  const textBlock={...JSON.parse(JSON.stringify(BLOCK_DEFAULTS.text)),id:'b'+Date.now()+'2',title:'소개',body:'이 공간에서 더 자세한 소개를 작성하세요.'};
+  const cardsBlock={...JSON.parse(JSON.stringify(BLOCK_DEFAULTS.cards)),id:'b'+Date.now()+'3',title:t.ct,cards:t.cards};
+  pages['page-main'].name=name;
+  pages['page-main'].blocks=[heroBlock,textBlock,cardsBlock];
+  autoSave();renderCanvas();renderPageTree();updatePropsPanel();
+  hideSetupModal();
+}
+
+function init(){
+  loadPages();renderBlockTypeGrid();renderThemeTab();renderPageTree();renderCanvas();loadTheme();attachCanvasEvents();pushHistory();
+  // 첫 방문이고 내용이 없으면 셋업 모달 표시
+  const done=localStorage.getItem('yeonSetupDone');
+  const hasBlocks=Object.values(pages).some(p=>(p.blocks||[]).length>0);
+  if(!done&&!hasBlocks){setTimeout(showSetupModal,400);}
+}
+function loadPages(){const saved=localStorage.getItem('yeonPages');if(saved){pages=JSON.parse(saved);let i=0;Object.values(pages).forEach(p=>{if(!('parentId' in p))p.parentId=null;if(!('order' in p))p.order=i++;if(!('collapsed' in p))p.collapsed=false;});}else{pages={'page-main':{id:'page-main',name:'홈',parentId:null,order:0,collapsed:false,blocks:[]}};};}
+function currentBlocks(){if(!pages[currentPageId]){pages[currentPageId]={id:currentPageId,name:'페이지',parentId:null,order:0,collapsed:false,blocks:[]};}return pages[currentPageId].blocks;}
 function autoSave(){pushHistory();localStorage.setItem('yeonPages',JSON.stringify(pages));document.getElementById('saveStatus').textContent='저장됨';setTimeout(()=>{document.getElementById('saveStatus').textContent='';},3000);}
 function esc(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function switchPanelTab(tab){document.querySelectorAll('.panel-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel-content').forEach(c=>c.style.display='none');event.target.classList.add('active');document.getElementById(tab+'Tab').style.display='block';}
@@ -509,24 +698,31 @@ const themeBgs=new Set(Object.values(THEMES).map(t=>t.bg.toLowerCase()));themeBg
 function loadTheme(){const saved=localStorage.getItem('yeonTheme')||'mint-tide';applyTheme(saved);}
 function renderPageTree(){
   const tree=document.getElementById('pageTree');
-  const pageList=Object.values(pages);
-  tree.innerHTML=pageList.map(p=>`
-    <div class="page-tree-item ${p.id===currentPageId?'active':''}" id="pti-${p.id}" onclick="switchPage('${p.id}')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:12px;height:12px;flex-shrink:0">
-        <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
-        <line x1="4" y1="8" x2="20" y2="8"/>
-      </svg>
+  function getChildren(pid){return Object.values(pages).filter(p=>(p.parentId||null)===(pid||null)).sort((a,b)=>(a.order||0)-(b.order||0));}
+  function getDepth(pid){let d=0,p=pages[pid];while(p&&p.parentId){d++;p=pages[p.parentId];}return d;}
+  function renderNode(p,depth){
+    const children=getChildren(p.id);
+    const hasChildren=children.length>0;
+    const indent=depth*16;
+    const totalPages=Object.keys(pages).length;
+    let html=`<div class="page-tree-item ${p.id===currentPageId?'active':''}" id="pti-${p.id}" style="padding-left:${8+indent}px" onclick="switchPage('${p.id}')">
+      <span class="page-tree-toggle" onclick="event.stopPropagation();togglePageCollapse('${p.id}')" style="visibility:${hasChildren?'visible':'hidden'}">
+        <svg viewBox="0 0 24 24">${p.collapsed?'<polyline points="9 18 15 12 9 6"/>':'<polyline points="6 9 12 15 18 9"/>'}</svg>
+      </span>
+      <svg class="page-tree-pageicon" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><line x1="4" y1="8" x2="20" y2="8"/></svg>
       <span class="page-name" id="pname-${p.id}">${esc(p.name)}</span>
       <div class="page-actions" onclick="event.stopPropagation()">
-        <button class="page-act-btn" title="이름 변경" onclick="startRenamePage('${p.id}')">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
-        ${pageList.length>1?`<button class="page-act-btn del" title="페이지 삭제" onclick="deletePage('${p.id}')">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-        </button>`:''}
+        ${depth<3?`<button class="page-act-btn add-child" title="하위 페이지 추가" onclick="addPage('${p.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>`:''}
+        <button class="page-act-btn" title="이름 변경" onclick="startRenamePage('${p.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        ${totalPages>1?`<button class="page-act-btn del" title="페이지 삭제" onclick="deletePage('${p.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>`:''}
       </div>
-    </div>`).join('');
+    </div>`;
+    if(hasChildren&&!p.collapsed){children.forEach(c=>{html+=renderNode(c,depth+1);});}
+    return html;
+  }
+  tree.innerHTML=getChildren(null).map(p=>renderNode(p,0)).join('');
 }
+function togglePageCollapse(pageId){if(pages[pageId]){pages[pageId].collapsed=!pages[pageId].collapsed;renderPageTree();}}
 function startRenamePage(pageId){
   const nameEl=document.getElementById('pname-'+pageId);
   if(!nameEl)return;
@@ -549,18 +745,25 @@ function commitRenamePage(pageId,val){
   autoSave();renderPageTree();
 }
 function deletePage(pageId){
-  const pageList=Object.values(pages);
-  if(pageList.length<=1){alert('마지막 페이지는 삭제할 수 없습니다.');return;}
-  if(!confirm(`"${pages[pageId]?.name}" 페이지를 삭제할까요?\n이 페이지의 모든 블록이 삭제됩니다.`))return;
-  delete pages[pageId];
-  if(currentPageId===pageId){
-    currentPageId=Object.keys(pages)[0];
-  }
+  if(Object.keys(pages).length<=1){alert('마지막 페이지는 삭제할 수 없습니다.');return;}
+  function getDesc(id){const ch=Object.values(pages).filter(p=>p.parentId===id);return ch.reduce((a,c)=>[...a,c.id,...getDesc(c.id)],[]);}
+  const desc=getDesc(pageId);
+  const msg=desc.length>0?`"${pages[pageId]?.name}" 페이지와 하위 페이지 ${desc.length}개를 모두 삭제할까요?`:`"${pages[pageId]?.name}" 페이지를 삭제할까요?\n이 페이지의 모든 블록이 삭제됩니다.`;
+  if(!confirm(msg))return;
+  [pageId,...desc].forEach(id=>delete pages[id]);
+  if(currentPageId===pageId||desc.includes(currentPageId)){currentPageId=Object.keys(pages)[0];}
   autoSave();renderCanvas();renderPageTree();updatePropsPanel();
   document.getElementById('saveStatus').textContent='페이지 삭제됨';
 }
 function switchPage(pageId){currentPageId=pageId;selectedBlockId=null;renderCanvas();renderPageTree();updatePropsPanel();}
-function addPage(){const pageId='page-'+Date.now();pages[pageId]={id:pageId,name:'새 페이지',blocks:[]};autoSave();switchPage(pageId);renderPageTree();}
+function addPage(parentId){
+  parentId=parentId||null;
+  const pageId='page-'+Date.now();
+  const siblings=Object.values(pages).filter(p=>(p.parentId||null)===(parentId||null));
+  pages[pageId]={id:pageId,name:'새 페이지',parentId:parentId,order:siblings.length,collapsed:false,blocks:[]};
+  if(parentId&&pages[parentId])pages[parentId].collapsed=false;
+  autoSave();switchPage(pageId);renderPageTree();
+}
 function addBlock(type,insertAfter){const block=JSON.parse(JSON.stringify(BLOCK_DEFAULTS[type]));block.id='b'+Date.now()+Math.floor(Math.random()*1000);if(type==='hero'&&currentTheme&&THEMES[currentTheme])block.bg=THEMES[currentTheme].bg;const blocks=currentBlocks();if(insertAfter==null||insertAfter<0){blocks.push(block);}else{blocks.splice(insertAfter+1,0,block);}renderCanvas();selectBlock(block.id);autoSave();closeRadialMenu();}
 function renderCanvas(){const canvas=document.getElementById('canvas');const blocks=currentBlocks();if(!blocks.length){canvas.innerHTML=`<div class="canvas-empty" ondblclick="handleCanvasDoubleClick(event)" title="더블클릭으로 블록 삽입"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><div style="font-size:14px;color:var(--ink-faint)">블록을 추가해 홈페이지를 만들어보세요</div><div class="canvas-empty-hint">왼쪽 패널 클릭 또는 여기를 더블클릭</div></div>`;return;}let html='';blocks.forEach((b,i)=>{html+=`<div class="insert-zone" data-insertidx="${i-1}"><button class="insert-zone-btn" onclick="addBlock('text',${i-1})" title="블록 삽입">+</button></div>`;html+=renderBlock(b,i);});html+=`<div class="insert-zone" data-insertidx="${blocks.length-1}"><button class="insert-zone-btn" onclick="addBlock('text',${blocks.length-1})" title="블록 삽입">+</button></div>`;canvas.innerHTML=html;attachBlockEvents();}
 function renderBlock(b,i){const sel=b.id===selectedBlockId?' block-selected':'';const len=currentBlocks().length;const dragHandle=`<div class="block-drag-handle" draggable="true" data-dragidx="${i}"><svg viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>`;const controls=`<div class="block-controls">${i>0?`<button class="block-ctrl-btn" onclick="moveBlock('${b.id}',-1)"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>`:''}${i<len-1?`<button class="block-ctrl-btn" onclick="moveBlock('${b.id}',1)"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>`:''}<button class="block-ctrl-btn" onclick="dupeBlock('${b.id}')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><button class="block-ctrl-btn danger" onclick="deleteBlock('${b.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button></div>`;const resizeStrip=`<div class="block-resize-strip" data-resizeid="${b.id}"></div>`;let inner='';const pv=b.paddingV||40;
@@ -568,7 +771,7 @@ switch(b.type){
 case 'hero':{const al=b.align||'center';const ts=b.titleSize||40;inner=`<div class="b-hero" style="padding:${pv}px 48px;background:${b.bg||'#F8F6F2'};text-align:${al}"><div class="b-hero-title" contenteditable="true" data-blockid="${b.id}" data-field="title" style="font-size:${ts}px">${esc(b.title)}</div><div class="b-hero-sub" contenteditable="true" data-blockid="${b.id}" data-field="sub">${esc(b.sub)}</div>${b.btnText?`<a class="b-hero-btn" href="${esc(b.btnUrl||'#')}">${esc(b.btnText)}</a>`:''}</div>`;break;}
 case 'text':{inner=`<div class="b-text" style="padding:${pv}px 48px;text-align:${b.align||'left'}">${b.title?`<div class="b-text-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div>`:''}<div class="b-text-body" contenteditable="true" data-blockid="${b.id}" data-field="body">${esc(b.body)}</div></div>`;break;}
 case 'imgtext':{const imgHtml=b.imgUrl?`<img src="${esc(b.imgUrl)}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" alt="">`:`<div class="b-imgtext-img-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><div>이미지 없음</div></div>`;const imgCell=`<div class="b-imgtext-img" style="min-height:${pv*3}px">${imgHtml}<div class="img-upload-overlay" onclick="triggerImageUpload('${b.id}','imgUrl')"><div class="img-upload-label">📁 이미지 교체</div></div></div>`;const txtCell=`<div class="b-imgtext-content" style="padding:${pv}px 36px"><div class="b-imgtext-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-imgtext-body" contenteditable="true" data-blockid="${b.id}" data-field="body">${esc(b.body)}</div></div>`;inner=`<div class="b-imgtext">${b.imgSide==='right'?txtCell+imgCell:imgCell+txtCell}</div>`;break;}
-case 'cards':inner=`<div class="b-cards" style="padding:${pv}px 48px"><div class="b-cards-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-cards-grid">${(b.cards||[]).map((c,ci)=>`<div class="b-card-item"><button class="b-card-del" onclick="deleteCard('${b.id}',${ci})">✕</button><div class="b-card-icon" contenteditable="true" data-blockid="${b.id}" data-cardidx="${ci}" data-field="icon">${c.icon||'⭐'}</div><div class="b-card-name" contenteditable="true" data-blockid="${b.id}" data-cardidx="${ci}" data-field="name">${esc(c.name)}</div><div class="b-card-desc" contenteditable="true" data-blockid="${b.id}" data-cardidx="${ci}" data-field="desc">${esc(c.desc)}</div></div>`).join('')}<div class="b-card-item" style="border-style:dashed;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink-faint);font-size:13px;gap:4px" onclick="addCard('${b.id}')">+ 카드 추가</div></div></div>`;break;
+case 'cards':inner=`<div class="b-cards" style="padding:${pv}px 48px"><div class="b-cards-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-cards-grid">${(b.cards||[]).map((c,ci)=>`<div class="b-card-item"><button class="b-card-del" onclick="deleteCard('${b.id}',${ci})">✕</button><div class="b-card-icon" data-blockid="${b.id}" data-cardidx="${ci}" onclick="showCardIconPicker('${b.id}',${ci})">${getCardIconSVG(c.icon)}</div><div class="b-card-name" contenteditable="true" data-blockid="${b.id}" data-cardidx="${ci}" data-field="name">${esc(c.name)}</div><div class="b-card-desc" contenteditable="true" data-blockid="${b.id}" data-cardidx="${ci}" data-field="desc">${esc(c.desc)}</div></div>`).join('')}<div class="b-card-item" style="border-style:dashed;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink-faint);font-size:13px;gap:4px" onclick="addCard('${b.id}')">+ 카드 추가</div></div></div>`;break;
 case 'divider':inner=`<div class="b-divider" style="padding:${Math.max(8,pv/4)}px 48px"><div class="b-divider-line"></div></div>`;break;
 case 'contact':inner=`<div class="b-contact" style="padding:${pv}px 48px"><div class="b-contact-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><input type="text" placeholder="${esc(b.placeholder_name||'이름')}" disabled><input type="email" placeholder="${esc(b.placeholder_email||'이메일')}" disabled><textarea placeholder="${esc(b.placeholder_msg||'메시지')}" disabled style="min-height:80px;resize:none"></textarea><button disabled>보내기</button></div>`;break;
 case 'news':inner=`<div class="b-news" style="padding:${pv}px 48px"><div class="b-news-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-news-placeholder">뉴스 위젯 — 실제 페이지에서 y-life.kr 최신 뉴스가 표시됩니다</div></div>`;break;
@@ -624,8 +827,17 @@ function attachBlockEvents(){
 }
 
 function attachCanvasEvents(){
-  document.addEventListener('click',e=>{if(!e.target.closest('#radialMenu')&&!e.target.closest('.canvas-area'))closeRadialMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRadialMenu();});
+  // 캔버스 빈 영역 더블클릭 — 블록 사이 빈 공간도 감지
+  document.getElementById('canvasArea').addEventListener('dblclick',e=>{
+    if(mode==='preview')return;
+    if(e.target.closest('[contenteditable]'))return;
+    if(e.target.closest('.radial-menu'))return;
+    const wrapper=e.target.closest('.block-wrapper');
+    _radialInsertAfter=wrapper?parseInt(wrapper.dataset.blockidx):-1;
+    showRadialMenu(e.clientX,e.clientY);
+    e.stopPropagation();e.preventDefault();
+  });
 }
 
 function selectBlock(id){selectedBlockId=id;renderCanvas();updatePropsPanel();}
@@ -637,7 +849,9 @@ function dupeBlock(id){const bl=currentBlocks();const b=bl.find(b=>b.id===id);if
 function deleteBlock(id){const bl=currentBlocks();bl.splice(bl.findIndex(b=>b.id===id),1);if(selectedBlockId===id)selectedBlockId=null;renderCanvas();updatePropsPanel();autoSave();}
 
 function deleteCard(bid,ci){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.cards)return;b.cards.splice(ci,1);renderCanvas();autoSave();}
-function addCard(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.cards)b.cards=[];b.cards.push({icon:'⭐',name:'새 카드',desc:'설명'});renderCanvas();autoSave();}
+function addCard(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.cards)b.cards=[];const icons=Object.keys(CARD_ICONS);b.cards.push({icon:icons[b.cards.length%icons.length],name:'새 카드',desc:'설명'});renderCanvas();autoSave();}
+function showCardIconPicker(bid,ci){document.querySelectorAll('.card-icon-picker').forEach(p=>p.remove());const iconEl=document.querySelector(`.b-card-icon[data-blockid="${bid}"][data-cardidx="${ci}"]`);if(!iconEl)return;const picker=document.createElement('div');picker.className='card-icon-picker';picker.innerHTML=Object.entries(CARD_ICONS).map(([key,path])=>`<div class="card-icon-opt" onclick="selectCardIcon('${bid}',${ci},'${key}');event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg></div>`).join('');iconEl.appendChild(picker);picker.onclick=e=>e.stopPropagation();setTimeout(()=>document.addEventListener('click',()=>picker.remove(),{once:true}),50);}
+function selectCardIcon(bid,ci,key){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.cards||!b.cards[ci])return;b.cards[ci].icon=key;document.querySelectorAll('.card-icon-picker').forEach(p=>p.remove());renderCanvas();autoSave();}
 function deleteProduct(bid,pi){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.products)return;b.products.splice(pi,1);renderCanvas();autoSave();}
 function addProduct(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.products)b.products=[];b.products.push({name:'상품명',price:'₩0',desc:'상품 설명',imgUrl:''});renderCanvas();autoSave();}
 function addToCart(bid,pi){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.products)return;const p=b.products[pi];alert(`"${p.name}" (${p.price})\n\n장바구니 기능은 y-life.kr 계정 연동 후 이용 가능합니다.`);}
@@ -654,15 +868,28 @@ document.getElementById('fileInput').addEventListener('change',function(){const 
 
 /* ─── 원형 메뉴 ─── */
 let _radialInsertAfter=-1;
-const RADIAL_ITEMS=[{type:'hero',label:'히어로',deg:-90,icon:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 12h8"/>'},
-{type:'text',label:'텍스트',deg:-45,icon:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/>'},
-{type:'imgtext',label:'이미지+글',deg:0,icon:'<rect x="2" y="4" width="9" height="16" rx="1"/><line x1="14" y1="8" x2="22" y2="8"/>'},
-{type:'cards',label:'카드',deg:45,icon:'<rect x="2" y="7" width="6" height="10" rx="1"/><rect x="9" y="7" width="6" height="10" rx="1"/><rect x="16" y="7" width="6" height="10" rx="1"/>'},
-{type:'youtube',label:'YouTube',deg:90,icon:'<rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10,8 16,12 10,16"/>'},
-{type:'map',label:'지도',deg:135,icon:'<circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>'},
-{type:'shop',label:'쇼핑몰',deg:180,icon:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'},
-{type:'button',label:'버튼',deg:225,icon:'<rect x="4" y="7" width="16" height="10" rx="5"/>'},
-{type:'gallery',label:'갤러리',deg:270,icon:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'}];
+const BLOCK_ICON_MAP={hero:'<polyline points="6 3 6 15 18 15 18 3"/><line x1="6" y1="8" x2="18" y2="8"/>',text:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/>',imgtext:'<rect x="2" y="4" width="9" height="16" rx="1"/><line x1="14" y1="8" x2="22" y2="8"/><line x1="14" y1="13" x2="22" y2="13"/>',cards:'<rect x="2" y="7" width="6" height="10" rx="1"/><rect x="9" y="7" width="6" height="10" rx="1"/><rect x="16" y="7" width="6" height="10" rx="1"/>',youtube:'<rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10,8 16,12 10,16"/>',map:'<circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>',shop:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',button:'<rect x="4" y="7" width="16" height="10" rx="5"/>',gallery:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',contact:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>',quote:'<path d="M3 21c0-7 4-11 9-11"/><path d="M12 21c0-7 4-11 9-11"/>',divider:'<line x1="3" y1="12" x2="21" y2="12"/>',spacer:'<line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/>',news:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/>',carousel:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>'};
+// 위치 컨텍스트에 따라 가장 적합한 블록 순서 반환
+function getContextItems(insertAfter){
+  const blocks=currentBlocks();
+  const all=['hero','text','imgtext','cards','gallery','youtube','contact','button','map','shop','quote','divider','spacer','news','carousel'];
+  let order;
+  if(blocks.length===0){order=['hero','text','cards','imgtext','gallery','youtube','contact','button'];}
+  else{
+    const prev=blocks[insertAfter];
+    const next=blocks[insertAfter+1];
+    const prevType=prev?.type;
+    if(prevType==='hero'||insertAfter<0){order=['text','cards','imgtext','gallery','youtube','button','contact','divider'];}
+    else if(prevType==='text'||prevType==='quote'){order=['imgtext','cards','button','gallery','youtube','divider','contact','quote'];}
+    else if(prevType==='cards'){order=['text','button','imgtext','gallery','contact','youtube','divider','quote'];}
+    else if(prevType==='imgtext'){order=['text','cards','button','gallery','contact','youtube','divider','quote'];}
+    else if(prevType==='gallery'||prevType==='youtube'){order=['text','cards','button','contact','divider','imgtext','quote','map'];}
+    else if(prevType==='divider'||prevType==='spacer'){order=['text','cards','imgtext','gallery','button','youtube','contact','quote'];}
+    else{order=['text','cards','imgtext','button','gallery','youtube','contact','divider'];}
+  }
+  const remaining=all.filter(t=>!order.includes(t));
+  return [...order.slice(0,8),...remaining];
+}
 
 function handleCanvasDoubleClick(e){
   if(mode==='preview')return;
@@ -675,38 +902,72 @@ function handleCanvasDoubleClick(e){
 }
 
 function showRadialMenu(cx,cy){
+  closeRadialMenu();
+  // 뷰포트 경계 보정
+  const R=115;
+  const px=Math.max(R+30,Math.min(cx,window.innerWidth-R-30));
+  const py=Math.max(R+30,Math.min(cy,window.innerHeight-R-60));
+  // 오버레이
+  const overlay=document.createElement('div');
+  overlay.className='radial-overlay';
+  overlay.onclick=closeRadialMenu;
+  document.body.appendChild(overlay);
+  // 메뉴 컨테이너
   const menu=document.getElementById('radialMenu');
   menu.innerHTML='';
+  menu.style.cssText=`left:${px}px;top:${py}px;`;
+  // 중앙 닫기 버튼
   const center=document.createElement('div');
   center.className='radial-menu-center';
-  center.innerHTML=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  center.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   center.onclick=closeRadialMenu;
   menu.appendChild(center);
-  const r=90;
-  RADIAL_ITEMS.forEach((item,idx)=>{
-    const rad=item.deg*(Math.PI/180);
-    const x=Math.cos(rad)*r;
-    const y=Math.sin(rad)*r;
+  // 컨텍스트 기반 8개 주 아이템
+  const contextTypes=getContextItems(_radialInsertAfter);
+  const mainItems=contextTypes.slice(0,8);
+  const moreItems=contextTypes.slice(8);
+  const LABELS={hero:'히어로',text:'텍스트',imgtext:'이미지+글',cards:'카드',youtube:'YouTube',map:'지도',shop:'쇼핑몰',button:'버튼',gallery:'갤러리',contact:'연락',quote:'인용',divider:'구분선',spacer:'간격',news:'뉴스',carousel:'캐러셀'};
+  mainItems.forEach((type,idx)=>{
+    const angle=(-90+idx*(360/8))*(Math.PI/180);
+    const x=Math.cos(angle)*R;
+    const y=Math.sin(angle)*R;
     const div=document.createElement('div');
     div.className='radial-menu-item';
-    div.style.cssText=`transform:translate(${x}px,${y}px) scale(0);opacity:0;transition:all ${0.1+idx*0.03}s ease;`;
-    div.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg><span style="font-size:9px;margin-top:2px;line-height:1">${item.label}</span>`;
-    div.onclick=()=>addBlock(item.type,_radialInsertAfter);
+    div.style.cssText=`transition-delay:${idx*0.025}s;`;
+    div.innerHTML=`<svg viewBox="0 0 24 24">${BLOCK_ICON_MAP[type]||''}</svg><span>${LABELS[type]||type}</span>`;
+    div.onclick=()=>{addBlock(type,_radialInsertAfter);closeRadialMenu();};
     menu.appendChild(div);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      div.style.transform=`translate(-50%,-50%) translate(${x}px,${y}px) scale(1)`;
+    }));
   });
-  const px=Math.min(cx,window.innerWidth-120);
-  const py=Math.min(cy,window.innerHeight-120);
-  menu.style.cssText=`position:fixed;display:flex;align-items:center;justify-content:center;left:${px-25}px;top:${py-25}px;z-index:600;`;
+  // 더보기 버튼 (하단)
+  if(moreItems.length>0){
+    const moreBtn=document.createElement('div');
+    moreBtn.className='radial-more-btn';
+    moreBtn.textContent='···';
+    moreBtn.title='더 보기';
+    // 아래쪽에 위치 (화면 경계 고려)
+    const moreY=py+R+20>window.innerHeight-40?-(R+20):(R+20);
+    moreBtn.style.cssText=`transform:translate(-50%,-50%) translateY(${moreY>0?R+20:-(R+20)}px) scale(0);`;
+    const allGrid=document.createElement('div');
+    allGrid.className='radial-all-grid';
+    allGrid.style.cssText=`transform:translate(-50%,-50%) translateY(${moreY>0?R+55:-(R+55)}px);`;
+    allGrid.innerHTML=contextTypes.map(type=>`<div class="radial-all-item" onclick="addBlock('${type}',${_radialInsertAfter});closeRadialMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${BLOCK_ICON_MAP[type]||''}</svg><span>${LABELS[type]||type}</span></div>`).join('');
+    moreBtn.onclick=e=>{e.stopPropagation();allGrid.classList.toggle('show');};
+    menu.appendChild(moreBtn);
+    menu.appendChild(allGrid);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      moreBtn.style.transform=`translate(-50%,-50%) translateY(${moreY>0?R+20:-(R+20)}px) scale(1)`;
+    }));
+  }
   menu.classList.add('open');
-  requestAnimationFrame(()=>{
-    menu.querySelectorAll('.radial-menu-item').forEach(el=>{
-      el.style.opacity='1';
-      const tr=el.style.transform.replace('scale(0)','scale(1)');
-      el.style.transform=tr;
-    });
-  });
 }
-function closeRadialMenu(){const m=document.getElementById('radialMenu');if(m){m.classList.remove('open');m.innerHTML='';}}
+function closeRadialMenu(){
+  const m=document.getElementById('radialMenu');
+  if(m){m.classList.remove('open');m.innerHTML='';}
+  document.querySelectorAll('.radial-overlay').forEach(o=>o.remove());
+}
 
 /* ─── 속성 패널 v2 ─── */
 function updatePropsPanel(){
@@ -790,12 +1051,12 @@ const AIW_STEPS=[
   {q:'어떤 섹션을 넣을까요?\n여러 개 선택할 수 있어요.',key:'sections',type:'multi',opts:[{l:'🏠 메인 배너',v:'hero',def:true},{l:'📝 소개 글',v:'intro',def:true},{l:'🃏 서비스 · 메뉴 카드',v:'cards'},{l:'🖼️ 사진 갤러리',v:'gallery'},{l:'📬 연락하기',v:'contact'},{l:'📍 위치 · 지도',v:'map'}]}
 ];
 const AIW_COPY={
-  personal:{sub:'안녕하세요, 저를 소개합니다',intro:'저는 다양한 경험과 관심사를 가진 사람입니다.\n이 공간에서 제 이야기를 나누겠습니다.',ct:'제가 잘하는 것들',cards:[{icon:'💡',name:'아이디어',desc:'새로운 생각을 즐깁니다'},{icon:'🤝',name:'소통',desc:'사람들과 연결됩니다'},{icon:'📚',name:'배움',desc:'매일 성장합니다'}]},
-  academy:{sub:'함께 배우고 함께 성장합니다',intro:'우리 학원은 학생 한 명 한 명을 소중히 생각합니다.\n작은 성취도 크게 칭찬하는 공간입니다.',ct:'우리 수업',cards:[{icon:'📖',name:'국어',desc:'글쓰기와 독해 능력 향상'},{icon:'✏️',name:'수학',desc:'개념부터 탄탄하게'},{icon:'🌍',name:'영어',desc:'자신감 있게 말하기'}]},
-  shop:{sub:'맛있는 음식, 따뜻한 공간',intro:'신선한 재료로 정성껏 만든 음식을 드립니다.\n언제나 환영합니다.',ct:'메뉴 소개',cards:[{icon:'🍱',name:'대표 메뉴',desc:'가장 인기 있는 메뉴'},{icon:'☕',name:'음료',desc:'직접 내린 커피'},{icon:'🎁',name:'포장',desc:'선물 포장 가능'}]},
-  portfolio:{sub:'제 작업들을 소개합니다',intro:'디자인, 개발, 기획 등 다양한 프로젝트를 해왔습니다.\n함께 일하고 싶다면 연락주세요.',ct:'주요 작업',cards:[{icon:'🖥️',name:'웹 개발',desc:'반응형 웹사이트'},{icon:'🎨',name:'UI 디자인',desc:'사용자 친화적 디자인'},{icon:'📱',name:'모바일',desc:'앱 기획 및 개발'}]},
-  blog:{sub:'생각을 나누는 공간',intro:'일상의 이야기, 배운 것들, 느낀 감정들을 여기에 기록합니다.',ct:'주제',cards:[{icon:'🌱',name:'일상',desc:'소소한 하루 이야기'},{icon:'📗',name:'독서',desc:'읽은 책 기록'},{icon:'💭',name:'생각',desc:'마음속 이야기'}]},
-  other:{sub:'환영합니다',intro:'이 사이트에 오신 것을 환영합니다.\n원하는 내용을 자유롭게 채워보세요.',ct:'주요 내용',cards:[{icon:'⭐',name:'항목 1',desc:'내용을 입력하세요'},{icon:'🌟',name:'항목 2',desc:'내용을 입력하세요'},{icon:'✨',name:'항목 3',desc:'내용을 입력하세요'}]}
+  personal:{sub:'안녕하세요, 저를 소개합니다',intro:'저는 다양한 경험과 관심사를 가진 사람입니다.\n이 공간에서 제 이야기를 나누겠습니다.',ct:'제가 잘하는 것들',cards:[{icon:'bulb',name:'아이디어',desc:'새로운 생각을 즐깁니다'},{icon:'users',name:'소통',desc:'사람들과 연결됩니다'},{icon:'book',name:'배움',desc:'매일 성장합니다'}]},
+  academy:{sub:'함께 배우고 함께 성장합니다',intro:'우리 학원은 학생 한 명 한 명을 소중히 생각합니다.\n작은 성취도 크게 칭찬하는 공간입니다.',ct:'우리 수업',cards:[{icon:'book',name:'국어',desc:'글쓰기와 독해 능력 향상'},{icon:'pen',name:'수학',desc:'개념부터 탄탄하게'},{icon:'globe',name:'영어',desc:'자신감 있게 말하기'}]},
+  shop:{sub:'맛있는 음식, 따뜻한 공간',intro:'신선한 재료로 정성껏 만든 음식을 드립니다.\n언제나 환영합니다.',ct:'메뉴 소개',cards:[{icon:'star',name:'대표 메뉴',desc:'가장 인기 있는 메뉴'},{icon:'heart',name:'음료',desc:'직접 내린 커피'},{icon:'gift',name:'포장',desc:'선물 포장 가능'}]},
+  portfolio:{sub:'제 작업들을 소개합니다',intro:'디자인, 개발, 기획 등 다양한 프로젝트를 해왔습니다.\n함께 일하고 싶다면 연락주세요.',ct:'주요 작업',cards:[{icon:'globe',name:'웹 개발',desc:'반응형 웹사이트'},{icon:'pen',name:'UI 디자인',desc:'사용자 친화적 디자인'},{icon:'camera',name:'모바일',desc:'앱 기획 및 개발'}]},
+  blog:{sub:'생각을 나누는 공간',intro:'일상의 이야기, 배운 것들, 느낀 감정들을 여기에 기록합니다.',ct:'주제',cards:[{icon:'sun',name:'일상',desc:'소소한 하루 이야기'},{icon:'book',name:'독서',desc:'읽은 책 기록'},{icon:'chat',name:'생각',desc:'마음속 이야기'}]},
+  other:{sub:'환영합니다',intro:'이 사이트에 오신 것을 환영합니다.\n원하는 내용을 자유롭게 채워보세요.',ct:'주요 내용',cards:[{icon:'star',name:'항목 1',desc:'내용을 입력하세요'},{icon:'check',name:'항목 2',desc:'내용을 입력하세요'},{icon:'heart',name:'항목 3',desc:'내용을 입력하세요'}]}
 };
 
 let aiwAns={siteType:'',siteName:'',theme:'mint-tide',sections:['hero','intro']};
