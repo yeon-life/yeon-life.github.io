@@ -708,7 +708,7 @@ function showRadialMenu(cx,cy){
 }
 function closeRadialMenu(){const m=document.getElementById('radialMenu');if(m){m.classList.remove('open');m.innerHTML='';}}
 
-/* ─── 속성 패널 ─── */
+/* ─── 속성 패널 v2 ─── */
 function updatePropsPanel(){
   const panel=document.getElementById('propsPanel');
   if(!selectedBlockId){panel.innerHTML='<div class="props-panel-header">속성</div><div class="no-select">블록을 선택하면<br>속성이 표시됩니다</div>';return;}
@@ -900,19 +900,7 @@ window.addEventListener('load',function(){
   }
 });
 </script>
-</body>
-</html>
-    case 'youtube':html+=`<div class="props-section"><div class="props-section-title">YouTube</div><div class="props-field"><label>YouTube URL</label><input type="text" value="${esc(b.url||'')}" onblur="updB('url',this.value)" placeholder="https://youtube.com/watch?v=..."></div><div class="props-field"><label>캡션 (선택)</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div></div>${pads}`;break;
-    case 'map':html+=`<div class="props-section"><div class="props-section-title">지도</div><div class="props-field"><label>Google Maps 임베드 URL</label><textarea style="min-height:80px" onblur="updB('embedUrl',this.value)" placeholder="Google Maps → 공유 → 지도 임베드 → iframe src 값">${esc(b.embedUrl||'')}</textarea></div><div class="props-field"><label>주소 텍스트 (URL 없을 때 표시)</label><input type="text" value="${esc(b.address||'')}" onblur="updB('address',this.value)"></div><div class="props-field"><label>지도 높이</label><div class="range-row"><input type="range" min="200" max="600" value="${b.height||320}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||320}px</span></div></div></div>${pads}`;break;
-    case 'button':html+=`<div class="props-section"><div class="props-section-title">버튼</div><div class="props-field"><label>버튼 텍스트</label><input type="text" value="${esc(b.text||'버튼')}" onblur="updB('text',this.value)"></div><div class="props-field"><label>링크 URL</label><input type="text" value="${esc(b.url||'#')}" onblur="updB('url',this.value)"></div><div class="props-field"><label>스타일</label><select onchange="updB('variant',this.value)"><option value="primary"${b.variant==='primary'?' selected':''}>채움</option><option value="outline"${b.variant==='outline'?' selected':''}>외곽선</option><option value="ghost"${b.variant==='ghost'?' selected':''}>텍스트</option></select></div><div class="props-field"><label>크기</label><select onchange="updB('size',this.value)"><option value="small"${b.size==='small'?' selected':''}>소</option><option value="medium"${(!b.size||b.size==='medium')?' selected':''}>중</option><option value="large"${b.size==='large'?' selected':''}>대</option></select></div>${aligns}</div>${pads}`;break;
-    case 'social':html+=`<div class="props-section"><div class="props-section-title">소셜 링크</div>${(b.links||[]).map((l,li)=>`<div class="props-field" style="background:var(--bg);padding:8px;border-radius:6px;margin-bottom:6px"><div style="font-size:11px;font-weight:600;color:var(--ink-soft);margin-bottom:4px">${l.platform}</div><input type="url" value="${esc(l.url||'')}" onblur="updSocial(${li},'url',this.value)" placeholder="https://..."></div>`).join('')}${aligns}</div>${pads}`;break;
-    case 'spacer':html+=`<div class="props-section"><div class="props-section-title">간격 블록</div><div class="props-field"><label>높이</label><div class="range-row"><input type="range" min="16" max="300" value="${b.height||48}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||48}px</span></div></div></div>`;break;
-    case 'shop':html+=`<div class="props-section"><div class="props-section-title">쇼핑몰 블록</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'상품 목록')}" onblur="updB('title',this.value)"></div><p style="font-size:11px;color:var(--ink-faint);padding:0 0 8px">클릭으로 상품 텍스트 직접 편집, 이미지 클릭으로 업로드</p></div>${pads}`;break;
-    case 'cards':html+=`<div class="props-section"><div class="props-section-title">카드</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div></div>${pads}`;break;
-    case 'contact':html+=`<div class="props-section"><div class="props-section-title">연락처 폼</div><div class="props-field"><label>제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div><div class="props-field"><label>이름 안내문</label><input type="text" value="${esc(b.placeholder_name||'이름')}" onblur="updB('placeholder_name',this.value)"></div><div class="props-field"><label>이메일 안내문</label><input type="text" value="${esc(b.placeholder_email||'이메일')}" onblur="updB('placeholder_email',this.value)"></div></div>${pads}`;break;
-    default:html+=`<div class="props-section"><div class="props-section-title">${b.type}</div><div class="props-field"><p style="font-size:12px;color:var(--ink-faint)">직접 클릭해서 텍스트를 편집하세요</p></div></div>${pads}`;}
-  panel.innerHTML=html;
-}
+<script>
 function updB(field,val){const b=currentBlocks().find(b=>b.id===selectedBlockId);if(!b)return;b[field]=val;renderCanvas();autoSave();}
 function updSocial(li,field,val){const b=currentBlocks().find(b=>b.id===selectedBlockId);if(!b||!b.links)return;b.links[li][field]=val;renderCanvas();autoSave();}
 
