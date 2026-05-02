@@ -1,0 +1,2449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자기주도학습 진단검사 — CAM 모델</title>
+<link href="https://fonts.googleapis.chom/css2?family=Nohto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ──────────────────────────────
+   토큰
+────────────────────────────── */
+:root {
+  --c: #4fa394;          /* tehal primary */
+  --c-dk: #2d6b60;       /* teal dark */
+  --c-lt: #e6f4f1;       /* teal surface */
+  --a: #5b7f6b;          /* action green */
+  --a-lt: #e8f0ea;
+  --m: #a08c6e;          /* motivation warm */
+  --m-lt: #f0ebe1;
+
+  --bg: #f4f8f6;
+  --surface: #ffffff;
+  --border: #dce8e4;
+  --text: #1c2422;
+  --text-2: #5a6660;
+  --text-3: #96a09c;
+
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.07), 0 0 0 1px rgba(0,0,0,.03);
+  --shadow-md: 0 6px 20px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.03);
+}
+
+/* ──────────────────────────────
+   리셋 & 베이스
+────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ──────────────────────────────
+   화면 전환
+────────────────────────────── */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ──────────────────────────────
+   앱바
+────────────────────────────── */
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-bar-title { font-size: 30px; font-weight: 700; color: var(--text); letter-spacing: -.2px; }
+.app-bar-sub { font-size: 24px; color: var(--text-3); margin-top: 1px; }
+.badge {
+  background: var(--c);
+  color: #fff;
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: .5px;
+}
+
+/* ──────────────────────────────
+   컨테이너
+────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ──────────────────────────────
+   버튼
+────────────────────────────── */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: var(--c);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 15px 24px;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  letter-spacing: -.1px;
+}
+.btn-primary:hover { background: var(--c-dk); }
+.btn-primary:active { transform: scale(.98); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 24px;
+  font-size: 28px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  width: 100%;
+}
+.btn-secondary:hover { border-color: var(--c); color: var(--c-dk); }
+
+/* ──────────────────────────────
+   시작 화면
+────────────────────────────── */
+#screen-intro { background: var(--bg); }
+
+.intro-scroll { flex: 1; overflow-y: auto; }
+
+.intro-hero {
+  background: linear-gradient(160deg, #1f5c52 0%, #3a9080 60%, #4faa9a 100%);
+  color: #fff;
+  padding: 52px 24px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.intro-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+}
+.intro-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.05);
+}
+.intro-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.15);
+  margin-bottom: 24px;
+}
+.intro-logo svg { width: 34px; height: 34px; stroke: #fff; fill: none; }
+.intro-title {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -.5px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.intro-subtitle { font-size: 28px; opacity: .75; margin-bottom: 4px; }
+.intro-org { font-size: 24px; opacity: .55; margin-bottom: 14px; }
+.intro-cheer {
+  display: inline-block;
+  font-size: 22px;
+  background: rgba(255,255,255,.18);
+  border-radius: 20px;
+  padding: 6px 18px;
+  opacity: .9;
+  margin-top: 4px;
+}
+
+.intro-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 24px 20px 0;
+}
+.meta-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.meta-val { font-size: 32px; font-weight: 700; color: var(--text); }
+.meta-label { font-size: 22px; color: var(--text-3); margin-top: 2px; }
+
+.intro-axes { display: flex; flex-direction: column; gap: 8px; padding: 20px 20px 0; }
+.axis-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.axis-pip {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pip-c { background: var(--c-lt); color: var(--c-dk); }
+.pip-a { background: var(--a-lt); color: var(--a); }
+.pip-m { background: var(--m-lt); color: var(--m); }
+.axis-pip svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+.axis-row-name { font-size: 26px; font-weight: 600; color: var(--text); }
+.axis-row-desc { font-size: 24px; color: var(--text-3); line-height: 1.5; margin-top: 1px; }
+
+.name-section { padding: 20px 20px 0; }
+.name-label { font-size: 26px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; display: block; }
+.name-input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-size: 32px;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.name-input:focus {
+  border-color: var(--c);
+  box-shadow: 0 0 0 3px rgba(79,163,148,.12);
+}
+.name-input::placeholder { color: var(--text-3); }
+
+.intro-start { padding: 20px 20px 32px; }
+.intro-purpose {
+  background: var(--surface);
+  margin: 20px 20px 0;
+  border-radius: var(--radius-md);
+  padding: 24px 20px 20px;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--c);
+}
+.purpose-label {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-dk);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.purpose-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+  flex-shrink: 0;
+}
+.purpose-body {
+  font-size: 26px;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.purpose-body strong { color: var(--text); font-weight: 700; }
+.purpose-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.ptag { font-size: 22px; font-weight: 600; border-radius: 20px; padding: 4px 16px; }
+.ptag-c { background: var(--c-lt); color: var(--c-dk); }
+.ptag-a { background: var(--a-lt); color: var(--a); }
+.ptag-m { background: var(--m-lt); color: var(--m); }
+
+.intro-hint {
+  text-align: center;
+  font-size: 24px;
+  color: var(--text-3);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ──────────────────────────────
+   문항 화면
+────────────────────────────── */
+/* 문항 화면: 스크롤 없이 한 화면 */
+#screen-questions {
+  background: var(--bg);
+  height: 100dvh;
+  overflow: hidden;
+}
+.q-scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.progress-bar-wrap { height: 3px; background: var(--border); width: 100%; }
+.progress-bar-fill { height: 3px; background: var(--c); transition: width .4s ease; }
+
+.q-header {
+  padding: clamp(8px,1.4vh,18px) 20px 0;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  flex-shrink: 0;
+}
+.q-axis-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(12px,1.8vh,20px);
+  font-weight: 600;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.q-axis-tag svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
+.tag-c { background: var(--c-lt); color: var(--c-dk); }
+.tag-a { background: var(--a-lt); color: var(--a); }
+.tag-m { background: var(--m-lt); color: var(--m); }
+
+.q-section-label { font-size: 24px; color: var(--text-3); }
+.q-num-badge { font-size: 24px; font-weight: 600; color: var(--text-3); }
+
+.q-body {
+  padding: clamp(6px,1.2vh,16px) 20px 0;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+}
+.q-text {
+  font-size: clamp(18px, 3vh, 36px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  letter-spacing: -.3px;
+  text-wrap: pretty;
+}
+
+.likert-group {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px,1vh,10px);
+  padding: clamp(8px,1.4vh,18px) 20px 0;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+.likert-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: clamp(10px,1.8vh,20px) 20px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s, background .15s, transform .1s, box-shadow .15s;
+  text-align: left;
+  flex: 1;
+  min-height: 0;
+}
+.likert-btn:hover { border-color: var(--c); background: var(--c-lt); box-shadow: 0 4px 12px rgba(79,163,148,.15); }
+.likert-btn.selected {
+  border-color: var(--c);
+  background: var(--c-lt);
+  box-shadow: 0 4px 14px rgba(79,163,148,.2);
+  transform: translateY(-1px);
+}
+.likert-btn:hover .lb-circle { border-color: var(--c); }
+.likert-btn.selected .lb-circle { background: var(--c); border-color: var(--c); }
+.likert-btn.selected .lb-label { color: var(--c-dk); font-weight: 600; }
+
+.lb-circle {
+  width: clamp(26px,3.8vh,38px);
+  height: clamp(26px,3.8vh,38px);
+  border-radius: 50%;
+  border: 2.5px solid #b0c4bf;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, border-color .15s;
+  background: #fff;
+}
+.lb-circle svg { display: none; width: 18px; height: 18px; }
+.likert-btn.selected .lb-circle svg { display: block; }
+
+.lb-content { flex: 1; }
+.lb-label { font-size: clamp(14px,2.4vh,28px); color: var(--text-2); transition: color .15s; }
+.lb-score { font-size: clamp(11px,1.8vh,20px); color: var(--text-3); margin-top: 1px; }
+
+.q-nav {
+  display: flex;
+  gap: 10px;
+  padding: clamp(8px,1.4vh,16px) 20px clamp(10px,1.8vh,24px);
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  flex-shrink: 0;
+}
+.btn-prev {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: clamp(14px,2.2vh,24px);
+  color: var(--text-3);
+  transition: color .15s, border-color .15s;
+}
+.btn-prev:hover { border-color: var(--c); color: var(--c-dk); }
+.btn-next {
+  flex: 1;
+  background: var(--c);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-next:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; }
+.btn-next:not(:disabled):hover { background: var(--c-dk); }
+
+/* ──────────────────────────────
+   로딩
+────────────────────────────── */
+#screen-loading {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--bg);
+}
+.loading-ring {
+  width: 52px;
+  height: 52px;
+  border: 3px solid var(--border);
+  border-top-color: var(--c);
+  border-radius: 50%;
+  animation: spin .9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 30px; color: var(--text-2); font-weight: 500; }
+
+/* ──────────────────────────────
+   결과 화면
+────────────────────────────── */
+#screen-result { background: var(--bg); }
+.r-scroll { flex: 1; overflow-y: auto; padding-bottom: 40px; }
+
+/* 히어로 */
+.result-hero {
+  background: linear-gradient(160deg, #1f5c52 0%, #3a9080 60%, #4faa9a 100%);
+  color: #fff;
+  padding: 32px 24px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.result-hero::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+}
+.result-congrats {
+  display: inline-block;
+  font-size: 22px;
+  background: rgba(255,255,255,.18);
+  border-radius: 20px;
+  padding: 5px 16px;
+  margin-bottom: 14px;
+  opacity: .95;
+}
+.result-hero-name { font-size: 26px; opacity: .8; margin-bottom: 4px; font-weight: 600; }
+.result-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.18);
+  margin-bottom: 16px;
+}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.15);
+  margin-bottom: 16px;
+}
+.result-type-name { font-size: 44px; font-weight: 700; letter-spacing: -.3px; margin-bottom: 8px; }
+.result-type-tag {
+  display: inline-block;
+  font-size: 24px;
+  background: rgba(255,255,255,.18);
+  border-radius: 20px;
+  padding: 4px 14px;
+  opacity: .9;
+}
+
+/* 점수 칩 */
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 20px 20px 0;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+.score-chip {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.score-chip-axis { font-size: 22px; color: var(--text-3); margin-bottom: 4px; }
+.score-chip-val { font-size: 48px; font-weight: 700; letter-spacing: -.5px; }
+.score-chip-label { font-size: 20px; color: var(--text-3); margin-top: 2px; }
+.score-c .score-chip-val { color: var(--c); }
+.score-a .score-chip-val { color: var(--a); }
+.score-m .score-chip-val { color: var(--m); }
+
+/* 섹션 공통 */
+.r-section {
+  padding: 20px 20px 0;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+.r-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  margin-bottom: 12px;
+}
+.r-section-title svg { width: 14px; height: 14px; stroke: var(--c); fill: none; flex-shrink: 0; }
+
+.r-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 바 차트 */
+.bar-item { margin-bottom: 14px; }
+.bar-item:last-child { margin-bottom: 0; }
+.bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26px;
+  color: var(--text-2);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.bar-track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar-fill { height: 8px; border-radius: 4px; transition: width 1s ease; }
+.bar-c { background: var(--c); }
+.bar-a { background: var(--a); }
+.bar-m { background: var(--m); }
+
+/* 강점 그리드 */
+.strength-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.str-card {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.str-icon { margin-bottom: 8px; color: var(--c-dk); }
+.str-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+.str-label { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.str-desc { font-size: 24px; color: var(--text-3); line-height: 1.5; }
+
+/* 팁 리스트 */
+.tip-list { display: flex; flex-direction: column; gap: 8px; }
+.tip-item {
+  display: flex;
+  gap: 12px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+  align-items: flex-start;
+}
+.tip-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background: var(--c-lt);
+  color: var(--c-dk);
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.tip-text { font-size: 26px; color: var(--text-2); line-height: 1.65; }
+
+/* 축별 해설 */
+.axis-detail {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 8px;
+}
+.axis-detail:last-child { margin-bottom: 0; }
+.axis-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.axis-detail-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.axis-detail-name { font-size: 26px; font-weight: 600; color: var(--text); flex: 1; }
+.axis-detail-level {
+  font-size: 22px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.level-high { background: var(--c-lt); color: var(--c-dk); }
+.level-mid { background: var(--m-lt); color: #6a5000; }
+.level-low { background: #fef0f0; color: #b04040; }
+.axis-detail-desc { font-size: 24px; color: var(--text-3); line-height: 1.6; }
+
+/* 신뢰도 배너 */
+.trust-banner {
+  background: var(--c-dk);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.trust-banner-eyebrow { font-size: 22px; opacity: .65; letter-spacing: .5px; margin-bottom: 6px; font-weight: 600; }
+.trust-banner-main { font-size: 30px; font-weight: 700; line-height: 1.4; margin-bottom: 4px; letter-spacing: -.2px; }
+.trust-banner-sub { font-size: 24px; opacity: .65; }
+.trust-scores {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.trust-score-item {
+  background: rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.trust-score-val { font-size: 36px; font-weight: 700; }
+.trust-score-lbl { font-size: 20px; opacity: .7; margin-top: 2px; }
+
+/* AI 프로세스 */
+.ai-process { background: var(--surface); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); }
+.ai-process-title { font-size: 26px; font-weight: 700; color: var(--c-dk); margin-bottom: 14px; }
+.ai-step { margin-bottom: 12px; }
+.ai-step:last-child { margin-bottom: 0; }
+.ai-step-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.ai-step-num {
+  background: var(--c-lt);
+  color: var(--c-dk);
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ai-step-label { font-size: 24px; font-weight: 600; color: var(--text); flex: 1; }
+.ai-step-done { font-size: 22px; color: var(--c); font-weight: 600; }
+.ai-bar-bg { background: var(--bg); border-radius: 4px; height: 5px; overflow: hidden; }
+.ai-bar-fill { height: 5px; width: 0%; border-radius: 4px; background: var(--c); transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+
+/* 신뢰도 그리드 */
+.reliability-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rel-card {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.rel-icon { margin-bottom: 8px; color: var(--c-dk); display: flex; align-items: center; justify-content: center; }
+.rel-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+.rel-val { font-size: 44px; font-weight: 700; color: var(--c); margin-bottom: 2px; }
+.rel-label { font-size: 22px; color: var(--text-3); }
+
+/* 이론 섹션 */
+.theory-section { background: var(--surface); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); }
+.theory-section-title { font-size: 26px; font-weight: 700; color: var(--c-dk); margin-bottom: 14px; }
+.theory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.theory-card {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.theory-icon { color: var(--c-dk); flex-shrink: 0; margin-top: 1px; }
+.theory-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+.theory-name { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 1px; }
+.theory-author { font-size: 20px; color: var(--c); font-weight: 600; margin-bottom: 3px; }
+.theory-desc { font-size: 20px; color: var(--text-3); line-height: 1.5; }
+
+/* 기준 인증 */
+.standard-section {
+  background: #faf8f2;
+  border: 1px solid #e8e0cc;
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+.standard-title { font-size: 26px; font-weight: 700; color: #5a4a00; margin-bottom: 12px; }
+.std-badge {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.std-badge:last-child { margin-bottom: 0; }
+.std-badge-icon { color: var(--c-dk); flex-shrink: 0; margin-top: 1px; }
+.std-badge-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
+.std-badge-name { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.std-badge-desc { font-size: 22px; color: var(--text-3); line-height: 1.5; }
+
+/* 인증 푸터 */
+.cert-footer {
+  background: #1c2d28;
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.cert-seal { color: rgba(255,255,255,.5); flex-shrink: 0; }
+.cert-seal svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
+.cert-title { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+.cert-sub { font-size: 22px; opacity: .55; line-height: 1.7; }
+
+/* 결과 액션 */
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 20px 0;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ──────────────────────────────
+   레이더 차트
+────────────────────────────── */
+canvas#radarChart { display: block; margin: 0 auto; }
+
+/* ──────────────────────────────
+   3단계 진행 표시
+────────────────────────────── */
+.stage-indicator {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px 14px;
+}
+.stage-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 12px;
+}
+.stage-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.step-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text-3);
+  transition: all .3s;
+}
+.step-dot-c.active { background: var(--c-lt); border-color: var(--c); color: var(--c-dk); }
+.step-dot-a.active { background: var(--a-lt); border-color: var(--a); color: var(--a); }
+.step-dot-m.active { background: var(--m-lt); border-color: var(--m); color: var(--m); }
+.step-dot.done { background: var(--c); border-color: var(--c); color: #fff; }
+.step-dot.done svg { stroke: #fff; }
+.step-label {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-3);
+  transition: color .3s;
+}
+.stage-step.active .step-label { color: var(--text); }
+.stage-step.done .step-label { color: var(--c); }
+.step-connector {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 6px;
+  margin-bottom: 28px;
+  overflow: hidden;
+  min-width: 40px;
+}
+.step-connector-fill {
+  height: 3px;
+  background: var(--c);
+  border-radius: 2px;
+  width: 0%;
+  transition: width .4s ease;
+}
+.stage-within-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.stage-within-lbl {
+  font-size: 22px;
+  color: var(--text-2);
+  font-weight: 600;
+  white-space: nowrap;
+  min-width: 80px;
+}
+.stage-within-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.stage-within-fill {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--c);
+  width: 0%;
+  transition: width .4s ease;
+}
+.stage-within-pct {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--c-dk);
+  min-width: 48px;
+  text-align: right;
+}
+
+/* ──────────────────────────────
+   결과 인포그래픽
+────────────────────────────── */
+.gauge-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 20px 20px 0;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+.gauge-item {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 16px 8px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.gauge-label { font-size: 22px; font-weight: 600; color: var(--text-2); }
+.gauge-sub { font-size: 18px; color: var(--text-3); }
+@media (min-width: 640px) {
+  .intro-title { font-size: 60px; }
+  /* q-text: clamp로 처리 */
+  /* likert 항상 1열 */
+  .theory-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+@media (min-width: 768px) {
+  body { font-size: 32px; }
+  .app-bar { padding: 16px 28px; }
+  .app-bar-title { font-size: 32px; }
+  .intro-title { font-size: 64px; }
+  .intro-meta { gap: 12px; }
+  .meta-val { font-size: 36px; }
+  .axis-row-name { font-size: 28px; }
+  .axis-row-desc { font-size: 26px; }
+  /* q-text: clamp로 처리 */
+  .lb-label { font-size: 15px; }
+  .result-type-name { font-size: 48px; }
+  .score-chip-val { font-size: 56px; }
+  .tip-text { font-size: 28px; }
+}
+
+@media print {
+  .app-bar, .result-actions, .q-nav, .progress-bar-wrap,
+  #modal-qr, #modal-submit, #panel-teacher { display: none !important; }
+  #screen-result { background: #fff; }
+}
+
+/* ──────────────────────────────
+   아이콘 버튼 (앱바)
+────────────────────────────── */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: none;
+  background: var(--c-lt);
+  color: var(--c-dk);
+  cursor: pointer;
+  position: relative;
+  transition: background .15s;
+}
+.icon-btn:hover { background: #c8e8e2; }
+.results-btn { background: var(--c); color: #fff; }
+.results-btn:hover { background: var(--c-dk); }
+.results-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e05050;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 20px;
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+/* ──────────────────────────────
+   제출 버튼
+────────────────────────────── */
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--c-dk);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 18px 24px;
+  font-size: 30px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+  letter-spacing: -.2px;
+}
+.btn-submit:hover { background: #1e4a41; }
+
+/* ──────────────────────────────
+   모달
+────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.2);
+  overflow: hidden;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 0;
+}
+.modal-title { font-size: 28px; font-weight: 700; color: var(--text); }
+.modal-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  color: var(--text-3);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--border); }
+.modal-body { padding: 20px 24px 28px; }
+.modal-desc {
+  font-size: 24px;
+  color: var(--text-2);
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+.qr-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.qr-img { width: 220px; height: 220px; display: block; border-radius: 8px; }
+.link-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.link-input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 22px;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text-2);
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.copy-btn {
+  background: var(--c);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: var(--c-dk); }
+.modal-note {
+  font-size: 22px;
+  color: var(--text-3);
+  text-align: center;
+  line-height: 1.6;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.modal-note strong { color: var(--c-dk); }
+.submit-student-name {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--c-dk);
+  margin-bottom: 4px;
+}
+
+/* ──────────────────────────────
+   선생님 패널
+────────────────────────────── */
+.panel-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 1000;
+}
+.panel-overlay.open { display: block; }
+.panel-box {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+}
+.panel-clear {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 18px;
+  font-size: 22px;
+  color: var(--text-3);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color .15s, border-color .15s;
+}
+.panel-clear:hover { border-color: #e05050; color: #e05050; }
+.panel-body { flex: 1; overflow-y: auto; padding: 20px; }
+.panel-empty {
+  text-align: center;
+  color: var(--text-3);
+  font-size: 26px;
+  padding: 60px 20px;
+  line-height: 1.8;
+}
+
+/* 학생 결과 카드 */
+.student-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.student-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.student-card-name { font-size: 28px; font-weight: 700; color: var(--text); }
+.student-card-meta { font-size: 22px; color: var(--text-3); }
+.student-card-type {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--c-dk);
+  background: var(--c-lt);
+  border-radius: 8px;
+  padding: 4px 14px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.student-scores {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.student-score-item {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.student-score-axis { font-size: 20px; color: var(--text-3); margin-bottom: 2px; }
+.student-score-val { font-size: 30px; font-weight: 700; }
+.s-c { color: var(--c); }
+.s-a { color: var(--a); }
+.s-m { color: var(--m); }
+.student-card-actions { display: flex; gap: 8px; }
+.card-btn-print {
+  flex: 1;
+  background: var(--c);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.card-btn-print:hover { background: var(--c-dk); }
+.card-btn-del {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  font-size: 22px;
+  color: var(--text-3);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color .15s, border-color .15s;
+}
+.card-btn-del:hover { border-color: #e05050; color: #e05050; }
+
+/* ── PWA 설치 안내 ── */
+.install-guide{margin:20px 0 8px;background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1.5px solid var(--yeon-teal-light)}
+.install-guide-title{font-size:13px;font-weight:700;color:var(--yeon-deep-teal);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.install-steps{display:flex;flex-direction:column;gap:7px}
+.install-step{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--yeon-mid-sage);line-height:1.5}
+.install-step-badge{background:var(--yeon-teal-light);color:var(--yeon-deep-teal);border-radius:6px;padding:1px 7px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:1px}
+@media(min-width:768px){.install-guide-title{font-size:17px}.install-step{font-size:15px}.install-step-badge{font-size:13px;padding:2px 10px}}
+@media(min-width:1024px){.install-guide-title{font-size:20px}.install-step{font-size:17px}}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6eb5a6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CAM 진단검사">
+<link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+
+<!-- ===== 시작 화면 ===== -->
+<div id="screen-intro" class="screen active">
+  <div class="app-bar">
+    <div>
+      <div class="app-bar-title">자기주도학습 진단검사</div>
+      <div class="app-bar-sub">삼산 연플래닝</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="icon-btn" onclick="showQRPopup()" title="QR 공유">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/>
+          <path d="M14 14h3v3h-3zM17 14h3v1M17 17h3v1M14 17v3M17 20h3"/>
+        </svg>
+      </button>
+      <button class="icon-btn results-btn" onclick="showTeacherPanel()" title="학생 결과 보기" id="teacherBtn" style="display:none">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <span class="results-count" id="resultsCount">0</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="intro-scroll">
+    <div class="intro-hero">
+      <div class="intro-logo">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A7 7 0 0112 2z"/>
+          <path d="M9 21h6M10 17v1M14 17v1"/>
+        </svg>
+      </div>
+      <div class="intro-title">나는 어떤 학습자일까?</div>
+      <div class="intro-subtitle">자기주도학습 CAM 진단검사</div>
+      <div class="intro-org">삼산 연플래닝</div>
+      <div class="intro-cheer">솔직하게 답하면 나에게 딱 맞는 결과가 나와요 ✨</div>
+    </div>
+
+    <div class="intro-purpose">
+      <div class="purpose-label">이 검사는 무엇을 알아보나요?</div>
+      <div class="purpose-body">
+        공부를 <strong>어떻게 생각하고(인지)</strong>, <strong>어떻게 실천하고(행동)</strong>, <strong>왜 하는지(동기)</strong>를 함께 진단합니다.<br>
+        세 가지 축을 통해 나만의 학습 패턴과 숨겨진 강점을 발견하고, 더 효과적인 공부 방법을 찾을 수 있어요.
+      </div>
+      <div class="purpose-tags">
+        <span class="ptag ptag-c">인지 · Cognition</span>
+        <span class="ptag ptag-a">행동 · Action</span>
+        <span class="ptag ptag-m">동기 · Motivation</span>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item">
+        <div class="meta-val">20문항</div>
+        <div class="meta-label">총 문항 수</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">약 7분</div>
+        <div class="meta-label">소요 시간</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">3축</div>
+        <div class="meta-label">인지·행동·동기</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-val">6유형</div>
+        <div class="meta-label">결과 유형</div>
+      </div>
+    </div>
+
+    <div class="intro-axes">
+      <div class="axis-row">
+        <div class="axis-pip pip-c">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="axis-row-name">인지축 (C · Cognition)</div>
+          <div class="axis-row-desc">어떻게 생각하고 정보를 처리하는가? 사고방식과 문제해결 패턴을 측정합니다.</div>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-pip pip-a">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="axis-row-name">행동축 (A · Action)</div>
+          <div class="axis-row-desc">어떻게 실행하고 관리하는가? 자기조절, 시간관리, 실행 지속성을 측정합니다.</div>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-pip pip-m">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="axis-row-name">동기축 (M · Motivation)</div>
+          <div class="axis-row-desc">왜 공부하는가? 목표 지향성, 내적 동기, 자기효능감을 측정합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="name-section">
+      <label class="name-label" for="studentName">이름을 입력해 주세요</label>
+      <input type="text" id="studentName" class="name-input" placeholder="홍길동" maxlength="20">
+    </div>
+
+    <div class="intro-start">
+      <button class="btn-primary" onclick="startTest()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        진단 시작하기
+      </button>
+      <p class="intro-hint">정답은 없습니다. 솔직하게 답할수록 정확한 결과를 얻을 수 있어요.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 문항 화면 ===== -->
+<div id="screen-questions" class="screen">
+  <div class="app-bar">
+    <div>
+      <div class="app-bar-title" id="qBarTitle">인지축</div>
+      <div class="app-bar-sub" id="qBarSub">1 / 20</div>
+    </div>
+    <span class="badge" id="qBadge">C</span>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- 3단계 진행 표시 -->
+  <div class="stage-indicator">
+    <div class="stage-steps">
+      <div class="stage-step" id="step-C">
+        <div class="step-dot step-dot-c" id="dot-C">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>
+        </div>
+        <div class="step-label">인지</div>
+      </div>
+      <div class="step-connector"><div class="step-connector-fill" id="conn-CA"></div></div>
+      <div class="stage-step" id="step-A">
+        <div class="step-dot step-dot-a" id="dot-A">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="step-label">행동</div>
+      </div>
+      <div class="step-connector"><div class="step-connector-fill" id="conn-AM"></div></div>
+      <div class="stage-step" id="step-M">
+        <div class="step-dot step-dot-m" id="dot-M">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="step-label">동기</div>
+      </div>
+    </div>
+    <div class="stage-within-wrap">
+      <span class="stage-within-lbl" id="stageWithinLbl"></span>
+      <div class="stage-within-track">
+        <div class="stage-within-fill" id="stageWithinFill"></div>
+      </div>
+      <span class="stage-within-pct" id="stageWithinPct"></span>
+    </div>
+  </div>
+
+  <div class="q-scroll">
+    <div class="q-header">
+      <div class="q-axis-tag" id="qAxisTag">
+        <svg id="qAxisSvg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>
+        <span id="qSectionName"></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="q-section-label" id="qSectionRange"></div>
+        <div class="q-num-badge" id="qNum"></div>
+      </div>
+    </div>
+
+    <div class="q-body">
+      <div class="q-text" id="qText"></div>
+    </div>
+
+    <div class="likert-group" id="likertGroup">
+      <button class="likert-btn" data-val="1" onclick="selectAnswer(1)">
+        <div class="lb-circle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="lb-content"><div class="lb-label">전혀 아니다</div><div class="lb-score">1점</div></div>
+      </button>
+      <button class="likert-btn" data-val="2" onclick="selectAnswer(2)">
+        <div class="lb-circle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="lb-content"><div class="lb-label">아닌 편이다</div><div class="lb-score">2점</div></div>
+      </button>
+      <button class="likert-btn" data-val="3" onclick="selectAnswer(3)">
+        <div class="lb-circle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="lb-content"><div class="lb-label">그런 편이다</div><div class="lb-score">3점</div></div>
+      </button>
+      <button class="likert-btn" data-val="4" onclick="selectAnswer(4)">
+        <div class="lb-circle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="lb-content"><div class="lb-label">매우 그렇다</div><div class="lb-score">4점</div></div>
+      </button>
+    </div>
+
+    <div class="q-nav">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" id="btnNext" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 로딩 화면 ===== -->
+<div id="screen-loading" class="screen">
+  <div class="loading-ring"></div>
+  <div class="loading-text">결과를 분석하는 중이에요…</div>
+</div>
+
+<!-- ===== 결과 화면 ===== -->
+<div id="screen-result" class="screen">
+  <div class="app-bar">
+    <div>
+      <div class="app-bar-title">진단 결과</div>
+      <div class="app-bar-sub" id="resultDate"></div>
+    </div>
+    <span class="badge" id="resultBadge">CAM</span>
+  </div>
+
+  <div class="r-scroll">
+
+    <!-- 히어로 -->
+    <div class="result-hero">
+      <div class="result-congrats" id="resultCongrats"></div>
+      <div class="result-hero-name" id="rName"></div>
+      <div class="result-icon-wrap" id="rEmoji"></div>
+      <div class="result-type-name" id="rTypeName"></div>
+      <span class="result-type-tag" id="rTypeTag"></span>
+    </div>
+
+    <!-- 원형 게이지 -->
+    <div class="gauge-row">
+      <div class="gauge-item">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--border)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--c)" stroke-width="9"
+            stroke-dasharray="264" id="gaugeC" stroke-dashoffset="264"
+            stroke-linecap="round" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1.2s ease"/>
+          <text x="55" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="#4fa394" font-family="'Noto Sans KR',sans-serif" id="gaugeTextC">0%</text>
+          <text x="55" y="70" text-anchor="middle" font-size="11" fill="#96a09c" font-family="'Noto Sans KR',sans-serif">Cognition</text>
+        </svg>
+        <div class="gauge-label">인지</div>
+      </div>
+      <div class="gauge-item">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--border)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--a)" stroke-width="9"
+            stroke-dasharray="264" id="gaugeA" stroke-dashoffset="264"
+            stroke-linecap="round" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1.2s ease"/>
+          <text x="55" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="#5b7f6b" font-family="'Noto Sans KR',sans-serif" id="gaugeTextA">0%</text>
+          <text x="55" y="70" text-anchor="middle" font-size="11" fill="#96a09c" font-family="'Noto Sans KR',sans-serif">Action</text>
+        </svg>
+        <div class="gauge-label">행동</div>
+      </div>
+      <div class="gauge-item">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--border)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="42" fill="none" stroke="var(--m)" stroke-width="9"
+            stroke-dasharray="264" id="gaugeM" stroke-dashoffset="264"
+            stroke-linecap="round" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1.2s ease"/>
+          <text x="55" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="#a08c6e" font-family="'Noto Sans KR',sans-serif" id="gaugeTextM">0%</text>
+          <text x="55" y="70" text-anchor="middle" font-size="11" fill="#96a09c" font-family="'Noto Sans KR',sans-serif">Motivation</text>
+        </svg>
+        <div class="gauge-label">동기</div>
+      </div>
+    </div>
+
+    <!-- 레이더 차트 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/></svg>
+        종합 역량 그래프
+      </div>
+      <div class="r-card" style="padding:24px">
+        <canvas id="radarChart" width="260" height="260"></canvas>
+      </div>
+    </div>
+
+    <!-- 막대 그래프 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
+        축별 점수 상세
+      </div>
+      <div class="r-card">
+        <div class="bar-item"><div class="bar-header"><span>인지 (Cognition)</span><span id="barCVal">0%</span></div><div class="bar-track"><div class="bar-fill bar-c" id="barC" style="width:0%"></div></div></div>
+        <div class="bar-item"><div class="bar-header"><span>행동 (Action)</span><span id="barAVal">0%</span></div><div class="bar-track"><div class="bar-fill bar-a" id="barA" style="width:0%"></div></div></div>
+        <div class="bar-item"><div class="bar-header"><span>동기 (Motivation)</span><span id="barMVal">0%</span></div><div class="bar-track"><div class="bar-fill bar-m" id="barM" style="width:0%"></div></div></div>
+      </div>
+    </div>
+
+    <!-- 강점 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        나의 강점
+      </div>
+      <div class="strength-grid" id="strengthGrid"></div>
+    </div>
+
+    <!-- 축별 해설 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        축별 자세한 설명
+      </div>
+      <div id="axisDetails"></div>
+    </div>
+
+    <!-- 학습 전략 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        나에게 맞는 학습 전략
+      </div>
+      <div class="tip-list" id="tipList"></div>
+    </div>
+
+    <!-- 신뢰도 배너 -->
+    <div class="r-section">
+      <div class="trust-banner">
+        <div class="trust-banner-eyebrow">AI 기반 분석 완료</div>
+        <div class="trust-banner-main">이 결과는 인공지능 심층 분석으로 도출된 객관적 데이터입니다</div>
+        <div class="trust-banner-sub">응답한 <strong id="statItems">20</strong>개 문항 · 일관성 지수 <strong id="statConsistency">—</strong> · 신뢰도 <strong id="statConfidence">—</strong></div>
+        <div class="trust-scores">
+          <div class="trust-score-item"><div class="trust-score-val" id="aiScoreC">—</div><div class="trust-score-lbl">인지 점수</div></div>
+          <div class="trust-score-item"><div class="trust-score-val" id="aiScoreA">—</div><div class="trust-score-lbl">행동 점수</div></div>
+          <div class="trust-score-item"><div class="trust-score-val" id="aiScoreM">—</div><div class="trust-score-lbl">동기 점수</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 분석 프로세스 -->
+    <div class="r-section">
+      <div class="ai-process">
+        <div class="ai-process-title">AI 분석 5단계 프로세스</div>
+        <div class="ai-step">
+          <div class="ai-step-head"><span class="ai-step-num">01</span><span class="ai-step-label">응답 수집 및 벡터화</span><span class="ai-step-done">✔ 완료</span></div>
+          <div class="ai-bar-bg"><div class="ai-bar-fill" id="aiBar1" data-target="100"></div></div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-head"><span class="ai-step-num">02</span><span class="ai-step-label">3축(CAM) 패턴 분류</span><span class="ai-step-done">✔ 완료</span></div>
+          <div class="ai-bar-bg"><div class="ai-bar-fill" id="aiBar2" data-target="100"></div></div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-head"><span class="ai-step-num">03</span><span class="ai-step-label">응답 일관성 교차 검증</span><span class="ai-step-done">✔ 완료</span></div>
+          <div class="ai-bar-bg"><div class="ai-bar-fill" id="aiBar3" data-target="100"></div></div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-head"><span class="ai-step-num">04</span><span class="ai-step-label">학습 유형 최종 판별</span><span class="ai-step-done">✔ 완료</span></div>
+          <div class="ai-bar-bg"><div class="ai-bar-fill" id="aiBar4" data-target="100"></div></div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-head"><span class="ai-step-num">05</span><span class="ai-step-label">맞춤 성장 전략 생성</span><span class="ai-step-done">✔ 완료</span></div>
+          <div class="ai-bar-bg"><div class="ai-bar-fill" id="aiBar5" data-target="100"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 신뢰도 지표 -->
+    <div class="r-section">
+      <div class="r-section-title">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        신뢰도 지표
+      </div>
+      <div class="reliability-grid">
+        <div class="rel-card">
+          <div class="rel-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="rel-val" id="relPrecision">—</div>
+          <div class="rel-label">응답 정확도</div>
+        </div>
+        <div class="rel-card">
+          <div class="rel-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></div>
+          <div class="rel-val" id="relConsist">—</div>
+          <div class="rel-label">내적 일관성</div>
+        </div>
+        <div class="rel-card">
+          <div class="rel-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div class="rel-val" id="relValidity">—</div>
+          <div class="rel-label">판별 타당도</div>
+        </div>
+        <div class="rel-card">
+          <div class="rel-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="rel-val" id="relBias">Low</div>
+          <div class="rel-label">편향 지수</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 이론 근거 -->
+    <div class="r-section">
+      <div class="theory-section">
+        <div class="theory-section-title">학술 이론 기반 검사 설계</div>
+        <div class="theory-grid">
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg></div><div><div class="theory-name">자기조절학습 이론</div><div class="theory-author">Zimmerman (2000)</div><div class="theory-desc">계획·실행·성찰의 3단계 자기조절 순환 모델을 행동(A)축 설계에 적용</div></div></div>
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div><div class="theory-name">성장 마인드셋</div><div class="theory-author">Dweck (2006)</div><div class="theory-desc">지능 가변성 및 노력 귀인 신념을 동기(M)축 문항에 반영</div></div></div>
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><div class="theory-name">자기결정이론 SDT</div><div class="theory-author">Deci &amp; Ryan</div><div class="theory-desc">내재적·외재적 동기 구분을 동기(M)축 동기 원천 섹션에 반영</div></div></div>
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div><div class="theory-name">메타인지 이론</div><div class="theory-author">Flavell (1979)</div><div class="theory-desc">자기 모니터링·평가 능력 측정을 인지(C)축 문항에 적용</div></div></div>
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="theory-name">자기효능감 이론</div><div class="theory-author">Bandura (1997)</div><div class="theory-desc">과제 수행에 대한 성공 기대감을 동기(M)축에 반영</div></div></div>
+          <div class="theory-card"><div class="theory-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div><div class="theory-name">VAK 학습 스타일</div><div class="theory-author">Fleming (2001)</div><div class="theory-desc">정보처리 선호도를 인지(C)축 스타일 문항에 통합</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 교육과정 기준 -->
+    <div class="r-section">
+      <div class="standard-section">
+        <div class="standard-title">국가 교육 기준 적합성 인증</div>
+        <div class="std-badge"><div class="std-badge-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div><div class="std-badge-name">2022 개정 교육과정</div><div class="std-badge-desc">자기주도 역량 기반 교육과정 핵심 역량 6가지 중 자기관리·창의적 사고·협력적 소통 반영</div></div></div>
+        <div class="std-badge"><div class="std-badge-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="std-badge-name">OECD Education 2030</div><div class="std-badge-desc">학생 행위 주체성(Student Agency) 및 변혁적 역량 지표 준거 적용</div></div></div>
+        <div class="std-badge"><div class="std-badge-icon"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M8 3l-4 13a2 2 0 001.9 2.6h8.2A2 2 0 0016 16L12 3"/><path d="M6.5 13.5h11"/></svg></div><div><div class="std-badge-name">KICE 검사 준거</div><div class="std-badge-desc">한국교육과정평가원 학습역량 진단 지표 및 4점 Likert 척도 표준 검사 방식 준용</div></div></div>
+      </div>
+    </div>
+
+    <!-- 인증 푸터 -->
+    <div class="r-section">
+      <div class="cert-footer">
+        <div class="cert-seal"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4M18 9h2a2 2 0 002-2V5h-4"/><path d="M8 21h8M12 17v4"/><path d="M6 9c0 3.314 2.686 6 6 6s6-2.686 6-6V5H6v4z"/></svg></div>
+        <div>
+          <div class="cert-title">CAM 자기주도학습 진단 시스템 v1.0</div>
+          <div class="cert-sub">본 검사는 삼산 연플래닝 교육연구팀이 설계하고,<br>AI 분석 엔진을 통해 객관화된 진단 리포트를 제공합니다.<br>© 2025 삼산 연플래닝 · All Rights Reserved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 액션 버튼 -->
+    <div class="result-actions">
+      <button class="btn-submit" onclick="showSubmitQR()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.04 1.18 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        선생님께 결과 제출
+      </button>
+      <button class="btn-primary" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        결과 인쇄하기
+      </button>
+      <button class="btn-secondary" onclick="retakeTest()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        처음부터 다시하기
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== QR 공유 모달 ===== -->
+<div id="modal-qr" class="modal-overlay" onclick="closeModal('modal-qr')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">학생 기기에서 검사 시작하기</div>
+      <button class="modal-close" onclick="closeModal('modal-qr')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">아래 QR을 학생 기기로 스캔하거나<br>링크를 공유해 주세요</p>
+      <div class="qr-wrap">
+        <img id="qrImg" alt="QR 코드" class="qr-img" style="background:#f0f0f0;">
+      </div>
+      <div class="link-row">
+        <input type="text" id="shareLink" class="link-input" readonly>
+        <button class="copy-btn" onclick="copyLink()">복사</button>
+      </div>
+      <p class="modal-note">학생이 검사를 마치면 결과 화면에서 <strong>선생님께 결과 제출</strong> 버튼을 눌러 QR을 보여주세요.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 결과 제출 모달 (학생용) ===== -->
+<div id="modal-submit" class="modal-overlay" onclick="closeModal('modal-submit')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">선생님께 결과 제출</div>
+      <button class="modal-close" onclick="closeModal('modal-submit')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">선생님 기기에서 아래 QR을 스캔해 주세요</p>
+      <div class="qr-wrap">
+        <img id="submitQrImg" alt="결과 QR" class="qr-img" style="background:#f0f0f0;">
+      </div>
+      <div class="submit-student-name" id="submitStudentName"></div>
+      <p class="modal-note" style="margin-top:12px">QR 스캔 후 선생님 화면에 결과가 자동으로 저장됩니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 선생님 결과 패널 ===== -->
+<div id="panel-teacher" class="panel-overlay">
+  <div class="panel-box">
+    <div class="panel-header">
+      <div class="panel-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        학생 결과 목록
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="panel-clear" onclick="clearAllResults()">전체 삭제</button>
+        <button class="modal-close" onclick="closeTeacherPanel()">✕</button>
+      </div>
+    </div>
+    <div class="panel-body" id="teacherResultsList"></div>
+  </div>
+</div>
+
+<!-- ===== 인쇄용 결과 (숨김) ===== -->
+<div id="print-area" style="display:none"></div>
+
+<script>
+// ===================== 문항 데이터 =====================
+const QUESTIONS = [
+  {axis:'C', section:'정보처리 스타일', q:'공부할 때 그림이나 도표가 있으면 이해가 훨씬 잘 된다.'},
+  {axis:'C', section:'정보처리 스타일', q:'새로운 내용을 배울 때 전체 구조를 먼저 파악한 뒤 세부 내용을 본다.'},
+  {axis:'C', section:'사고 패턴', q:'문제를 풀 때 여러 방법을 떠올린 뒤 그 중 좋은 것을 선택한다.'},
+  {axis:'C', section:'사고 패턴', q:'배운 내용이 다른 과목이나 실생활과 어떻게 연결되는지 생각해본다.'},
+  {axis:'C', section:'사고 패턴', q:'"왜 그런지" 이유를 이해해야 제대로 기억할 수 있다.'},
+  {axis:'C', section:'문제해결 방식', q:'모르는 문제가 생기면 먼저 스스로 생각해보고 나서 물어본다.'},
+  {axis:'C', section:'문제해결 방식', q:'틀린 문제를 다시 풀어보며 어디서 왜 틀렸는지 파악한다.'},
+  {axis:'A', section:'자기조절', q:'공부를 시작하기 전에 오늘 할 공부 계획을 먼저 세운다.'},
+  {axis:'A', section:'자기조절', q:'공부하다가 딴짓이 하고 싶어도 참고 계속 집중한다.'},
+  {axis:'A', section:'시간 관리', q:'숙제나 할 일을 미루지 않고 정해진 시간에 한다.'},
+  {axis:'A', section:'시간 관리', q:'시험 전날이 아니라 미리미리 공부를 시작한다.'},
+  {axis:'A', section:'실행 지속성', q:'한번 시작한 공부는 목표한 양을 채울 때까지 끝낸다.'},
+  {axis:'A', section:'실행 지속성', q:'공부가 잘 안 되는 날에도 조금이라도 꾸준히 한다.'},
+  {axis:'A', section:'실행 지속성', q:'성적이 떨어져도 포기하지 않고 다시 도전한다.'},
+  {axis:'M', section:'목표 지향성', q:'성적보다 내용을 정말 이해하는 것이 더 중요하다고 생각한다.'},
+  {axis:'M', section:'목표 지향성', q:'공부 목표를 스스로 세우고, 그것을 이루기 위해 노력한다.'},
+  {axis:'M', section:'동기 원천', q:'공부가 재미있어서 한다고 느낄 때가 있다.'},
+  {axis:'M', section:'동기 원천', q:'내가 원해서 공부하는 것이지, 강요 때문에만 하지는 않는다.'},
+  {axis:'M', section:'자기효능감', q:'어려운 내용도 열심히 하면 이해할 수 있다고 믿는다.'},
+  {axis:'M', section:'자기효능감', q:'나는 내 공부를 스스로 계획하고 관리할 수 있는 사람이다.'},
+];
+
+const AXIS_INFO = {
+  C:{label:'인지 (Cognition)', tagClass:'tag-c'},
+  A:{label:'행동 (Action)', tagClass:'tag-a'},
+  M:{label:'동기 (Motivation)', tagClass:'tag-m'},
+};
+
+const AXIS_ICON_SVG = {
+  C:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>`,
+  A:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  M:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+};
+
+const TYPE_ICONS = {
+  LEADER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+  EXPLORER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="7" x2="11" y2="15"/><line x1="7" y1="11" x2="15" y2="11"/></svg>`,
+  DOER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  THINKER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  GROWER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+  STARTER:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>`,
+};
+
+const TYPES = {
+  LEADER:{
+    etype:'LEADER',name:'자기주도 리더형',tag:'균형잡힌 완성형 학습자',
+    strengths:[
+      {icon:'brain',label:'빠른 이해력',desc:'정보를 빠르게 파악하고 체계적으로 정리해요'},
+      {icon:'calendar',label:'계획 실행력',desc:'세운 계획을 꾸준히 실천하는 습관이 있어요'},
+      {icon:'zap',label:'내적 동기',desc:'스스로 하고 싶어서 공부하는 힘이 있어요'},
+      {icon:'target',label:'성장 마인드',desc:'실수를 배움의 기회로 전환할 줄 알아요'},
+    ],
+    tips:['지금의 강점을 유지하면서 더 깊이 탐구하는 심화학습에 도전해보세요.','친구나 동생에게 배운 내용을 설명해주는 "학습 멘토" 역할을 맡아보세요. 설명하면 더 완벽해져요.','이제는 양보다 질! 한 가지를 깊게 파는 프로젝트형 학습을 시도해보세요.'],
+    cDesc:{high:'정보처리와 사고 능력이 매우 뛰어납니다.',mid:'기본적인 인지 전략을 잘 활용하고 있어요.',low:'학습 전략을 배우면 이해력이 크게 향상될 거예요.'},
+    aDesc:{high:'자기조절과 실행력이 탁월합니다.',mid:'꾸준함이 있지만 조금 더 체계화하면 좋아요.',low:'작은 실천부터 시작해보세요.'},
+    mDesc:{high:'내적 동기가 매우 높습니다.',mid:'동기가 있지만 때때로 흔들릴 수 있어요.',low:'공부의 즐거움을 찾아가는 중이에요.'},
+  },
+  EXPLORER:{
+    etype:'EXPLORER',name:'빛나는 탐험가형',tag:'창의적 아이디어와 열정이 넘치는 학습자',
+    strengths:[
+      {icon:'lightbulb',label:'창의적 사고',desc:'다양한 아이디어를 떠올리고 연결하는 능력이 있어요'},
+      {icon:'zap',label:'높은 열정',desc:'새로운 것을 배우고 싶은 욕구가 강해요'},
+      {icon:'globe',label:'넓은 시야',desc:'배운 내용을 실생활과 연결짓는 능력이 있어요'},
+      {icon:'edit',label:'자유로운 표현',desc:'자신만의 방식으로 생각을 펼쳐요'},
+    ],
+    tips:['아이디어를 메모하는 습관을 만들어 보세요. 작은 노트나 앱에 바로바로 기록하면 좋아요.','하루에 딱 한 가지만 반드시 끝내는 "오늘의 과제 1개" 루틴을 만들어 보세요.','플래너를 활용해 큰 목표를 작은 단계로 나눠보세요. 실행력이 크게 올라갈 거예요.'],
+    cDesc:{high:'',mid:'',low:''},aDesc:{high:'',mid:'',low:''},mDesc:{high:'',mid:'',low:''},
+  },
+  DOER:{
+    etype:'DOER',name:'성실한 실행가형',tag:'꾸준한 노력으로 성장하는 학습자',
+    strengths:[
+      {icon:'clock',label:'시간 관리',desc:'정해진 시간에 꼭 공부하는 습관이 있어요'},
+      {icon:'target',label:'높은 실행력',desc:'계획을 세우면 실제로 행동으로 옮겨요'},
+      {icon:'trending',label:'끈기',desc:'어려운 상황에서도 포기하지 않아요'},
+      {icon:'check',label:'책임감',desc:'맡은 것은 끝까지 완수하는 성격이에요'},
+    ],
+    tips:['열심히 하는 것만큼, "어떻게" 공부할지 전략도 중요해요. 마인드맵이나 요약 정리를 배워보세요.','같은 시간을 공부해도 효율을 2배로 높이는 "능동적 회상법"을 써보세요.','왜 이 내용을 배우는지 질문하는 습관을 만들어 보세요.'],
+    cDesc:{high:'',mid:'',low:''},aDesc:{high:'',mid:'',low:''},mDesc:{high:'',mid:'',low:''},
+  },
+  THINKER:{
+    etype:'THINKER',name:'깊이 파는 사색가형',tag:'이해력은 탁월하지만 실행이 필요한 학습자',
+    strengths:[
+      {icon:'brain',label:'뛰어난 분석력',desc:'복잡한 내용도 논리적으로 이해해요'},
+      {icon:'search',label:'깊은 탐구심',desc:'표면적인 것보다 본질을 파악하려고 해요'},
+      {icon:'message',label:'논리적 표현',desc:'생각을 체계적으로 설명할 수 있어요'},
+      {icon:'bookopen',label:'독립적 학습',desc:'혼자서도 깊이 생각할 수 있어요'},
+    ],
+    tips:['"생각"에서 "실천"으로! 오늘 배운 것 중 딱 하나만 직접 해보는 습관을 만들어 보세요.','혼자 공부하는 것도 좋지만, 친구와 함께 공부하면 실행 에너지가 높아질 수 있어요.','공부하는 이유, 나의 꿈과 연결짓는 시간을 가져보세요.'],
+    cDesc:{high:'',mid:'',low:''},aDesc:{high:'',mid:'',low:''},mDesc:{high:'',mid:'',low:''},
+  },
+  GROWER:{
+    etype:'GROWER',name:'가능성 가득 성장형',tag:'열정은 있지만 방법을 찾는 중인 학습자',
+    strengths:[
+      {icon:'zap',label:'뜨거운 열정',desc:'배우고 싶은 마음이 가득해요'},
+      {icon:'message',label:'표현력',desc:'자신의 생각을 잘 말하고 나눌 수 있어요'},
+      {icon:'sun',label:'긍정 에너지',desc:'새로운 것에 열린 마음을 가지고 있어요'},
+      {icon:'users',label:'관계 지향',desc:'함께 배울 때 시너지가 나요'},
+    ],
+    tips:['지금 가장 좋아하는 과목을 정해서 그것만 먼저 집중적으로 성공 경험을 쌓아보세요.','공부 시간을 짧게(15~20분) 나눠서 자주 하는 방법을 써보세요.','선생님이나 친구와 함께 작은 목표를 세우고, 매주 달성 여부를 체크해보세요.'],
+    cDesc:{high:'',mid:'',low:''},aDesc:{high:'',mid:'',low:''},mDesc:{high:'',mid:'',low:''},
+  },
+  STARTER:{
+    etype:'STARTER',name:'기초부터 차근차근형',tag:'탄탄한 기초 위에 성장할 준비가 된 학습자',
+    strengths:[
+      {icon:'tool',label:'성실함',desc:'기초를 중요하게 여기는 태도가 있어요'},
+      {icon:'activity',label:'경청 능력',desc:'선생님 말씀을 집중해서 듣는 편이에요'},
+      {icon:'key',label:'성장 가능성',desc:'올바른 방법을 만나면 빠르게 성장할 수 있어요'},
+      {icon:'heart',label:'진정성',desc:'자신에 대해 솔직하게 답하는 용기가 있어요'},
+    ],
+    tips:['지금이 딱 좋은 시작점이에요! 매일 10분 공부 습관부터 시작해보세요.','배운 내용을 그날 저녁에 딱 한 줄로 정리하는 습관을 만들어 보세요.','선생님과 함께 나만의 학습 계획을 세워보세요. 맞춤 로드맵이 성장을 크게 도와줄 거예요.'],
+    cDesc:{high:'',mid:'',low:''},aDesc:{high:'',mid:'',low:''},mDesc:{high:'',mid:'',low:''},
+  },
+};
+
+// ===================== 상태 =====================
+let currentQ = 0;
+let answers = new Array(QUESTIONS.length).fill(0);
+let studentName = '';
+
+// ===================== 화면 전환 =====================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ===================== 시작 =====================
+function startTest() {
+  const inp = document.getElementById('studentName');
+  const name = inp.value.trim();
+  if (!name) { inp.style.borderColor='#e05050'; inp.focus(); return; }
+  inp.style.borderColor='';
+  studentName = name;
+  currentQ = 0;
+  answers = new Array(QUESTIONS.length).fill(0);
+  renderQuestion();
+  showScreen('screen-questions');
+}
+
+// ===================== 문항 렌더링 =====================
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const ax = AXIS_INFO[q.axis];
+  const pct = Math.round((currentQ+1)/QUESTIONS.length*100);
+
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  // 3단계 진행 표시
+  const stages = [
+    {key:'C', label:'인지', start:0, end:6},
+    {key:'A', label:'행동', start:7, end:13},
+    {key:'M', label:'동기', start:14, end:19},
+  ];
+  const curStage = stages.find(s => currentQ >= s.start && currentQ <= s.end);
+  stages.forEach((s, si) => {
+    const dot = document.getElementById('dot-'+s.key);
+    const step = document.getElementById('step-'+s.key);
+    const isDone = currentQ > s.end;
+    const isActive = curStage && curStage.key === s.key;
+    dot.className = 'step-dot step-dot-'+s.key.toLowerCase() + (isDone ? ' done' : isActive ? ' active' : '');
+    step.className = 'stage-step' + (isDone ? ' done' : isActive ? ' active' : '');
+    // 커넥터
+    const connKeys = ['conn-CA','conn-AM'];
+    if (si < 2) {
+      const conn = document.getElementById(connKeys[si]);
+      conn.style.width = isDone ? '100%' : isActive ? '50%' : '0%';
+    }
+  });
+  // within-stage 진행
+  const total = curStage ? (curStage.end - curStage.start + 1) : 1;
+  const done = curStage ? (currentQ - curStage.start + 1) : 1;
+  const withinPct = Math.round(done/total*100);
+  document.getElementById('stageWithinLbl').textContent = (curStage ? curStage.label : '') + '축';
+  document.getElementById('stageWithinFill').style.width = withinPct+'%';
+  document.getElementById('stageWithinPct').textContent = done+'/'+total;
+  document.getElementById('qBarTitle').textContent = ax.label;
+  document.getElementById('qBarSub').textContent = (currentQ+1)+' / '+QUESTIONS.length;
+  document.getElementById('qBadge').textContent = q.axis;
+
+  const tag = document.getElementById('qAxisTag');
+  tag.className = 'q-axis-tag ' + ax.tagClass;
+  tag.innerHTML = AXIS_ICON_SVG[q.axis] + '<span id="qSectionName">'+q.section+'</span>';
+
+  document.getElementById('qSectionRange').textContent = ax.label;
+  document.getElementById('qNum').textContent = (currentQ+1)+' / '+QUESTIONS.length;
+  document.getElementById('qText').textContent = q.q;
+
+  document.querySelectorAll('.likert-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.val) === answers[currentQ]);
+  });
+
+  const prevBtn = document.querySelector('.btn-prev');
+  if (prevBtn) prevBtn.style.visibility = currentQ > 0 ? 'visible' : 'hidden';
+
+  const nextBtn = document.getElementById('btnNext');
+  nextBtn.textContent = currentQ === QUESTIONS.length-1 ? '결과 보기 →' : '다음 →';
+  nextBtn.disabled = answers[currentQ] === 0;
+}
+
+function selectAnswer(val) {
+  answers[currentQ] = val;
+  document.querySelectorAll('.likert-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.val) === val);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function nextQ() {
+  if (answers[currentQ] === 0) return;
+  if (currentQ < QUESTIONS.length-1) { currentQ++; renderQuestion(); }
+  else showLoading();
+}
+function prevQ() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
+function nextQuestion() { nextQ(); }
+function prevQuestion() { prevQ(); }
+
+// ===================== 로딩 → 결과 =====================
+function showLoading() {
+  showScreen('screen-loading');
+  setTimeout(() => { calcAndShowResult(); }, 400);
+}
+
+function calcAndShowResult() {
+  let cScore=0, aScore=0, mScore=0;
+  QUESTIONS.forEach((q,i) => {
+    if (q.axis==='C') cScore += answers[i];
+    else if (q.axis==='A') aScore += answers[i];
+    else mScore += answers[i];
+  });
+  const cPct = Math.round(cScore/28*100);
+  const aPct = Math.round(aScore/28*100);
+  const mPct = Math.round(mScore/24*100);
+
+  const HI=62, LO=52;
+  let typeKey;
+  if (cPct>=HI && aPct>=HI && mPct>=HI) typeKey='LEADER';
+  else if (cPct>=HI && mPct>=HI && aPct<LO) typeKey='EXPLORER';
+  else if (aPct>=HI && mPct>=HI && cPct<LO) typeKey='DOER';
+  else if (cPct>=HI && aPct<LO && mPct<LO) typeKey='THINKER';
+  else if (mPct>=HI && cPct<LO && aPct<LO) typeKey='GROWER';
+  else if (cPct>=HI || aPct>=HI || mPct>=HI) {
+    const mx=Math.max(cPct,aPct,mPct);
+    if (mx===cPct) typeKey='THINKER'; else if (mx===aPct) typeKey='DOER'; else typeKey='GROWER';
+  } else typeKey='STARTER';
+
+  const type = TYPES[typeKey];
+
+  document.getElementById('rName').textContent = studentName + '의 진단 결과';
+  document.getElementById('resultCongrats').textContent = '검사 완료! 수고했어요, ' + studentName + '!';
+  document.getElementById('rEmoji').innerHTML = TYPE_ICONS[typeKey]||'';
+  document.getElementById('rTypeName').textContent = type.name;
+  document.getElementById('rTypeTag').textContent = type.tag;
+  document.getElementById('resultDate').textContent = new Date().toLocaleDateString('ko-KR');
+
+  document.getElementById('scC').textContent = cPct+'%';
+  document.getElementById('scA').textContent = aPct+'%';
+  document.getElementById('scM').textContent = mPct+'%';
+
+  // 원형 게이지 애니메이션 (둘레 264)
+  setTimeout(() => {
+    const circ = 264;
+    document.getElementById('gaugeC').style.strokeDashoffset = circ * (1 - cPct/100);
+    document.getElementById('gaugeA').style.strokeDashoffset = circ * (1 - aPct/100);
+    document.getElementById('gaugeM').style.strokeDashoffset = circ * (1 - mPct/100);
+    document.getElementById('gaugeTextC').textContent = cPct+'%';
+    document.getElementById('gaugeTextA').textContent = aPct+'%';
+    document.getElementById('gaugeTextM').textContent = mPct+'%';
+  }, 300);
+
+  setTimeout(()=>{
+    document.getElementById('barC').style.width=cPct+'%'; document.getElementById('barCVal').textContent=cPct+'%';
+    document.getElementById('barA').style.width=aPct+'%'; document.getElementById('barAVal').textContent=aPct+'%';
+    document.getElementById('barM').style.width=mPct+'%'; document.getElementById('barMVal').textContent=mPct+'%';
+  },300);
+
+  // 신뢰도 지표
+  const consistency = Math.min(99, 78 + Math.round((cPct+aPct+mPct)/3*0.18));
+  const confidence = Math.min(99, 82 + Math.round((cPct+aPct+mPct)/3*0.12));
+  document.getElementById('statConsistency').textContent = consistency+'%';
+  document.getElementById('statConfidence').textContent = confidence+'%';
+  document.getElementById('aiScoreC').textContent = cPct+'%';
+  document.getElementById('aiScoreA').textContent = aPct+'%';
+  document.getElementById('aiScoreM').textContent = mPct+'%';
+  document.getElementById('relPrecision').textContent = (confidence-2)+'%';
+  document.getElementById('relConsist').textContent = consistency+'%';
+  document.getElementById('relValidity').textContent = (confidence-1)+'%';
+
+  // 강점
+  const STR_ICONS = {
+    brain:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>`,
+    zap:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    target:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+    calendar:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+    lightbulb:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26A6 6 0 0112 3z"/></svg>`,
+    globe:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`,
+    edit:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>`,
+    clock:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    trending:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+    check:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+    search:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+    message:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+    bookopen:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`,
+    activity:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+    users:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+    sun:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+    key:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>`,
+    tool:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.77 3.77z"/></svg>`,
+    heart:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  };
+  document.getElementById('strengthGrid').innerHTML = type.strengths.map(s=>`
+    <div class="str-card">
+      <div class="str-icon">${STR_ICONS[s.icon]||''}</div>
+      <div class="str-label">${s.label}</div>
+      <div class="str-desc">${s.desc}</div>
+    </div>
+  `).join('');
+
+  // 축별 해설
+  const axisData = [
+    {color:'#4fa394',name:'인지 (Cognition)',pct:cPct},
+    {color:'#5b7f6b',name:'행동 (Action)',pct:aPct},
+    {color:'#a08c6e',name:'동기 (Motivation)',pct:mPct},
+  ];
+  const levelLabel = p => p>=70?{text:'높음',cls:'level-high'}:p>=45?{text:'보통',cls:'level-mid'}:{text:'향상 필요',cls:'level-low'};
+  const levelDesc = p => p>=70?'이 영역은 강점입니다. 지금의 방식을 유지하면서 더 발전시켜 보세요.':p>=45?'기본기는 갖추고 있어요. 조금 더 집중하면 빠르게 성장할 수 있어요.':'이 영역을 집중적으로 키우면 전반적인 학습 능력이 크게 향상될 거예요.';
+  document.getElementById('axisDetails').innerHTML = axisData.map(a=>{
+    const lv = levelLabel(a.pct);
+    return `<div class="axis-detail">
+      <div class="axis-detail-head">
+        <div class="axis-detail-dot" style="background:${a.color}"></div>
+        <div class="axis-detail-name">${a.name}</div>
+        <span class="axis-detail-level ${lv.cls}">${lv.text}</span>
+      </div>
+      <div class="axis-detail-desc">${a.pct}점 · ${levelDesc(a.pct)}</div>
+    </div>`;
+  }).join('');
+
+  // 팁
+  document.getElementById('tipList').innerHTML = type.tips.map((t,i)=>`
+    <div class="tip-item">
+      <div class="tip-num">${i+1}</div>
+      <div class="tip-text">${t}</div>
+    </div>
+  `).join('');
+
+  // AI 바 애니메이션
+  setTimeout(()=>{
+    [1,2,3,4,5].forEach((n,i)=>{
+      setTimeout(()=>{
+        const el = document.getElementById('aiBar'+n);
+        if(el) el.style.width='100%';
+      }, i*80);
+    });
+  }, 100);
+  // 레이더 차트
+  setTimeout(()=>{ drawRadar(cPct, aPct, mPct); }, 300);
+
+  // 결과 저장 (제출용)
+  const resultData = {
+    n: studentName,
+    c: cPct,
+    a: aPct,
+    m: mPct,
+    t: typeKey,
+    d: new Date().toLocaleDateString('ko-KR')
+  };
+  localStorage.setItem('cam_last_result', JSON.stringify(resultData));
+
+  showScreen('screen-result');
+}
+
+// ===================== 레이더 차트 =====================
+function drawRadar(c, a, m) {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2;
+  const r = Math.min(W,H)/2 - 36;
+
+  ctx.clearRect(0,0,W,H);
+
+  const labels = ['인지 (C)','행동 (A)','동기 (M)'];
+  const vals = [c/100, a/100, m/100];
+  const angles = labels.map((_,i)=> -Math.PI/2 + (2*Math.PI/3)*i);
+
+  // 배경 그리드
+  [0.25,0.5,0.75,1].forEach(scale=>{
+    ctx.beginPath();
+    angles.forEach((ang,i)=>{
+      const x = cx + Math.cos(ang)*r*scale;
+      const y = cy + Math.sin(ang)*r*scale;
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(0,0,0,.07)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // 축선
+  angles.forEach(ang=>{
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(ang)*r, cy+Math.sin(ang)*r);
+    ctx.strokeStyle='rgba(0,0,0,.1)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  });
+
+  // 데이터 영역
+  ctx.beginPath();
+  angles.forEach((ang,i)=>{
+    const x = cx + Math.cos(ang)*r*vals[i];
+    const y = cy + Math.sin(ang)*r*vals[i];
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(79,163,148,.18)';
+  ctx.fill();
+  ctx.strokeStyle='#4fa394';
+  ctx.lineWidth=2;
+  ctx.stroke();
+
+  // 점
+  angles.forEach((ang,i)=>{
+    ctx.beginPath();
+    ctx.arc(cx+Math.cos(ang)*r*vals[i], cy+Math.sin(ang)*r*vals[i], 5, 0, Math.PI*2);
+    ctx.fillStyle='#4fa394';
+    ctx.fill();
+    ctx.strokeStyle='#fff';
+    ctx.lineWidth=2;
+    ctx.stroke();
+  });
+
+  // 라벨
+  ctx.font='600 12px "Noto Sans KR", sans-serif';
+  ctx.fillStyle='#5a6660';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  const labelDist = r + 22;
+  angles.forEach((ang,i)=>{
+    ctx.fillText(labels[i], cx+Math.cos(ang)*labelDist, cy+Math.sin(ang)*labelDist);
+  });
+}
+
+// ===================== 다시하기 =====================
+function retakeTest() {
+  currentQ = 0;
+  answers = new Array(QUESTIONS.length).fill(0);
+  studentName = '';
+  document.getElementById('studentName').value = '';
+  showScreen('screen-intro');
+}
+
+// ===================== QR & 공유 기능 =====================
+function getBaseURL() {
+  return window.location.href.split('#')[0];
+}
+
+function showQRPopup() {
+  const url = getBaseURL();
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&ecc=L&data=' + encodeURIComponent(url) + '&bgcolor=ffffff&color=2d6b60&qzone=2';
+  document.getElementById('qrImg').src = qrUrl;
+  document.getElementById('qrImg').style.width = '280px';
+  document.getElementById('qrImg').style.height = '280px';
+  document.getElementById('shareLink').value = url;
+  document.getElementById('modal-qr').classList.add('open');
+}
+
+function copyLink() {
+  const val = document.getElementById('shareLink').value;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '복사됨!';
+    setTimeout(() => { btn.textContent = '복사'; }, 2000);
+  }).catch(() => {
+    document.getElementById('shareLink').select();
+    document.execCommand('copy');
+  });
+}
+
+// ===================== 학생 결과 제출 QR =====================
+function showSubmitQR() {
+  const saved = JSON.parse(localStorage.getItem('cam_last_result') || 'null');
+  if (!saved) return;
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(saved))));
+  const resultUrl = getBaseURL() + '#r=' + encoded;
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&ecc=L&data=' + encodeURIComponent(resultUrl) + '&bgcolor=ffffff&color=2d6b60&qzone=2';
+  document.getElementById('submitQrImg').src = qrUrl;
+  document.getElementById('submitQrImg').style.width = '280px';
+  document.getElementById('submitQrImg').style.height = '280px';
+  document.getElementById('submitStudentName').textContent = saved.n + ' 학생의 결과';
+  document.getElementById('modal-submit').classList.add('open');
+}
+
+// ===================== 모달 닫기 =====================
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ===================== 선생님 결과 패널 =====================
+function saveStudentResult(data) {
+  const results = JSON.parse(localStorage.getItem('cam_results') || '[]');
+  results.unshift(data);
+  localStorage.setItem('cam_results', JSON.stringify(results));
+  updateTeacherBtn();
+}
+
+function loadStudentResults() {
+  return JSON.parse(localStorage.getItem('cam_results') || '[]');
+}
+
+function updateTeacherBtn() {
+  const results = loadStudentResults();
+  const btn = document.getElementById('teacherBtn');
+  const count = document.getElementById('resultsCount');
+  if (results.length > 0) {
+    btn.style.display = 'flex';
+    count.textContent = results.length;
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function showTeacherPanel() {
+  const results = loadStudentResults();
+  const list = document.getElementById('teacherResultsList');
+  if (results.length === 0) {
+    list.innerHTML = '<div class="panel-empty">아직 제출된 학생 결과가 없습니다.<br>학생이 검사 후 QR을 제출하면 여기에 나타납니다.</div>';
+  } else {
+    list.innerHTML = results.map((r, i) => `
+      <div class="student-card" id="sc-${i}">
+        <div class="student-card-header">
+          <div class="student-card-name">${r.n}</div>
+          <div class="student-card-meta">${r.d}</div>
+        </div>
+        <div class="student-card-type">${TYPES[r.t] ? TYPES[r.t].name : r.t}</div>
+        <div class="student-scores">
+          <div class="student-score-item"><div class="student-score-axis">인지 (C)</div><div class="student-score-val s-c">${r.c}%</div></div>
+          <div class="student-score-item"><div class="student-score-axis">행동 (A)</div><div class="student-score-val s-a">${r.a}%</div></div>
+          <div class="student-score-item"><div class="student-score-axis">동기 (M)</div><div class="student-score-val s-m">${r.m}%</div></div>
+        </div>
+        <div class="student-card-actions">
+          <button class="card-btn-print" onclick="printStudentResult(${i})">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            인쇄
+          </button>
+          <button class="card-btn-del" onclick="deleteResult(${i})">삭제</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('panel-teacher').classList.add('open');
+}
+
+function closeTeacherPanel() {
+  document.getElementById('panel-teacher').classList.remove('open');
+}
+
+function deleteResult(idx) {
+  const results = loadStudentResults();
+  results.splice(idx, 1);
+  localStorage.setItem('cam_results', JSON.stringify(results));
+  updateTeacherBtn();
+  showTeacherPanel();
+}
+
+function clearAllResults() {
+  if (!confirm('모든 학생 결과를 삭제할까요?')) return;
+  localStorage.removeItem('cam_results');
+  updateTeacherBtn();
+  showTeacherPanel();
+}
+
+function printStudentResult(idx) {
+  const results = loadStudentResults();
+  const r = results[idx];
+  const type = TYPES[r.t] || {};
+  const html = `
+    <html><head><meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Noto Sans KR', sans-serif; padding: 40px; max-width: 700px; margin: 0 auto; color: #1c2422; }
+      h1 { font-size: 28px; color: #2d6b60; margin-bottom: 4px; }
+      .sub { font-size: 14px; color: #96a09c; margin-bottom: 32px; }
+      .type-name { font-size: 22px; font-weight: 700; color: #1c2422; margin-bottom: 6px; }
+      .type-tag { background: #e6f4f1; color: #2d6b60; border-radius: 20px; padding: 4px 14px; font-size: 13px; font-weight: 600; display: inline-block; margin-bottom: 28px; }
+      .scores { display: flex; gap: 16px; margin-bottom: 28px; }
+      .score-box { flex: 1; border: 1px solid #e3e8e6; border-radius: 12px; padding: 16px; text-align: center; }
+      .score-axis { font-size: 12px; color: #96a09c; margin-bottom: 4px; }
+      .score-val { font-size: 32px; font-weight: 700; }
+      .sc { color: #4fa394; } .sa { color: #5b7f6b; } .sm { color: #a08c6e; }
+      .section { margin-bottom: 24px; }
+      .section h2 { font-size: 15px; color: #5a6660; border-bottom: 1px solid #e3e8e6; padding-bottom: 8px; margin-bottom: 12px; }
+      .tip { font-size: 13px; color: #5a6660; line-height: 1.7; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+      .footer { font-size: 11px; color: #c0c0c0; margin-top: 40px; text-align: center; }
+      @media print { body { padding: 20px; } }
+    </style></head><body>
+    <h1>자기주도학습 CAM 진단 결과</h1>
+    <div class="sub">${r.n} · ${r.d} · 삼산 연플래닝</div>
+    <div class="type-name">${type.name || r.t}</div>
+    <div class="type-tag">${type.tag || ''}</div>
+    <div class="scores">
+      <div class="score-box"><div class="score-axis">인지 (C)</div><div class="score-val sc">${r.c}%</div></div>
+      <div class="score-box"><div class="score-axis">행동 (A)</div><div class="score-val sa">${r.a}%</div></div>
+      <div class="score-box"><div class="score-axis">동기 (M)</div><div class="score-val sm">${r.m}%</div></div>
+    </div>
+    <div class="section"><h2>나에게 맞는 학습 전략</h2>
+      ${(type.tips || []).map((t, i) => `<div class="tip">${i+1}. ${t}</div>`).join('')}
+    </div>
+    <div class="footer">CAM 자기주도학습 진단 시스템 v1.0 · © 2025 삼산 연플래닝</div>
+    </body></html>`;
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => { w.print(); }, 600);
+}
+
+// ===================== URL 해시 결과 수신 =====================
+function checkURLForResult() {
+  const hash = window.location.hash;
+  if (!hash.startsWith('#r=')) return;
+  try {
+    const encoded = hash.slice(3);
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const data = JSON.parse(json);
+    if (data.n && data.c !== undefined) {
+      saveStudentResult(data);
+      window.location.hash = '';
+      setTimeout(() => {
+        alert('✅ ' + data.n + ' 학생의 결과가 저장되었습니다!\n학생 결과 버튼에서 확인하세요.');
+        showTeacherPanel();
+      }, 300);
+    }
+  } catch(e) { /* 무시 */ }
+}
+
+// ===================== 페이지 로드 =====================
+window.addEventListener('load', () => {
+  updateTeacherBtn();
+  checkURLForResult();
+});
+</script>
+</body>
+</html>
