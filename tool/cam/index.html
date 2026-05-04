@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자기주도학습 진단검사 — CAM 모델</title>
 <link href="https://fonts.googleapis.chom/css2?family=Nohto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d6b60">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="CAM 진단">
 <style>
 /* ──────────────────────────────
    토큰
@@ -2445,5 +2450,12 @@ window.addEventListener('load', () => {
   checkURLForResult();
 });
 </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', {scope: './'});
+      });
+    }
+    </script>
 </body>
 </html>
