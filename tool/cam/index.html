@@ -2417,7 +2417,9 @@ function printStudentResult(idx) {
       ${(type.tips || []).map((t, i) => `<div class="tip">${i+1}. ${t}</div>`).join('')}
     </div>
     <div class="footer">CAM 자기주도학습 진단 시스템 v1.0 · © 2025 삼산 연플래닝</div>
-    </body></html>`;
+    <!-- 선생님 바로가기 -->
+<a href="teacher.html" id="teacher-btn" style="position:fixed;bottom:16px;right:16px;background:rgba(149,158,156,0.15);color:#697870;font-size:11px;padding:6px 12px;border-radius:20px;text-decoration:none;border:1px solid rgba(149,158,156,0.3);z-index:9999;backdrop-filter:blur(4px);">선생님 대시보드</a>
+</body></html>`;
   const w = window.open('', '_blank');
   w.document.write(html);
   w.document.close();
