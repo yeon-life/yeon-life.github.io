@@ -45,7 +45,7 @@ body {
   font-family: 'Noto Sans KR', -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-size: 30px;
+  font-size: clamp(15px,2.2vh,20px);
   line-height: 1.65;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -1495,11 +1495,11 @@ canvas#radarChart { display: block; margin: 0 auto; }
         <div class="lb-content"><div class="lb-label">매우 그렇다</div><div class="lb-score">4점</div></div>
       </button>
     </div>
-  </div>
 
-  <div class="q-nav">
-    <button class="btn-prev" onclick="prevQ()">← 이전</button>
-    <button class="btn-next" id="btnNext" onclick="nextQ()" disabled>다음 →</button>
+    <div class="q-nav">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" id="btnNext" onclick="nextQ()" disabled>다음 →</button>
+    </div>
   </div>
 </div>
 
