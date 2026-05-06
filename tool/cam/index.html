@@ -2018,7 +2018,7 @@ function selectAnswer(val) {
 function nextQ() {
   if (answers[currentQ] === 0) return;
   if (currentQ < QUESTIONS.length-1) { currentQ++; renderQuestion(); }
-  else showLoading();
+  else goSelfStyle();
 }
 function prevQ() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
 function nextQuestion() { nextQ(); }
@@ -2454,6 +2454,60 @@ window.addEventListener('load', () => {
   updateTeacherBtn();
   checkURLForResult();
 });
+
+// ===== 자기 스타일 기록 화면 =====
+window._selfStyle = { checks: [], memo: '' };
+
+function goSelfStyle() {
+  // 체크·텍스트 초기화
+  window._selfStyle = { checks: [], memo: '' };
+  document.querySelectorAll('.ss-check-item').forEach(el => el.classList.remove('selected'));
+  const ta = document.getElementById('ss-textarea');
+  if(ta) ta.value = '';
+  const cc = document.getElementById('ss-char-count');
+  if(cc) cc.textContent = '0자';
+  _updateSSBtn();
+  showScreen('screen-selfstyle');
+}
+
+function toggleSSCheck(el) {
+  el.classList.toggle('selected');
+  _updateSSBtn();
+}
+
+function onSSInput() {
+  const ta = document.getElementById('ss-textarea');
+  const cc = document.getElementById('ss-char-count');
+  if(cc) cc.textContent = (ta ? ta.value.length : 0) + '자';
+  _updateSSBtn();
+}
+
+function _updateSSBtn() {
+  const checked = document.querySelectorAll('.ss-check-item.selected').length;
+  const ta = document.getElementById('ss-textarea');
+  const txt = ta ? ta.value.trim().length : 0;
+  const ok = checked >= 1 || txt >= 5;
+  const btn = document.getElementById('ss-submit-btn');
+  if(btn) { btn.disabled = !ok; btn.style.opacity = ok ? '1' : '0.4'; }
+}
+
+function prevToQuestions() {
+  showScreen('screen-questions');
+}
+
+function submitFromStyle() {
+  const checks = Array.from(document.querySelectorAll('.ss-check-item.selected'))
+    .map(el => el.querySelector('span').textContent);
+  const ta = document.getElementById('ss-textarea');
+  const memo = ta ? ta.value.trim() : '';
+  if(checks.length === 0 && memo.length < 5) {
+    alert('체크 항목을 1개 이상 선택하거나, 5자 이상 입력해 주세요.');
+    return;
+  }
+  window._selfStyle = { checks, memo };
+  showLoading();
+}
+
 </script>
     <script>
     if ('serviceWorker' in navigator) {
@@ -2465,6 +2519,6 @@ window.addEventListener('load', () => {
     <!-- Firebase 연동 -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script>(function(){try{firebase.initializeApp({apiKey:"AIzaSyDFpaS3acBacY6YoYYYIfX5P5pNPNtKzxk",authDomain:"jinwooshon-yeon.firebaseapp.com",projectId:"jinwooshon-yeon",storageBucket:"jinwooshon-yeon.firebasestorage.app",messagingSenderId:"852268715593",appId:"1:852268715593:web:c49a372a51c5faea63f998"});window.db=firebase.firestore();const o=localStorage.setItem.bind(localStorage);localStorage.setItem=function(k,v){o(k,v);if(k==='cam_last_result'&&window.db){try{const d=JSON.parse(v);window.db.collection('cam_results').add({이름:d.n,인지:d.c,행동:d.a,동기:d.m,유형:d.t,날짜:d.d,저장시각:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){}}};}catch(e){console.warn('Firebase',e);}})();</script>
+    <script>(function(){try{firebase.initializeApp({apiKey:"AIzaSyDFpaS3acBacY6YoYYYIfX5P5pNPNtKzxk",authDomain:"jinwooshon-yeon.firebaseapp.com",projectId:"jinwooshon-yeon",storageBucket:"jinwooshon-yeon.firebasestorage.app",messagingSenderId:"852268715593",appId:"1:852268715593:web:c49a372a51c5faea63f998"});window.db=firebase.firestore();const o=localStorage.setItem.bind(localStorage);localStorage.setItem=function(k,v){o(k,v);if(k==='cam_last_result'&&window.db){try{const d=JSON.parse(v);window.db.collection('cam_results').add({이름:d.n,인지:d.c,행동:d.a,동기:d.m,유형:d.t,날짜:d.d,저장시각:firebase.firestore.FieldValue.serverTimestamp(),자유기록:(window._selfStyle||{}).memo||'',체크항목:(window._selfStyle||{}).checks||[]});}catch(e){}}};}catch(e){console.warn('Firebase',e);}})();</script>
 </body>
 </html>
