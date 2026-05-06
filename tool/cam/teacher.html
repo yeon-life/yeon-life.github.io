@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>CAM 검사 결과 — 선생님 대시보드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--yeon-teal-primary:#6eb5a6;--yeon-teal-light:#b0cfc8;--yeon-mint-white:#e9f5f2;--yeon-gray-teal:#959e9c;--yeon-deep-teal:#586e69;--yeon-green-white:#ebf2ed;--yeon-light-gray:#ebebeb;--yeon-sage-green:#dfe6d3;--yeon-warm-khaki:#dbd2a4;--yeon-tan-camel:#ad9d82;--yeon-warm-beige:#d4cdc1;--yeon-soft-mauve:#b2a7b8;--yeon-dark-gray-purple:#615b63;--yeon-deep-green-black:#2a2e2c;--yeon-mid-sage:#697870;--yeon-medium-gray:#c4c4c4;--yeon-deep-forest:#2b3b32;--yeon-deep-navy:#37334f;--color-bg:var(--yeon-mint-white);--color-surface:var(--yeon-teal-light);--color-surface-alt:var(--yeon-sage-green);--color-primary:var(--yeon-teal-primary);--color-primary-dk:var(--yeon-deep-teal);--color-muted:var(--yeon-gray-teal);--color-text:var(--yeon-deep-green-black);--color-text-light:var(--yeon-mid-sage);--color-border:var(--yeon-medium-gray);--color-disabled:var(--yeon-light-gray)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--color-bg);color:var(--color-text);font-size:15px;line-height:1.6;min-height:100vh}
+.app-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--color-bg);border-bottom:1px solid var(--color-surface);position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.app-bar-title{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;color:var(--color-primary-dk)}
+.btn-icon{background:none;border:none;cursor:pointer;padding:8px;border-radius:8px;color:var(--color-text-light);transition:background .15s,color .15s;display:flex;align-items:center}
+.btn-icon:hover{background:var(--color-surface);color:var(--color-primary-dk)}
+.btn-icon.spinning svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.container{padding:20px;max-width:960px;margin:0 auto}
+@media(min-width:768px){.container{padding:28px}}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-card{background:var(--color-surface);border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.stat-num{font-size:28px;font-weight:700;color:var(--color-primary-dk);line-height:1.2}
+.stat-label{font-size:12px;color:var(--color-text-light);margin-top:4px;font-weight:500}
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.search-input{flex:1;min-width:180px;padding:10px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:14px;font-family:inherit;background:white;color:var(--color-text);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--color-primary)}
+.select-input{padding:10px 12px;border:1.5px solid var(--color-border);border-radius:8px;font-size:14px;font-family:inherit;background:white;color:var(--color-text);outline:none;cursor:pointer}
+.table-wrap{background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+thead{background:var(--color-surface)}
+thead th{padding:12px 16px;text-align:left;font-size:13px;font-weight:600;color:var(--color-primary-dk);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--color-bg);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--color-bg)}
+tbody td{padding:12px 16px;font-size:14px;color:var(--color-text);white-space:nowrap}
+.td-name{font-weight:600;color:var(--color-primary-dk)}
+.td-date{color:var(--color-text-light);font-size:13px}
+.type-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:var(--color-surface-alt);color:var(--color-primary-dk)}
+.score-bar-wrap{display:flex;align-items:center;gap:6px}
+.score-bar{width:60px;height:6px;background:var(--color-disabled);border-radius:3px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:3px;background:var(--color-primary)}
+.score-num{font-size:13px;color:var(--color-text);font-weight:500;min-width:32px}
+.empty-state{text-align:center;padding:60px 20px;color:var(--color-text-light)}
+.skeleton-row td{padding:14px 16px}
+.skeleton{height:14px;background:linear-gradient(90deg,var(--color-bg) 25%,var(--color-surface) 50%,var(--color-bg) 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;border-radius:4px}
+@keyframes shimmer{to{background-position:-200% 0}}
+.gate-overlay{position:fixed;inset:0;background:var(--color-bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.gate-card{background:white;border-radius:16px;padding:40px 32px;width:320px;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center}
+.gate-card h2{font-size:20px;font-weight:700;color:var(--color-primary-dk);margin-bottom:8px}
+.gate-card p{font-size:13px;color:var(--color-text-light);margin-bottom:20px}
+.gate-input{width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:15px;text-align:center;letter-spacing:4px;font-family:inherit;outline:none;margin-bottom:12px}
+.gate-input:focus{border-color:var(--color-primary)}
+.gate-btn{width:100%;padding:12px;background:var(--color-primary);color:white;border:none;border-radius:8px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:filter .2s}
+.gate-btn:hover{filter:brightness(.9)}
+.gate-error{color:#c0392b;font-size:13px;margin-top:8px;display:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--color-primary-dk);color:white;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:500;transition:transform .3s;z-index:200;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.result-count{font-size:13px;color:var(--color-text-light);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-card">
+    <h2>&#xC120;&#xC0DD;&#xB2D8; &#xC804;&#xC6A9;</h2>
+    <p>CAM &#xAC80;&#xC0AC; &#xACB0;&#xACFC;&#xB97C; &#xBCF4;&#xB824;&#xBA74;<br>&#xC811;&#xC18D; &#xBE44;&#xBC00;&#xBC88;&#xD638;&#xB97C; &#xC785;&#xB825;&#xD574;&#xC8FC;&#xC138;&#xC694;</p>
+    <input type="password" class="gate-input" id="gateInput" placeholder="&#xBE44;&#xBC00;&#xBC88;&#xD638;" maxlength="20">
+    <button class="gate-btn" onclick="checkPassword()">&#xD655;&#xC778;</button>
+    <div class="gate-error" id="gateError">&#xBE44;&#xBC00;&#xBC88;&#xD638;&#xAC00; &#xD2C0;&#xB838;&#xC2B5;&#xB2C8;&#xB2E4;</div>
+  </div>
+</div>
+<div class="app-bar">
+  <div class="app-bar-title">CAM &#xACB0;&#xACFC; &#xB300;&#xC2DC;&#xBCF4;&#xB4DC;</div>
+  <div><button class="btn-icon" id="refreshBtn" onclick="loadData()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button></div>
+</div>
+<div class="container">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num" id="statTotal">&#x2014;</div><div class="stat-label">&#xC804;&#xCCB4; &#xAC80;&#xC0AC; &#xC218;</div></div>
+    <div class="stat-card"><div class="stat-num" id="statStudents">&#x2014;</div><div class="stat-label">&#xAC80;&#xC0AC; &#xD559;&#xC0DD; &#xC218;</div></div>
+    <div class="stat-card"><div class="stat-num" id="statToday">&#x2014;</div><div class="stat-label">&#xC624;&#xB298; &#xAC80;&#xC0AC;</div></div>
+    <div class="stat-card"><div class="stat-num" id="statTopType">&#x2014;</div><div class="stat-label">&#xAC00;&#xC7A5; &#xB9CE;&#xC740; &#xC720;&#xD615;</div></div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" class="search-input" id="searchInput" placeholder="&#x1F50D; &#xD559;&#xC0DD; &#xC774;&#xB984; &#xAC80;&#xC0C9;..." oninput="filterData()">
+    <select class="select-input" id="typeFilter" onchange="filterData()"><option value="">&#xBAA8;&#xB4E0; &#xC720;&#xD615;</option></select>
+    <select class="select-input" id="sortSelect" onchange="filterData()"><option value="date_desc">&#xCD5C;&#xC2E0;&#xC21C;</option><option value="date_asc">&#xC624;&#xB798;&#xB41C;&#xC21C;</option><option value="name_asc">&#xC774;&#xB984;&#xC21C;</option></select>
+  </div>
+  <div class="result-count" id="resultCount"></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>&#xD559;&#xC0DD; &#xC774;&#xB984;</th><th>&#xC720;&#xD615;</th><th>&#xC778;&#xC9C0; (C)</th><th>&#xD589;&#xB3D9; (A)</th><th>&#xB3D9;&#xAE30; (M)</th><th>&#xAC80;&#xC0AC;&#xC77C;</th></tr></thead>
+    <tbody id="tableBody"><tr class="skeleton-row"><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:60px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:100px"></div></td></tr></tbody>
+  </table></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const TEACHER_PASSWORD='yeon1234';
+firebase.initializeApp({apiKey:"AIzaSyDFpaS3acBacY6YoYYYIfX5P5pNPNtKzxk",authDomain:"jinwooshon-yeon.firebaseapp.com",projectId:"jinwooshon-yeon",storageBucket:"jinwooshon-yeon.firebasestorage.app",messagingSenderId:"852268715593",appId:"1:852268715593:web:c49a372a51c5faea63f998"});
+const db=firebase.firestore();
+let allData=[];
+function checkPassword(){const i=document.getElementById('gateInput').value;if(i===TEACHER_PASSWORD){document.getElementById('gateOverlay').style.display='none';loadData();}else{document.getElementById('gateError').style.display='block';document.getElementById('gateInput').value='';document.getElementById('gateInput').focus();}}
+document.getElementById('gateInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
+async function loadData(){const btn=document.getElementById('refreshBtn');btn.classList.add('spinning');try{const snap=await db.collection('cam_results').orderBy('저장시각','desc').limit(500).get();allData=snap.docs.map(doc=>({id:doc.id,...doc.data()}));updateStats();updateTypeFilter();filterData();showToast('데이터를 불러왔어요 ✓');}catch(e){console.error(e);showToast('로드 실패: '+e.message);renderEmpty();}finally{btn.classList.remove('spinning');}}
+function updateStats(){const total=allData.length;const students=new Set(allData.map(d=>d['이름'])).size;const today=new Date().toLocaleDateString('ko-KR');const todayCount=allData.filter(d=>{if(!d['저장시각'])return false;const t=d['저장시각'].toDate?d['저장시각'].toDate():new Date(d['저장시각']);return t.toLocaleDateString('ko-KR')===today;}).length;const typeCounts={};allData.forEach(d=>{typeCounts[d['유형']]=(typeCounts[d['유형']]||0)+1;});const topType=Object.entries(typeCounts).sort((a,b)=>b[1]-a[1])[0];document.getElementById('statTotal').textContent=total;document.getElementById('statStudents').textContent=students;document.getElementById('statToday').textContent=todayCount;document.getElementById('statTopType').textContent=topType?topType[0]:'—';}
+function updateTypeFilter(){const types=[...new Set(allData.map(d=>d['유형']).filter(Boolean))].sort();const sel=document.getElementById('typeFilter');const cur=sel.value;sel.innerHTML='<option value="">모든 유형</option>';types.forEach(t=>{const opt=document.createElement('option');opt.value=t;opt.textContent=t;sel.appendChild(opt);});sel.value=cur;}
+function filterData(){const search=document.getElementById('searchInput').value.trim().toLowerCase();const typeFilter=document.getElementById('typeFilter').value;const sort=document.getElementById('sortSelect').value;let data=allData.filter(d=>{const name=(d['이름']||'').toLowerCase();return(!search||name.includes(search))&&(!typeFilter||d['유형']===typeFilter);});data.sort((a,b)=>{if(sort==='name_asc')return(a['이름']||'').localeCompare(b['이름']||'','ko');const ta=a['저장시각']?.toDate?a['저장시각'].toDate():new Date(a['저장시각']||0);const tb=b['저장시각']?.toDate?b['저장시각'].toDate():new Date(b['저장시각']||0);return sort==='date_asc'?ta-tb:tb-ta;});document.getElementById('resultCount').textContent=data.length>0?data.length+'개 결과':'';renderTable(data);}
+function renderTable(data){const tbody=document.getElementById('tableBody');if(data.length===0){renderEmpty();return;}tbody.innerHTML=data.map(d=>{const name=d['이름']||'이름없음';const type=d['유형']||'—';const c=Math.round(d['인지']||0);const a=Math.round(d['행동']||0);const m=Math.round(d['동기']||0);let dateStr='—';if(d['저장시각']){try{const t=d['저장시각'].toDate?d['저장시각'].toDate():new Date(d['저장시각']);dateStr=t.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'});}catch(e){dateStr=d['날짜']||'—';}}else if(d['날짜']){dateStr=d['날짜'];}return '<tr><td class="td-name">'+esc(name)+'</td><td><span class="type-badge">'+esc(type)+'</span></td><td>'+scoreBar(c)+'</td><td>'+scoreBar(a)+'</td><td>'+scoreBar(m)+'</td><td class="td-date">'+dateStr+'</td></tr>';}).join('');}
+function scoreBar(v){return '<div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:'+v+'%"></div></div><span class="score-num">'+v+'%</span></div>';}
+function renderEmpty(){document.getElementById('tableBody').innerHTML='<tr><td colspan="6"><div class="empty-state"><p>검;&#xC0AC; 결과가 없어요</p></div></td></tr>';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
