@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>연사이트빌더 v20260503 — y-life.kr</title>
+<!-- v2 추가 (2026-05-21): region 템플릿 · 갤러리 외부 URL · bilingual 블록 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -42,8 +43,17 @@
   --thread-soft:rgba(181,191,196,0.15);
   --color-muted:#B0A6AE;
 
-  --font-serif:'Nanum Myeongjo',serif;
-  --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;
+  --font-serif:'Nanum Myeongjo','Apple SD Gothic Neo','Malgun Gothic',serif;
+  --font-sans:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+
+  /* YUV 3.2 표준 토큰 — 시안 v5와 일관성 유지 */
+  --yp-ink: #1f2a2a;
+  --yp-deep: #2f5d62;
+  --yp-pine: #427a71;
+  --yp-accent: #c38d56;
+  --yp-card: #fffdf8;
+  --yp-line: #d7d1c5;
+  --yp-mist: #f4f1eb;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
@@ -215,6 +225,12 @@ input,textarea,select{font-family:var(--font-sans);}
 .b-news-placeholder{background:var(--bg-alt);border-radius:8px;padding:20px;text-align:center;font-size:13px;color:var(--ink-faint);}
 
 .b-gallery{padding:40px 32px;}
+/* 한·영 토글 블록 */
+.b-bilingual{padding:40px 48px;}
+.b-bilingual-toggle{display:flex;gap:0;margin-bottom:18px;border-radius:8px;overflow:hidden;border:1.5px solid var(--border-md);width:fit-content;}
+.b-bilingual-btn{padding:8px 22px;font-size:13px;font-weight:600;background:var(--bg);color:var(--ink-faint);border:none;cursor:pointer;transition:all 0.18s;font-family:var(--font-sans);}
+.b-bilingual-btn.active{background:var(--yp-pine);color:#fff;}
+.b-bilingual-text{font-size:16px;line-height:1.8;color:var(--ink);white-space:pre-wrap;}
 .b-gallery-title{font-family:var(--font-serif);font-size:24px;font-weight:700;margin-bottom:20px;outline:none;}
 .b-gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .b-gallery-cell{aspect-ratio:1;background:#e8e4dc;border-radius:6px;overflow:hidden;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;}
@@ -769,8 +785,10 @@ document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key
 const THEMES={'mint-tide':{name:'Mint Tide',bg:'#e9f5f2',surface:'#b0cfc8',primary:'#6eb5a6',text:'#2a2e2c'},'warm-earth':{name:'Warm Earth',bg:'#d4cdc1',surface:'#dbd2a4',primary:'#ad9d82',text:'#2a2e2c'},'mauve-fog':{name:'Mauve Fog',bg:'#ebf2ed',surface:'#b2a7b8',primary:'#615b63',text:'#37334f'},'forest-dark':{name:'Forest Dark',bg:'#2b3b32',surface:'#586e69',primary:'#6eb5a6',text:'#e9f5f2'}};
 const CARD_ICONS={star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',smile:'<circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',bulb:'<line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="3" x2="12" y2="5"/><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.2 4.16-3 5.2V19H9v-1.8A6 6 0 0 1 6 12a6 6 0 0 1 6-6z"/>',users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',check:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',globe:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',pen:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',sun:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',gift:'<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',map:'<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'};
 function getCardIconSVG(icon){const path=CARD_ICONS[icon];if(path)return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;return`<span style="font-size:28px;line-height:1">${icon||'⭐'}</span>`;}
-const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left',bg:''},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40,ratio:'1:1',bg:''},columns:{type:'columns',cols:2,paddingV:40,bg:'',columns:[{title:'컬럼 1',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 2',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 3',body:'내용을 입력하세요.',imgUrl:''}]},cards:{type:'cards',title:'카드 그리드',paddingV:48,bg:'',cards:[{icon:'star',name:'카드 1',desc:'설명을 입력하세요'},{icon:'leaf',name:'카드 2',desc:'설명을 입력하세요'},{icon:'target',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48,bg:''},news:{type:'news',title:'최근 소식',paddingV:40,bg:''},gallery:{type:'gallery',title:'갤러리',images:[],paddingV:40,bg:''},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48,bg:''},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0},posts:{type:'posts',title:'최근 글',layout:'list',paddingV:40,bg:'',posts:[{title:'첫 번째 에세이',date:'2026.01.01',excerpt:'삶의 작은 순간들을 기록합니다. 평범한 하루도 다르게 바라보면 이야기가 됩니다.',category:'에세이'},{title:'짧은 소설',date:'2026.01.15',excerpt:'비 오는 날, 창가에 앉아 쓴 이야기. 낯선 사람의 우산 색이 기억에 남았다.',category:'소설'},{title:'시 한 편',date:'2026.02.01',excerpt:'봄이 오는 소리를 들으며. 아직 꽃은 피지 않았지만 공기가 달라졌다.',category:'시'}]}};
-const BLOCK_TYPES=[{type:'hero',name:'히어로',icon:'<polyline points="6 3 6 15 18 15 18 3"></polyline><line x1="6" y1="8" x2="18" y2="8"></line>'},{type:'text',name:'텍스트',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>'},{type:'columns',name:'다단 컬럼',icon:'<rect x="2" y="3" width="6" height="18" rx="1"></rect><rect x="9" y="3" width="6" height="18" rx="1"></rect><rect x="16" y="3" width="6" height="18" rx="1"></rect>'},{type:'imgtext',name:'이미지+글',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>'},{type:'cards',name:'카드',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'youtube',name:'YouTube',icon:'<rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="8" x2="7" y2="16"></line><line x1="12" y1="8" x2="12" y2="16"></line><line x1="17" y1="8" x2="17" y2="16"></line>'},{type:'map',name:'지도',icon:'<circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path>'},{type:'button',name:'버튼',icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="15" x2="14" y2="15"></line>'},{type:'social',name:'소셜',icon:'<circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>'},{type:'gallery',name:'갤러리',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'quote',name:'인용',icon:'<path d="M3 21c0 7 2 11 13 13"></path><path d="M21 3c0 7 2 11 13 13"></path>'},{type:'divider',name:'구분선',icon:'<line x1="3" y1="12" x2="21" y2="12"></line>'},{type:'spacer',name:'간격',icon:'<line x1="6" y1="3" x2="6" y2="21"></line><line x1="12" y1="3" x2="12" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line>'},{type:'contact',name:'연락',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line>'},{type:'news',name:'뉴스',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="15" x2="21" y2="15"></line>'},{type:'carousel',name:'캐러셀',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line>'},{type:'posts',name:'게시판',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line>'}];
+const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left',bg:''},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40,ratio:'1:1',bg:''},columns:{type:'columns',cols:2,paddingV:40,bg:'',columns:[{title:'컬럼 1',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 2',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 3',body:'내용을 입력하세요.',imgUrl:''}]},cards:{type:'cards',title:'카드 그리드',paddingV:48,bg:'',cards:[{icon:'star',name:'카드 1',desc:'설명을 입력하세요'},{icon:'leaf',name:'카드 2',desc:'설명을 입력하세요'},{icon:'target',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48,bg:''},news:{type:'news',title:'최근 소식',paddingV:40,bg:''},gallery:{type:'gallery',title:'갤러리',images:[],imgSrcTypes:[],paddingV:40,bg:''},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48,bg:''},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0},bilingual:{type:'bilingual',paddingV:40,bg:'',data:{ko:'한국어 텍스트를 입력하세요.',en:'Enter English text here.',defaultLang:'ko'}},
+posts:{type:'posts',title:'최근 글',layout:'list',paddingV:40,bg:'',posts:[{title:'첫 번째 에세이',date:'2026.01.01',excerpt:'삶의 작은 순간들을 기록합니다. 평범한 하루도 다르게 바라보면 이야기가 됩니다.',category:'에세이'},{title:'짧은 소설',date:'2026.01.15',excerpt:'비 오는 날, 창가에 앉아 쓴 이야기. 낯선 사람의 우산 색이 기억에 남았다.',category:'소설'},{title:'시 한 편',date:'2026.02.01',excerpt:'봄이 오는 소리를 들으며. 아직 꽃은 피지 않았지만 공기가 달라졌다.',category:'시'}]}};
+const BLOCK_TYPES=[{type:'hero',name:'히어로',icon:'<polyline points="6 3 6 15 18 15 18 3"></polyline><line x1="6" y1="8" x2="18" y2="8"></line>'},{type:'text',name:'텍스트',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>'},{type:'columns',name:'다단 컬럼',icon:'<rect x="2" y="3" width="6" height="18" rx="1"></rect><rect x="9" y="3" width="6" height="18" rx="1"></rect><rect x="16" y="3" width="6" height="18" rx="1"></rect>'},{type:'imgtext',name:'이미지+글',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>'},{type:'cards',name:'카드',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'youtube',name:'YouTube',icon:'<rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="8" x2="7" y2="16"></line><line x1="12" y1="8" x2="12" y2="16"></line><line x1="17" y1="8" x2="17" y2="16"></line>'},{type:'map',name:'지도',icon:'<circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path>'},{type:'button',name:'버튼',icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="15" x2="14" y2="15"></line>'},{type:'social',name:'소셜',icon:'<circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>'},{type:'gallery',name:'갤러리',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'quote',name:'인용',icon:'<path d="M3 21c0 7 2 11 13 13"></path><path d="M21 3c0 7 2 11 13 13"></path>'},{type:'divider',name:'구분선',icon:'<line x1="3" y1="12" x2="21" y2="12"></line>'},{type:'spacer',name:'간격',icon:'<line x1="6" y1="3" x2="6" y2="21"></line><line x1="12" y1="3" x2="12" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line>'},{type:'contact',name:'연락',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line>'},{type:'news',name:'뉴스',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="15" x2="21" y2="15"></line>'},{type:'carousel',name:'캐러셀',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line>'},{type:'posts',name:'게시판',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line>'},
+{type:'bilingual',name:'한·영 토글',icon:'<rect x="3" y="3" width="8" height="18" rx="1"></rect><rect x="13" y="3" width="8" height="18" rx="1"></rect><line x1="11" y1="9" x2="13" y2="9"></line><line x1="11" y1="15" x2="13" y2="15"></line>'}];
 function toggleSettingsPanel(){alert('설정: 사이트 이름·파비콘·메타 설명 등 고급 설정은 곧 추가됩니다.');}
 
 /* ─── 셋업 모달 ─── */
@@ -822,7 +840,7 @@ function completeSetup(){
 
 async function init(){
   await initImageCache();
-  loadPages();renderBlockTypeGrid();renderSectionsTab();renderThemeTab();renderPageTree();renderCanvas();loadTheme();attachCanvasEvents();pushHistory();
+  loadPages();renderBlockTypeGrid();renderSectionsTab();renderThemeTab();renderPageTree();renderCanvas();loadTheme();attachCanvasEvents();pushHistory();initBilingualAutoDetect();
   // 첫 방문이고 내용이 없으면 셋업 모달 표시
   const done=localStorage.getItem('yeonSetupDone');
   const hasBlocks=Object.values(pages).some(p=>(p.blocks||[]).length>0);
@@ -919,7 +937,7 @@ case 'cards':inner=`<div class="b-cards" style="${b.bg?`background:${b.bg};`:''}
 case 'divider':inner=`<div class="b-divider" style="padding:${Math.max(8,pv/4)}px 48px"><div class="b-divider-line"></div></div>`;break;
 case 'contact':inner=`<div class="b-contact" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 48px"><div class="b-contact-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><input type="text" placeholder="${esc(b.placeholder_name||'이름')}" disabled><input type="email" placeholder="${esc(b.placeholder_email||'이메일')}" disabled><textarea placeholder="${esc(b.placeholder_msg||'메시지')}" disabled style="min-height:80px;resize:none"></textarea><button disabled>보내기</button></div>`;break;
 case 'news':inner=`<div class="b-news" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 48px"><div class="b-news-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-news-placeholder">뉴스 위젯 — 실제 페이지에서 y-life.kr 최신 뉴스가 표시됩니다</div></div>`;break;
-case 'gallery':{const imgs=b.images||[];inner=`<div class="b-gallery" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 32px"><div class="b-gallery-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-gallery-grid">${imgs.map((src,ii)=>`<div class="b-gallery-cell" onclick="triggerGalleryImageUpload('${b.id}',${ii})"><img src="${esc(resolveImgSrc(src))}" alt=""><div class="img-upload-overlay"><div class="img-upload-label">교체</div></div></div>`).join('')}<div class="b-gallery-cell b-gallery-cell-add" onclick="addGalleryImage('${b.id}')">+</div></div></div>`;break;}
+case 'gallery':{const imgs=b.images||[];const srcTypes=b.imgSrcTypes||[];inner=`<div class="b-gallery" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 32px"><div class="b-gallery-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-gallery-grid">${imgs.map((src,ii)=>{const isUrl=(srcTypes[ii]==='url');const resolved=isUrl?src:resolveImgSrc(src);return`<div class="b-gallery-cell" onclick="${isUrl?`showGalleryUrlEditor('${b.id}',${ii})`:`triggerGalleryImageUpload('${b.id}',${ii})`}"><img src="${esc(resolved)}" alt="" loading="${isUrl?'lazy':'eager'}"><div class="img-upload-overlay"><div class="img-upload-label">${isUrl?'URL 편집':'교체'}</div></div></div>`;}).join('')}<div class="b-gallery-cell b-gallery-cell-add" onclick="addGalleryImage('${b.id}')">+파일</div><div class="b-gallery-cell b-gallery-cell-add" onclick="addGalleryUrl('${b.id}')" style="font-size:12px">+URL</div></div></div>`;break;}
 case 'quote':inner=`<div class="b-quote" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 48px"><div class="b-quote-inner"><div class="b-quote-text" contenteditable="true" data-blockid="${b.id}" data-field="text">${esc(b.text)}</div><div class="b-quote-author" contenteditable="true" data-blockid="${b.id}" data-field="author">${esc(b.author)}</div></div></div>`;break;
 case 'youtube':{const vid=extractYouTubeId(b.url);inner=`<div class="b-youtube-container" style="padding:${pv}px 48px">${vid?`<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px"><iframe src="https://www.youtube.com/embed/${vid}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>`:`<div class="b-youtube-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10,8 16,12 10,16"/></svg><div>YouTube URL을 오른쪽 패널에 입력하세요</div></div>`}${b.title?`<div style="text-align:center;margin-top:10px;font-size:14px;font-weight:600;color:var(--ink-soft)">${esc(b.title)}</div>`:''}</div>`;break;}
 case 'map':{inner=`<div class="b-map-container" style="padding:0 48px">${b.embedUrl?`<iframe src="${esc(b.embedUrl)}" class="b-map-embed" style="height:${b.height||320}px;width:100%;" allowfullscreen></iframe>`:`<div class="b-map-placeholder" style="height:${b.height||320}px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg><div>${esc(b.address||'지도 주소 입력')}</div><div style="font-size:11px;margin-top:4px">오른쪽 패널에 Google Maps 임베드 URL을 입력하세요</div></div>`}</div>`;break;}
@@ -929,6 +947,7 @@ case 'spacer':inner=`<div class="b-spacer"><div class="b-spacer-visual" style="h
 case 'carousel':{const imgs=b.images||[];inner=`<div class="b-carousel-container" style="padding:${pv}px 48px"><div class="carousel-grid">${imgs.map((src,ii)=>`<div class="carousel-cell" onclick="triggerCarouselImageUpload('${b.id}',${ii})"><img src="${esc(resolveImgSrc(src))}" alt=""><div class="img-upload-overlay"><div class="img-upload-label">교체</div></div></div>`).join('')}<div class="carousel-cell carousel-cell-add" onclick="addCarouselImage('${b.id}')">+</div></div></div>`;break;}
 case 'shop':{const prods=b.products||[];inner=`<div class="b-shop" style="padding:${pv}px 48px"><div class="b-shop-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-shop-grid">${prods.map((p,pi)=>`<div class="b-shop-card"><div class="b-shop-card-img" onclick="triggerShopImageUpload('${b.id}',${pi})">${p.imgUrl?`<img src="${esc(resolveImgSrc(p.imgUrl))}" alt="">`:'<span>📦</span>'}<div class="img-upload-overlay"><div class="img-upload-label">이미지 교체</div></div></div><div class="b-shop-card-body"><div class="b-shop-card-name" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="name">${esc(p.name||'상품명')}</div><div class="b-shop-card-price" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="price">${esc(p.price||'₩0')}</div><div class="b-shop-card-desc" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="desc">${esc(p.desc||'상품 설명')}</div><button class="b-shop-buy-btn" onclick="addToCart('${b.id}',${pi})">구매하기</button></div><button class="b-card-del" onclick="deleteProduct('${b.id}',${pi})">✕</button></div>`).join('')}<div class="b-shop-card b-shop-card-add" onclick="addProduct('${b.id}')">+ 상품 추가</div></div></div>`;break;}
 case 'posts':{const bgStyle=b.bg?`background:${b.bg};`:'';const isGrid=b.layout==='grid';inner=`<div class="b-posts" style="${bgStyle}padding:${pv}px 48px"><div class="b-posts-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="${isGrid?'b-posts-grid':'b-posts-list'}">${(b.posts||[]).map((p,pi)=>`<div class="b-post-item"><div class="b-post-meta"><div class="b-post-cat" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="category" onclick="event.stopPropagation()">${esc(p.category||'')}</div><div class="b-post-date" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="date" onclick="event.stopPropagation()">${esc(p.date||'')}</div></div><div class="b-post-content"><div class="b-post-title" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="title" onclick="event.stopPropagation()">${esc(p.title||'')}</div><div class="b-post-excerpt" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="excerpt" onclick="event.stopPropagation()">${esc(p.excerpt||'')}</div></div><button class="b-post-del" onclick="deletePost('${b.id}',${pi})">✕</button></div>`).join('')}</div><div class="b-posts-add" onclick="addPost('${b.id}')">+ 글 추가</div></div>`;break;}
+case 'bilingual':{const bd=b.data||{ko:'한국어 텍스트',en:'English text',defaultLang:'ko'};const defL=bd.defaultLang||'ko';inner=`<div class="b-bilingual" style="${b.bg?`background:${b.bg};`:''}padding:${pv}px 48px"><div class="b-bilingual-toggle"><button class="b-bilingual-btn active" id="biBtn-ko-${b.id}" onclick="switchBilingual('${b.id}','ko')">한국어</button><button class="b-bilingual-btn" id="biBtn-en-${b.id}" onclick="switchBilingual('${b.id}','en')">English</button></div><div class="b-bilingual-text" id="biText-${b.id}" contenteditable="true" data-blockid="${b.id}" data-field="bilingual-ko" style="${defL==='en'?'display:none':''}">${esc(bd.ko)}</div><div class="b-bilingual-text" id="biTextEn-${b.id}" contenteditable="true" data-blockid="${b.id}" data-field="bilingual-en" style="${defL==='ko'?'display:none':''}">${esc(bd.en)}</div></div>`;break;}
 default:inner=`<div style="padding:20px;color:var(--ink-faint);font-size:13px">알 수 없는 블록 타입: ${b.type}</div>`;}
 return `<div class="block-wrapper${sel}" data-id="${b.id}" data-blockidx="${i}" data-anim="${b.animation||'none'}">${dragHandle}${controls}${resizeStrip}${inner}</div>`;}
 
@@ -946,7 +965,9 @@ function attachBlockEvents(){
     el.addEventListener('blur',()=>{
       const bid=el.dataset.blockid,field=el.dataset.field,cidx=el.dataset.cardidx,pidx=el.dataset.prodidx,colidx=el.dataset.colidx,poidx=el.dataset.postidx;
       const b=currentBlocks().find(b=>b.id===bid);if(!b)return;
-      if(colidx!=null&&b.columns)b.columns[colidx][field]=el.innerText;
+      if(field==='bilingual-ko'){if(!b.data)b.data={ko:'',en:'',defaultLang:'ko'};b.data.ko=el.innerText;}
+      else if(field==='bilingual-en'){if(!b.data)b.data={ko:'',en:'',defaultLang:'ko'};b.data.en=el.innerText;}
+      else if(colidx!=null&&b.columns)b.columns[colidx][field]=el.innerText;
       else if(poidx!=null&&b.posts)b.posts[poidx][field]=el.innerText;
       else if(cidx!=null&&b.cards)b.cards[cidx][field]=el.innerText;
       else if(pidx!=null&&b.products)b.products[pidx][field]=el.innerText;
@@ -1026,8 +1047,11 @@ function resolveImgSrc(url){if(!url)return'';if(url.startsWith('idb://'))return 
 /* ─── 이미지 업로드 ─── */
 let _imgCb=null;
 function triggerImageUpload(bid,field){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){b[field]=url;renderCanvas();selectBlock(bid);autoSave();}};document.getElementById('fileInput').click();}
-function triggerGalleryImageUpload(bid,ii){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];b.images[ii]=url;renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
-function addGalleryImage(bid){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];b.images.push(url);renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
+function triggerGalleryImageUpload(bid,ii){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];if(!b.imgSrcTypes)b.imgSrcTypes=[];b.images[ii]=url;b.imgSrcTypes[ii]='data';renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
+function addGalleryImage(bid){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];if(!b.imgSrcTypes)b.imgSrcTypes=[];b.images.push(url);b.imgSrcTypes.push('data');renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
+function addGalleryUrl(bid){const url=prompt('외부 이미지 URL을 입력하세요 (https:// 로 시작해야 합니다)','https://');if(!url)return;if(!url.startsWith('https://')){alert('보안상 https:// URL만 허용됩니다.');return;}const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];if(!b.imgSrcTypes)b.imgSrcTypes=[];b.images.push(url);b.imgSrcTypes.push('url');renderCanvas();autoSave();}}
+function showGalleryUrlEditor(bid,ii){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.images)return;const cur=b.images[ii]||'';const url=prompt('외부 이미지 URL을 수정하세요',cur);if(url===null)return;if(url&&!url.startsWith('https://')){alert('보안상 https:// URL만 허용됩니다.');return;}if(!url){if(confirm('이 이미지를 삭제할까요?')){b.images.splice(ii,1);(b.imgSrcTypes||[]).splice(ii,1);renderCanvas();autoSave();}}else{b.images[ii]=url;renderCanvas();autoSave();}}
+function deleteGalleryImage(bid,ii){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.images)return;b.images.splice(ii,1);(b.imgSrcTypes||[]).splice(ii,1);renderCanvas();selectBlock(bid);autoSave();}
 function triggerCarouselImageUpload(bid,ii){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];b.images[ii]=url;renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
 function addCarouselImage(bid){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b){if(!b.images)b.images=[];b.images.push(url);renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
 function triggerShopImageUpload(bid,pi){_imgCb=(url)=>{const b=currentBlocks().find(b=>b.id===bid);if(b&&b.products&&b.products[pi]){b.products[pi].imgUrl=url;renderCanvas();autoSave();}};document.getElementById('fileInput').click();}
@@ -1094,7 +1118,7 @@ function showRadialMenu(cx,cy){
   const contextTypes=getContextItems(_radialInsertAfter);
   const mainItems=contextTypes.slice(0,8);
   const moreItems=contextTypes.slice(8);
-  const LABELS={hero:'히어로',text:'텍스트',imgtext:'이미지+글',cards:'카드',youtube:'YouTube',map:'지도',shop:'쇼핑몰',button:'버튼',gallery:'갤러리',contact:'연락',quote:'인용',divider:'구분선',spacer:'간격',news:'뉴스',carousel:'캐러셀',posts:'게시판'};
+  const LABELS={hero:'히어로',text:'텍스트',imgtext:'이미지+글',cards:'카드',youtube:'YouTube',map:'지도',shop:'쇼핑몰',button:'버튼',gallery:'갤러리',contact:'연락',quote:'인용',divider:'구분선',spacer:'간격',news:'뉴스',carousel:'캐러셀',posts:'게시판',bilingual:'한·영 토글'};
   mainItems.forEach((type,idx)=>{
     const angle=(-90+idx*(360/8))*(Math.PI/180);
     const x=Math.cos(angle)*R;
@@ -1154,13 +1178,14 @@ function updatePropsPanel(){
     case 'columns':{const nc=b.cols||2;html+=`<div class="props-section"><div class="props-section-title">다단 컬럼</div><div class="props-field"><label>컬럼 수</label><div class="align-row"><button class="align-btn${nc===2?' active':''}" onclick="updColCount(2)">2단</button><button class="align-btn${nc===3?' active':''}" onclick="updColCount(3)">3단</button></div></div></div>${bgPicker(b)}${pads}`;break;}
     case 'cards':html+=`<div class="props-section"><div class="props-section-title">카드 그리드</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div></div>${bgPicker(b)}${pads}`;break;
     case 'contact':html+=`<div class="props-section"><div class="props-section-title">연락처 폼</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div></div>${bgPicker(b)}${pads}`;break;
-    case 'gallery':html+=`<div class="props-section"><div class="props-section-title">갤러리</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div></div>${bgPicker(b)}${pads}`;break;
+    case 'gallery':{const imgs=b.images||[];const srcTypes=b.imgSrcTypes||[];const imgList=imgs.length?`<div class="props-field"><label>이미지 목록 (${imgs.length}장)</label>${imgs.map((src,ii)=>{const isUrl=(srcTypes[ii]==='url');return`<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:11px;color:var(--ink-soft)"><span style="background:${isUrl?'#427a71':'#828282'};color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;flex-shrink:0">${isUrl?'URL':'파일'}</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${isUrl?esc(src):'(업로드 이미지)'}</span><button onclick="deleteGalleryImage('${b.id}',${ii})" style="background:none;border:none;color:#b3514a;cursor:pointer;font-size:13px;padding:0">✕</button></div>`}).join('')}</div>`:'';html+=`<div class="props-section"><div class="props-section-title">갤러리</div><div class="props-field"><label>섹션 제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)"></div>${imgList}<div class="props-field" style="font-size:11px;color:var(--ink-faint)">캔버스의 [+파일] 버튼으로 파일 업로드, [+URL] 버튼으로 Unsplash 등 외부 URL 추가</div></div>${bgPicker(b)}${pads}`;break;}
     case 'quote':html+=`<div class="props-section"><div class="props-section-title">인용구</div><div class="props-field"><label>인용 내용</label><textarea style="min-height:80px" onblur="updB('text',this.value)">${esc(b.text||'')}</textarea></div><div class="props-field"><label>출처</label><input type="text" value="${esc(b.author||'')}" onblur="updB('author',this.value)"></div></div>${bgPicker(b)}${pads}`;break;
     case 'youtube':html+=`<div class="props-section"><div class="props-section-title">YouTube</div><div class="props-field"><label>YouTube URL</label><input type="text" value="${esc(b.url||'')}" onblur="updB('url',this.value)" placeholder="https://youtube.com/watch?v=..."></div><div class="props-field"><label>제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)" placeholder="없으면 비워두기"></div></div>${pads}`;break;
     case 'map':html+=`<div class="props-section"><div class="props-section-title">지도</div><div class="props-field"><label>Google Maps 임베드 URL</label><input type="text" value="${esc(b.embedUrl||'')}" onblur="updB('embedUrl',this.value)" placeholder="https://maps.google.com/maps?..."></div><div class="props-field"><label>지도 높이</label><div class="range-row"><input type="range" min="160" max="600" value="${b.height||320}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||320}px</span></div></div></div>`;break;
     case 'button':html+=`<div class="props-section"><div class="props-section-title">버튼</div><div class="props-field"><label>버튼 텍스트</label><input type="text" value="${esc(b.text||'')}" onblur="updB('text',this.value)"></div><div class="props-field"><label>링크 URL</label><input type="text" value="${esc(b.url||'#')}" onblur="updB('url',this.value)"></div><div class="props-field"><label>스타일</label><select onchange="updB('variant',this.value)"><option value="primary"${(b.variant||'primary')==='primary'?' selected':''}>채움</option><option value="outline"${b.variant==='outline'?' selected':''}>외곽선</option><option value="ghost"${b.variant==='ghost'?' selected':''}>텍스트</option></select></div>${aligns}</div>${pads}`;break;
     case 'posts':html+=`<div class="props-section"><div class="props-section-title">게시판</div><div class="props-field"><label>레이아웃</label><div class="align-row"><button class="align-btn${(b.layout||'list')==='list'?' active':''}" onclick="updB('layout','list')">목록형</button><button class="align-btn${b.layout==='grid'?' active':''}" onclick="updB('layout','grid')">카드형</button></div></div><div class="props-field" style="font-size:11px;color:var(--ink-faint)">글 제목·날짜·카테고리·발췌를 캔버스에서 직접 클릭하여 수정하세요.<br>글 추가/삭제는 캔버스 하단 [+ 글 추가] 버튼을 이용하세요.</div></div>${bgPicker(b)}${pads}`;break;
     case 'spacer':html+=`<div class="props-section"><div class="props-section-title">간격</div><div class="props-field"><label>높이</label><div class="range-row"><input type="range" min="8" max="300" value="${b.height||48}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||48}px</span></div></div></div>`;break;
+    case 'bilingual':{const bd=b.data||{ko:'',en:'',defaultLang:'ko'};html+=`<div class="props-section"><div class="props-section-title">한·영 토글</div><div class="props-field"><label>기본 표시 언어</label><div class="align-row"><button class="align-btn${(bd.defaultLang||'ko')==='ko'?' active':''}" onclick="updBilingualDefault('${b.id}','ko')">한국어</button><button class="align-btn${bd.defaultLang==='en'?' active':''}" onclick="updBilingualDefault('${b.id}','en')">English</button></div></div><div class="props-field"><label>한국어 텍스트</label><textarea style="min-height:100px" onblur="updBilingualText('${b.id}','ko',this.value)">${esc(bd.ko)}</textarea></div><div class="props-field"><label>English text</label><textarea style="min-height:100px" onblur="updBilingualText('${b.id}','en',this.value)">${esc(bd.en)}</textarea></div><div class="props-field" style="font-size:11px;color:var(--ink-faint)">방문자 브라우저 언어에 따라 자동으로 언어를 감지합니다. 선택은 localStorage에 저장됩니다.</div></div>${bgPicker(b)}${pads}`;break;}
     default: html+=pads; break;
   }
   const anim=b.animation||'none';
@@ -1377,6 +1402,53 @@ const PAGE_TEMPLATES=[
       {type:'button',text:'원고 및 강연 문의',url:'#contact',align:'center',variant:'outline',size:'medium',paddingV:32,bg:'',animation:'slide-up'},
       {type:'contact',title:'연락하기',placeholder_name:'성함',placeholder_email:'이메일',placeholder_msg:'원고 청탁, 강연 요청, 출판 관련 문의 등 편하게 남겨주세요.',paddingV:56,bg:'#f7f2eb',animation:'slide-up'}
     ]
+  },
+  {
+    id:'region',
+    name:'지역·관광',
+    desc:'울산·경주 등 지역 정체성, 관광 안내, 시민 사이트',
+    tag:'지역 · 관광 · 도시',
+    tagColor:'#427a71',
+    heroBg:'#2f5d62',
+    heroText:'#fffdf8',
+    accentColor:'#427a71',
+    preview:`<div class="tp-hero" style="background:#2f5d62">
+      <div class="tp-hero-title" style="color:#fffdf8;font-size:13px">우리 도시, 우리 이야기</div>
+      <div class="tp-hero-sub" style="color:#c38d56">자연·문화·사람이 만나는 곳</div>
+      <div class="tp-hero-btn" style="background:#c38d56;color:#fff">둘러보기</div>
+    </div>
+    <div class="tp-blocks" style="padding:6px 12px;gap:5px;display:flex;flex-direction:column">
+      <div style="display:flex;gap:6px;margin-top:2px">
+        <div style="flex:1;height:22px;background:#427a71;opacity:.25;border-radius:4px"></div>
+        <div style="flex:1;height:22px;background:#427a71;opacity:.18;border-radius:4px"></div>
+        <div style="flex:1;height:22px;background:#427a71;opacity:.13;border-radius:4px"></div>
+      </div>
+      <div style="height:10px;background:#c38d56;opacity:.2;border-radius:3px;margin-top:2px"></div>
+    </div>`,
+    blocks:[
+      {type:'hero',title:'우리 도시, 우리 이야기',sub:'자연과 문화와 사람이 한 자리에 모이는 곳.\n살아있는 지역의 숨결을 느껴보세요.',btnText:'둘러보기',btnUrl:'#explore',bg:'#2f5d62',paddingV:110,align:'center',titleSize:42,animation:'fade-in'},
+      {type:'text',title:'이 지역에 오신 것을 환영합니다',body:'이곳은 오랜 역사와 살아있는 자연이 공존하는 특별한 도시입니다.\n주민과 방문객 모두를 위한 정보를 한곳에 모았습니다.',paddingV:48,align:'center',bg:'#fffdf8',animation:'fade-in'},
+      {type:'cards',title:'세 가지 이야기',paddingV:48,bg:'',animation:'slide-up',cards:[
+        {icon:'sun',name:'자연',desc:'산과 바다, 강과 숲. 계절마다 다른 얼굴을 보여주는 자연 경관.'},
+        {icon:'globe',name:'문화',desc:'오랜 역사와 독특한 전통이 살아있는 문화 유산과 축제.'},
+        {icon:'users',name:'사람',desc:'정을 나누며 살아가는 이웃들, 그리고 따뜻한 환대.'}
+      ]},
+      {type:'imgtext',imgSide:'left',title:'자연 속으로',body:'사계절 내내 아름다운 자연이 기다립니다.\n트레킹 코스, 바다 드라이브, 생태 공원 등 다양한 방법으로 자연을 만나보세요.',imgAlt:'지역 자연 사진',imgUrl:'',paddingV:56,ratio:'1:1',bg:'#f4f1eb',animation:'slide-left'},
+      {type:'gallery',title:'이곳의 풍경들',images:[],paddingV:40,bg:'',animation:'fade-in'},
+      {type:'quote',text:'"이 땅에 살면서 이렇게 아름다운 곳인 줄 몰랐습니다. 이제야 제대로 보게 된 것 같아요."',author:'— 지역 주민',paddingV:56,bg:'#2f5d62',animation:'fade-in'},
+      {type:'columns',cols:3,paddingV:40,bg:'#fffdf8',animation:'slide-up',columns:[
+        {title:'먹거리',body:'지역 특산물과 로컬 맛집. 이 맛은 여기서만 납니다.',imgUrl:''},
+        {title:'볼거리',body:'역사 유적지부터 현대 미술관까지. 하루가 모자랍니다.',imgUrl:''},
+        {title:'살거리',body:'전통 시장부터 로컬 브랜드까지. 여행의 기억을 담아가세요.',imgUrl:''}
+      ]},
+      {type:'map',embedUrl:'',address:'지역 주요 명소 위치를 입력하세요',paddingV:0,height:360},
+      {type:'cards',title:'방문객 안내',paddingV:48,bg:'#f4f1eb',animation:'slide-up',cards:[
+        {icon:'globe',name:'오시는 길',desc:'대중교통·자가용·렌터카 이용 방법 안내'},
+        {icon:'star',name:'추천 코스',desc:'당일치기·1박 2일·가족 여행 맞춤 추천 코스'},
+        {icon:'chat',name:'문의하기',desc:'관광 안내 센터 및 지역 문화원 연락처'}
+      ]},
+      {type:'contact',title:'문의·제안·참여',placeholder_name:'성함',placeholder_email:'이메일',placeholder_msg:'이 지역에 대한 문의, 콘텐츠 제안, 주민 참여 신청을 남겨주세요.',paddingV:56,bg:'#2f5d62',animation:'slide-up'}
+    ]
   }
 ];
 function showTemplatePicker(){
@@ -1417,7 +1489,7 @@ function applyPageTemplate(id){
 }
 
 /* ─── 배경색 피커 공통 ─── */
-const BG_SWATCHES=['','#ffffff','#f8f6f2','#e9f5f2','#d4cdc1','#ebf2ed','#2b3b32','#1d1d1b','#e8e4dc','#4a6fa5','#f0e6d3','#2c2c54'];
+const BG_SWATCHES=['','#ffffff','#f8f6f2','#e9f5f2','#ebf2ed','#dfe6d3','#d4cdc1','#b0cfc8','#6eb5a6','#dbd2a4','#ad9d82','#b2a7b8','#959e9c','#586e69','#697870','#c4c4c4','#ebebeb','#615b63','#2a2e2c','#2b3b32','#37334f'];
 function bgPicker(b){const cur=b.bg||'';return `<div class="props-section"><div class="props-section-title">배경색</div><div class="props-field"><div class="color-row">${BG_SWATCHES.map(c=>c===''?`<div class="color-swatch${cur===''?' active':''}" style="background:linear-gradient(135deg,#fff 50%,#eee 50%);border:1.5px solid #ccc" onclick="updB('bg','')" title="없음"></div>`:`<div class="color-swatch${cur.toLowerCase()===c?' active':''}" style="background:${c}" onclick="updB('bg','${c}')" title="${c}"></div>`).join('')}<input type="color" value="${cur||'#ffffff'}" onchange="updB('bg',this.value)" style="width:22px;height:22px;border:none;cursor:pointer;border-radius:50%;padding:0"></div></div></div>`;}
 
 /* ─── 컬럼 블록 관련 함수 ─── */
@@ -1480,6 +1552,40 @@ function addSection(id){
   document.querySelectorAll('.panel-content').forEach(c=>c.style.display='none');
   document.querySelector('.panel-tab').classList.add('active');
   document.getElementById('insertTab').style.display='block';
+}
+
+/* ─── bilingual 블록 헬퍼 ─── */
+function switchBilingual(bid,lang){
+  const koEl=document.getElementById('biText-'+bid);
+  const enEl=document.getElementById('biTextEn-'+bid);
+  const koBtn=document.getElementById('biBtn-ko-'+bid);
+  const enBtn=document.getElementById('biBtn-en-'+bid);
+  if(!koEl||!enEl)return;
+  if(lang==='ko'){koEl.style.display='';enEl.style.display='none';if(koBtn){koBtn.classList.add('active');enBtn.classList.remove('active');}}
+  else{koEl.style.display='none';enEl.style.display='';if(enBtn){enBtn.classList.add('active');koBtn.classList.remove('active');}}
+  // localStorage 저장
+  try{localStorage.setItem('yeon-bilingual-pref',lang);}catch(e){}
+}
+function updBilingualText(bid,lang,val){
+  const b=currentBlocks().find(b=>b.id===bid);if(!b)return;
+  if(!b.data)b.data={ko:'',en:'',defaultLang:'ko'};
+  b.data[lang]=val;autoSave();
+}
+function updBilingualDefault(bid,lang){
+  const b=currentBlocks().find(b=>b.id===bid);if(!b)return;
+  if(!b.data)b.data={ko:'',en:'',defaultLang:'ko'};
+  b.data.defaultLang=lang;renderCanvas();selectBlock(bid);autoSave();
+}
+function initBilingualAutoDetect(){
+  // 브라우저 언어 자동 감지 — 한국어가 아니면 영어로 초기화
+  try{
+    const saved=localStorage.getItem('yeon-bilingual-pref');
+    const pref=saved||(navigator.language||'ko').startsWith('ko')?'ko':'en';
+    document.querySelectorAll('[id^="biBtn-ko-"]').forEach(btn=>{
+      const bid=btn.id.replace('biBtn-ko-','');
+      switchBilingual(bid,pref);
+    });
+  }catch(e){}
 }
 
 /* ─── 디바이스 토글 ─── */
@@ -1749,9 +1855,7 @@ function downloadHTML(){
   tmp.innerHTML=blocks.map((b,i)=>renderBlock(b,i)).join('');
   tmp.querySelectorAll('.block-controls,.block-drag-handle,.block-resize-strip,.insert-zone-btn,.b-card-del,.img-upload-overlay,.b-shop-card-add,.b-gallery-cell-add').forEach(el=>el.remove());
   tmp.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
-  const html=`<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>${esc(pages[currentPageId].name||'페이지')}</title>\n<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">\n<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Noto Sans KR',sans-serif;background:#F8F6F2;color:#2a2e2c;}.block-wrapper{border:none!important;}</style>\n</head>\n<body>\n${tmp.innerHTML}\n<p style="text-align:center;padding:20px;font-size:12px;color:#aaa">y-life.kr 사이트 빌더로 제작 · <a href="https://y-life.kr">y-life.kr</a></p>\n<a href="https://y-life.kr/builder.html" style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;border-radius:50%;background:#2a2e2c;display:flex;align-items:center;justify-content:center;text-decoration:none" title="편집"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></a>\n
-<script src="yeon-pwa.js" defer></script>
-</body>\n</html>`;
+  const html=`<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>${esc(pages[currentPageId].name||'페이지')}</title>\n<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">\n<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Noto Sans KR',sans-serif;background:#F8F6F2;color:#2a2e2c;}.block-wrapper{border:none!important;}</style>\n</head>\n<body>\n${tmp.innerHTML}\n<p style="text-align:center;padding:20px;font-size:12px;color:#aaa">y-life.kr 사이트 빌더로 제작 · <a href="https://y-life.kr">y-life.kr</a></p>\n<a href="https://y-life.kr/builder.html" style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;border-radius:50%;background:#2a2e2c;display:flex;align-items:center;justify-content:center;text-decoration:none" title="편집"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></a>\n</body>\n</html>`;
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=(pages[currentPageId].name||'페이지').replace(/\s+/g,'-')+'.html';a.click();
 }
 function openPublishModal(){document.getElementById('publishModal').classList.add('open');}
@@ -1759,11 +1863,156 @@ function closePublishModal(){document.getElementById('publishModal').classList.r
 function copyToClipboard(id){const el=document.getElementById(id);navigator.clipboard.writeText(el.textContent).then(()=>alert('복사됨!'));}
 function publishToGitHub(){alert('GitHub 자동 배포는 git push 방식으로 진행합니다.\n\n워크스페이스 폴더에서 PowerShell을 열고:\ngit add builder.html && git commit -m "update" && git push');}
 
+// 좁은화면 안내 — resize 시 자동 갱신
+window.addEventListener('resize', () => {
+  const guard = document.getElementById('builderNarrowGuard');
+  if (!guard) return;
+  if (window.innerWidth > 1024) {
+    guard.classList.add('dismissed');
+  } else {
+    guard.classList.remove('dismissed');
+  }
+});
+
 /* ─── 실행 ─── */
 init();
 </script>
 
-<script src="yeon-pwa.js" defer></script>
+<!-- ===== 좁은 화면 안내 오버레이 (1024px 이하 — 빌더는 큰 화면 작업 도구) ===== -->
+<style>
+.builder-narrow-guard{display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#F8F6F2 0%,#EDE9DF 100%);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;font-family:'Noto Sans KR',sans-serif;overflow-y:auto}
+.bng-icon{width:72px;height:72px;border-radius:50%;background:#3A3A3A;color:#F8F6F2;font-family:'Nanum Myeongjo',serif;font-size:32px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.bng-title{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:700;color:#2a2e2c;margin-bottom:10px;letter-spacing:-.01em;word-break:keep-all}
+.bng-deck{font-size:14px;color:#5a5a5a;line-height:1.65;max-width:420px;margin-bottom:24px;word-break:keep-all}
+.bng-tips{background:#fff;border:1px solid rgba(31,42,42,.10);border-radius:12px;padding:16px 18px;max-width:380px;margin-bottom:20px;text-align:left;font-size:13px;color:#3a3a3a;line-height:1.8}
+.bng-tips b{color:#2a2e2c;font-weight:700}
+.bng-tips ul{margin:6px 0 0;padding-left:18px}
+.bng-tips li{margin-bottom:4px}
+.bng-actions{display:flex;flex-direction:column;gap:8px;width:100%;max-width:280px}
+.bng-actions a{display:block;width:100%;padding:12px 18px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;text-align:center;transition:all .15s;border:1px solid transparent}
+.bng-actions .primary{background:#3A3A3A;color:#F8F6F2}
+.bng-actions .primary:hover{background:#5C5C5C}
+.bng-actions .ghost{background:transparent;color:#5a5a5a;border-color:rgba(31,42,42,.18)}
+.bng-actions .ghost:hover{background:#fff;color:#2a2e2c}
+.bng-bypass{margin-top:18px;font-size:11px;color:#a89e8e;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit}
+.bng-bypass:hover{color:#5a5a5a}
+
+/* 좁은 화면 진입 시 자동으로 큰 안내 팝업 표시 (세션당 1회) */
+@media (max-width:1024px){
+  .builder-narrow-guard:not(.dismissed){display:flex}
+}
+.builder-narrow-guard.show{display:flex !important}
+
+/* ===== 좁은 화면 빌더 UI 최대 축소 ===== */
+@media (max-width:1024px){
+  /* 툴바 — 글씨·패딩·아이콘 압축 */
+  .builder-toolbar{height:42px !important;padding:0 8px !important}
+  .builder-toolbar > *{font-size:11px !important}
+  .builder-toolbar svg{width:14px !important;height:14px !important}
+  .builder-toolbar button{padding:4px 8px !important;font-size:11px !important}
+  .builder-toolbar .toolbar-divider{margin:0 4px !important}
+  .builder-toolbar .toolbar-title{font-size:12px !important;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .builder-toolbar .toolbar-version{display:none}
+
+  /* 좌·우 패널 폭 축소 */
+  .block-panel{width:160px !important}
+  .props-panel{width:160px !important}
+  .block-panel *, .props-panel *{font-size:11px !important}
+  .block-panel button, .props-panel button{padding:4px 6px !important}
+  .block-panel label, .props-panel label{font-size:10px !important}
+  .block-panel input, .props-panel input,
+  .block-panel select, .props-panel select{font-size:11px !important;padding:4px 6px !important}
+
+  /* 탭 (삽입/섹션/페이지/테마) — 가로로 좁게 */
+  .panel-tabs{display:flex !important;flex-direction:row !important;flex-wrap:wrap}
+  .panel-tab{padding:5px 6px !important;font-size:10px !important;writing-mode:horizontal-tb !important;white-space:nowrap}
+
+  /* 데스크톱/태블릿/모바일 뷰포트 선택 — 아이콘만 (글자는 font-size:0으로 숨김) */
+  .viewport-picker{gap:4px !important}
+  .viewport-picker button,
+  .viewport-picker > *{
+    padding:6px !important;
+    font-size:0 !important;            /* 텍스트 노드·라벨 모두 숨김 */
+    writing-mode:horizontal-tb !important;
+    white-space:nowrap !important;
+    width:34px !important;height:34px !important;
+    min-width:34px !important;
+    display:inline-flex !important;align-items:center;justify-content:center;
+    line-height:1 !important;
+    aspect-ratio:1 / 1;
+  }
+  /* 아이콘은 보이게 — 명시 크기로 */
+  .viewport-picker svg,
+  .viewport-picker img{
+    width:18px !important;height:18px !important;
+    font-size:0 !important;
+    display:inline-block !important;
+  }
+  /* SVG가 없는 단순 □ 같은 placeholder도 보이게 — 폰트 강제 */
+  .viewport-picker .icon,
+  .viewport-picker [class*="ico"]{
+    font-size:16px !important;line-height:1 !important;
+  }
+
+  /* 블록 그리드 더 좁게 */
+  .block-type-grid{grid-template-columns:1fr 1fr !important;gap:4px !important}
+  .block-type-grid button{padding:6px 4px !important;font-size:10px !important;min-height:auto !important}
+  .block-type-grid button svg{width:14px !important;height:14px !important}
+
+  /* 카드 그리드 등 좁은 화면에서 단순화 */
+  .b-cards-grid{grid-template-columns:1fr 1fr !important;gap:6px !important}
+  .b-gallery-grid{grid-template-columns:repeat(2,1fr) !important;gap:4px !important}
+
+  /* 캔버스 영역은 좌·우 패널이 줄어든 만큼 더 넓게 */
+  .builder-canvas{padding:8px !important}
+
+  /* 모달들 — 좁은 화면에서 최대한 화면 활용 */
+  .modal-content{max-width:96vw !important;padding:14px !important}
+  .modal-content h2{font-size:15px !important}
+}
+
+@media (max-width:640px){
+  /* 더 좁은 화면 — 좌·우 패널을 드로어처럼 (기본 숨김, 토글로 표시) */
+  .block-panel, .props-panel{width:140px !important}
+  .block-panel *, .props-panel *{font-size:10px !important}
+  .builder-toolbar button{padding:3px 5px !important;font-size:10px !important}
+  .builder-toolbar .toolbar-title{max-width:60px;font-size:11px !important}
+}
+</style>
+<!-- 좁은 화면 진입 시 자동 표시 — 큰 안내 팝업 -->
+<div class="builder-narrow-guard" id="builderNarrowGuard">
+  <div class="bng-icon">作</div>
+  <div class="bng-title">사이트 빌더 — 작은 화면 안내</div>
+  <p class="bng-deck">사이트 빌더는 본래 <b>큰 화면(태블릿 가로 이상)</b>에 맞춰 만들어졌습니다. 좁은 화면에서도 UI를 최대한 작게 줄여 둘러보실 수 있게 했지만, 본격 제작은 큰 화면을 권합니다.</p>
+
+  <div class="bng-tips">
+    <b>좁은 화면에서도 할 수 있는 일</b>
+    <ul>
+      <li><b>둘러보기</b> — 어떤 블록들이 있는지, 템플릿이 무엇인지 확인</li>
+      <li><b>속성 살펴보기</b> — 좌측에서 블록 선택 → 우측에서 속성 확인</li>
+      <li><b>미리보기</b> — 이미 만든 페이지를 모바일 화면으로 확인</li>
+      <li><b>가벼운 편집</b> — 텍스트 한 줄 고치기 정도는 가능</li>
+    </ul>
+
+    <b style="display:block;margin-top:10px">권하는 본격 작업</b>
+    <ul>
+      <li>블록 끌어 옮기기·새 섹션 짜기 → 큰 화면에서</li>
+      <li>이미지 여러 장 배치 → 큰 화면에서</li>
+      <li>여러 페이지 동시 관리 → 큰 화면에서</li>
+    </ul>
+  </div>
+
+  <div class="bng-actions">
+    <a class="primary" href="javascript:void(0)" onclick="document.getElementById('builderNarrowGuard').classList.add('dismissed')">알겠습니다 — 빌더로 들어가기 →</a>
+    <a class="ghost" href="시안_v5_통합.html">← 홈으로 돌아가기</a>
+    <a class="ghost" href="블로그_AI작가기자_인덱스.html">다른 페이지 둘러보기</a>
+  </div>
+
+  <p style="margin-top:14px;font-size:11px;color:#a89e8e;line-height:1.6">
+    다시 보고 싶으시면 좌상단 [⚙️ 설정] → 도움말<br>
+    또는 페이지 새로고침
+  </p>
+</div>
+
 </body>
 </html>
-
