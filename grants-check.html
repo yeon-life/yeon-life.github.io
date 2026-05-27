@@ -670,6 +670,39 @@
         <input type="text" id="input-name" class="form-input" placeholder="예: 연학원 / 이진우" autocomplete="off">
       </div>
 
+      <!-- 사업자등록증 사진 자동 입력 영역 -->
+      <div class="form-group">
+        <label class="form-label">사업자등록증 사진으로 자동 완성 (선택사항)</label>
+        <div id="ocr-upload-zone" style="border: 2px dashed var(--yp-line); padding: 24px; border-radius: 10px; text-align: center; background: #fff; cursor: pointer; transition: all 0.2s; margin-bottom: 12px;">
+          <span style="font-size: 32px; display: block; margin-bottom: 8px;">📸</span>
+          <span style="font-size: 14px; font-weight: 600; color: var(--yp-deep); display: block;">사업자등록증 이미지 업로드 / 카메라 촬영</span>
+          <span style="font-size: 11.5px; color: var(--yp-muted); margin-top: 4px; display: block;">여기에 사진을 떨어뜨리거나 클릭하여 선택해 주세요.</span>
+          <span style="font-size: 10.5px; color: var(--yp-pine); margin-top: 2px; display: block;">🔒 개인정보는 서버 저장 없이 브라우저 내에서만 안전하게 분석됩니다.</span>
+          <input type="file" id="ocr-file-input" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- API 키 입력 안내 (로컬에 저장된 키가 없는 경우에만 노출) -->
+        <div id="ocr-api-key-container" style="display: none; background: #fbf8f3; border: 1.5px solid var(--yp-line); padding: 14px 18px; border-radius: 8px; margin-bottom: 12px;">
+          <div style="font-size: 13px; font-weight: 700; color: var(--yp-deep); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+            <span>🔑 Gemini API 키 입력 필요</span>
+            <a href="https://aistudio.google.com/apikey" target="_blank" style="color: var(--yp-pine); font-size: 11.5px; text-decoration: none; font-weight: 600;">API 키 무료 발급받기 🔗</a>
+          </div>
+          <p style="font-size: 12px; color: var(--yp-muted); margin-bottom: 8px; line-height: 1.5;">
+            사업자등록증 이미지 분석을 위해 본인의 Google Gemini API 키가 필요합니다. 키는 암호화되어 본인 브라우저(`localStorage`)에만 안전하게 저장됩니다.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="password" id="ocr-api-key-input" class="form-input" placeholder="AIzaSy..." style="flex: 1; font-size: 13px; padding: 6px 10px;">
+            <button type="button" onclick="saveOcrApiKey()" class="share-btn copy" style="width: auto; padding: 6px 14px; font-size: 12.5px; border-radius: 6px;">키 저장</button>
+          </div>
+        </div>
+
+        <!-- OCR 진행/결과 상태 표시 -->
+        <div id="ocr-status-container" style="display: none; font-size: 13px; font-weight: 600; text-align: center; padding: 12px; border-radius: 8px; background: var(--yp-soft); border: 1px solid var(--yp-pine); color: var(--yp-deep);">
+          <span id="ocr-status-icon" style="margin-right: 6px;">⏳</span>
+          <span id="ocr-status-text">사업자등록증을 분석하는 중입니다...</span>
+        </div>
+      </div>
+
       <!-- 업종 -->
       <div class="form-group">
         <label class="form-label">1. 사업 업종</label>
@@ -1244,9 +1277,265 @@
   const GOOGLE_CLIENT_ID = '93942249284-nm9mookvhfe50n6i8upsfvev3gl8d1a7.apps.googleusercontent.com';
   let currentUser = null;
 
+  // --- 사업자등록증 OCR (Gemini API) 기능 ---
+  
+  // API 키 확인 및 입력창 노출 제어
+  function checkOcrApiKey() {
+    const key = localStorage.getItem('ylife_gemini_key') || '';
+    const keyContainer = document.getElementById('ocr-api-key-container');
+    if (!key) {
+      keyContainer.style.display = 'block';
+      document.getElementById('ocr-api-key-input').value = '';
+    } else {
+      keyContainer.style.display = 'none';
+    }
+  }
+
+  // API 키 저장
+  function saveOcrApiKey() {
+    const inputVal = document.getElementById('ocr-api-key-input').value.trim();
+    if (!inputVal) {
+      alert('유효한 Gemini API 키를 입력해 주세요.');
+      return;
+    }
+    localStorage.setItem('ylife_gemini_key', inputVal);
+    showToast('Gemini API 키가 저장되었습니다. 🔑');
+    checkOcrApiKey();
+  }
+
+  // 드롭존 및 이벤트 바인딩 초기화
+  function initOcrUpload() {
+    const zone = document.getElementById('ocr-upload-zone');
+    const fileInput = document.getElementById('ocr-file-input');
+
+    if (!zone || !fileInput) return;
+
+    // 클릭 시 파일 탐색기 열기
+    zone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // 파일 선택 시 처리
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleOcrFile(e.target.files[0]);
+      }
+    });
+
+    // 드래그 앤 드롭 이벤트
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      zone.style.borderColor = 'var(--yp-pine)';
+      zone.style.background = 'var(--yp-soft)';
+    });
+
+    zone.addEventListener('dragleave', () => {
+      zone.style.borderColor = 'var(--yp-line)';
+      zone.style.background = '#fff';
+    });
+
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.style.borderColor = 'var(--yp-line)';
+      zone.style.background = '#fff';
+      if (e.dataTransfer.files.length > 0) {
+        handleOcrFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    // 초기 로드 시 API 키 상태 체크
+    checkOcrApiKey();
+  }
+
+  // 파일 처리 및 Base64 변환 후 API 호출
+  function handleOcrFile(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일(png, jpg, jpeg)만 업로드할 수 있습니다.');
+      return;
+    }
+
+    const key = localStorage.getItem('ylife_gemini_key') || '';
+    if (!key) {
+      alert('먼저 Gemini API 키를 입력하고 저장해 주세요.');
+      document.getElementById('ocr-api-key-container').style.display = 'block';
+      document.getElementById('ocr-api-key-container').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64Data = e.target.result.split(',')[1];
+      const mimeType = file.type;
+      callGeminiOcr(base64Data, mimeType);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Gemini API 호출하여 OCR 분석 수행
+  async function callGeminiOcr(base64Data, mimeType) {
+    const key = localStorage.getItem('ylife_gemini_key') || '';
+    const statusContainer = document.getElementById('ocr-status-container');
+    const statusText = document.getElementById('ocr-status-text');
+    const statusIcon = document.getElementById('ocr-status-icon');
+
+    statusContainer.style.display = 'block';
+    statusIcon.innerText = '⏳';
+    statusText.innerText = '사업자등록증 이미지를 분석하는 중입니다...';
+
+    // 프롬프트 작성
+    const promptText = `
+이 이미지에서 사업자등록증의 정보를 분석하여 아래 조건에 맞춰 정확한 JSON 데이터만 응답해 주세요. 다른 서론이나 설명 없이 오직 JSON 형식의 텍스트만 출력해야 합니다. Markdown 백틱(\`\`\`)조차 포함하지 말고 순수 JSON만 출력하세요.
+
+JSON 구조:
+{
+  "name": "추출한 '상호(법인명)'와 '대표자 성명'을 조합한 문자열. 예: '상호명 / 대표자명'. 만약 한가지만 있다면 해당 값만 넣으세요.",
+  "industry": "사업의 종류(업태, 종목)를 보고 다음 중 가장 적절한 코드 하나를 선택: 'edu' (교육서비스업, 학원, 교육 등), 'it' (정보통신, SW개발, IT 등), 'manufacturing' (제조업, 기술제조 등), 'retail' (도소매, 유통 등), 'service' (식음료, 카페, 요식업, 오프라인 매장 서비스 등), 'other' (그 외 기타 지식서비스 또는 일반 서비스).",
+  "location": "사업장 소재지(주소)를 파악하여 다음 중 하나를 선택: 'ulsan_buk' (울산광역시 북구 주소인 경우), 'ulsan_other' (울산광역시의 북구를 제외한 다른 구/군 주소인 경우), 'seoul_gyeonggi' (서울, 경기도, 인천 주소인 경우), 'other_region' (그 외 기타 광역시 또는 도 주소인 경우).",
+  "birthYear": 대표자의 생년월일에서 태어난 연도를 4자리 숫자로 추출. (예: 1980). 찾을 수 없거나 노출되지 않은 경우 1985로 기본값 설정.,
+  "openingDate": "개업연월일을 YYYY-MM-DD 형식으로 추출 (예: '2024-05-10').",
+  "vat": "사업자등록증의 과세 유형(상단 타이틀 옆 또는 내용 중 기재된 사항)을 보고 다음 중 하나를 선택: 'exempt' (면세사업자, 부가가치세 면세), 'general' (일반과세자), 'simplified' (간이과세자), 'corporate' (법인사업자, 주식회사 등 법인인 경우)."
+}
+`;
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: promptText },
+              {
+                inlineData: {
+                  mimeType: mimeType,
+                  data: base64Data
+                }
+              }
+            ]
+          }],
+          generationConfig: {
+            temperature: 0.1,
+            responseMimeType: "application/json"
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API 호출 실패 (상태 코드: ${response.status})`);
+      }
+
+      const result = await response.json();
+      let textResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      
+      // JSON 파싱 시도
+      textResponse = textResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+      const parsedData = JSON.parse(textResponse);
+
+      // 데이터 채우기 및 화면 갱신
+      applyOcrResult(parsedData);
+
+      statusIcon.innerText = '✅';
+      statusText.innerText = '성공적으로 사업자등록증 정보를 분석하여 프로필을 채웠습니다!';
+      setTimeout(() => {
+        statusContainer.style.display = 'none';
+      }, 4000);
+
+    } catch (e) {
+      console.error('Gemini OCR 오류:', e);
+      statusIcon.innerText = '❌';
+      statusText.innerText = '사업자등록증 분석에 실패했습니다: ' + e.message;
+      alert('사업자등록증 분석 중 오류가 발생했습니다. 직접 입력하시거나 키가 유효한지 확인해 주세요.');
+    }
+  }
+
+  // 추출된 데이터를 화면의 UI 요소들에 적용
+  function applyOcrResult(data) {
+    if (!data) return;
+
+    // 1. 상호/대표자명
+    if (data.name) {
+      document.getElementById('input-name').value = data.name;
+    }
+
+    // 2. 업종
+    if (data.industry) {
+      setSelectValue('industry', data.industry);
+    }
+
+    // 3. 소재지
+    if (data.location) {
+      setSelectValue('location', data.location);
+    }
+
+    // 4. 대표자 연령 계산 (기준 연도 2026년)
+    if (data.birthYear) {
+      const birthYear = parseInt(data.birthYear, 10);
+      const age = 2026 - birthYear;
+      if (age <= 39) {
+        setSelectValue('age', 'under_39');
+      } else if (age >= 40 && age <= 59) {
+        setSelectValue('age', 'between_40_59');
+      } else {
+        setSelectValue('age', 'over_60');
+      }
+    }
+
+    // 5. 기업 업력 계산 (개업일 기준, 기준 시점 2026년 5월 27일)
+    if (data.openingDate) {
+      const openDate = new Date(data.openingDate);
+      const baseDate = new Date('2026-05-27');
+      
+      // 개업일과 기준일의 개월 수 차이 계산
+      const diffYears = baseDate.getFullYear() - openDate.getFullYear();
+      const diffMonths = (diffYears * 12) + (baseDate.getMonth() - openDate.getMonth());
+
+      if (diffMonths < 6) {
+        setSelectValue('history', 'under_6m');
+      } else if (diffMonths >= 6 && diffMonths <= 36) {
+        setSelectValue('history', 'between_6m_3y');
+      } else if (diffMonths > 36 && diffMonths <= 84) {
+        setSelectValue('history', 'between_3y_7y');
+      } else {
+        setSelectValue('history', 'over_7y');
+      }
+    }
+
+    // 6. 부가세 유형
+    if (data.vat) {
+      setSelectValue('vat', data.vat);
+    }
+
+    // 7. 보유 기술 및 디지털 자산
+    // 기본적으로 '해당 없음' 타일 해제 및 'tech_none' 디폴트 처리를 스마트하게 진행
+    if (data.industry === 'it') {
+      const aiTile = document.querySelector('#group-tech .tile[data-value="tech_ai"]');
+      if (aiTile) {
+        aiTile.classList.add('selected');
+        document.getElementById('tile-tech-none').classList.remove('selected');
+      }
+    } else if (data.industry === 'edu') {
+      const eduTile = document.querySelector('#group-tech .tile[data-value="tech_edu"]');
+      if (eduTile) {
+        eduTile.classList.add('selected');
+        document.getElementById('tile-tech-none').classList.remove('selected');
+      }
+    }
+
+    showToast('프로필 자동 완성 완료! 맞춤형 진단 리포트를 생성합니다. 🎯');
+    
+    // 자동 진단 실행
+    runDiagnosis();
+  }
+
+  const GOOGLE_CLIENT_ID = '93942249284-nm9mookvhfe50n6i8upsfvev3gl8d1a7.apps.googleusercontent.com';
+  let currentUser = null;
+
   // 1. URL 쿼리 파라미터 확인 및 단축 코드 처리
   window.addEventListener('DOMContentLoaded', () => {
     updateLoginUI();
+    initOcrUpload();
 
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
