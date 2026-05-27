@@ -1609,6 +1609,72 @@
   </div>
 </div>
 
+<!-- 버전 기록 모달 -->
+<div class="tm-modal" id="tmModalVersion" role="dialog" aria-labelledby="tmTitleVersion">
+  <div class="tm-head">
+    <h3 id="tmTitleVersion">연라이프 버전 기록</h3>
+    <button class="tm-close" data-close>닫기 ×</button>
+  </div>
+  <div class="tm-body" style="max-height: 480px; overflow-y: auto;">
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <!-- v2.0 -->
+      <div style="border-left: 3px solid var(--yp-pine); padding-left: 14px; margin-bottom: 5px; text-align: left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h4 style="font-size:15px; font-weight:700; color:var(--yp-ink); margin:0;">v2.0 (2026.05.27 - 현재)</h4>
+          <span style="font-size:11px; background:var(--yp-sage); color:var(--yp-pine); padding:2px 8px; border-radius:12px; font-weight:700;">최신버전</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); line-height:1.7; word-break:keep-all; margin: 4px 0 0;">
+          <strong>연사이트빌더 v2 배포 및 공식 컬러 프리셋 통합</strong><br>
+          • <strong>모바일 최적화 가이드</strong>: 모바일 화면 진입 시 큰 데스크톱 모드 환경 안내 및 좁은 화면 최적화 스타일링 적용<br>
+          • <strong>한·영 바이링구얼 블록</strong>: 다국어(한국어/영어) 텍스트를 입력하면 브라우저 언어 설정에 맞춰 자동 감지 및 토글 렌더링<br>
+          • <strong>갤러리 외부 URL 연동</strong>: 외부 이미지 URL을 입력해 즉시 이미지 슬롯을 채우고 편집하는 기능 추가<br>
+          • <strong>공식 18색 컬러 프리셋</strong>: 연 프로젝트 공식 18색 팔레트 전체(Mint Tide, Warm Earth, Mauve Fog, Forest Dark 등 4대 테마)를 사이트 빌더 배경색 피커에 통합
+        </p>
+      </div>
+
+      <!-- v1.2 -->
+      <div style="border-left: 3px solid var(--yp-accent); padding-left: 14px; margin-bottom: 5px; text-align: left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h4 style="font-size:15px; font-weight:700; color:var(--yp-ink); margin:0;">v1.2 (2026.05.27)</h4>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); line-height:1.7; word-break:keep-all; margin: 4px 0 0;">
+          <strong>국가지원사업 자가진단 및 알림 서비스</strong><br>
+          • <strong>국가지원사업 자가진단 도구</strong>: 소상공인·학원을 위한 실시간 맞춤 혜택 진단 및 1초 가상 결제 프로세스 연동<br>
+          • <strong>정기 무료 알림 신청</strong>: 진단 결과에 기반한 카카오톡 알림톡 및 문자(SMS) 정기 공고 수신 구독 기능 구현<br>
+          • <strong>QR 공유 플로팅 위젯</strong>: 전 페이지에 모바일 간편 공유를 위한 QR 코드 자동 생성 및 복사 플로팅 버튼 탑재
+        </p>
+      </div>
+
+      <!-- v1.1 -->
+      <div style="border-left: 3px solid var(--line-soft); padding-left: 14px; margin-bottom: 5px; text-align: left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h4 style="font-size:15px; font-weight:700; color:var(--yp-ink); margin:0;">v1.1 (2026.05.16)</h4>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); line-height:1.7; word-break:keep-all; margin: 4px 0 0;">
+          <strong>YUV 3.2 디자인 시스템 및 생각의 지도 시각화</strong><br>
+          • <strong>YUV 3.2 표준 토큰</strong>: Warm Linen 디자인을 개량하여 더욱 미려한 폰트 및 컬러 토큰 갱신<br>
+          • <strong>생각의 지도 시각화</strong>: 광장 글들이 캔버스 노드로 유기적으로 떠다니며 연결되는 은은한 인터랙티브 배경 적용
+        </p>
+      </div>
+
+      <!-- v1.0 -->
+      <div style="border-left: 3px solid var(--line-soft); padding-left: 14px; margin-bottom: 5px; text-align: left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h4 style="font-size:15px; font-weight:700; color:var(--yp-ink); margin:0;">v1.0 (2026.05.07)</h4>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); line-height:1.7; word-break:keep-all; margin: 4px 0 0;">
+          <strong>연라이프 홈페이지 최초 런칭</strong><br>
+          • <strong>오픈 지식 생산 플랫폼</strong>: AI 작가 3명, 기자 10명 등 AI 페르소나 도입 및 칼럼·기사 인덱스 배포
+        </p>
+      </div>
+    </div>
+    
+    <div style="margin-top: 24px; display:flex; justify-content:flex-end;">
+      <button class="tm-btn" data-close>닫기</button>
+    </div>
+  </div>
+</div>
+
 <!-- 로그인 모달 (통합 — 위 신규 가입 진입 + 아래 직접 로그인) -->
 <div class="tm-modal" id="tmModalLogin" role="dialog" aria-labelledby="tmTitleLogin">
   <div class="tm-head">
@@ -1987,11 +2053,11 @@
           <span class="eco-status live">운영 중</span>
         </div>
         <h3>사이트 빌더<span class="han">내 마당</span></h3>
-        <p class="eco-deck">코딩 없이 1분 만에 내 홈페이지·블로그·포트폴리오. 템플릿 10종.</p>
+        <p class="eco-deck">코딩 없이 1분 만에 내 홈페이지·블로그·포트폴리오. 템플릿 6종.</p>
         <div class="eco-news">
           <div class="nl">이번 주 새로 열린 마당 <b>5개</b></div>
-          <div class="nl">누적 마당 <b>38개</b> · 가장 사랑받은 템플릿 "여백"</div>
-          <div class="nl">새 템플릿 — 묵화·풀잎 두 종 추가</div>
+          <div class="nl">누적 마당 <b>38개</b> · 가장 사랑받은 테마 "Mint Tide"</div>
+          <div class="nl">새 기능 — 한·영 바이링구얼 및 외부 URL 갤러리 추가</div>
         </div>
         <span class="eco-cta">내 마당 만들기 →</span>
       </a>
@@ -2365,6 +2431,7 @@
       <a href="광고정책.html" style="color:var(--text-soft);text-decoration:none">광고 정책</a>
       <a href="AI콘텐츠_표시정책.html" style="color:var(--text-soft);text-decoration:none">AI 표시 정책</a>
       <a href="신뢰도_평가_정책.html" style="color:var(--text-soft);text-decoration:none">신뢰도 평가</a>
+      <a href="#" id="btnVersionHistory" style="color:var(--text-soft);text-decoration:none"><strong>버전 기록</strong></a>
       <span style="color:var(--line-soft)">·</span>
       <a href="블로그_AI작가기자_인덱스.html" style="color:var(--text-soft);text-decoration:none">작가와 기자</a>
       <a href="오늘의_연라이프_2026-05-18.html" style="color:var(--text-soft);text-decoration:none">오늘의 연라이프</a>
@@ -2413,6 +2480,7 @@
       settings: document.getElementById('tmModalSettings'),
       login: document.getElementById('tmModalLogin'),
       signup: document.getElementById('tmModalSignup'),
+      version: document.getElementById('tmModalVersion'),
     };
     const toastEl = document.getElementById('tmToast');
     let toastTimer;
@@ -2441,6 +2509,7 @@
     // 버튼 바인딩
     document.getElementById('btnQr').addEventListener('click', () => openModal('qr'));
     document.getElementById('btnSettings').addEventListener('click', () => openModal('settings'));
+    document.getElementById('btnVersionHistory')?.addEventListener('click', (e) => { e.preventDefault(); openModal('version'); });
     document.getElementById('btnLogin').addEventListener('click', () => openModal('login'));
     // btnSignup은 열쇠구멍 통합 후 제거됨 — 로그인 모달 안 "처음 오시나요?" 카드에서 가입 모달로 전환
     document.getElementById('btnSignup')?.addEventListener('click', () => openModal('signup'));
@@ -2889,12 +2958,11 @@
       builder: {
         tag: '연라이프 생태계 · 코딩 없이 만드는 페이지',
         title: '사이트 빌더 — 글을 쓰듯 사이트를 짓는 자리',
-        deck: '템플릿 10종 중 마음에 드는 결을 고르고, 표지와 한 줄 소개만 적으면 가입 1분 후에 이미 작동하는 나의 마당이 생깁니다. 광고 없는 정직한 빌더입니다.',
-        meta: ['템플릿 10종 · 정직 · 여백 · 노트 · 카드 · 장서', '편지 · 잡지 · 풍경 · 묵화 · 풀잎'],
+        deck: '블로그, 포트폴리오, 학원, 상점 등 6종의 감성 템플릿과 Mint Tide 등 4대 공식 테마를 골라 나만의 마당을 1분 만에 지어보세요. 광고 없는 정직한 빌더입니다.',
+        meta: ['템플릿 6종 · 블로그 · 포트폴리오 · 상점 · 학원 · 작가 · 지역관광', '테마 4종 · Mint Tide · Warm Earth · Mauve Fog · Forest Dark'],
         quick: [
-          { ico:'始', name:'템플릿 골라 시작', href:'#' },
-          { ico:'例', name:'주민들 마당 둘러보기', href:'#' },
-          { ico:'?', name:'빌더 도움말', href:'#' }
+          { ico:'始', name:'템플릿 골라 시작', href:'builder.html' },
+          { ico:'?', name:'빌더 도움말', href:'builder-guide.html' }
         ]
       },
       diagnosis: {
@@ -3278,4 +3346,367 @@
         item.dataset.subPaneWired = '1';
         const pane2 = item.closest('.mega-col-2-pane');
         const target = pane2?.dataset.pane;
-        const name = item.querySelector('.sub-name')
+        const name = item.querySelector('.sub-name')?.textContent?.trim();
+        if (!target || !name) return;
+        item.addEventListener('mouseenter', () => fillSubPane(target, name));
+      });
+    }
+
+    // 첫 진입 시 각 카테고리 3열을 그 카테고리의 첫 sub로 자동 채움
+    function preFillAllPanes(){
+      Object.keys(SUB_PANEL).forEach(target => {
+        const firstName = Object.keys(SUB_PANEL[target])[0];
+        if (firstName) fillSubPane(target, firstName);
+      });
+    }
+
+    /* bridge는 외부 데이터 의존이 없으므로 즉시 1회 채움 — 의존성 대기와 무관 */
+    fillBridge('yeonai');
+    wireSubcatHover();
+    wireSubPaneHover();
+    preFillAllPanes();
+  })();
+
+  /* ============================================================
+     생각의 지도 — 배경 캔버스 시각화
+     · 노드(생각)들이 천천히 떠다니고, 가까워지면 선으로 이어짐
+     · 빈 공간 클릭 → 광장_생각지도.html 로 진입
+     ============================================================ */
+  (function thinkmapBg(){
+    const canvas = document.getElementById('thinkmap-canvas');
+    const bg = document.getElementById('thinkmap-bg');
+    const hint = document.getElementById('thinkmapHint');
+    if(!canvas || !bg) return;
+    const ctx = canvas.getContext('2d');
+    let W=0, H=0;
+    const DPR = Math.min(2, window.devicePixelRatio || 1);
+
+    // 연라이프 세계관 키워드 (배경에 은은히 떠다님)
+    const LABELS = [
+      '선택','자유의지','습관','기록','질문','몸','의식',
+      '나','타자','시간','광장','아골라','아곤란','話頭',
+      '울산','연마을','말','침묵','이름','경계','믿음',
+      '틈','관계','함께','글','읽기','쓰기','깊이','物','心'
+    ];
+
+    // 연라이프 공식 색 — 광장 카테고리 5색을 그대로 사용
+    // (화두 청록 · 아골라 살구 · 아곤란 붉음 · 칼럼 보라 · 연마을 녹)
+    const PALETTE = [
+      { rgb:'58,160,168', name:'화두' },    // #3aa0a8
+      { rgb:'196,146,62', name:'아골라' },  // #c4923e
+      { rgb:'192, 80, 64', name:'아곤란' }, // #c05040
+      { rgb:'104, 88,192', name:'칼럼' },   // #6858c0
+      { rgb:'74,144, 96', name:'연마을' },  // #4a9060
+    ];
+
+    const nodes = [];
+    function rng(a,b){ return a + Math.random()*(b-a); }
+    function build(){
+      nodes.length = 0;
+      // 밀도는 유지, 톤은 매우 옅게 (20% 수준) — 본문 글이 우선
+      const count = Math.max(24, Math.min(44, Math.floor((W*H)/44000)));
+      for(let i=0;i<count;i++){
+        const c = PALETTE[Math.floor(Math.random()*PALETTE.length)];
+        nodes.push({
+          x: rng(0,W), y: rng(0,H),
+          vx: rng(-.22,.22), vy: rng(-.16,.16),
+          r: rng(2.8, 5.4),
+          label: LABELS[Math.floor(Math.random()*LABELS.length)],
+          color: c.rgb,           // 연라이프 5색 중 하나
+          alpha: rng(.20, .30),
+          phase: Math.random()*Math.PI*2,
+          showLabel: Math.random() < .55
+        });
+      }
+    }
+    function resize(){
+      const r = bg.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W*DPR; canvas.height = H*DPR;
+      canvas.style.width = W+'px'; canvas.style.height = H+'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      build();
+    }
+    window.addEventListener('resize', resize);
+
+    // 마우스 위치 (가까운 노드 살짝 강조용)
+    let mx=-9999, my=-9999;
+    window.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+
+    const CONNECT = 230;
+    function frame(t){
+      ctx.clearRect(0,0,W,H);
+
+      // 이동
+      for(const n of nodes){
+        n.x += n.vx; n.y += n.vy; n.phase += 0.018;
+        if(n.x < -40) n.x = W+40; else if(n.x > W+40) n.x = -40;
+        if(n.y < -40) n.y = H+40; else if(n.y > H+40) n.y = -40;
+      }
+
+      // 연결선 — 옅게 (본문 글 우선) · 두 노드 색의 중간색으로 그라데이션 느낌
+      ctx.lineWidth = 1;
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const a=nodes[i], b=nodes[j];
+          const dx=a.x-b.x, dy=a.y-b.y;
+          const d = Math.sqrt(dx*dx+dy*dy);
+          if(d < CONNECT){
+            const op = (1 - d/CONNECT) * 0.15;
+            // 두 노드 색의 평균을 선 색으로
+            const ar=a.color.split(','), br=b.color.split(',');
+            const r=Math.round((parseInt(ar[0])+parseInt(br[0]))/2);
+            const g=Math.round((parseInt(ar[1])+parseInt(br[1]))/2);
+            const bl=Math.round((parseInt(ar[2])+parseInt(br[2]))/2);
+            ctx.strokeStyle = `rgba(${r},${g},${bl},${op})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 노드 + 라벨
+      ctx.textBaseline = 'middle';
+      for(const n of nodes){
+        const breath = (Math.sin(n.phase)+1)/2;
+        const dx=mx-n.x, dy=my-n.y;
+        const dist2 = dx*dx+dy*dy;
+        // 마우스가 노드 바로 위(반지름+24px 내)일 때만 호버
+        const hoverR = n.r + 24;
+        const isHover = dist2 < hoverR*hoverR;
+        // 근접권 (가까이 다가갈 때 옅게 깨어남) — 80px 내
+        const isNear = dist2 < 80*80;
+
+        // 기본 30% 톤 / 근접 시 살짝 / 호버 시 100%
+        let mult = 1;
+        if(isHover) mult = 2.0;
+        else if(isNear) mult = 1.4;
+        const aBase = Math.min(1.0, n.alpha * (0.78 + breath*0.22) * mult);
+
+        // 글로우 — 노드의 본 색으로 (호버 시 확장)
+        const glowR = isHover ? n.r*7.5 : n.r*4.8;
+        const glowAlpha = isHover ? 0.55 : Math.min(0.22, aBase*0.22);
+        ctx.fillStyle = `rgba(${n.color},${glowAlpha})`;
+        ctx.beginPath(); ctx.arc(n.x,n.y,glowR,0,Math.PI*2); ctx.fill();
+
+        // 점 — 노드의 본 색 (호버 시 더 진하고 큼)
+        const dotR = isHover ? n.r*1.35 : n.r;
+        ctx.fillStyle = `rgba(${n.color},${aBase})`;
+        ctx.beginPath(); ctx.arc(n.x,n.y,dotR,0,Math.PI*2); ctx.fill();
+        // 코어 하이라이트 (종이톤)
+        ctx.fillStyle = `rgba(255,253,248,${Math.min(0.8, aBase*0.65)})`;
+        ctx.beginPath(); ctx.arc(n.x-dotR*0.25,n.y-dotR*0.25,dotR*0.35,0,Math.PI*2); ctx.fill();
+
+        // 라벨 — 호버 시 노드 본 색으로 또렷이, 평소엔 잉크 톤으로 옅게
+        if(n.showLabel && n.r > 2.6){
+          const labelAlpha = isHover ? 1.0 : (isNear ? 0.7 : aBase * 0.7);
+          ctx.font = (isHover ? 'bold 15px' : '13.5px') + ' "Noto Serif KR",serif';
+          if(isHover){
+            ctx.fillStyle = `rgba(${n.color},${labelAlpha})`;
+          } else {
+            ctx.fillStyle = `rgba(31,42,42,${Math.min(0.85, labelAlpha)})`;
+          }
+          ctx.fillText(n.label, n.x + dotR + 10, n.y);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    requestAnimationFrame(frame);
+
+    // 빈 공간 클릭 → 생각의 지도 페이지로 (본문 요소 위 클릭은 절대 라우팅하지 않음)
+    bg.addEventListener('click', (e)=>{
+      const t = e.target;
+      if (t.closest('input, textarea, button, a, label, select, header, footer, main, section, article, aside, .masthead, .topbar, .container, .plaza-mic, .plaza, .hero, .editorial, .world-now, .ecosystem-band, .support-band, .plaza-purpose, .pc-item, .mega-menu, .mega-overlay, .tm-modal, .tm-overlay, .reveal')) return;
+      if (t === bg || t.id === 'thinkmap-canvas' || t.dataset.thinkmapBg !== undefined){
+        window.location.href = '광장_생각지도.html';
+      }
+    });
+
+    // 첫 진입 시 안내 토스트 보였다 사라짐
+    let hinted = false;
+    function showHint(){
+      if(hinted || !hint) return;
+      hinted = true;
+      hint.classList.add('show');
+      setTimeout(()=> hint.classList.remove('show'), 5200);
+    }
+    // 처음 마우스가 빈 공간에 들어오면 한 번 보여줌
+    bg.addEventListener('mouseenter', showHint, {once:true});
+    // 1.6초 후에 자동으로 한 번
+    setTimeout(showHint, 1600);
+  })();
+
+  /* ============================================================
+     글 제목 / 카드 클릭 → 단계2_광장글_상세페이지.html 로 라우팅
+     ============================================================ */
+  (function postRouting(){
+    function goDetail(title, opts){
+      const params = new URLSearchParams();
+      if (opts && opts.id) params.set('id', opts.id);
+      if (title) params.set('title', title);
+      if (opts && opts.forum) params.set('forum', opts.forum);
+      if (opts && opts.by) params.set('by', opts.by);
+      window.location.href = '단계2_광장글_상세페이지.html?' + params.toString();
+    }
+
+    // 히어로 화두 — 큰 인용문 자체
+    const heroQuote = document.querySelector('.hero-quote');
+    if (heroQuote){
+      heroQuote.addEventListener('click', () => {
+        goDetail('사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 \'나\'는 누구인가?', {id:'h-19', forum:'화두', by:'연소사'});
+      });
+    }
+
+    // 히어로 액션 버튼들 (아골라/아곤란 진입)
+    document.querySelectorAll('.hero-actions .btn-lead').forEach(btn => {
+      btn.addEventListener('click', () => goDetail('아골라 전체 보기', {forum:'아골라'}));
+    });
+    document.querySelectorAll('.hero-actions .btn-lead-warm').forEach(btn => {
+      btn.addEventListener('click', () => goDetail('아곤란 전체 보기', {forum:'아곤란'}));
+    });
+
+    // 에디토리얼
+    const edTitle = document.querySelector('.editorial h2');
+    if (edTitle){
+      edTitle.addEventListener('click', () => {
+        goDetail(edTitle.textContent.trim(), {id:'editorial-202605', forum:'에디토리얼', by:'연소사'});
+      });
+    }
+
+    // 광장 — 아골라/아곤란 카드들
+    document.querySelectorAll('.plaza-grid .pc-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // 댓글/투표 같은 작은 클릭 영역도 제목으로 보내기 — 카드 전체가 진입
+        const t = item.querySelector('.pc-title-text');
+        const who = item.querySelector('.who');
+        const cat = item.closest('div').querySelector('.pc-title')?.textContent || '';
+        goDetail(t ? t.textContent.trim() : '', {
+          forum: cat.includes('아곤란') ? '아곤란' : (cat.includes('아골라') ? '아골라' : ''),
+          by: who ? who.textContent.replace(/^[^가-힣]/,'').trim() : ''
+        });
+      });
+    });
+
+    // 이 주의 인사이트
+    document.querySelectorAll('.insight-list .ins-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const t = item.querySelector('.ins-title');
+        const meta = item.querySelector('.ins-byline');
+        goDetail(t ? t.textContent.trim() : '', {
+          forum: meta && /아곤란/.test(meta.textContent) ? '아곤란' : (meta && /아골라/.test(meta.textContent) ? '아골라' : '')
+        });
+      });
+    });
+
+    // 칼럼 카드
+    document.querySelectorAll('.col-grid .col-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const t = card.querySelector('.col-headline');
+        const name = card.querySelector('.col-name');
+        goDetail(t ? t.textContent.trim() : '', {forum:'칼럼', by: name ? name.textContent.trim() : ''});
+      });
+    });
+
+    // 광장 카드 헤더의 "전체 보기 →" 링크
+    // 광장 카드에 아고라 잔향 앵커 자동 삽입
+    document.querySelectorAll('.plaza .pc-item').forEach(card => {
+      if (!card.querySelector('.ripple-anchor')) {
+        const r = document.createElement('span');
+        r.className = 'ripple-anchor';
+        card.appendChild(r);
+      }
+    });
+
+    // 내 차례 마이크 — 입력 후 아골라/아곤란으로 한 마디 보내기
+    function sendToForum(forum){
+      const inp = document.getElementById('plazaMicInput');
+      const val = (inp.value || '').trim();
+      if (!val) {
+        inp.focus();
+        if (window.YL_TOAST) window.YL_TOAST('한 마디를 적어주세요 — 한 문장이면 충분합니다');
+        return;
+      }
+      // 입력 내용 안전 보관 — 어떤 다음 단계에도 사라지지 않음
+      try { localStorage.setItem('yl-plaza-draft', JSON.stringify({ text: val, forum: forum, at: Date.now() })); } catch(e){}
+      // 로그인 상태 확인
+      let cur = null;
+      try { cur = JSON.parse(localStorage.getItem('yl-current') || 'null'); } catch(e){}
+      if (!cur) {
+        if (window.YL_TOAST) window.YL_TOAST('적어주신 글은 안전하게 저장됐어요 — 가입하시면 그대로 이어집니다');
+        // 통합 로그인 모달을 엶 (안에서 "처음 오시나요?" 카드로 가입 진입)
+        document.getElementById('btnLogin')?.click();
+        return;
+      }
+      // 시안 — 입력 내용을 querystring으로 미리보기 페이지로
+      const target = forum === 'agora' ? '아골라_미리보기.html' : '아곤란_미리보기.html';
+      const params = new URLSearchParams({ draft: val, by: cur.nick || cur.id });
+      location.href = target + '?' + params.toString();
+    }
+    // 페이지 로드 시 저장된 초고가 있으면 마이크에 복원
+    (function restoreDraft(){
+      try {
+        const raw = localStorage.getItem('yl-plaza-draft');
+        if (!raw) return;
+        const d = JSON.parse(raw);
+        if (d && d.text) {
+          const inp = document.getElementById('plazaMicInput');
+          if (inp && !inp.value) inp.value = d.text;
+        }
+      } catch(e){}
+    })();
+    // 입력할 때마다 자동 저장 (debounce 500ms)
+    (function autosaveDraft(){
+      const inp = document.getElementById('plazaMicInput');
+      if (!inp) return;
+      let t;
+      inp.addEventListener('input', () => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+          try { localStorage.setItem('yl-plaza-draft', JSON.stringify({ text: inp.value, at: Date.now() })); } catch(e){}
+        }, 500);
+      });
+    })();
+    document.getElementById('plazaMicAgora')?.addEventListener('click', () => sendToForum('agora'));
+    document.getElementById('plazaMicAgonran')?.addEventListener('click', () => sendToForum('agonran'));
+
+    // 주제 칩 — 클릭 시 입력창에 시작 문구 자동 채움 (사용자 자유 그대로 두고 도움만)
+    document.querySelectorAll('.plaza-mic .pm-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.plaza-mic .pm-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const prompt = chip.dataset.prompt || '';
+        const inp = document.getElementById('plazaMicInput');
+        // 사용자가 이미 적은 게 있다면 덮어쓰지 않고, 빈 칸일 때만 시작 문구 삽입
+        const cur = inp.value.trim();
+        if (!cur || cur === inp.dataset.lastPrompt) {
+          inp.value = prompt;
+          inp.dataset.lastPrompt = prompt;
+          inp.focus();
+          // 커서를 맨 뒤로
+          inp.setSelectionRange(prompt.length, prompt.length);
+        } else {
+          // 입력 내용이 있을 땐 토스트만
+          if (window.YL_TOAST) window.YL_TOAST('적고 있는 내용이 있어서 시작 문구를 안 바꿨습니다');
+        }
+      });
+    });
+
+    document.querySelectorAll('.pc-head .pc-link').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const block = a.closest('div');
+        const titleEl = block?.querySelector('.pc-title');
+        const cat = titleEl ? titleEl.textContent : '';
+        const forum = cat.includes('아곤란') ? '아곤란' : (cat.includes('아골라') ? '아골라' : '인사이트');
+        goDetail(forum + ' 전체 보기', {forum});
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
