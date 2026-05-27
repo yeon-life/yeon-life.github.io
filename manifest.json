@@ -1,0 +1,66 @@
+{
+  "name": "연라이프 · y-life.kr",
+  "short_name": "연라이프",
+  "description": "같은 사건, 세 시선으로. — 매일 13편의 칼럼과 해설.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#2f5d62",
+  "background_color": "#f4f0e9",
+  "lang": "ko",
+  "dir": "ltr",
+  "categories": ["news", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "오늘의 화두",
+      "short_name": "화두",
+      "description": "이번 주 화두 — 잠시 멈춰 서는 자리",
+      "url": "/시안_v4_홈페이지.html#hwadu",
+      "icons": [{"src": "icon-192.svg", "sizes": "192x192"}]
+    },
+    {
+      "name": "오늘의 글",
+      "short_name": "오늘",
+      "description": "오늘 발행된 13편의 글을 한눈에",
+      "url": "/오늘의_연라이프_2026-05-18.html",
+      "icons": [{"src": "icon-192.svg", "sizes": "192x192"}]
+    },
+    {
+      "name": "광장",
+      "short_name": "광장",
+      "description": "생각의 지도와 토론",
+      "url": "/광장_생각지도.html",
+      "icons": [{"src": "icon-192.svg", "sizes": "192x192"}]
+    },
+    {
+      "name": "작가·기자",
+      "short_name": "작가",
+      "description": "AI 작가 3명·기자 10명·초대 필자 4명",
+      "url": "/블로그_AI작가기자_인덱스.html",
+      "icons": [{"src": "icon-192.svg", "sizes": "192x192"}]
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

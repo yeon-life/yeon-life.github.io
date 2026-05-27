@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사이트 빌더 — y-life.kr</title>
+<title>연사이트빌더 v20260503 — y-life.kr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -456,6 +456,28 @@ body.preview-mode .canvas-page{box-shadow:none;}
 body.preview-mode .block-wrapper[data-anim]:not([data-anim='none']){opacity:0;}
 body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
 
+/* ── 게시판 블록 ── */
+.b-posts{padding:40px 48px;}
+.b-posts-title{font-family:var(--font-serif);font-size:24px;font-weight:700;margin-bottom:24px;outline:none;}
+.b-posts-list{display:flex;flex-direction:column;}
+.b-post-item{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);transition:background .12s;position:relative;}
+.b-post-item:last-of-type{border-bottom:none;}
+.b-post-item:hover{background:rgba(181,191,196,0.07);border-radius:6px;padding-left:8px;padding-right:8px;margin:0 -8px;}
+.b-post-meta{display:flex;flex-direction:column;gap:5px;flex-shrink:0;min-width:72px;padding-top:2px;}
+.b-post-cat{font-size:10px;font-weight:700;color:var(--builder);background:var(--builder-soft);padding:2px 7px;border-radius:10px;display:inline-block;outline:none;white-space:nowrap;}
+.b-post-date{font-size:11px;color:var(--ink-faint);outline:none;}
+.b-post-content{flex:1;min-width:0;}
+.b-post-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:5px;outline:none;line-height:1.4;}
+.b-post-excerpt{font-size:13px;color:var(--ink-soft);line-height:1.6;outline:none;white-space:pre-wrap;word-break:break-word;}
+.b-post-del{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(192,57,43,.1);color:#c0392b;border:none;font-size:11px;display:none;align-items:center;justify-content:center;cursor:pointer;margin-top:3px;}
+.b-post-item:hover .b-post-del{display:flex;}
+.b-posts-add{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border:1px dashed var(--border-md);border-radius:8px;color:var(--ink-faint);font-size:13px;cursor:pointer;margin-top:12px;transition:all .15s;}
+.b-posts-add:hover{border-color:var(--builder);color:var(--builder);background:var(--builder-soft);}
+.b-posts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.b-posts-grid .b-post-item{flex-direction:column;border:1px solid var(--border);border-radius:10px;padding:16px;gap:8px;margin:0!important;}
+.b-posts-grid .b-post-item:hover{border-color:var(--builder);background:var(--builder-soft);padding-left:16px;padding-right:16px;}
+@media(max-width:600px){.b-posts-grid{grid-template-columns:1fr;}}
+
 /* ── 테마 피커 모달 ── */
 .theme-picker-overlay{position:fixed;inset:0;z-index:8000;background:rgba(20,20,20,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;}
 .theme-picker-overlay.open{display:flex;}
@@ -491,7 +513,7 @@ body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
 
 <div class="builder-toolbar">
   <div class="toolbar-left">
-    <a href="index.html" class="toolbar-logo">y-life</a>
+    <a href="index.html" class="toolbar-logo">y-life <span style="font-size:10px;opacity:0.55;font-weight:400;letter-spacing:0.05em;">v260502</span></a>
     <div class="toolbar-sep"></div>
     <div class="toolbar-mode">
       <button class="toolbar-mode-btn active" onclick="setMode('edit')">편집</button>
@@ -747,8 +769,8 @@ document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key
 const THEMES={'mint-tide':{name:'Mint Tide',bg:'#e9f5f2',surface:'#b0cfc8',primary:'#6eb5a6',text:'#2a2e2c'},'warm-earth':{name:'Warm Earth',bg:'#d4cdc1',surface:'#dbd2a4',primary:'#ad9d82',text:'#2a2e2c'},'mauve-fog':{name:'Mauve Fog',bg:'#ebf2ed',surface:'#b2a7b8',primary:'#615b63',text:'#37334f'},'forest-dark':{name:'Forest Dark',bg:'#2b3b32',surface:'#586e69',primary:'#6eb5a6',text:'#e9f5f2'}};
 const CARD_ICONS={star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',smile:'<circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',bulb:'<line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="3" x2="12" y2="5"/><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.2 4.16-3 5.2V19H9v-1.8A6 6 0 0 1 6 12a6 6 0 0 1 6-6z"/>',users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',check:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',globe:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',pen:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',sun:'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',gift:'<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',map:'<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'};
 function getCardIconSVG(icon){const path=CARD_ICONS[icon];if(path)return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;return`<span style="font-size:28px;line-height:1">${icon||'⭐'}</span>`;}
-const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left',bg:''},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40,ratio:'1:1',bg:''},columns:{type:'columns',cols:2,paddingV:40,bg:'',columns:[{title:'컬럼 1',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 2',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 3',body:'내용을 입력하세요.',imgUrl:''}]},cards:{type:'cards',title:'카드 그리드',paddingV:48,bg:'',cards:[{icon:'star',name:'카드 1',desc:'설명을 입력하세요'},{icon:'leaf',name:'카드 2',desc:'설명을 입력하세요'},{icon:'target',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48,bg:''},news:{type:'news',title:'최근 소식',paddingV:40,bg:''},gallery:{type:'gallery',title:'갤러리',images:[],paddingV:40,bg:''},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48,bg:''},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0}};
-const BLOCK_TYPES=[{type:'hero',name:'히어로',icon:'<polyline points="6 3 6 15 18 15 18 3"></polyline><line x1="6" y1="8" x2="18" y2="8"></line>'},{type:'text',name:'텍스트',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>'},{type:'columns',name:'다단 컬럼',icon:'<rect x="2" y="3" width="6" height="18" rx="1"></rect><rect x="9" y="3" width="6" height="18" rx="1"></rect><rect x="16" y="3" width="6" height="18" rx="1"></rect>'},{type:'imgtext',name:'이미지+글',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>'},{type:'cards',name:'카드',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'youtube',name:'YouTube',icon:'<rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="8" x2="7" y2="16"></line><line x1="12" y1="8" x2="12" y2="16"></line><line x1="17" y1="8" x2="17" y2="16"></line>'},{type:'map',name:'지도',icon:'<circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path>'},{type:'button',name:'버튼',icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="15" x2="14" y2="15"></line>'},{type:'social',name:'소셜',icon:'<circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>'},{type:'gallery',name:'갤러리',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'quote',name:'인용',icon:'<path d="M3 21c0 7 2 11 13 13"></path><path d="M21 3c0 7 2 11 13 13"></path>'},{type:'divider',name:'구분선',icon:'<line x1="3" y1="12" x2="21" y2="12"></line>'},{type:'spacer',name:'간격',icon:'<line x1="6" y1="3" x2="6" y2="21"></line><line x1="12" y1="3" x2="12" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line>'},{type:'contact',name:'연락',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line>'},{type:'news',name:'뉴스',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="15" x2="21" y2="15"></line>'},{type:'carousel',name:'캐러셀',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line>'}];
+const BLOCK_DEFAULTS={hero:{type:'hero',title:'제목을 입력하세요',sub:'소개 문구를 입력하세요',btnText:'시작하기',btnUrl:'#',bg:'#F8F6F2',paddingV:80,align:'center',titleSize:40},text:{type:'text',title:'',body:'본문을 입력하세요. 여기에 원하는 내용을 자유롭게 작성할 수 있습니다.',paddingV:40,align:'left',bg:''},imgtext:{type:'imgtext',imgSide:'left',title:'제목',body:'내용을 입력하세요.',imgAlt:'이미지',imgUrl:'',paddingV:40,ratio:'1:1',bg:''},columns:{type:'columns',cols:2,paddingV:40,bg:'',columns:[{title:'컬럼 1',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 2',body:'내용을 입력하세요.',imgUrl:''},{title:'컬럼 3',body:'내용을 입력하세요.',imgUrl:''}]},cards:{type:'cards',title:'카드 그리드',paddingV:48,bg:'',cards:[{icon:'star',name:'카드 1',desc:'설명을 입력하세요'},{icon:'leaf',name:'카드 2',desc:'설명을 입력하세요'},{icon:'target',name:'카드 3',desc:'설명을 입력하세요'}]},divider:{type:'divider'},contact:{type:'contact',title:'연락하기',placeholder_name:'이름',placeholder_email:'이메일',placeholder_msg:'메시지',paddingV:48,bg:''},news:{type:'news',title:'최근 소식',paddingV:40,bg:''},gallery:{type:'gallery',title:'갤러리',images:[],paddingV:40,bg:''},quote:{type:'quote',text:'인상 깊은 말이나 글귀를 입력하세요.',author:'— 출처',paddingV:48,bg:''},youtube:{type:'youtube',url:'',title:'YouTube 동영상',paddingV:24},map:{type:'map',embedUrl:'',address:'지도 주소를 입력하세요',paddingV:0,height:320},button:{type:'button',text:'버튼 클릭',url:'#',align:'center',variant:'primary',size:'medium',paddingV:32},social:{type:'social',align:'center',paddingV:32,links:[{platform:'instagram',url:'',label:'Instagram'},{platform:'youtube',url:'',label:'YouTube'},{platform:'facebook',url:'',label:'Facebook'}]},spacer:{type:'spacer',height:48},carousel:{type:'carousel',images:[],paddingV:0},posts:{type:'posts',title:'최근 글',layout:'list',paddingV:40,bg:'',posts:[{title:'첫 번째 에세이',date:'2026.01.01',excerpt:'삶의 작은 순간들을 기록합니다. 평범한 하루도 다르게 바라보면 이야기가 됩니다.',category:'에세이'},{title:'짧은 소설',date:'2026.01.15',excerpt:'비 오는 날, 창가에 앉아 쓴 이야기. 낯선 사람의 우산 색이 기억에 남았다.',category:'소설'},{title:'시 한 편',date:'2026.02.01',excerpt:'봄이 오는 소리를 들으며. 아직 꽃은 피지 않았지만 공기가 달라졌다.',category:'시'}]}};
+const BLOCK_TYPES=[{type:'hero',name:'히어로',icon:'<polyline points="6 3 6 15 18 15 18 3"></polyline><line x1="6" y1="8" x2="18" y2="8"></line>'},{type:'text',name:'텍스트',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>'},{type:'columns',name:'다단 컬럼',icon:'<rect x="2" y="3" width="6" height="18" rx="1"></rect><rect x="9" y="3" width="6" height="18" rx="1"></rect><rect x="16" y="3" width="6" height="18" rx="1"></rect>'},{type:'imgtext',name:'이미지+글',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>'},{type:'cards',name:'카드',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'youtube',name:'YouTube',icon:'<rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="8" x2="7" y2="16"></line><line x1="12" y1="8" x2="12" y2="16"></line><line x1="17" y1="8" x2="17" y2="16"></line>'},{type:'map',name:'지도',icon:'<circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path>'},{type:'button',name:'버튼',icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="15" x2="14" y2="15"></line>'},{type:'social',name:'소셜',icon:'<circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>'},{type:'gallery',name:'갤러리',icon:'<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>'},{type:'quote',name:'인용',icon:'<path d="M3 21c0 7 2 11 13 13"></path><path d="M21 3c0 7 2 11 13 13"></path>'},{type:'divider',name:'구분선',icon:'<line x1="3" y1="12" x2="21" y2="12"></line>'},{type:'spacer',name:'간격',icon:'<line x1="6" y1="3" x2="6" y2="21"></line><line x1="12" y1="3" x2="12" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line>'},{type:'contact',name:'연락',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line>'},{type:'news',name:'뉴스',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="15" x2="21" y2="15"></line>'},{type:'carousel',name:'캐러셀',icon:'<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line>'},{type:'posts',name:'게시판',icon:'<line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line>'}];
 function toggleSettingsPanel(){alert('설정: 사이트 이름·파비콘·메타 설명 등 고급 설정은 곧 추가됩니다.');}
 
 /* ─── 셋업 모달 ─── */
@@ -906,6 +928,7 @@ case 'social':{const ICONS={instagram:`<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 
 case 'spacer':inner=`<div class="b-spacer"><div class="b-spacer-visual" style="height:${b.height||48}px">${b.height||48}px 간격</div></div>`;break;
 case 'carousel':{const imgs=b.images||[];inner=`<div class="b-carousel-container" style="padding:${pv}px 48px"><div class="carousel-grid">${imgs.map((src,ii)=>`<div class="carousel-cell" onclick="triggerCarouselImageUpload('${b.id}',${ii})"><img src="${esc(resolveImgSrc(src))}" alt=""><div class="img-upload-overlay"><div class="img-upload-label">교체</div></div></div>`).join('')}<div class="carousel-cell carousel-cell-add" onclick="addCarouselImage('${b.id}')">+</div></div></div>`;break;}
 case 'shop':{const prods=b.products||[];inner=`<div class="b-shop" style="padding:${pv}px 48px"><div class="b-shop-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="b-shop-grid">${prods.map((p,pi)=>`<div class="b-shop-card"><div class="b-shop-card-img" onclick="triggerShopImageUpload('${b.id}',${pi})">${p.imgUrl?`<img src="${esc(resolveImgSrc(p.imgUrl))}" alt="">`:'<span>📦</span>'}<div class="img-upload-overlay"><div class="img-upload-label">이미지 교체</div></div></div><div class="b-shop-card-body"><div class="b-shop-card-name" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="name">${esc(p.name||'상품명')}</div><div class="b-shop-card-price" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="price">${esc(p.price||'₩0')}</div><div class="b-shop-card-desc" contenteditable="true" data-blockid="${b.id}" data-prodidx="${pi}" data-field="desc">${esc(p.desc||'상품 설명')}</div><button class="b-shop-buy-btn" onclick="addToCart('${b.id}',${pi})">구매하기</button></div><button class="b-card-del" onclick="deleteProduct('${b.id}',${pi})">✕</button></div>`).join('')}<div class="b-shop-card b-shop-card-add" onclick="addProduct('${b.id}')">+ 상품 추가</div></div></div>`;break;}
+case 'posts':{const bgStyle=b.bg?`background:${b.bg};`:'';const isGrid=b.layout==='grid';inner=`<div class="b-posts" style="${bgStyle}padding:${pv}px 48px"><div class="b-posts-title" contenteditable="true" data-blockid="${b.id}" data-field="title">${esc(b.title)}</div><div class="${isGrid?'b-posts-grid':'b-posts-list'}">${(b.posts||[]).map((p,pi)=>`<div class="b-post-item"><div class="b-post-meta"><div class="b-post-cat" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="category" onclick="event.stopPropagation()">${esc(p.category||'')}</div><div class="b-post-date" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="date" onclick="event.stopPropagation()">${esc(p.date||'')}</div></div><div class="b-post-content"><div class="b-post-title" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="title" onclick="event.stopPropagation()">${esc(p.title||'')}</div><div class="b-post-excerpt" contenteditable="true" data-blockid="${b.id}" data-postidx="${pi}" data-field="excerpt" onclick="event.stopPropagation()">${esc(p.excerpt||'')}</div></div><button class="b-post-del" onclick="deletePost('${b.id}',${pi})">✕</button></div>`).join('')}</div><div class="b-posts-add" onclick="addPost('${b.id}')">+ 글 추가</div></div>`;break;}
 default:inner=`<div style="padding:20px;color:var(--ink-faint);font-size:13px">알 수 없는 블록 타입: ${b.type}</div>`;}
 return `<div class="block-wrapper${sel}" data-id="${b.id}" data-blockidx="${i}" data-anim="${b.animation||'none'}">${dragHandle}${controls}${resizeStrip}${inner}</div>`;}
 
@@ -921,9 +944,10 @@ function attachBlockEvents(){
   });
   canvas.querySelectorAll('[contenteditable]').forEach(el=>{
     el.addEventListener('blur',()=>{
-      const bid=el.dataset.blockid,field=el.dataset.field,cidx=el.dataset.cardidx,pidx=el.dataset.prodidx,colidx=el.dataset.colidx;
+      const bid=el.dataset.blockid,field=el.dataset.field,cidx=el.dataset.cardidx,pidx=el.dataset.prodidx,colidx=el.dataset.colidx,poidx=el.dataset.postidx;
       const b=currentBlocks().find(b=>b.id===bid);if(!b)return;
       if(colidx!=null&&b.columns)b.columns[colidx][field]=el.innerText;
+      else if(poidx!=null&&b.posts)b.posts[poidx][field]=el.innerText;
       else if(cidx!=null&&b.cards)b.cards[cidx][field]=el.innerText;
       else if(pidx!=null&&b.products)b.products[pidx][field]=el.innerText;
       else b[field]=el.innerText;
@@ -982,6 +1006,8 @@ function deleteCard(bid,ci){const b=currentBlocks().find(b=>b.id===bid);if(!b||!
 function addCard(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.cards)b.cards=[];const icons=Object.keys(CARD_ICONS);b.cards.push({icon:icons[b.cards.length%icons.length],name:'새 카드',desc:'설명'});renderCanvas();autoSave();}
 function showCardIconPicker(bid,ci){document.querySelectorAll('.card-icon-picker').forEach(p=>p.remove());const iconEl=document.querySelector(`.b-card-icon[data-blockid="${bid}"][data-cardidx="${ci}"]`);if(!iconEl)return;const picker=document.createElement('div');picker.className='card-icon-picker';picker.innerHTML=Object.entries(CARD_ICONS).map(([key,path])=>`<div class="card-icon-opt" onclick="selectCardIcon('${bid}',${ci},'${key}');event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg></div>`).join('');iconEl.appendChild(picker);picker.onclick=e=>e.stopPropagation();setTimeout(()=>document.addEventListener('click',()=>picker.remove(),{once:true}),50);}
 function selectCardIcon(bid,ci,key){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.cards||!b.cards[ci])return;b.cards[ci].icon=key;document.querySelectorAll('.card-icon-picker').forEach(p=>p.remove());renderCanvas();autoSave();}
+function deletePost(bid,pi){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.posts)return;b.posts.splice(pi,1);renderCanvas();autoSave();}
+function addPost(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.posts)b.posts=[];const now=new Date();const ds=now.getFullYear()+'.'+(String(now.getMonth()+1).padStart(2,'0'))+'.'+String(now.getDate()).padStart(2,'0');b.posts.push({title:'새 글 제목',date:ds,excerpt:'글의 첫 문장을 입력하세요.',category:'에세이'});renderCanvas();autoSave();}
 function deleteProduct(bid,pi){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.products)return;b.products.splice(pi,1);renderCanvas();autoSave();}
 function addProduct(bid){const b=currentBlocks().find(b=>b.id===bid);if(!b)return;if(!b.products)b.products=[];b.products.push({name:'상품명',price:'₩0',desc:'상품 설명',imgUrl:''});renderCanvas();autoSave();}
 function addToCart(bid,pi){const b=currentBlocks().find(b=>b.id===bid);if(!b||!b.products)return;const p=b.products[pi];alert(`"${p.name}" (${p.price})\n\n장바구니 기능은 y-life.kr 계정 연동 후 이용 가능합니다.`);}
@@ -1009,20 +1035,21 @@ document.getElementById('fileInput').addEventListener('change',function(){const 
 
 /* ─── 원형 메뉴 ─── */
 let _radialInsertAfter=-1;
-const BLOCK_ICON_MAP={hero:'<polyline points="6 3 6 15 18 15 18 3"/><line x1="6" y1="8" x2="18" y2="8"/>',text:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/>',imgtext:'<rect x="2" y="4" width="9" height="16" rx="1"/><line x1="14" y1="8" x2="22" y2="8"/><line x1="14" y1="13" x2="22" y2="13"/>',cards:'<rect x="2" y="7" width="6" height="10" rx="1"/><rect x="9" y="7" width="6" height="10" rx="1"/><rect x="16" y="7" width="6" height="10" rx="1"/>',youtube:'<rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10,8 16,12 10,16"/>',map:'<circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>',shop:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',button:'<rect x="4" y="7" width="16" height="10" rx="5"/>',gallery:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',contact:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>',quote:'<path d="M3 21c0-7 4-11 9-11"/><path d="M12 21c0-7 4-11 9-11"/>',divider:'<line x1="3" y1="12" x2="21" y2="12"/>',spacer:'<line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/>',news:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/>',carousel:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>'};
+const BLOCK_ICON_MAP={hero:'<polyline points="6 3 6 15 18 15 18 3"/><line x1="6" y1="8" x2="18" y2="8"/>',text:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/>',imgtext:'<rect x="2" y="4" width="9" height="16" rx="1"/><line x1="14" y1="8" x2="22" y2="8"/><line x1="14" y1="13" x2="22" y2="13"/>',cards:'<rect x="2" y="7" width="6" height="10" rx="1"/><rect x="9" y="7" width="6" height="10" rx="1"/><rect x="16" y="7" width="6" height="10" rx="1"/>',youtube:'<rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10,8 16,12 10,16"/>',map:'<circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>',shop:'<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',button:'<rect x="4" y="7" width="16" height="10" rx="5"/>',gallery:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',contact:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>',quote:'<path d="M3 21c0-7 4-11 9-11"/><path d="M12 21c0-7 4-11 9-11"/>',divider:'<line x1="3" y1="12" x2="21" y2="12"/>',spacer:'<line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/>',news:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/>',carousel:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>',posts:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/>'};
 // 위치 컨텍스트에 따라 가장 적합한 블록 순서 반환
 function getContextItems(insertAfter){
   const blocks=currentBlocks();
-  const all=['hero','text','imgtext','cards','gallery','youtube','contact','button','map','shop','quote','divider','spacer','news','carousel'];
+  const all=['hero','text','imgtext','cards','gallery','youtube','contact','button','map','shop','quote','divider','spacer','news','carousel','posts'];
   let order;
   if(blocks.length===0){order=['hero','text','cards','imgtext','gallery','youtube','contact','button'];}
   else{
     const prev=blocks[insertAfter];
     const next=blocks[insertAfter+1];
     const prevType=prev?.type;
-    if(prevType==='hero'||insertAfter<0){order=['text','cards','imgtext','gallery','youtube','button','contact','divider'];}
-    else if(prevType==='text'||prevType==='quote'){order=['imgtext','cards','button','gallery','youtube','divider','contact','quote'];}
-    else if(prevType==='cards'){order=['text','button','imgtext','gallery','contact','youtube','divider','quote'];}
+    if(prevType==='hero'||insertAfter<0){order=['text','cards','imgtext','posts','gallery','youtube','button','contact'];}
+    else if(prevType==='text'||prevType==='quote'){order=['posts','imgtext','cards','button','gallery','youtube','divider','contact'];}
+    else if(prevType==='posts'){order=['text','quote','cards','button','gallery','contact','divider','imgtext'];}
+    else if(prevType==='cards'){order=['text','posts','button','imgtext','gallery','contact','youtube','divider'];}
     else if(prevType==='imgtext'){order=['text','cards','button','gallery','contact','youtube','divider','quote'];}
     else if(prevType==='gallery'||prevType==='youtube'){order=['text','cards','button','contact','divider','imgtext','quote','map'];}
     else if(prevType==='divider'||prevType==='spacer'){order=['text','cards','imgtext','gallery','button','youtube','contact','quote'];}
@@ -1067,7 +1094,7 @@ function showRadialMenu(cx,cy){
   const contextTypes=getContextItems(_radialInsertAfter);
   const mainItems=contextTypes.slice(0,8);
   const moreItems=contextTypes.slice(8);
-  const LABELS={hero:'히어로',text:'텍스트',imgtext:'이미지+글',cards:'카드',youtube:'YouTube',map:'지도',shop:'쇼핑몰',button:'버튼',gallery:'갤러리',contact:'연락',quote:'인용',divider:'구분선',spacer:'간격',news:'뉴스',carousel:'캐러셀'};
+  const LABELS={hero:'히어로',text:'텍스트',imgtext:'이미지+글',cards:'카드',youtube:'YouTube',map:'지도',shop:'쇼핑몰',button:'버튼',gallery:'갤러리',contact:'연락',quote:'인용',divider:'구분선',spacer:'간격',news:'뉴스',carousel:'캐러셀',posts:'게시판'};
   mainItems.forEach((type,idx)=>{
     const angle=(-90+idx*(360/8))*(Math.PI/180);
     const x=Math.cos(angle)*R;
@@ -1132,6 +1159,7 @@ function updatePropsPanel(){
     case 'youtube':html+=`<div class="props-section"><div class="props-section-title">YouTube</div><div class="props-field"><label>YouTube URL</label><input type="text" value="${esc(b.url||'')}" onblur="updB('url',this.value)" placeholder="https://youtube.com/watch?v=..."></div><div class="props-field"><label>제목</label><input type="text" value="${esc(b.title||'')}" onblur="updB('title',this.value)" placeholder="없으면 비워두기"></div></div>${pads}`;break;
     case 'map':html+=`<div class="props-section"><div class="props-section-title">지도</div><div class="props-field"><label>Google Maps 임베드 URL</label><input type="text" value="${esc(b.embedUrl||'')}" onblur="updB('embedUrl',this.value)" placeholder="https://maps.google.com/maps?..."></div><div class="props-field"><label>지도 높이</label><div class="range-row"><input type="range" min="160" max="600" value="${b.height||320}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||320}px</span></div></div></div>`;break;
     case 'button':html+=`<div class="props-section"><div class="props-section-title">버튼</div><div class="props-field"><label>버튼 텍스트</label><input type="text" value="${esc(b.text||'')}" onblur="updB('text',this.value)"></div><div class="props-field"><label>링크 URL</label><input type="text" value="${esc(b.url||'#')}" onblur="updB('url',this.value)"></div><div class="props-field"><label>스타일</label><select onchange="updB('variant',this.value)"><option value="primary"${(b.variant||'primary')==='primary'?' selected':''}>채움</option><option value="outline"${b.variant==='outline'?' selected':''}>외곽선</option><option value="ghost"${b.variant==='ghost'?' selected':''}>텍스트</option></select></div>${aligns}</div>${pads}`;break;
+    case 'posts':html+=`<div class="props-section"><div class="props-section-title">게시판</div><div class="props-field"><label>레이아웃</label><div class="align-row"><button class="align-btn${(b.layout||'list')==='list'?' active':''}" onclick="updB('layout','list')">목록형</button><button class="align-btn${b.layout==='grid'?' active':''}" onclick="updB('layout','grid')">카드형</button></div></div><div class="props-field" style="font-size:11px;color:var(--ink-faint)">글 제목·날짜·카테고리·발췌를 캔버스에서 직접 클릭하여 수정하세요.<br>글 추가/삭제는 캔버스 하단 [+ 글 추가] 버튼을 이용하세요.</div></div>${bgPicker(b)}${pads}`;break;
     case 'spacer':html+=`<div class="props-section"><div class="props-section-title">간격</div><div class="props-field"><label>높이</label><div class="range-row"><input type="range" min="8" max="300" value="${b.height||48}" oninput="updB('height',parseInt(this.value))"><span class="range-val">${b.height||48}px</span></div></div></div>`;break;
     default: html+=pads; break;
   }
@@ -1306,6 +1334,51 @@ const PAGE_TEMPLATES=[
   }
 ];
 
+  ,{
+    id:'writer',
+    name:'작가 · 글쓰기',
+    desc:'소설가, 에세이스트, 시인을 위한 감성적인 작가 홈페이지',
+    tag:'글 · 에세이 · 소설',
+    tagColor:'#5C4A3B',
+    heroBg:'#1c1712',
+    heroText:'#f0e8d8',
+    accentColor:'#c4a882',
+    preview:`<div class="tp-hero" style="background:#1c1712">
+      <div class="tp-hero-title" style="color:#f0e8d8;font-size:13px">김연소 — 작가</div>
+      <div class="tp-hero-sub" style="color:#c4a882">말이 닿지 않는 곳까지 글이 갑니다</div>
+      <div class="tp-hero-btn" style="background:#c4a882;color:#1c1712">글 읽기</div>
+    </div>
+    <div class="tp-blocks" style="padding:6px 12px;gap:5px;display:flex;flex-direction:column">
+      <div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.08)">
+        <div style="width:36px;height:12px;background:#c4a882;border-radius:10px;opacity:.5;flex-shrink:0"></div>
+        <div style="flex:1;height:8px;background:#5C4A3B;opacity:.2;border-radius:2px"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.08)">
+        <div style="width:36px;height:12px;background:#c4a882;border-radius:10px;opacity:.4;flex-shrink:0"></div>
+        <div style="flex:1;height:8px;background:#5C4A3B;opacity:.15;border-radius:2px"></div>
+      </div>
+    </div>`,
+    blocks:[
+      {type:'hero',title:'김연소 — 작가',sub:'말이 닿지 않는 곳까지 글이 갑니다.\n소설·에세이·시를 씁니다.',btnText:'글 읽기',btnUrl:'#posts',bg:'#1c1712',paddingV:100,align:'center',titleSize:36,animation:'fade-in'},
+      {type:'imgtext',imgSide:'right',title:'작가 소개',body:'안녕하세요, 김연소입니다.\n\n2018년 첫 소설집 《빗속의 우산》으로 작가로 데뷔했습니다. 사소한 일상의 틈새에서 이야기를 발견하는 것을 좋아합니다.\n\n부산에서 태어나 지금은 서울에서 글을 쓰고 있습니다. 커피 한 잔과 함께하는 아침이 가장 좋습니다.',imgAlt:'작가 사진',imgUrl:'',paddingV:64,ratio:'1:2',bg:'#f7f2eb',animation:'slide-left'},
+      {type:'posts',title:'최근 글',layout:'list',paddingV:48,bg:'',animation:'slide-up',posts:[
+        {title:'봄비가 내리던 날의 기억',date:'2026.03.15',excerpt:'창문을 두드리는 소리가 서랍 속에 넣어둔 편지를 꺼내게 했다. 오래된 글씨는 번지지 않았다.',category:'에세이'},
+        {title:'마지막 역에서',date:'2026.02.28',excerpt:'그녀는 매일 같은 시각에 그 역에 내렸다. 아무도 기다리지 않는데도.',category:'소설'},
+        {title:'3월',date:'2026.03.01',excerpt:'꽃이 피기 전 / 공기가 먼저 / 봄 냄새를 밀어 보낸다',category:'시'},
+        {title:'글쓰기란 무엇인가',date:'2026.01.20',excerpt:'모르는 것을 알기 위해 쓴다. 쓰다 보면 몰랐던 것을 알게 된다.',category:'에세이'}
+      ]},
+      {type:'cards',title:'글의 세계',paddingV:48,bg:'#f7f2eb',animation:'slide-up',cards:[
+        {icon:'book',name:'소설',desc:'인물과 사건 속에서 우리 삶의 진실을 찾는 이야기들'},
+        {icon:'pen',name:'에세이',desc:'일상에서 건져 올린 생각들, 솔직하고 담담하게'},
+        {icon:'music',name:'시',desc:'압축된 언어로 확장되는 감각, 짧고 깊은 세계'}
+      ]},
+      {type:'quote',text:'"좋은 문장은 독자가 이미 알고 있었지만 말하지 못했던 것을 대신 말해준다."',author:'— 김연소, 에세이집 《작은 문장들》에서',paddingV:56,bg:'#1c1712',animation:'fade-in'},
+      {type:'gallery',title:'작업실 & 책',images:[],paddingV:40,bg:'',animation:'fade-in'},
+      {type:'button',text:'원고 및 강연 문의',url:'#contact',align:'center',variant:'outline',size:'medium',paddingV:32,bg:'',animation:'slide-up'},
+      {type:'contact',title:'연락하기',placeholder_name:'성함',placeholder_email:'이메일',placeholder_msg:'원고 청탁, 강연 요청, 출판 관련 문의 등 편하게 남겨주세요.',paddingV:56,bg:'#f7f2eb',animation:'slide-up'}
+    ]
+  }
+];
 function showTemplatePicker(){
   const grid=document.getElementById('themePickerGrid');
   grid.innerHTML=PAGE_TEMPLATES.map(t=>`
@@ -1676,7 +1749,9 @@ function downloadHTML(){
   tmp.innerHTML=blocks.map((b,i)=>renderBlock(b,i)).join('');
   tmp.querySelectorAll('.block-controls,.block-drag-handle,.block-resize-strip,.insert-zone-btn,.b-card-del,.img-upload-overlay,.b-shop-card-add,.b-gallery-cell-add').forEach(el=>el.remove());
   tmp.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
-  const html=`<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>${esc(pages[currentPageId].name||'페이지')}</title>\n<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">\n<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Noto Sans KR',sans-serif;background:#F8F6F2;color:#2a2e2c;}.block-wrapper{border:none!important;}</style>\n</head>\n<body>\n${tmp.innerHTML}\n<p style="text-align:center;padding:20px;font-size:12px;color:#aaa">y-life.kr 사이트 빌더로 제작 · <a href="https://y-life.kr">y-life.kr</a></p>\n<a href="https://y-life.kr/builder.html" style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;border-radius:50%;background:#2a2e2c;display:flex;align-items:center;justify-content:center;text-decoration:none" title="편집"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></a>\n</body>\n</html>`;
+  const html=`<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>${esc(pages[currentPageId].name||'페이지')}</title>\n<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">\n<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Noto Sans KR',sans-serif;background:#F8F6F2;color:#2a2e2c;}.block-wrapper{border:none!important;}</style>\n</head>\n<body>\n${tmp.innerHTML}\n<p style="text-align:center;padding:20px;font-size:12px;color:#aaa">y-life.kr 사이트 빌더로 제작 · <a href="https://y-life.kr">y-life.kr</a></p>\n<a href="https://y-life.kr/builder.html" style="position:fixed;bottom:28px;right:28px;width:52px;height:52px;border-radius:50%;background:#2a2e2c;display:flex;align-items:center;justify-content:center;text-decoration:none" title="편집"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></a>\n
+<script src="yeon-pwa.js" defer></script>
+</body>\n</html>`;
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=(pages[currentPageId].name||'페이지').replace(/\s+/g,'-')+'.html';a.click();
 }
 function openPublishModal(){document.getElementById('publishModal').classList.add('open');}
@@ -1687,5 +1762,8 @@ function publishToGitHub(){alert('GitHub 자동 배포는 git push 방식으로 
 /* ─── 실행 ─── */
 init();
 </script>
+
+<script src="yeon-pwa.js" defer></script>
 </body>
 </html>
+

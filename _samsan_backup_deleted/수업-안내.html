@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="삼산 연아카데미">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://yeon.ai.kr/ulsan/y-planning_ss/og-image.png">
+<meta property="og:url" content="https://yeon.ai.kr/ulsan/y-planning_ss/수업-안내.html">
+<meta property="og:description" content="삼산 연아카데미의 9개 특별 수업: 학습심리코칭, 책풀, 공부습관, 문해력, 자기주도까지 전 과정 안내.">
+<meta property="og:title" content="9개 특별 수업 — 삼산 연아카데미">
+<title>9개 특별 수업 — 삼산 연아카데미</title>
+<meta name="description" content="삼산 연아카데미의 9개 특별 수업 상세 안내. 박미향 원장의 학습심리코칭 정체성과 함께하는 9개 특별 수업.">
+<meta name="theme-color" content="#2f5d62">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-ink:#1f2a2a;
+  --yp-accent:#c38d56; --yp-accent2:#e8a96e;
+  --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-sage:#dfe8de;
+  --yp-card:#fffdf8; --yp-peach:#f3e7dd; --yp-line:#d7d1c5;
+  --yp-t1:#1f2a2a; --yp-t2:#536060; --yp-t3:#6a7676;
+  --yp-rust:#b05830; --yp-danger:#b85040;
+}
+html{scroll-behavior:smooth}
+body{background:var(--yp-mist);color:var(--yp-t1);font-family:'Noto Sans KR',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* ──────── 상단 네비 ──────── */
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(20,33,33,0.97);backdrop-filter:blur(14px);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 16px rgba(0,0,0,0.18)}
+.top-nav-logo{color:#fff;font-weight:800;font-size:14px;text-decoration:none;display:flex;align-items:center;gap:8px}
+.top-nav-logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--yp-accent),var(--yp-accent2));display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700}
+.top-nav-back{color:rgba(255,255,255,0.85);font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);transition:all .2s}
+.top-nav-back:hover{background:rgba(255,255,255,0.08)}
+
+/* ──────── HERO ──────── */
+.page-hero{background:linear-gradient(160deg,#1a2e2e 0%,#0d1f1f 60%,#1f2a1a 100%);padding:54px 20px 64px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle, rgba(195,141,86,0.18) 0%, transparent 60%);pointer-events:none}
+.page-hero .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2.5px;color:var(--yp-accent2);background:rgba(195,141,86,0.14);border:1px solid rgba(195,141,86,0.4);border-radius:999px;padding:6px 16px;margin-bottom:18px;position:relative}
+.page-hero h1{font-family:'Noto Serif KR',serif;font-size:clamp(26px,5vw,42px);font-weight:700;color:#fff;margin-bottom:14px;line-height:1.3;position:relative}
+.page-hero h1 em{color:var(--yp-accent2);font-style:normal}
+.page-hero .sub{font-size:15px;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto;line-height:1.85;position:relative}
+.page-hero .signature{margin-top:24px;font-family:'Noto Serif KR',serif;color:rgba(195,141,86,0.92);font-size:14px;letter-spacing:1px;position:relative}
+
+/* ──────── 빠른 이동 ──────── */
+.quick-nav{background:var(--yp-card);border-bottom:1px solid var(--yp-line);padding:16px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.quick-nav-inner{display:flex;gap:8px;max-width:1100px;margin:0 auto;min-width:max-content}
+.quick-chip{display:inline-flex;align-items:center;gap:6px;background:var(--yp-mist);color:var(--yp-t2);font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;text-decoration:none;border:1px solid var(--yp-line);white-space:nowrap;transition:all .15s}
+.quick-chip:hover{background:var(--yp-deep);color:#fff;border-color:var(--yp-deep)}
+.quick-chip.star{background:#fff8ef;border-color:var(--yp-accent);color:var(--yp-accent)}
+.quick-chip.star:hover{background:var(--yp-accent);color:#fff}
+
+/* ──────── 본문 ──────── */
+main{max-width:780px;margin:0 auto;padding:40px 20px 100px}
+
+.class-card{background:var(--yp-card);border:1.5px solid var(--yp-line);border-radius:18px;padding:32px 26px;margin-bottom:36px;box-shadow:0 4px 18px rgba(0,0,0,0.04);scroll-margin-top:80px;position:relative;overflow:hidden}
+.class-card.featured{background:linear-gradient(135deg,#fff8ef 0%,#fffdf8 65%);border:2px solid var(--yp-accent)}
+.class-card.special{border-top:6px solid var(--yp-pine)}
+.class-card.special.purple{border-top-color:#a55c8b}
+.class-card.special.deep{border-top-color:var(--yp-deep)}
+
+.featured-badge{position:absolute;top:0;right:24px;background:var(--yp-accent);color:#fff;font-size:11px;font-weight:700;padding:6px 14px;border-radius:0 0 10px 10px;letter-spacing:0.5px}
+.special-badge{position:absolute;top:0;right:24px;background:var(--yp-pine);color:#fff;font-size:10.5px;font-weight:700;padding:6px 14px;border-radius:0 0 10px 10px;letter-spacing:0.5px}
+.special-badge.purple{background:#a55c8b}
+
+/* 수업 헤더 */
+.cls-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;margin-top:10px}
+.cls-icon{font-size:38px;line-height:1;flex-shrink:0}
+.cls-title-area{flex:1}
+.cls-title{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:var(--yp-ink);margin-bottom:6px;line-height:1.35}
+.cls-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.5px;padding:4px 10px;border-radius:999px;margin-right:5px;margin-bottom:4px}
+.cls-tag.warm{background:#fff5ec;color:var(--yp-accent)}
+.cls-tag.teal{background:rgba(66,122,113,0.12);color:var(--yp-pine)}
+.cls-tag.deep{background:rgba(47,93,98,0.12);color:var(--yp-deep)}
+.cls-tag.purple{background:#f3e6ee;color:#7a4869}
+.cls-summary{font-size:14.5px;color:var(--yp-t2);line-height:1.85;margin-top:6px}
+
+/* 일러스트 자리 (placeholder) */
+.illust-placeholder{background:linear-gradient(135deg,var(--yp-mist),var(--yp-peach));border:2px dashed var(--yp-line);border-radius:14px;padding:34px 20px;text-align:center;color:var(--yp-t3);font-size:13px;margin:20px 0;position:relative}
+.illust-placeholder::before{content:'📷';font-size:32px;display:block;margin-bottom:8px;opacity:.5}
+.illust-placeholder .label{font-weight:700;color:var(--yp-pine);margin-bottom:4px;font-size:13.5px}
+.illust-placeholder .desc{font-size:12px;color:var(--yp-t3);line-height:1.6}
+
+/* 박원장 한 마디 (인용문) */
+.quote-box{background:linear-gradient(135deg,#fdf6ec 0%,#faeed8 100%);border-left:5px solid var(--yp-accent);border-radius:0 12px 12px 0;padding:20px 22px;margin:22px 0;position:relative}
+.quote-box::before{content:'"';position:absolute;top:-6px;left:14px;font-family:'Noto Serif KR',serif;font-size:64px;color:var(--yp-accent);opacity:0.25;line-height:1}
+.quote-box .q-text{font-family:'Noto Serif KR',serif;font-size:15.5px;color:var(--yp-ink);line-height:1.85;font-weight:500;padding-left:14px;font-style:italic}
+.quote-box .q-from{font-size:12px;color:var(--yp-pine);font-weight:700;text-align:right;margin-top:10px;letter-spacing:0.5px}
+
+/* 섹션 헤더 */
+.sec-h{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--yp-deep);margin:26px 0 12px;padding-left:14px;border-left:4px solid var(--yp-accent);display:flex;align-items:center;gap:8px}
+
+/* 가치 카드 */
+.value-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+.value-item{background:var(--yp-sage);border-radius:10px;padding:14px 16px;border-left:4px solid var(--yp-pine)}
+.value-item .vt{font-weight:700;font-size:14px;color:var(--yp-deep);margin-bottom:4px}
+.value-item .vd{font-size:13px;color:var(--yp-t2);line-height:1.75}
+
+/* 진행 방식 단계 */
+.steps{counter-reset:s;margin:14px 0}
+.step{position:relative;background:var(--yp-card);border:1px solid var(--yp-line);border-radius:10px;padding:14px 18px 14px 50px;margin-bottom:10px;counter-increment:s}
+.step::before{content:counter(s);position:absolute;left:14px;top:50%;transform:translateY(-50%);width:26px;height:26px;background:var(--yp-deep);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;font-family:'Noto Serif KR',serif}
+.step .stitle{font-weight:700;font-size:13.5px;color:var(--yp-ink);margin-bottom:3px}
+.step .sdesc{font-size:13px;color:var(--yp-t2);line-height:1.7}
+
+/* 운영 정보 표 */
+.info-table{width:100%;border-collapse:collapse;background:var(--yp-card);border-radius:10px;overflow:hidden;border:1px solid var(--yp-line);margin:14px 0;font-size:13.5px}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--yp-line);vertical-align:top}
+.info-table tr:last-child td{border-bottom:none}
+.info-table td:first-child{font-weight:700;color:var(--yp-pine);background:var(--yp-mist);width:32%;font-size:13px}
+
+/* 학생 소득 */
+.gain-list{background:linear-gradient(135deg,var(--yp-sage) 0%,var(--yp-mist) 100%);border-radius:12px;padding:18px 22px;margin:14px 0}
+.gain-list li{margin:7px 0 7px 22px;font-size:13.5px;color:var(--yp-t1);line-height:1.8}
+.gain-list li::marker{color:var(--yp-accent);font-weight:700}
+
+/* 철학 연결 */
+.philosophy-box{background:linear-gradient(135deg,#fff5f4 0%,#fde8e3 100%);border:1.5px solid #f0c8c0;border-radius:12px;padding:18px 22px;margin:18px 0}
+.philosophy-box .pt{font-weight:700;color:var(--yp-danger);font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.philosophy-box .pd{font-size:13.5px;color:var(--yp-t1);line-height:1.85}
+
+/* 강사 사진 (figure) */
+.teacher-photo{margin:22px 0;border-radius:16px;overflow:hidden;background:var(--yp-mist);box-shadow:0 6px 22px rgba(47,93,98,0.14);position:relative}
+.teacher-photo picture,.teacher-photo img{display:block;width:100%;height:auto}
+.teacher-photo img{object-fit:cover;aspect-ratio:16/9}
+.teacher-photo figcaption{padding:11px 16px 13px;font-size:12.5px;color:var(--yp-t2);text-align:center;background:#fff;border-top:1px solid var(--yp-line);line-height:1.55;letter-spacing:-0.1px}
+@media (max-width:480px){.teacher-photo figcaption{font-size:11.5px;padding:10px 12px 12px}}
+
+/* 강사 카드 (외부 강사용) */
+.teacher-card{background:linear-gradient(135deg,var(--yp-deep),var(--yp-pine));border-radius:12px;padding:18px 22px;color:#fff;margin:18px 0}
+.teacher-card .t-label{font-size:11px;opacity:0.8;letter-spacing:1px;margin-bottom:6px}
+.teacher-card .t-name{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;margin-bottom:4px}
+.teacher-card .t-desc{font-size:13px;opacity:0.9;line-height:1.75}
+
+/* CTA */
+.cta-block{background:linear-gradient(135deg,var(--yp-deep) 0%,var(--yp-pine) 100%);border-radius:14px;padding:24px 22px;margin:24px 0 0;text-align:center;color:#fff}
+.cta-block .ct{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;margin-bottom:8px}
+.cta-block .cd{font-size:13px;opacity:0.85;line-height:1.75;margin-bottom:16px}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta-btn{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--yp-deep);font-weight:700;font-size:13.5px;padding:11px 22px;border-radius:999px;text-decoration:none;transition:transform .15s}
+.cta-btn:hover{transform:scale(1.04)}
+.cta-btn.kakao{background:#fee500;color:#3c1e1e}
+.cta-btn.outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.55)}
+
+/* 카드 하단 메인 복귀 */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--yp-pine);font-weight:700;text-decoration:none;margin-top:18px;padding:7px 14px;border-radius:999px;border:1.5px dashed var(--yp-line);transition:all .2s}
+.back-link:hover{background:var(--yp-mist);border-color:var(--yp-pine)}
+
+/* 푸터 */
+.page-foot{text-align:center;padding:40px 20px 60px;border-top:1px solid var(--yp-line);background:var(--yp-card);font-size:13px;color:var(--yp-t3)}
+.page-foot .sig{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--yp-deep);margin-bottom:8px;font-weight:700}
+
+/* 인쇄용 */
+@media print{
+  .top-nav,.quick-nav,.cta-block,.back-link,.page-foot a{display:none !important}
+  body{background:#fff}
+  .class-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin-bottom:18px}
+  .page-hero{background:#fff;color:var(--yp-ink) !important}
+  .page-hero h1, .page-hero .sub, .page-hero .signature{color:var(--yp-ink) !important}
+}
+
+@media (max-width:480px){
+  main{padding:28px 14px 80px}
+  .class-card{padding:24px 18px;border-radius:14px}
+  .cls-head{gap:10px}
+  .cls-icon{font-size:32px}
+  .cls-title{font-size:19px}
+  .sec-h{font-size:15px;margin:22px 0 10px}
+  .quote-box{padding:16px 18px}
+  .quote-box .q-text{font-size:14.5px}
+}
+</style>
+
+<style id="yp-a11y-perf">
+/* skip to content */
+.skip-to-content{position:absolute;left:-9999px;top:0;z-index:9999;background:#1f2a2a;color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
+.skip-to-content:focus{left:0;outline:3px solid #e8a96e;outline-offset:2px}
+/* focus-visible 전역 */
+:focus-visible{outline:3px solid #d4693f;outline-offset:2px;border-radius:4px}
+button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d4693f;outline-offset:2px}
+/* 터치 영역 최소 44x44 (작은 아이콘 버튼 보강) */
+@media (hover:none) and (pointer:coarse){
+  a,button,[role=button],.btn,.tab{min-height:44px}
+}
+/* 모션 줄이기 */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+}
+/* 인쇄 */
+@media print{
+  nav,.no-print,#chatbot-btn,#chatbot-panel,#chatbot-badge,.skip-to-content,footer .no-print{display:none !important}
+  body{background:#fff !important;color:#000 !important}
+  *{box-shadow:none !important;text-shadow:none !important}
+  a{color:#000 !important;text-decoration:underline}
+  img,svg{max-width:100% !important;page-break-inside:avoid}
+  section,article{page-break-inside:avoid}
+}
+</style>
+
+</head>
+<body>
+<a href="#main-content" class="skip-to-content">본문 바로가기</a>
+<a id="main-content" tabindex="-1" style="position:absolute;left:0;top:0"></a>
+
+<!-- 상단 네비 -->
+<nav class="top-nav">
+  <a href="index.html" class="top-nav-logo">
+    <span class="mark">연</span>
+    삼산 연아카데미
+  </a>
+  <a href="index.html" class="top-nav-back">← 메인으로</a>
+</nav>
+
+<!-- HERO -->
+<header class="page-hero">
+  <div class="eyebrow">CLASS GUIDE · 수업 안내</div>
+  <h1>삼산 연아카데미의 <em>9개 특별 수업</em></h1>
+  <p class="sub">초등, 공부하는 '습관'을 바꿉니다.<br>아이의 마음과 머리를 함께 키우는 수업 안내입니다.</p>
+  <div class="signature">— 박미향 원장 드림 —</div>
+</header>
+
+<!-- 빠른 이동 -->
+<nav class="quick-nav">
+  <div class="quick-nav-inner">
+    <a class="quick-chip star" href="#class-headmaster">⭐ 본원장님 특별 수업</a>
+    <a class="quick-chip" href="#class-literacy">📖 문해력 수업</a>
+    <a class="quick-chip" href="#class-concept">🧠 초등 개념 수업</a>
+    <a class="quick-chip" href="#class-planner">📅 1:1 플래너 관리</a>
+    <a class="quick-chip" href="#class-eng">🌐 영어 학습법</a>
+    <a class="quick-chip" href="#special-class-movie">🎬 영화 인문학</a>
+    <a class="quick-chip" href="#special-class-poetry">✍️ 어린이 동시</a>
+    <a class="quick-chip" href="#special-class-nonsul">📝 박원채 논술</a>
+    <a class="quick-chip" href="#special-class-book">📗 책쓰기 수업</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ════════════════════════════════ -->
+<!-- ① 본원장님 특별 수업               -->
+<!-- ════════════════════════════════ -->
+<section id="class-headmaster" class="class-card featured">
+  <div class="featured-badge">⭐ 본원장님 직접 진행</div>
+
+  <div class="cls-head">
+    <div class="cls-icon">⭐</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">연플래닝 아카데미 본원장님 특별 수업</h2>
+      <span class="cls-tag warm">박미향 원장 직접</span>
+      <span class="cls-tag warm">주 1회</span>
+      <span class="cls-tag warm">플래닝 강좌</span>
+      <p class="cls-summary">박미향 원장님이 <b>주 1회 직접 진행</b>하시는 플래닝 특별 강좌. 20년 자기주도 학습 철학과 연플래닝 노하우를 압축해, 학생이 스스로 자기 미래를 설계하는 시간입니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">박원장님 직강 사진 자리</div>
+    <div class="desc">추후 박미향 원장님 직강 사진이 들어갈 자리입니다.<br>(파일명 예: <code>박원장_플래닝강좌.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"플래너는 채우는 게 목적이 아닙니다. 학생이 스스로 '왜 공부하는가'부터 출발해, 자기 미래를 설계하는 시간이 본질입니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 자기 미래 설계</div><div class="vd">10년·20년·30년 시간선으로 자기 인생을 그려보는 시간</div></div>
+    <div class="value-item"><div class="vt">② 플래너 작성 원칙</div><div class="vd">연플래닝 본원에서 검증된 플래너 사용법을 직접 배웁니다</div></div>
+    <div class="value-item"><div class="vt">③ 습관 점검</div><div class="vd">한 주를 되돌아보고, 다음 한 주의 약속을 정합니다</div></div>
+    <div class="value-item"><div class="vt">④ 학습 전략 코칭</div><div class="vd">박 원장님과 1:1 호흡으로, 학생 한 명 한 명에게 맞춤 코칭</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>일반 수업으로는 만나기 어려운 박 원장님과의 정기적 1:1 시간</li>
+    <li>플래너를 "쓰기"가 아니라 "사용"하는 법을 몸에 익힘</li>
+    <li>장기 비전과 주간 실천을 연결하는 사고력</li>
+    <li>매주 자기 한 주를 되돌아보는 반성·재설계 습관</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 학습심리코칭으로 연결</div>
+    <div class="pd">단순한 시간표 강좌가 아닙니다. 박 원장님의 「학습심리코칭」의 정수를 가장 직접 체험할 수 있는 수업입니다. 학생의 마음·습관·전략을 동시에 다듬습니다.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ② 문해력 수업                     -->
+<!-- ════════════════════════════════ -->
+<section id="class-literacy" class="class-card">
+  <div class="cls-head">
+    <div class="cls-icon">📖</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">문해력 수업 — NIE 신문 스크랩 중심</h2>
+      <span class="cls-tag teal">박미향 원장 직접</span>
+      <span class="cls-tag teal">초등 전 학년</span>
+      <span class="cls-tag teal">주 2회</span>
+      <p class="cls-summary">글을 읽고 핵심을 파악하는 힘. 모든 과목의 바탕이 되는 읽기·생각하기 능력을 기릅니다. 책을 읽되 "어떻게 읽었는가"가 중심입니다.</p>
+    </div>
+  </div>
+
+  <figure class="teacher-photo">
+    <picture>
+      <source srcset="이미지/박미향_NIE신문스크랩.webp" type="image/webp">
+      <img src="이미지/박미향_NIE신문스크랩.jpg" alt="박미향 원장 — '환경 보호를 위한 신문 스크랩' NIE 수업 현장" loading="lazy" decoding="async">
+    </picture>
+    <figcaption>박미향 원장 직강 — '환경 보호를 위한 신문 스크랩' NIE 수업 (교실 실시간 장면)</figcaption>
+  </figure>
+
+  <div class="quote-box">
+    <div class="q-text">"문해력은 모든 공부의 뿌리입니다. 신문 한 기사를 제대로 읽어내는 힘이, 결국 교과서·문제집·시험을 이깁니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 시사 텍스트로 읽기 훈련</div><div class="vd">동화책이 아닌, 실제 신문 기사·칼럼을 직접 읽어냅니다</div></div>
+    <div class="value-item"><div class="vt">② 핵심을 잡는 능력</div><div class="vd">기사 한 편에서 가장 중요한 한 문장을 골라내는 훈련</div></div>
+    <div class="value-item"><div class="vt">③ 나의 생각으로 정리</div><div class="vd">읽기에서 끝내지 않고, 자기 언어로 한 문장 글쓰기</div></div>
+    <div class="value-item"><div class="vt">④ 발표·토론으로 확장</div><div class="vd">자기 생각을 친구·선생님과 나누며 사고가 단단해짐</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식 (단계별)</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">신문 기사·칼럼 읽기</div><div class="sdesc">박 원장님이 학년·관심사에 맞춰 엄선한 기사를 함께 읽습니다</div></div>
+    <div class="step"><div class="stitle">핵심 문장 밑줄</div><div class="sdesc">기사에서 가장 중요한 문장을 학생 스스로 골라 밑줄</div></div>
+    <div class="step"><div class="stitle">나의 생각 한 문장으로</div><div class="sdesc">읽은 내용에 대해 자기 생각을 한 문장으로 정리</div></div>
+    <div class="step"><div class="stitle">발표·토론</div><div class="sdesc">친구들과 생각을 나누며 다른 관점을 만나는 시간</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>긴 글을 두려워하지 않고 끝까지 읽는 끈기</li>
+    <li>중요한 것과 덜 중요한 것을 구분하는 판단력</li>
+    <li>읽은 내용을 자기 언어로 표현하는 능력</li>
+    <li>매일 신문을 손에 잡는 습관 — 평생 자산</li>
+    <li>모든 과목(국어·사회·과학)에 즉시 영향을 미치는 문해 근육</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님의 <b>책풀 시스템 컬럼편</b>(3→2→5회독 + 마인드맵 + 평가)의 종이 버전이자 실전 응용입니다. 학생이 직접 신문을 자르고 붙이며 글 쓰는 <b>아날로그 활동</b>이 핵심. 손으로 하는 행위가 마음에 새겨집니다.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ③ 초등 개념 수업                  -->
+<!-- ════════════════════════════════ -->
+<section id="class-concept" class="class-card">
+  <div class="cls-head">
+    <div class="cls-icon">🧠</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">초등 개념 수업 — 기억의 궁전 · 목차 외우기</h2>
+      <span class="cls-tag warm">박미향 원장 직접</span>
+      <span class="cls-tag warm">초등 4~6학년</span>
+      <span class="cls-tag warm">수학·과학</span>
+      <p class="cls-summary">수학·과학 핵심 개념을 스스로 이해하고 설명할 수 있을 때까지 반복합니다. 단순 문제 풀이가 아닙니다. <b>두뇌 원리에 기반한 학습</b>을 가르칩니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">기억의 궁전 다이어그램 자리</div>
+    <div class="desc">기억의 궁전 도식 또는 학생이 그린 목차 마인드맵이 들어갈 자리입니다.<br>(파일명 예: <code>기억의궁전_도식.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"개념을 외우는 것이 아니라, 머릿속에 자리잡게 하는 것입니다. 목차를 외우면 단원·개념의 구조가 한눈에 보이고, 새 내용이 들어와도 즉시 어디 위치하는지 알 수 있습니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 기억의 궁전 (Method of Loci)</div><div class="vd">뇌는 장소 정보로 잘 기억합니다. 익숙한 공간에 개념을 시각적으로 배치해 장기 기억 형성</div></div>
+    <div class="value-item"><div class="vt">② 목차 외우기 (수학 중심)</div><div class="vd">단원·개념의 전체 구조를 머리에 그리는 훈련. 수학·과학 학습의 메타인지 강화</div></div>
+    <div class="value-item"><div class="vt">③ 스스로 설명하기</div><div class="vd">개념을 자기 입으로 설명할 수 있을 때까지 — 그것이 "이해"의 진짜 기준</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식 (단계별)</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">개념 이해</div><div class="sdesc">교과서·자료를 함께 읽으며 핵심 개념을 천천히 풀어냅니다</div></div>
+    <div class="step"><div class="stitle">목차 구조 외우기</div><div class="sdesc">단원 전체 지도를 머리에 그립니다. 어디·언제·왜 이 개념인지</div></div>
+    <div class="step"><div class="stitle">기억의 궁전으로 장기 기억</div><div class="sdesc">익숙한 공간에 개념을 배치하며 상상. 동선 따라 떠올리기 연습</div></div>
+    <div class="step"><div class="stitle">스스로 설명 가능 수준 확인</div><div class="sdesc">학생이 친구·선생님께 직접 설명. 막히면 다시 위 단계로</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>"외웠는데 자꾸 잊는다"가 사라짐 — 장기 기억의 구조</li>
+    <li>새 단원을 만나도 두렵지 않은 메타인지</li>
+    <li>중·고교 수학·과학으로 넘어가는 단단한 토대</li>
+    <li>암기 과목(역사·사회)에도 즉시 응용 가능한 학습법</li>
+    <li>"공부하는 법"을 평생 도구로 가져감</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님의 <b>학습심리코칭</b>의 학문적 기반입니다. 단순 암기가 아닌, <b>뇌과학과 인지심리</b>에 근거한 학습 전략. 다른 곳이 흉내내기 어려운 깊이.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ④ 1:1 플래너 관리                 -->
+<!-- ════════════════════════════════ -->
+<section id="class-planner" class="class-card">
+  <div class="cls-head">
+    <div class="cls-icon">📅</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">1:1 플래너 관리 — 미래 설계 마인드맵 포함</h2>
+      <span class="cls-tag deep">박미향 원장 직접</span>
+      <span class="cls-tag deep">전 학년</span>
+      <span class="cls-tag deep">주 1회 이상</span>
+      <p class="cls-summary">박 원장이 학생 한 명 한 명의 연플래너를 직접 점검합니다. 플래너를 채우는 것이 목적이 아니라, 학생이 스스로 자기 미래를 설계하는 과정을 돕습니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">학생 미래 설계 마인드맵 자리</div>
+    <div class="desc">임** 학생(삼산초 6학년, 2015) 미래 설계 마인드맵이 들어갈 자리입니다.<br>(파일명 예: <code>학생_미래설계_마인드맵.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"학생이 스스로 '왜 공부하는가'부터 출발해, 자기 미래를 설계하는 과정을 돕습니다. 미래 설계 마인드맵은 이 수업의 가장 깊은 작업입니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 자기주도의 시작</div><div class="vd">남이 짜준 시간표가 아닌, 학생 본인이 정하는 자기 약속</div></div>
+    <div class="value-item"><div class="vt">② 1:1 직접 코칭</div><div class="vd">학생 한 명 한 명 박 원장이 직접 플래너 점검</div></div>
+    <div class="value-item"><div class="vt">③ 미래 설계 마인드맵</div><div class="vd">10년·20년·30년 시간선으로 자기 인생을 설계. 학기당 1회</div></div>
+    <div class="value-item"><div class="vt">④ 습관으로 정착</div><div class="vd">매주 반복으로 계획·실천·반성이 무의식의 습관이 되도록</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식 (주차별)</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">주간 계획 점검</div><div class="sdesc">지난 한 주를 함께 되돌아봅니다. 무엇이 잘 됐고, 무엇이 어려웠는지</div></div>
+    <div class="step"><div class="stitle">습관 체크</div><div class="sdesc">100일 체크리스트·약속 카드와 함께 학생의 일상 습관 점검</div></div>
+    <div class="step"><div class="stitle">목표 재설정</div><div class="sdesc">새 한 주의 약속을 학생이 직접 정합니다 (강요 X, 스스로 O)</div></div>
+    <div class="step"><div class="stitle">미래 설계 마인드맵</div><div class="sdesc">학기당 1회 — 23세·33세·43세 시간선으로 자기 인생 설계</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>"왜 공부하는가"에 대한 자기만의 답</li>
+    <li>매주 자기 한 주를 점검하는 평생 습관</li>
+    <li>장기 비전과 일주일 실천을 연결하는 사고력</li>
+    <li>박 원장님과의 1:1 신뢰 관계 — 학습 동반자</li>
+    <li>성인이 되어서도 자기 인생을 설계할 수 있는 능력</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님의 <b>「자기주도학습」</b> 정체성의 가장 직접적 실현. 작심이 아닌 <b>습관</b>으로 가야 한다는 박 원장 철학의 실증. 김연아의 한계 돌파, 밀턴 에릭슨의 무의식 이론까지 — 모두 이 수업의 학문적 기반입니다.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ⑤ 영어 학습법                     -->
+<!-- ════════════════════════════════ -->
+<section id="class-eng" class="class-card">
+  <div class="cls-head">
+    <div class="cls-icon">🌐</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">연플래닝 영어 학습법 5단계</h2>
+      <span class="cls-tag teal">박미향 원장 직접</span>
+      <span class="cls-tag teal">초·중등</span>
+      <span class="cls-tag teal">본원 검증</span>
+      <p class="cls-summary">연플래닝 본원(yeon.ulsan.kr)에서 오랫동안 검증된 영어 학습 표준. 삼산 연아카데미에도 동일하게 적용되는 <b>기본 영어 공부의 표준</b>입니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">영어 학습 5단계 다이어그램 자리</div>
+    <div class="desc">5단계 영어 학습법을 도식화한 그림이 들어갈 자리입니다.<br>(파일명 예: <code>영어학습_5단계.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"영어는 외국어입니다. 매일 일정 시간 꾸준히 진행하라 — 이것이 본원 20년 검증의 결론입니다. 아카데미가 떠먹여 주는 것이 아니라, 학생이 매일 자기 루틴을 가지는 것이 핵심."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">📋 영어 학습 5단계</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">교과서 3회독 (주말 포함, 매일)</div><div class="sdesc">학교 교과서 한 단원을 본문·문법·문제까지 하루 3회 정독 + 소리 내어 읽기. 원어민 듣기 파일 반복. 학교 수업 전 최소 10회독.</div></div>
+    <div class="step"><div class="stitle">나만의 "영어 루틴" 만들기</div><div class="sdesc">관심 분야의 콘텐츠가 학습 도구. 초등부: EBS AI 펭톡 매일 / 중등부: EBS FunReading</div></div>
+    <div class="step"><div class="stitle">'나의 생각'을 영어로 표현</div><div class="sdesc">영문 일기 작성 + 칼럼 학습의 '나의 생각' 영어 정리 (책풀 컬럼편과 직결)</div></div>
+    <div class="step"><div class="stitle">인공지능을 도구로 활용</div><div class="sdesc">발음·억양 즉시 피드백 받는 보조 도구로 활용. 단, 도구는 도구일 뿐 — 주인은 학생.</div></div>
+    <div class="step"><div class="stitle">매일 일정 시간 꾸준히</div><div class="sdesc">외국어는 매일 시간을 정해두고 한결같이. 내일 학습할 소재를 오늘 미리 정해두는 습관.</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>학교 수업을 자신 있게 따라가는 사전 준비</li>
+    <li>영어를 "공부"가 아닌 "루틴"으로 만드는 습관</li>
+    <li>자기 생각을 영어로 짧게라도 표현할 수 있는 자신감</li>
+    <li>중·고교 영어로 넘어가는 단단한 토대</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">"매일 꾸준히"가 핵심. 박 원장님이 강조하는 <b>「작심이 아닌 습관」</b>의 영어 버전. 한 번의 큰 결심이 아니라, 매일의 작은 루틴이 외국어를 만듭니다.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ⑥ 영화 인문학                     -->
+<!-- ════════════════════════════════ -->
+<section id="special-class-movie" class="class-card special deep">
+  <div class="special-badge">박미향 원장 직접</div>
+
+  <div class="cls-head">
+    <div class="cls-icon">🎬</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">영화 인문학 수업</h2>
+      <span class="cls-tag deep">박미향 원장 직접</span>
+      <span class="cls-tag deep">인문학 수업</span>
+      <p class="cls-summary">영화를 매개로 인생·관계·사회를 생각해보는 수업. 박 원장님의 <b>학습심리코칭</b> 정체성을 가장 잘 드러내는 영역입니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">영화 「당갈」 수업 자료 자리</div>
+    <div class="desc">영화 「당갈」 포스터 또는 학생의 인물 마인드맵이 들어갈 자리입니다.<br>(파일명 예: <code>영화당갈_수업자료.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"영화 인물의 마음 변화·갈등·성장은 학생 본인의 학습 과정과 거울처럼 연결됩니다. 자기 이야기 대신 영화 인물 이야기로 시작 — 자기 성찰로 자연스럽게 이어집니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 학습심리코칭과 직결</div><div class="vd">영화 인물의 마음·갈등·성장이 학생 마음과 거울처럼 비춥니다</div></div>
+    <div class="value-item"><div class="vt">② 시청각 문해력</div><div class="vd">영상 텍스트를 읽어내는 능력 — 책풀 컬럼과 같은 인지 구조</div></div>
+    <div class="value-item"><div class="vt">③ 학생 정서 안전망</div><div class="vd">자기 이야기 대신 영화로 시작 → 자연스러운 자기 성찰</div></div>
+    <div class="value-item"><div class="vt">④ 학부모 공감대</div><div class="vd">부모님도 함께 본 영화로 가족 대화의 출발점</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">영화 감상</div><div class="sdesc">학년·주제에 맞춰 박 원장이 선정한 영화를 함께 봅니다</div></div>
+    <div class="step"><div class="stitle">인물 마인드맵</div><div class="sdesc">주요 인물의 성격·갈등·변화를 마인드맵으로 정리</div></div>
+    <div class="step"><div class="stitle">핵심 대사·장면 추출</div><div class="sdesc">기억에 남는 대사·장면을 함께 짚어봅니다</div></div>
+    <div class="step"><div class="stitle">나의 생각 글쓰기</div><div class="sdesc">"나라면 어떻게 했을까" — 자기 입장에서 글로 정리</div></div>
+    <div class="step"><div class="stitle">발표·토론</div><div class="sdesc">서로 다른 생각을 나누며 사고가 입체화됩니다</div></div>
+  </div>
+
+  <h3 class="sec-h">🎬 대표 사례 — 영화 「당갈 (Dangal)」</h3>
+  <div class="value-item" style="border-left-color:var(--yp-deep);background:var(--yp-card);border:1px solid var(--yp-line);padding:16px 18px">
+    <div class="vt">2016년 인도 영화 · 실화 기반</div>
+    <div class="vd" style="margin-top:4px">아버지가 두 딸을 세계적 레슬링 선수로 키워내는 이야기. 부모의 꿈·자녀의 자율성·성별 편견·끈기·자기 한계 극복 등 풍부한 교육적 메시지를 가진 작품. 학생들과 함께 보며 "꿈은 누가 정하는가" "끈기는 무엇인가"를 생각해봅니다.</div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>영상 콘텐츠를 깊이 있게 읽어내는 능력</li>
+    <li>인물의 마음을 통해 자기 마음을 들여다보는 성찰력</li>
+    <li>"나라면 어떻게"라는 자기 입장 글쓰기 훈련</li>
+    <li>부모님과 영화 이야기로 대화하는 시간</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님의 <b>「학습심리코칭」</b> 정체성을 가장 잘 보여주는 수업. 학습은 마음에서 시작합니다. 영화 인물을 통해 학생 마음의 작동을 함께 들여다봅니다. 다른 곳이 흉내내기 어려운 진짜 깊이.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ⑦ 어린이 동시 수업 (외부 강사)    -->
+<!-- ════════════════════════════════ -->
+<section id="special-class-poetry" class="class-card special">
+  <div class="special-badge">외부 강사 · NEW</div>
+
+  <div class="cls-head">
+    <div class="cls-icon">✍️</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">어린이 동시 수업 — 윤창영 작가 직강</h2>
+      <span class="cls-tag teal">외부 강사 직강</span>
+      <span class="cls-tag teal">8주 과정</span>
+      <span class="cls-tag teal">동시집 출판</span>
+      <span class="cls-tag teal">초등부</span>
+      <p class="cls-summary">8주 과정으로 진행되는 시 창작 특별 수업. 학생이 직접 동시를 쓰고, 마지막에 <b>자기 이름으로 된 동시집을 출판</b>합니다. 2026년 박 원장님이 기획한 첫 대형 프로젝트.</p>
+    </div>
+  </div>
+
+  <figure class="teacher-photo">
+    <picture>
+      <source srcset="이미지/윤창영작가_강의.webp" type="image/webp">
+      <img src="이미지/윤창영작가_강의.jpg" alt="윤창영 작가 — 『당신의 글쓰기가 돈이 된다』 출판기념회 강연 현장" loading="lazy" decoding="async">
+    </picture>
+    <figcaption>윤창영 작가 — 『당신의 글쓰기가 돈이 된다』 출판기념회 강연 (박미향 원장 공저)</figcaption>
+  </figure>
+
+  <div class="teacher-card">
+    <div class="t-label">강사 (외부 초빙)</div>
+    <div class="t-name">✍️ 윤창영 작가</div>
+    <div class="t-desc">울산 아동문학인 협회 부회장 · 14권 출간<br>박미향 원장님이 기획·연결한 외부 특별 수업입니다.<br>(박 원장님 직접 수업이 아닙니다 — 기획·연결은 박 원장님)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"아이들과 함께 동시 수업을 진행하고, 수업 결과물을 모아 자신의 이름으로 제작된 동시집을 출판할 예정입니다. 아이들이 자신의 생각과 감정을 글로 표현하고, 한 권의 책으로 완성하는 소중한 경험이 될 것입니다."</div>
+    <div class="q-from">— 박미향 원장 학부모 안내문 中</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 자기 이름의 동시집</div><div class="vd">자녀 이름이 박힌 진짜 책 — 평생 기억에 남는 산출물</div></div>
+    <div class="value-item"><div class="vt">② 자기 표현의 시작</div><div class="vd">자기 생각·감정을 글로 표현하는 깊은 경험</div></div>
+    <div class="value-item"><div class="vt">③ 매주 한 편씩 — 습관</div><div class="vd">8주 매주 한 편씩 쓰는 표현·창작의 습관</div></div>
+    <div class="value-item"><div class="vt">④ 작가에게 직접 배우기</div><div class="vd">실제 시인·작가에게 시 쓰기를 배우는 귀한 시간</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식 (8주 과정)</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">시 읽기 (1~2주)</div><div class="sdesc">윤창영 작가님과 함께 좋은 동시·시를 읽고 느끼는 시간</div></div>
+    <div class="step"><div class="stitle">자기 마음 들여다보기 (3~4주)</div><div class="sdesc">자기 안의 감정·기억·풍경을 시어로 길어 올리는 연습</div></div>
+    <div class="step"><div class="stitle">시 쓰기 본격 단계 (5~6주)</div><div class="sdesc">매주 한 편씩 자기 시를 직접 씁니다. 작가님 코칭으로 다듬기</div></div>
+    <div class="step"><div class="stitle">편집·디자인 (7주)</div><div class="sdesc">자기 동시들을 모아 책 한 권으로 만드는 편집 과정</div></div>
+    <div class="step"><div class="stitle">동시집 출간 + 출판기념회 (8주~)</div><div class="sdesc">자기 이름이 박힌 동시집 완성. 학부모님 초대 출판기념회</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>자기 이름이 박힌 동시집 한 권 — 평생 보물</li>
+    <li>자기 마음을 시어로 표현하는 깊은 경험</li>
+    <li>실제 시인·작가와의 만남 — 평생 자산</li>
+    <li>매주 한 편씩 — 8주 동안 쓰는 습관</li>
+    <li>출판기념회에서 자신의 시를 가족·친구에게 낭독하는 특별한 순간</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님은 본인이 <b>「당신의 글쓰기가 돈이 된다」 공저자</b>이신 작가입니다. 작가가 작가 네트워크(윤창영 시인)를 직접 연결해 학생도 작가의 경험을 갖게 함 — 다른 곳이 흉내내기 어려운 차별점.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ⑧ 박원채 논술                     -->
+<!-- ════════════════════════════════ -->
+<section id="special-class-nonsul" class="class-card special purple">
+  <div class="special-badge purple">외부 강사 · 특별 수업</div>
+
+  <div class="cls-head">
+    <div class="cls-icon">📝</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">박원채 논술 수업</h2>
+      <span class="cls-tag purple">외부 강사 직강</span>
+      <span class="cls-tag purple">통섭적 사고</span>
+      <span class="cls-tag purple">14개 주제</span>
+      <p class="cls-summary">「<b>통섭적 사고</b>」를 키우는 논술 특별 수업. 14개 주제 영역을 가로지르며 사회·역사·미래·문화를 통합적으로 생각하는 힘을 기릅니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">통섭적 사고 다이어그램 자리</div>
+    <div class="desc">14개 주제 영역 + 8가지 도달 가치 다이어그램이 들어갈 자리입니다.<br>(파일명 예: <code>박원채_통섭적사고_도식.jpg</code>)</div>
+  </div>
+
+  <div class="teacher-card" style="background:linear-gradient(135deg,#7a4869,#a55c8b)">
+    <div class="t-label">강사 (외부 초빙)</div>
+    <div class="t-name">📝 박원채 선생님</div>
+    <div class="t-desc">논술 전문 강사 · 「통섭적 사고」 커리큘럼 운영<br>박미향 원장님이 기획·연결한 외부 특별 수업입니다.</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"차가운 머리로 분석하고, 따뜻한 가슴으로 표현한다 — 논술의 본질입니다. 단발 글쓰기가 아닌, 14개 주제 영역을 가로지르며 깊이 있는 사고를 키웁니다."</div>
+    <div class="q-from">— 박원채 선생님 · 박미향 원장 추천</div>
+  </div>
+
+  <h3 class="sec-h">📚 14개 주제 영역 (안쪽 원)</h3>
+  <table class="info-table">
+    <tr><td>사회·정치</td><td>정치·사회 / 자기 계발 / 과학·기술·공학 / 경제·경영</td></tr>
+    <tr><td>미래·진로</td><td>장래 희망 / 철학·심리학 / 여행·취미·추리</td></tr>
+    <tr><td>역사·학습</td><td>역사·세계사 / 초중고 학습 / 외국어 / 핵심 교재</td></tr>
+    <tr><td>동기·논제</td><td>주요 논제 100 / 동기 유발</td></tr>
+    <tr><td>문학·문화</td><td>잡지·만화·수필 / 문학 / 여행·취미·추리</td></tr>
+  </table>
+
+  <h3 class="sec-h">🌟 8가지 도달 가치 (바깥쪽 원)</h3>
+  <div class="value-grid" style="grid-template-columns:repeat(2,1fr);gap:8px">
+    <div class="value-item" style="background:#f3e6ee;border-left-color:#a55c8b;padding:10px 14px"><div class="vt" style="font-size:13px">4차 산업시대 대비</div></div>
+    <div class="value-item" style="background:#dfe8e8;border-left-color:var(--yp-deep);padding:10px 14px"><div class="vt" style="font-size:13px">자존감</div></div>
+    <div class="value-item" style="background:#dfe8e8;border-left-color:var(--yp-deep);padding:10px 14px"><div class="vt" style="font-size:13px">자신감</div></div>
+    <div class="value-item" style="background:#f3e6ee;border-left-color:#a55c8b;padding:10px 14px"><div class="vt" style="font-size:13px">즐거운 공부</div></div>
+    <div class="value-item" style="background:#f3e6ee;border-left-color:#a55c8b;padding:10px 14px"><div class="vt" style="font-size:13px">비전</div></div>
+    <div class="value-item" style="background:#f3e6ee;border-left-color:#a55c8b;padding:10px 14px"><div class="vt" style="font-size:13px">행복한 삶</div></div>
+    <div class="value-item" style="background:#dfe8e8;border-left-color:var(--yp-deep);padding:10px 14px"><div class="vt" style="font-size:13px">따뜻한 가슴</div></div>
+    <div class="value-item" style="background:#f3e6ee;border-left-color:#a55c8b;padding:10px 14px"><div class="vt" style="font-size:13px">차가운 머리</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>한 주제를 깊이 파고드는 끈기 있는 사고력</li>
+    <li>서로 다른 분야를 연결해 보는 통합적 시야</li>
+    <li>자기 생각을 글로 정리하는 글쓰기 근육</li>
+    <li>중·고교 논술·서술형 평가의 단단한 토대</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장님 정체성과의 시너지</div>
+    <div class="pd">박 원장님 <b>「학습심리코칭」</b>(마음) + 박원채 선생님 <b>「통섭적 사고」</b>(머리) = <b>마음과 머리를 모두 키우는 아카데미</b>. 박 원장님 책쓰기·동시 수업의 심화 단계로 자연스럽게 연결됩니다.</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+<!-- ════════════════════════════════ -->
+<!-- ⑨ 책쓰기 수업                     -->
+<!-- ════════════════════════════════ -->
+<section id="special-class-book" class="class-card special">
+  <div class="special-badge">박미향 원장 직접 · 작가 출신</div>
+
+  <div class="cls-head">
+    <div class="cls-icon">📗</div>
+    <div class="cls-title-area">
+      <h2 class="cls-title">책쓰기 수업</h2>
+      <span class="cls-tag teal">박미향 원장 직접</span>
+      <span class="cls-tag teal">작가 출신 원장 직강</span>
+      <span class="cls-tag teal">자기 책 출간</span>
+      <p class="cls-summary">학생이 직접 책을 씁니다. 박미향 원장님은 <b>3권의 책을 직접 쓴 작가</b>입니다. 그 경험을 학생들과 함께합니다.</p>
+    </div>
+  </div>
+
+  <div class="illust-placeholder">
+    <div class="label">박원장님 저서 3권 · 학생 책 자리</div>
+    <div class="desc">박미향 원장님 저서 3권의 표지 또는 학생이 쓴 책 사진이 들어갈 자리입니다.<br>(파일명 예: <code>박원장_저서_3권.jpg</code>)</div>
+  </div>
+
+  <div class="quote-box">
+    <div class="q-text">"저는 「당신의 글쓰기가 돈이 된다」를 직접 쓴 공저자입니다. 글쓰기·책쓰기는 제 정체성의 가장 깊은 부분입니다. 그 경험을 학생들과 함께 — 책 쓰는 원장이 자기 학생도 책을 출간하게 합니다."</div>
+    <div class="q-from">— 박미향 원장</div>
+  </div>
+
+  <h3 class="sec-h">🎯 수업의 핵심 가치</h3>
+  <div class="value-grid">
+    <div class="value-item"><div class="vt">① 작가 출신 원장 직강</div><div class="vd">실제 책을 쓰신 박 원장님이 직접 지도. 흉내가 아닌 진짜 작가의 노하우</div></div>
+    <div class="value-item"><div class="vt">② 자기 생각을 책 한 권으로</div><div class="vd">독서·글쓰기·편집을 통해 자기 생각을 한 권으로 정리하는 경험</div></div>
+    <div class="value-item"><div class="vt">③ 장기 프로젝트</div><div class="vd">단편 글쓰기 X — 학기 단위 장기 작업으로 끈기·집중 동시에</div></div>
+    <div class="value-item"><div class="vt">④ 자존감·표현력 동시</div><div class="vd">자기 이름의 책 한 권 — 자존감과 표현력을 동시에 키움</div></div>
+  </div>
+
+  <h3 class="sec-h">📋 수업 진행 방식</h3>
+  <div class="steps">
+    <div class="step"><div class="stitle">주제·소재 정하기</div><div class="sdesc">학생이 평소 관심 있는 주제 또는 쓰고 싶은 이야기를 함께 탐색</div></div>
+    <div class="step"><div class="stitle">독서·자료 조사</div><div class="sdesc">관련 책·자료를 박 원장님과 함께 읽고 정리 (책풀 시스템 활용)</div></div>
+    <div class="step"><div class="stitle">목차 설계 + 매주 한 챕터</div><div class="sdesc">전체 구조를 잡고, 매주 한 챕터씩 글을 씁니다</div></div>
+    <div class="step"><div class="stitle">박 원장 코칭으로 다듬기</div><div class="sdesc">초고를 박 원장님과 함께 읽고 고치는 작업. 작가가 작가에게 가르치는 진짜 코칭</div></div>
+    <div class="step"><div class="stitle">편집·완성 → 자기 책</div><div class="sdesc">완성된 글을 모아 학생 자기 책으로 — 학생 자산</div></div>
+  </div>
+
+  <h3 class="sec-h">🌟 학생이 얻는 것</h3>
+  <ul class="gain-list">
+    <li>자기 이름의 책 한 권 — 평생 자산</li>
+    <li>장기 프로젝트를 마무리하는 끈기와 집중</li>
+    <li>독서 → 사고 → 정리 → 표현으로 이어지는 통합 사고</li>
+    <li>박 원장님과 작가 대 작가의 호흡</li>
+    <li>"나도 글을 쓰는 사람"이라는 정체성</li>
+  </ul>
+
+  <div class="philosophy-box">
+    <div class="pt">🧠 박 원장 학습 철학과의 연결</div>
+    <div class="pd">박 원장님 정체성의 가장 깊은 부분 — <b>「작가」</b>의 직접 전수. 책풀 컬럼편의 "생각해볼 거리 글쓰기"의 심화 버전. 1:1 플래너 관리의 장기 프로젝트로 연계 가능. "글쓰기 가르치는 원장이 자기 학생도 책을 출간하게 합니다."</div>
+  </div>
+
+  <a class="back-link" href="index.html#classes">← 메인 수업 안내로</a>
+</section>
+
+
+</main>
+
+<!-- 푸터 -->
+<footer class="page-foot">
+  <div class="sig">— 삼산 연아카데미 ·  박미향 원장 드림 —</div>
+  <div>초등, 공부하는 '습관'을 바꿉니다.</div>
+  <div style="margin-top:12px;font-size:12px;color:var(--yp-t3)">
+    상담·문의 · 010-4136-5608 · <a href="index.html" style="color:var(--yp-pine);font-weight:700;text-decoration:none">메인 홈페이지로 돌아가기 →</a>
+  </div>
+</footer>
+
+</body>
+</html>

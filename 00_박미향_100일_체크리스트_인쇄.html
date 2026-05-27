@@ -1,0 +1,1020 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100일 체크리스트 인쇄 도구 — 연 AI 학습코칭 아카데미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── 연 디자인 토큰 ── */
+:root {
+  --yp-ink: #1f2a2a;
+  --yp-deep: #2f5d62;
+  --yp-pine: #427a71;
+  --yp-accent: #c38d56;
+  --yp-mist: #f4f1eb;
+  --yp-card: #fffdf8;
+  --gold: #B8955A;
+
+  --c-blue:   #4a9bbe;
+  --c-green:  #6bc55a;
+  --c-teal:   #2f5d62;
+  --c-purple: #a55c8b;
+  --c-pink:   #e89bb5;
+  --c-orange: #d98c4a;
+
+  --selected-color: var(--c-blue);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--yp-mist);
+  color: var(--yp-ink);
+  min-height: 100vh;
+}
+
+/* ── 헤더 ── */
+.app-header {
+  background: var(--yp-deep);
+  color: #fff;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-header h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.app-header span {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-left: auto;
+}
+
+/* ── 안내 박스 ── */
+.guide-box {
+  background: #fff9e8;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 20px 24px 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5a4000;
+}
+.guide-box strong { color: var(--yp-deep); }
+
+/* ── 레이아웃 ── */
+.main-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 입력 패널 ── */
+.input-panel {
+  background: var(--yp-card);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--yp-deep);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--yp-mist);
+}
+
+label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--yp-ink);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+label:first-of-type { margin-top: 0; }
+
+input[type="text"], textarea, select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #d7d1c5;
+  border-radius: 10px;
+  font-size: 18px;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #fff;
+  color: var(--yp-ink);
+  transition: border-color 0.2s;
+}
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--yp-pine);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 160px;
+  line-height: 1.7;
+}
+
+/* ── 색상 선택 ── */
+.color-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.color-chip {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform 0.15s, border-color 0.15s;
+  position: relative;
+}
+.color-chip:hover { transform: scale(1.08); }
+.color-chip.active {
+  border-color: var(--yp-ink);
+  transform: scale(1.1);
+}
+.color-chip.active::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: rgba(255,255,255,0.92);
+  font-weight: 700;
+}
+
+/* ── 카드 종류 선택 ── */
+.card-type-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.type-btn {
+  flex: 1;
+  padding: 14px 10px;
+  border: 2px solid #d7d1c5;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: var(--yp-ink);
+  transition: all 0.15s;
+  text-align: center;
+}
+.type-btn.active {
+  border-color: var(--yp-pine);
+  background: var(--yp-pine);
+  color: #fff;
+}
+
+/* ── 예시 버튼 ── */
+.example-btn {
+  margin-top: 10px;
+  padding: 12px 18px;
+  background: var(--yp-mist);
+  border: 2px solid var(--yp-pine);
+  border-radius: 10px;
+  color: var(--yp-deep);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.15s;
+}
+.example-btn:hover { background: #e6ede9; }
+
+/* 4분면 입력 */
+.quad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.quad-item label {
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 4px;
+  color: var(--yp-deep);
+}
+.quad-item textarea {
+  min-height: 90px;
+  font-size: 15px;
+}
+
+/* ── 미리보기 패널 ── */
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.preview-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--yp-deep);
+}
+
+.print-btn {
+  height: 60px;
+  padding: 0 32px;
+  background: var(--yp-deep);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.15s;
+  box-shadow: 0 4px 14px rgba(47,93,98,0.35);
+}
+.print-btn:hover { background: var(--yp-pine); }
+
+/* ── A4 시트 미리보기 ── */
+.a4-sheet {
+  width: 100%;
+  max-width: 700px;
+  aspect-ratio: 210 / 297;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+/* 각 카드 셀 */
+.card-cell {
+  padding: 10px;
+  border: 0;
+  position: relative;
+}
+.card-cell:nth-child(1) { border-right: 1px dashed #aaa; border-bottom: 1px dashed #aaa; }
+.card-cell:nth-child(2) { border-bottom: 1px dashed #aaa; }
+.card-cell:nth-child(3) { border-right: 1px dashed #aaa; }
+.card-cell:nth-child(4) { }
+
+/* ── 카드 디자인 ── */
+.checklist-card {
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--selected-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.card-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(13px, 2vw, 18px);
+  font-weight: 700;
+  color: var(--selected-color);
+  line-height: 1.2;
+}
+.card-meta {
+  text-align: right;
+  font-size: clamp(8px, 1.2vw, 12px);
+  color: #888;
+  line-height: 1.5;
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+.card-name { font-weight: 700; color: #555; }
+
+.card-items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.card-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(9px, 1.4vw, 13px);
+  line-height: 1.4;
+  color: var(--yp-ink);
+}
+.card-checkbox {
+  width: clamp(12px, 1.8vw, 16px);
+  height: clamp(12px, 1.8vw, 16px);
+  border: 1.5px solid #aaa;
+  border-radius: 3px;
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.card-checkbox.stamped::after {
+  content: '연';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+  border: 1.5px solid #d44c4c;
+  border-radius: 50%;
+  color: #d44c4c;
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(8px, 1vw, 10px);
+  font-weight: 700;
+  width: clamp(14px, 2.2vw, 18px);
+  height: clamp(14px, 2.2vw, 18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 2px rgba(212, 76, 76, 0.2);
+  animation: stamp-pop 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes stamp-pop {
+  0% { transform: translate(-50%, -50%) rotate(-30deg) scale(1.8); opacity: 0; }
+  100% { transform: translate(-50%, -50%) rotate(-12deg) scale(1); opacity: 0.95; }
+}
+@media print {
+  .card-checkbox.stamped::after {
+    display: none !important;
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 6px;
+}
+.counter-box {
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 10px;
+  text-align: center;
+  min-width: 60px;
+}
+.counter-label {
+  font-size: clamp(8px, 1.1vw, 11px);
+  color: #aaa;
+}
+.counter-number {
+  font-size: clamp(14px, 2vw, 20px);
+  font-weight: 700;
+  color: #ccc;
+  line-height: 1.1;
+}
+
+/* ── 4분면 카드 ── */
+.quad-card {
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--selected-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+.quad-card-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.quad-quadrant {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+.quad-quadrant:nth-child(2),
+.quad-quadrant:nth-child(4) { border-right: none; }
+.quad-quadrant:nth-child(3),
+.quad-quadrant:nth-child(4) { border-bottom: none; }
+
+.quad-label {
+  font-size: clamp(9px, 1.3vw, 12px);
+  font-weight: 700;
+  color: var(--selected-color);
+  margin-bottom: 3px;
+  font-family: 'Noto Serif KR', serif;
+}
+.quad-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.quad-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: clamp(8px, 1.1vw, 11px);
+  color: var(--yp-ink);
+  line-height: 1.3;
+}
+
+.quad-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--selected-color);
+}
+.quad-card-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(11px, 1.6vw, 15px);
+  font-weight: 700;
+  color: var(--selected-color);
+}
+.quad-card-meta {
+  font-size: clamp(8px, 1.1vw, 11px);
+  color: #888;
+  text-align: right;
+}
+.quad-card-footer {
+  padding: 4px 10px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* ── 모달 ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--yp-card);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+}
+.modal h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  color: var(--yp-deep);
+  margin-bottom: 20px;
+}
+.modal-close {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  margin-top: -4px;
+}
+
+.example-category {
+  margin-bottom: 20px;
+}
+.example-category h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--yp-pine);
+  margin-bottom: 10px;
+  padding-left: 8px;
+  border-left: 3px solid var(--yp-pine);
+}
+.example-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.example-tag {
+  padding: 8px 14px;
+  background: var(--yp-mist);
+  border: 1.5px solid #d7d1c5;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--yp-ink);
+  transition: all 0.15s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.example-tag:hover {
+  background: var(--yp-pine);
+  color: #fff;
+  border-color: var(--yp-pine);
+}
+
+/* ── 모바일 안내 ── */
+.mobile-print-notice {
+  display: none;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #856404;
+  margin-top: 12px;
+}
+@media (max-width: 768px) {
+  .mobile-print-notice { display: block; }
+}
+
+/* ── 인쇄 CSS ── */
+@media print {
+  body { background: white; margin: 0; padding: 0; }
+  .app-header, .guide-box, .input-panel, .preview-header,
+  .mobile-print-notice, .footer, .modal-overlay { display: none !important; }
+
+  .main-layout { display: block; padding: 0; margin: 0; }
+  .preview-panel { display: block; }
+
+  .a4-sheet {
+    width: 210mm;
+    height: 297mm;
+    max-width: none;
+    aspect-ratio: unset;
+    margin: 0;
+    padding: 5mm;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    page-break-inside: avoid;
+    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .card-cell {
+    padding: 5mm;
+    page-break-inside: avoid;
+  }
+
+  .checklist-card, .quad-card {
+    border-width: 4px;
+  }
+  .card-title { font-size: 20px; }
+  .card-item { font-size: 13px; }
+  .card-meta { font-size: 12px; }
+  .counter-number { font-size: 22px; }
+  .quad-label { font-size: 13px; }
+  .quad-line { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="app-header">
+  <div>📋</div>
+  <h1>100일 체크리스트 인쇄 도구</h1>
+  <span>연 AI 학습코칭 아카데미</span>
+</header>
+
+<!-- 안내 박스 -->
+<div class="guide-box">
+  <strong>원장님, 이렇게 사용하세요!</strong><br>
+  왼쪽에 학생 이름·약속을 적고 「📋 A4 인쇄」 버튼을 누르면 한 장에 4개 카드가 인쇄됩니다.<br>
+  학생이 가위로 자르고 일기장에 매일 한 장씩 붙여 체크하게 해주세요.
+</div>
+
+<!-- 메인 레이아웃 -->
+<div class="main-layout">
+
+  <!-- 입력 패널 -->
+  <div class="input-panel">
+    <div class="section-title">✏️ 학생 정보 입력</div>
+
+    <label for="student-name">학생 이름</label>
+    <input type="text" id="student-name" placeholder="학생 이름 입력" oninput="updatePreview()">
+
+    <label for="card-date">날짜</label>
+    <input type="text" id="card-date" placeholder="예: 2026.3" oninput="updatePreview()">
+
+    <label>카드 색상 선택</label>
+    <div class="color-chips">
+      <div class="color-chip active" style="background:#4a9bbe" data-color="#4a9bbe" onclick="selectColor(this)" title="파랑"></div>
+      <div class="color-chip" style="background:#6bc55a" data-color="#6bc55a" onclick="selectColor(this)" title="초록"></div>
+      <div class="color-chip" style="background:#2f5d62" data-color="#2f5d62" onclick="selectColor(this)" title="다크틸"></div>
+      <div class="color-chip" style="background:#a55c8b" data-color="#a55c8b" onclick="selectColor(this)" title="자주"></div>
+      <div class="color-chip" style="background:#e89bb5" data-color="#e89bb5" onclick="selectColor(this)" title="핑크"></div>
+      <div class="color-chip" style="background:#d98c4a" data-color="#d98c4a" onclick="selectColor(this)" title="주황"></div>
+    </div>
+
+    <label>카드 종류 선택</label>
+    <div class="card-type-btns">
+      <button class="type-btn active" id="btn-list" onclick="selectType('list')">📝 일반 리스트 카드</button>
+      <button class="type-btn" id="btn-quad" onclick="selectType('quad')">📐 4분면 카드</button>
+    </div>
+
+    <!-- 일반 리스트 입력 -->
+    <div id="list-input">
+      <label for="promise-items">약속 항목 <small style="font-weight:400;color:#888">(한 줄에 한 항목, 5~8개 권장)</small></label>
+      <textarea id="promise-items" placeholder="즐겁게 공부하기&#10;일기쓰기&#10;7시에 일어나기&#10;편식 안 하기&#10;숙제하기" oninput="updatePreview()"></textarea>
+      <button class="example-btn" onclick="openModal()">💡 약속 예시 보기 (클릭하면 자동 추가)</button>
+    </div>
+
+    <!-- 4분면 입력 -->
+    <div id="quad-input" style="display:none">
+      <label>4분면 약속 입력 <small style="font-weight:400;color:#888">(한 줄에 한 항목)</small></label>
+      <div class="quad-grid">
+        <div class="quad-item">
+          <label>마음</label>
+          <textarea id="q-mind" placeholder="즐겁게 공부하기&#10;친구랑 사이좋게 지내기" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="quad-item">
+          <label>공부</label>
+          <textarea id="q-study" placeholder="일기쓰기&#10;틀린 거 복습하기" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="quad-item">
+          <label>건강</label>
+          <textarea id="q-health" placeholder="7시에 일어나기&#10;편식 안 하기" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="quad-item">
+          <label>습관</label>
+          <textarea id="q-habit" placeholder="숙제하기&#10;부모님 말씀 잘듣기" oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+      <button class="example-btn" onclick="openModal()">💡 약속 예시 보기 (클릭하면 자동 추가)</button>
+    </div>
+  </div>
+
+  <!-- 미리보기 패널 -->
+  <div class="preview-panel">
+    <div class="preview-header">
+      <div class="preview-title">🖨️ 미리보기 — A4 한 장 (카드 4개)</div>
+      <button class="print-btn" onclick="window.print()">📋 A4 인쇄</button>
+    </div>
+
+    <div class="a4-sheet" id="a4-sheet">
+      <!-- 카드 4개 JS로 렌더링 -->
+    </div>
+
+    <div class="mobile-print-notice">
+      💡 인쇄는 PC·태블릿에서 하시면 가장 잘 됩니다. 모바일에서도 「공유 → 인쇄」 로 가능합니다.
+    </div>
+  </div>
+</div>
+
+<!-- 예시 모달 -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>💡 약속 예시 라이브러리</h2>
+    <p style="font-size:14px;color:#888;margin-bottom:20px">항목을 클릭하면 입력란에 자동으로 추가됩니다.</p>
+
+    <div class="example-category">
+      <h3>마음 카테고리</h3>
+      <div class="example-tags">
+        <span class="example-tag" onclick="addExample(this,'mind')">즐겁게 공부하기</span>
+        <span class="example-tag" onclick="addExample(this,'mind')">마음가짐 잘하기</span>
+        <span class="example-tag" onclick="addExample(this,'mind')">즐거운 마음으로 일어나기</span>
+        <span class="example-tag" onclick="addExample(this,'mind')">친구랑 사이좋게 지내기</span>
+        <span class="example-tag" onclick="addExample(this,'mind')">가족하고 사이좋게 지내기</span>
+      </div>
+    </div>
+
+    <div class="example-category">
+      <h3>공부 카테고리</h3>
+      <div class="example-tags">
+        <span class="example-tag" onclick="addExample(this,'study')">일기쓰기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">일기 한 줄만 영어로 바꿔</span>
+        <span class="example-tag" onclick="addExample(this,'study')">틀린 거 복습하기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">책 많이 읽기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">공부 열심히 하기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">밥먹고 15분 후 숙제하기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">학교·아카데미에서 공부하기</span>
+        <span class="example-tag" onclick="addExample(this,'study')">생각하고 말하기</span>
+      </div>
+    </div>
+
+    <div class="example-category">
+      <h3>건강 카테고리</h3>
+      <div class="example-tags">
+        <span class="example-tag" onclick="addExample(this,'health')">아침 6시30분에 벌떡 일어나기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">7시에 일어나기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">일찍 자고 일찍 일어나기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">30분 이상 운동하기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">식사 시간 반찬 골고루 먹기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">편식 안 하기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">하루에 물 10잔 마시기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">군것질 자주 안 하기</span>
+        <span class="example-tag" onclick="addExample(this,'health')">하루에 3끼 먹기</span>
+      </div>
+    </div>
+
+    <div class="example-category">
+      <h3>습관 카테고리</h3>
+      <div class="example-tags">
+        <span class="example-tag" onclick="addExample(this,'habit')">부모님 말씀 잘듣기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">선생님 말씀 잘듣기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">효도하기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">숙제하기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">화장실 스스로 가기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">누워서 공부하지 않기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">게임만 하지 않기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">할 일 미루지 않기</span>
+        <span class="example-tag" onclick="addExample(this,'habit')">피아노 연습(10분)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 상태 ──
+let currentColor = '#4a9bbe';
+let currentType = 'list';
+
+// ── localStorage 키 ──
+const LS = {
+  name: 'samsan-checklist-name',
+  date: 'samsan-checklist-date',
+  color: 'samsan-checklist-color',
+  items: 'samsan-checklist-items',
+  qMind: 'samsan-checklist-quadrant-mind',
+  qStudy: 'samsan-checklist-quadrant-study',
+  qHealth: 'samsan-checklist-quadrant-health',
+  qHabit: 'samsan-checklist-quadrant-habit',
+  type: 'samsan-checklist-type',
+};
+
+// ── 초기화 (localStorage 복원) ──
+window.addEventListener('DOMContentLoaded', () => {
+  const savedType = localStorage.getItem(LS.type) || 'list';
+  selectType(savedType, true);
+
+  const savedColor = localStorage.getItem(LS.color) || '#4a9bbe';
+  const chip = document.querySelector(`.color-chip[data-color="${savedColor}"]`);
+  if (chip) selectColor(chip, true);
+
+  document.getElementById('student-name').value = localStorage.getItem(LS.name) || '';
+  document.getElementById('card-date').value = localStorage.getItem(LS.date) || getDefaultDate();
+  document.getElementById('promise-items').value = localStorage.getItem(LS.items) || '';
+  document.getElementById('q-mind').value = localStorage.getItem(LS.qMind) || '';
+  document.getElementById('q-study').value = localStorage.getItem(LS.qStudy) || '';
+  document.getElementById('q-health').value = localStorage.getItem(LS.qHealth) || '';
+  document.getElementById('q-habit').value = localStorage.getItem(LS.qHabit) || '';
+
+  updatePreview();
+});
+
+function getDefaultDate() {
+  const now = new Date();
+  return `${now.getFullYear()}.${now.getMonth()+1}`;
+}
+
+// ── 색상 선택 ──
+function selectColor(el, silent) {
+  document.querySelectorAll('.color-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentColor = el.dataset.color;
+  document.documentElement.style.setProperty('--selected-color', currentColor);
+  if (!silent) {
+    localStorage.setItem(LS.color, currentColor);
+    updatePreview();
+  }
+}
+
+// ── 카드 종류 선택 ──
+function selectType(type, silent) {
+  currentType = type;
+  document.getElementById('btn-list').classList.toggle('active', type === 'list');
+  document.getElementById('btn-quad').classList.toggle('active', type === 'quad');
+  document.getElementById('list-input').style.display = type === 'list' ? 'block' : 'none';
+  document.getElementById('quad-input').style.display = type === 'quad' ? 'block' : 'none';
+  if (!silent) {
+    localStorage.setItem(LS.type, type);
+    updatePreview();
+  }
+}
+
+// ── 자동 저장 ──
+function saveAll() {
+  localStorage.setItem(LS.name, document.getElementById('student-name').value);
+  localStorage.setItem(LS.date, document.getElementById('card-date').value);
+  localStorage.setItem(LS.items, document.getElementById('promise-items').value);
+  localStorage.setItem(LS.qMind, document.getElementById('q-mind').value);
+  localStorage.setItem(LS.qStudy, document.getElementById('q-study').value);
+  localStorage.setItem(LS.qHealth, document.getElementById('q-health').value);
+  localStorage.setItem(LS.qHabit, document.getElementById('q-habit').value);
+}
+
+// ── 미리보기 업데이트 ──
+function updatePreview() {
+  saveAll();
+  const sheet = document.getElementById('a4-sheet');
+  const cardHTML = currentType === 'list' ? buildListCard() : buildQuadCard();
+  sheet.innerHTML = cardHTML + cardHTML + cardHTML + cardHTML;
+}
+
+// ── 일반 리스트 카드 빌더 ──
+function buildListCard() {
+  const name = document.getElementById('student-name').value || '학생 이름';
+  const date = document.getElementById('card-date').value || getDefaultDate();
+  const rawItems = document.getElementById('promise-items').value;
+  const items = rawItems.split('\n').filter(s => s.trim()).slice(0, 10);
+
+  const itemsHTML = items.length > 0
+    ? items.map(item => `
+        <div class="card-item">
+          <div class="card-checkbox" onclick="toggleStamp(this)"></div>
+          <span>${escHtml(item)}</span>
+        </div>`).join('')
+    : `<div style="color:#ccc;font-size:12px;margin-top:8px">약속 항목을 입력해 주세요</div>`;
+
+  return `
+  <div class="card-cell">
+    <div class="checklist-card" style="border-color:${currentColor}">
+      <div class="card-header">
+        <div class="card-title" style="color:${currentColor}">체크리스트</div>
+        <div class="card-meta">
+          <div class="card-name">${escHtml(name)}</div>
+          <div>${escHtml(date)}</div>
+        </div>
+      </div>
+      <div class="card-items">${itemsHTML}</div>
+      <div class="card-footer">
+        <div class="counter-box">
+          <div class="counter-label">&nbsp;</div>
+          <div class="counter-number">/100</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── 4분면 카드 빌더 ──
+function buildQuadCard() {
+  const name = document.getElementById('student-name').value || '학생 이름';
+  const date = document.getElementById('card-date').value || getDefaultDate();
+  const minds = document.getElementById('q-mind').value.split('\n').filter(s=>s.trim()).slice(0,4);
+  const studies = document.getElementById('q-study').value.split('\n').filter(s=>s.trim()).slice(0,4);
+  const healths = document.getElementById('q-health').value.split('\n').filter(s=>s.trim()).slice(0,4);
+  const habits = document.getElementById('q-habit').value.split('\n').filter(s=>s.trim()).slice(0,4);
+
+  const quadHTML = (items) => items.length > 0
+    ? items.map(i => `<div class="quad-line"><div class="card-checkbox" onclick="toggleStamp(this)" style="border-color:${currentColor};width:10px;height:10px;min-width:10px;border-radius:2px"></div><span>${escHtml(i)}</span></div>`).join('')
+    : '<div style="color:#ccc;font-size:10px">입력 없음</div>';
+
+  return `
+  <div class="card-cell">
+    <div class="quad-card" style="border-color:${currentColor}">
+      <div class="quad-card-header">
+        <div class="quad-card-title" style="color:${currentColor}">체크리스트</div>
+        <div class="quad-card-meta">
+          <div style="font-weight:700;color:#555">${escHtml(name)}</div>
+          <div>${escHtml(date)}</div>
+        </div>
+      </div>
+      <div class="quad-card-grid">
+        <div class="quad-quadrant">
+          <div class="quad-label" style="color:${currentColor}">마음</div>
+          <div class="quad-lines">${quadHTML(minds)}</div>
+        </div>
+        <div class="quad-quadrant">
+          <div class="quad-label" style="color:${currentColor}">공부</div>
+          <div class="quad-lines">${quadHTML(studies)}</div>
+        </div>
+        <div class="quad-quadrant">
+          <div class="quad-label" style="color:${currentColor}">건강</div>
+          <div class="quad-lines">${quadHTML(healths)}</div>
+        </div>
+        <div class="quad-quadrant">
+          <div class="quad-label" style="color:${currentColor}">습관</div>
+          <div class="quad-lines">${quadHTML(habits)}</div>
+        </div>
+      </div>
+      <div class="quad-card-footer">
+        <div class="counter-box">
+          <div class="counter-label">&nbsp;</div>
+          <div class="counter-number">/100</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── HTML 이스케이프 ──
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── 예시 모달 ──
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+// ── 예시 자동 추가 ──
+function addExample(el, category) {
+  const text = el.textContent.trim();
+
+  if (currentType === 'list') {
+    const ta = document.getElementById('promise-items');
+    const lines = ta.value ? ta.value.trimEnd().split('\n') : [];
+    if (!lines.includes(text)) {
+      lines.push(text);
+      ta.value = lines.join('\n');
+    }
+  } else {
+    const map = {
+      mind: 'q-mind',
+      study: 'q-study',
+      health: 'q-health',
+      habit: 'q-habit'
+    };
+    const ta = document.getElementById(map[category]);
+    if (ta) {
+      const lines = ta.value ? ta.value.trimEnd().split('\n') : [];
+      if (!lines.includes(text)) {
+        lines.push(text);
+        ta.value = lines.join('\n');
+      }
+    }
+  }
+
+  // 시각 피드백
+  el.style.background = '#427a71';
+  el.style.color = '#fff';
+  el.style.borderColor = '#427a71';
+  setTimeout(() => {
+    el.style.background = '';
+    el.style.color = '';
+    el.style.borderColor = '';
+  }, 800);
+
+  updatePreview();
+}
+
+// ── 스탬프 토글 함수 ──
+function toggleStamp(el) {
+  el.classList.toggle('stamped');
+}
+</script>
+
+<script src="yeon-pwa.js" defer></script>
+</body>
+</html>
+

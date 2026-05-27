@@ -1,0 +1,8 @@
+{
+  "version": "20260518.1700",
+  "ylv": "YLV-4",
+  "yuv": "YUV4",
+  "force": false,
+  "released_at": "2026-05-18T17:00:00+09:00",
+  "notes": "YLV-4 승급 (YUV4 동기화). PWA + 자동 업데이트 + Thin Client 자리잡기."
+}

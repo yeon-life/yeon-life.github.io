@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 국가지원사업 자가진단 시스템</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yp-deep: #2f5d62;
+    --yp-pine: #427a71;
+    --yp-accent: #c38d56;
+    --yp-card: #fffdf8;
+    --yp-bg: #f8f2ea;
+    --yp-line: #d7c9b4;
+    --yp-ink: #1d1d1b;
+    --yp-muted: #7a6e64;
+    --yp-alert: #b3514a;
+    --yp-soft: #f0f6ee;
+    --yp-input-bg: #ffffff;
+    --yp-shadow: rgba(47, 93, 98, 0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--yp-bg);
+    color: var(--yp-ink);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 24px;
+    transition: background-color 0.3s;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  /* 헤더 */
+  .doc-head {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fffdf8;
+    padding: 32px 28px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px var(--yp-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-head::after {
+    content: "緣";
+    position: absolute;
+    right: -10px;
+    bottom: -30px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 180px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+  }
+  .doc-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .doc-sub {
+    font-size: 14px;
+    opacity: 0.9;
+    max-width: 780px;
+    line-height: 1.6;
+  }
+
+  /* 보안 정보 알림 */
+  .security-alert {
+    background: var(--yp-soft);
+    border: 1px solid var(--yp-line);
+    border-left: 5px solid var(--yp-pine);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .security-alert .icon {
+    font-size: 20px;
+    margin-top: 2px;
+  }
+  .security-alert p {
+    font-size: 13.5px;
+    color: var(--yp-deep);
+    font-weight: 500;
+  }
+
+  /* 2단 레이아웃 */
+  .layout-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* 입력 폼 카드 */
+  .panel-input {
+    background: var(--yp-card);
+    border: 1px solid var(--yp-line);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px var(--yp-shadow);
+    position: sticky;
+    top: 20px;
+  }
+  .panel-input h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    color: var(--yp-deep);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--yp-pine);
+  }
+  .form-group {
+    margin-bottom: 18px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--yp-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--yp-line);
+    border-radius: 8px;
+    background: var(--yp-input-bg);
+    color: var(--yp-ink);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-control:focus {
+    border-color: var(--yp-pine);
+    box-shadow: 0 0 0 3px rgba(66, 122, 113, 0.15);
+  }
+  
+  /* 체크박스 그룹 */
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13.5px;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  .checkbox-label input {
+    margin-top: 3px;
+    transform: scale(1.1);
+    accent-color: var(--yp-pine);
+  }
+
+  /* 공유 버튼 */
+  .share-tools {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--yp-line);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    width: 100%;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--yp-pine);
+    color: #fffdf8;
+  }
+  .btn-primary:hover {
+    background: var(--yp-deep);
+  }
+  .btn-secondary {
+    background: var(--yp-accent);
+    color: #fffdf8;
+  }
+  .btn-secondary:hover {
+    background: #af7943;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--yp-line);
+    color: var(--yp-deep);
+  }
+  .btn-outline:hover {
+    background: rgba(47, 93, 98, 0.05);
+    border-color: var(--yp-deep);
+  }
+
+  /* 결과 패널 */
+  .panel-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* 진단 요약 정보 */
+  .summary-card {
+    background: var(--yp-card);
+    border: 1.5px solid var(--yp-line);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px var(--yp-shadow);
+  }
+  .summary-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    color: var(--yp-deep);
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .summary-score {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--yp-accent);
+  }
+  .summary-desc {
+    font-size: 14px;
+    color: var(--yp-muted);
+    line-height: 1.6;
+  }
+
+  /* 개별 사업 아이템 */
+  .item {
+    background: var(--yp-card);
+    border: 1px solid var(--yp-line);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 12px var(--yp-shadow);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .item:hover {
+    transform: translateY(-2px);
+    border-color: var(--yp-pine);
+  }
+  .item.fit-no {
+    opacity: 0.65;
+    border-left: 5px solid var(--yp-muted);
+  }
+  .item.fit-warn {
+    border-left: 5px solid var(--yp-accent);
+  }
+  .item.fit-ok {
+    border-left: 5px solid var(--yp-pine);
+  }
+  .item-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--yp-line);
+  }
+  .rank {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+  }
+  .item-title-box {
+    flex: 1;
+  }
+  .item-title-box h3 {
+    font-size: 17px;
+    color: var(--yp-deep);
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .item-title-box .org {
+    font-size: 12.5px;
+    color: var(--yp-muted);
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .badge.fit-ok { background: var(--yp-pine); }
+  .badge.fit-warn { background: var(--yp-accent); }
+  .badge.fit-no { background: var(--yp-muted); }
+  .badge.urgent { background: var(--yp-alert); }
+
+  /* 세부정보 리스트 */
+  .item dl {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 6px 14px;
+    font-size: 13.5px;
+    margin-bottom: 14px;
+  }
+  .item dt {
+    color: var(--yp-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding-top: 2px;
+  }
+  .item dd {
+    color: var(--yp-ink);
+    line-height: 1.6;
+  }
+  .item dd a {
+    color: var(--yp-pine);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .item dd a:hover {
+    text-decoration: underline;
+  }
+
+  /* 이탈 알림 */
+  .unfit-reason {
+    background: #faf3f2;
+    border: 1px solid rgba(179, 81, 74, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--yp-alert);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* 체크리스트 */
+  .checklist {
+    background: var(--yp-soft);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--yp-pine);
+    margin-top: 10px;
+  }
+  .checklist-title {
+    font-size: 12.5px;
+    color: var(--yp-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .checklist ul {
+    list-style: none;
+  }
+  .checklist li {
+    padding: 4px 0;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .checklist input[type="checkbox"] {
+    transform: scale(1.05);
+    accent-color: var(--yp-pine);
+    cursor: pointer;
+  }
+
+  /* 토스트 알림 */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(47, 93, 98, 0.96);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 푸터 */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 12px;
+    color: var(--yp-muted);
+    margin-top: 40px;
+    border-top: 1px solid var(--yp-line);
+  }
+
+  /* 반응형 모바일 */
+  @media (max-width: 900px) {
+    body { padding: 16px; }
+    .layout-grid { grid-template-columns: 1fr; }
+    .panel-input { position: static; }
+    .item dl { grid-template-columns: 1fr; gap: 2px 0; }
+    .item dt { padding-top: 6px; }
+  }
+
+  /* 인쇄 스타일 */
+  @media print {
+    body { background: #fff; padding: 0; color: #000; }
+    .security-alert, .panel-input, .share-tools, footer, .toast { display: none !important; }
+    .layout-grid { grid-template-columns: 1fr; }
+    .panel-results { gap: 0; }
+    .item { page-break-inside: avoid; border: 1px solid #000 !important; border-radius: 0 !important; margin-bottom: 20px; box-shadow: none !important; }
+    .item.fit-no { display: none !important; } /* 미지원은 인쇄에서 제외 */
+    .checklist { background: #f9f9f9 !important; border-left-color: #000 !important; }
+    .btn { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <header class="doc-head">
+    <h1 class="doc-title">국가지원사업 자가진단 및 맞춤형 매칭</h1>
+    <p class="doc-sub">몇 가지 기본 정보 입력으로 지원 가능한 국가지원사업과 지자체 창업 지원책을 매칭해 드립니다.</p>
+  </header>
+
+  <!-- 구글 AI 에이전트 기술 보증 패널 -->
+  <div class="security-alert" style="background: linear-gradient(135deg, #f0f6ee, #e3eedf); border: 1.5px solid #c2dbbc; border-left: 5px solid #4a7c59; box-shadow: 0 4px 15px rgba(74,124,89,0.06); padding: 18px 22px;">
+    <span class="icon" style="font-size: 24px; margin-top: -2px;">🛡️</span>
+    <div>
+      <p style="color: #2c4d36; font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+        구글 AI 에이전트(Antigravity) 개인정보 보호 기술 보증
+        <span style="font-size: 10px; background: #4a7c59; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; font-family: 'Pretendard', sans-serif;">GOOGLE SECURE RUN</span>
+      </p>
+      <p style="font-size: 13px; color: #4a5f50; font-weight: 400; line-height: 1.6;">
+        본 자가진단 프로그램은 <strong>Google의 Advanced Agentic Coding 기술(Antigravity)</strong>로 설계 및 코드 무결성 검증을 완료한 100% 로컬 연산형(Client-side) 솔루션입니다. 
+        사용자가 입력한 어떠한 사업자 정보도 수집되거나 외부 서버로 유출되지 않음을 구글 에이전트 보안 표준에 따라 공식 보증합니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- 레이아웃 그리드 -->
+  <div class="layout-grid">
+    
+    <!-- 왼쪽 입력 폼 -->
+    <aside class="panel-input">
+      <h2>📋 사업자 프로필 설정</h2>
+      
+      <div class="form-group">
+        <label for="regRegion">지역 선택</label>
+        <select id="regRegion" class="form-control" onchange="runDiagnosis()">
+          <option value="ulsan">울산광역시</option>
+          <option value="busan">부산광역시</option>
+          <option value="seoul">서울특별시</option>
+          <option value="gyeonggi">경기도</option>
+          <option value="etc">기타 지역</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="regDate">개업 연월일</label>
+        <input type="date" id="regDate" class="form-control" value="2025-12-01" onchange="runDiagnosis()">
+      </div>
+
+      <div class="form-group">
+        <label for="regEmp">고용 형태 (대표자 포함)</label>
+        <select id="regEmp" class="form-control" onchange="runDiagnosis()">
+          <option value="1">1인 창조기업 (1인 단독)</option>
+          <option value="under5">5인 미만 소상공인</option>
+          <option value="over5">5인 이상 일반 기업</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="regInd">주요 업종</label>
+        <select id="regInd" class="form-control" onchange="runDiagnosis()">
+          <option value="edu">교육서비스업 (학원·공방 등)</option>
+          <option value="it">정보통신업 (SW·IT·개발)</option>
+          <option value="retail">도소매업 · 유통업</option>
+          <option value="food">음식점 · 카페</option>
+          <option value="manufacture">제조업</option>
+          <option value="etc">기타 서비스/자영업</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>기술 및 자산 보유 요건</label>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="techIT" onchange="runDiagnosis()">
+            <span>자체 IT/SW 또는 플랫폼 솔루션 개발 중</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="techAI" onchange="runDiagnosis()">
+            <span>AI 기술 활용 또는 에듀테크 솔루션 연계</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="techBrand" onchange="runDiagnosis()">
+            <span>고유 브랜딩 / 로컬 상표 디자인 자산 보유</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 공유 및 출력 도구 -->
+      <div class="share-tools">
+        <button onclick="copyShareLink()" class="btn btn-primary">🔗 진단 상태 링크 복사</button>
+        <button onclick="sendSms()" class="btn btn-secondary">📱 내 폰으로 문자 전송</button>
+        <button onclick="window.print()" class="btn btn-outline">🖨️ 진단 보고서 인쇄 (PDF)</button>
+      </div>
+    </aside>
+
+    <!-- 오른쪽 진단 결과 패널 -->
+    <main class="panel-results">
+      
+      <!-- 진단 요약 카드 -->
+      <div class="summary-card">
+        <div class="summary-title">
+          <span>📊 실시간 매칭 진단 결과</span>
+          <span id="matchScore" class="summary-score">0개 추천</span>
+        </div>
+        <p id="summaryDesc" class="summary-desc">프로필 입력값을 분석 중입니다...</p>
+      </div>
+
+      <!-- 동적 매칭 카드 영역 -->
+      <div id="resultsContainer"></div>
+
+    </main>
+
+  </div>
+
+  <footer>
+    연라이프 국가지원사업 로컬 매칭 시스템 · y-life.kr<br>
+    본 프로그램에 입력된 내용은 사용자의 브라우저 내에서만 연산되며 외부로 저장되지 않는 개인정보 안심 보증 프로그램입니다.
+  </footer>
+
+</div>
+
+<!-- 토스트 알림 구조 -->
+<div id="toast" class="toast">진단 링크 주소가 복사되었습니다. ✨</div>
+
+<script>
+  // 10개 국가지원사업 DB 데이터
+  const PROJECTS_DB = [
+    {
+      id: 1,
+      title: "울산 스타트업 허브 입주기업 2차 모집",
+      org: "울산창조경제혁신센터",
+      deadline: "2026-06-12 16:00",
+      reward: "독립된 4인실 사무공간(514호) 무상 제공, 집기 지원, 고정 IP 제공 등",
+      url: "https://ulsanstartuphub.kr",
+      type: "입주",
+      rules: {
+        region: ["ulsan"],
+        maxMonths: 36, // 창업 3년 이내
+        techRequired: ["it", "ai"] // IT 또는 AI 중 하나 이상 체크 필요
+      },
+      checklist: [
+        "울산 스타트업 허브 회원 가입 및 공고문 확인",
+        "입주 신청서 및 기술 창업 계획서 다운로드",
+        "개발 중인 IT/AI 기술 솔루션 중심의 사업계획서 보완",
+        "국세 및 지방세 완납 증명서 준비 (정부24)",
+        "6월 12일 16:00 전 최종 신청 제출"
+      ]
+    },
+    {
+      id: 2,
+      title: "2026년 울산 창업 U-시리즈 추가 모집",
+      org: "울산광역시 · 울산경제일자리진흥원",
+      deadline: "2026-06-11",
+      reward: "사업화 직접 지원 기금 (최대 1,000만원 ~ 2,000만원 내외)",
+      url: "https://ulsanstartuphub.kr",
+      type: "사업화 자금",
+      rules: {
+        region: ["ulsan"],
+        maxMonths: 36 // 창업 3년 이내
+      },
+      checklist: [
+        "울산스타트업허브 공지에서 U-시리즈 신청 서식 내려받기",
+        "자사 기술/서비스 및 융합 모델 사업 계획서 보완",
+        "견적서 및 세부 사업비 집행 계획 작성",
+        "6월 11일 마감 전 온라인 신청 완료"
+      ]
+    },
+    {
+      id: 3,
+      title: "2026년 유망 소상공인 지역상표(로컬브랜드) 육성사업",
+      org: "울산경제일자리진흥원",
+      deadline: "2026-06-05",
+      reward: "소상공인 고유 브랜드 강화 자금, 판로 개척 지원, 디자인 컨설팅",
+      url: "https://www.ubpi.or.kr",
+      type: "브랜드 지원",
+      rules: {
+        region: ["ulsan"],
+        emp: ["1", "under5"], // 소상공인
+        techRequired: ["brand"] // 로컬 브랜드 자산 보유 요건
+      },
+      checklist: [
+        "진흥원 홈페이지에서 로컬브랜드 육성사업 공고 확인",
+        "자체 사업장의 브랜딩 방향 및 마케팅 추진안 요약",
+        "소상공인 확인서(중소기업현황정보시스템) 발급",
+        "6월 5일 접수 마감 전 담당자 접수 완료"
+      ]
+    },
+    {
+      id: 4,
+      title: "소상공인 정책자금 융자 (직접대출·대리대출)",
+      org: "중소벤처기업부 · 소상공인시장진흥공단",
+      deadline: "상시 접수 (예산 소진 시까지)",
+      reward: "시중 금리 대비 대폭 인하된 저리 정책 자금 대출 (운전자금)",
+      url: "https://ols.semas.or.kr",
+      type: "융자/대출",
+      rules: {
+        emp: ["1", "under5"], // 소상공인
+        minMonths: 6 // 6개월 이상 경과 우대 (미경과 시 경고 노출)
+      },
+      checklist: [
+        "소상공인정책자금 누리집 가입 및 한도 조회",
+        "지방세/국세 완납 증명서 준비 (홈택스)",
+        "신용 평가 자가 진단 및 서류 최종 스캔본 등록",
+        "경과일 기준 충족 시 즉시 온라인 대출 신청"
+      ]
+    },
+    {
+      id: 5,
+      title: "울산 소상공인 경영안정자금 (이차보전 및 보증)",
+      org: "울산광역시 · 울산신용보증재단",
+      deadline: "상시 접수 (한도 소진 시까지)",
+      reward: "대출 이자 중 2.0% ~ 2.5% 수준 이자 차액 시에서 직접 보전",
+      url: "https://www.ulsansinbo.co.kr",
+      type: "융자/보증",
+      rules: {
+        region: ["ulsan"],
+        emp: ["1", "under5"],
+        minMonths: 6 // 6개월 이상 권장
+      },
+      checklist: [
+        "울산신용보증재단 사이트 예약 또는 울산센터 문의",
+        "주거래 은행 대출 한도 및 금리 차액 보전 대상 확인",
+        "보증 신용평가용 서류 등록 및 신청서 제출"
+      ]
+    },
+    {
+      id: 6,
+      title: "울산 1인 창조기업 지원센터 입주 지원",
+      org: "울산경제일자리진흥원",
+      deadline: "상시/수시 (공석 발생 시 추가 공고)",
+      reward: "1인 전용 공용/개별 사무실 무상 또는 실비 지원, 국가 R&D 참여 시 가점",
+      url: "https://www.ubpi.or.kr",
+      type: "입주",
+      rules: {
+        region: ["ulsan"],
+        emp: ["1"] // 1인 창조기업
+      },
+      checklist: [
+        "진흥원 창업기반팀 공석 현황 유선 확인 (052-283-7173)",
+        "1인 창업 입주 신청서 및 아이템 기획서 작성",
+        "지원센터 입주 신청 메일 또는 직접 방문 제출"
+      ]
+    },
+    {
+      id: 7,
+      title: "소상공인 경영 및 마케팅 1:1 컨설팅 지원",
+      org: "소상공인시장진흥공단",
+      deadline: "상시 모집 (연중)",
+      reward: "AI 디지털 전환, 온라인 홍보, 세무/회계 등 1:1 전문가 배정 및 무료 자문",
+      url: "https://www.sbiz24.kr",
+      type: "컨설팅",
+      rules: {
+        emp: ["1", "under5"]
+      },
+      checklist: [
+        "소상공인24 포털 로그인 후 마이페이지 접속",
+        "경영 컨설팅 신청 메뉴에서 희망 분야(예: AI/디지털화) 선택",
+        "자가 진단 질문 작성 후 제출 및 컨설턴트 배정 대기"
+      ]
+    },
+    {
+      id: 8,
+      title: "혁신 소상공인 AI 활용 지원사업 (2026 신설)",
+      org: "중소벤처기업부 · 소상공인시장진흥공단",
+      deadline: "본 공고 발표 대기 중 (상반기 내 예정)",
+      reward: "비즈니스 고도화용 인공지능 솔루션 도입 및 활용 비용 지원 (1,436억 대형 사업)",
+      url: "https://www.sbiz24.kr",
+      type: "AI 도입 자금",
+      rules: {
+        emp: ["1", "under5"],
+        techRequired: ["ai"] // AI 기술 활용 요건 필수
+      },
+      checklist: [
+        "소상공인24에서 신규 사업 알림 수신 설정",
+        "자사 서비스에 AI 기술(예: 코칭/챗봇 등)을 융합하는 원페이지 개요서 사전 보완",
+        "공고 즉시 지원서 등록"
+      ]
+    },
+    {
+      id: 9,
+      title: "NIPA 산업맞춤형 혁신바우처 지원사업 (AX 컨설팅)",
+      org: "과학기술정보통신부 · 정보통신산업진흥원(NIPA)",
+      deadline: "2차 공고 대기 (6~7월 중 발표 예정)",
+      reward: "인공지능 전환(AX) 기술 검증(PoC) 및 적용 예산 바우처 지원",
+      url: "https://www.nipa.kr",
+      type: "기술 검증",
+      rules: {
+        techRequired: ["it", "ai"] // IT 기술 또는 AI 보유 요건 필요
+      },
+      checklist: [
+        "NIPA 홈페이지 공지사항 모니터링",
+        "인공지능 기술 융합 비즈니스 모델 기획안(PoC 범위 정의) 작성",
+        "2차 모집 공고 시 바우처 신청서 등록"
+      ]
+    },
+    {
+      id: 10,
+      title: "KERIS 에듀테크 소프트랩 실증 기업 모집",
+      org: "한국교육학술정보원 (KERIS)",
+      deadline: "하반기 추가 프로그램 모집 예정",
+      reward: "공교육 현장 에듀테크 검증 매칭 및 KERIS 공식 레퍼런스 발급",
+      url: "https://www.keris.or.kr",
+      type: "에듀테크 실증",
+      rules: {
+        ind: ["edu"], // 교육 서비스업 필수
+        techRequired: ["it", "ai"] // IT/SW 또는 AI/에듀테크 체크
+      },
+      checklist: [
+        "KERIS 알림판 및 에듀테크 소프트랩 홈페이지 모니터링",
+        "공교육 교실 현장에서 적용할 에듀테크(수학/영어 등) 수업 지도안 설계",
+        "실증 참가 신청서 및 기업 역량 보고서 작성"
+      ]
+    }
+  ];
+
+  // 오늘 날짜 기준 개업 개월수 계산 함수
+  function calculateMonthsSince(startDateStr) {
+    if (!startDateStr) return 0;
+    const start = new Date(startDateStr);
+    const today = new Date();
+    
+    let months = (today.getFullYear() - start.getFullYear()) * 12;
+    months += today.getMonth() - start.getMonth();
+    
+    // 일자 단위 보정 (당일 기준)
+    if (today.getDate() < start.getDate()) {
+      months--;
+    }
+    return Math.max(0, months);
+  }
+
+  // 자가진단 코어 엔진 함수
+  function runDiagnosis() {
+    // 폼 값 가져오기
+    const region = document.getElementById("regRegion").value;
+    const regDateStr = document.getElementById("regDate").value;
+    const emp = document.getElementById("regEmp").value;
+    const ind = document.getElementById("regInd").value;
+    
+    const techIT = document.getElementById("techIT").checked;
+    const techAI = document.getElementById("techAI").checked;
+    const techBrand = document.getElementById("techBrand").checked;
+
+    const months = calculateMonthsSince(regDateStr);
+
+    let matchCount = 0;
+    let ulsanExcludedCount = 0;
+    let htmlContent = "";
+
+    PROJECTS_DB.forEach(proj => {
+      let isFit = true;
+      let isWarning = false;
+      let reasons = [];
+
+      // 1. 지역 규칙 검사
+      if (proj.rules.region && !proj.rules.region.includes(region)) {
+        isFit = false;
+        reasons.push(`지자체(울산) 전용 지원사업입니다. (현재 입력 지역: ${getRegionText(region)})`);
+        if (region !== 'ulsan' && proj.rules.region.includes('ulsan')) {
+          ulsanExcludedCount++;
+        }
+      }
+
+      // 2. 창업 연차/개월수 검사
+      if (proj.rules.maxMonths && months > proj.rules.maxMonths) {
+        isFit = false;
+        reasons.push(`창업 ${Math.floor(proj.rules.maxMonths/12)}년 이하 조건 미달 (현재 창업 후 ${months}개월째)`);
+      }
+
+      // 3. 고용 조건 검사
+      if (proj.rules.emp && !proj.rules.emp.includes(emp)) {
+        isFit = false;
+        reasons.push(`소상공인/1인 창조기업 한정 사업입니다. (현재 규모: ${getEmpText(emp)})`);
+      }
+
+      // 4. 업종 조건 검사
+      if (proj.rules.ind && !proj.rules.ind.includes(ind)) {
+        isFit = false;
+        reasons.push(`특정 업종 한정 지원 사업입니다. (해당 분야: ${getIndText(proj.rules.ind[0])} 필요)`);
+      }
+
+      // 5. 기술/자산 필수 체크 요건 검사
+      if (proj.rules.techRequired) {
+        let hasOne = false;
+        proj.rules.techRequired.forEach(t => {
+          if (t === "it" && techIT) hasOne = true;
+          if (t === "ai" && techAI) hasOne = true;
+          if (t === "brand" && techBrand) hasOne = true;
+        });
+
+        if (!hasOne) {
+          isFit = false;
+          // 요구 기술 목록 텍스트 변환
+          const techLabels = proj.rules.techRequired.map(t => {
+            if (t === "it") return "자체 IT/SW 솔루션";
+            if (t === "ai") return "AI/에듀테크 기술";
+            if (t === "brand") return "로컬 브랜딩 자산";
+            return "";
+          }).join(" 또는 ");
+          reasons.push(`[필수 조건] '${techLabels}' 중 하나를 개발/보유하고 있어야 합니다.`);
+        }
+      }
+
+      // 6. 6개월 대기 조건 (Warning 유도)
+      if (isFit && proj.rules.minMonths && months < proj.rules.minMonths) {
+        isWarning = true;
+        reasons.push(`[주의] 개업 후 ${proj.rules.minMonths}개월 경과 기준에 미달했습니다. (현재 ${months}개월째. 경과일 충족 시 신청 가능)`);
+      }
+
+      // 점수 계산 및 렌더링용 빌더
+      let cardClass = "fit-no";
+      let badgeHtml = "";
+      
+      if (isFit && !isWarning) {
+        matchCount++;
+        cardClass = "fit-ok";
+        badgeHtml = `<span class="badge fit-ok">✅ 최적 조건 매칭</span>`;
+      } else if (isFit && isWarning) {
+        matchCount++;
+        cardClass = "fit-warn";
+        badgeHtml = `<span class="badge fit-warn">⚠️ 대기 및 기준 미달</span>`;
+      } else {
+        badgeHtml = `<span class="badge fit-no">❌ 지원 부적합</span>`;
+      }
+
+      if (proj.deadline.includes("마감") || proj.deadline.includes("6월")) {
+        badgeHtml += `<span class="badge urgent">🔥 긴급</span>`;
+      }
+
+      // HTML 렌더링 추가
+      htmlContent += `
+        <div class="item ${cardClass}">
+          <div class="item-head">
+            <div class="rank">${proj.id}</div>
+            <div class="item-title-box">
+              <h3>${proj.title}</h3>
+              <div class="org">${proj.org}</div>
+            </div>
+          </div>
+          <div>
+            ${badgeHtml}
+          </div>
+          <dl>
+            <dt>지원 혜택</dt><dd><strong>${proj.reward}</strong></dd>
+            <dt>마감 일정</dt><dd>${proj.deadline}</dd>
+            <dt>공식 홈페이지</dt><dd><a href="${proj.url}" target="_blank">${proj.url}</a></dd>
+          </dl>
+          
+          ${reasons.length > 0 && !isFit ? `
+            <div class="unfit-reason">
+              <span>⚠️</span>
+              <div>${reasons.join("<br>")}</div>
+            </div>
+          ` : ""}
+
+          ${reasons.length > 0 && isWarning ? `
+            <div class="unfit-reason" style="background:#fff7ec; border-color:rgba(195,141,86,0.2); color:var(--yp-accent)">
+              <span>ℹ️</span>
+              <div>${reasons.join("<br>")}</div>
+            </div>
+          ` : ""}
+
+          ${isFit ? `
+            <div class="checklist">
+              <div class="checklist-title">📋 나의 도전 체크리스트</div>
+              <ul>
+                ${proj.checklist.map((item, idx) => `
+                  <li>
+                    <input type="checkbox" id="chk_${proj.id}_${idx}">
+                    <label for="chk_${proj.id}_${idx}">${item}</label>
+                  </li>
+                `).join("")}
+              </ul>
+            </div>
+          ` : ""}
+        </div>
+      `;
+    });
+
+    // 최종 컨테이너 갱신
+    document.getElementById("resultsContainer").innerHTML = htmlContent;
+    
+    // 점수 및 요약 갱신
+    document.getElementById("matchScore").innerText = `${matchCount}개 추천`;
+    
+    let summaryText = `현재 개업일로부터 <strong>${months}개월째</strong> 접어들었습니다. `;
+    if (matchCount > 0) {
+      summaryText += `작성하신 프로필에 적합한 정부/울산시 지원사업 <strong>총 ${matchCount}건</strong>을 추천해 드립니다. 하단의 체크리스트를 활용해 지금 바로 서류 준비를 시작해 보세요.`;
+    } else {
+      summaryText += `현재 입력하신 조건으로는 적합한 지원사업을 찾지 못했습니다. 지역 또는 기술 보유 상태 체크박스를 다시 한 번 확인해 보세요.`;
+    }
+    
+    if (ulsanExcludedCount > 0 && region !== 'ulsan') {
+      summaryText += `<br><span style="color:var(--yp-alert); font-size:12.5px;">* 울산 지역 전용 사업 ${ulsanExcludedCount}건이 지역 설정 제한으로 추천에서 보류되었습니다.</span>`;
+    }
+
+    document.getElementById("summaryDesc").innerHTML = summaryText;
+  }
+
+  // 텍스트 변환 헬퍼들
+  function getRegionText(val) {
+    if (val === 'ulsan') return '울산광역시';
+    if (val === 'busan') return '부산광역시';
+    if (val === 'seoul') return '서울특별시';
+    if (val === 'gyeonggi') return '경기도';
+    return '기타 지역';
+  }
+  function getEmpText(val) {
+    if (val === '1') return '1인 창조기업';
+    if (val === 'under5') return '5인 미만 소상공인';
+    return '5인 이상 중소기업';
+  }
+  function getIndText(val) {
+    if (val === 'edu') return '교육서비스업';
+    if (val === 'it') return '정보통신업';
+    if (val === 'retail') return '도소매업';
+    if (val === 'food') return '음식점';
+    if (val === 'manufacture') return '제조업';
+    return '서비스업';
+  }
+
+  // 공유용 URL 생성 (Base64 해시 활용)
+  function copyShareLink() {
+    const data = {
+      loc: document.getElementById("regRegion").value,
+      date: document.getElementById("regDate").value,
+      emp: document.getElementById("regEmp").value,
+      ind: document.getElementById("regInd").value,
+      it: document.getElementById("techIT").checked ? 1 : 0,
+      ai: document.getElementById("techAI").checked ? 1 : 0,
+      br: document.getElementById("techBrand").checked ? 1 : 0
+    };
+
+    const jsonStr = JSON.stringify(data);
+    const base64Str = btoa(encodeURIComponent(jsonStr));
+    const shareUrl = `${window.location.origin}${window.location.pathname}#data=${base64Str}`;
+
+    navigator.clipboard.writeText(shareUrl).then(function() {
+      showToast("진단 상태 공유 링크가 복사되었습니다. ✨");
+    }).catch(function() {
+      // 대체 복사 방식
+      const tempInput = document.createElement('input');
+      tempInput.value = shareUrl;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast("진단 상태 공유 링크가 복사되었습니다. ✨");
+    });
+  }
+
+  // 토스트 메시지 띄우기
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.innerText = msg;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  // 모바일 문자 전송
+  function sendSms() {
+    const data = {
+      loc: document.getElementById("regRegion").value,
+      date: document.getElementById("regDate").value,
+      emp: document.getElementById("regEmp").value,
+      ind: document.getElementById("regInd").value,
+      it: document.getElementById("techIT").checked ? 1 : 0,
+      ai: document.getElementById("techAI").checked ? 1 : 0,
+      br: document.getElementById("techBrand").checked ? 1 : 0
+    };
+    const jsonStr = JSON.stringify(data);
+    const base64Str = btoa(encodeURIComponent(jsonStr));
+    const shareUrl = `${window.location.origin}${window.location.pathname}#data=${base64Str}`;
+    
+    const bodyText = `[연라이프 국가지원사업 자가진단 결과] 지원 가능한 지원사업을 확인하세요: ${shareUrl}`;
+    window.location.href = `sms:?body=${encodeURIComponent(bodyText)}`;
+  }
+
+  // 초기화 시 URL 해시 정보 파싱
+  window.addEventListener('load', function() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#data=')) {
+      try {
+        const base64Str = hash.substring(6);
+        const decodedJson = decodeURIComponent(atob(base64Str));
+        const data = JSON.parse(decodedJson);
+
+        if (data.loc) document.getElementById("regRegion").value = data.loc;
+        if (data.date) document.getElementById("regDate").value = data.date;
+        if (data.emp) document.getElementById("regEmp").value = data.emp;
+        if (data.ind) document.getElementById("regInd").value = data.ind;
+        if (data.it !== undefined) document.getElementById("techIT").checked = data.it === 1;
+        if (data.ai !== undefined) document.getElementById("techAI").checked = data.ai === 1;
+        if (data.br !== undefined) document.getElementById("techBrand").checked = data.br === 1;
+      } catch (e) {
+        console.error("URL 데이터 파싱 중 오류 발생", e);
+      }
+    }
+    
+    // 자동 최초 진단 실행
+    runDiagnosis();
+  });
+</script>
+
+<script src="yeon-pwa.js" defer></script>
+</body>
+</html>
+

@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>사랑방 — y-life.kr</title>
+<meta name="description" content="연라이프 사랑방 — 자료실, 토론방, 소개가 한자리에 모이는 마당.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F8F2EA;
+  --color-surface:#EDE5D8;
+  --color-primary:#7A6A52;
+  --color-muted:#B8B0A4;
+  --color-text:#2A2018;
+  --color-text-light:#7A6E62;
+  --gold:#B08040;
+  --gold-soft:rgba(176,128,64,0.12);
+  --ink-deep:#1A150E;
+  --border:rgba(42,32,24,0.08);
+  --border-md:rgba(42,32,24,0.16);
+  --surface:#FFFDF8;
+  --font-serif:'Nanum Myeongjo','Noto Sans KR',serif;
+  --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:var(--font-sans);background:var(--color-bg);color:var(--color-text);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:var(--font-sans);border:none;}
+
+/* ─── 헤더 ─── */
+.site-header{background:rgba(26,21,14,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(176,128,64,0.25);position:sticky;top:0;z-index:200;}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px;}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-size:20px;font-weight:800;color:#F8F2EA;cursor:pointer;letter-spacing:.02em;}
+.logo-kanji{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1.5px solid var(--gold);color:var(--gold);border-radius:6px;font-size:16px;}
+.main-nav{display:flex;gap:24px;margin-left:auto;}
+.main-nav a{color:rgba(248,242,234,0.7);font-size:14px;font-weight:500;padding:6px 2px;position:relative;transition:color .15s;}
+.main-nav a:hover{color:#F8F2EA;}
+.main-nav a.active{color:#F8F2EA;}
+.main-nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);}
+.back-home{display:flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid rgba(248,242,234,0.2);border-radius:18px;font-size:13px;color:rgba(248,242,234,0.7);transition:all .15s;}
+.back-home:hover{background:rgba(248,242,234,0.08);color:#F8F2EA;}
+
+/* ─── 컨테이너 ─── */
+.container{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+/* ─── Hero ─── */
+.hero{padding:60px 24px 50px;text-align:center;border-bottom:1px solid var(--border);background:
+  radial-gradient(circle at top left, rgba(176,128,64,0.08), transparent 25%),
+  linear-gradient(180deg, var(--color-bg) 0%, #F2EADD 100%);}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--gold-soft);color:var(--gold);border-radius:18px;font-size:12px;font-weight:700;letter-spacing:.04em;margin-bottom:18px;}
+.hero h1{font-family:var(--font-serif);font-size:clamp(34px,5.5vw,52px);color:var(--ink-deep);font-weight:800;letter-spacing:-.02em;margin-bottom:14px;}
+.hero p{font-size:17px;color:var(--color-text-light);max-width:560px;margin:0 auto;}
+
+/* ─── 카테고리 카드 그리드 ─── */
+.section{padding:56px 0;}
+.section-title{display:flex;align-items:baseline;gap:14px;margin-bottom:28px;}
+.section-title h2{font-family:var(--font-serif);font-size:26px;color:var(--ink-deep);font-weight:800;letter-spacing:-.01em;}
+.section-title .small{font-size:13px;color:var(--color-text-light);}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 24px;display:flex;flex-direction:column;gap:14px;transition:all .2s;position:relative;overflow:hidden;}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(42,32,24,0.08);border-color:var(--border-md);}
+.cat-card.disabled{opacity:.65;}
+.cat-card.disabled:hover{transform:none;box-shadow:none;border-color:var(--border);cursor:default;}
+.cat-icon{width:44px;height:44px;background:var(--gold-soft);color:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.cat-name{font-family:var(--font-serif);font-size:22px;font-weight:800;color:var(--ink-deep);}
+.cat-desc{font-size:14px;color:var(--color-text-light);line-height:1.6;}
+.cat-status{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--gold);}
+.cat-status.coming{color:var(--color-muted);}
+
+/* ─── 자료실 책 그리드 ─── */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,340px));gap:24px;justify-content:center;}
+.book-card{background:transparent;border:none;display:flex;flex-direction:column;gap:14px;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1);}
+.book-card:hover{transform:translateY(-4px);}
+.book-card:hover .book-cover{box-shadow:0 22px 50px rgba(20,12,32,0.45), 0 6px 14px rgba(20,12,32,0.3);}
+
+/* 북 커버 — 옵시디언 보석 모티프 */
+.book-cover{aspect-ratio:3/4;border-radius:8px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(155,110,210,0.35), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(60,30,90,0.5), transparent 45%),
+    linear-gradient(155deg, #1A0F2E 0%, #2D1B4E 45%, #14091F 100%);
+  box-shadow:0 14px 36px rgba(20,12,32,0.32), 0 4px 10px rgba(20,12,32,0.22);
+  transition:box-shadow .25s ease;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:22px 22px 20px;color:#F5EFE3;
+}
+.book-cover::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:1px;background:linear-gradient(180deg, transparent, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.15) 70%, transparent);}
+.book-cover::after{content:'';position:absolute;inset:8px;border:1px solid rgba(212,175,121,0.28);border-radius:4px;pointer-events:none;}
+.bc-top{position:relative;z-index:2;display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.18em;color:rgba(212,175,121,0.85);font-weight:700;}
+.bc-top .dot{width:5px;height:5px;border-radius:50%;background:#D4AF79;}
+.bc-gem{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:78px;height:88px;z-index:1;filter:drop-shadow(0 6px 14px rgba(155,110,210,0.5));}
+.bc-bottom{position:relative;z-index:2;display:flex;flex-direction:column;gap:4px;}
+.bc-title{font-family:var(--font-serif);font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.2;color:#F5EFE3;}
+.bc-sub{font-family:var(--font-serif);font-size:11.5px;color:rgba(212,175,121,0.95);font-weight:400;letter-spacing:.04em;}
+.bc-author{margin-top:8px;font-size:11px;color:rgba(245,239,227,0.7);letter-spacing:.05em;}
+
+.book-info{display:flex;flex-direction:column;gap:6px;padding:0 4px;}
+.book-title{font-family:var(--font-serif);font-size:17px;font-weight:800;color:var(--ink-deep);}
+.book-author-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-text-light);}
+.book-meta{display:flex;gap:8px;align-items:center;margin-top:4px;font-size:11.5px;flex-wrap:wrap;}
+.book-version{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;background:var(--gold-soft);color:var(--gold);border-radius:10px;font-weight:700;}
+.book-date{color:var(--color-text-light);}
+.book-source{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-light);margin-top:2px;}
+.book-source a{color:var(--gold);font-weight:600;}
+.book-source a:hover{text-decoration:underline;}
+
+/* ─── 곧 열림 안내 ─── */
+.coming-card{background:repeating-linear-gradient(45deg, var(--surface), var(--surface) 12px, #F4ECDF 12px, #F4ECDF 24px);border:1px dashed var(--border-md);border-radius:18px;padding:32px;text-align:center;color:var(--color-text-light);}
+.coming-card-title{font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--color-text);margin-bottom:6px;}
+
+/* ─── 푸터 ─── */
+.footer{background:var(--ink-deep);color:rgba(248,242,234,0.75);padding:36px 24px;text-align:center;font-size:13px;border-top:3px solid var(--gold);}
+.footer .ink-mark{font-family:var(--font-serif);font-size:22px;color:var(--gold);margin-top:6px;}
+
+@media (max-width:640px){
+  .header-inner{padding:12px 16px;gap:10px;}
+  .main-nav{display:none;}
+  .container{padding:0 16px;}
+  .hero{padding:44px 16px 36px;}
+  .section{padding:40px 0;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ 헤더 ════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <span class="logo-kanji">緣</span>
+      y-life.kr
+    </a>
+    <nav class="main-nav">
+      <a href="index.html#hwadu">화두</a>
+      <a href="index.html#news">소식</a>
+      <a href="index.html#agora">토론광장</a>
+      <a href="index.html#bridge">인연의 다리</a>
+      <a href="index.html#builder">사이트 빌더</a>
+      <a href="saranbang.html" class="active">사랑방</a>
+    </nav>
+    <a href="index.html" class="back-home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      홈
+    </a>
+  </div>
+</header>
+
+<!-- ════ Hero ════ -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">緣 · 사랑방</span>
+    <h1>사랑방</h1>
+    <p>옛 한옥의 사랑방처럼, 사람과 글과 이야기가 머무는 자리입니다. 자료를 모으고, 따로 모여 묻고, 함께 나누고 싶은 것을 풀어 놓는 곳.</p>
+  </div>
+</section>
+
+<!-- ════ 마당 카드 ════ -->
+<div class="container">
+  <section class="section">
+    <div class="section-title">
+      <h2>사랑방의 마당</h2>
+      <span class="small">앞으로 더 늘어납니다</span>
+    </div>
+    <div class="cat-grid">
+
+      <a class="cat-card" href="#library" onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'});return false;">
+        <div class="cat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="cat-name">자료실</div>
+        <div class="cat-desc">함께 읽고 나눌 책·문서·아카이브를 모아둡니다. 새로운 자료가 올라올 때마다 알려드립니다.</div>
+        <div class="cat-status">열려있음 · 자료 1편 →</div>
+      </a>
+
+      <div class="cat-card disabled">
+        <div class="cat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="cat-name">따로 토론방</div>
+        <div class="cat-desc">광장에 올리기엔 결이 다른, 작고 따뜻한 모임의 자리. 주제별로 따로 모여 묻고 답합니다.</div>
+        <div class="cat-status coming">곧 열립니다</div>
+      </div>
+
+      <div class="cat-card disabled">
+        <div class="cat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg>
+        </div>
+        <div class="cat-name">소개의 자리</div>
+        <div class="cat-desc">사람·일·이야기를 펼쳐 보이는 자리. 함께 나누고 싶은 것이라면 무엇이든.</div>
+        <div class="cat-status coming">곧 열립니다</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ 자료실 ════ -->
+  <section class="section" id="library" style="border-top:1px solid var(--border);">
+    <div class="section-title">
+      <h2>자료실</h2>
+      <span class="small">함께 읽고 나눌 자료들</span>
+    </div>
+    <div class="book-grid">
+
+      <a class="book-card" href="saranbang/obsidian/index.html">
+        <div class="book-cover">
+          <div class="bc-top"><span class="dot"></span>緣 LIFE · 사랑방 자료실</div>
+          <svg class="bc-gem" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gemFace1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#C9A8FF"/><stop offset="1" stop-color="#5C3D9E"/>
+              </linearGradient>
+              <linearGradient id="gemFace2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#7E5BC4"/><stop offset="1" stop-color="#2A1850"/>
+              </linearGradient>
+              <linearGradient id="gemFace3" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stop-color="#3B215F"/><stop offset="1" stop-color="#9774D6"/>
+              </linearGradient>
+            </defs>
+            <polygon points="40,4 70,30 40,86 10,30" fill="url(#gemFace2)" stroke="rgba(212,175,121,0.4)" stroke-width="0.6"/>
+            <polygon points="40,4 70,30 40,52 10,30" fill="url(#gemFace1)" opacity="0.92"/>
+            <polygon points="10,30 40,52 40,86" fill="url(#gemFace3)" opacity="0.7"/>
+            <polygon points="40,4 55,28 40,40 25,28" fill="rgba(255,255,255,0.18)"/>
+          </svg>
+          <div class="bc-bottom">
+            <div class="bc-sub">두 번째 뇌를 짓는 노트의 길</div>
+            <div class="bc-title">옵시디언<br/>활용법</div>
+            <div class="bc-author">연소사 지음</div>
+          </div>
+        </div>
+        <div class="book-info">
+          <div class="book-title">옵시디언 활용법</div>
+          <div class="book-author-row">연소사 지음</div>
+          <div class="book-meta">
+            <span class="book-version">v1.0 · 최신</span>
+            <span class="book-date">2026-05-07</span>
+          </div>
+          <div class="book-source">제작 · <a href="https://yeon.ai.kr/ulsan/yeon-planning/" target="_blank" rel="noopener">연플래닝</a></div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ════ 푸터 ════ -->
+<footer class="footer">
+  <div>© 2026 y-life.kr · 삶·인연·소통, 그 깊은 연(緣)으로 잇다</div>
+  <div class="ink-mark">緣</div>
+</footer>
+
+
+<script src="yeon-pwa.js" defer></script>
+</body>
+</html>
+
