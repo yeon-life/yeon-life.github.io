@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F2EA">
+    <title>아곤란 — 학생의 광장 | Y Life</title>
+    <meta name="description" content="아곤란은 학생의 모든 곤란함을 기다리는 자리입니다. 청소년 광장 · 영풀 · 수풀 · 어린이 기자단이 모이는 학생 허브.">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "hanji-base": "#F8F2EA",
+                        "ink-stone": "#1D1D1B",
+                        "gold-thread": "#B8955A",
+                        "pine-needle": "#427A71",
+                        "card-surface": "#FFFDF8",
+                        "sprout": "#8A9A5B",
+                        "border-color": "rgba(29, 29, 27, 0.08)"
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '2px',
+                        'DEFAULT': '4px',
+                        'md': '4px',
+                        'lg': '4px',
+                        'xl': '4px',
+                        '2xl': '4px',
+                        'full': '9999px'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Style Overlay -->
+    <style>
+        body {
+            font-family: 'Noto Serif KR', serif;
+            background-color: #F8F2EA;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hanji-texture {
+            background-image: radial-gradient(rgba(138, 154, 91, 0.08) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .ink-bleed {
+            filter: blur(0.3px) contrast(1.05);
+        }
+        .ref-popup {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(340px, 88vw);
+            background: #FFFDF8;
+            border: 1px solid #8A9A5B;
+            padding: 18px 22px;
+            z-index: 100;
+            box-shadow: 0 12px 32px rgba(29,29,27,0.12);
+            font-size: 0.88rem;
+            line-height: 1.75;
+            color: #3C3C38;
+            text-align: left;
+        }
+        .ref-popup::after {
+            content: ""; position: absolute;
+            bottom: -7px; left: 50%; transform: translateX(-50%) rotate(45deg);
+            width: 12px; height: 12px; background: #FFFDF8;
+            border-right: 1px solid #8A9A5B;
+            border-bottom: 1px solid #8A9A5B;
+        }
+        .reference:hover .ref-popup,
+        .reference:focus .ref-popup,
+        .reference.open .ref-popup {
+            display: block;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F2EA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8A9A5B;
+            border-radius: 0px;
+        }
+    </style>
+    
+    <!-- PWA 스크립트 연동 -->
+    <script src="yeon-pwa.js" defer></script>
+</head>
+<body class="hanji-texture min-h-screen text-ink-stone flex flex-col relative selection:bg-sprout/30" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcQ28YOFU2ekFOp64K-6_tNVE3DSRHE8dDT2rf3mp12Q2yKSOVheRWzxUIZK8UVaZiRc49703V5pXQUWVK4Ko8jTeuCpwn8o-NlU87b_Bk3EOpkbkSbdTXv5GyG6NVX7EIgxxzezvcCyB9P0X175V7nqL3VOB9OuQ8_04Mw9qqlIEzdkgr2tJYPUa3mFdprPRK6-Qi8KBo1_-rQdixIj3IDTuyx2CL7kgvxcG-HYcewrqUzGhdppn4R_5EzCfdUpVx3E86Yt-IARZr'); background-size: cover; background-attachment: fixed; background-position: center;">
+
+    <!-- 미리보기 배너 -->
+    <div class="bg-hanji-base border-b border-sprout/20 text-ink-stone/70 text-xs py-2.5 px-4 text-center z-50 relative font-medium">
+        <strong>미리보기</strong> · 이 파일은 디자인·톤 확인용 단독 미리보기입니다. 우측 하단 공유 위젯을 클릭하여 QR코드와 공유 기능을 확인할 수 있습니다.
+    </div>
+
+    <!-- 네비게이션 헤더 -->
+    <header class="sticky top-0 w-full z-40 bg-hanji-base/80 backdrop-blur-md border-b border-gold-thread/20 px-6 md:px-12 h-16 flex justify-between items-center transition-all duration-300">
+        <a href="index.html" class="font-bold text-xl tracking-wider text-ink-stone flex items-center gap-1.5 font-sans">
+            <span class="font-serif font-light text-gold-thread">緣</span> Y LIFE
+        </a>
+        
+        <!-- PC 네비 링크 -->
+        <nav class="hidden lg:flex gap-8 items-center">
+            <a class="text-ink-stone/70 hover:text-gold-thread transition-all text-sm font-medium" href="index.html">홈</a>
+            <a class="text-ink-stone/70 hover:text-gold-thread transition-all text-sm font-medium" href="ulsan.html">소개</a>
+            
+            <!-- 토론 드롭다운 -->
+            <div class="relative group">
+                <a class="text-gold-thread font-bold transition-all text-sm flex items-center gap-1 cursor-pointer">
+                    토론 <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+                </a>
+                <div class="absolute left-0 mt-2 w-48 bg-card-surface border border-gold-thread/20 py-2 shadow-lg hidden group-hover:block rounded-sm">
+                    <a href="아골라_미리보기.html" class="block px-4 py-2 text-xs text-ink-stone/80 hover:bg-hanji-base/30">아골라 <span class="block text-[10px] text-ink-stone/50 font-normal">성인 광장</span></a>
+                    <hr class="border-gold-thread/10 my-1">
+                    <a href="아곤란_미리보기.html" class="block px-4 py-2 text-xs font-semibold text-sprout bg-hanji-base/50">아곤란 <span class="block text-[10px] text-ink-stone/50 font-normal">학생 허브 · 현재</span></a>
+                    <a href="student.html" class="block px-4 py-2 text-xs text-ink-stone/80 hover:bg-hanji-base/30 pl-6">청소년 광장</a>
+                    <a href="saranbang.html" class="block px-4 py-2 text-xs text-ink-stone/80 hover:bg-hanji-base/30 pl-6">영풀 (영어학습)</a>
+                    <a href="question-forest.html" class="block px-4 py-2 text-xs text-ink-stone/80 hover:bg-hanji-base/30 pl-6">수풀 (수학학습)</a>
+                </div>
+            </div>
+            
+            <a class="text-ink-stone/70 hover:text-gold-thread transition-all text-sm font-medium" href="column.html">칼럼</a>
+            <a class="text-ink-stone/70 hover:text-gold-thread transition-all text-sm font-medium" href="news.html">소식</a>
+        </nav>
+        
+        <div class="flex items-center gap-4">
+            <a href="#" class="hidden sm:inline-block border border-ink-stone hover:bg-ink-stone hover:text-hanji-base text-xs font-medium py-2 px-4 transition-all duration-300 rounded-sm">로그인</a>
+            <button class="material-symbols-outlined text-ink-stone/60 hover:text-gold-thread transition-colors p-2" aria-label="설정">settings</button>
+            <button class="lg:hidden material-symbols-outlined text-ink-stone p-2" id="mobileMenuBtn" aria-label="메뉴 열기">menu</button>
+        </div>
+    </header>
+
+    <!-- 모바일 메뉴 드로어 -->
+    <div id="mobileDrawerOverlay" class="fixed inset-0 bg-ink-stone/30 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0"></div>
+    <aside id="mobileDrawer" class="fixed top-0 right-0 h-full w-[280px] bg-hanji-base z-50 p-6 flex flex-col shadow-2xl transition-transform duration-300 translate-x-full rounded-none">
+        <div class="flex justify-between items-center pb-6 border-b border-gold-thread/20 mb-6">
+            <span class="font-bold text-lg tracking-wider"><span class="font-serif font-light text-gold-thread">緣</span> Y LIFE</span>
+            <button class="material-symbols-outlined text-ink-stone p-2" id="mobileDrawerCloseBtn" aria-label="메뉴 닫기">close</button>
+        </div>
+        <a href="#" class="bg-ink-stone text-hanji-base text-center py-3 font-semibold text-sm mb-6 rounded-sm">로그인</a>
+        <nav class="flex flex-col gap-4 font-medium text-sm">
+            <a href="index.html" class="py-2 border-b border-gold-thread/10 text-ink-stone/80">홈</a>
+            <a href="ulsan.html" class="py-2 border-b border-gold-thread/10 text-ink-stone/80">소개</a>
+            <div class="py-2">
+                <span class="text-gold-thread font-bold block mb-2">토론</span>
+                <div class="flex flex-col gap-2 pl-4 border-l border-gold-thread/20">
+                    <a href="아골라_미리보기.html" class="text-xs text-ink-stone/70">아골라 (성인 토론)</a>
+                    <a href="아곤란_미리보기.html" class="text-xs font-bold text-sprout">아곤란 (학생 허브)</a>
+                    <a href="student.html" class="text-xs text-ink-stone/70 pl-2">청소년 광장</a>
+                    <a href="saranbang.html" class="text-xs text-ink-stone/70 pl-2">영풀</a>
+                    <a href="question-forest.html" class="text-xs text-ink-stone/70 pl-2">수풀</a>
+                </div>
+            </div>
+            <a href="column.html" class="py-2 border-b border-gold-thread/10 text-ink-stone/80">칼럼</a>
+            <a href="news.html" class="py-2 border-b border-gold-thread/10 text-ink-stone/80">소식</a>
+        </nav>
+    </aside>
+
+    <!-- 메인 대지 -->
+    <main class="flex-grow pt-12 pb-24 px-6 md:px-12 max-w-6xl mx-auto w-full relative z-10 flex flex-col gap-16">
+        
+        <!-- 한자 워터마크 백그라운드 -->
+        <div class="fixed top-[30%] right-[5%] opacity-[0.03] select-none pointer-events-none -z-10 font-serif text-[280px] text-sprout">
+            芽
+        </div>
+
+        <!-- 히어로 세션 -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-8 space-y-6">
+                <span class="text-sprout tracking-[0.25em] text-xs font-bold font-mono uppercase block">AGONRAN · A SQUARE FOR YOUNG MINDS</span>
+                <h1 class="font-serif font-bold text-3xl md:text-5xl leading-tight text-ink-stone ink-bleed">
+                    <em class="not-italic text-sprout">모르겠다</em>는 말이,<br>
+                    첫 <em class="not-italic text-sprout">물음</em>이 되는 자리.
+                </h1>
+                <p class="text-sm md:text-base text-ink-stone/70 max-w-lg leading-relaxed">
+                    아곤란은 학생의 모든 막막함을 기다리는 자리입니다. 함께 생각을 나누는 <em>청소년 광장</em>, 혼자서도 질문에 답이 되어줄 <em>영풀·수풀</em>, 그리고 자기 시선을 기록하는 <em>어린이 기자단</em>이 여기에 모집 및 활동합니다.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <a href="#areas" class="bg-ink-stone hover:bg-sprout text-hanji-base hover:text-ink-stone font-medium text-xs py-3.5 px-8 transition-all duration-300 rounded-sm shadow-md">학생 허브 둘러보기</a>
+                    <a href="#promises" class="border border-sprout text-sprout hover:bg-sprout hover:text-ink-stone font-medium text-xs py-3.5 px-8 transition-all duration-300 rounded-sm bg-white/20">이 광장의 약속</a>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-4 lg:justify-self-end flex items-center gap-6">
+                <div class="writing-mode-vertical text-center py-6 px-4 border-l border-sprout/40 font-serif text-lg tracking-[0.4em] text-sprout leading-none" style="writing-mode: vertical-rl;">
+                    芽 (싹 아)
+                </div>
+            </div>
+        </section>
+
+        <!-- 어원 블록 -->
+        <section class="max-w-4xl mx-auto w-full">
+            <div class="bg-white/40 backdrop-blur-sm border-l-2 border-sprout p-8 md:p-10 rounded-r-sm">
+                <span class="font-serif text-xs text-sprout tracking-widest block mb-3 font-semibold">WHY "AGONRAN"</span>
+                <h3 class="font-serif text-lg md:text-xl font-bold text-ink-stone leading-snug mb-4">
+                    "<strong>아! 곤란하다</strong>" — 어떻게 해야 할지 몰라 막막할 때, 가장 먼저 내쉬는 말.
+                </h3>
+                <div class="text-sm text-ink-stone/80 leading-relaxed space-y-4">
+                    <p>
+                        아곤란(Agonran)은 한국어 <em>"아! 곤란하다"</em>의 정서에서 출발합니다. 답을 이미 알고 오는 곳이 아니라, <em>아직 모르겠다</em>는 마음을 가지고 들어오는 자리입니다. 모든 배움의 첫걸음은 "모르겠다"에서 시작되고, 그 솔직한 한 마디가 이 광장의 입장권입니다.
+                    </p>
+                    <p class="pt-4 border-t border-sprout/10 mt-4">
+                        광장 입구에는 <span class="font-serif font-bold text-sprout text-base">芽 (싹 아)</span> 한 글자만 서 있습니다. 갓 돋아난 새싹처럼, 처음의 질문과 사색은 작고 서투릅니다. 아곤란은 그 서툼과 막막함을 결코 부끄러워하지 않는 안전한 자리입니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 학생이 기댈 수 있는 세 자리 (3대 허브) -->
+        <section id="areas" class="space-y-8">
+            <div class="text-center">
+                <span class="text-sprout tracking-[0.2em] text-xs font-semibold block mb-2 uppercase font-mono">THREE PLACES IN AGONRAN</span>
+                <h2 class="font-serif text-2xl md:text-3xl font-bold text-ink-stone">학생이 기댈 수 있는 세 자리</h2>
+                <p class="text-xs text-ink-stone/50 mt-2">같이 생각하고 싶을 때, 혼자 풀고 싶을 때, 내 시선을 쓰고 싶을 때</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 허브 1: 청소년 광장 -->
+                <a href="student.html" class="bg-card-surface/70 backdrop-blur-sm border border-sprout/15 hover:border-sprout/40 p-8 flex flex-col justify-between rounded-sm transition-all duration-300 group shadow-md hover:shadow-lg">
+                    <div>
+                        <div class="font-serif text-3xl font-light text-sprout mb-4 leading-none">談</div>
+                        <span class="font-mono text-[9px] text-sprout/70 tracking-widest block mb-2">SQUARE</span>
+                        <h3 class="font-serif text-lg font-bold text-ink-stone mb-3 group-hover:text-sprout transition-colors">청소년 광장</h3>
+                        <p class="text-xs text-ink-stone/75 leading-relaxed">
+                            같이 생각하고 싶을 때. 친구들과 함께 묻고, 듣고, 더 나은 답을 찾아가는 자리. 이기려고가 아니라, 함께 배우려고 말합니다.
+                        </p>
+                    </div>
+                    <span class="text-xs text-sprout font-bold border-b border-sprout/30 pb-0.5 mt-8 self-start">광장으로 들어가기 →</span>
+                </a>
+                
+                <!-- 허브 2: 영풀 -->
+                <a href="saranbang.html" class="bg-card-surface/70 backdrop-blur-sm border border-sprout/15 hover:border-sprout/40 p-8 flex flex-col justify-between rounded-sm transition-all duration-300 group shadow-md hover:shadow-lg">
+                    <div>
+                        <div class="font-serif text-3xl font-light text-sprout mb-4 leading-none">英</div>
+                        <span class="font-mono text-[9px] text-sprout/70 tracking-widest block mb-2">ENGLISH · 영풀</span>
+                        <h3 class="font-serif text-lg font-bold text-ink-stone mb-3 group-hover:text-sprout transition-colors">영풀 (영어학습)</h3>
+                        <p class="text-xs text-ink-stone/75 leading-relaxed">
+                            혼자 영어 풀이가 필요할 때. AI가 세 가지 풀이를 보여주고, 어떤 개념을 썼는지 알려줍니다. 이해가 될 때까지 다시 물어도 좋습니다.
+                        </p>
+                    </div>
+                    <span class="text-xs text-sprout font-bold border-b border-sprout/30 pb-0.5 mt-8 self-start">영풀 열기 →</span>
+                </a>
+                
+                <!-- 허브 3: 수풀 -->
+                <a href="question-forest.html" class="bg-card-surface/70 backdrop-blur-sm border border-sprout/15 hover:border-sprout/40 p-8 flex flex-col justify-between rounded-sm transition-all duration-300 group shadow-md hover:shadow-lg">
+                    <div>
+                        <div class="font-serif text-3xl font-light text-sprout mb-4 leading-none">數</div>
+                        <span class="font-mono text-[9px] text-sprout/70 tracking-widest block mb-2">MATH · 수풀</span>
+                        <h3 class="font-serif text-lg font-bold text-ink-stone mb-3 group-hover:text-sprout transition-colors">수풀 (수학학습)</h3>
+                        <p class="text-xs text-ink-stone/75 leading-relaxed">
+                            혼자 수학 풀이가 필요할 때. 문제 하나에 세 가지 풀이. 모르겠으면 "더 쉽게" 버튼 한 번. 이전 풀이로 자유롭게 돌아갈 수 있습니다.
+                        </p>
+                    </div>
+                    <span class="text-xs text-sprout font-bold border-b border-sprout/30 pb-0.5 mt-8 self-start">수풀 열기 →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 오늘 가장 빛난 질문 (Highlight Card) -->
+        <section class="max-w-3xl mx-auto w-full relative">
+            <div class="relative p-8 md:p-10 bg-white/80 border border-sprout rounded-sm shadow-lg overflow-hidden bg-white/50 backdrop-blur-lg">
+                <div class="absolute top-0 right-0 py-2 px-4 bg-sprout text-white font-mono text-[9px] tracking-widest uppercase rounded-bl-sm">
+                    BEST QUESTION
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-start gap-6 pt-2">
+                    <div class="flex md:flex-col items-center gap-2 shrink-0">
+                        <div class="w-12 h-12 bg-ink-stone flex items-center justify-center text-hanji-base font-bold text-sm rounded-sm">
+                            고2
+                        </div>
+                        <span class="text-[10px] text-ink-stone/50 font-medium italic">김*민 학생</span>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="font-serif font-semibold text-lg md:text-xl text-ink-stone leading-relaxed">
+                            "어른들은 정말 자기가 하고 싶은 일을 하며 살고 있나요, 아니면 해야 하는 일을 하며 살고 있나요?"
+                        </h3>
+                        <div class="flex gap-4 text-xs text-ink-stone/40 font-medium border-t border-sprout/10 pt-3">
+                            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sprout"></span> 좋은 물음 124</span>
+                            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-ink-stone/20"></span> 댓글 42</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 대화 입력창 -->
+        <section class="border border-sprout/20 p-8 rounded-sm bg-card-surface/80 backdrop-blur-sm max-w-3xl mx-auto w-full transition-all duration-500 hover:border-sprout/40 shadow-md relative">
+            <div class="absolute top-0 right-0 p-4 opacity-5 font-serif text-6xl pointer-events-none select-none text-sprout">
+                問
+            </div>
+            
+            <div class="flex flex-col gap-6 relative z-10">
+                <div class="flex items-center gap-2.5">
+                    <span class="material-symbols-outlined text-sprout" aria-hidden="true">auto_awesome</span>
+                    <p class="font-serif text-sm font-semibold text-sprout italic">"청중의 시선 끝에 당신의 물음이 있습니다. 무엇을 묻고 싶으신가요?"</p>
+                </div>
+                
+                <div class="relative">
+                    <input id="questionInput" class="w-full bg-transparent border-0 border-b border-sprout/20 focus:ring-0 focus:border-sprout py-3 px-2 text-sm leading-relaxed placeholder:text-ink-stone/30 transition-all duration-300" placeholder="이곳에 당신의 물음을 심어주세요...">
+                    <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-sprout/40" aria-hidden="true">ink_pen</span>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button id="submitQuestionBtn" class="w-full sm:w-auto bg-sprout hover:bg-ink-stone text-hanji-base px-8 py-3 rounded-full text-xs font-semibold tracking-wider transition-all duration-500 shadow-md flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[16px]">history_edu</span> 
+                        <span>질문 남기기</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 학생 질문 리스트 스택 -->
+        <section class="max-w-3xl mx-auto w-full space-y-6">
+            <div class="flex items-center gap-2.5 border-b border-sprout/20 pb-3">
+                <span class="material-symbols-outlined text-sprout" aria-hidden="true">forum</span>
+                <h3 class="font-serif text-base font-bold text-ink-stone">최신 올라온 질문</h3>
+            </div>
+
+            <!-- 질문 카드 1 -->
+            <div class="p-6 bg-white/70 backdrop-blur-md border border-sprout/10 hover:border-sprout/30 rounded-sm transition-all duration-300 group flex items-start gap-4">
+                <div class="flex flex-col items-center shrink-0">
+                    <div class="w-10 h-10 border border-sprout/20 flex items-center justify-center text-ink-stone font-bold text-xs rounded-sm bg-hanji-base">
+                        중1
+                    </div>
+                    <span class="text-[9px] text-ink-stone/50 font-medium italic mt-1">이*서</span>
+                </div>
+                <div class="flex-grow pt-0.5">
+                    <p class="text-sm font-medium text-ink-stone leading-relaxed mb-3 group-hover:text-sprout transition-colors">
+                        "내가 좋아하는 것을 진짜 내가 좋아하는 걸까요? 친구들이 좋다고 하니까 저도 좋아하는 척 하는 기분이 들어요."
+                    </p>
+                    <div class="flex items-center gap-3 text-[11px] text-ink-stone/40 font-medium">
+                        <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sprout/50"></span> 좋은 물음 36</span>
+                        <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-ink-stone/10"></span> 댓글 9</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 질문 카드 2 -->
+            <div class="p-6 bg-white/70 backdrop-blur-md border border-sprout/10 hover:border-sprout/30 rounded-sm transition-all duration-300 group flex items-start gap-4">
+                <div class="flex flex-col items-center shrink-0">
+                    <div class="w-10 h-10 border border-sprout/20 flex items-center justify-center text-ink-stone font-bold text-xs rounded-sm bg-hanji-base">
+                        초6
+                    </div>
+                    <span class="text-[9px] text-ink-stone/50 font-medium italic mt-1">박*준</span>
+                </div>
+                <div class="flex-grow pt-0.5">
+                    <p class="text-sm font-medium text-ink-stone leading-relaxed mb-3 group-hover:text-sprout transition-colors">
+                        "꼭 훌륭한 사람이 되어야 하나요? 저는 그냥 평범한 사람이 되고 싶은데, 그건 잘못된 건가요?"
+                    </p>
+                    <div class="flex items-center gap-3 text-[11px] text-ink-stone/40 font-medium">
+                        <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sprout/50"></span> 좋은 물음 82</span>
+                        <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-ink-stone/10"></span> 댓글 15</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 이 광장의 다섯 약속 -->
+        <section id="promises" class="space-y-8">
+            <div class="text-center">
+                <span class="text-sprout tracking-[0.2em] text-xs font-semibold block mb-2 uppercase font-mono">OUR PROMISES TO YOU</span>
+                <h2 class="font-serif text-2xl md:text-3xl font-bold text-ink-stone">이 광장의 다섯 약속</h2>
+                <p class="text-xs text-ink-stone/50 mt-2">네가 안심하고 말할 수 있도록, 우리가 먼저 지키는 것들</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 약속 1 -->
+                <div class="bg-white/60 backdrop-blur-sm border border-sprout/10 hover:border-sprout/30 p-6 flex flex-col gap-4 rounded-sm transition-all duration-300">
+                    <span class="font-mono text-[10px] text-sprout tracking-widest block">PROMISE · 01</span>
+                    <h3 class="font-serif text-sm font-bold text-ink-stone">틀려도 괜찮아</h3>
+                    <p class="text-xs text-ink-stone/70 leading-relaxed">틀린 말에서도 마음이 자랍니다. 맞는 답보다 솔직한 물음이 먼저 대접받는 곳입니다.</p>
+                </div>
+                <!-- 약속 2 -->
+                <div class="bg-white/60 backdrop-blur-sm border border-sprout/10 hover:border-sprout/30 p-6 flex flex-col gap-4 rounded-sm transition-all duration-300">
+                    <span class="font-mono text-[10px] text-sprout tracking-widest block">PROMISE · 02</span>
+                    <h3 class="font-serif text-sm font-bold text-ink-stone">비웃지 않아</h3>
+                    <p class="text-xs text-ink-stone/70 leading-relaxed">누구의 질문도 작지 않습니다. 조롱·비웃음·낙인은 이 광장에서 자리를 찾지 못합니다.</p>
+                </div>
+                <!-- 약속 3 -->
+                <div class="bg-white/60 backdrop-blur-sm border border-sprout/10 hover:border-sprout/30 p-6 flex flex-col gap-4 rounded-sm transition-all duration-300">
+                    <span class="font-mono text-[10px] text-sprout tracking-widest block">PROMISE · 03</span>
+                    <h3 class="font-serif text-sm font-bold text-ink-stone">이름은 숨기고, 생각은 꺼내</h3>
+                    <p class="text-xs text-ink-stone/70 leading-relaxed">실명도 학교명도 공개하지 않습니다. 누가 말했는지보다 무엇을 말했는지가 먼저 보입니다.</p>
+                </div>
+                <!-- 약속 4 -->
+                <div class="bg-white/60 backdrop-blur-sm border border-sprout/10 hover:border-sprout/30 p-6 flex flex-col gap-4 rounded-sm transition-all duration-300">
+                    <span class="font-mono text-[10px] text-sprout tracking-widest block">PROMISE · 04</span>
+                    <h3 class="font-serif text-sm font-bold text-ink-stone">어른이 함께 지켜봐</h3>
+                    <p class="text-xs text-ink-stone/70 leading-relaxed">운영자와 AI가 함께 살핍니다. 위험한 말, 개인정보 노출, 괴롭힘은 바로 닿을 수 있게 준비돼 있습니다.</p>
+                </div>
+                <!-- 약속 5 -->
+                <div class="bg-white/60 backdrop-blur-sm border border-sprout/10 hover:border-sprout/30 p-6 flex flex-col gap-4 rounded-sm transition-all duration-300">
+                    <span class="font-mono text-[10px] text-sprout tracking-widest block">PROMISE · 05</span>
+                    <h3 class="font-serif text-sm font-bold text-ink-stone">이기려고 말하지 않아</h3>
+                    <p class="text-xs text-ink-stone/70 leading-relaxed">아곤란은 말싸움터가 아닙니다. 함께 더 잘 생각하는 법을 배우는 자리. 네 글이 다듬어지는 과정 자체가 배움입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 나도 기자 (어린이 기자단) -->
+        <section class="max-w-4xl mx-auto w-full">
+            <span class="text-sprout text-xs tracking-widest block font-bold font-mono uppercase mb-2">CHILD REPORTERS · 어린이 기자단</span>
+            <h2 class="font-serif text-2xl font-bold text-ink-stone mb-2">나도 기자</h2>
+            <p class="text-xs text-ink-stone/50 mb-8">내가 본 세상을, 내 목소리로, 내 글로 — 자원봉사로 활동하는 어린이 기자단</p>
+            
+            <div class="bg-white/80 border border-sprout/20 p-8 md:p-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-sm shadow-md">
+                <div class="md:col-span-5 space-y-4">
+                    <div class="font-serif text-5xl font-light text-sprout">筆</div>
+                    <h3 class="font-serif text-lg md:text-xl font-bold text-ink-stone leading-snug">
+                        아이의 눈을 <em class="not-italic text-sprout">어른 글</em>로 번역하지 않습니다.
+                    </h3>
+                    <p class="text-xs text-ink-stone/50">문장도 어휘도, 네 것 그대로.</p>
+                </div>
+                <div class="md:col-span-7 space-y-4 text-xs text-ink-stone/85 leading-relaxed">
+                    <p>자격은 단 두 가지입니다. <strong>의욕</strong>과 <strong>진실된 마음</strong>. 학년도 학교도 묻지 않습니다. 내가 본 것, 들은 것, 느낀 것을 담담히 쓰면 그것이 아곤란의 기사가 됩니다.</p>
+                    <div class="bg-sprout/5 border-l-2 border-sprout p-4 italic text-[11px] text-ink-stone/70">
+                        기사를 올리기 전, AI는 오타와 맞춤법만 살핍니다. 문장을 어른 말투로 바꾸지 않습니다. 네가 쓴 그대로 세상에 전해집니다.
+                    </div>
+                    <p>어린이 기자단 활동은 <strong>자원봉사</strong>로 기록됩니다. 1365 자원봉사포털과 연계되어 활동 시간이 자동으로 쌓입니다.</p>
+                    
+                    <div class="grid grid-cols-3 gap-4 pt-4 border-t border-sprout/15 mt-4">
+                        <div>
+                            <span class="block text-[10px] font-mono text-sprout font-bold tracking-wider mb-1">ELIGIBILITY</span>
+                            <span class="text-[11px] font-medium">초등학생부터</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-mono text-sprout font-bold tracking-wider mb-1">PROTECTION</span>
+                            <span class="text-[11px] font-medium">익명 활동 보장</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-mono text-sprout font-bold tracking-wider mb-1">RECORD</span>
+                            <span class="text-[11px] font-medium">자원봉사 실적</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 부모님께 드리는 약속 -->
+        <section class="max-w-4xl mx-auto w-full">
+            <div class="bg-hanji-base border border-sprout/30 p-8 md:p-10 rounded-sm">
+                <span class="text-sprout text-[10px] font-mono tracking-widest font-bold block mb-2">A NOTE TO PARENTS</span>
+                <h3 class="font-serif text-lg font-bold text-ink-stone mb-4">부모님께 드리는 약속</h3>
+                <p class="text-xs text-ink-stone/70 leading-relaxed max-w-2xl mb-6">
+                    아곤란은 학생이 자기 생각을 말하고, 다른 의견을 듣고, 자기 시선을 기록하는 안전한 자리입니다. 아이가 가입하기 전에 <strong>법정대리인 동의</strong>를 반드시 받습니다. 아이의 안전과 성장을 위해 우리가 먼저 지킵니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>실명·학교명·얼굴은 공개되지 않습니다.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>가입 시 법정대리인 동의를 필수로 받습니다.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>운영자와 AI가 함께 실시간 안전을 살핍니다.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>기자단 활동은 1365 자원봉사로 기록됩니다.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>개인 메시지(DM) 기능은 기본 제한됩니다.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 bg-white/40 rounded-sm">
+                        <span class="material-symbols-outlined text-sprout text-[18px]">verified</span>
+                        <span>불편한 일은 언제든 운영자에게 신고 가능합니다.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 아골라로의 연결 -->
+        <section class="max-w-4xl mx-auto w-full">
+            <div class="bg-white/80 border border-gold-thread/20 p-8 md:p-10 flex flex-col md:flex-row justify-between items-center gap-8 rounded-sm shadow-md">
+                <div class="space-y-3">
+                    <span class="text-gold-thread text-[10px] font-mono tracking-widest block font-bold">AND WHEN YOU GROW · 자라서는</span>
+                    <h3 class="font-serif text-xl font-bold text-ink-stone">자라서는, 더 큰 광장 <em class="not-italic text-gold-thread">아골라</em>로</h3>
+                    <p class="text-xs text-ink-stone/70 max-w-xl leading-relaxed">
+                        아곤란에서 쌓인 생각과 물음은, 어느 날 더 큰 공론장으로 이어집니다. 아골라는 성인들이 우리가 만들어갈 세상의 방향을 함께 논의하는 자리. 지금 여기서 기른 <em>묻는 힘·듣는 힘·다듬는 힘</em>이 그곳에서 열매가 됩니다.
+                    </p>
+                </div>
+                <div class="shrink-0 w-full md:w-auto">
+                    <a href="아골라_미리보기.html" class="w-full md:w-auto text-center border border-gold-thread hover:bg-gold-thread hover:text-ink-stone font-semibold text-xs py-3.5 px-8 transition-all duration-300 rounded-sm block">아골라 보기 →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 대기자 등록 -->
+        <section id="waitlist" class="max-w-4xl mx-auto w-full">
+            <div class="border border-dashed border-sprout p-8 md:p-12 text-center bg-white/40 backdrop-blur-sm rounded-sm">
+                <span class="text-sprout text-xs font-mono tracking-widest block mb-3 font-semibold">COMING SOON</span>
+                <h3 class="font-serif text-xl md:text-2xl font-bold text-ink-stone">아곤란이 열리는 날 알려드릴게요</h3>
+                <p class="text-xs md:text-sm text-ink-stone/70 max-w-lg mx-auto mt-2 mb-8 leading-relaxed">
+                    아곤란은 준비 중입니다. 학생의 첫 가입은 보호자의 동의 절차와 함께 활성화됩니다. 문이 열리면 가장 먼저 소식을 전하겠습니다.
+                </p>
+                
+                <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('아직 대기자 시스템이 연결되지 않았습니다. 연결 후 활성화됩니다.');">
+                    <input type="email" placeholder="보호자 이메일 주소를 입력해 주세요" required class="flex-grow bg-white/70 border border-ink-stone focus:border-sprout focus:ring-0 text-xs px-4 py-3 rounded-none placeholder:text-ink-stone/30">
+                    <button type="submit" class="bg-ink-stone hover:bg-sprout text-hanji-base hover:text-ink-stone text-xs font-bold py-3.5 px-6 transition-colors duration-300 rounded-none shadow-md shrink-0">소식 받기</button>
+                </form>
+                
+                <div class="flex gap-6 justify-center mt-8 text-[11px] text-ink-stone/50 font-medium">
+                    <a href="#" class="hover:text-sprout underline decoration-dotted decoration-sprout/40">안전 원칙 (준비 중)</a>
+                    <a href="#" class="hover:text-sprout underline decoration-dotted decoration-sprout/40">법정대리인 동의 안내 (준비 중)</a>
+                    <a href="#" class="hover:text-sprout underline decoration-dotted decoration-sprout/40">어린이 기자단 모집 (준비 중)</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="w-full bg-ink-stone text-hanji-base py-16 px-6 md:px-12 mt-auto border-t border-gold-thread/20 relative z-10">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+            <div class="md:col-span-6 space-y-4">
+                <div class="font-serif font-bold text-lg tracking-wider text-white"><span class="font-serif font-light text-gold-thread">緣</span> Y LIFE · 아곤란</div>
+                <p class="text-xs text-hanji-base/70 leading-relaxed max-w-sm">
+                    아곤란과 아골라는 연라이프(Y Life)가 <strong>비영리로 운영하는 공개 공론장</strong>입니다. 학생의 안전과 성장, 그리고 자원봉사 연계까지 투명하게 제공됩니다.
+                </p>
+            </div>
+            
+            <div class="md:col-span-3 space-y-3 text-xs">
+                <h5 class="font-serif font-bold text-white tracking-widest uppercase mb-1">광장</h5>
+                <a href="아골라_미리보기.html" class="block text-hanji-base/60 hover:text-gold-thread transition-colors">아골라 (성인)</a>
+                <a href="아곤란_미리보기.html" class="block text-hanji-base/60 hover:text-sprout transition-colors">아곤란 (청소년)</a>
+                <a href="#" class="block text-hanji-base/60 hover:text-sprout transition-colors">어린이 기자단</a>
+                <a href="#" class="block text-hanji-base/60 hover:text-sprout transition-colors">안전 가이드라인</a>
+            </div>
+            
+            <div class="md:col-span-3 space-y-3 text-xs">
+                <h5 class="font-serif font-bold text-white tracking-widest uppercase mb-1">연결</h5>
+                <p class="text-hanji-base/60 leading-relaxed">ULSAN · REPUBLIC OF KOREA</p>
+                <p><a href="mailto:yeon@y-life.com" class="text-hanji-base/60 hover:text-gold-thread transition-colors">yeon@y-life.com</a></p>
+                <p class="text-hanji-base/40 mt-2">@yeon_life</p>
+            </div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] text-hanji-base/40 tracking-wider">
+            <p>© 2026 Y LIFE · 아곤란 · CONNECTED BY 緣</p>
+            <p class="italic">인연으로 오고, 인연으로 간다</p>
+        </div>
+    </footer>
+
+    <!-- 상단 토스트 알림 (시안용) -->
+    <div id="agonranToast" class="fixed left-1/2 bottom-24 -translate-x-1/2 bg-ink-stone text-hanji-base px-6 py-2.5 shadow-2xl text-xs z-50 opacity-0 invisible transition-all duration-300 rounded-full font-medium">
+        메시지
+    </div>
+
+    <!-- 스크립트 제어 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 모바일 드로어
+            const overlay = document.getElementById('mobileDrawerOverlay');
+            const drawer = document.getElementById('mobileDrawer');
+            const openBtn = document.getElementById('mobileMenuBtn');
+            const closeBtn = document.getElementById('mobileDrawerCloseBtn');
+            
+            function openDrawer() {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.add('opacity-100');
+                    drawer.classList.remove('translate-x-full');
+                }, 50);
+            }
+            
+            function closeDrawer() {
+                overlay.classList.remove('opacity-100');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+            
+            if (openBtn) openBtn.addEventListener('click', openDrawer);
+            if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+            if (overlay) overlay.addEventListener('click', closeDrawer);
+            
+            // 질문 남기기 인터랙션
+            const submitBtn = document.getElementById('submitQuestionBtn');
+            const input = document.getElementById('questionInput');
+            const toast = document.getElementById('agonranToast');
+            let toastTimer;
+            
+            function showToast(msg) {
+                if (!toast) return;
+                toast.textContent = msg;
+                toast.classList.remove('opacity-0', 'invisible');
+                toast.classList.add('opacity-100', 'visible', 'translate-y-[-4px]');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'visible', 'translate-y-[-4px]');
+                    toast.classList.add('opacity-0', 'invisible');
+                }, 2000);
+            }
+            
+            if (submitBtn && input) {
+                submitBtn.addEventListener('click', () => {
+                    const text = input.value.trim();
+                    if (!text) {
+                        showToast('질문할 내용을 먼저 적어주세요.');
+                    } else {
+                        showToast('서툰 질문이 임시 등록되었습니다. (시안 작동)');
+                        input.value = '';
+                    }
+                });
+            }
+            
+            // 빈 링크 클릭 시 토스트 피드백
+            document.querySelectorAll('a[href="#"], a[href=""]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const label = a.textContent.trim().slice(0, 20) || '이 항목';
+                    showToast(`"${label}"은 곧 오픈됩니다.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
