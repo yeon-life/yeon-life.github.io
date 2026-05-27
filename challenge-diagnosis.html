@@ -435,10 +435,243 @@
     .item dt { padding-top: 6px; }
   }
 
+  /* 정기 알림 구독 카드 */
+  .alert-subscribe-card {
+    background: var(--yp-card);
+    border: 1.5px solid var(--yp-line);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px var(--yp-shadow);
+  }
+  .alert-subscribe-card h3 {
+    font-size: 16px;
+    color: var(--yp-deep);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Noto Serif KR', serif;
+  }
+  .alert-subscribe-card p {
+    font-size: 13px;
+    color: var(--yp-muted);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .subscribe-form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .subscribe-input {
+    flex: 2;
+    min-width: 180px;
+    padding: 10px 14px;
+    border: 1px solid var(--yp-line);
+    border-radius: 6px;
+    font-size: 13.5px;
+    outline: none;
+    font-family: inherit;
+  }
+  .subscribe-input:focus {
+    border-color: var(--yp-pine);
+  }
+  .subscribe-select {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px;
+    border: 1px solid var(--yp-line);
+    border-radius: 6px;
+    font-size: 13.5px;
+    background: #fff;
+    outline: none;
+  }
+  .subscribe-btn {
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 13.5px;
+  }
+  .subscribe-agree {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--yp-muted);
+    cursor: pointer;
+  }
+  .subscribe-agree input {
+    accent-color: var(--yp-pine);
+  }
+
+  /* 블러 처리 및 페이월 */
+  .blurred-results {
+    filter: blur(6px) grayscale(30%);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.3s ease;
+  }
+  .paywall-banner {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fffdf8;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  .paywall-banner h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .paywall-banner p {
+    font-size: 13.5px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  /* 모달 오버레이 */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(29, 29, 27, 0.65);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-content {
+    background: var(--yp-card);
+    border: 2px solid var(--yp-pine);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 650px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.3s ease;
+  }
+  .modal-overlay.show .modal-content {
+    transform: translateY(0);
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--yp-muted);
+    cursor: pointer;
+    line-height: 1;
+  }
+  .modal-close-btn:hover {
+    color: var(--yp-ink);
+  }
+
+  /* 요금제 카드 */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 20px 0 24px;
+  }
+  .pricing-card {
+    border: 1.5px solid var(--yp-line);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    background: #fffdf8;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .pricing-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--yp-pine);
+  }
+  .pricing-card.recommended {
+    border: 2.5px solid var(--yp-accent);
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(195,141,86,0.15);
+  }
+  .pricing-card.recommended::before {
+    content: '★ 강력 추천';
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--yp-accent);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .pricing-tier {
+    font-size: 14px;
+    color: var(--yp-muted);
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-family: 'Noto Serif KR', serif;
+  }
+  .pricing-price {
+    font-size: 19px;
+    color: var(--yp-deep);
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .pricing-features {
+    text-align: left;
+    font-size: 11.5px;
+    color: var(--yp-ink);
+    list-style: none;
+    margin-bottom: 18px;
+    flex: 1;
+  }
+  .pricing-features li {
+    margin-bottom: 8px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .pricing-features li::before {
+    content: '✓';
+    color: var(--yp-pine);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  /* 스피너 애니메이션 */
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   /* 인쇄 스타일 */
   @media print {
     body { background: #fff; padding: 0; color: #000; }
-    .security-alert, .panel-input, .share-tools, footer, .toast { display: none !important; }
+    .security-alert, .panel-input, .share-tools, footer, .toast, .paywall-banner, .alert-subscribe-card { display: none !important; }
     .layout-grid { grid-template-columns: 1fr; }
     .panel-results { gap: 0; }
     .item { page-break-inside: avoid; border: 1px solid #000 !important; border-radius: 0 !important; margin-bottom: 20px; box-shadow: none !important; }
@@ -453,7 +686,10 @@
 
   <!-- 헤더 -->
   <header class="doc-head">
-    <h1 class="doc-title">국가지원사업 자가진단 및 맞춤형 매칭</h1>
+    <h1 class="doc-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      국가지원사업 자가진단 및 맞춤형 매칭
+      <span id="premiumBadge" style="display:none; font-size:12px; background:linear-gradient(135deg, var(--yp-accent), #d4af37); color:#fff; padding:3px 10px; border-radius:4px; font-weight:700;">⭐ 프리미엄 회원</span>
+    </h1>
     <p class="doc-sub">몇 가지 기본 정보 입력으로 지원 가능한 국가지원사업과 지자체 창업 지원책을 매칭해 드립니다.</p>
   </header>
 
@@ -554,6 +790,31 @@
         <p id="summaryDesc" class="summary-desc">프로필 입력값을 분석 중입니다...</p>
       </div>
 
+      <!-- 정기 알림 구독 카드 -->
+      <div id="alertSubscribeCard" class="alert-subscribe-card">
+        <h3>🔔 내 조건에 맞는 새 공고 무료 알림 받기</h3>
+        <p>매주/매달 내 사업자 조건에 부합하는 국가지원 및 울산시 창업 공고가 새로 등록되면 카카오톡 또는 문자로 실시간 자동 발송해 드립니다.</p>
+        <div class="subscribe-form-row">
+          <input type="tel" id="subscribePhone" class="subscribe-input" placeholder="휴대폰 번호 입력 (예: 010-1234-5678)">
+          <select id="subscribeType" class="subscribe-select">
+            <option value="kakao">카카오톡 알림톡</option>
+            <option value="sms">SMS 문자 알림</option>
+          </select>
+          <button onclick="registerAlert()" class="btn btn-primary subscribe-btn" style="background: var(--yp-pine); border-color: var(--yp-pine);">정기 알림 등록</button>
+        </div>
+        <label class="subscribe-agree">
+          <input type="checkbox" id="subscribeAgree" checked>
+          <span>개인정보 수집 및 정부지원사업 관련 실시간 자동 매칭 안내 발송에 동의합니다.</span>
+        </label>
+      </div>
+
+      <!-- 유료 멤버십 가입 유도 배너 (블러 상태일 때 노출) -->
+      <div id="paywallBanner" class="paywall-banner" style="display: none;">
+        <h3>💡 프리미엄 실시간 AI 매칭 기능 잠김</h3>
+        <p>새로운 조건에 따른 실시간 매칭률 정밀 연산 및 카톡/문자 즉시 알림 서비스를 이용하시려면 프리미엄 요금제 업그레이드가 필요합니다.</p>
+        <button class="btn btn-primary" style="background: #e2a85c; border-color: #e2a85c; color:#fff; font-weight:700; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;" onclick="showPaywallModal()">⭐ 프리미엄 요금제 가입하여 매칭 해제</button>
+      </div>
+
       <!-- 동적 매칭 카드 영역 -->
       <div id="resultsContainer"></div>
 
@@ -568,10 +829,124 @@
 
 </div>
 
+<!-- 프리미엄 멤버십 안내 모달 -->
+<div id="paywallModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close-btn" onclick="closePaywallModal()">&times;</button>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <span style="font-size: 36px;">⭐</span>
+      <h2 style="font-family: 'Noto Serif KR', serif; font-size: 22px; color: var(--yp-deep); margin-top: 8px;">프리미엄 AI 분석 엔진 전환 안내</h2>
+      <p style="color: var(--yp-muted); font-size: 13.5px; margin-top: 6px; line-height: 1.5;">2회차 자가진단부터는 실시간 가중치 분석 및 최신 10대 지원사업의 정밀 매칭을 위해 고비용의 **고급 AI 분석 엔진**을 사용합니다.</p>
+    </div>
+    
+    <div class="pricing-grid">
+      <!-- 베이직 -->
+      <div class="pricing-card" onclick="openPaymentModal('basic', 9900)">
+        <div class="pricing-tier">베이직 (Basic)</div>
+        <div class="pricing-price">월 9,900원</div>
+        <ul class="pricing-features">
+          <li>실시간 자가진단 무제한</li>
+          <li>매칭 신규 사업 월 1회 알림</li>
+          <li>보안 등급 기술 보증 적용</li>
+        </ul>
+        <button class="btn btn-outline" style="width: 100%; padding: 8px; font-size: 12.5px; border-radius:6px; cursor:pointer;">선택하기</button>
+      </div>
+      
+      <!-- 프로 -->
+      <div class="pricing-card recommended" onclick="openPaymentModal('pro', 19900)">
+        <div class="pricing-tier">프로 (Pro)</div>
+        <div class="pricing-price">월 19,900원</div>
+        <ul class="pricing-features">
+          <li>실시간 자가진단 무제한</li>
+          <li><strong>신규 공고 등록 시 카톡/문자 즉시 알림</strong></li>
+          <li>AI 사업계획서 자동 초안 작성기</li>
+          <li>1:1 비대면 자문 연 2회</li>
+        </ul>
+        <button class="btn btn-primary" style="width: 100%; padding: 8px; font-size: 12.5px; border-radius:6px; cursor:pointer; background:var(--yp-pine); border-color:var(--yp-pine); color:#fff;">선택하기</button>
+      </div>
+      
+      <!-- 엔터프라이즈 -->
+      <div class="pricing-card" onclick="openPaymentModal('enterprise', 49000)">
+        <div class="pricing-tier">엔터프라이즈</div>
+        <div class="pricing-price">월 49,000원</div>
+        <ul class="pricing-features">
+          <li>프로 등급의 모든 혜택</li>
+          <li><strong>사업계획서 1:1 대면 코칭</strong></li>
+          <li>맞춤형 기업 로드맵 매달 발송</li>
+          <li>우선 지원대상 연계 관리</li>
+        </ul>
+        <button class="btn btn-outline" style="width: 100%; padding: 8px; font-size: 12.5px; border-radius:6px; cursor:pointer;">선택하기</button>
+      </div>
+    </div>
+
+    <div style="background: var(--yp-soft); padding: 12px 14px; border-radius: 8px; font-size: 12px; color: var(--yp-pine); line-height: 1.5; margin-bottom: 20px; border: 1.5px solid rgba(66, 122, 113, 0.15);">
+      💡 <strong>왜 유료 멤버십인가요?</strong><br>
+      매달 쏟아지는 지자체 및 국가 지원사업 공고 중 대표님 조건에 딱 맞는 사업을 찾아내고 서류를 매핑하는 과정은 매우 복잡합니다. 연라이프 프리미엄은 실시간 AI 분석 엔진을 통해 최적의 매칭율을 실시간 계산하고, 카톡/문자로 즉시 자동 알림을 발송하여 지원 기회 실수를 제로화합니다.
+    </div>
+
+    <div style="display: flex; justify-content: space-between; gap: 10px;">
+      <button class="btn btn-outline" style="flex: 1; padding:10px; font-size:13.5px; cursor:pointer;" onclick="closePaywallModal()">나중에 하기 (결과 잠김)</button>
+      <button class="btn btn-primary" style="flex: 1; background: #e2a85c; border-color: #e2a85c; color: #fff; padding:10px; font-size:13.5px; border:none; border-radius:6px; cursor:pointer; font-weight:700;" onclick="openPaymentModal('pro', 19900)">💳 가상 결제 데모 (체험)</button>
+    </div>
+  </div>
+</div>
+
+<!-- 가상 결제 진행 모달 -->
+<div id="paymentModal" class="modal-overlay">
+  <div class="modal-content" style="max-width: 420px; padding: 24px;">
+    <button class="modal-close-btn" onclick="closePaymentModal()">&times;</button>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h3 style="font-family: 'Noto Serif KR', serif; font-size: 18px; color: var(--yp-deep); font-weight:700;">결제 수단 선택</h3>
+      <p style="color: var(--yp-muted); font-size: 12.5px; margin-top: 4px;">선택하신 상품: <span id="paymentTierName" style="font-weight: 700; color: var(--yp-pine);">프로 (Pro)</span> (<span id="paymentPriceText">19,900</span>원/월)</p>
+    </div>
+
+    <div class="payment-method-selectors" style="display: flex; gap: 8px; margin-bottom: 16px;">
+      <button class="btn" style="flex:1; padding: 8px; font-size:12.5px; border:1.5px solid var(--yp-pine); background:#fff; color:var(--yp-pine); font-weight:700; border-radius:6px; cursor:pointer;" id="payBtnCard" onclick="selectPaymentMethod('card')">신용/체크카드</button>
+      <button class="btn" style="flex:1; padding: 8px; font-size:12.5px; border:1px solid var(--yp-line); background:#fff; color:var(--yp-ink); border-radius:6px; cursor:pointer;" id="payBtnKakao" onclick="selectPaymentMethod('kakao')">카카오페이</button>
+      <button class="btn" style="flex:1; padding: 8px; font-size:12.5px; border:1px solid var(--yp-line); background:#fff; color:var(--yp-ink); border-radius:6px; cursor:pointer;" id="payBtnToss" onclick="selectPaymentMethod('toss')">토스페이</button>
+    </div>
+
+    <div id="cardPaymentForm">
+      <div style="margin-bottom: 10px;">
+        <label style="display:block; font-size:11px; font-weight:600; color:var(--yp-muted); margin-bottom:4px;">카드 번호</label>
+        <input type="text" placeholder="1234 - 5678 - 1234 - 5678" style="width:100%; padding:8px 10px; border:1px solid var(--yp-line); border-radius:6px; font-size:13px; text-align:center; outline:none;" value="4579-****-****-****" readonly>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--yp-muted); margin-bottom:4px;">유효 기간</label>
+          <input type="text" placeholder="MM / YY" style="width:100%; padding:8px 10px; border:1px solid var(--yp-line); border-radius:6px; font-size:13px; text-align:center; outline:none;" value="12 / 29" readonly>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--yp-muted); margin-bottom:4px;">비밀번호 앞 2자리</label>
+          <input type="password" placeholder="**" style="width:100%; padding:8px 10px; border:1px solid var(--yp-line); border-radius:6px; font-size:13px; text-align:center; outline:none;" value="12" readonly>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size: 11px; color: var(--yp-muted); text-align: center; margin-bottom: 16px; line-height: 1.4; background:#fdfbf8; padding:8px; border-radius:4px; border:1px dashed var(--yp-line);">
+      본 결제는 실제 비용이 청구되지 않는 <strong>가상 결제 테스트</strong>입니다.<br>
+      아래 '가상 결제 완료하기' 버튼을 누르면 즉시 프리미엄 권한이 잠금 해제됩니다.
+    </div>
+
+    <button id="paySubmitBtn" class="btn btn-primary" style="width: 100%; padding: 10px; font-size: 14px; background:var(--yp-pine); border-color:var(--yp-pine); color:#fff; font-weight:700; border:none; border-radius:6px; cursor:pointer;" onclick="processPayment()">가상 결제 완료하기</button>
+    <div id="paymentLoader" style="display:none; text-align:center; padding: 6px;">
+      <div style="display:inline-block; width: 20px; height: 20px; border: 3px solid rgba(66, 122, 113, 0.2); border-top-color: var(--yp-pine); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle;"></div>
+      <span style="font-size: 12.5px; color: var(--yp-pine); margin-left: 8px; font-weight:600; vertical-align: middle;">안전한 가상 결제 승인 중...</span>
+    </div>
+  </div>
+</div>
+
 <!-- 토스트 알림 구조 -->
 <div id="toast" class="toast">진단 링크 주소가 복사되었습니다. ✨</div>
 
 <script>
+  // 프리미엄 결제 및 자동 알림 관련 상태 변수
+  let isPremium = localStorage.getItem("ylife_premium_user") === "true";
+  let isInitialLoad = true;
+  let selectedMethod = "card";
+  let selectedTier = "pro";
+  let selectedPrice = 19900;
+
   // 10개 국가지원사업 DB 데이터
   const PROJECTS_DB = [
     {
@@ -944,6 +1319,26 @@
     }
 
     document.getElementById("summaryDesc").innerHTML = summaryText;
+
+    // 프리미엄 및 페이월 처리
+    const resultsContainer = document.getElementById("resultsContainer");
+    const paywallBanner = document.getElementById("paywallBanner");
+    const premiumBadge = document.getElementById("premiumBadge");
+
+    if (!isPremium) {
+      if (!isInitialLoad) {
+        if (resultsContainer) resultsContainer.classList.add("blurred-results");
+        if (paywallBanner) paywallBanner.style.display = "block";
+        showPaywallModal();
+      } else {
+        if (resultsContainer) resultsContainer.classList.remove("blurred-results");
+        if (paywallBanner) paywallBanner.style.display = "none";
+      }
+    } else {
+      if (resultsContainer) resultsContainer.classList.remove("blurred-results");
+      if (paywallBanner) paywallBanner.style.display = "none";
+      if (premiumBadge) premiumBadge.style.display = "inline-block";
+    }
   }
 
   // 텍스트 변환 헬퍼들
@@ -1027,6 +1422,147 @@
     window.location.href = `sms:?body=${encodeURIComponent(bodyText)}`;
   }
 
+  // 프리미엄 상태 검사 및 배지/배너 일괄 동기화
+  function checkPremiumStatus() {
+    isPremium = localStorage.getItem("ylife_premium_user") === "true";
+    const badge = document.getElementById("premiumBadge");
+    const banner = document.getElementById("paywallBanner");
+    const results = document.getElementById("resultsContainer");
+    
+    if (isPremium) {
+      if (badge) badge.style.display = "inline-block";
+      if (banner) banner.style.display = "none";
+      if (results) results.classList.remove("blurred-results");
+    } else {
+      if (badge) badge.style.display = "none";
+    }
+  }
+
+  // 모달 제어 함수들
+  function showPaywallModal() {
+    const modal = document.getElementById("paywallModal");
+    if (modal) modal.classList.add("show");
+  }
+
+  function closePaywallModal() {
+    const modal = document.getElementById("paywallModal");
+    if (modal) modal.classList.remove("show");
+  }
+
+  function openPaymentModal(tier, price) {
+    selectedTier = tier;
+    selectedPrice = price;
+    
+    let tierName = "프로 (Pro)";
+    if (tier === 'basic') tierName = "베이직 (Basic)";
+    if (tier === 'enterprise') tierName = "엔터프라이즈 (Enterprise)";
+    
+    const tierNameEl = document.getElementById("paymentTierName");
+    const priceTextEl = document.getElementById("paymentPriceText");
+    if (tierNameEl) tierNameEl.innerText = tierName;
+    if (priceTextEl) priceTextEl.innerText = price.toLocaleString();
+    
+    closePaywallModal();
+    
+    const payModal = document.getElementById("paymentModal");
+    if (payModal) payModal.classList.add("show");
+  }
+
+  // 결제창 닫을 때 페이월 배너와 블러가 유지되도록 복구
+  function closePaymentModal() {
+    const payModal = document.getElementById("paymentModal");
+    if (payModal) payModal.classList.remove("show");
+  }
+
+  function selectPaymentMethod(method) {
+    selectedMethod = method;
+    
+    const cardBtn = document.getElementById("payBtnCard");
+    const kakaoBtn = document.getElementById("payBtnKakao");
+    const tossBtn = document.getElementById("payBtnToss");
+    const cardForm = document.getElementById("cardPaymentForm");
+    
+    [cardBtn, kakaoBtn, tossBtn].forEach(btn => {
+      if (btn) {
+        btn.style.border = "1px solid var(--yp-line)";
+        btn.style.background = "#fff";
+        btn.style.color = "var(--yp-ink)";
+        btn.style.fontWeight = "normal";
+      }
+    });
+    
+    let activeBtn = cardBtn;
+    if (method === 'kakao') activeBtn = kakaoBtn;
+    if (method === 'toss') activeBtn = tossBtn;
+    
+    if (activeBtn) {
+      activeBtn.style.border = "1.5px solid var(--yp-pine)";
+      activeBtn.style.color = "var(--yp-pine)";
+      activeBtn.style.fontWeight = "700";
+    }
+    
+    if (cardForm) {
+      if (method === 'card') {
+        cardForm.style.display = "block";
+      } else {
+        cardForm.style.display = "none";
+      }
+    }
+  }
+
+  function processPayment() {
+    const submitBtn = document.getElementById("paySubmitBtn");
+    const loader = document.getElementById("paymentLoader");
+    
+    if (submitBtn) submitBtn.style.display = "none";
+    if (loader) loader.style.display = "block";
+    
+    setTimeout(function() {
+      localStorage.setItem("ylife_premium_user", "true");
+      isPremium = true;
+      
+      checkPremiumStatus();
+      closePaymentModal();
+      
+      if (submitBtn) submitBtn.style.display = "block";
+      if (loader) loader.style.display = "none";
+      
+      runDiagnosis();
+      
+      showToast("⭐ 프리미엄 가입이 승인되었습니다! 모든 기능이 활성화되었습니다.");
+    }, 1200);
+  }
+
+  function registerAlert() {
+    const phoneInput = document.getElementById("subscribePhone");
+    const typeSelect = document.getElementById("subscribeType");
+    const agreeCheck = document.getElementById("subscribeAgree");
+    
+    if (!phoneInput) return;
+    
+    const phoneVal = phoneInput.value.trim();
+    if (!phoneVal) {
+      showToast("⚠️ 휴대폰 번호를 입력해 주세요.");
+      return;
+    }
+    
+    const phoneRegex = /^[0-9\-\s]{9,14}$/;
+    if (!phoneRegex.test(phoneVal)) {
+      showToast("⚠️ 올바른 휴대폰 번호 형식이 아닙니다.");
+      return;
+    }
+    
+    if (!agreeCheck || !agreeCheck.checked) {
+      showToast("⚠️ 개인정보 수집 및 안내 발송 동의가 필요합니다.");
+      return;
+    }
+    
+    const typeName = typeSelect && typeSelect.value === 'kakao' ? '카카오톡 알림톡' : 'SMS 문자 알림';
+    
+    showToast(`🔔 정기 알림 등록 완료! (${typeName} 수신 예정)`);
+    phoneInput.value = "";
+  }
+
   // 초기화 시 URL 해시 정보 파싱
   window.addEventListener('load', function() {
     const hash = window.location.hash;
@@ -1049,7 +1585,9 @@
     }
     
     // 자동 최초 진단 실행
+    checkPremiumStatus();
     runDiagnosis();
+    isInitialLoad = false;
   });
 </script>
 

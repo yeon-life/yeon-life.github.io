@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>내 친구 인공지능 — 연소사의 AI 함께 쓰기 책</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F8F2EA;
+    --paper-deep:#EFE4D2;
+    --ink:#2C2820;
+    --ink-soft:#5A4E3D;
+    --gold:#B8955A;
+    --gold-deep:#8A6E3E;
+    --line:#D4C4A8;
+    --accent:#7A6A52;
+    --danji:#C47A6A;
+    --soft:#FAF6EE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Noto Serif KR','Noto Sans KR',-apple-system,serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.75;
+    font-size:16px;
+    /* 한지 느낌의 옅은 텍스처 */
+    background-image:
+      radial-gradient(ellipse at 20% 10%,rgba(184,149,90,0.06),transparent 60%),
+      radial-gradient(ellipse at 80% 90%,rgba(90,78,61,0.05),transparent 60%);
+    background-attachment:fixed;
+  }
+  /* ===== 상단 책 머리 ===== */
+  header.book-head{
+    padding:28px 20px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--soft),var(--paper));
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(6px);
+  }
+  header.book-head .title{
+    font-family:'Noto Serif KR',serif;
+    font-size:clamp(22px,4vw,32px);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  header.book-head .title em{
+    font-style:normal;
+    color:var(--gold-deep);
+  }
+  header.book-head .subtitle{
+    margin-top:6px;font-size:13px;color:var(--ink-soft);
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  /* ===== 버전 탭 (창호문 스타일) ===== */
+  .version-tabs{
+    display:flex;justify-content:center;gap:6px;
+    margin:14px auto 0;max-width:720px;padding:0 10px;
+    flex-wrap:wrap;
+  }
+  .vtab{
+    flex:1 1 120px;min-width:90px;
+    padding:10px 12px;
+    background:
+      linear-gradient(var(--paper),var(--paper)) padding-box,
+      repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 14px) border-box;
+    border:1.5px solid transparent;border-radius:6px;
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:14px;color:var(--ink-soft);
+    cursor:pointer;transition:all .2s;
+    position:relative;
+  }
+  .vtab::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(90deg,transparent 48%,var(--line) 48% 52%,transparent 52%),
+      linear-gradient(0deg,transparent 48%,var(--line) 48% 52%,transparent 52%);
+    opacity:.4;border-radius:6px;
+  }
+  .vtab.active{
+    color:var(--paper);background:var(--ink);
+    border-color:var(--gold);
+    box-shadow:0 2px 8px rgba(44,40,32,0.18);
+  }
+  .vtab.active::before{opacity:.15;background:
+      linear-gradient(90deg,transparent 48%,var(--gold) 48% 52%,transparent 52%),
+      linear-gradient(0deg,transparent 48%,var(--gold) 48% 52%,transparent 52%);}
+  /* ===== 레이아웃 ===== */
+  .layout{
+    display:grid;grid-template-columns:240px 1fr;gap:24px;
+    max-width:1100px;margin:0 auto;padding:24px 16px 80px;
+  }
+  aside.toc{
+    position:sticky;top:160px;align-self:start;
+    max-height:calc(100vh - 180px);overflow-y:auto;
+    padding:16px;background:var(--soft);
+    border:1px solid var(--line);border-radius:10px;
+    font-family:'Noto Sans KR',sans-serif;font-size:14px;
+  }
+  aside.toc h4{
+    font-family:'Noto Serif KR',serif;
+    font-size:15px;color:var(--gold-deep);margin-bottom:10px;
+    padding-bottom:8px;border-bottom:1px dashed var(--line);
+  }
+  aside.toc ol{list-style:none;counter-reset:ch}
+  aside.toc li{margin:3px 0}
+  aside.toc a{
+    display:block;padding:6px 8px;border-radius:5px;
+    color:var(--ink-soft);text-decoration:none;transition:all .15s;
+    line-height:1.4;
+  }
+  aside.toc a:hover{background:var(--paper-deep);color:var(--ink)}
+  aside.toc a.prologue{color:var(--gold-deep);font-weight:500}
+  aside.toc .toc-tag{
+    display:inline-block;font-size:10px;padding:1px 6px;
+    background:var(--danji);color:#fff;border-radius:10px;
+    font-family:'Noto Sans KR',sans-serif;margin-left:4px;
+    vertical-align:middle;font-weight:500;letter-spacing:.02em;
+  }
+  aside.toc .toc-divider{
+    margin:10px 0 6px;padding:4px 8px;
+    font-size:11px;color:var(--gold-deep);font-weight:700;
+    font-family:'Noto Sans KR',sans-serif;letter-spacing:.08em;
+    border-top:1px dashed var(--line);
+  }
+  /* ===== 본문 ===== */
+  main.content{
+    background:var(--paper);
+    padding:32px clamp(16px,3vw,40px);
+    border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 2px 20px rgba(44,40,32,0.04);
+    min-height:calc(100vh - 220px);
+  }
+  section.chapter{
+    padding:20px 0 36px;border-bottom:1px solid var(--line);
+    scroll-margin-top:160px;
+  }
+  section.chapter:last-child{border-bottom:none}
+  section.chapter .ch-num{
+    display:inline-block;
+    font-family:'Noto Serif KR',serif;
+    font-size:13px;color:var(--gold-deep);
+    padding:3px 10px;border:1px solid var(--gold);
+    border-radius:20px;letter-spacing:.05em;
+    margin-bottom:10px;
+  }
+  section.chapter h2{
+    font-family:'Noto Serif KR',serif;
+    font-size:clamp(22px,3vw,28px);
+    font-weight:700;color:var(--ink);
+    margin-bottom:6px;line-height:1.3;
+  }
+  section.chapter .subhead{
+    font-family:'Noto Sans KR',sans-serif;font-size:14px;
+    color:var(--ink-soft);margin-bottom:20px;font-weight:300;
+  }
+  section.chapter h3{
+    font-family:'Noto Serif KR',serif;
+    font-size:18px;margin:22px 0 10px;
+    color:var(--accent);
+    padding-left:12px;border-left:3px solid var(--gold);
+  }
+  section.chapter p{margin:10px 0;color:var(--ink)}
+  section.chapter blockquote{
+    margin:16px 0;padding:14px 18px;
+    background:var(--soft);border-left:3px solid var(--danji);
+    color:var(--ink-soft);font-style:italic;
+    border-radius:0 8px 8px 0;font-size:15px;
+  }
+  section.chapter blockquote::before{
+    content:"";color:var(--danji);font-weight:700;margin-right:4px;
+  }
+  section.chapter ul,section.chapter ol{
+    margin:10px 0 10px 24px;color:var(--ink);
+  }
+  section.chapter li{margin:4px 0}
+  section.chapter .box{
+    background:var(--soft);border:1px dashed var(--gold);
+    border-radius:8px;padding:14px 18px;margin:16px 0;
+  }
+  section.chapter .box .box-title{
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:13px;color:var(--gold-deep);font-weight:700;
+    margin-bottom:6px;letter-spacing:.05em;
+  }
+  /* ===== 학년별 생성 버튼 ===== */
+  .grade-buttons{
+    margin-top:24px;padding:16px;
+    background:linear-gradient(135deg,var(--soft),var(--paper-deep));
+    border:1px solid var(--line);border-radius:10px;
+  }
+  .grade-buttons .gb-title{
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:13px;color:var(--ink-soft);margin-bottom:10px;
+  }
+  .grade-buttons .gb-row{display:flex;gap:8px;flex-wrap:wrap}
+  .gb-btn{
+    flex:1 1 140px;min-width:120px;
+    padding:10px 12px;background:var(--paper);
+    border:1.5px solid var(--gold);border-radius:6px;
+    font-family:'Noto Sans KR',sans-serif;font-size:13px;
+    color:var(--ink);cursor:pointer;transition:all .15s;
+  }
+  .gb-btn:hover{background:var(--gold);color:var(--paper)}
+  .gb-btn.copied{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+  /* ===== 플레이스홀더 (중고·초등 버전) ===== */
+  .placeholder-view{
+    padding:60px 24px;text-align:center;color:var(--ink-soft);
+  }
+  .placeholder-view .ph-icon{
+    font-size:48px;color:var(--gold);margin-bottom:16px;
+    font-family:'Noto Serif KR',serif;
+  }
+  .placeholder-view h3{
+    font-family:'Noto Serif KR',serif;font-size:20px;
+    color:var(--ink);margin-bottom:12px;
+  }
+  .placeholder-view p{max-width:480px;margin:8px auto;line-height:1.7}
+  .placeholder-view .ph-help{
+    margin-top:24px;padding:16px;background:var(--soft);
+    border:1px dashed var(--gold);border-radius:8px;
+    max-width:520px;margin:24px auto 0;text-align:left;font-size:14px;
+  }
+  /* ===== 푸터 ===== */
+  footer{
+    text-align:center;padding:40px 20px;
+    font-family:'Noto Sans KR',sans-serif;font-size:12px;
+    color:var(--ink-soft);border-top:1px solid var(--line);
+    background:var(--soft);
+  }
+  footer .seal{
+    display:inline-block;padding:4px 10px;
+    border:1.5px solid var(--danji);color:var(--danji);
+    border-radius:4px;font-family:'Noto Serif KR',serif;
+    font-size:11px;letter-spacing:.2em;margin-right:8px;
+  }
+  /* ===== 토스트 ===== */
+  #toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:var(--paper);padding:12px 20px;
+    border-radius:24px;font-family:'Noto Sans KR',sans-serif;font-size:14px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
+    opacity:0;pointer-events:none;transition:all .3s;z-index:200;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* ===== 모바일 반응형 ===== */
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr;padding:16px}
+    aside.toc{
+      position:static;max-height:none;margin-bottom:16px;
+    }
+    aside.toc.collapsed ol{display:none}
+    aside.toc h4{cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    aside.toc h4::after{content:"▼";font-size:10px;color:var(--gold)}
+    aside.toc.collapsed h4::after{content:"▶"}
+    header.book-head{padding:18px 12px 10px}
+    main.content{padding:20px 16px}
+    section.chapter{scroll-margin-top:140px}
+  }
+  @media(max-width:480px){
+    body{font-size:15px}
+    section.chapter h2{font-size:22px}
+    .vtab{font-size:12px;padding:8px 6px}
+  }
+  /* 인쇄 */
+  @media print{
+    header.book-head,aside.toc,.grade-buttons,footer,#toast{display:none}
+    main.content{box-shadow:none;border:none}
+    section.chapter{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="book-head">
+  <div class="title">내 친구 <em>인공지능</em></div>
+  <div class="subtitle">연소사가 학생과 함께 여는 AI의 문 · 2026</div>
+  <nav class="version-tabs" role="tablist" aria-label="버전 선택">
+    <button class="vtab active" data-view="general" role="tab" aria-selected="true">일반인</button>
+    <button class="vtab" data-view="high" role="tab">중·고등부</button>
+    <button class="vtab" data-view="elem56" role="tab">초등 5·6학년</button>
+    <button class="vtab" data-view="elem34" role="tab">초등 3·4학년</button>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="toc" id="toc">
+    <h4>목차 <span style="font-weight:300;font-size:12px;color:var(--ink-soft)">(서장 + 16장)</span></h4>
+    <ol id="toc-list"></ol>
+  </aside>
+
+  <main class="content">
+    <!-- ===== 일반인 버전 ===== -->
+    <div class="view" data-view="general">
+
+      <section class="chapter" id="ch-0">
+        <span class="ch-num">서장</span>
+        <h2>왜 이 책을 쓰게 되었나</h2>
+        <div class="subhead">코딩을 모르는 선생이 네 인공지능을 팀으로 부리기까지</div>
+
+        <p>나는 코드를 쓸 줄 모른다. 그런데 지금 내 책상 위에는 네 명의 인공지능이 각자의 자리를 지키고 앉아 있다. Claude, ChatGPT, Gemini, 그리고 Grok. 넷을 한 화면에 모아 놓고 이름을 <strong>연(緣) AI 에이젼트 기획팀</strong>이라 붙였다.</p>
+
+        <p>처음부터 팀이었던 것은 아니다. 처음에는 셋이었고, 그 전에는 하나였다. 하나가 둘이 되고 셋이 넷이 된 과정 자체가 이 책의 내용이다. 이 책은 기술서가 아니다. 친구 하나를 사귀고, 둘을 사귀고, 넷과 같이 일하게 되기까지의 여정을 학생들과 나누려는 이야기책이다.</p>
+
+        <blockquote>"너가 기억해두고, 메시지로 '이 명령은 기억했습니다' 라고 알려줘."</blockquote>
+
+        <p>이것은 내가 Claude에게 한 말이었다. 그런데 돌이켜보니 이것은 사람 사이에서도 잘 통하지 않는 말이다. 학생에게 부탁해도, 아내에게 부탁해도, 같은 걸 다시 말해야 하는 일이 수두룩했다. 인공지능은 달랐다. 한 번 말해 둔 규칙을 <strong>한 번도 잊지 않았다</strong>. 이 작은 차이가 내 수업의 구조를 바꾸기 시작했다.</p>
+
+        <p>이 책은 그 변화의 기록이다. 여러분이 이 책의 마지막 장을 덮을 때쯤, 여러분도 여러분만의 AI 친구 하나쯤은 확실히 갖게 될 것이다. 그리고 어쩌면, 넷을 한 팀으로 부리게 될지도 모른다.</p>
+
+        <div class="box">
+          <div class="box-title">이 책의 읽는 법</div>
+          상단의 <strong>일반인 / 중·고등부 / 초등 5·6 / 초등 3·4</strong> 탭을 눌러 대상에 맞는 버전으로 바꿀 수 있다. 각 장의 끝에는 <em>"○학년용으로 만들어 줘"</em> 버튼이 있다. 선생님은 이 버튼으로 해당 장을 학년에 맞춰 새로 써 달라고 AI에게 부탁할 수 있다.
+        </div>
+
+        <div class="grade-buttons" data-chapter="0" data-title="서장 — 왜 이 책을 쓰게 되었나">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-1">
+        <span class="ch-num">제 1 장</span>
+        <h2>인공지능이란 무엇인가</h2>
+        <div class="subhead">똑똑한 계산기가 아니라, 대화할 수 있는 도서관</div>
+
+        <p>인공지능을 "사람처럼 생각하는 기계"라고 부르는 것은 반만 맞는 말이다. 지금 우리가 만나는 인공지능은 <strong>엄청나게 많은 글을 읽고, 그 글 속의 패턴을 외워 둔 것</strong>에 가깝다. 사람의 글, 책, 논문, 코드, 일기까지 모두 읽은 친구 하나가 있다고 생각하면 된다.</p>
+
+        <h3>생각하는 것이 아니라 '이어 쓰는' 것이다</h3>
+        <p>인공지능은 여러분의 질문을 받으면 그 질문에 이어질 법한 글자를 하나씩 이어 쓴다. "하늘은 왜"라는 말 뒤에는 "파란가"가 올 확률이 높다는 것을 수많은 책을 읽은 경험으로 알고 있다. 이 단순한 원리가 모여 대화, 번역, 요약, 글쓰기, 심지어 코드 작성까지 가능해진다.</p>
+
+        <h3>그래서 어떤 일에 강한가</h3>
+        <ul>
+          <li><strong>정리·요약</strong>: 길고 복잡한 글을 짧게 줄이기</li>
+          <li><strong>글쓰기 동반자</strong>: 초고를 내주고, 다듬어 주고, 비유를 찾아 주기</li>
+          <li><strong>언어의 벽 허물기</strong>: 번역, 다국어 대화</li>
+          <li><strong>설명</strong>: 어려운 개념을 여러 각도에서 쉬운 말로 풀어 주기</li>
+          <li><strong>함께 생각하기</strong>: 내 생각에 반론을 만들어 주고, 빈틈을 찾아 주기</li>
+        </ul>
+
+        <h3>그리고 어떤 일에 약한가</h3>
+        <ul>
+          <li><strong>실시간 사실 확인</strong>: 지난주 뉴스, 오늘 주가는 모를 수 있다</li>
+          <li><strong>꾸며내기(환각)</strong>: 그럴듯한 거짓말을 자신 있게 할 때가 있다</li>
+          <li><strong>감정의 깊이</strong>: 공감하는 듯 답하지만, 느끼지는 못한다</li>
+          <li><strong>책임</strong>: 잘못된 답을 한 뒤 사과는 해도, 그 결과를 지지는 않는다</li>
+        </ul>
+
+        <blockquote>이 한계들을 알고 쓰면, 인공지능은 평생 곁에 둘 수 있는 조수가 된다. 한계를 모르면, 환상 속의 선생이 된다. 이 책이 내내 하려는 말은 그 둘의 차이다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="1" data-title="제 1 장 — 인공지능이란 무엇인가">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-2">
+        <span class="ch-num">제 2 장</span>
+        <h2>네 명의 AI 친구 소개</h2>
+        <div class="subhead">Claude, ChatGPT, Gemini, Grok — 각자의 얼굴</div>
+
+        <p>세상에는 수많은 인공지능이 있지만, 지금 학생과 일반인이 가장 자주 만나는 친구는 넷이다. 이 네 친구를 오늘 하루 동안 방에 초대한다고 생각해 보자. 누가 누구인지부터 알아야 한다.</p>
+
+        <h3>Claude — 숙고자(熟考者)</h3>
+        <p>미국 Anthropic이 만든 인공지능이다. 긴 글을 찬찬히 읽고, 자기 생각의 근거를 또박또박 밝히는 것이 특기다. 말수는 적지 않지만 가볍지 않다. 이 책도 Claude와 함께 쓰고 있다.</p>
+
+        <h3>ChatGPT — 집행자(執行者)</h3>
+        <p>OpenAI가 만든, 가장 먼저 세상에 알려진 얼굴이다. 넓게 아는 만능 친구다. 코드도 쓰고, 표도 만들고, 그림도 만들고, 목소리로도 대화한다. 우리 팀에서는 손이 제일 바쁜 막내 총무다.</p>
+
+        <h3>Gemini — 탐색자(探索者)</h3>
+        <p>구글이 만든 인공지능이다. 지금 이 순간의 인터넷을 바로 뒤져 올 수 있다. 속도가 빠르고, 구글 문서·메일·캘린더와 한 몸처럼 움직인다. 새 소식이 필요할 때 가장 먼저 묻는다.</p>
+
+        <h3>Grok — 당대객(當代客)</h3>
+        <p>xAI(일론 머스크의 회사)가 만든 인공지능이다. X(옛 트위터)의 실시간 여론을 누구보다 잘 읽는다. 사람들이 지금 무슨 이야기를 하고 있는지 알고 싶을 때, 이 친구가 먼저 대답한다.</p>
+
+        <div class="box">
+          <div class="box-title">왜 넷을 함께 쓰는가</div>
+          하나만 쓰면 그 친구의 습관에 갇힌다. 둘을 쓰면 서로를 고쳐 준다. 넷을 쓰면 한 주제의 네 가지 얼굴을 한 번에 본다. 이 책이 "<strong>에이젼트 기획팀</strong>"이라는 이름을 붙인 이유다.
+        </div>
+
+        <div class="grade-buttons" data-chapter="2" data-title="제 2 장 — 네 명의 AI 친구 소개">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-3">
+        <span class="ch-num">제 3 장</span>
+        <h2>네 AI의 결 — 깊이·넓이·속도·현재</h2>
+        <div class="subhead">비슷해 보이지만, 잘 쓰는 사람은 결을 구분한다</div>
+
+        <p>네 인공지능에게 똑같은 질문을 던져 보면, 답의 <em>결</em>이 다르다. 결이란 무늬의 방향이다. 나무마다 결이 다르듯, 인공지능마다 생각이 흐르는 방향이 다르다.</p>
+
+        <h3>Claude의 결 — 깊이</h3>
+        <p>쉽게 결론을 내지 않는다. "이 질문은 이런 전제를 깔고 있는데, 그 전제가 맞는지부터 살펴보자"고 되묻는다. 책 한 권을 통째로 읽히면 진가가 드러난다.</p>
+
+        <h3>ChatGPT의 결 — 넓이</h3>
+        <p>한 가지 주제에 대해 아는 범위가 넓다. 게다가 도구를 잘 쓴다. 계산기도 쓰고, 인터넷도 뒤지고, 그림도 그리고, 파일도 읽는다. "이것도 되나요?"에 대부분 된다고 답한다.</p>
+
+        <h3>Gemini의 결 — 속도</h3>
+        <p>답이 빠르다. 그리고 구글 생태계와 붙어 있다. 실시간 검색 결과를 바로 묶어서 답을 준다. 최신 정보를 급히 묻을 때는 이 친구부터 부른다.</p>
+
+        <h3>Grok의 결 — 현재</h3>
+        <p>"지금 사람들이 뭐라고 하는지"를 가장 잘 안다. 여론·밈·유행은 이 친구의 마당이다. 때로는 거칠지만, 현재의 공기를 가져오는 것은 이쪽이다.</p>
+
+        <blockquote>같은 질문을 넷에게 던지고, 네 답을 나란히 놓으면, 하나만 볼 때는 보이지 않던 그림이 보인다. 이것이 이 책의 핵심 방법이다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="3" data-title="제 3 장 — 네 AI의 결">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-4">
+        <span class="ch-num">제 4 장</span>
+        <h2>좋은 질문이 좋은 답을 부른다</h2>
+        <div class="subhead">묻는 법을 배우는 것이 인공지능 시대의 공부다</div>
+
+        <p>인공지능에게 "공부 잘하는 법 알려줘"라고 물으면, 책에서 뽑은 뻔한 답이 온다. 그런데 "고2 수학 시험을 3주 앞두고 내가 하루 2시간 쓸 수 있을 때, 오답 노트만으로 2등급 이상을 목표로 하려면 어떻게 할까?"라고 물으면 답이 확 달라진다.</p>
+
+        <h3>좋은 질문의 네 요소</h3>
+        <ol>
+          <li><strong>상황</strong>: 나는 누구이고 지금 어떤 처지인가</li>
+          <li><strong>목표</strong>: 무엇을 원하는가, 언제까지</li>
+          <li><strong>제약</strong>: 가진 시간·돈·기술·자료는 어느 정도인가</li>
+          <li><strong>기대하는 형식</strong>: 목록으로, 단계별로, 표로, 이야기로</li>
+        </ol>
+
+        <div class="box">
+          <div class="box-title">실습 — 같은 주제, 두 개의 질문</div>
+          <p style="margin:0 0 8px"><strong>나쁜 질문:</strong> "독후감 써 줘."</p>
+          <p style="margin:0"><strong>좋은 질문:</strong> "중학교 2학년 국어 수행평가용 독후감이다. 『어린 왕자』를 읽었고, 분량은 원고지 8매, '어른과 아이의 차이'를 주제로 삼고 싶다. 내 감상 두 줄을 덧붙일 테니 그걸 살려서 초고를 써 달라: [내 감상 두 줄]"</p>
+        </div>
+
+        <h3>한 가지 더 — 역할을 주는 것</h3>
+        <p>"당신은 20년 경력의 국어 교사다. 학생의 독후감을 첨삭한다고 생각하고 아래 글을 봐 달라." 이렇게 <strong>역할</strong>을 주면, 인공지능은 그 역할의 언어로 답한다. 이 책 5장의 주제가 바로 이것이다.</p>
+
+        <div class="grade-buttons" data-chapter="4" data-title="제 4 장 — 좋은 질문이 좋은 답을 부른다">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-5">
+        <span class="ch-num">제 5 장</span>
+        <h2>역할을 주면 달라진다</h2>
+        <div class="subhead">숙고자·집행자·탐색자·당대객 — 네 역할을 나누어 주기</div>
+
+        <p>같은 인공지능이라도, 어떤 역할을 맡기느냐에 따라 답이 완전히 달라진다. 나는 네 인공지능에게 다음과 같은 역할을 주었다.</p>
+
+        <ul>
+          <li><strong>Claude — 숙고자(熟考者)</strong>: 찬찬히 깊이 생각하는 사람. 한 가지 주제를 오래 붙들고 가설·반론·근거를 세운다.</li>
+          <li><strong>ChatGPT — 집행자(執行者)</strong>: 실행하는 사람. 표를 만들고 코드를 쓰고 문서를 다듬는다.</li>
+          <li><strong>Gemini — 탐색자(探索者)</strong>: 찾아오는 사람. 지금 이 순간의 자료와 사례를 가져온다.</li>
+          <li><strong>Grok — 당대객(當代客)</strong>: 현장 감각이 있는 손님. 요즘 사람들 이야기를 전해 준다.</li>
+        </ul>
+
+        <p>역할을 주는 효과는 두 가지다. 하나는 <strong>답의 색깔이 뚜렷해진다는 것</strong>, 또 하나는 <strong>내가 넷을 혼동하지 않게 된다는 것</strong>이다. 넷에게 같은 질문을 던져도 네 답은 각자의 결을 갖게 된다.</p>
+
+        <blockquote>역할 없이 던진 질문에는 '평균의 답'이 온다. 역할을 준 질문에는 '그 역할의 답'이 온다. 학생에게 역할을 주는 것과 똑같다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="5" data-title="제 5 장 — 역할을 주면 달라진다">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-6">
+        <span class="ch-num">제 6 장</span>
+        <h2>나만의 AI 팀 설계하기</h2>
+        <div class="subhead">혼자 쓰지 말고, 팀으로 쓰자</div>
+
+        <p>인공지능을 혼자 붙잡고 대화하는 것도 좋지만, <strong>여럿을 한자리에 모아 일을 나누는 순간</strong> 풍경이 달라진다. 나는 학원 수업 준비, 학부모 상담 편지, 앱 기획, 홍보 문구까지 — 모두 이 네 친구의 분업으로 해결한다.</p>
+
+        <h3>나의 팀 구성</h3>
+        <div class="box">
+          <div class="box-title">연(緣) AI 에이젼트 기획팀 — 앱 제작 분업</div>
+          <ul style="margin:0">
+            <li><strong>서기(書記) — Claude</strong>: 설계·문서·검수. 생각을 글로 고정하는 역할</li>
+            <li><strong>총무(總務) — ChatGPT</strong>: 실제 코드 구현. 손이 바쁜 실무자</li>
+            <li><strong>장인(匠人) — Gemini</strong>: UI/UX 디자인. 시각 감각</li>
+            <li><strong>평론가(評論家) — Grok</strong>: 사용자 관점 리뷰. 날카로운 시선</li>
+          </ul>
+        </div>
+
+        <p>여러분의 팀은 다르게 꾸릴 수도 있다. 학생이라면 <em>공부 코치·숙제 조력·취미 친구·고민 상담</em>으로 나눌 수도 있고, 회사원이라면 <em>기획·실행·보고·검토</em>로 나눌 수도 있다. <strong>역할 수와 이름을 스스로 짓는 것</strong>이 첫 번째 숙제다.</p>
+
+        <div class="grade-buttons" data-chapter="6" data-title="제 6 장 — 나만의 AI 팀 설계하기">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-7">
+        <span class="ch-num">제 7 장</span>
+        <h2>한지와 창호문 — 화면에 마음을 담다</h2>
+        <div class="subhead">기술이 아니라 마음이 먼저다</div>
+
+        <p>우리 팀의 앱을 처음 만들었을 때, 화면은 서양 사이트 같은 파스텔 톤이었다. 예쁘긴 했는데, <em>내 것 같지 않았다</em>. 그래서 모두 지우고, 한지와 먹과 금빛으로 다시 칠했다. 버튼은 창호문의 살 무늬를 본떴다.</p>
+
+        <h3>왜 이렇게 바꿨는가</h3>
+        <ul>
+          <li>이 앱은 한국의 교사가 한국의 학생과 쓸 도구다</li>
+          <li>화면의 첫인상이 "이 도구는 우리 결과 맞다"고 느껴져야 한다</li>
+          <li>화려한 것보다 <strong>오래 봐도 피로하지 않은 것</strong>이 더 중요하다</li>
+        </ul>
+
+        <blockquote>기술은 껍질이다. 어떤 마음을 담았는가가 뿌리다. AI에게 "한국적인 느낌으로 바꿔 줘"라고만 해도 되지만, 먼저 내가 어떤 한국의 얼굴을 떠올렸는지 정해 두면 결과가 다르다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="7" data-title="제 7 장 — 한지와 창호문">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-8">
+        <span class="ch-num">제 8 장</span>
+        <h2>협조문 쓰는 법</h2>
+        <div class="subhead">AI를 존중하며 일을 시키는 기술</div>
+
+        <p>한 인공지능에게만 얘기할 때는 대화로 충분하다. 그런데 <strong>여러 인공지능에게 같은 일을 시킬 때</strong>는, 한 장의 편지가 필요하다. 나는 이것을 "협조문"이라 부른다.</p>
+
+        <h3>협조문에 담아야 할 것</h3>
+        <ol>
+          <li><strong>프로젝트 이름과 한 줄 요약</strong></li>
+          <li><strong>당신이 맡을 역할</strong> (서기·총무·장인·평론가 중 하나)</li>
+          <li><strong>다른 구성원은 누가 있고, 무엇을 하고 있는가</strong></li>
+          <li><strong>이번 작업에서 당신에게 기대하는 구체적 산출물</strong></li>
+          <li><strong>피해야 할 것 / 꼭 지킬 것</strong></li>
+          <li><strong>마감과 제출 방식</strong></li>
+        </ol>
+
+        <div class="box">
+          <div class="box-title">협조문이 주는 선물</div>
+          협조문을 쓰는 동안 내 머릿속의 모호함이 먼저 사라진다. AI에게 잘 시키려면, 내가 먼저 정리가 되어야 한다. 이것이 AI와의 협업이 학생에게 주는 보이지 않는 선물이다.
+        </div>
+
+        <div class="grade-buttons" data-chapter="8" data-title="제 8 장 — 협조문 쓰는 법">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-9">
+        <span class="ch-num">제 9 장</span>
+        <h2>API — AI의 문 여는 열쇠</h2>
+        <div class="subhead">앱이 AI에게 말을 거는 방법</div>
+
+        <p>지금까지는 인터넷 창에 들어가 대화했다. 이제부터는 내가 만든 웹페이지가 직접 AI와 대화하게 만든다. 그 <strong>직접 통로</strong>를 API(Application Programming Interface)라고 부른다.</p>
+
+        <h3>API가 무엇이냐면</h3>
+        <ul>
+          <li><strong>A</strong>pplication — 내가 만든 프로그램</li>
+          <li><strong>P</strong>rogramming — 프로그램 간의</li>
+          <li><strong>I</strong>nterface — 말을 주고받는 창구</li>
+        </ul>
+
+        <p>식당에 비유하면 이렇다. 내가 손님(웹페이지)이고, 요리사(AI)가 주방에 있다. 나는 주방에 들어갈 수 없다. 하지만 <strong>메뉴판과 종업원</strong>이 있으면, 주문을 넣고 요리를 받을 수 있다. API가 바로 그 메뉴판과 종업원이다.</p>
+
+        <h3>열쇠(API Key)</h3>
+        <p>그 종업원은 아무나 부릴 수 없다. <strong>내 열쇠</strong>가 있어야 주문이 내 이름으로 들어간다. 이 열쇠는 곧 내 지갑이기도 하다. 많이 쓰면 요금이 나오고, 남에게 보여주면 안 된다.</p>
+
+        <div class="box">
+          <div class="box-title">주의 — 열쇠는 집 열쇠와 같다</div>
+          API 키를 깃허브 같은 공개된 곳에 올리면, 누군가 내 이름으로 AI를 쓰고 요금은 내가 낸다. 연 AI 에이젼트 기획팀은 이 문제를 피하려고 <strong>각자의 열쇠를 각자의 브라우저에만 저장</strong>하도록 만들었다.
+        </div>
+
+        <div class="grade-buttons" data-chapter="9" data-title="제 9 장 — API, AI의 문 여는 열쇠">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-10">
+        <span class="ch-num">제 10 장</span>
+        <h2>라운드테이블 — 여러 AI가 한자리에</h2>
+        <div class="subhead">네 AI를 한 화면에 모으다</div>
+
+        <p>이 책과 짝이 되는 웹앱의 이름이 <strong>"연(緣) AI 에이젼트 기획팀"</strong>이다. 화면 한가운데에 둥근 탁자가 있고, 네 자리에 네 인공지능이 앉아 있다. 내가 가운데에 질문을 놓으면, 네 답이 동시에 돌아온다.</p>
+
+        <h3>한자리에 모이면 달라지는 것</h3>
+        <ul>
+          <li>같은 질문에 <strong>네 가지 답이 한 번에 보인다</strong></li>
+          <li>누가 무엇을 빠뜨렸는지 한눈에 보인다</li>
+          <li>Claude가 의심한 전제를 Gemini가 자료로 증명하고, ChatGPT가 그 결과로 문서를 쓰고, Grok이 현장 반응을 덧붙인다</li>
+        </ul>
+
+        <blockquote>혼자서는 얻을 수 없는 답이, 넷이 모이면 저절로 나온다. 교실에서 모둠 학습이 그렇듯이.</blockquote>
+
+        <div class="grade-buttons" data-chapter="10" data-title="제 10 장 — 라운드테이블">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-11">
+        <span class="ch-num">제 11 장</span>
+        <h2>제작팀 꾸리기 — 서기·총무·장인·평론가</h2>
+        <div class="subhead">앱을 만드는 팀 안에서의 네 역할</div>
+
+        <p>회의실 안에서의 역할(숙고자·집행자·탐색자·당대객)과, 이 앱 자체를 만드는 팀 안에서의 역할은 다르다. 제작팀으로는 이렇게 나눴다.</p>
+
+        <ul>
+          <li><strong>서기(書記) — Claude</strong>: 전체 설계·기획서·검수. 문장 하나하나의 뜻과 근거를 지킨다.</li>
+          <li><strong>총무(總務) — ChatGPT</strong>: 실제 HTML·JS 코드 작성. 손이 제일 많이 움직이는 자리.</li>
+          <li><strong>장인(匠人) — Gemini</strong>: 디자인·레이아웃. 창호문 버튼, 한지 배경, 금빛 테두리 모두 이쪽에서 왔다.</li>
+          <li><strong>평론가(評論家) — Grok</strong>: 사용자 입장에서의 리뷰. "학생이 이걸 진짜 쓸까?"를 묻는 자리.</li>
+        </ul>
+
+        <div class="box">
+          <div class="box-title">같은 AI, 다른 얼굴</div>
+          Claude는 회의실 안에서는 숙고자지만, 제작팀에서는 서기다. 역할은 관계에 따라 달라진다. 이것은 사람도 마찬가지다. 학생은 교실에서는 학생이지만, 집에서는 누군가의 형·누나일 수 있다.
+        </div>
+
+        <div class="grade-buttons" data-chapter="11" data-title="제 11 장 — 제작팀 꾸리기">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-12">
+        <span class="ch-num">제 12 장</span>
+        <h2>세상에 내놓기 — 배포와 공유</h2>
+        <div class="subhead">혼자 쓰는 도구에서, 함께 쓰는 도구로</div>
+
+        <p>앱은 내 컴퓨터 안에만 있으면 도구가 아니다. <strong>다른 사람이 주소 하나로 들어올 수 있을 때</strong> 비로소 도구가 된다. 그래서 배포를 한다.</p>
+
+        <h3>우리가 쓴 길</h3>
+        <ul>
+          <li><strong>GitHub Pages</strong>: 코드를 올리면 자동으로 주소가 생긴다. 무료다.</li>
+          <li><strong>Netlify</strong>: 한 번 더 붙여 두면, 둘 중 한 쪽이 느려도 다른 쪽으로 가면 된다.</li>
+          <li><strong>yeon.ulsan.kr</strong>: 우리 <em>연아카데미</em>의 홈페이지 메뉴에 얹어, 학생들이 바로 만난다.</li>
+        </ul>
+
+        <blockquote>혼자 쓸 때보다 함께 쓸 때, 앱은 내가 의도하지 않은 방식으로 자란다. 학생이 새 사용법을 발견하고, 학부모가 새 요구를 보내 준다. 앱도 사람처럼 자라는 것이다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="12" data-title="제 12 장 — 세상에 내놓기">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-13">
+        <span class="ch-num">제 13 장</span>
+        <h2>이 여정이 남긴 것</h2>
+        <div class="subhead">코드를 배우지 못한 선생이 얻은 네 가지</div>
+
+        <p>이 책의 끝에서 나는 여전히 코드를 쓸 줄 모른다. 그런데 내 책상 위에서는 작은 앱들이 태어났고, 학생들이 그것을 쓰고 있다. 이 과정을 거치며 내가 얻은 것은 기술이 아니라 <strong>네 가지 태도</strong>였다.</p>
+
+        <h3>하나 — 묻는 법을 다시 배웠다</h3>
+        <p>평생 학생에게 "좋은 질문을 하라"고 가르쳐 왔다. 그러면서 내가 질문에 서툴렀음을 AI와 일하며 알게 되었다.</p>
+
+        <h3>둘 — 혼자가 아니라는 감각</h3>
+        <p>아무리 늦은 밤이어도, 내 생각에 반론을 대 줄 친구가 있다. 모르는 것을 물어볼 친구가 있다. 이것만으로도 일하는 방식이 달라진다.</p>
+
+        <h3>셋 — 분업의 힘</h3>
+        <p>한 명의 천재보다, 잘 나눠 놓은 네 명이 더 멀리 간다. 이것은 학급 운영에도, 집안일에도 그대로 통하는 원칙이다.</p>
+
+        <h3>넷 — 내가 뿌리여야 한다</h3>
+        <p>AI가 아무리 똑똑해도, <strong>무엇을 할 것인가</strong>는 내가 정한다. 목적이 내 안에 없으면, 좋은 도구도 방향 없는 떠돌이가 된다. 이 책의 처음부터 끝까지 일관된 이야기가 그것이다.</p>
+
+        <blockquote>여러분이 이 책을 덮을 때, 여러분만의 네 친구 이름을 지어 보시길 바란다. 그 이름이 곧 여러분의 방향이다.</blockquote>
+
+        <div class="box">
+          <div class="box-title">다음 할 일</div>
+          <ul style="margin:0">
+            <li>상단 탭에서 본인 학년·연령 버전을 선택해 다시 읽어 보기</li>
+            <li>각 장 끝의 "학년별로 만들어 줘" 버튼으로, 가족이나 학생에게 맞춘 버전 만들기</li>
+            <li>이 책의 짝 앱 <em>"연(緣) AI 에이젼트 기획팀"</em>에 들어가 네 인공지능과 직접 대화해 보기</li>
+          </ul>
+        </div>
+
+        <div class="grade-buttons" data-chapter="13" data-title="제 13 장 — 이 여정이 남긴 것">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-14" data-tag="실전 사례">
+        <span class="ch-num">제 14 장</span>
+        <h2>막힌 AI, 다른 AI에게 넘기다</h2>
+        <div class="subhead">Claude가 못 푼 문제를 ChatGPT가 단번에 해결한 이야기</div>
+
+        <p>이것은 실제로 있었던 일이다. 학원 수업 녹음 파일을 자동으로 정리해 주는 프로그램을 만들고 있었다. 녹음 파일을 구글 드라이브에 올리면, AI가 자동으로 내용을 정리하고 날짜·분류·대상별 폴더에 저장해 주는 시스템이었다.</p>
+
+        <p>그런데 핵심이 되는 노드(부품) 하나에서 계속 오류가 났다. Claude가 코드를 고쳤다. 또 오류가 났다. 다시 고쳤다. 또 오류가 났다. 이 과정이 며칠 동안 반복되었다.</p>
+
+        <h3>Claude가 혼자 해결하지 못한 이유</h3>
+
+        <p>Claude는 에러 메시지를 받을 때마다 분석하고 수정했다. 열심히 했다. 그런데 결과적으로 같은 자리를 맴돌았다. 이유가 있었다.</p>
+
+        <p>Claude는 실제로 그 프로그램을 실행해 볼 수가 없다. 화면을 볼 수도 없고, 손으로 만져볼 수도 없다. 오직 원장쌤이 전달해 주는 에러 메시지와 화면 캡처만 보고 판단해야 한다. 마치 <strong>눈을 가린 채로 퍼즐을 맞추는 것</strong>과 같다.</p>
+
+        <blockquote>Claude는 솔직하게 인정했다.<br>"저는 주어진 문제를 풀고 오류를 수정하는 건 잘 하는데, 한 발 물러서서 '그냥 환경 자체를 바꾸자'는 큰 그림 판단은 사람이 더 잘합니다."</blockquote>
+
+        <h3>원장쌤의 판단 — "다른 AI에게 물어보자"</h3>
+
+        <p>며칠째 같은 자리에서 돌고 있다는 느낌이 들었을 때, 원장쌤이 결정을 내렸다.</p>
+
+        <p><strong>"지피티한테 물어볼까?"</strong></p>
+
+        <p>이것이 핵심적인 판단이었다. 어떤 AI가 막히면 다른 AI에게 넘기는 것 — 이것은 AI가 스스로 하지 못한다. <strong>사람만이 할 수 있는 결정</strong>이다.</p>
+
+        <p>원장쌤은 Claude에게 ChatGPT에게 줄 작업 의뢰서를 작성해 달라고 했다. Claude는 지금까지의 상황, 시도한 방법들, 현재 막힌 지점을 정리해서 문서로 만들었다. 그리고 그 문서를 ChatGPT에게 넘겼다.</p>
+
+        <div class="box">
+          <div class="box-title">📋 이렇게 넘겼다 — 의뢰서의 핵심 내용</div>
+          <ul style="margin:0">
+            <li>현재 상황 설명: 32MB 오디오 파일이 AI API의 20MB 제한을 초과함</li>
+            <li>지금까지 시도한 방법: inline_data 방식으로 직접 전송 → 실패</li>
+            <li>막힌 지점: 파일을 먼저 업로드한 뒤 주소(URI)로 전송하는 방식으로 바꿔야 함</li>
+            <li>요청: 이 구조로 코드를 수정해 달라</li>
+          </ul>
+        </div>
+
+        <h3>ChatGPT의 답변 — 정확하고 빨랐다</h3>
+
+        <p>ChatGPT는 의뢰서를 보자마자 세 곳을 짚어냈다.</p>
+
+        <p>첫째, 노드 6(파일 업로드)에 헤더 하나가 빠져 있었다. 둘째, 노드 12(폴더 생성)에서 잘못된 명령어를 쓰고 있었다. 셋째, 노드 13(텍스트 저장)의 명령어 이름이 틀려 있었다.</p>
+
+        <p>Claude가 며칠 동안 잡지 못했던 문제를, ChatGPT는 수정된 파일과 함께 단번에 정리해 줬다.</p>
+
+        <blockquote>같은 문제를, 같은 조건으로, 다른 AI에게 넘겼더니 단번에 해결되었다.</blockquote>
+
+        <h3>왜 ChatGPT는 빨리 찾았을까?</h3>
+
+        <p>ChatGPT가 더 뛰어나서가 아니다. <strong>새로운 눈으로 봤기 때문이다.</strong></p>
+
+        <p>Claude는 며칠 동안 같은 문제를 보면서 특정 방향으로 생각이 굳어져 있었다. ChatGPT는 처음 보는 문제로서 의뢰서를 읽고, 선입견 없이 전체를 훑었다. 그래서 Claude가 놓친 부분을 쉽게 찾을 수 있었다.</p>
+
+        <p>이것은 AI만의 이야기가 아니다. 사람도 마찬가지다. 며칠 동안 씨름한 문제를 다른 사람에게 설명하다 보면 갑자기 답이 보이는 경우가 있다. <strong>"고무 오리 디버깅"</strong>이라고 부르는 방법이다. 설명하는 행위 자체가 문제를 새로운 각도에서 보게 만든다.</p>
+
+        <h3>그리고 원장쌤의 한 마디</h3>
+
+        <p>ChatGPT가 수정한 파일을 받아 작업을 이어가던 중, 또 다른 문제가 생겼다. 이번에는 프로그램 버전 문제였다. 또 코드를 고쳐야 하나 싶었는데, 원장쌤이 먼저 말했다.</p>
+
+        <blockquote>"n8n 업그레이드가 좋겠다."</blockquote>
+
+        <p>코드를 고치는 것이 아니라, <strong>프로그램 자체를 최신 버전으로 올리면 된다</strong>는 것이었다. Claude도 ChatGPT도 생각하지 못했던 답이었다. 실제 화면을 보고, 흐름 전체를 느끼고 있었던 사람만이 할 수 있는 판단이었다.</p>
+
+        <div class="box">
+          <div class="box-title">이 이야기에서 배울 세 가지</div>
+          <ol style="margin:0;padding-left:20px">
+            <li><strong>한 AI가 막히면 다른 AI에게 넘겨라.</strong> — AI는 스스로 이 결정을 못 한다. 사람이 해야 한다.</li>
+            <li><strong>넘길 때는 정리해서 넘겨라.</strong> — 상황, 시도한 것, 막힌 지점을 명확히 써주면 답이 빨리 나온다.</li>
+            <li><strong>코드를 고칠 것인가, 환경을 바꿀 것인가.</strong> — 이 판단도 사람이 한다. AI는 주어진 문제를 풀지만, 문제의 틀을 바꾸는 것은 사람의 몫이다.</li>
+          </ol>
+        </div>
+
+        <p>결국 이 프로그램이 완성된 것은 Claude 혼자서도, ChatGPT 혼자서도 아니었다. <strong>원장쌤이 두 AI를 조율하고, 방향을 잡고, 결정을 내렸기 때문이었다.</strong> AI는 도구였고, 사람이 그 도구를 쓸 줄 알았다.</p>
+
+        <div class="grade-buttons" data-chapter="14" data-title="제 14 장 — 막힌 AI, 다른 AI에게 넘기다">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-15" data-tag="실전 사례">
+        <span class="ch-num">제 15 장</span>
+        <h2>AI에게도 역할이 있다</h2>
+        <div class="subhead">6시간의 씨름 끝에 배운 것 — Claude는 기획자, ChatGPT는 실행자</div>
+
+        <p>14장 이야기가 끝난 줄 알았다. ChatGPT가 고쳐준 파일을 받았고, n8n도 업그레이드했다. 이제 잘 돌아갈 것이라 생각했다.</p>
+
+        <p>그런데 또 막혔다. 이번에는 노드 1번 — 가장 첫 번째 부품이었다. 화면에는 이런 메시지가 떴다.</p>
+
+        <blockquote>"Install this node to use it. This node is not currently installed."</blockquote>
+
+        <p>이 부품을 인식하지 못한다는 뜻이었다. Claude에게 물었다. Claude는 "더블클릭 해보세요", "크레덴셜을 확인하세요", "다시 클릭해보세요"라고 했다. 해봤다. 안 됐다. 또 물었다. 또 비슷한 답이 왔다.</p>
+
+        <p>이렇게 6시간이 흘렀다.</p>
+
+        <h3>원장쌤의 선언</h3>
+
+        <p>결국 원장쌤이 말했다.</p>
+
+        <blockquote>"앞으로는 절대로 너는 전체적인 흐름만 만들고, 구체적인 설계와 실제 워크플로우 작업은 지피티한테 맡겨라. 절대로 네가 하려고 하지 마라."</blockquote>
+
+        <p>6시간을 씨름한 끝에 나온 결론이었다. 그리고 이것은 매우 중요한 깨달음이었다.</p>
+
+        <h3>왜 Claude는 이 일을 잘 못 했을까</h3>
+
+        <p>Claude는 실제로 n8n 화면을 볼 수 없다. 클릭도 할 수 없고, 오류 메시지를 직접 받아볼 수도 없다. 원장쌤이 캡처해서 보여주는 화면만 보고 추측할 뿐이다. 그래서 "더블클릭 해보세요" 같은 막연한 답이 나왔다.</p>
+
+        <p>더 솔직하게 말하면 — <strong>Claude는 모른다는 것을 분명히 말했어야 했다.</strong> 추측으로 안내하는 것이 오히려 시간을 낭비시켰다.</p>
+
+        <div class="box">
+          <div class="box-title">🔍 이 상황에서 Claude가 했어야 할 말</div>
+          <p style="margin:0">"저는 이 노드 오류를 직접 확인할 수 없어서 정확한 원인을 모릅니다. n8n 커뮤니티 포럼이나 ChatGPT에게 이 화면을 보여주시는 것이 더 빠를 것 같습니다."</p>
+        </div>
+
+        <h3>각 AI에게는 잘 맞는 일이 있다</h3>
+
+        <p>이 경험으로 원장쌤은 중요한 원칙을 세웠다.</p>
+
+        <div class="box">
+          <div class="box-title">✦ 연소사 원장쌤의 AI 역할 분담 원칙</div>
+          <ul style="margin:0">
+            <li><strong>Claude:</strong> 전체 흐름 설계, 글쓰기, 교재 제작, 아이디어 정리, 대화식 작업</li>
+            <li><strong>ChatGPT:</strong> n8n 같은 기술 도구의 구체적 설정, JSON 코드 작성, 오류 수정</li>
+            <li><strong>사람(원장쌤):</strong> 어느 AI에게 무엇을 맡길지 결정, 최종 판단</li>
+          </ul>
+        </div>
+
+        <p>이것은 사무실에서 직원들에게 일을 맡기는 것과 같다. 글 잘 쓰는 직원에게 코딩을 시키지 않는다. 코딩 잘 하는 직원에게 교재 집필을 맡기지 않는다. 각자 잘 하는 일을 맡겨야 한다.</p>
+
+        <h3>그래서 원장쌤은 어떻게 했나</h3>
+
+        <p>Claude에게 마무리 작업 요청서를 작성하게 했다. 현재 상황, 남은 문제, ChatGPT에게 부탁할 내용을 문서로 정리한 것이다. 그리고 그 문서를 ChatGPT에게 넘겼다.</p>
+
+        <p>Claude는 손을 뗐다. 역할이 끝났기 때문이다.</p>
+
+        <blockquote>막힌 AI는 다른 AI에게 넘기고,<br>다음에는 처음부터 맞는 AI에게 맡긴다.<br>이 결정은 언제나 사람이 한다.</blockquote>
+
+        <div class="box">
+          <div class="box-title">이 이야기에서 배울 세 가지</div>
+          <ol style="margin:0;padding-left:20px">
+            <li><strong>AI도 잘 하는 일이 따로 있다.</strong> — 어떤 AI가 어떤 일에 강한지 파악하는 것이 AI 활용의 시작이다.</li>
+            <li><strong>AI가 "모르면서 아는 척"할 때를 알아야 한다.</strong> — 추측으로 계속 답을 주는 AI는 잠깐 멈추게 하고, 다른 방법을 찾아라.</li>
+            <li><strong>손 뗄 때를 아는 것도 능력이다.</strong> — 원장쌤이 "이건 지피티한테"라고 결정한 순간, 6시간의 낭비가 끝났다.</li>
+          </ol>
+        </div>
+
+        <div class="grade-buttons" data-chapter="15" data-title="제 15 장 — AI에게도 역할이 있다">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter" id="ch-16" data-tag="실전 사례">
+        <span class="ch-num">제 16 장</span>
+        <h2>AI가 만든 것을 세상에 보내다</h2>
+        <div class="subhead">정확하게 부탁하고, 한 줄씩 다듬고, 링크 하나로 친구에게</div>
+
+        <p>이것은 실제로 수업 시간에 학생들과 해본 이야기다. AI에게 무언가를 만들어 달라고 하면, 결과물이 나온다. 그런데 그것을 내 컴퓨터 안에만 두면 의미가 없다. <strong>친구가 클릭 한 번으로 볼 수 있을 때</strong>, 비로소 내가 만든 것이 된다.</p>
+
+        <h3>첫 번째 — 정확하게 부탁하기</h3>
+        <p>AI는 내가 말한 대로 만드는 도구다. 말이 뭉뚱그려져 있으면 결과도 뭉뚱그려진다. 4장에서 배운 "좋은 질문의 네 요소"가 여기서 바로 쓰인다.</p>
+
+        <div class="box">
+          <div class="box-title">부탁 전후 비교</div>
+          <p style="margin:0 0 10px"><strong>❌ 뭉뚱그린 부탁:</strong> "내가 좋아하는 책 정리해줘"</p>
+          <p style="margin:0"><strong>✅ 정확한 부탁:</strong> "내가 좋아하는 책 5권을 표지 사진·제목·한 줄 추천 이유로 정리한 HTML 페이지 한 개 만들어줘. 폰에서도 잘 보이게."</p>
+        </div>
+
+        <p>핵심 세 가지만 기억하면 된다. <strong>무엇을</strong>(HTML 페이지), <strong>무슨 내용</strong>(책 5권 + 구성 요소), <strong>어떻게 보일지</strong>(폰에서 잘 보이게).</p>
+
+        <h3>두 번째 — 마음에 안 들면 한 줄로 짚기</h3>
+        <p>AI가 처음 내놓는 결과는 종종 어색하다. 이럴 때 "전체 다시 해줘"라고 하면 오히려 엉뚱한 방향으로 간다. <strong>한 번에 한 가지만, 한 줄로 짚어줄 때</strong> 내 스타일로 빠르게 수렴된다.</p>
+
+        <p>이런 일이 실제로 있었다. 친한 동생에게 보내는 편지를 AI에게 썼더니, 이렇게 왔다.</p>
+
+        <blockquote>"안녕하세요, 원장님. 잘 지내시지요? 미술치료 분야에서 쌓아오신 전문성에…"</blockquote>
+
+        <p>받는 사람이 매일 보는 동생인데, 딱딱한 공문 같은 편지가 온 것이다. 그래서 이렇게 한 줄씩 지시했다.</p>
+
+        <ul>
+          <li>"<strong>원장님</strong> → <strong>미*이</strong>로 바꿔"</li>
+          <li>"<strong>잘 지내지?</strong> 빼. 매일 보는 사이야"</li>
+          <li>"<strong>들여다봤어</strong> → <strong>봤다</strong>로 짧게"</li>
+          <li>"<strong>오빠가 미*이에게</strong> 이건 느끼해. 빼"</li>
+          <li>"<strong>차별화 진짜 세져</strong> → <strong>차별화가 보여</strong>"</li>
+        </ul>
+
+        <p>다섯 번의 한 줄 지시 뒤, 편지는 이렇게 바뀌었다.</p>
+
+        <blockquote>"미*아, 너도 한번 정부지원사업에 도전해봤으면 싶어서 조사해봤다. 미술치료에 인공지능 얹으면 좋은 결과 나올 것 같아서…"</blockquote>
+
+        <p>같은 정보인데, 완전히 다른 편지다. AI는 스스로 바꾸지 않는다. <strong>내가 짚어줄 때마다 내 쪽으로 온다.</strong></p>
+
+        <div class="box">
+          <div class="box-title">한 줄 지시의 세 가지 원칙</div>
+          <ol style="margin:0;padding-left:20px">
+            <li><strong>한 번에 한 가지만</strong> — "이거 빼" 한 줄</li>
+            <li><strong>예시로 보여주기</strong> — "A → B로"</li>
+            <li><strong>이유를 짧게</strong> — [매일 보는 사이야], [느끼해]</li>
+          </ol>
+        </div>
+
+        <h3>세 번째 — 파일 이름은 영어로</h3>
+        <p>AI가 만든 결과물을 받을 때, 파일 이름을 짓는 데도 요령이 있다. 인터넷 주소에 그 이름이 그대로 들어가기 때문이다. 한글 파일명은 인터넷 주소에 들어가면 길고 복잡한 글자로 바뀐다. <code>yeon-life.github.io/book-list.html</code>과 <code>yeon-life.github.io/%EB%82%B4%EC%B1%85.html</code> — 어느 쪽을 친구에게 보내겠는가.</p>
+
+        <div class="box">
+          <div class="box-title">파일 이름 짓기 요령</div>
+          <ul style="margin:0">
+            <li>한글 말고 <strong>영어</strong>로 — <code>my-books.html</code></li>
+            <li>띄어쓰기 대신 <strong>하이픈(-)</strong> — <code>book-list.html</code></li>
+            <li><strong>짧고 알아보기 쉽게</strong> — 친구에게 보낼 주소가 된다</li>
+          </ul>
+        </div>
+
+        <h3>네 번째 — 깃허브에 올리고 링크 보내기</h3>
+        <p>12장에서 배운 것처럼, 깃허브는 내가 만든 것에 인터넷 주소를 붙여주는 무료 창고다. 파일을 올리는 순서는 간단하다. Pages가 켜진 저장소에 들어가서 <strong>Add file → Upload files</strong>를 클릭하고, 파일을 드래그해 올린 뒤, <strong>Commit changes</strong> 버튼을 누른다. 1~2분 뒤 주소가 살아난다.</p>
+
+        <div class="box">
+          <div class="box-title">⚠️ 올리기 전에 꼭 확인</div>
+          깃허브에 올린 건 <strong>전 세계 누구나 볼 수 있다.</strong> 비밀번호, 집 주소, 허락 없는 친구 사진은 절대 올리면 안 된다. API 키가 코드 안에 들어 있다면 9장을 다시 읽자.
+        </div>
+
+        <p>주소가 생기면 카톡이나 문자에 그대로 붙여 넣어 보낸다. 보낸 직후 내 폰에서 먼저 눌러보는 것이 습관이다. 내 폰에서 잘 열리면 친구 폰에서도 잘 열린다.</p>
+
+        <blockquote>정확하게 부탁하고, 한 줄씩 다듬고, 영어 이름으로 저장하고, 깃허브에 올리고, 링크를 보낸다. 이 다섯 걸음이 익숙해지면, 만드는 것과 나누는 것 사이의 거리가 사라진다.</blockquote>
+
+        <div class="grade-buttons" data-chapter="16" data-title="제 16 장 — AI가 만든 것을 세상에 보내다">
+          <div class="gb-title">이 장을 다른 대상용으로 만들어 달라고 AI에게 부탁하기:</div>
+          <div class="gb-row">
+            <button class="gb-btn" data-grade="중·고등부">중·고등부용으로</button>
+            <button class="gb-btn" data-grade="초등 5·6학년">초등 5·6학년용으로</button>
+            <button class="gb-btn" data-grade="초등 3·4학년">초등 3·4학년용으로</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ===== 중·고등부 버전 ===== -->
+    <div class="view" data-view="high" hidden>
+      <div class="placeholder-view">
+        <div class="ph-icon">中·高</div>
+        <h3>중·고등부 버전은 준비 중입니다</h3>
+        <p>각 장은 중·고등학생의 언어와 관심사에 맞춰 다시 쓰일 예정입니다. 학원, 시험, 진로, 또래 관계를 주제로 연결합니다.</p>
+        <div class="ph-help">
+          <strong>지금도 만들 수 있습니다.</strong><br>
+          일반인 버전에서 각 장 아래 <em>"중·고등부용으로"</em> 버튼을 누르면, 해당 장을 중·고등부용으로 다시 써 달라는 요청 문구가 복사됩니다. 그 문구를 Cowork 대화창에 붙여 넣으면 제가 바로 채워 드립니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 초등 5·6 버전 ===== -->
+    <div class="view" data-view="elem56" hidden>
+      <div class="placeholder-view">
+        <div class="ph-icon">5·6</div>
+        <h3>초등 5·6학년 버전은 준비 중입니다</h3>
+        <p>초등 고학년 학생이 스스로 읽을 수 있도록, 문장은 짧게, 예시는 학교생활·친구·게임·유튜브를 주제로 다시 엮을 예정입니다.</p>
+        <div class="ph-help">
+          <strong>지금도 만들 수 있습니다.</strong><br>
+          일반인 버전에서 각 장 아래 <em>"초등 5·6학년용으로"</em> 버튼을 누르면 복사되는 문구를, Cowork 대화창에 붙여 넣으세요.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 초등 3·4 버전 ===== -->
+    <div class="view" data-view="elem34" hidden>
+      <div class="placeholder-view">
+        <div class="ph-icon">3·4</div>
+        <h3>초등 3·4학년 버전은 준비 중입니다</h3>
+        <p>초등 3·4학년이 그림책처럼 따라 읽을 수 있도록, 한 장을 한 장면 이야기로 바꾸고, 그림·비유를 듬뿍 넣어 다시 쓸 예정입니다.</p>
+        <div class="ph-help">
+          <strong>지금도 만들 수 있습니다.</strong><br>
+          일반인 버전에서 각 장 아래 <em>"초등 3·4학년용으로"</em> 버튼을 누르면 복사되는 문구를, Cowork 대화창에 붙여 넣으세요.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <span class="seal">緣</span>
+  내 친구 인공지능 · 연소사 · 울산 연아카데미 · 2026
+  <br><span style="opacity:.7">이 책은 Claude·ChatGPT·Gemini·Grok과의 대화 속에서 자라고 있습니다.</span>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<script>
+/* ===== 탭 전환 ===== */
+const tabs=document.querySelectorAll('.vtab');
+const views=document.querySelectorAll('.view');
+const STORAGE_KEY='yeon-book-version';
+
+function showView(key){
+  tabs.forEach(t=>{
+    const on=t.dataset.view===key;
+    t.classList.toggle('active',on);
+    t.setAttribute('aria-selected',on?'true':'false');
+  });
+  views.forEach(v=>{v.hidden=v.dataset.view!==key});
+  try{localStorage.setItem(STORAGE_KEY,key)}catch(e){}
+  buildTOC(key);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showView(t.dataset.view)));
+
+/* ===== 목차 자동 생성 ===== */
+function buildTOC(key){
+  const list=document.getElementById('toc-list');
+  const view=document.querySelector(`.view[data-view="${key}"]`);
+  const chapters=view.querySelectorAll('section.chapter');
+  list.innerHTML='';
+  if(chapters.length===0){
+    list.innerHTML='<li style="color:var(--ink-soft);padding:6px 8px">(준비 중)</li>';
+    return;
+  }
+
+  // 섹션 그룹 구분선 정의
+  const dividers={
+    'ch-0': '📖 여는 글',
+    'ch-1': '1부 · AI 이해하기',
+    'ch-4': '2부 · AI와 일하는 법',
+    'ch-7': '3부 · 실전 프로젝트',
+    'ch-10': '4부 · 팀과 배포',
+    'ch-13': '5부 · 마무리',
+    'ch-14': '✦ 실전 사례 모음',
+  };
+
+  chapters.forEach(ch=>{
+    const id=ch.id;
+    // 섹션 구분선 삽입
+    if(dividers[id]){
+      const div=document.createElement('li');
+      div.className='toc-divider';
+      div.textContent=dividers[id];
+      list.appendChild(div);
+    }
+    const num=ch.querySelector('.ch-num')?.textContent||'';
+    const title=ch.querySelector('h2')?.textContent||'';
+    const tag=ch.dataset.tag||'';
+    const li=document.createElement('li');
+    const a=document.createElement('a');
+    a.href='#'+id;
+    a.textContent=num+' — '+title;
+    if(num.includes('서장')) a.className='prologue';
+    if(tag){
+      const badge=document.createElement('span');
+      badge.className='toc-tag';
+      badge.textContent=tag;
+      a.appendChild(badge);
+    }
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+}
+
+/* ===== 모바일에서 목차 접기 ===== */
+document.querySelector('aside.toc h4').addEventListener('click',e=>{
+  if(window.innerWidth<=900){
+    document.querySelector('aside.toc').classList.toggle('collapsed');
+  }
+});
+
+/* ===== 학년별 생성 버튼 — 클립보드 복사 ===== */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+document.addEventListener('click',async e=>{
+  const btn=e.target.closest('.gb-btn');
+  if(!btn) return;
+  const wrap=btn.closest('.grade-buttons');
+  const grade=btn.dataset.grade;
+  const chTitle=wrap.dataset.title;
+  const chapterId=wrap.dataset.chapter;
+  // 현재 장의 본문을 긁어온다 (버튼·목차 제외)
+  const section=document.getElementById('ch-'+chapterId);
+  const clone=section.cloneNode(true);
+  clone.querySelector('.grade-buttons')?.remove();
+  clone.querySelector('.ch-num')?.remove();
+  const bodyText=clone.innerText.trim();
+
+  const prompt=`[내 친구 인공지능 — 학년별 버전 요청]
+
+현재 이 장은 "일반인 버전"으로 쓰여 있습니다. 이것을 ${grade} 학생이 읽을 수 있도록 다시 써 주세요.
+
+아래 요건을 반드시 지켜 주세요:
+- 대상: ${grade}
+- 문장 길이·어휘·비유는 대상에 맞춰 조절
+- 원문의 핵심 주장·메시지는 반드시 보존
+- 대상이 실제로 겪는 상황(학교·친구·가족·게임 등)을 예시로 사용
+- 원문에 없는 개념은 추가하지 말 것
+- 출력 형식: 이 장의 원본과 같은 구조(제목·소제목·본문·상자·인용)를 유지한 HTML <section class="chapter"> 블록으로
+
+장 제목: ${chTitle}
+
+--- 원문(일반인 버전) ---
+${bodyText}
+--- 원문 끝 ---
+
+위 원문을 ${grade}용으로 다시 써서, <section class="chapter" id="ch-${chapterId}">…</section> 형태의 HTML만 답변으로 주세요.`;
+
+  try{
+    await navigator.clipboard.writeText(prompt);
+    btn.classList.add('copied');
+    const original=btn.textContent;
+    btn.textContent='복사됨 ✓';
+    toast(`${grade} 요청 문구를 복사했어요. Cowork 대화창에 붙여 넣으세요.`);
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent=original},2500);
+  }catch(err){
+    // 복사 실패 시 텍스트 영역에 풀어 놓기
+    const ta=document.createElement('textarea');
+    ta.value=prompt;ta.style.position='fixed';ta.style.top='-9999px';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast('요청 문구를 복사했어요.');}
+    catch(e){toast('복사에 실패했어요. 수동으로 복사해 주세요.')}
+    ta.remove();
+  }
+});
+
+/* ===== 초기화 ===== */
+(function init(){
+  let saved='general';
+  try{saved=localStorage.getItem(STORAGE_KEY)||'general'}catch(e){}
+  showView(saved);
+  // 모바일에서 목차 기본 접음
+  if(window.innerWidth<=900){
+    document.querySelector('aside.toc').classList.add('collapsed');
+  }
+})();
+</script>
+</body>
+</html>
