@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>광장 생각의 지도 — y-life.kr</title>
+<meta name="description" content="연라이프 광장의 모든 생각이 어떻게 연결되는지 한눈에 보는 지도">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="연라이프 · y-life.kr">
+<meta property="og:title" content="광장 생각의 지도 · 연라이프">
+<meta property="og:description" content="모든 생각이 어떻게 연결되는지 한눈에 보는 별자리 지도.">
+<meta property="og:url" content="https://y-life.kr/광장_생각지도.html">
+<meta property="og:image" content="https://y-life.kr/icon-512.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="광장 생각의 지도 · 연라이프">
+<meta name="twitter:description" content="모든 생각이 어떻게 연결되는지 한눈에.">
+<meta name="twitter:image" content="https://y-life.kr/icon-512.svg">
+<link rel="canonical" href="https://y-life.kr/광장_생각지도.html">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<!-- PWA (YLV-4 §24) -->
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.svg">
+<link rel="stylesheet" href="yeon-thinkmap/engine/thinkmap.css">
+<link rel="stylesheet" href="yeon-thinkmap/engine/analytics.css">
+<script src="yeon-pwa.js" defer></script>
+<script src="data/vault_structure.js" defer></script>
+<style>
+  /* ── 낮/밤 테마 변수 ─────────────────────────────────────────
+     기본: 낮(베이지 종이톤) — 홈페이지 기본 베이스 색깔
+     밤  : 짙은 청록 톤 — 별자리처럼 보이는 다크 모드 */
+  :root[data-theme="day"]{
+    --bg-base: #f4f0e6;
+    --bg-radial-from: #fbf8f1;
+    --bg-radial-to:   #ece5d5;
+    --txt-base: #1f2a2a;
+    --txt-soft: rgba(31,42,42,.62);
+    --txt-mute: rgba(31,42,42,.45);
+    --panel: rgba(251,248,241,.92);
+    --panel-bd: rgba(31,42,42,.10);
+    --chip-bg: rgba(255,253,248,.85);
+    --active-bg: #c4923e;
+    --active-fg: #fbf8f1;
+    --hover-bg: rgba(31,42,42,.05);
+    --link: #b8782a;
+    --tooltip-bg: rgba(31,42,42,.92);
+    --tooltip-fg: #fbf8f1;
+  }
+  :root[data-theme="night"]{
+    --bg-base: #0c1a1f;
+    --bg-radial-from: #122428;
+    --bg-radial-to:   #0c1a1f;
+    --txt-base: #f0ede2;
+    --txt-soft: rgba(240,237,226,.70);
+    --txt-mute: rgba(240,237,226,.45);
+    --panel: rgba(18,36,40,.92);
+    --panel-bd: rgba(255,255,255,.12);
+    --chip-bg: rgba(18,36,40,.6);
+    --active-bg: #c4923e;
+    --active-fg: #0a1518;
+    --hover-bg: rgba(255,255,255,.06);
+    --link: #d8a55a;
+    --tooltip-bg: rgba(18,36,40,.92);
+    --tooltip-fg: #f0ede2;
+  }
+  /* 기본은 낮 모드 */
+  :root{ color-scheme: light; }
+  :root[data-theme="night"]{ color-scheme: dark; }
+
+  html, body { margin: 0; height: 100%; overflow: hidden;
+                background: var(--bg-base);
+                color: var(--txt-base);
+                transition: background .4s ease, color .4s ease; }
+
+  /* 외부 thinkmap 엔진 컨테이너 배경도 함께 전환 */
+  #map, #dashboard, #my-data { background: var(--bg-base) !important; transition: background .4s ease; }
+
+  /* 낮/밤 토글 (해/달 아이콘) — 우상단 */
+  .yl-theme-toggle{
+    position: fixed; top: 12px; right: 20px; z-index: 50;
+    display: flex; gap: 4px;
+    background: var(--panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-bd);
+    border-radius: 999px;
+    padding: 4px;
+    transition: background .35s ease, border-color .35s ease;
+  }
+  .yl-theme-btn{
+    appearance: none; border: 0;
+    width: 34px; height: 34px;
+    background: transparent;
+    color: var(--txt-soft);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .18s ease;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 16px; line-height: 1;
+    position: relative;
+  }
+  .yl-theme-btn:hover{ color: var(--txt-base); background: var(--hover-bg); }
+  .yl-theme-btn.active{
+    background: var(--active-bg);
+    color: var(--active-fg);
+  }
+  .yl-theme-btn[data-tip]:hover::after{
+    content: attr(data-tip);
+    position: absolute; top: 42px; right: 0;
+    font-size: 11px; letter-spacing:.04em;
+    background: var(--tooltip-bg); color: var(--tooltip-fg);
+    padding: 4px 8px; border-radius: 4px;
+    white-space: nowrap; pointer-events:none;
+  }
+
+  /* ── 분석 패널이 열렸을 때 패널이 테마 토글보다 위에 떠야 닫기(×) 버튼이 보임 ── */
+  .yta-drill { z-index: 60 !important; }
+  /* 닫기(×) 버튼은 그보다 한 단계 더 위 + 또렷한 색·테두리 */
+  .yta-drill-close{
+    z-index: 61 !important;
+    border: 1px solid var(--panel-bd-strong, var(--panel-bd)) !important;
+    background: var(--panel) !important;
+    color: var(--txt-base) !important;
+    font-size: 18px !important;
+    font-weight: 500;
+  }
+  .yta-drill-close:hover{ background: var(--hover-bg) !important; }
+
+  /* Deep View(요약·전체기록) 닫기 버튼도 동일하게 또렷이 */
+  .ytm-deep-close, .ytm-deep-back{
+    z-index: 61 !important;
+    border: 1px solid var(--panel-bd-strong, var(--panel-bd)) !important;
+    background: var(--panel) !important;
+    color: var(--txt-base) !important;
+  }
+
+  /* 좌상단: 지도 / 분석 / 내 자료 토글 */
+  .yl-view-toggle {
+    position: fixed; top: 12px; left: 20px; z-index: 50;
+    display: flex; gap: 4px;
+    background: var(--panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-bd);
+    border-radius: 999px;
+    padding: 4px;
+    transition: background .35s ease, border-color .35s ease;
+  }
+  .yl-view {
+    appearance: none; border: 0;
+    background: transparent;
+    color: var(--txt-soft);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-family: "Pretendard", sans-serif;
+    font-size: 12.5px; font-weight: 500;
+    cursor: pointer;
+    transition: all .18s ease;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+  }
+  .yl-view:hover { color: var(--txt-base); background: var(--hover-bg); }
+  .yl-view.active {
+    background: var(--active-bg);
+    color: var(--active-fg);
+    font-weight: 600;
+  }
+  .yl-view-ico { font-size: 14px; line-height: 1; }
+
+  /* 상단 가운데: 페이지 식별 */
+  .yl-brand-strip {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    z-index: 40;
+    display: flex; align-items: baseline; gap: 8px;
+    color: rgba(31,42,42,.92);
+    font-family: "Noto Serif KR", serif;
+    transition: color .35s ease;
+    padding: 4px 14px;
+    background: rgba(251,248,241,.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 999px;
+    border: 1px solid rgba(31,42,42,.10);
+  }
+  [data-theme="night"] .yl-brand-strip {
+    color: rgba(240,237,226,.95);
+    background: rgba(30,38,38,.62);
+    border-color: rgba(240,237,226,.12);
+  }
+  /* 緣 y-life.kr 부분 — 홈으로 돌아가는 링크 */
+  .yl-brand-home {
+    position: relative;
+    display: inline-flex; align-items: baseline; gap: 8px;
+    text-decoration: none; color: inherit;
+    padding: 4px 10px; border-radius: 999px;
+    transition: background .18s ease, transform .18s ease;
+    cursor: pointer;
+  }
+  .yl-brand-home:hover {
+    background: rgba(196,146,62,.12);
+    transform: translateY(-1px);
+  }
+  .yl-brand-home:hover .yl-brand-yeon { color: #d8a55a; }
+  .yl-brand-home::after {
+    content: '홈으로';
+    position: absolute; top: 100%; left: 50%; transform: translate(-50%, 6px);
+    font-size: 10.5px; letter-spacing: .08em;
+    color: var(--tooltip-fg);
+    background: var(--tooltip-bg);
+    padding: 3px 9px; border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease;
+  }
+  .yl-brand-home:hover::after { opacity: 1; }
+  .yl-brand-yeon {
+    font-size: 22px; font-weight: 700;
+    color: var(--active-bg);
+    line-height: 1;
+    transition: color .18s ease;
+  }
+  .yl-brand-name { font-size: 15px; font-weight: 600; }
+  .yl-brand-sep { color: rgba(31,42,42,.55); margin: 0 4px; pointer-events: none; font-weight: 400; }
+  [data-theme="night"] .yl-brand-sep { color: rgba(240,237,226,.55); }
+  .yl-brand-page { font-size: 13px; color: rgba(31,42,42,.78); pointer-events: none; font-weight: 500; }
+  [data-theme="night"] .yl-brand-page { color: rgba(240,237,226,.85); }
+
+  /* ── 상세 패널 — 글 제목 / 연결된 글을 원문으로 이동 ──── */
+  .ytm-detail-title{
+    cursor:pointer;
+    transition:color .18s ease;
+    position:relative;
+    padding-right:24px;
+  }
+  .ytm-detail-title:hover{color:#c4923e}
+  .ytm-detail-title::after{
+    content:'↗';
+    position:absolute;right:0;top:50%;transform:translateY(-50%);
+    font-size:14px;color:rgba(196,146,62,.55);
+    transition:transform .18s ease, color .18s ease;
+  }
+  .ytm-detail-title:hover::after{
+    color:#c4923e;
+    transform:translateY(-50%) translate(2px,-2px);
+  }
+  /* 연결된 글 — 자체 행 클릭은 패널 갱신, "›" 버튼은 원문으로 */
+  .ytm-related-item-detail{
+    cursor:pointer;
+    transition:color .18s ease, transform .18s ease;
+  }
+  .ytm-related-item-detail:hover{color:#c4923e;transform:translateX(2px)}
+  /* 원문 보기 액션 (상세 패널 하단) */
+  .yl-detail-open-source{
+    display:inline-flex;align-items:center;gap:6px;
+    margin-top:14px;padding:8px 14px;
+    background:rgba(196,146,62,.12);
+    color:#d8a55a;
+    border:1px solid rgba(196,146,62,.35);
+    border-radius:999px;
+    font-family:"Noto Serif KR",serif;font-size:12.5px;font-weight:600;
+    text-decoration:none;
+    transition:all .18s ease;
+    cursor:pointer;
+  }
+  .yl-detail-open-source:hover{
+    background:rgba(196,146,62,.22);
+    color:#f0ede2;
+    border-color:rgba(196,146,62,.6);
+  }
+
+  /* 메인 영역 */
+  #map, #dashboard, #my-data { width: 100vw; height: 100vh; }
+  .hidden { display: none !important; }
+
+  /* 엔진의 헤더 위치 보정 (좌상단 토글이 가리지 않도록) */
+  .ytm-header { padding-top: 56px !important; }
+
+  /* 내 자료 뷰 */
+  .yl-my-data {
+    height: 100vh;
+    background: radial-gradient(ellipse at center, var(--bg-radial-from) 0%, var(--bg-radial-to) 80%);
+    color: var(--txt-base);
+    font-family: "Pretendard", sans-serif;
+    overflow-y: auto;
+    padding: 76px 32px 40px;
+    transition: background .4s ease, color .4s ease;
+  }
+  .yl-my-data-inner {
+    max-width: 920px; margin: 0 auto;
+  }
+  .yl-my-data h1 {
+    font-family: "Noto Serif KR", serif;
+    font-size: 24px; font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .yl-my-data .lead {
+    color: var(--txt-soft);
+    font-family: "Noto Serif KR", serif;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .yl-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .yl-flow-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all .18s ease;
+    cursor: pointer;
+  }
+  .yl-flow-card:hover {
+    background: rgba(58,160,168,.08);
+    border-color: rgba(58,160,168,.4);
+    transform: translateY(-1px);
+  }
+  .yl-flow-num {
+    font-family: "Noto Serif KR", serif;
+    font-size: 11px; font-weight: 600;
+    color: #c4923e;
+    letter-spacing: .08em;
+    margin-bottom: 6px;
+  }
+  .yl-flow-name {
+    font-family: "Noto Serif KR", serif;
+    font-size: 15px; font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .yl-flow-desc {
+    font-size: 12.5px;
+    color: rgba(240,237,226,.6);
+    line-height: 1.55;
+  }
+  .yl-flow-cost {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .yl-flow-cost-free { background: rgba(74,144,96,.18); color: #4a9060; }
+  .yl-flow-cost-paid { background: rgba(196,146,62,.18); color: #c4923e; }
+  .yl-section-head {
+    font-family: "Noto Serif KR", serif;
+    font-size: 14px; font-weight: 600;
+    color: rgba(240,237,226,.7);
+    letter-spacing: .04em;
+    margin: 28px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .yl-link-list {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .yl-link-list a {
+    color: rgba(240,237,226,.75);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    transition: color .15s ease;
+  }
+  .yl-link-list a:hover { color: #3aa0a8; }
+
+  @media (max-width: 720px) {
+    .yl-view-toggle { top: 8px; left: 8px; padding: 3px; }
+    .yl-view { padding: 6px 11px; font-size: 12px; }
+    .yl-brand-strip { top: 50px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 보기 전환 -->
+<div class="yl-view-toggle" id="yl-view-toggle">
+  <button class="yl-view active" data-view="map"><span class="yl-view-ico">◉</span>지도</button>
+  <button class="yl-view" data-view="analytics"><span class="yl-view-ico">▦</span>분석</button>
+  <button class="yl-view" data-view="my-data"><span class="yl-view-ico">⊞</span>내 자료</button>
+</div>
+
+<!-- 페이지 식별 — 緣 y-life.kr 클릭 시 홈으로 -->
+<div class="yl-brand-strip">
+  <a class="yl-brand-home" href="시안_v4_홈페이지.html" aria-label="홈으로 돌아가기">
+    <span class="yl-brand-yeon">緣</span>
+    <span class="yl-brand-name">y-life.kr</span>
+  </a>
+  <span class="yl-brand-sep">/</span>
+  <span class="yl-brand-page">광장 생각의 지도</span>
+</div>
+
+<!-- 낮/밤 테마 토글 — 해/달 -->
+<div class="yl-theme-toggle" id="yl-theme-toggle" role="group" aria-label="낮/밤 테마">
+  <button class="yl-theme-btn" data-theme="day" data-tip="낮 모드" aria-label="낮 모드">☀</button>
+  <button class="yl-theme-btn" data-theme="night" data-tip="밤 모드" aria-label="밤 모드">☾</button>
+</div>
+
+<!-- 1. 마인드맵 -->
+<div id="map"></div>
+
+<!-- 2. 분석 대시보드 -->
+<div id="dashboard" class="hidden"></div>
+
+<!-- 3. 내 자료 통합 안내 -->
+<div id="my-data" class="hidden yl-my-data">
+  <div class="yl-my-data-inner">
+    <h1>내 자료 → 생각의 지도</h1>
+    <p class="lead">본인 자료가 광장 생각과 어떻게 연결되는지 한 흐름으로 따라갑니다. "여기에 떨어뜨리면 생각의 지도에 모입니다."</p>
+
+    <div class="yl-section-head">자료가 지도가 되기까지 — 8단계</div>
+
+    <div class="yl-flow">
+      <div class="yl-flow-card" onclick="openFolder('0_받은_자료')">
+        <div class="yl-flow-num">0 · 받음</div>
+        <div class="yl-flow-name">받은 자료</div>
+        <div class="yl-flow-desc">PDF, 문서, 메모, 웹스크랩, 이미지·음성을 떨어뜨리는 자리. 원본 보존.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">텍스트 무료</span>
+        <span class="yl-flow-cost yl-flow-cost-paid">OCR·음성 유료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('1_추출된_텍스트')">
+        <div class="yl-flow-num">1 · 추출</div>
+        <div class="yl-flow-name">추출된 텍스트</div>
+        <div class="yl-flow-desc">자료에서 글자만 .txt로 정리. 원본은 그대로 두고 사본만 분석에 사용.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('2_AI_분석결과')">
+        <div class="yl-flow-num">2 · 분석</div>
+        <div class="yl-flow-name">AI 분석결과</div>
+        <div class="yl-flow-desc">개념 노드 후보, 요약, 키워드, 광장 글과의 1차 유사도 검색 결과.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">텍스트 무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('3_내_생각지도')">
+        <div class="yl-flow-num">3 · 승인</div>
+        <div class="yl-flow-name">내 생각지도</div>
+        <div class="yl-flow-desc">본인이 승인한 노드와 연결. yeon-thinkmap 표준 nodes.json / edges.json.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('4_광장과_연결')">
+        <div class="yl-flow-num">4 · 연결</div>
+        <div class="yl-flow-name">광장과 연결</div>
+        <div class="yl-flow-desc">내 노드 ↔ 광장 노드 사이 다리. same-source · agreement · contrast · cites 등 6가지 관계.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('5_생각_분석차트')">
+        <div class="yl-flow-num">5 · 차트</div>
+        <div class="yl-flow-name">생각 분석 차트</div>
+        <div class="yl-flow-desc">9가지 차트로 본 내 생각의 풍경. 본인 실제 데이터 기반.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('6_비교_대조분석')">
+        <div class="yl-flow-num">6 · 비교</div>
+        <div class="yl-flow-name">비교 대조분석</div>
+        <div class="yl-flow-desc">"같은 주제, 내 생각 vs 광장 생각" 자동 비교 문서. 광장 답글 초안까지.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+      <div class="yl-flow-card" onclick="openFolder('7_백업')">
+        <div class="yl-flow-num">7 · 보존</div>
+        <div class="yl-flow-name">백업</div>
+        <div class="yl-flow-desc">주간·분기 스냅샷. 본인 PC에만 보관. 연라이프 서버에 자동 업로드 절대 없음.</div>
+        <span class="yl-flow-cost yl-flow-cost-free">무료</span>
+      </div>
+    </div>
+
+    <div class="yl-section-head">통합 — 분리된 폴더가 아니라 하나의 흐름</div>
+    <p style="color: rgba(240,237,226,.7); font-size: 13px; line-height: 1.75;">
+      0번 폴더에 자료를 떨어뜨리면 → 1번에 텍스트 추출 → 2번에 AI 분석 → 본인이 승인한 것만 3번에 노드 → 4번에서 광장과 연결 → 5번 차트가 자동 갱신 → 6번 비교 문서 자동 작성 → 7번에 주간 백업.
+      이 모든 결과가 <strong style="color:#3aa0a8;">위 〈지도〉 탭</strong>에 본인 노드(금색 테두리)와 광장 노드(5색)가 같이 떠 있는 한 장의 지도로 모입니다.
+      <strong style="color:#3aa0a8;">〈분석〉 탭</strong>에서는 본인 + 광장 데이터가 합쳐진 9개 차트를 봅니다.
+    </p>
+
+    <div class="yl-section-head">처리 비용</div>
+    <p style="color: rgba(240,237,226,.7); font-size: 13px; line-height: 1.75;">
+      <strong style="color:#4a9060;">텍스트 위주 자료는 무료</strong>입니다 — 학생들이 평소 쓰는 노트·문서·PDF·웹 스크랩은 거의 다 텍스트라 무료 한도(월 100문서) 안에서 처리됩니다.
+      <strong style="color:#c4923e;">이미지 OCR·음성 전사·무제한·깊이 분석은 유료</strong>로 1만~3만원/월 등급이 있습니다.
+      학생들은 학원 패키지에 포함시켜 학생 단가를 낮출 수 있습니다.
+    </p>
+
+    <div class="yl-section-head">관련 문서</div>
+    <div class="yl-link-list">
+      <a href="내_자료/README_사용법.md">📖 내 자료 — 폴더 사용법</a>
+      <a href="yeon-thinkmap/SKILL.md">📘 yeon-thinkmap 스킬 가이드</a>
+      <a href="내_자료/0_받은_자료/_폴더안내.md">📂 받은 자료 폴더 안내</a>
+      <a href="내_자료/3_내_생각지도/_폴더안내.md">📂 내 생각지도 폴더 안내</a>
+      <a href="내_자료/4_광장과_연결/_폴더안내.md">📂 광장과 연결 폴더 안내</a>
+      <a href="내_자료/5_생각_분석차트/_폴더안내.md">📂 생각 분석 차트 폴더 안내</a>
+    </div>
+  </div>
+</div>
+
+<!-- 외부 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="yeon-thinkmap/engine/exporters.js"></script>
+<script src="yeon-thinkmap/engine/thinkmap.js"></script>
+<script src="yeon-thinkmap/engine/analytics.js"></script>
+
+<script>
+/* ───────────────────────────────────────────────────────────────
+   광장 데이터 — examples/광장.json 의 내용을 인라인
+   file:// 환경에서도 fetch 없이 동작하도록
+   ─────────────────────────────────────────────────────────────── */
+
+const PLAZA = {
+  meta: {
+    title: '광장 생각의 지도',
+    tagline: '오직 진실과 진리를 찾는 곳 · y-life.kr 광장',
+  },
+  categories: {
+    // 연 디자인(yp-*) 토큰 기반 5색 — 따뜻한 저채도 딥 톤
+    '화두':   { color: '#2f5d62', label: '화두',   tooltip: '마을 전체가 함께 읽는 이번 주 질문' },     // yp-deep
+    '아골라': { color: '#c38d56', label: '아골라', tooltip: '긴 글과 깊은 토론이 이루어지는 곳' },   // yp-accent
+    '아곤란': { color: '#a85a4a', label: '아곤란', tooltip: '어려운 질문을 함께 고민하는 곳' },     // 잔잔한 적갈 (yp 톤)
+    '칼럼':   { color: '#615b63', label: '칼럼',   tooltip: '시대와 삶을 읽는 글' },                 // dark-gray-purple
+    '연마을': { color: '#427a71', label: '연마을', tooltip: '함께 만나고 모이는 자리' },             // yp-pine
+  },
+  nodes: [
+    { id:'h-1', label:"'선택'이라는 말의 무게", cat:'화두', depth:24, comments:7, views:128, size:1.6, x:0.50, y:0.42, by:'임선생', time:'2시간 전', subject:'화두', lastSeen:'2026-05-15', body:'Libet 실험을 다시 읽다 — 의식과 행위 사이 0.3초의 간극이 던지는 질문은 자유의지의 부정이 아니라 다른 종류의 자유에 대한 초대다.' },
+    { id:'h-2', label:'멈춤이라는 자유', cat:'화두', depth:18, comments:9, views:96, size:1.3, x:0.35, y:0.28, by:'연소사', time:'5월 14일', subject:'화두', lastSeen:'2026-05-14', body:'자유는 무엇을 시작하는 데 있는 게 아니라, 이미 시작된 무언가를 멈추는 데 있다.' },
+    { id:'h-3', label:'좋은 질문이란 무엇인가', cat:'화두', depth:15, comments:6, views:78, size:1.2, x:0.65, y:0.58, by:'연소사', subject:'화두', lastSeen:'2026-04-30', body:'질문은 답을 찾기 위해 있는가, 나를 바꾸기 위해 있는가?' },
+    { id:'h-4', label:'기록하지 않은 생각', cat:'화두', depth:12, comments:5, views:64, size:1.1, x:0.50, y:0.65, by:'연소사', time:'어제', subject:'화두', lastSeen:'2026-05-14', body:'기록하지 않은 생각은 정말 내 생각이라고 할 수 있을까?' },
+    { id:'a-1', label:'"왜요?"가 많은 수업', cat:'아골라', depth:14, comments:11, views:72, size:1.2, x:0.22, y:0.48, by:'임선생', subject:'아골라', lastSeen:'2026-05-09', body:'학생들의 "왜요?"가 가장 많이 나오는 수업의 공통점은 답을 빨리 주지 않는다는 것이었다.' },
+    { id:'a-2', label:'학(學)과 습(習)', cat:'아골라', depth:10, comments:7, views:55, size:1.0, x:0.38, y:0.62, by:'임선생', subject:'아골라', lastSeen:'2026-05-06', body:'배움은 배움(學)에서 끝나지 않고, 습(習)으로 굳어져야 비로소 내 것이 된다.' },
+    { id:'a-3', label:'윤리 딜레마 5가지', cat:'아골라', depth:13, comments:18, views:84, size:1.0, x:0.60, y:0.28, by:'임선생', subject:'아골라', lastSeen:'2026-05-07', body:'교사가 자주 받는 윤리적 딜레마. 답이 명확한 것은 단 하나도 없다.' },
+    { id:'a-4', label:'자비출판과 작가의 길', cat:'아골라', depth:9, comments:6, views:48, size:1.1, x:0.75, y:0.42, subject:'아골라', lastSeen:'2026-05-04', body:'기성 출판이 아니라 자비출판으로 시작하는 작가의 길에 대하여.' },
+    { id:'a-5', label:'첫 문장이 무거운 이유', cat:'아골라', depth:7, comments:4, views:36, size:0.9, x:0.28, y:0.32, subject:'아골라', lastSeen:'2026-05-02', body:'쓰기 시작할 때 첫 문장의 무게에 대하여.' },
+    { id:'a-6', label:'시민과학과 검증', cat:'아골라', depth:6, comments:3, views:32, size:0.9, x:0.68, y:0.70, by:'박주민', subject:'아골라', lastSeen:'2026-05-12', body:'시민이 직접 참여하는 과학적 검증의 가능성과 한계.' },
+    { id:'n-1', label:'왜 나쁜 짓을 하면 안 되나요?', cat:'아곤란', depth:11, comments:8, views:58, size:0.95, x:0.18, y:0.65, by:'학생', subject:'아곤란', lastSeen:'2026-05-08', body:'학생의 질문 — 답이 단순할 줄 알았던 어른들이 가장 어려워하는 질문 중 하나.' },
+    { id:'n-2', label:'인공지능은 거짓말을 할 수 있나요?', cat:'아곤란', depth:9, comments:5, views:42, size:0.9, x:0.42, y:0.22, by:'학생', subject:'아곤란', lastSeen:'2026-05-05', body:'의도 없는 존재의 거짓말은 거짓말인가?' },
+    { id:'n-3', label:'내가 좋아하는 것은 정말 나의 것인가', cat:'아곤란', depth:8, comments:12, views:60, size:0.85, x:0.80, y:0.60, by:'민서', subject:'아곤란', lastSeen:'2026-05-14', body:'좋아함은 어디에서 오는가. 광고와 또래의 영향을 빼면 무엇이 남는가?' },
+    { id:'n-4', label:'내가 좋다는 건 누가 정한 거예요?', cat:'아곤란', depth:6, comments:4, views:28, size:0.8, x:0.55, y:0.80, subject:'아곤란', lastSeen:'2026-05-03', body:'한 학생의 질문에서 시작된 아곤란.' },
+    { id:'c-1', label:'문화와 서재', cat:'칼럼', depth:8, comments:3, views:44, size:0.9, x:0.14, y:0.38, subject:'칼럼', lastSeen:'2026-05-01', body:'책·영화·음악·예술을 만난 흔적.' },
+    { id:'c-2', label:'시대 읽기', cat:'칼럼', depth:7, comments:5, views:39, size:0.85, x:0.72, y:0.25, subject:'칼럼', lastSeen:'2026-04-28', body:'사회·정치·경제 현상을 깊이 들여다보는 시도.' },
+    { id:'c-3', label:'독립서점 산책', cat:'칼럼', depth:6, comments:2, views:35, size:0.8, x:0.85, y:0.50, by:'박주민', subject:'칼럼', lastSeen:'2026-05-10', body:'울산의 작은 서점들을 걷는 칼럼 시리즈.' },
+    { id:'v-1', label:'태화강 인근 모임', cat:'연마을', depth:4, comments:6, views:30, size:0.8, x:0.30, y:0.78, by:'임선생', subject:'연마을', lastSeen:'2026-05-10', body:'매월 2회, 5명 모집 중. 함께 철학을 읽고 이야기 나누는 모임.' },
+    { id:'v-2', label:'울산에서 함께 읽기', cat:'연마을', depth:3, comments:4, views:22, size:0.75, x:0.62, y:0.18, subject:'연마을', lastSeen:'2026-05-03', body:'울산에서 같은 책을 읽는 동네 사람들의 모임.' },
+    { id:'h-5', label:'느린 것의 힘', cat:'아골라', depth:11, comments:7, views:54, size:1.0, x:0.48, y:0.52, by:'연소사', subject:'아골라', lastSeen:'2026-05-14', body:'천천히 자라는 마을. 빠른 답보다 느린 질문이 깊다.' },
+  ],
+  edges: [
+    { from:'h-1', to:'h-2', type:'extends' }, { from:'h-1', to:'h-3', type:'connection' }, { from:'h-1', to:'h-4', type:'connection' },
+    { from:'h-1', to:'a-1', type:'application' }, { from:'h-1', to:'a-3', type:'application' }, { from:'h-1', to:'h-5', type:'connection' },
+    { from:'h-2', to:'a-5', type:'connection' }, { from:'h-2', to:'n-2', type:'connection' }, { from:'h-2', to:'c-1', type:'connection' },
+    { from:'h-3', to:'a-4', type:'connection' }, { from:'h-3', to:'a-6', type:'connection' }, { from:'h-3', to:'c-2', type:'connection' },
+    { from:'h-4', to:'a-2', type:'connection' }, { from:'h-4', to:'n-1', type:'connection' }, { from:'h-4', to:'v-1', type:'connection' },
+    { from:'a-1', to:'a-2', type:'similar' }, { from:'a-1', to:'a-5', type:'connection' }, { from:'a-1', to:'c-1', type:'connection' },
+    { from:'a-2', to:'a-6', type:'connection' }, { from:'a-2', to:'n-1', type:'connection' },
+    { from:'a-3', to:'a-4', type:'connection' }, { from:'a-3', to:'n-2', type:'connection' }, { from:'a-3', to:'c-2', type:'connection' }, { from:'a-3', to:'v-2', type:'connection' },
+    { from:'a-4', to:'n-3', type:'connection' }, { from:'a-4', to:'c-3', type:'connection' },
+    { from:'a-5', to:'n-2', type:'connection' },
+    { from:'a-6', to:'n-3', type:'connection' },
+    { from:'n-1', to:'n-4', type:'similar' }, { from:'n-1', to:'v-1', type:'connection' },
+    { from:'n-2', to:'h-5', type:'connection' },
+    { from:'n-3', to:'c-3', type:'connection' },
+    { from:'n-4', to:'v-1', type:'connection' },
+    { from:'c-1', to:'h-5', type:'connection' },
+    { from:'c-2', to:'v-2', type:'connection' },
+    { from:'h-5', to:'a-2', type:'extends' },
+  ],
+};
+
+let mapInstance = null;
+let analyticsInstance = null;
+let currentView = 'map';
+
+function mountMap() {
+  if (mapInstance) mapInstance.destroy();
+  mapInstance = YeonThinkMap.mount('#map', {
+    nodes: PLAZA.nodes,
+    edges: PLAZA.edges,
+    categories: PLAZA.categories,
+    options: {
+      title: PLAZA.meta.title,
+      tagline: PLAZA.meta.tagline,
+    },
+    onNodeClick: (node) => {
+      window.__yeonSelectedNode = node;
+      console.log('[광장 노드 클릭]', node.label, node);
+      // 상세 패널 렌더 직후, 원문 보기 버튼 + Vault 카드 (YLV-4 §22) 자동 추가
+      setTimeout(() => {
+        const detail = document.querySelector('.ytm-detail');
+        if (!detail) return;
+        const actions = detail.querySelector('.ytm-detail-actions');
+        if (actions && !actions.querySelector('.yl-detail-open-source')) {
+          const btn = document.createElement('a');
+          btn.className = 'yl-detail-open-source';
+          btn.href = '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(node.id || '') +
+                     '&title=' + encodeURIComponent(node.label || '');
+          btn.innerHTML = '<span>原文</span><span>원문 보기 →</span>';
+          actions.appendChild(btn);
+        }
+        // Vault 4단 분류 카드 자동 삽입 (YLV-4 §22)
+        if (window.YEON_RENDER_VAULT_CARD && !detail.querySelector('.ytm-vault-card')) {
+          const body = detail.querySelector('.ytm-detail-body') || detail;
+          body.insertAdjacentHTML('beforeend', window.YEON_RENDER_VAULT_CARD(node));
+        }
+      }, 30);
+    },
+  });
+}
+
+/* ── 상세 패널: 제목/항목 클릭 → 원문 (요약 + Deep View 모두) ──── */
+function _yeonGoDetail(id, title){
+  window.location.href = '단계2_광장글_상세페이지.html?id=' +
+    encodeURIComponent(id || '') + '&title=' + encodeURIComponent(title || '');
+}
+
+document.addEventListener('click', (e) => {
+  // 1) 요약 패널 제목
+  const titleEl = e.target.closest('.ytm-detail-title');
+  if (titleEl) {
+    const n = window.__yeonSelectedNode;
+    if (n) {
+      e.stopPropagation();
+      _yeonGoDetail(n.id, n.label);
+    }
+    return;
+  }
+  // 2) 요약 패널 — 연결된 글 본문 클릭 → 원문 바로 이동
+  const relContent = e.target.closest('.ytm-related-item-content');
+  if (relContent) {
+    const wrap = relContent.closest('.ytm-related-item');
+    const id = wrap ? wrap.dataset.id : '';
+    const titleNode = relContent.querySelector('.ytm-related-item-title');
+    const label = titleNode ? titleNode.textContent : '';
+    e.stopPropagation();
+    e.preventDefault();
+    _yeonGoDetail(id, label);
+    return;
+  }
+  // 3) 요약 패널 — '›' 디테일 버튼
+  const relDetailBtn = e.target.closest('.ytm-related-item-detail');
+  if (relDetailBtn) {
+    const id = relDetailBtn.dataset.id || '';
+    const labelEl = relDetailBtn.parentElement
+      ? relDetailBtn.parentElement.querySelector('.ytm-related-item-title')
+      : null;
+    const label = labelEl ? labelEl.textContent : '';
+    e.stopPropagation();
+    e.preventDefault();
+    _yeonGoDetail(id, label);
+    return;
+  }
+  // 4) Deep View 제목 클릭 → 원문
+  const deepTitle = e.target.closest('.ytm-deep-title');
+  if (deepTitle) {
+    const n = window.__yeonSelectedNode;
+    if (n) {
+      e.stopPropagation();
+      _yeonGoDetail(n.id, n.label);
+    }
+    return;
+  }
+  // 5) Deep View — 연결된 생각 항목 클릭 → 원문 (Shift 키 누르면 패널 갱신만)
+  const deepConn = e.target.closest('.ytm-deep-conn-item');
+  if (deepConn && !e.shiftKey) {
+    const id = deepConn.dataset.id || '';
+    const labelEl = deepConn.querySelector('span:nth-child(2)');
+    const label = labelEl ? labelEl.textContent : '';
+    e.stopPropagation();
+    e.preventDefault();
+    _yeonGoDetail(id, label);
+    return;
+  }
+}, true /* capture: 엔진 핸들러보다 먼저 가로채기 */);
+
+/* Deep View가 열리면 '원문 보기' 액션 버튼을 자동 삽입 */
+(function attachDeepOpenSourceBtn(){
+  const obs = new MutationObserver(()=>{
+    const deep = document.querySelector('.ytm-deep-detail');
+    if (!deep || deep.hasAttribute('hidden')) return;
+    if (deep.querySelector('.yl-deep-open-source')) return;
+    const n = window.__yeonSelectedNode;
+    if (!n) return;
+    const btn = document.createElement('a');
+    btn.className = 'yl-detail-open-source yl-deep-open-source';
+    btn.href = '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(n.id || '') +
+               '&title=' + encodeURIComponent(n.label || '');
+    btn.innerHTML = '<span>原文</span><span>원문 보기 →</span>';
+    btn.style.cssText = 'position:absolute;top:14px;right:60px;';
+    deep.appendChild(btn);
+  });
+  obs.observe(document.body, {subtree:true, attributes:true, attributeFilter:['hidden','class']});
+})();
+
+function mountAnalytics() {
+  if (analyticsInstance) analyticsInstance.destroy();
+  analyticsInstance = YeonAnalytics.mount('#dashboard', {
+    nodes: PLAZA.nodes,
+    edges: PLAZA.edges,
+    categories: PLAZA.categories,
+    options: {
+      title: '광장 활동 분석',
+      tagline: PLAZA.meta.tagline,
+    },
+  });
+}
+
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.yl-view').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  document.getElementById('map').classList.toggle('hidden', view !== 'map');
+  document.getElementById('dashboard').classList.toggle('hidden', view !== 'analytics');
+  document.getElementById('my-data').classList.toggle('hidden', view !== 'my-data');
+
+  if (view === 'map') {
+    if (analyticsInstance) { analyticsInstance.destroy(); analyticsInstance = null; }
+    mountMap();
+  } else if (view === 'analytics') {
+    if (mapInstance) { mapInstance.destroy(); mapInstance = null; }
+    mountAnalytics();
+  } else if (view === 'my-data') {
+    if (mapInstance) { mapInstance.destroy(); mapInstance = null; }
+    if (analyticsInstance) { analyticsInstance.destroy(); analyticsInstance = null; }
+  }
+}
+
+function openFolder(folderName) {
+  // 폴더 안내 .md 파일을 마크다운 뷰어로 깔끔하게 보여줌
+  const file = '내_자료/' + folderName + '/_폴더안내.md';
+  window.location.href = 'md_viewer.html?file=' + encodeURIComponent(file);
+}
+/* "내 자료" 패널 안의 .md 링크들도 모두 md_viewer로 라우팅 */
+(function rewireMdLinks(){
+  function rewrite(scope){
+    (scope || document).querySelectorAll('a[href$=".md" i]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      if (a.dataset.mdRewired === '1') return;
+      if (/^https?:|^mailto:/.test(href)) return;
+      a.dataset.mdRewired = '1';
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = 'md_viewer.html?file=' + encodeURIComponent(href);
+      });
+    });
+  }
+  rewrite(document);
+  // 뷰가 바뀔 때마다 재배선
+  const obs = new MutationObserver(() => rewrite(document));
+  obs.observe(document.body, {subtree:true, childList:true});
+})();
+
+document.getElementById('yl-view-toggle').addEventListener('click', e => {
+  const btn = e.target.closest('.yl-view');
+  if (btn) switchView(btn.dataset.view);
+});
+
+/* ── 낮/밤 테마 토글 ─────────────────────────────────────────
+   기본은 낮(베이지). 사용자가 고른 모드는 localStorage에 기억.
+   ☀ 낮 모드 / ☾ 밤 모드 */
+(function themeToggle(){
+  const root = document.documentElement;
+  const KEY = 'ylife.thinkmap.theme';
+  function apply(theme){
+    root.setAttribute('data-theme', theme);
+    document.querySelectorAll('.yl-theme-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.theme === theme)
+    );
+    try{ localStorage.setItem(KEY, theme); }catch(e){}
+  }
+  // 첫 진입 시 저장값 또는 시스템 선호로 기본 결정 (기본은 낮)
+  let initial = 'day';
+  try{
+    const saved = localStorage.getItem(KEY);
+    if(saved === 'day' || saved === 'night') initial = saved;
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) initial = 'night';
+  }catch(e){}
+  apply(initial);
+
+  document.getElementById('yl-theme-toggle').addEventListener('click', e => {
+    const btn = e.target.closest('.yl-theme-btn');
+    if (btn) apply(btn.dataset.theme);
+  });
+})();
+
+// 부트
+mountMap();
+</script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>작가와 기자 · y-life.kr</title>
+<meta name="description" content="연라이프의 AI 작가 3명, AI 기자 10명, 초대 작가·교수·선생님이 매일 함께 씁니다.">
+<meta property="og:title" content="작가와 기자 · y-life.kr">
+<meta property="og:description" content="연라이프의 시선으로 매일 한 편의 칼럼과 한 편의 해설.">
+<!-- PWA (YLV-4 §24) -->
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.svg">
+<!-- OG / Twitter Card -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="연라이프 · y-life.kr">
+<meta property="og:title" content="작가와 기자 · 연라이프">
+<meta property="og:description" content="AI 작가 3명·AI 기자 10명·초대 필자 4분이 매일 함께 씁니다.">
+<meta property="og:url" content="https://y-life.kr/블로그_AI작가기자_인덱스.html">
+<meta property="og:image" content="https://y-life.kr/icon-512.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="작가와 기자 · 연라이프">
+<meta name="twitter:description" content="17명의 페르소나가 매일 함께 씁니다.">
+<meta name="twitter:image" content="https://y-life.kr/icon-512.svg">
+<link rel="canonical" href="https://y-life.kr/블로그_AI작가기자_인덱스.html">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="data/personas.js" defer></script>
+<script src="yeon-pwa.js" defer></script>
+<style>
+:root[data-theme="day"]{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.10), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --card-soft:rgba(255,253,248,.7);
+  --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --kicker:#c38d56;
+}
+:root[data-theme="night"]{
+  --yp-ink:#f0ede2; --yp-deep:#6eb5a6; --yp-pine:#3aa0a8; --yp-accent:#d8a55a;
+  --bg: radial-gradient(ellipse at top, #122428 0%, #0c1a1f 80%);
+  --txt:#f0ede2; --txt-soft:rgba(240,237,226,.72); --txt-mute:rgba(240,237,226,.48);
+  --card:rgba(255,255,255,.04); --card-soft:rgba(255,255,255,.03);
+  --bd:rgba(255,255,255,.12); --bd-soft:rgba(255,255,255,.06);
+  --kicker:#d8a55a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;
+  color:var(--txt);
+  background:var(--bg);
+  background-attachment:fixed;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  transition: background .35s ease, color .35s ease;
+}
+a{color:inherit;text-decoration:none}
+
+/* ── 상단 바 ─────────────────────────── */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background: rgba(244,241,235,.85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--bd-soft);
+}
+:root[data-theme="night"] .topbar{ background: rgba(18,36,40,.82) }
+.topbar-inner{
+  max-width:1200px; margin:0 auto;
+  display:flex; align-items:center; gap:18px;
+  padding:14px 24px;
+}
+.brand{
+  display:inline-flex; align-items:baseline; gap:8px;
+  font-family:'Noto Serif KR',serif; color:var(--txt-soft);
+}
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700; line-height:1 }
+.brand .name{ font-size:15px; font-weight:500 }
+.brand:hover{ color:var(--txt) }
+.sep{ color:var(--txt-mute) }
+.page-title{
+  font-family:'Noto Serif KR',serif; font-size:14px; color:var(--txt-soft);
+  letter-spacing:.06em;
+}
+.spacer{ flex:1 }
+.lang-pick, .theme-pick{ display:flex; gap:2px; border:1px solid var(--bd); border-radius:999px; padding:3px }
+.lang-pick button, .theme-pick button{
+  appearance:none; border:0; background:transparent; color:var(--txt-soft);
+  height:30px; min-width:30px; padding:0 10px;
+  border-radius:999px; cursor:pointer; font:inherit; font-size:12.5px;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition: all .18s ease;
+}
+.lang-pick button:hover, .theme-pick button:hover{ color:var(--txt) }
+.lang-pick button.active, .theme-pick button.active{ background:var(--yp-accent); color:#fbf8f1 }
+
+/* ── 히어로 ─────────────────────────── */
+.hero{
+  max-width:1200px; margin:0 auto;
+  padding: 56px 24px 24px;
+  text-align:center;
+}
+.hero h1{
+  font-family:'Noto Serif KR',serif;
+  font-size: clamp(34px, 5.4vw, 56px);
+  font-weight: 900;
+  letter-spacing:-.025em;
+  line-height:1.15;
+  color:var(--yp-ink);
+}
+.hero .kicker{
+  font-family:'Noto Serif KR',serif;
+  display:inline-block;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  background: rgba(195,141,86,.12);
+  color: var(--kicker);
+  border-radius: 999px;
+  font-size: 12px; letter-spacing:.18em; text-transform: uppercase; font-weight:700;
+}
+.hero p.lede{
+  margin: 18px auto 0; max-width: 720px;
+  color: var(--txt-soft);
+  font-family:'Noto Serif KR',serif; font-size: 17px; line-height:1.75;
+}
+.hero .stats{
+  display:flex; justify-content:center; gap: 36px; margin-top: 28px;
+  color: var(--txt-soft); font-size: 13px;
+}
+.hero .stats b{ display:block; font-family:'Noto Serif KR',serif; font-size:22px; color:var(--yp-deep); font-weight:700 }
+
+/* ── 필터·검색 ─────────────────────────── */
+.controls{
+  max-width:1200px; margin: 32px auto 0;
+  padding: 0 24px;
+  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+}
+.tabs{ display:flex; gap:4px; border:1px solid var(--bd); border-radius:999px; padding:4px; background:var(--card-soft) }
+.tab{
+  appearance:none; border:0;
+  background:transparent; color:var(--txt-soft);
+  padding: 8px 16px; border-radius:999px;
+  font: inherit; font-size:13px; font-weight:500;
+  cursor:pointer; transition: all .18s ease;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.tab:hover{ color:var(--txt) }
+.tab.active{ background: var(--yp-deep); color: #fbf8f1; font-weight:600 }
+.tab .ico{ opacity:.85 }
+.tab .cnt{ opacity:.6; font-size:11.5px; font-weight:400 }
+.search{
+  flex:1; min-width:220px;
+  display:flex; align-items:center; gap:8px;
+  padding: 10px 16px;
+  background:var(--card); border:1px solid var(--bd); border-radius:999px;
+  font-size:13px;
+}
+.search input{ flex:1; border:0; background:transparent; outline:none; font:inherit; color:var(--txt) }
+.search input::placeholder{ color:var(--txt-mute) }
+.search svg{ width:14px; height:14px; stroke:var(--txt-mute); fill:none; stroke-width:1.6 }
+
+/* ── AdSense 슬롯 자리 (미리 잡아 둠) ─────────────────────────── */
+.ad-slot{
+  max-width:1200px; margin: 28px auto;
+  padding: 0 24px;
+}
+.ad-box{
+  border: 1px dashed var(--bd);
+  background: var(--card-soft);
+  border-radius: 12px;
+  padding: 18px;
+  text-align:center;
+  color: var(--txt-mute);
+  font-size: 12px; letter-spacing:.06em;
+}
+.ad-box::before{ content:'AdSense · 728×90 reserved'; opacity:.5 }
+
+/* ── 그룹 섹션 ─────────────────────────── */
+section.group{
+  max-width:1200px; margin: 40px auto 0;
+  padding: 0 24px;
+}
+.group-head{
+  display:flex; align-items:baseline; gap:12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--yp-deep);
+}
+.group-head h2{
+  font-family:'Noto Serif KR',serif;
+  font-size: 26px; font-weight:700; color:var(--yp-ink);
+  letter-spacing:-.02em;
+}
+.group-head .desc{ color: var(--txt-soft); font-family:'Noto Serif KR',serif; font-size:14px }
+.group-head .count{
+  margin-left:auto;
+  color: var(--txt-mute); font-size:12px; letter-spacing:.08em;
+}
+
+/* ── 카드 그리드 ─────────────────────────── */
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}
+.persona{
+  position:relative; overflow:hidden;
+  background: var(--card);
+  border: 1px solid var(--bd-soft);
+  border-radius: 18px;
+  padding: 22px 22px 18px;
+  display:flex; flex-direction:column;
+  transition: all .2s ease;
+  cursor:pointer;
+}
+.persona:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(31,42,42,.08);
+  border-color: var(--p-color, var(--yp-pine));
+}
+.persona.featured{
+  grid-column: span 2;
+  background: linear-gradient(180deg, var(--card) 0%, rgba(255,253,248,.6) 100%);
+}
+.p-head{ display:flex; align-items:center; gap:12px; margin-bottom: 14px }
+.p-avatar{
+  width:54px; height:54px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  background: var(--p-color, var(--yp-deep));
+  color: #fbf8f1;
+  font-family:'Noto Serif KR',serif; font-size:22px; font-weight:700;
+  flex-shrink:0;
+}
+.p-id{ flex:1; min-width:0 }
+.p-name{ font-family:'Noto Serif KR',serif; font-size:18px; font-weight:700; color:var(--yp-ink); letter-spacing:-.02em }
+.p-name .hanja{ color:var(--txt-mute); font-size:13px; margin-left:6px; font-weight:400 }
+.p-role{ font-size:11.5px; color:var(--p-color, var(--yp-pine)); letter-spacing:.08em; margin-top:2px; font-weight:600; text-transform: uppercase }
+.p-field{
+  display:inline-block; margin-top:6px;
+  padding: 3px 10px;
+  font-size:11.5px;
+  background: rgba(66,122,113,.08);
+  color: var(--yp-deep);
+  border-radius: 999px;
+  font-weight:500;
+}
+:root[data-theme="night"] .p-field{ background: rgba(110,181,166,.12) }
+.p-tagline{
+  font-family:'Noto Serif KR',serif;
+  font-size:14px; color: var(--txt-soft);
+  font-style: italic;
+  margin: 8px 0 12px;
+  line-height:1.6;
+}
+.p-bio{
+  font-size:13.5px; color: var(--txt-soft);
+  line-height:1.7;
+  flex:1;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.p-foot{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid var(--bd-soft);
+  font-size: 11.5px; color: var(--txt-mute);
+}
+.p-cadence{ display:inline-flex; align-items:center; gap:5px }
+.p-cadence::before{ content:''; width:6px; height:6px; border-radius:50%; background: var(--p-color, var(--yp-pine)) }
+.p-go{ color:var(--yp-deep); font-weight:600 }
+.persona:hover .p-go{ color: var(--yp-accent) }
+
+/* 게스트 카드 — placeholder 표시 */
+.persona.guest .p-tagline::after{
+  content:' · TBD';
+  color: var(--txt-mute);
+  font-style: normal;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+/* ── 푸터 ─────────────────────────── */
+footer{
+  max-width:1200px; margin: 80px auto 0;
+  padding: 32px 24px 60px;
+  border-top: 1px solid var(--bd-soft);
+  color: var(--txt-mute); font-size: 12.5px;
+  display:flex; justify-content: space-between; gap:18px; flex-wrap:wrap;
+}
+footer a{ color:var(--txt-soft) }
+footer a:hover{ color:var(--yp-deep) }
+
+@media (max-width: 720px){
+  .hero{ padding: 36px 16px 16px }
+  .hero .stats{ gap: 20px }
+  .controls{ padding: 0 16px }
+  .ad-slot{ padding: 0 16px }
+  section.group{ padding: 0 16px }
+  .group-head h2{ font-size: 20px }
+  .persona.featured{ grid-column: span 1 }
+}
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html" title="홈으로">
+      <span class="yeon">緣</span>
+      <span class="name">y-life.kr</span>
+    </a>
+    <span class="sep">/</span>
+    <span class="page-title" data-i18n="title">작가와 기자</span>
+    <span class="spacer"></span>
+    <div class="lang-pick" role="group" aria-label="언어">
+      <button data-lang="ko" class="active">한</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ja">日</button>
+      <button data-lang="zh">中</button>
+      <button data-lang="more" title="더보기">···</button>
+    </div>
+    <div class="theme-pick" role="group" aria-label="낮/밤">
+      <button data-theme="day" class="active" aria-label="낮 모드">☀</button>
+      <button data-theme="night" aria-label="밤 모드">☾</button>
+    </div>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<section class="hero">
+  <span class="kicker">y-life.kr · contributors</span>
+  <h1 data-i18n="hero.title">작가와 기자</h1>
+  <p class="lede" data-i18n="hero.lede">
+    매일 한 편의 칼럼과 한 편의 신뢰 가능한 해설.<br>
+    AI 작가 3명·AI 기자 10명·초대 필자 4분이 연라이프의 시선으로 함께 씁니다.
+  </p>
+  <div class="stats">
+    <div><b id="statWriters">3</b>AI 작가</div>
+    <div><b id="statReporters">10</b>AI 기자</div>
+    <div><b id="statGuests">4</b>초대 필자</div>
+    <div><b id="statPosts">—</b>이번 주 글</div>
+  </div>
+</section>
+
+<!-- 필터·검색 -->
+<div class="controls">
+  <div class="tabs" id="groupTabs" role="tablist">
+    <button class="tab active" data-group="all">전체 <span class="cnt" id="cntAll"></span></button>
+    <button class="tab" data-group="ai-writer"><span class="ico">✎</span> AI 작가 <span class="cnt" id="cntW"></span></button>
+    <button class="tab" data-group="ai-reporter"><span class="ico">⌬</span> AI 기자 <span class="cnt" id="cntR"></span></button>
+    <button class="tab" data-group="guest"><span class="ico">☘</span> 초대 필자 <span class="cnt" id="cntG"></span></button>
+  </div>
+  <label class="search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+    <input id="searchBox" type="search" placeholder="이름·분야·관심 키워드로 찾기" aria-label="검색">
+  </label>
+</div>
+
+<!-- AdSense 슬롯 #1 (상단) -->
+<div class="ad-slot"><div class="ad-box" role="complementary" aria-label="광고 자리"></div></div>
+
+<!-- 그룹별 섹션 -->
+<main id="groups"></main>
+
+<footer>
+  <div>
+    © 2026 y-life.kr · 연라이프 광장의 글은 작가·기자별 라이선스를 따릅니다.<br>
+    <small>AI 페르소나의 글은 매 회 "AI 작성" 라벨이 표시됩니다. 사실 보도가 아닌 의견·해설·큐레이션입니다.</small>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px">
+    <a href="시안_v4_홈페이지.html">홈</a> ·
+    <a href="이용약관.html">이용약관</a> ·
+    <a href="개인정보처리방침.html">개인정보 처리방침</a> ·
+    <a href="저작권_인용정책.html">저작권·인용</a> ·
+    <a href="광고정책.html">광고 정책</a> ·
+    <a href="AI콘텐츠_표시정책.html">AI 표시 정책</a> ·
+    <a href="신뢰도_평가_정책.html">신뢰도 평가</a>
+  </div>
+</footer>
+
+<script>
+/* ── 낮/밤 토글 ── */
+(function(){
+  const root = document.documentElement;
+  const KEY = 'ylife.theme';
+  function apply(t){
+    root.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-pick button').forEach(b=>b.classList.toggle('active', b.dataset.theme===t));
+    try{ localStorage.setItem(KEY, t) }catch(e){}
+  }
+  let init = 'day';
+  try{ const s = localStorage.getItem(KEY); if(s==='day'||s==='night') init = s; }catch(e){}
+  apply(init);
+  document.querySelectorAll('.theme-pick button').forEach(b=>b.addEventListener('click', ()=>apply(b.dataset.theme)));
+})();
+
+/* ── 언어 토글 (자리만, 실제 번역은 추후) ── */
+(function(){
+  document.querySelectorAll('.lang-pick button').forEach(b=>{
+    b.addEventListener('click', e=>{
+      if(b.dataset.lang === 'more'){ alert('영어 외 9개 언어판은 v6 안정 이후에 활성화됩니다.'); return; }
+      document.querySelectorAll('.lang-pick button').forEach(x=>x.classList.toggle('active', x===b));
+      document.documentElement.setAttribute('lang', b.dataset.lang);
+      // 실제 번역 적용은 i18n 시스템 합류 시 (data-i18n 키 기반)
+    });
+  });
+})();
+
+/* ── 페르소나 렌더 ── */
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function renderGroups(filter){
+  const wrap = document.getElementById('groups');
+  wrap.innerHTML = '';
+  const groups = window.YL_PERSONA_GROUPS;
+  const all = window.YL_PERSONAS || [];
+  const q = (document.getElementById('searchBox').value || '').trim().toLowerCase();
+  const groupKeys = filter && filter !== 'all' ? [filter] : Object.keys(groups);
+
+  let totalPosts = 0;
+  groupKeys.forEach(key => {
+    const meta = groups[key];
+    const items = all.filter(p => p.kind === key && matchSearch(p, q));
+    if (!items.length) return;
+    const section = document.createElement('section');
+    section.className = 'group';
+    section.innerHTML = `
+      <div class="group-head">
+        <h2>${meta.icon} ${escapeHtml(meta.label)}</h2>
+        <span class="desc">${escapeHtml(meta.desc)}</span>
+        <span class="count">${items.length}명</span>
+      </div>
+      <div class="cards"></div>`;
+    const grid = section.querySelector('.cards');
+    items.forEach((p, idx) => {
+      totalPosts += (p.posts||[]).length;
+      const featured = (filter==='all' && idx === 0) ? 'featured' : '';
+      const card = document.createElement('a');
+      card.className = `persona ${p.kind === 'guest' ? 'guest' : ''} ${featured}`;
+      card.href = `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`;
+      card.style.setProperty('--p-color', p.color || '#2f5d62');
+      card.innerHTML = `
+        <div class="p-head">
+          <div class="p-avatar">${escapeHtml(p.avatar || p.name[0])}</div>
+          <div class="p-id">
+            <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
+            <div class="p-role">${escapeHtml(p.role)}</div>
+          </div>
+        </div>
+        <span class="p-field">${escapeHtml(p.field)}</span>
+        <div class="p-tagline">${escapeHtml(p.tagline)}</div>
+        <div class="p-bio">${escapeHtml(p.bio)}</div>
+        <div class="p-foot">
+          <span class="p-cadence">${escapeHtml(p.cadence || '주 1회')}</span>
+          <span class="p-go">블로그 가기 →</span>
+        </div>`;
+      grid.appendChild(card);
+    });
+    wrap.appendChild(section);
+  });
+  document.getElementById('statPosts').textContent = totalPosts;
+}
+
+function matchSearch(p, q){
+  if (!q) return true;
+  const hay = [p.name, p.hanja, p.role, p.field, p.tagline, p.bio, ...(p.focus||[])].join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+/* ── 부트 ── */
+document.addEventListener('DOMContentLoaded', () => {
+  // 의존성: personas.js 가 로드되었는지
+  if (!window.YL_PERSONAS) { setTimeout(()=>location.reload(), 80); return; }
+  const all = window.YL_PERSONAS;
+  document.getElementById('statWriters').textContent   = all.filter(p=>p.kind==='ai-writer').length;
+  document.getElementById('statReporters').textContent = all.filter(p=>p.kind==='ai-reporter').length;
+  document.getElementById('statGuests').textContent    = all.filter(p=>p.kind==='guest').length;
+  document.getElementById('cntAll').textContent = all.length;
+  document.getElementById('cntW').textContent   = all.filter(p=>p.kind==='ai-writer').length;
+  document.getElementById('cntR').textContent   = all.filter(p=>p.kind==='ai-reporter').length;
+  document.getElementById('cntG').textContent   = all.filter(p=>p.kind==='guest').length;
+
+  let currentFilter = 'all';
+  function go(){ renderGroups(currentFilter); }
+  go();
+
+  document.getElementById('groupTabs').addEventListener('click', e=>{
+    const b = e.target.closest('.tab'); if(!b) return;
+    document.querySelectorAll('#groupTabs .tab').forEach(x=>x.classList.toggle('active', x===b));
+    currentFilter = b.dataset.group;
+    go();
+  });
+  document.getElementById('searchBox').addEventListener('input', go);
+});
+</script>
+
+<!-- JSON-LD : 컬렉션 페이지 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "작가와 기자 · y-life.kr",
+  "description": "연라이프의 AI 작가 3명, AI 기자 10명, 초대 필자 4분의 블로그 모음",
+  "url": "https://y-life.kr/블로그_AI작가기자_인덱스.html",
+  "publisher": { "@type": "Organization", "name": "연라이프 (y-life.kr)" }
+}
+</script>
+
+</body>
+</html>

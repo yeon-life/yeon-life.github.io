@@ -686,6 +686,34 @@
     transition:stroke .2s ease;
   }
   .keyhole-btn:hover svg{stroke:var(--paper-warm)}
+  .keyhole-btn.logged-in{
+    background:rgba(47,93,98,.15) !important;
+  }
+  .keyhole-btn.logged-in svg{
+    stroke:var(--teal-deep, #2f5d62) !important;
+    fill:rgba(47,93,98,.20) !important;
+  }
+  .keyhole-btn.logged-in:hover{
+    background:var(--teal-deep, #2f5d62) !important;
+  }
+  .keyhole-btn.logged-in:hover svg{
+    stroke:var(--paper-warm, #f4f0e9) !important;
+    fill:none !important;
+  }
+  .keyhole-btn.logged-in{
+    background:rgba(47,93,98,.15) !important;
+  }
+  .keyhole-btn.logged-in svg{
+    stroke:var(--teal-deep, #2f5d62) !important;
+    fill:rgba(47,93,98,.20) !important;
+  }
+  .keyhole-btn.logged-in:hover{
+    background:var(--teal-deep, #2f5d62) !important;
+  }
+  .keyhole-btn.logged-in:hover svg{
+    stroke:var(--paper-warm, #f4f0e9) !important;
+    fill:none !important;
+  }
 
   /* ===== 통합 로그인 모달 — 신규 가입 진입 카드 ===== */
   .tm-newhere{
@@ -2506,11 +2534,43 @@
       toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
     }
 
+    // 로그인 상태 갱신 함수
+    function refreshAuthUI() {
+      const current = localStorage.getItem('yl-current');
+      const btnLogin = document.getElementById('btnLogin');
+      if (!btnLogin) return;
+
+      if (current) {
+        try {
+          const user = JSON.parse(current);
+          btnLogin.setAttribute('data-tip', `${user.nick}님 (로그아웃)`);
+          btnLogin.setAttribute('aria-label', `${user.nick}님 (로그아웃)`);
+          btnLogin.classList.add('logged-in');
+        } catch(e) {
+          localStorage.removeItem('yl-current');
+        }
+      } else {
+        btnLogin.setAttribute('data-tip', '로그인');
+        btnLogin.setAttribute('aria-label', '로그인');
+        btnLogin.classList.remove('logged-in');
+      }
+    }
+
     // 버튼 바인딩
     document.getElementById('btnQr').addEventListener('click', () => openModal('qr'));
     document.getElementById('btnSettings').addEventListener('click', () => openModal('settings'));
     document.getElementById('btnVersionHistory')?.addEventListener('click', (e) => { e.preventDefault(); openModal('version'); });
-    document.getElementById('btnLogin').addEventListener('click', () => openModal('login'));
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      if (localStorage.getItem('yl-current')) {
+        if (confirm('로그아웃 하시겠습니까?')) {
+          localStorage.removeItem('yl-current');
+          toast('로그아웃 되었습니다.');
+          refreshAuthUI();
+        }
+      } else {
+        openModal('login');
+      }
+    });
     // btnSignup은 열쇠구멍 통합 후 제거됨 — 로그인 모달 안 "처음 오시나요?" 카드에서 가입 모달로 전환
     document.getElementById('btnSignup')?.addEventListener('click', () => openModal('signup'));
     // 로그인 ↔ 가입 모달 전환
@@ -2549,6 +2609,7 @@
         users.push({ id, nick: nk, pw, role, createdAt: Date.now() });
         localStorage.setItem('yl-users', JSON.stringify(users));
         localStorage.setItem('yl-current', JSON.stringify({ id, nick: nk, role }));
+        refreshAuthUI();
       } catch(e) {}
       msg.classList.add('ok');
       msg.textContent = '가입되었습니다. 환영합니다, ' + nk + '님.';
@@ -2566,6 +2627,7 @@
         const u = users.find(x => (x.id === id || x.nick === id) && x.pw === pw);
         if (!u) { msg.textContent = '아이디 또는 비밀번호가 맞지 않습니다.'; return; }
         localStorage.setItem('yl-current', JSON.stringify({ id: u.id, nick: u.nick, role: u.role }));
+        refreshAuthUI();
         msg.classList.add('ok');
         msg.textContent = '환영합니다, ' + u.nick + '님.';
         toast(u.nick + '님, 다시 오셨네요');
@@ -2669,6 +2731,7 @@
     });
     // 페이지 로드 시 저장된 크기 반영
     refreshFz();
+    refreshAuthUI();
 
     /* 옛 대기 명단 폼은 가입 모달로 대체됨 — placeholder 가드만 유지 */
 

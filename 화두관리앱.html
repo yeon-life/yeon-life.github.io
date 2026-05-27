@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 화두 관리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal-primary:#6eb5a6;--teal-light:#b0cfc8;--mint-white:#e9f5f2;
+  --gray-teal:#959e9c;--deep-teal:#586e69;--green-white:#ebf2ed;
+  --light-gray:#ebebeb;--sage-green:#dfe6d3;--warm-khaki:#dbd2a4;
+  --tan-camel:#ad9d82;--warm-beige:#d4cdc1;--soft-mauve:#b2a7b8;
+  --dark-gray-purple:#615b63;--deep-green-black:#2a2e2c;--mid-sage:#697870;
+  --medium-gray:#c4c4c4;--deep-forest:#2b3b32;--deep-navy:#37334f;
+  --bg:var(--mint-white);--surface:#fff;--surface-alt:var(--sage-green);
+  --primary:var(--teal-primary);--primary-dk:var(--deep-teal);
+  --muted:var(--gray-teal);--text:var(--deep-green-black);--text-light:var(--mid-sage);
+  --border:var(--medium-gray);--font:'Noto Sans KR',-apple-system,sans-serif;
+}
+.dark{
+  --bg:var(--deep-forest);--surface:var(--deep-teal);--surface-alt:var(--mid-sage);
+  --primary:var(--teal-primary);--primary-dk:var(--teal-light);
+  --muted:var(--gray-teal);--text:var(--mint-white);--text-light:var(--teal-light);
+  --border:var(--mid-sage);--surface:#2e4a44;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+#app{display:flex;flex-direction:column;height:100%;min-height:100vh}
+
+/* AppBar */
+.appbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--primary-dk);color:#fff;position:sticky;top:0;z-index:100;flex-shrink:0}
+.appbar-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
+.week-badge{font-size:11px;background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:12px;font-weight:500}
+.appbar-actions{display:flex;gap:4px}
+.icon-btn{background:none;border:none;color:#fff;cursor:pointer;padding:7px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.icon-btn:hover{background:rgba(255,255,255,0.15)}
+
+/* Tabs */
+.tabnav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:52px;z-index:90;flex-shrink:0}
+.tabnav::-webkit-scrollbar{display:none}
+.tabBtn{flex-shrink:0;padding:11px 14px;font-size:13px;font-weight:500;color:var(--text-light);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;font-family:var(--font);transition:all .15s}
+.tabBtn.on{color:var(--primary);border-bottom-color:var(--primary)}
+.cnt{display:inline-flex;align-items:center;justify-content:center;background:var(--surface-alt);color:var(--text-light);font-size:10px;font-weight:700;width:17px;height:17px;border-radius:9px;margin-left:4px}
+.tabBtn.on .cnt{background:var(--primary);color:#fff}
+
+/* Claude Bar */
+.claude-bar{background:var(--surface);border-top:1px solid var(--border);padding:12px 16px;position:sticky;bottom:0;z-index:90;box-shadow:0 -3px 12px rgba(0,0,0,0.08);flex-shrink:0}
+.claude-label{font-size:10px;font-weight:700;color:var(--text-light);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.quick-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.qbtn{font-size:11px;font-family:var(--font);padding:5px 12px;border-radius:16px;border:1px solid var(--primary);background:transparent;color:var(--primary);cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap}
+.qbtn:hover{background:var(--primary);color:#fff}
+.input-row{display:flex;gap:8px}
+.ci{flex:1;font-size:13px;font-family:var(--font);padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);outline:none;transition:border-color .15s}
+.ci:focus{border-color:var(--primary)}
+.csend{font-size:13px;font-family:var(--font);padding:8px 16px;border-radius:8px;border:none;background:var(--primary);color:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:filter .15s;white-space:nowrap}
+.csend:hover{filter:brightness(.9)}
+.csend:active{filter:brightness(.8)}
+
+/* Content */
+.content{flex:1;overflow-y:auto;padding:16px;padding-bottom:8px}
+.panel{display:none}
+.panel.on{display:block}
+
+/* Section header */
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-radius:12px;border-left:4px solid var(--primary);margin-bottom:16px}
+.sec-title{font-size:15px;font-weight:700}
+.sec-desc{font-size:12px;color:var(--text-light);margin-top:2px}
+
+/* Stats */
+.stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.stat{font-size:11px;padding:5px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text-light);font-weight:500}
+.stat b{color:var(--primary)}
+
+/* Card */
+.card{background:var(--surface);border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid var(--border);transition:box-shadow .15s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.08)}
+.card.main-card{border-left:4px solid var(--primary)}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.card-no{font-size:10px;font-weight:700;color:var(--primary);background:var(--surface-alt);padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:3px}
+.card-btns{display:flex;gap:4px;flex-shrink:0}
+.cbtn{font-size:11px;font-family:var(--font);padding:4px 10px;border-radius:6px;border:1px solid var(--border);cursor:pointer;background:var(--bg);color:var(--text-light);transition:all .15s;white-space:nowrap}
+.cbtn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.cbtn.edit-btn{border-color:var(--primary);color:var(--primary)}
+.cbtn.edit-btn:hover{background:var(--primary);color:#fff}
+
+/* Fields */
+.field{margin-bottom:10px}
+.flabel{font-size:10px;font-weight:700;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.fval{width:100%;font-size:14px;font-family:var(--font);color:var(--text);line-height:1.6;padding:7px 10px;background:var(--bg);border:1.5px solid transparent;border-radius:8px;cursor:text;outline:none;resize:vertical;transition:border-color .15s}
+.fval:hover{border-color:var(--border)}
+.fval:focus{border-color:var(--primary);background:var(--surface)}
+.fval.title-field{font-size:14px;font-weight:500;min-height:52px}
+.main-card .title-field{font-size:15px;font-weight:600}
+
+/* Tags */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px}
+.tag-forum{background:var(--muted);color:#fff}
+.tag-forum.agora{background:var(--deep-teal)}
+.tag-forum.agonlan{background:var(--tan-camel)}
+.tag-forum.all{background:var(--mid-sage)}
+.tag-level{background:var(--surface-alt);color:var(--text-light)}
+.tag-cat{background:var(--bg);border:1px solid var(--border);color:var(--text-light)}
+
+/* Expand */
+.card.collapsed .field-body,.card.collapsed .field-q{display:none}
+
+/* Export */
+.exp-card{background:var(--surface);border-radius:12px;padding:18px;margin-bottom:10px;border:1px solid var(--border)}
+.exp-card h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.exp-card p{font-size:12px;color:var(--text-light);margin-bottom:12px;line-height:1.5}
+.exp-btns{display:flex;gap:8px;flex-wrap:wrap}
+.ebtn{font-size:12px;font-family:var(--font);padding:8px 16px;border-radius:8px;border:1px solid var(--primary);background:var(--bg);color:var(--primary);cursor:pointer;font-weight:500;transition:all .15s}
+.ebtn:hover{background:var(--primary);color:#fff}
+.ebtn.solid{background:var(--primary);color:#fff}
+.ebtn.solid:hover{filter:brightness(.9)}
+
+/* Toast */
+.toast{position:fixed;top:62px;left:50%;transform:translateX(-50%);background:var(--deep-green-black);color:#fff;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.dark .toast{background:var(--teal-light);color:var(--deep-green-black)}
+.toast.show{opacity:1}
+
+@media(min-width:768px){
+  .content{padding:20px}
+  .card-head{flex-wrap:nowrap}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      연라이프 화두 관리
+      <span class="week-badge" id="wk">18주차</span>
+    </div>
+    <div class="appbar-actions">
+      <button class="icon-btn" onclick="toggleDark()" title="테마 전환">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="themeIco"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="icon-btn" onclick="showHelp()" title="도움말">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Tab Nav -->
+  <nav class="tabnav">
+    <button class="tabBtn on" onclick="go('main',this)">✦ 대표화두</button>
+    <button class="tabBtn" onclick="go('res',this)">예비화두 <span class="cnt">20</span></button>
+    <button class="tabBtn" onclick="go('agora',this)">아골라 <span class="cnt">10</span></button>
+    <button class="tabBtn" onclick="go('ag2',this)">아곤란 <span class="cnt">10</span></button>
+    <button class="tabBtn" onclick="go('exp',this)">내보내기</button>
+  </nav>
+
+  <!-- Content -->
+  <div class="content">
+    <div id="p-main" class="panel on"></div>
+    <div id="p-res" class="panel"></div>
+    <div id="p-agora" class="panel"></div>
+    <div id="p-ag2" class="panel"></div>
+    <div id="p-exp" class="panel"></div>
+  </div>
+
+  <!-- Claude Bar -->
+  <footer class="claude-bar">
+    <div class="claude-label">⚡ Claude에게 요청</div>
+    <div class="quick-row">
+      <button class="qbtn" onclick="ask('다음 주 화두 만들어줘')">＋ 다음 주 화두</button>
+      <button class="qbtn" onclick="ask('사이트 반영용으로 줘')">JSON 반영</button>
+      <button class="qbtn" onclick="ask('아골라용 화두 5개 더 만들어줘')">아골라 추가</button>
+      <button class="qbtn" onclick="ask('아곤란용 화두 5개 더 만들어줘')">아곤란 추가</button>
+      <button class="qbtn" onclick="ask('이번 주 화두 전체를 다시 검토해줘. 너무 비슷한 주제가 겹치면 알려줘.')">전체 검토</button>
+    </div>
+    <div class="input-row">
+      <input class="ci" id="ci" placeholder="직접 요청 입력 (예: 3번 화두 더 쉬운 말로 바꿔줘)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}">
+      <button class="csend" onclick="send()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        전송
+      </button>
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const D={
+  week:"2026-W18",wk:"2026년 18주차",dr:"2026.04.27 ~ 05.03",
+  main:{id:"m0",title:"나와 가장 오래 함께한 사람을 생각해보자. 나는 그 사람을 진심으로 궁금해한 적이 있는가?",body:"오래 알수록 '이미 안다'고 느끼기 쉽습니다. 하지만 진짜 궁금함은 이미 안다는 느낌과 함께 사라지기도 합니다. 가장 가까운 사람을 처음 만난 사람처럼 바라보면, 무엇이 보일까요?",q:"내 곁에 오래 있었지만 내가 아직 궁금해하지 않은 것들이 있을까요? 그 사람에 대해 정말 알고 싶었던 질문을 하나만 쓴다면 무엇인가요?",forum:"전체",level:"초등 고학년 이상",cat:"인연 / 소통 / 관계"},
+  res:[
+    {id:"r1",title:"나는 선택한다고 믿지만, 그 선택이 시작되는 곳은 어디인가?",body:"우리가 '내 마음으로 결정했다'고 느끼는 순간에도, 이미 습관과 감정과 주변의 기대가 앞서 움직이고 있을 수 있습니다.",q:"최근 내가 한 선택 하나를 떠올려보세요. 그 선택은 어디에서 시작되었나요?",forum:"아골라",level:"중등 이상",cat:"선택 / 자아 / 성찰"},
+    {id:"r2",title:"내가 가장 잘 안다고 생각하는 것이, 사실은 내가 가장 모르는 것일 수 있을까?",body:"익숙함은 종종 우리의 질문을 멈추게 합니다. '안다'는 느낌이 강할수록, 새롭게 바라보는 눈이 닫히기 쉽습니다.",q:"내가 당연하다고 여겼다가, 어느 순간 새롭게 알게 된 것이 있나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"배움 / 질문 / 성찰"},
+    {id:"r3",title:"기록하지 않은 생각은 정말 내 것이라고 할 수 있을까?",body:"생각은 흘러갑니다. 붙잡지 않은 생각은 흔적 없이 사라지기도 합니다. 기록은 단순한 저장이 아니라, 생각을 내 것으로 만드는 행위일 수 있습니다.",q:"최근 기억이 잘 안 나는 생각이나 감정이 있나요? 그 생각을 지금 기억할 수 있었다면 무엇이 달라졌을까요?",forum:"전체",level:"초등 고학년 이상",cat:"기록 / 생각 / 자아"},
+    {id:"r4",title:"좋은 질문은 답을 향해 달려가는가, 아니면 나를 멈춰 세우는가?",body:"답이 있는 질문만이 좋은 질문은 아닙니다. 때로는 나를 오래 머물게 하고, 흔들리게 하고, 다시 생각하게 만드는 질문이 더 깊이 남기도 합니다.",q:"지금까지 받은 질문 중 아직도 내 안에 남아 있는 질문이 있나요?",forum:"아골라",level:"중등 이상",cat:"질문 / 배움 / 성찰"},
+    {id:"r5",title:"나는 오늘 누구를 위해 무언가를 참았는가?",body:"우리는 매일 참습니다. 말하고 싶었지만 삼킨 말, 하고 싶었지만 미룬 일. 그 '참음' 안에는 나와 다른 사람 사이의 이야기가 담겨 있습니다.",q:"오늘 내가 참은 것이 있다면 무엇인가요? 그것을 참은 이유는 무엇이었나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"관계 / 소통 / 감정"},
+    {id:"r6",title:"같은 하루를 살아도 다르게 기억하는 두 사람 — 어느 쪽이 맞는 것일까?",body:"기억은 사실의 복사본이 아닙니다. 같은 날, 같은 장소에 있었어도 각자의 기억은 다릅니다. 그렇다면 나의 기억은 얼마나 '진짜'인 것일까요?",q:"누군가와 같은 경험을 했지만 기억이 달랐던 적이 있나요? 그때 어떤 기분이었나요?",forum:"전체",level:"초등 고학년 이상",cat:"기억 / 관계 / 성찰"},
+    {id:"r7",title:"우리는 함께 있으면서도 혼자일 수 있다. 그렇다면 외로움은 거리의 문제인가, 마음의 문제인가?",body:"사람이 많은 곳에서도 외롭고, 혼자 있어도 충만할 수 있습니다. 외로움의 본질은 함께 있는 수보다 더 깊은 곳에 있는지도 모릅니다.",q:"내가 외로움을 가장 강하게 느낀 순간은 어떤 상황이었나요?",forum:"아골라",level:"중등 이상",cat:"외로움 / 소통 / 관계"},
+    {id:"r8",title:"내가 처음으로 스스로 결정했다고 느낀 순간은 언제인가?",body:"'내 선택'이라는 느낌이 처음 든 순간은 언제였을까요? 그 결정은 작았을 수도 있지만, 그것이 나를 조금 더 나답게 만들었을 수 있습니다.",q:"처음으로 진짜 내가 결정했다는 느낌을 받은 순간을 떠올려보세요.",forum:"아곤란",level:"초등 고학년 이상",cat:"선택 / 자아 / 성장"},
+    {id:"r9",title:"말하지 않아도 전해지는 것이 있다면, 그것은 무엇으로 전해지는가?",body:"우리는 말보다 더 많은 것을 전합니다. 표정, 침묵, 습관, 눈빛. 때로는 말하지 않은 것이 말한 것보다 더 오래 남기도 합니다.",q:"말 없이도 상대방의 마음이 느껴진 경험이 있나요? 무엇이 그 마음을 전해주었나요?",forum:"전체",level:"초등 고학년 이상",cat:"소통 / 관계 / 감정"},
+    {id:"r10",title:"배움은 몰랐던 것을 아는 일인가, 아니면 알았던 것을 다시 보는 일인가?",body:"진짜 배움은 새로운 지식을 채우는 것이 아니라, 이미 알던 것의 의미를 새롭게 발견하는 순간에 일어나기도 합니다.",q:"배웠던 것인데 나중에 완전히 다르게 이해된 경험이 있나요?",forum:"아골라",level:"중등 이상",cat:"배움 / 성찰 / 지식"},
+    {id:"r11",title:"나는 실수를 했을 때 보통 어떻게 하는가?",body:"실수 자체보다, 실수를 대하는 방식이 나라는 사람을 더 잘 보여줍니다. 숨기는지, 인정하는지, 책임지는지, 잊으려 하는지.",q:"최근 내가 한 실수 하나를 떠올려보세요. 그때 나는 어떻게 했나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"책임 / 성장 / 자아"},
+    {id:"r12",title:"내가 오늘 한 말 중 다시 돌려받고 싶은 말이 있는가?",body:"말은 한번 나가면 돌아오지 않습니다. 그래서 오늘 내가 한 말을 돌아보는 것은, 내일의 나를 만드는 일이기도 합니다.",q:"오늘 했던 말 중 다시 말할 수 있다면 다르게 하고 싶은 말이 있나요?",forum:"전체",level:"초등 고학년 이상",cat:"소통 / 말 / 성찰"},
+    {id:"r13",title:"책임은 결과에 대한 것인가, 의도에 대한 것인가?",body:"좋은 의도로 한 일이 나쁜 결과를 낳을 수 있고, 나쁜 의도가 우연히 좋은 결과를 낳기도 합니다. 그렇다면 책임은 어디에 있는 것일까요?",q:"좋은 마음으로 했는데 결과가 안 좋았던 일이 있나요?",forum:"아골라",level:"중등 이상",cat:"책임 / 윤리 / 성찰"},
+    {id:"r14",title:"내가 가장 자주 하는 걱정은 결국 무엇에 대한 걱정인가?",body:"우리의 걱정은 겉으로 다 달라 보이지만, 파고들면 같은 뿌리에서 나오는 경우가 많습니다.",q:"내가 자주 하는 걱정의 가장 깊은 곳에는 어떤 두려움이 있는 것 같나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"감정 / 자아 / 성찰"},
+    {id:"r15",title:"나를 나답게 만드는 것은 내가 좋아하는 것인가, 내가 싫어하는 것인가?",body:"좋아하는 것은 나를 표현하고, 싫어하는 것은 나의 경계를 보여줍니다. 어쩌면 나다움은 이 둘 모두에 있는 것인지도 모릅니다.",q:"내가 절대 하기 싫은 것이 있다면 무엇인가요? 그 거부감은 나에 대해 무엇을 말해주나요?",forum:"전체",level:"초등 고학년 이상",cat:"자아 / 정체성 / 성찰"},
+    {id:"r16",title:"진정한 소통은 서로가 같아지는 과정인가, 서로의 다름을 견디는 과정인가?",body:"소통한다는 것이 반드시 의견이 같아진다는 뜻은 아닙니다. 다름을 인정하면서도 연결되어 있다는 감각 — 그것이 더 깊은 소통일 수 있습니다.",q:"생각이 달랐지만 소통이 잘 되었다고 느낀 경험이 있나요?",forum:"아골라",level:"중등 이상",cat:"소통 / 관계 / 인연"},
+    {id:"r17",title:"내 하루 중 가장 나다운 순간은 언제인가?",body:"역할을 벗어나 그냥 나 자신이 되는 순간이 있습니다. 그 순간을 알아차리는 것이 나를 이해하는 첫걸음일 수 있습니다.",q:"오늘 하루 중 가장 편하고 자연스럽고 나답다고 느낀 순간은 언제였나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"자아 / 일상 / 성찰"},
+    {id:"r18",title:"누군가를 이해한다는 것은 그의 입장이 되어보는 일인가, 그의 입장을 인정하는 일인가?",body:"완전히 다른 사람의 입장이 되는 것은 불가능할 수도 있습니다. 하지만 그 입장을 인정하는 것은 가능합니다.",q:"내가 이해하기 어려운 사람이 있나요? 이해와 인정 사이에서 나는 어디쯤 있나요?",forum:"전체",level:"중등 이상",cat:"공감 / 소통 / 관계"},
+    {id:"r19",title:"시간이 지나도 변하지 않는 나의 무언가가 있다면, 그것은 무엇인가?",body:"우리는 매일 조금씩 변합니다. 그러나 그 변화 속에서도 계속 남아 있는 것이 있다면 — 그것이 진짜 '나'의 핵심일 수 있습니다.",q:"어릴 때부터 지금까지 변하지 않은 나의 성격이나 가치관이 있나요?",forum:"아골라",level:"중등 이상",cat:"정체성 / 자아 / 성장"},
+    {id:"r20",title:"나는 언제 가장 용기가 필요했는가?",body:"용기는 두렵지 않은 상태가 아닙니다. 두려운데도 나아가는 것이 용기입니다.",q:"용기가 필요했던 순간을 하나 떠올려보세요. 그때 나는 어떤 선택을 했나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"용기 / 선택 / 성장"}
+  ],
+  agora:[
+    {id:"a1",title:"공동체는 개인의 자유를 제한하는가, 아니면 가능하게 하는가?",body:"규칙과 의무가 많은 공동체는 자유를 빼앗는 것처럼 보일 수 있습니다. 하지만 공동체가 없다면 가능한 자유의 형태도 달라질 수 있습니다.",q:"내가 속한 공동체가 나에게 준 것과 빼앗아 간 것은 각각 무엇인가요?",forum:"아골라",level:"중등 이상",cat:"자유 / 공동체 / 사회"},
+    {id:"a2",title:"우리가 '정의롭다'고 부르는 것은 옳기 때문인가, 강하기 때문인가?",body:"역사 속에서 '정의'라고 불렸던 것들 중 일부는 힘을 가진 쪽이 결정한 것이었습니다.",q:"내가 '옳다'고 믿는 것 중에서 사실은 나보다 강한 누군가에게서 배운 것이 있지 않을까요?",forum:"아골라",level:"고등 이상",cat:"정의 / 권력 / 사회"},
+    {id:"a3",title:"기억은 있었던 일을 저장하는가, 아니면 지금의 내가 다시 만들어내는가?",body:"기억은 녹화된 영상이 아닙니다. 우리는 기억할 때마다 조금씩 다르게 기억합니다.",q:"같은 사건을 나와 다른 사람이 다르게 기억한 적이 있나요?",forum:"아골라",level:"중등 이상",cat:"기억 / 진실 / 자아"},
+    {id:"a4",title:"침묵은 동의인가, 거절인가, 아니면 그 어느 것도 아닌가?",body:"말하지 않음이 때로는 허락으로, 때로는 거부로 읽힙니다. 하지만 침묵은 그 어느 쪽도 아닌 세 번째 무언가일 수 있습니다.",q:"내가 침묵했을 때 그것이 잘못 해석된 적이 있나요?",forum:"아골라",level:"중등 이상",cat:"침묵 / 소통 / 관계"},
+    {id:"a5",title:"감정은 판단을 흐리는 것인가, 판단을 가능하게 하는 것인가?",body:"우리는 종종 '감정을 빼고 생각해야 한다'고 배웁니다. 하지만 감정이 없는 판단이 더 좋은 판단이라는 것은 정말 사실일까요?",q:"감정이 강하게 개입했지만 결국 좋은 판단을 내린 경험이 있나요?",forum:"아골라",level:"중등 이상",cat:"감정 / 판단 / 이성"},
+    {id:"a6",title:"어른이 된다는 것은 더 많이 아는 것인가, 모른다는 것을 더 잘 아는 것인가?",body:"어릴 때는 많은 것을 확신합니다. 나이가 들수록 확신이 줄어드는 것은 퇴보인가요, 아니면 성숙인가요?",q:"예전에는 확신했지만 지금은 잘 모르겠다고 생각하게 된 것이 있나요?",forum:"아골라",level:"중등 이상",cat:"성장 / 배움 / 성숙"},
+    {id:"a7",title:"나는 내 삶의 주인인가, 아니면 내가 만들어온 습관의 산물인가?",body:"'나'라고 부르는 것이 사실은 수십 년간 쌓인 습관들의 집합일 수 있습니다.",q:"내 습관 중 '이게 진짜 나인가?' 하고 의심해본 것이 있나요?",forum:"아골라",level:"중등 이상",cat:"자아 / 습관 / 자유의지"},
+    {id:"a8",title:"이해와 용서는 같은 것인가, 다른 것인가?",body:"이해하면 자동으로 용서하게 될까요? 아니면 이해 없이도 용서할 수 있을까요?",q:"누군가를 이해했지만 용서하지 못한 적이 있나요, 혹은 이해 없이 용서한 적이 있나요?",forum:"아골라",level:"중등 이상",cat:"용서 / 공감 / 관계"},
+    {id:"a9",title:"고통이 나를 성장시킨다고 말할 때, 그 고통은 누구의 것인가?",body:"'고통이 성장의 밑거름'이라는 말은 때로 고통받는 사람이 아닌 바깥에서 건네집니다.",q:"힘든 경험이 성장의 계기가 된 적이 있나요? 그 말을 스스로 했을 때와 남이 했을 때 느낌이 달랐나요?",forum:"아골라",level:"고등 이상",cat:"고통 / 성장 / 책임"},
+    {id:"a10",title:"함께 산다는 것은 서로를 바꾸는 일인가, 서로를 지켜주는 일인가?",body:"오래 함께 살면 서로 닮아갑니다. 그 변화는 자연스러운 것일까요, 아니면 조심해야 하는 것일까요?",q:"오래 함께한 사람에 의해 내가 달라진 것이 있나요?",forum:"아골라",level:"중등 이상",cat:"관계 / 동행 / 인연"}
+  ],
+  agonlan:[
+    {id:"n1",title:"내가 지금 하기 싫은 일이 사실은 내게 가장 필요한 일일 수 있을까?",body:"하기 싫다는 감정과 '필요하다'는 판단은 다를 때가 많습니다.",q:"지금 하기 싫지만 해야 할 것 같은 일이 있나요? 왜 그것이 필요하다고 생각하나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"성장 / 동기 / 선택"},
+    {id:"n2",title:"나는 친구에게 말하지 못한 것이 있는가?",body:"가까운 사이일수록 오히려 말하기 어려운 것이 생깁니다.",q:"친구에게 하고 싶었지만 하지 못한 말이 있나요? 왜 말하지 못했나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"관계 / 소통 / 우정"},
+    {id:"n3",title:"내가 처음 무언가를 잘하게 되었을 때, 그 전에 나는 무엇을 했는가?",body:"잘하게 되는 순간은 눈에 보이지만, 그 전의 과정은 잘 보이지 않습니다.",q:"처음에는 못했지만 지금은 잘하는 것이 있나요? 어떻게 잘하게 되었나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"성장 / 배움 / 노력"},
+    {id:"n4",title:"나는 어떨 때 가장 나 자신인 것 같은가?",body:"학교에서의 나, 집에서의 나, 혼자일 때의 나. 그중 어느 모습이 가장 '진짜 나'에 가까운가요?",q:"내가 가장 편하고 자연스러운 나일 때는 언제인가요?",forum:"아곤란",level:"초등 고학년 이상",cat:"자아 / 정체성 / 일상"},
+    {id:"n5",title:"어른들이 하는 말 중 아직도 이해가 안 되는 말이 있는가?",body:"어른들의 말 중엔 당장은 이해되지 않지만, 나중에 갑자기 이해되는 것들이 있습니다.",q:"어른이 한 말 중 아직 잘 모르겠는 말이 있나요? 어떤 의미일 것 같나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"배움 / 세대 / 소통"},
+    {id:"n6",title:"내가 가장 많이 쓰는 말은 무엇이고, 그 말은 나를 어떻게 표현하는가?",body:"말버릇은 생각버릇에서 나옵니다. 내가 자주 쓰는 말을 살펴보면, 내가 세상을 어떻게 보는지도 보일 수 있습니다.",q:"나는 어떤 말을 자주 쓰나요? 그 말이 나에 대해 무엇을 말해준다고 생각하나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"말 / 자아 / 소통"},
+    {id:"n7",title:"내가 오늘 가장 오래 생각한 것은 무엇인가?",body:"우리가 오래 생각하는 것은 우리에게 중요한 것입니다.",q:"오늘 내 머릿속을 가장 오래 차지한 생각은 무엇인가요?",forum:"아곤란",level:"초등 고학년 이상",cat:"생각 / 일상 / 성찰"},
+    {id:"n8",title:"나는 언제 누군가가 나를 정말 이해해줬다고 느꼈는가?",body:"이해받는다는 느낌은 말 한마디보다 더 깊은 곳에서 옵니다.",q:"누군가가 나를 정말 이해해준다고 느낀 순간이 있나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"공감 / 소통 / 관계"},
+    {id:"n9",title:"내가 지금 가장 배우고 싶은 것은 무엇인가, 그리고 왜인가?",body:"배우고 싶다는 마음은 어디서 오는 것일까요?",q:"지금 당장 배우고 싶은 것이 있나요? 그것을 배우고 나면 어떤 것이 달라질 것 같나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"배움 / 꿈 / 동기"},
+    {id:"n10",title:"잘못했다는 것을 알면서도 말하지 못한 적이 있는가?",body:"알면서 말하지 못하는 것은 무지가 아닙니다. 그 사이 어딘가에 용기나 두려움이 있을 수 있습니다.",q:"잘못한 것을 알면서도 말하지 못했던 적이 있나요? 그때 말하지 못한 이유는 무엇이었나요?",forum:"아곤란",level:"초등 고학년 이상",cat:"책임 / 용기 / 소통"}
+  ]
+};
+
+let dark=false;
+const expanded=new Set();
+
+function fclass(f){return f==='아골라'?'agora':f==='아곤란'?'agonlan':'all'}
+
+function card(c,no,isMain){
+  const nc=no||'';
+  const mc=isMain?'main-card':'';
+  return`<div class="card collapsed ${mc}" id="c-${c.id}">
+  <div class="card-head">
+    <span class="card-no">${isMain?'대표화두':nc}</span>
+    <div class="card-btns">
+      <button class="cbtn" onclick="toggle('${c.id}')">펼치기</button>
+      <button class="cbtn edit-btn" onclick="editReq('${c.id}')">✏ 수정 요청</button>
+    </div>
+  </div>
+  <div class="field">
+    <textarea class="fval title-field" rows="2" onblur="save('${c.id}','title',this.value)">${esc(c.title)}</textarea>
+  </div>
+  <div class="field field-body">
+    <div class="flabel">짧은 설명</div>
+    <textarea class="fval" rows="3" onblur="save('${c.id}','body',this.value)">${esc(c.body)}</textarea>
+  </div>
+  <div class="field field-q">
+    <div class="flabel">글쓰기 질문</div>
+    <textarea class="fval" rows="2" onblur="save('${c.id}','q',this.value)">${esc(c.q)}</textarea>
+  </div>
+  <div class="tags">
+    <span class="tag tag-forum ${fclass(c.forum)}">${c.forum}</span>
+    <span class="tag tag-level">${c.level}</span>
+    <span class="tag tag-cat">${c.cat}</span>
+  </div>
+</div>`;
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function toggle(id){
+  const el=document.getElementById('c-'+id);
+  const btn=el.querySelector('.cbtn');
+  const body=el.querySelector('.field-body');
+  const q=el.querySelector('.field-q');
+  if(el.classList.contains('collapsed')){
+    el.classList.remove('collapsed');
+    if(body)body.style.display='block';
+    if(q)q.style.display='block';
+    btn.textContent='접기';
+  } else {
+    el.classList.add('collapsed');
+    if(body)body.style.display='';
+    if(q)q.style.display='';
+    btn.textContent='펼치기';
+  }
+}
+
+function save(id,field,val){
+  if(id==='m0'){D.main[field]=val;}
+  else{const all=[...D.res,...D.agora,...D.agonlan];const x=all.find(i=>i.id===id);if(x)x[field]=val;}
+  toast('저장됨');
+}
+
+function editReq(id){
+  const all=[D.main,...D.res,...D.agora,...D.agonlan];
+  const x=all.find(i=>i.id===id);
+  if(!x)return;
+  const ci=document.getElementById('ci');
+  ci.value='화두 수정 요청: "'+x.title.substring(0,30)+'..." → ';
+  ci.focus();ci.setSelectionRange(ci.value.length,ci.value.length);
+}
+
+function go(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  btn.classList.add('on');
+}
+
+function ask(msg){sendC(msg)}
+function send(){const v=document.getElementById('ci').value.trim();if(!v)return;sendC(v);document.getElementById('ci').value='';}
+
+function sendC(msg){
+  if(typeof sendPrompt==='function'){sendPrompt(msg);toast('Claude에게 전송 ✓');}
+  else{
+    navigator.clipboard.writeText(msg).then(()=>toast('클립보드에 복사됨 — Claude에 붙여넣기 하세요'))
+    .catch(()=>{const w=window.open('','_blank','width=500,height=300');if(w){w.document.write('<pre style="padding:20px;word-break:break-all">'+msg+'</pre>');w.document.close();}});
+  }
+}
+
+function toggleDark(){dark=!dark;document.getElementById('app').classList.toggle('dark',dark);}
+
+function showHelp(){ask('연라이프 화두 관리 앱 사용법을 알려줘. 어떤 기능이 있는지, 화두를 어떻게 수정 요청하면 되는지 간단하게.');}
+
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function exportJSON(){
+  const all=[
+    {...D.main,type:'main',week:D.week},
+    ...D.res.map((x,i)=>({...x,type:'reserve',no:i+1,week:D.week})),
+    ...D.agora.map((x,i)=>({...x,type:'agora',no:i+1,week:D.week})),
+    ...D.agonlan.map((x,i)=>({...x,type:'agonlan',no:i+1,week:D.week}))
+  ].map(({id,...r})=>r);
+  navigator.clipboard.writeText(JSON.stringify(all,null,2)).then(()=>toast('JSON 복사됨!'));
+}
+
+function exportWebhook(){
+  const w={event:'weekly_topic_update',week:D.week,weekLabel:D.wk,dateRange:D.dr,
+    generated_at:new Date().toISOString().split('T')[0],main_topic:D.main,
+    reserve_count:D.res.length,agora_count:D.agora.length,agonlan_count:D.agonlan.length,
+    status:'ready_for_review',action:'update_weekly_topic'};
+  navigator.clipboard.writeText(JSON.stringify(w,null,2)).then(()=>toast('Webhook JSON 복사됨!'));
+}
+
+function exportMD(){
+  let md='# 연라이프 주간 화두 — '+D.wk+'\n\n## 대표화두\n\n**화두:** '+D.main.title+'\n\n**설명:** '+D.main.body+'\n\n**글쓰기 질문:** '+D.main.q+'\n\n---\n\n## 예비화두 20개\n\n';
+  D.res.forEach((c,i)=>{md+='### '+(i+1)+'. '+c.title+'\n**설명:** '+c.body+'\n**글쓰기 질문:** '+c.q+'\n**공간:** '+c.forum+' | **난이도:** '+c.level+' | **분류:** '+c.cat+'\n\n';});
+  navigator.clipboard.writeText(md).then(()=>toast('마크다운 복사됨!'));
+}
+
+function exportTable(){
+  let t='| 번호 | 화두 | 공간 | 분류 |\n|---|---|---|---|\n';
+  D.res.forEach((c,i)=>{t+='| '+(i+1)+' | '+c.title+' | '+c.forum+' | '+c.cat+' |\n';});
+  navigator.clipboard.writeText(t).then(()=>toast('표 복사됨!'));
+}
+
+function init(){
+  document.getElementById('wk').textContent=D.wk;
+  // 대표화두
+  document.getElementById('p-main').innerHTML=
+    '<div class="sec-head" style="margin-bottom:16px"><div><div class="sec-title">✦ 이번 주 대표 화두</div><div class="sec-desc">'+D.wk+' · '+D.dr+'</div></div></div>'+
+    card(D.main,null,true);
+  // 예비화두
+  document.getElementById('p-res').innerHTML=
+    '<div class="stats"><span class="stat">총 <b>20개</b></span><span class="stat">아골라 추천 <b>8</b></span><span class="stat">전체 추천 <b>7</b></span><span class="stat">아곤란 추천 <b>5</b></span></div>'+
+    D.res.map((c,i)=>card(c,i+1,false)).join('');
+  // 아골라
+  document.getElementById('p-agora').innerHTML=
+    '<div class="sec-head" style="margin-bottom:16px"><div><div class="sec-title">아골라 전용 화두</div><div class="sec-desc">깊이 있는 토론 · 중등 이상 권장</div></div></div>'+
+    D.agora.map((c,i)=>card(c,i+1,false)).join('');
+  // 아곤란
+  document.getElementById('p-ag2').innerHTML=
+    '<div class="sec-head" style="margin-bottom:16px"><div><div class="sec-title">아곤란 전용 화두</div><div class="sec-desc">학생 질문의 마당 · 초등 고학년 이상</div></div></div>'+
+    D.agonlan.map((c,i)=>card(c,i+1,false)).join('');
+  // 내보내기
+  document.getElementById('p-exp').innerHTML=`
+<div class="exp-card">
+  <h3>📋 사이트 반영용 JSON</h3>
+  <p>연라이프 관리자 대시보드에 붙여넣기 할 수 있는 JSON 형식입니다.</p>
+  <div class="exp-btns">
+    <button class="ebtn solid" onclick="exportJSON()">JSON 복사</button>
+    <button class="ebtn" onclick="ask('사이트 반영용으로 줘')">Claude에 요청</button>
+  </div>
+</div>
+<div class="exp-card">
+  <h3>🔗 Make.com / n8n Webhook JSON</h3>
+  <p>자동화 워크플로우 연동을 위한 Webhook JSON입니다.</p>
+  <div class="exp-btns">
+    <button class="ebtn solid" onclick="exportWebhook()">Webhook JSON 복사</button>
+  </div>
+</div>
+<div class="exp-card">
+  <h3>📄 마크다운 내보내기</h3>
+  <p>화두 파일 전체를 마크다운 형식으로 복사합니다.</p>
+  <div class="exp-btns">
+    <button class="ebtn solid" onclick="exportMD()">마크다운 복사</button>
+    <button class="ebtn" onclick="exportTable()">예약목록 표 복사</button>
+  </div>
+</div>
+<div class="exp-card">
+  <h3>⚡ 다음 작업 요청</h3>
+  <p>자주 쓰는 Claude 요청을 바로 전송합니다.</p>
+  <div class="exp-btns">
+    <button class="ebtn" onclick="ask('다음 주 화두 만들어줘')">다음 주 화두 생성</button>
+    <button class="ebtn" onclick="ask('이번 주 화두 전체를 검토하고 피드백 줘')">전체 검토 요청</button>
+    <button class="ebtn" onclick="ask('19주차 화두 예약 목록을 관리자 대시보드 입력용 표로 만들어줘')">다음 주 대시보드 표</button>
+  </div>
+</div>`;
+}
+init();
+</script>
+</body>
+</html>

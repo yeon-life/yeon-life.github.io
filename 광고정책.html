@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>광고 정책 · y-life.kr</title>
+<meta name="description" content="연라이프(y-life.kr) 광고 정책. 영역별 광고·진영 광고 거부·광고주 의존도 한도.">
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="yeon-pwa.js" defer></script>
+<style>
+:root[data-theme="day"]{--yp-ink:#1f2a2a;--yp-deep:#2f5d62;--yp-pine:#427a71;--yp-accent:#c38d56;--yp-mist:#f4f1eb;--yp-line:#d7d1c5;--yp-card:#fffdf8;--yp-peach:#f3e7dd;--bg:radial-gradient(circle at top left,rgba(195,141,86,.05),transparent 22%),radial-gradient(circle at bottom right,rgba(66,122,113,.07),transparent 22%),linear-gradient(180deg,#f8f5ef 0%,#f4f0e9 100%);--txt:#1f2a2a;--txt-soft:#536060;--txt-mute:#7b8686;--card:#fffdf8;--bd:#d7d1c5;--bd-soft:rgba(31,42,42,.08);--warn:#a85a4a;--ok:#427a71}
+:root[data-theme="night"]{--yp-ink:#f0ede2;--yp-deep:#6eb5a6;--yp-pine:#3aa0a8;--yp-accent:#d8a55a;--bg:radial-gradient(ellipse at top,#122428 0%,#0c1a1f 80%);--txt:#f0ede2;--txt-soft:rgba(240,237,226,.72);--txt-mute:rgba(240,237,226,.48);--card:rgba(255,255,255,.04);--bd:rgba(255,255,255,.12);--bd-soft:rgba(255,255,255,.06);--warn:#e89070;--ok:#6eb5a6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;color:var(--txt);background:var(--bg);background-attachment:fixed;line-height:1.8;transition:background .35s,color .35s}
+a{color:var(--yp-deep);border-bottom:1px solid rgba(47,93,98,.25);text-decoration:none}
+a:hover{color:var(--yp-accent);border-bottom-color:var(--yp-accent)}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(244,241,235,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd-soft)}
+:root[data-theme="night"] .topbar{background:rgba(18,36,40,.82)}
+.topbar-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:14px 24px}
+.brand{display:inline-flex;align-items:baseline;gap:8px;font-family:'Noto Serif KR',serif;color:var(--txt-soft)}
+.brand .yeon{font-size:22px;color:var(--yp-accent);font-weight:700}.brand .name{font-size:15px;font-weight:500}
+.sep{color:var(--txt-mute)}.crumbs{font-family:'Noto Serif KR',serif;font-size:13.5px;color:var(--txt-soft)}.spacer{flex:1}
+.theme-pick{display:flex;gap:2px;border:1px solid var(--bd);border-radius:999px;padding:3px}
+.theme-pick button{appearance:none;border:0;background:transparent;color:var(--txt-soft);height:30px;min-width:30px;border-radius:999px;cursor:pointer;font:inherit;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center}
+.theme-pick button.active{background:var(--yp-accent);color:#fbf8f1}
+.wrap{max-width:920px;margin:0 auto;padding:48px 24px 80px}
+header.doc-head{text-align:center;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--bd-soft)}
+.kicker{font-family:'Noto Serif KR',serif;display:inline-block;padding:5px 14px;background:rgba(195,141,86,.12);color:var(--yp-accent);border-radius:999px;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+h1.doc-title{font-family:'Noto Serif KR',serif;font-size:clamp(30px,4.4vw,42px);font-weight:900;letter-spacing:-.025em;color:var(--yp-ink);margin:14px 0 10px;line-height:1.2}
+.meta{margin-top:10px;font-size:12px;color:var(--txt-mute);letter-spacing:.06em}
+section.card{background:var(--card);border:1px solid var(--bd-soft);border-radius:14px;padding:28px 32px;margin-bottom:18px}
+section.card h2{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:800;color:var(--yp-ink);letter-spacing:-.02em;padding-bottom:12px;margin-bottom:14px;border-bottom:2px solid var(--yp-deep)}
+section.card h3{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--yp-ink);margin:18px 0 8px}
+section.card p{margin:8px 0;color:var(--txt);font-size:14.5px}
+section.card ul,section.card ol{padding-left:22px;margin:8px 0}
+section.card ul li,section.card ol li{margin:5px 0;color:var(--txt);font-size:14px;line-height:1.85}
+table.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+table.tbl th{background:var(--yp-peach);color:var(--yp-ink);font-family:'Noto Serif KR',serif;font-weight:700;padding:9px 12px;text-align:left;border-bottom:1px solid var(--bd)}
+table.tbl td{padding:9px 12px;border-bottom:1px solid var(--bd-soft);vertical-align:top}
+table.tbl tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.badge.zero{background:rgba(168,90,74,.14);color:var(--warn)}
+.badge.ok{background:rgba(66,122,113,.14);color:var(--ok)}
+.badge.optional{background:rgba(195,141,86,.14);color:var(--yp-accent)}
+.note{padding:12px 16px;margin:12px 0;background:rgba(195,141,86,.07);border-left:3px solid var(--yp-accent);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--txt);line-height:1.75}
+.note.warn{background:rgba(168,90,74,.08);border-left-color:var(--warn)}
+.note.ok{background:rgba(66,122,113,.07);border-left-color:var(--ok)}
+footer{text-align:center;color:var(--txt-mute);font-size:12px;padding-top:18px;margin-top:30px;border-top:1px solid var(--bd-soft)}
+footer a{color:var(--txt-soft)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html" style="border:0"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs">광고 정책</span>
+    <span class="spacer"></span>
+    <div class="theme-pick" role="group" aria-label="낮/밤">
+      <button data-theme="day" class="active">☀</button>
+      <button data-theme="night">☾</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="doc-head">
+    <span class="kicker">advertising policy · 광고 정책</span>
+    <h1 class="doc-title">광고 정책</h1>
+    <div class="meta">시행일 2026-05-18 · v1.0 · 진영 광고 거부 · 영역별 분리 운영</div>
+  </header>
+
+  <section class="card">
+    <h2>1. 약속 한 줄</h2>
+    <div class="note ok">
+      <strong>광장에는 광고가 없다. 광고가 있는 자리에는 광장이 없다.</strong> 우리는 이 두 자리를 분명히 나눠 운영합니다.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. 영역별 광고 정책</h2>
+    <table class="tbl">
+      <thead><tr><th>영역</th><th>광고</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td>메인 홈 (광장)</td><td><span class="badge zero">광고 0</span></td><td>마을의 입구. 정직성 보호.</td></tr>
+        <tr><td>오늘의 화두</td><td><span class="badge zero">광고 0</span></td><td>사색의 자리.</td></tr>
+        <tr><td>토론 광장 (아골라)</td><td><span class="badge zero">광고 0</span></td><td>대화의 자리, 광고와 부적합.</td></tr>
+        <tr><td>학생 질문 (아곤란)</td><td><span class="badge zero">광고 0</span></td><td>학생 보호 — 만 14세 미만 정책 포함.</td></tr>
+        <tr><td>뉴스 큐레이션·해설</td><td><span class="badge zero">광고 0</span></td><td>실데이터·해설 영역, 광고 영향 차단.</td></tr>
+        <tr><td>AI 페르소나 블로그</td><td><span class="badge ok">AdSense 적극</span></td><td>수익 자리 — 칼럼 IP 기반.</td></tr>
+        <tr><td>칼럼 단일 페이지</td><td><span class="badge ok">in-article 1회</span></td><td>긴 글의 호흡 자리, 본문 중간.</td></tr>
+        <tr><td>칼럼집 상점</td><td><span class="badge ok">AdSense 사이드</span></td><td>구매 페이지, 자연스러운 상관.</td></tr>
+        <tr><td>사용자 개인 블로그</td><td><span class="badge optional">본인 선택</span></td><td>ON/OFF 토글. 수익 분배 별도.</td></tr>
+        <tr><td>이용약관·정책 페이지</td><td><span class="badge zero">광고 0</span></td><td>법적 문서.</td></tr>
+        <tr><td>신뢰도 평가 정책</td><td><span class="badge zero">광고 0</span></td><td>정직성의 기준.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>3. 거부하는 광고 — 절대 금지</h2>
+    <h3>3-1. 진영 광고</h3>
+    <ul>
+      <li>정당·정치 후보·진영 단체의 광고 (정치 광고 자체 거부)</li>
+      <li>특정 종교의 포교 광고 (학술·문화적 소개는 별개)</li>
+      <li>이념적 단체의 모금·캠페인 광고</li>
+    </ul>
+    <h3>3-2. AdSense 카테고리 차단 설정</h3>
+    <p>Google AdSense 콘솔에서 다음 카테고리를 일괄 차단합니다.</p>
+    <ul>
+      <li>Politics — 정치 광고 전체</li>
+      <li>Religion (Conservative/Liberal) — 종교 권유</li>
+      <li>References to Sex/Drugs/Alcohol — 성·약물·주류</li>
+      <li>Get Rich Quick — "빨리 부자 되는" 류</li>
+      <li>Cosmetic Procedures and Body Modification — 자극적 미용 시술</li>
+      <li>Weight Loss — 자극적 다이어트</li>
+      <li>Astrology and Esoteric — 사주·점성술 류 (자극적 표현 시)</li>
+    </ul>
+    <h3>3-3. 콘텐츠 자체 거부</h3>
+    <ul>
+      <li>혐오·차별을 조장하는 광고</li>
+      <li>가짜뉴스를 포함한 광고</li>
+      <li>출처가 불분명한 의료 광고</li>
+      <li>학생을 타겟으로 한 자극적 광고</li>
+      <li>도박·사행성 광고</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>4. 광고주 의존도·신뢰 한도</h2>
+    <ul>
+      <li><strong>단일 광고주 매출 비중 30% 초과 시</strong> 운영자에게 자동 알림 + 외부 광고주 모집 작업 시작.</li>
+      <li><strong>단일 광고주 매출 비중 50% 초과 금지</strong> — 보도의 독립성 보호.</li>
+      <li>광고주가 AI 페르소나 글의 내용에 영향을 줄 수 없음. 모든 칼럼은 광고와 분리 운영.</li>
+      <li>매년 1회 광고주 명단·매출 비중을 본 페이지에 공개 (개별 거래액 비공개).</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>5. 광고 표시 규칙</h2>
+    <ul>
+      <li>모든 광고는 <strong>"광고"</strong>로 명시 표기.</li>
+      <li>광고와 콘텐츠를 시각적으로 구분 (테두리·배경색·라벨).</li>
+      <li>AI 페르소나 글에는 광고주가 추천하는 상품을 글 안에서 직접 언급·추천 금지 (편집·광고 분리).</li>
+      <li>네이티브 광고(기사 형식 광고)는 운영하지 않음.</li>
+      <li>모바일·태블릿·PC에서 광고가 본문 흐름을 방해하지 않도록 배치.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>6. 협찬·후원과의 구분</h2>
+    <table class="tbl">
+      <thead><tr><th>구분</th><th>광고</th><th>협찬·후원</th></tr></thead>
+      <tbody>
+        <tr><td>표시</td><td>"광고"</td><td>"이 글은 ○○○의 협찬으로 작성되었습니다"</td></tr>
+        <tr><td>내용 영향</td><td>없음 (별도 영역)</td><td>없음 (편집권은 작가에게)</td></tr>
+        <tr><td>지급 형태</td><td>노출·클릭당 지급</td><td>월정액 또는 1회 후원</td></tr>
+        <tr><td>거부 권리</td><td>운영자 결정</td><td>작가 본인 결정</td></tr>
+      </tbody>
+    </table>
+    <p>협찬·후원이 들어간 글에도 본 정책 §3의 거부 광고 기준은 동일 적용됩니다.</p>
+  </section>
+
+  <section class="card">
+    <h2>7. 광고 신고 절차</h2>
+    <p>부적절한 광고를 발견하시면 다음 절차로 신고하실 수 있습니다.</p>
+    <ol>
+      <li>광고 옆 "신고" 버튼 클릭 또는 이메일(<a href="mailto:jinwooshon@gmail.com">jinwooshon@gmail.com</a>)로 신고.</li>
+      <li>신고 사유 (간단한 1~3줄)·해당 페이지 URL·광고 스크린샷(가능 시).</li>
+      <li>접수 후 <strong>24시간 이내</strong> 검토. 정당한 신고는 즉시 광고 차단.</li>
+      <li>결과는 신고자에게 회신 + 동일 신고 누적 시 본 정책 갱신에 반영.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>8. 광고 수익 사용처</h2>
+    <p>광고 수익은 다음 자리에 우선 사용됩니다.</p>
+    <ul>
+      <li><strong>학생·학부모 무료 구독 확대</strong></li>
+      <li>초대 필자(교수·선생·작가) 원고료</li>
+      <li>AI 자동화 비용 (Gemini API)</li>
+      <li>호스팅·인프라 (Cloudflare·Firebase)</li>
+      <li>매월 1회 마을 모임 운영비</li>
+    </ul>
+    <p>매년 1회 광고 수익 사용 내역을 본 페이지 하단에 공개합니다.</p>
+  </section>
+
+  <section class="card">
+    <h2>9. 정책 변경</h2>
+    <p>본 정책의 변경은 시행 <strong>7일 전부터 본 페이지에 공지</strong>합니다. 회원에게 중대한 영향이 있을 경우 별도 알림.</p>
+    <table class="tbl">
+      <thead><tr><th>버전</th><th>날짜</th><th>변경 사항</th></tr></thead>
+      <tbody>
+        <tr><td>v1.0</td><td>2026-05-18</td><td>최초 작성.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    © 2026 y-life.kr · v1.0 · <a href="이용약관.html">이용약관</a> · <a href="개인정보처리방침.html">개인정보 처리방침</a> · <a href="저작권_인용정책.html">저작권·인용</a> · <a href="AI콘텐츠_표시정책.html">AI 표시 정책</a>
+  </footer>
+</div>
+
+<script>
+(function(){const root=document.documentElement;const KEY='ylife.theme';function apply(t){root.setAttribute('data-theme',t);document.querySelectorAll('.theme-pick button').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));try{localStorage.setItem(KEY,t)}catch(e){}}let init='day';try{const s=localStorage.getItem(KEY);if(s==='day'||s==='night')init=s}catch(e){}apply(init);document.querySelectorAll('.theme-pick button').forEach(b=>b.addEventListener('click',()=>apply(b.dataset.theme)));})();
+</script>
+</body>
+</html>

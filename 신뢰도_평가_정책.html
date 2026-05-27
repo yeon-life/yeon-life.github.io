@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신뢰도 평가 정책 · y-life.kr</title>
+<meta name="description" content="연라이프는 매 글에 신뢰도 점수를 매기고, 그 점수가 어떻게 매겨졌는지 100% 공개합니다.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd; --yp-sage:#dfe8de;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.05), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.07), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --warn:#a85a4a; --ok:#427a71;
+  --score-low:#a85a4a; --score-mid:#c38d56; --score-high:#427a71;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{ font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; color:var(--txt); background:var(--bg); background-attachment:fixed;
+  line-height:1.8; -webkit-font-smoothing:antialiased }
+a{color:var(--yp-deep); border-bottom:1px solid rgba(47,93,98,.25); text-decoration:none}
+a:hover{ color:var(--yp-accent); border-bottom-color: var(--yp-accent) }
+
+.topbar{ position:sticky; top:0; z-index:30; background: rgba(244,241,235,.9);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--bd-soft) }
+.topbar-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 24px }
+.brand{ display:inline-flex; align-items:baseline; gap:8px; font-family:'Noto Serif KR',serif; color:var(--txt-soft) }
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700 }
+.brand .name{ font-size:15px; font-weight:500 }
+.brand:hover{ color:var(--txt) }
+.sep{ color:var(--txt-mute) }
+.crumbs{ font-family:'Noto Serif KR',serif; font-size:13.5px; color:var(--txt-soft) }
+.spacer{ flex:1 }
+.policy-pill{ display:inline-flex; align-items:center; gap:6px; padding: 5px 12px; border-radius: 999px;
+  background: rgba(66,122,113,.10); color: var(--yp-deep);
+  font-size: 11.5px; font-weight: 700; letter-spacing:.1em }
+
+.wrap{ max-width:1100px; margin:0 auto; padding: 48px 24px 80px }
+header.doc-head{ text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--bd-soft) }
+.doc-head .kicker{
+  font-family:'Noto Serif KR',serif;
+  display:inline-block; padding: 5px 14px;
+  background: rgba(195,141,86,.12); color: var(--yp-accent);
+  border-radius: 999px;
+  font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+}
+.doc-head h1{
+  font-family:'Noto Serif KR',serif;
+  font-size: clamp(32px, 5vw, 48px); font-weight: 900;
+  letter-spacing: -.025em; color: var(--yp-ink); margin: 16px 0 14px; line-height: 1.2;
+}
+.doc-head .mission{
+  max-width: 820px; margin: 22px auto 0;
+  font-family:'Noto Serif KR',serif; font-size: 19px; color: var(--yp-deep);
+  font-style: italic; line-height: 1.7;
+  padding: 18px 24px;
+  border-top: 1px solid var(--bd-soft); border-bottom: 1px solid var(--bd-soft);
+}
+.doc-head .meta{ margin-top: 14px; font-size: 12.5px; color: var(--txt-mute); letter-spacing: .06em }
+
+.toc{ background: rgba(255,253,248,.65); border: 1px solid var(--bd-soft); border-radius: 14px;
+  padding: 22px 28px; margin-bottom: 28px }
+.toc h3{ font-family:'Noto Serif KR',serif; font-size: 14px; color: var(--txt-soft);
+  letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 12px }
+.toc ol{ columns: 2; column-gap: 24px; padding-left: 20px; font-size: 14px }
+.toc ol li{ margin: 4px 0; break-inside: avoid }
+.toc a{ border:0 }
+
+section.card{ background: var(--card); border: 1px solid var(--bd-soft); border-radius: 16px;
+  padding: 36px 40px; margin-bottom: 28px }
+section.card h2{ font-family:'Noto Serif KR',serif; font-size: 26px; font-weight: 800; color: var(--yp-ink);
+  letter-spacing: -.02em; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--yp-deep) }
+section.card h3{ font-family:'Noto Serif KR',serif; font-size: 19px; font-weight: 700; color: var(--yp-ink); margin: 24px 0 10px }
+section.card p{ margin: 10px 0; color: var(--txt); font-size: 15.5px }
+section.card ul, section.card ol{ padding-left: 22px; margin: 8px 0 }
+section.card ul li, section.card ol li{ margin: 6px 0; color: var(--txt); font-size: 15px; line-height: 1.85 }
+section.card code{ background: var(--yp-mist); border: 1px solid var(--bd); padding: 2px 7px;
+  border-radius: 4px; font-size: 13px; color: var(--yp-deep); font-family: 'JetBrains Mono', Menlo, monospace }
+section.card hr{ border:0; border-top:1px solid var(--bd-soft); margin: 18px 0 }
+
+table.tbl{ width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px;
+  border: 1px solid var(--bd); border-radius: 10px; overflow: hidden }
+table.tbl th{ background: var(--yp-peach); color: var(--yp-ink);
+  font-family:'Noto Serif KR',serif; font-weight: 700;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--bd) }
+table.tbl td{ padding: 10px 14px; border-bottom: 1px solid var(--bd-soft); vertical-align: top }
+table.tbl tr:last-child td{ border-bottom: 0 }
+table.tbl tr:nth-child(even) td{ background: rgba(244,241,235,.4) }
+
+.badge{ display:inline-block; padding: 2px 10px; border-radius: 999px;
+  background: rgba(66,122,113,.12); color: var(--yp-deep);
+  font-size: 11.5px; font-weight: 600; letter-spacing: .06em }
+.badge.warn{ background: rgba(168,90,74,.12); color: var(--warn) }
+.badge.ok{ background: rgba(66,122,113,.14); color: var(--ok) }
+.badge.accent{ background: rgba(195,141,86,.14); color: var(--yp-accent) }
+
+.note{ padding: 14px 18px; margin: 14px 0;
+  background: rgba(195,141,86,.07); border-left: 3px solid var(--yp-accent);
+  border-radius: 0 8px 8px 0; font-size: 14px; color: var(--txt); line-height: 1.75 }
+.note.warn{ background: rgba(168,90,74,.08); border-left-color: var(--warn) }
+.note.ok{ background: rgba(66,122,113,.07); border-left-color: var(--ok) }
+
+/* 신뢰도 미터 미리보기 */
+.trust-demo{
+  background: var(--card); border:1px solid var(--bd-soft); border-radius: 14px;
+  padding: 22px 26px; margin: 18px 0;
+}
+.trust-head{ display:flex; align-items:center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px }
+.trust-score{
+  font-family:'Noto Serif KR',serif; font-size: 32px; font-weight: 800;
+  color: var(--yp-ink); letter-spacing: -.02em;
+}
+.trust-score .max{ color: var(--txt-mute); font-size: 16px; font-weight: 400 }
+.trust-grade{
+  display:inline-block; padding: 4px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; letter-spacing: .08em;
+}
+.trust-grade.high{ background: rgba(66,122,113,.15); color: var(--ok) }
+.trust-grade.mid{ background: rgba(195,141,86,.18); color: var(--yp-accent) }
+.trust-grade.low{ background: rgba(168,90,74,.15); color: var(--warn) }
+.trust-bars{ display:flex; flex-direction:column; gap: 8px; margin-top: 12px }
+.tb-row{ display: grid; grid-template-columns: 180px 1fr 56px; gap: 12px; align-items: center; font-size: 13px }
+.tb-label{ color: var(--txt-soft) }
+.tb-bar{ height: 14px; background: var(--yp-mist); border-radius: 4px; overflow: hidden }
+.tb-fill{ height:100%; background: linear-gradient(90deg, var(--yp-pine), var(--yp-accent)); border-radius: 4px }
+.tb-val{ text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--yp-deep); font-weight: 600 }
+.trust-foot{
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--bd-soft);
+  font-size: 12.5px; color: var(--txt-mute); line-height: 1.7;
+}
+.trust-foot a{ font-size: 12.5px }
+
+.media-card{
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 14px 0;
+}
+.media-card .mc{
+  background: var(--yp-mist); border-radius: 8px;
+  padding: 10px 14px; font-size: 13px;
+}
+.media-card .mc b{ display:block; color: var(--yp-ink); margin-bottom: 4px }
+
+footer{ text-align: center; color: var(--txt-mute); font-size: 12.5px; padding-top: 20px; margin-top: 40px; border-top: 1px solid var(--bd-soft) }
+
+@media (max-width: 720px){
+  .toc ol{ columns: 1 }
+  .tb-row{ grid-template-columns: 1fr; }
+  .tb-bar{ height: 10px }
+  .media-card{ grid-template-columns: 1fr }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html" style="border:0"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs">신뢰도 평가 정책</span>
+    <span class="spacer"></span>
+    <span class="policy-pill">PUBLIC POLICY</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <header class="doc-head">
+    <span class="kicker">trust · transparency policy</span>
+    <h1>신뢰도 평가 정책</h1>
+    <div class="mission">
+      우리는 매 글에 신뢰도 점수를 매깁니다.<br>
+      그리고 그 점수가 어떻게 매겨졌는지 숨기지 않습니다.
+    </div>
+    <div class="meta">버전 v1.0 · 2026-05-18 · 이 문서는 일반 독자에게 공개됩니다 · 갱신 시 알림</div>
+  </header>
+
+  <!-- 신뢰도 미터 미리보기 -->
+  <section class="card">
+    <h2>먼저 — 미터의 모습</h2>
+    <p>모든 칼럼·뉴스 글 하단에 자동으로 다음과 같은 미터가 표시됩니다. 점수를 누르면 8개 기준의 세부 점수가 펼쳐집니다.</p>
+
+    <div class="trust-demo">
+      <div class="trust-head">
+        <div class="trust-score">73<span class="max">/ 100</span></div>
+        <span class="trust-grade high">신뢰도 높음</span>
+        <span class="badge">분류 · 꼭 알아야 할 소식</span>
+        <span class="badge accent">AI 작성 · 검수 완료</span>
+      </div>
+      <div class="trust-bars">
+        <div class="tb-row"><span class="tb-label">출처 다양성</span><div class="tb-bar"><div class="tb-fill" style="width:85%"></div></div><span class="tb-val">85</span></div>
+        <div class="tb-row"><span class="tb-label">1차 출처 인용</span><div class="tb-bar"><div class="tb-fill" style="width:90%"></div></div><span class="tb-val">90</span></div>
+        <div class="tb-row"><span class="tb-label">검증 가능성</span><div class="tb-bar"><div class="tb-fill" style="width:78%"></div></div><span class="tb-val">78</span></div>
+        <div class="tb-row"><span class="tb-label">시간 검증</span><div class="tb-bar"><div class="tb-fill" style="width:65%"></div></div><span class="tb-val">65</span></div>
+        <div class="tb-row"><span class="tb-label">이해 충돌 점검</span><div class="tb-bar"><div class="tb-fill" style="width:80%"></div></div><span class="tb-val">80</span></div>
+        <div class="tb-row"><span class="tb-label">팩트체커 교차</span><div class="tb-bar"><div class="tb-fill" style="width:55%"></div></div><span class="tb-val">55</span></div>
+        <div class="tb-row"><span class="tb-label">언론자유 가중</span><div class="tb-bar"><div class="tb-fill" style="width:88%"></div></div><span class="tb-val">88</span></div>
+        <div class="tb-row"><span class="tb-label">아카이브 일관성</span><div class="tb-bar"><div class="tb-fill" style="width:72%"></div></div><span class="tb-val">72</span></div>
+      </div>
+      <div class="trust-foot">
+        인용 매체 5곳 · <strong>한겨레</strong>(좌) · <strong>중앙</strong>(중) · <strong>동아</strong>(우) · <strong>연합</strong>(중) · <strong>BBC</strong>(해외)<br>
+        균형 — 좌 20% · 중도 40% · 우 20% · 해외 20% · <a href="#">신고 / 의견 보내기</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>점수 산식이 궁금하신가요?</strong> 이 문서가 그 답입니다. 단순히 “여러 매체가 같은 보도를 했다” 는 신뢰의 근거가 되지 않습니다. 카르텔·받아쓰기·풀 보도는 신뢰가 아닙니다.
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h3>목차</h3>
+    <ol>
+      <li><a href="#why">1 · 왜 우리만의 신뢰 점수가 필요한가</a></li>
+      <li><a href="#axes">2 · 8축 신뢰 평가 — 각 축의 의미</a></li>
+      <li><a href="#scoring">3 · 점수 산식과 가중치</a></li>
+      <li><a href="#thresholds">4 · 점수 구간별 처리</a></li>
+      <li><a href="#media-db">5 · 매체 평가 DB</a></li>
+      <li><a href="#categories">6 · 3 카테고리 분류 (좋은·꼭알·주의)</a></li>
+      <li><a href="#human-review">7 · 사람 검수의 자리</a></li>
+      <li><a href="#feedback">8 · 독자가 이의 제기하는 법</a></li>
+      <li><a href="#limits">9 · 우리가 인정하는 한계</a></li>
+      <li><a href="#history">10 · 정책 갱신 이력</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 왜 -->
+  <section class="card" id="why">
+    <h2>1 · 왜 우리만의 신뢰 점수가 필요한가</h2>
+    <p>널리 쓰이는 단순 기준 “여러 매체가 같은 보도를 했다” 는 한국 언론 환경에선 신뢰의 증거가 되지 못합니다.</p>
+    <table class="tbl">
+      <thead><tr><th>함정</th><th>예시</th></tr></thead>
+      <tbody>
+        <tr><td>받아쓰기 보도</td><td>정부·기업 보도자료를 매체들이 그대로 동시 송출</td></tr>
+        <tr><td>풀(Pool) 보도</td><td>출입처 한 명이 받은 정보를 출입 기자단이 공유 — 사실상 한 출처</td></tr>
+        <tr><td>같은 자본 소속</td><td>한 그룹의 여러 매체는 매체 수가 아니라 그룹 수로 봐야 함</td></tr>
+        <tr><td>인용의 인용</td><td>B 가 A 를, C 도 A 를 인용 — 결국 A 하나</td></tr>
+        <tr><td>SNS 루머 확산</td><td>미확인 정보를 매체들이 동시에 옮기는 일</td></tr>
+        <tr><td>진영 카르텔</td><td>정치권 메시지가 친 매체들에 일제 보도</td></tr>
+      </tbody>
+    </table>
+    <div class="note warn">
+      그래서 우리는 “몇 매체가 보도했는가” 가 아니라 “<strong>어떤 출처가 어떻게 검증 가능한가</strong>” 를 봅니다.
+    </div>
+  </section>
+
+  <!-- 2. 8축 -->
+  <section class="card" id="axes">
+    <h2>2 · 8축 신뢰 평가 — 각 축의 의미</h2>
+
+    <h3>① 출처 다양성 (Diversity)</h3>
+    <p>몇 개 매체가 아니라 <strong>몇 개 진영·소유 그룹</strong>이 보도했는가. 같은 자본 매체는 1개로 카운트.</p>
+
+    <h3>② 1차 출처 인용 (Primary Source)</h3>
+    <p>공식 발표·논문·판결문·통계청 같은 1차 자료를 <em>직접</em> 인용했는가. “관계자에 따르면” 같은 익명 일색이면 점수 하락.</p>
+
+    <h3>③ 검증 가능성 (Verifiability)</h3>
+    <p>독자가 직접 원자료에 접근할 수 있도록 통계 URL·문서 링크·영상 출처가 있는가.</p>
+
+    <h3>④ 시간 검증 (Time Resilience)</h3>
+    <p>발표 직후가 아니라 24~72시간이 지난 뒤에도 정정·반박 없이 유지되는가. 초기 오보·과장 보도를 걸러냄.</p>
+
+    <h3>⑤ 이해 충돌 점검 (Conflict of Interest)</h3>
+    <p>보도 매체가 사건 당사자(광고주·자본 관계·정치 후원)와 이해 관계가 있는가. 있으면 점수 하락 + 그 관계 명시.</p>
+
+    <h3>⑥ 팩트체커 교차 확인 (Fact-Checker Cross)</h3>
+    <p>SNU FactCheck · JTBC팩트체크 · 한겨레 팩트체크 · Reuters Fact Check · AP Fact Check 등에서 “사실” 판정을 받은 사안인가.</p>
+
+    <h3>⑦ 언론자유 지수 가중 (Press Freedom Weight)</h3>
+    <p>국경없는기자회(RSF) 언론자유지수를 매체 단위로 가중. 국가 통제 매체(예: RT, 신화) 단독 보도면 가중치 하락.</p>
+
+    <h3>⑧ 아카이브 일관성 (Archive Consistency)</h3>
+    <p>Wayback Machine·Archive.today 캡처가 있는가. 보도 후 조용한 수정·삭제가 있었다면 그 이력까지 표시.</p>
+  </section>
+
+  <!-- 3. 산식 -->
+  <section class="card" id="scoring">
+    <h2>3 · 점수 산식과 가중치</h2>
+    <table class="tbl">
+      <thead><tr><th>축</th><th>가중치</th><th>0~100 점 채점 방식</th></tr></thead>
+      <tbody>
+        <tr><td>① 출처 다양성</td><td>15%</td><td>다른 소유그룹 1=20점, 2=50, 3=80, 4+=100. 진영 균형 보너스 ±5.</td></tr>
+        <tr><td>② 1차 출처 인용</td><td>20%</td><td>1차 자료 직접 인용 있음=80~100. 익명만=0~40.</td></tr>
+        <tr><td>③ 검증 가능성</td><td>15%</td><td>원자료 링크 N개 × 25점 (상한 100).</td></tr>
+        <tr><td>④ 시간 검증</td><td>10%</td><td>72시간 후 정정 없음=100. 정정 1건당 -20.</td></tr>
+        <tr><td>⑤ 이해 충돌</td><td>10%</td><td>관계 없음=100. 약한 관계=70. 직접 관계=30.</td></tr>
+        <tr><td>⑥ 팩트체커 교차</td><td>15%</td><td>3+ 기관 “사실”=100. 1 기관=70. 없음=50. 1+ 기관 “거짓”=0.</td></tr>
+        <tr><td>⑦ 언론자유 가중</td><td>10%</td><td>매체 평균 RSF 점수 (0~100).</td></tr>
+        <tr><td>⑧ 아카이브 일관성</td><td>5%</td><td>캡처 있음=100. 보도 후 수정 있음=70 + 사유 표시.</td></tr>
+      </tbody>
+    </table>
+    <pre style="background:var(--yp-mist);border:1px solid var(--bd);border-radius:10px;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6">최종 신뢰 점수 = Σ (축 점수 × 가중치)
+가중치 합 = 100% (정수)
+점수 범위 = 0 ~ 100</pre>
+    <div class="note ok">
+      이 산식은 <strong>공개</strong>입니다. 학계·언론 모니터링 단체의 피드백을 받아 정기적으로 갱신합니다.
+    </div>
+  </section>
+
+  <!-- 4. 처리 -->
+  <section class="card" id="thresholds">
+    <h2>4 · 점수 구간별 처리</h2>
+    <table class="tbl">
+      <thead><tr><th>점수</th><th>등급</th><th>처리</th></tr></thead>
+      <tbody>
+        <tr><td>≥ 80</td><td><span class="trust-grade high">신뢰도 매우 높음</span></td><td>검수 후 자동 발행 + 상단 강조 카드 가능</td></tr>
+        <tr><td>70 ~ 79</td><td><span class="trust-grade high">신뢰도 높음</span></td><td>검수 후 자동 발행</td></tr>
+        <tr><td>50 ~ 69</td><td><span class="trust-grade mid">중간</span></td><td>검수 큐 필수 — 24시간 미승인 시 자동 폐기</td></tr>
+        <tr><td>&lt; 50</td><td><span class="trust-grade low">낮음</span></td><td>자동 폐기. 발행 없음.</td></tr>
+        <tr><td>정치·종교·실명 사안</td><td>—</td><td>점수 무관 항상 검수 큐</td></tr>
+        <tr><td>처음 등장한 매체 인용</td><td>—</td><td>점수와 별개로 검수 큐 + 매체 평가 등록 절차</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. 매체 DB -->
+  <section class="card" id="media-db">
+    <h2>5 · 매체 평가 DB</h2>
+    <p>각 매체마다 다음 항목을 등록·관리합니다. 매년 1회 외부 미디어 모니터링 단체의 평가를 반영해 가중치를 조정합니다.</p>
+    <div class="media-card">
+      <div class="mc"><b>소속 그룹</b>같은 그룹은 1개로 카운트</div>
+      <div class="mc"><b>진영 분류</b>좌·중·우·해외·전문지</div>
+      <div class="mc"><b>RSF 자유지수</b>국경없는기자회 연 1회 갱신</div>
+      <div class="mc"><b>과거 정정률</b>5년 정정·반박·삭제 비율</div>
+      <div class="mc"><b>팩트체커 일치율</b>국내·국제 팩트체커와의 일치</div>
+      <div class="mc"><b>광고주 의존도</b>주요 광고주·자본 관계</div>
+    </div>
+    <div class="note">
+      매체 평가 DB는 <strong>전체 공개</strong>가 원칙입니다. 단, 일부 항목(광고주 관계 등)은 매체의 영업 비밀일 수 있어 “있음/없음/모름” 으로 표시합니다.
+    </div>
+  </section>
+
+  <!-- 6. 3 카테고리 -->
+  <section class="card" id="categories">
+    <h2>6 · 3 카테고리 분류 (좋은·꼭알·주의)</h2>
+    <p>같은 글이 같은 신뢰 점수라도, 사람의 삶에 어떻게 닿는가에 따라 다음 세 카테고리로 분류합니다.</p>
+    <table class="tbl">
+      <thead><tr><th>카테고리</th><th>의미</th><th>예시</th></tr></thead>
+      <tbody>
+        <tr><td><strong>좋은 소식</strong> · 따뜻한 자리</td><td>인류·생명·환경에 긍정적 변화</td><td>멸종 위기종 회복, 새 치료법, 작은 마을의 성취</td></tr>
+        <tr><td><strong>꼭 알아야 할 소식</strong></td><td>영향력이 크고 보편적, 정치 색채 옅음</td><td>새 백신 승인, 국제 협약, 자연 재해 경보 해제</td></tr>
+        <tr><td><strong>주의할 소식</strong> · 깊이 보는 자리</td><td>위험·경고·천천히 다가오는 변화</td><td>기후·전쟁·전염병·시스템 리스크</td></tr>
+      </tbody>
+    </table>
+    <p>증시·금융 소식은 별도 <strong>글로벌 마켓 시그널</strong> 전문 코너에서 다루며, 메인의 세 카테고리에는 자연스럽게 섞입니다 (예: 시스템 리스크는 “주의할 소식”에 등장).</p>
+  </section>
+
+  <!-- 7. 사람 검수 -->
+  <section class="card" id="human-review">
+    <h2>7 · 사람 검수의 자리</h2>
+    <p>점수가 80이라 해도 자동만으로 결정하지 않습니다. 다음의 경우 사람 검수가 반드시 끼어듭니다.</p>
+    <ul>
+      <li>정치·종교·실명 사안 — <strong>항상</strong></li>
+      <li>의료·법률·금융 단정 — <strong>항상</strong></li>
+      <li>독자 신고가 1건이라도 들어온 글 — 24시간 안에 재검토</li>
+      <li>처음 등장한 매체 인용 — 매체 평가 등록 절차</li>
+      <li>임팩트 점수 9/10 이상의 사건 — 점수 무관 검수</li>
+    </ul>
+    <div class="note">
+      자동화의 목적은 <strong>사람 손을 없애는 것</strong>이 아니라 <strong>사람 손이 닿을 자리를 또렷이 보이게 하는 것</strong>입니다.
+    </div>
+  </section>
+
+  <!-- 8. 피드백 -->
+  <section class="card" id="feedback">
+    <h2>8 · 독자가 이의 제기하는 법</h2>
+    <ol>
+      <li>모든 글 하단의 <strong>“신고 / 의견 보내기”</strong> 버튼</li>
+      <li>이유 한 줄 + 근거 링크 1개 (선택)</li>
+      <li>24시간 안에 재검토 → 결과를 글 하단 “정정·반박” 자리에 공개</li>
+      <li>이의가 정당하면 <strong>점수 즉시 재산정</strong> + 본문 정정 + 정정 이력 노출</li>
+      <li>독자에게는 “당신의 신고가 점수에 반영되었습니다” 알림</li>
+    </ol>
+    <p>신고 카운터는 매체·페르소나마다 <strong>공개</strong>됩니다. 숨길 일이 아닙니다.</p>
+  </section>
+
+  <!-- 9. 한계 -->
+  <section class="card" id="limits">
+    <h2>9 · 우리가 인정하는 한계</h2>
+    <ul>
+      <li>AI 의 큐레이션·요약 자체에 편향이 있을 수 있습니다.</li>
+      <li>매체 평가 DB 는 인간이 만든 분류이고, 분류 자체에 가치가 들어갑니다.</li>
+      <li>외부 팩트체커도 완벽하지 않습니다 — 그래서 한 기관만 따르지 않습니다.</li>
+      <li>처음 등장하는 매체·새 분야는 점수 산정 자체가 어렵습니다.</li>
+      <li>이 정책 자체도 갱신됩니다. 오늘의 v1.0 은 내일의 v1.1 입니다.</li>
+    </ul>
+    <div class="note warn">
+      그래서 우리는 <strong>“우리 점수가 진실이다”</strong> 라고 말하지 않습니다. 우리는 “<strong>우리가 어떻게 점수를 매겼는지 공개한다</strong>” 고 말합니다. 그것이 더 정직합니다.
+    </div>
+  </section>
+
+  <!-- 10. 이력 -->
+  <section class="card" id="history">
+    <h2>10 · 정책 갱신 이력</h2>
+    <table class="tbl">
+      <thead><tr><th>날짜</th><th>버전</th><th>변경 사항</th></tr></thead>
+      <tbody>
+        <tr><td>2026-05-18</td><td>v1.0</td><td>최초 공개. 8축 신뢰 평가 + 3 카테고리 + 처리 구간 + 매체 DB + 사람 검수 + 독자 피드백 + 한계 명시.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    © 2026 y-life.kr · 이 정책은 일반 독자에게 공개됩니다. 갱신 시 메일·SNS 로 안내합니다.
+  </footer>
+
+</div>
+
+</body>
+</html>
