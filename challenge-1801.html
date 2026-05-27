@@ -352,10 +352,84 @@
     section, .item, .biz-card { box-shadow: none; page-break-inside: avoid; }
     .doc-head, .urgent, .action-plan { background: #f0f0f0 !important; color: #1d1d1b !important; -webkit-print-color-adjust: exact; }
   }
+
+  /* 모바일 공유 도구 */
+  .share-panel {
+    background: #fffdf8;
+    border: 1.5px solid var(--yp-line);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .share-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--yp-deep);
+  }
+  .share-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+  }
+  .share-btn.kakao { background: #fee500; color: #191919; }
+  .share-btn.kakao:hover { background: #fada0a; }
+  .share-btn.sms { background: #007aff; color: #fff; }
+  .share-btn.sms:hover { background: #0062cc; }
+  .share-btn.copy { background: var(--yp-pine); color: #fff; }
+  .share-btn.copy:hover { background: var(--yp-deep); }
+  
+  /* 토스트 알림 */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(47, 93, 98, 0.95);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
+
+  <!-- 모바일 알림 및 공유 도구 -->
+  <div class="share-panel">
+    <span class="share-title">📱 모바일 전송 및 직접 점검 도구</span>
+    <div class="share-btn-group">
+      <a href="https://sharer.kakao.com/talk/friends/picker/link?url=https://y-life.kr/challenge-1801.html" target="_blank" class="share-btn kakao">💬 나에게 카톡 전송</a>
+      <a href="sms:?body=[국가지원사업%20긴급도전]%20도전할%20새로운%20사업이%20발견되었습니다.%20즉시%20확인:%20https://y-life.kr/challenge-1801.html" class="share-btn sms">📱 나에게 문자 전송</a>
+      <button onclick="copyLink()" class="share-btn copy">🔗 링크 주소 복사</button>
+    </div>
+  </div>
 
   <!-- 헤더 -->
   <div class="doc-head">
@@ -710,5 +784,36 @@
   </footer>
 
 </div>
+
+<!-- 토스트 알림 구조 -->
+<div id="toast" class="toast">링크 주소가 복사되었습니다. ✨</div>
+
+<script>
+  function copyLink() {
+    const url = 'https://y-life.kr/challenge-1801.html';
+    
+    // 클립보드 복사 시도
+    navigator.clipboard.writeText(url).then(function() {
+      showToast();
+    }).catch(function() {
+      // 대체 수단
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast();
+    });
+  }
+  
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+</script>
 </body>
 </html>
