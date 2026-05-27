@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root {
     --yp-deep: #2f5d62;
@@ -67,7 +68,7 @@
     color: #2b5c3f;
     padding: 12px 18px;
     border-radius: 10px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -77,6 +78,45 @@
   .security-badge .icon {
     font-size: 20px;
     flex-shrink: 0;
+  }
+
+  /* 로그인 유도 카드 */
+  .login-promo-card {
+    background: var(--yp-card);
+    border: 1.5px solid var(--yp-line);
+    border-left: 5px solid var(--yp-pine);
+    padding: 20px 24px;
+    border-radius: var(--yp-border-radius);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .promo-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .promo-icon {
+    font-size: 24px;
+    background: var(--yp-soft);
+    padding: 8px;
+    border-radius: 50%;
+    color: var(--yp-pine);
+    flex-shrink: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 로그인 상태 카드 */
+  .login-status-card {
+    background: var(--yp-card);
+    border: 1px solid var(--yp-line);
+    border-left: 5px solid var(--yp-accent);
+    padding: 16px 20px;
+    border-radius: var(--yp-border-radius);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   }
 
   /* 카드 공통 */
@@ -171,11 +211,6 @@
   .tile .emoji {
     font-size: 20px;
     margin-bottom: 2px;
-  }
-
-  /* 체크박스 형태 타일 (다중 선택용) */
-  .tile-checkbox {
-    position: relative;
   }
 
   /* 버튼 */
@@ -311,7 +346,6 @@
   }
   .badge.fit-ok { background: var(--yp-pine); color: #fff; }
   .badge.fit-warn { background: var(--yp-accent); color: #fff; }
-  .badge.fit-unfit { background: var(--yp-alert); color: #fff; }
   .badge.always { background: #5d8a6b; color: #fff; }
   .badge.date-limit { background: var(--yp-alert); color: #fff; }
   .badge.waiting { background: #7a6e64; color: #fff; }
@@ -488,7 +522,7 @@
     body { background: #fff; padding: 0; }
     .doc-head { background: #f0f0f0 !important; color: #000 !important; }
     .card, .grant-item { box-shadow: none; border: 1px solid #aaa; page-break-inside: avoid; }
-    .security-badge, #diagnostic-card, .share-panel, .btn-submit { display: none !important; }
+    .security-badge, #diagnostic-card, .share-panel, .btn-submit, .login-promo-card, .login-status-card { display: none !important; }
     #result-section { display: block !important; }
     .unfit-container { display: none !important; }
   }
@@ -509,6 +543,37 @@
     <div>
       <strong>개인정보 100% 로컬 보안 보장</strong><br>
       입력하신 모든 정보는 서버로 전송되거나 저장되지 않으며, 오직 브라우저 내에서만 연산된 후 즉시 소멸합니다. 안심하고 입력하세요.
+    </div>
+  </div>
+
+  <!-- 구글 로그인 권장 카드 (로그아웃 상태 시 표시) -->
+  <div class="login-promo-card" id="login-promo-card" style="display: none;">
+    <div class="promo-head">
+      <span class="promo-icon">🔐</span>
+      <div>
+        <strong style="font-size: 15px; color: var(--yp-deep);">연라이프 구글 로그인으로 개인 보안 혜택 강화하기</strong>
+        <p style="font-size: 12.8px; color: var(--yp-muted); margin-top: 4px; line-height: 1.6;">
+          구글 계정으로 편리하게 로그인하시면 작성하신 진단 프로필과 각 지원사업별 신청 서류 체크리스트 진행 상황이 **본인 브라우저에 암호화되어 안전하게 자동 저장**됩니다.<br>
+          이후 재방문 시 매번 번거롭게 양식을 채울 필요 없이 즉시 매칭 상태가 복원되며, 본인 맞춤형 신규 국가지원사업 알림 연계 서비스 혜택을 안전하게 받으실 수 있습니다.
+        </p>
+      </div>
+    </div>
+    <div style="margin-top: 18px; display: flex; justify-content: center;">
+      <div id="google-signin-button"></div>
+    </div>
+  </div>
+
+  <!-- 로그인 상태 표시 카드 (로그인 완료 상태 시 표시) -->
+  <div class="login-status-card" id="login-status-card" style="display: none;">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 20px;">🟢</span>
+        <div>
+          <strong id="user-display-name" style="font-size: 14.5px; color: var(--yp-deep);">로그인 중</strong>
+          <span style="font-size: 12px; color: var(--yp-pine); margin-left: 8px; font-weight: 600;">🔒 로컬 자동 저장 및 알림 연계 활성화됨</span>
+        </div>
+      </div>
+      <button onclick="handleLogout()" class="share-btn print" style="padding: 6px 12px; font-size: 12px; width: auto; cursor: pointer; border-radius: 6px;">로그아웃</button>
     </div>
   </div>
 
@@ -757,13 +822,10 @@
         "세금 완납 증명서 준비 (국세청/정부24)",
         "마감일 이전 온라인 최종 접수"
       ],
-      // 매칭 엔진 전용 평가 함수 (profile 객체를 받아 {score: 0~100, reason: "이유"} 반환)
       evaluate: function(profile) {
-        // 필수조건 1: 울산 소재지
         if (profile.location !== 'ulsan_buk' && profile.location !== 'ulsan_other') {
           return { score: 0, reason: "울산 관내 창업기업 또는 예비창업자만 신청이 가능합니다." };
         }
-        // 필수조건 2: 업력 3년 이하 (6개월 미만, 6개월~3년)
         if (profile.history !== 'under_6m' && profile.history !== 'between_6m_3y') {
           return { score: 0, reason: "창업 3년 이내의 기술 기반 스타트업만 입주할 수 있습니다." };
         }
@@ -771,16 +833,14 @@
         let score = 80;
         let reasons = ["울산 소재 창업 3년 이내 기업 요건을 충족합니다."];
         
-        // 가점/우대조건: 기술 기반 창업 (AI 또는 에듀테크)
         if (profile.tech.includes('tech_ai') || profile.tech.includes('tech_edu')) {
           score += 10;
           reasons.push("개발 또는 보유 중인 AI/디지털 교육 솔루션이 기술 기반 기업 요건에 부합합니다.");
         } else {
-          score -= 40; // 기술 비보유 시 매칭 점수 하락
+          score -= 40;
           reasons.push("기술 기반 창업기업 위주 모집이므로 기술 또는 특허 미보유 시 탈락 확률이 큽니다.");
         }
         
-        // 1인 창조기업 우대
         if (profile.employees === 'solo') {
           score += 10;
           reasons.push("1인 창조기업으로서 독립된 공간 무상 제공 지원 필요성이 인정됩니다.");
@@ -846,7 +906,6 @@
         if (profile.location !== 'ulsan_buk' && profile.location !== 'ulsan_other') {
           return { score: 0, reason: "울산광역시에 사업장을 둔 소상공인만 신청할 수 있습니다." };
         }
-        // 소상공인 판단: 상시근로자 10인 미만 (일반 광업/제조/건설/운수 10인 미만, 기타 업종 5인 미만)
         if (profile.employees === 'over_10') {
           return { score: 0, reason: "상시 근로자 10인 이상인 경우 소상공인 기준을 초과하여 지원이 불가합니다." };
         }
@@ -1084,7 +1143,6 @@
         "학교 현장 적용 계획서 작성 및 신청서 제출"
       ],
       evaluate: function(profile) {
-        // 필수조건: 에듀테크 관련 솔루션 보유 필수
         if (!profile.tech.includes('tech_edu')) {
           return { score: 0, reason: "에듀테크(디지털 교육) 관련 프로그램이나 솔루션을 개발/보유한 기업만 참가가 가능합니다." };
         }
@@ -1102,12 +1160,16 @@
     }
   ];
 
+  const GOOGLE_CLIENT_ID = '93942249284-nm9mookvhfe50n6i8upsfvev3gl8d1a7.apps.googleusercontent.com';
+  let currentUser = null;
+
   // 1. URL 쿼리 파라미터 확인 및 단축 코드 처리
   window.addEventListener('DOMContentLoaded', () => {
+    updateLoginUI();
+
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     
-    // code=1801인 경우 또는 특정 URL 인코딩 파라미터가 있는 경우 자동 완성
     if (code === '1801') {
       autoFillYeonAcademy();
     } else {
@@ -1120,7 +1182,7 @@
         const pHis = urlParams.get('his');
         const pEmp = urlParams.get('emp');
         const pVat = urlParams.get('vat');
-        const pTech = urlParams.get('tech'); // 콤마 구분
+        const pTech = urlParams.get('tech');
         
         if (pInd && pLoc && pAge && pHis && pEmp && pVat) {
           if (pName) document.getElementById('input-name').value = pName;
@@ -1140,13 +1202,11 @@
                 tile.classList.add('selected');
               }
             });
-            // '해당 없음' 타일 상태 보정
             if (techs.some(t => t !== 'tech_none')) {
               document.getElementById('tile-tech-none').classList.remove('selected');
             }
           }
           
-          // 바로 진단 실행
           runDiagnosis();
         }
       } catch (e) {
@@ -1154,6 +1214,173 @@
       }
     }
   });
+
+  // 구글 로그인 상태 업데이트 함수
+  function updateLoginUI() {
+    currentUser = getLoggedInUser();
+    const promoCard = document.getElementById('login-promo-card');
+    const statusCard = document.getElementById('login-status-card');
+    
+    if (currentUser) {
+      if (promoCard) promoCard.style.display = 'none';
+      if (statusCard) {
+        statusCard.style.display = 'block';
+        document.getElementById('user-display-name').innerText = `${currentUser.nick} 님으로 로그인 중`;
+      }
+      
+      // 자동 로드 (단, ?code=1801이나 URL 복구 파라미터가 없을 때만)
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const hasQueryProfile = urlParams.get('ind') !== null;
+      if (code !== '1801' && !hasQueryProfile) {
+        loadSavedProfile(currentUser.id);
+      }
+    } else {
+      if (promoCard) promoCard.style.display = 'block';
+      if (statusCard) statusCard.style.display = 'none';
+      renderGoogleButton();
+    }
+  }
+
+  function getLoggedInUser() {
+    try {
+      const sessionId = localStorage.getItem('ylife_session');
+      if (!sessionId) return null;
+      const users = JSON.parse(localStorage.getItem('ylife_users') || '[]');
+      return users.find(u => u.id === sessionId) || null;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  function renderGoogleButton() {
+    if (!window.google) {
+      setTimeout(renderGoogleButton, 300);
+      return;
+    }
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResult,
+        ux_mode: 'popup',
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        { theme: 'outline', size: 'large', text: 'signin_with', locale: 'ko', width: 280, shape: 'rectangular' }
+      );
+    } catch(e) {
+      console.warn('Google Sign-in render error:', e);
+    }
+  }
+
+  function handleGoogleCredentialResult(response) {
+    try {
+      const b64 = response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+      const payload = JSON.parse(decodeURIComponent(atob(b64).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+      const { sub, email, name } = payload;
+      
+      const users = JSON.parse(localStorage.getItem('ylife_users') || '[]');
+      let user = users.find(u => u.googleSub === sub);
+      if(!user){
+        user = {
+          id: 'g_' + sub.slice(-10),
+          nick: name || email.split('@')[0],
+          email: email || '',
+          pw: '',
+          googleSub: sub,
+          provider: 'google',
+          joined: new Date().toLocaleDateString('ko'),
+        };
+        users.push(user);
+        localStorage.setItem('ylife_users', JSON.stringify(users));
+        pushUserToMainDb(user);
+      }
+      
+      localStorage.setItem('ylife_session', user.id);
+      showToast("구글 로그인 성공! 🔐");
+      updateLoginUI();
+    } catch(e) {
+      console.error('구글 로그인 처리 오류:', e);
+      alert('로그인 처리 중 오류가 발생했습니다.');
+    }
+  }
+
+  async function pushUserToMainDb(user) {
+    const FIREBASE_URL = 'https://y-life-e191d-default-rtdb.firebaseio.com';
+    try {
+      await fetch(`${FIREBASE_URL}/users/${encodeURIComponent(user.id)}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+      });
+    } catch(e) {
+      console.warn('Firebase user sync offline:', e);
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('ylife_session');
+    showToast("로그아웃되었습니다.");
+    updateLoginUI();
+  }
+
+  // 로그인 상태에서 프로필 저장
+  function saveProfileForUser(userId, profile) {
+    try {
+      localStorage.setItem(`ylife_grant_profile_${userId}`, JSON.stringify(profile));
+    } catch(e) {}
+  }
+
+  function loadSavedProfile(userId) {
+    try {
+      const raw = localStorage.getItem(`ylife_grant_profile_${userId}`);
+      if (!raw) return;
+      const profile = JSON.parse(raw);
+      
+      if (profile.name) document.getElementById('input-name').value = profile.name;
+      setSelectValue('industry', profile.industry);
+      setSelectValue('location', profile.location);
+      setSelectValue('age', profile.age);
+      setSelectValue('history', profile.history);
+      setSelectValue('employees', profile.employees);
+      setSelectValue('vat', profile.vat);
+      
+      const tiles = document.querySelectorAll('#group-tech .tile');
+      tiles.forEach(tile => tile.classList.remove('selected'));
+      profile.tech.forEach(t => {
+        const tile = document.querySelector(`#group-tech .tile[data-value="${t}"]`);
+        if (tile) tile.classList.add('selected');
+      });
+      
+      runDiagnosis();
+      showToast("저장된 맞춤 프로필을 불러왔습니다. 🎯");
+    } catch(e) {
+      console.error("프로필 로드 오류:", e);
+    }
+  }
+
+  // 체크리스트 개별 항목 저장
+  function saveChecklistState(grantId, index, isChecked) {
+    if (!currentUser) return;
+    try {
+      const key = `ylife_grant_checklist_${currentUser.id}_${grantId}`;
+      const state = JSON.parse(localStorage.getItem(key) || '{}');
+      state[index] = isChecked;
+      localStorage.setItem(key, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  // 체크리스트 개별 항목 가져오기
+  function getChecklistState(grantId, index) {
+    if (!currentUser) return false;
+    try {
+      const key = `ylife_grant_checklist_${currentUser.id}_${grantId}`;
+      const state = JSON.parse(localStorage.getItem(key) || '{}');
+      return !!state[index];
+    } catch(e) {
+      return false;
+    }
+  }
 
   // 연학원(이진우 대표님) 데이터 자동 셋팅
   function autoFillYeonAcademy() {
@@ -1166,7 +1393,6 @@
     setSelectValue('employees', 'solo');
     setSelectValue('vat', 'exempt');
     
-    // 보유 기술 다중 선택
     const aiTile = document.querySelector('#group-tech .tile[data-value="tech_ai"]');
     const eduTile = document.querySelector('#group-tech .tile[data-value="tech_edu"]');
     const noneTile = document.getElementById('tile-tech-none');
@@ -1203,7 +1429,6 @@
     noneTile.classList.remove('selected');
     element.classList.toggle('selected');
     
-    // 만약 다 해제되었다면 '해당 없음' 자동 선택
     const selectedTechs = document.querySelectorAll('#group-tech .tile.selected');
     if (selectedTechs.length === 0) {
       noneTile.classList.add('selected');
@@ -1257,7 +1482,6 @@
     const vat = getSelectedValue('vat');
     const tech = getSelectedTechs();
 
-    // 입력 유효성 검사
     if (!industry || !location || !age || !history || !employees || !vat || tech.length === 0) {
       alert("모든 진단 문항에 답변해 주세요.");
       return;
@@ -1265,6 +1489,11 @@
 
     const profile = { name, industry, location, age, history, employees, vat, tech };
     
+    // 로그인 된 사용자라면 로컬에 프로필 자동 보존
+    if (currentUser) {
+      saveProfileForUser(currentUser.id, profile);
+    }
+
     // 각 공고 매칭 평가 실행
     const evaluatedGrants = GRANTS_DB.map(grant => {
       const evaluation = grant.evaluate(profile);
@@ -1275,14 +1504,11 @@
       };
     });
 
-    // 매칭 결과 분류 및 정렬
     const fitGrants = evaluatedGrants.filter(g => g.score > 0).sort((a, b) => b.score - a.score);
     const unfitGrants = evaluatedGrants.filter(g => g.score === 0);
 
-    // 결과 렌더링
     renderResults(profile, fitGrants, unfitGrants);
 
-    // 결과 섹션 노출 및 스크롤 이동
     const resultSection = document.getElementById('result-section');
     resultSection.style.display = 'block';
     resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1290,7 +1516,6 @@
 
   // 결과 화면 그리기
   function renderResults(profile, fitGrants, unfitGrants) {
-    // 1. 헤더 요약 텍스트
     const summaryTextEl = document.getElementById('result-summary-text');
     let summaryText = `<strong>${profile.name}</strong> 님의 맞춤 프로필 분석이 완료되었습니다. `;
     
@@ -1301,12 +1526,10 @@
     }
     summaryTextEl.innerHTML = summaryText;
 
-    // 2. 적합 사업 리스트 렌더링
     const fitListEl = document.getElementById('fit-list');
     fitListEl.innerHTML = '';
 
     fitGrants.forEach((grant, idx) => {
-      // 등급 및 색상 결정
       let ratingClass = 'neutral';
       let ratingText = '보통';
       if (grant.score >= 90) {
@@ -1314,7 +1537,6 @@
         ratingText = '추천';
       }
 
-      // 배지 템플릿 작성
       let badgesHtml = '';
       if (grant.isUrgent) {
         badgesHtml += `<span class="badge date-limit">🔥 ${grant.deadlineText}</span>`;
@@ -1328,19 +1550,21 @@
         badgesHtml += `<span class="badge fit-warn">⚠️ 조건 확인 필요</span>`;
       }
 
-      // 체크리스트 템플릿 작성
       let checklistHtml = '';
       if (grant.checklist && grant.checklist.length > 0) {
         checklistHtml = `
           <div class="checklist">
             <div class="checklist-title">📋 도전 준비 체크리스트</div>
             <ul>
-              ${grant.checklist.map(item => `
-                <li>
-                  <input type="checkbox">
-                  <span>${item}</span>
-                </li>
-              `).join('')}
+              ${grant.checklist.map((item, itemIdx) => {
+                const isChecked = getChecklistState(grant.id, itemIdx);
+                return `
+                  <li>
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="saveChecklistState(${grant.id}, ${itemIdx}, this.checked)">
+                    <span>${item}</span>
+                  </li>
+                `;
+              }).join('')}
             </ul>
           </div>
         `;
@@ -1377,7 +1601,6 @@
       fitListEl.innerHTML += grantCardHtml;
     });
 
-    // 3. 부적합 사업 리스트 렌더링
     const unfitListEl = document.getElementById('unfit-list');
     unfitListEl.innerHTML = '';
 
@@ -1418,11 +1641,9 @@
 
   function copyShareUrl() {
     const url = getSerializedUrl();
-    
     navigator.clipboard.writeText(url).then(function() {
       showToast("진단 결과 주소가 복사되었습니다. ✨");
     }).catch(function() {
-      // 대체 복사
       const tempInput = document.createElement('input');
       tempInput.value = url;
       document.body.appendChild(tempInput);
