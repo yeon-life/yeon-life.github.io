@@ -31,10 +31,75 @@
     font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
     font-size: 15px;
     line-height: 1.7;
-    padding: 24px 16px;
+    padding: 0;
   }
 
-  .wrap { max-width: 880px; margin: 0 auto; }
+  /* 네비게이션 바 */
+  .nav-bar {
+    background: rgba(255, 253, 248, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--yp-line);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+  .nav-container {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--yp-deep);
+  }
+  .brand-logo {
+    width: 28px;
+    height: 28px;
+    background: var(--yp-deep);
+    color: #fffdf8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .brand-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  .nav-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--yp-muted);
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: all 0.2s;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+  }
+  .nav-back-btn:hover {
+    color: var(--yp-deep);
+    background: var(--yp-soft);
+    border-color: var(--yp-line);
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px 24px 16px; }
 
   /* 헤더 */
   .doc-head {
@@ -505,7 +570,7 @@
 
   /* 모바일 지원 */
   @media (max-width: 720px) {
-    body { padding: 16px 8px; }
+    body { padding: 0; }
     .doc-head { padding: 24px 18px; }
     .doc-title { font-size: 20px; }
     .card { padding: 18px 16px; }
@@ -522,13 +587,28 @@
     body { background: #fff; padding: 0; }
     .doc-head { background: #f0f0f0 !important; color: #000 !important; }
     .card, .grant-item { box-shadow: none; border: 1px solid #aaa; page-break-inside: avoid; }
-    .security-badge, #diagnostic-card, .share-panel, .btn-submit, .login-promo-card, .login-status-card { display: none !important; }
+    .security-badge, #diagnostic-card, .share-panel, .btn-submit, .login-promo-card, .login-status-card, .nav-bar { display: none !important; }
     #result-section { display: block !important; }
     .unfit-container { display: none !important; }
   }
 </style>
 </head>
 <body>
+
+<!-- 상단 네비게이션 바 -->
+<header class="nav-bar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-logo">緣</span>
+      <span class="brand-text">연라이프</span>
+    </a>
+    <a href="index.html" class="nav-back-btn">
+      <span class="icon">←</span>
+      <span class="text">홈으로 돌아가기</span>
+    </a>
+  </div>
+</header>
+
 <div class="wrap">
 
   <!-- 헤더 -->
@@ -1331,6 +1411,7 @@
     } catch(e) {}
   }
 
+  // 로그인 상태에서 프로필 로드
   function loadSavedProfile(userId) {
     try {
       const raw = localStorage.getItem(`ylife_grant_profile_${userId}`);
