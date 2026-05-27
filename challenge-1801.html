@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연학원 국가지원사업 긴급 도전 Top 10 · 2026-05-27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yp-deep: #2f5d62;
+    --yp-pine: #427a71;
+    --yp-accent: #c38d56;
+    --yp-card: #fffdf8;
+    --yp-bg: #f8f2ea;
+    --yp-line: #d7c9b4;
+    --yp-ink: #1d1d1b;
+    --yp-muted: #7a6e64;
+    --yp-alert: #b3514a;
+    --yp-soft: #f0f6ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--yp-bg);
+    color: var(--yp-ink);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 16px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+
+  /* 헤더 */
+  .doc-head {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fffdf8;
+    padding: 28px 24px;
+    border-radius: 16px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 18px rgba(47,93,98,0.18);
+  }
+  .doc-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .doc-sub {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 14px;
+  }
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+    color: #f0e8d8;
+  }
+  .doc-meta span { display: inline-flex; align-items: center; }
+
+  /* 긴급 상황 박스 */
+  .urgent {
+    background: linear-gradient(135deg, var(--yp-alert), #d4664c);
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+  }
+  .urgent strong { font-weight: 700; font-size: 16px; display: block; margin-bottom: 6px; }
+  .urgent p { font-size: 13.5px; line-height: 1.7; }
+
+  /* 사업자 프로필 */
+  .biz-card {
+    background: var(--yp-card);
+    border: 1.5px solid var(--yp-line);
+    border-left: 5px solid var(--yp-accent);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+  }
+  .biz-card h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    color: var(--yp-deep);
+    margin-bottom: 12px;
+  }
+  .biz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px 16px;
+    font-size: 13.5px;
+  }
+  .biz-grid div strong {
+    color: var(--yp-muted);
+    font-size: 11.5px;
+    display: block;
+    letter-spacing: 0.04em;
+  }
+
+  /* 섹션 */
+  section {
+    background: var(--yp-card);
+    border: 1px solid var(--yp-line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
+  }
+  section h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 19px;
+    color: var(--yp-deep);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--yp-pine);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  section h2 .num {
+    background: var(--yp-pine);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* 사업 카드 */
+  .item {
+    background: #fff;
+    border: 1px solid var(--yp-line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .item-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--yp-line);
+  }
+  .rank {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+  }
+  .rank.two { background: linear-gradient(135deg, var(--yp-accent), #d4a06a); }
+  .rank.three { background: linear-gradient(135deg, #8a6f5a, var(--yp-accent)); }
+  .item-title {
+    flex: 1;
+  }
+  .item-title h3 {
+    font-size: 16.5px;
+    color: var(--yp-deep);
+    margin-bottom: 4px;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+  .item-title .org {
+    font-size: 12.5px;
+    color: var(--yp-muted);
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .badge.fit-ok { background: var(--yp-pine); color: #fff; }
+  .badge.fit-warn { background: var(--yp-accent); color: #fff; }
+  .badge.urgent-now { background: var(--yp-alert); color: #fff; }
+  .badge.always { background: #5d8a6b; color: #fff; }
+  .badge.waiting { background: #7a6e64; color: #fff; }
+
+  .item dl {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 6px 14px;
+    font-size: 13.5px;
+    margin-bottom: 10px;
+  }
+  .item dt {
+    color: var(--yp-muted);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding-top: 3px;
+  }
+  .item dd {
+    color: var(--yp-ink);
+    line-height: 1.65;
+  }
+  .item dd.highlight {
+    color: var(--yp-deep);
+    font-weight: 600;
+  }
+  .item dd a {
+    color: var(--yp-pine);
+    text-decoration: none;
+    word-break: break-all;
+    font-size: 12.5px;
+  }
+  .item dd a:hover { text-decoration: underline; }
+
+  /* 체크리스트 */
+  .checklist {
+    background: var(--yp-soft);
+    border-left: 4px solid var(--yp-pine);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .checklist-title {
+    font-size: 12.5px;
+    color: var(--yp-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .checklist ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .checklist li {
+    padding: 4px 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .checklist input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+    accent-color: var(--yp-pine);
+  }
+
+  /* 부적합 사업 */
+  .unfit {
+    background: #faf3f2;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    border-left: 4px solid var(--yp-alert);
+  }
+  .unfit h4 {
+    color: var(--yp-alert);
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .unfit p {
+    font-size: 12.5px;
+    color: var(--yp-muted);
+  }
+
+  /* 액션플랜 박스 */
+  .action-plan {
+    background: linear-gradient(135deg, var(--yp-deep), var(--yp-pine));
+    color: #fff;
+    padding: 22px 24px;
+    border-radius: 14px;
+  }
+  .action-plan h2 {
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,0.3);
+  }
+  .action-plan h2 .num { background: #fff; color: var(--yp-deep); }
+  .action-row {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    align-items: flex-start;
+  }
+  .action-row:last-child { border-bottom: none; }
+  .action-num {
+    background: var(--yp-accent);
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .action-row strong { display: block; margin-bottom: 4px; font-size: 14.5px; }
+  .action-row p { font-size: 13px; opacity: 0.92; line-height: 1.6; }
+
+  /* 사이트 알림 등록 */
+  .site-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .site-card {
+    background: #fff;
+    border: 1px solid var(--yp-line);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .site-card a {
+    color: var(--yp-pine);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+  .site-card a:hover { text-decoration: underline; }
+  .site-card p { font-size: 12px; color: var(--yp-muted); margin-top: 4px; }
+
+  /* 푸터 */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--yp-muted);
+  }
+
+  /* 모바일 (§10-23) */
+  @media (max-width: 720px) {
+    body { font-size: 14px; padding: 12px; }
+    .doc-title { font-size: 20px; }
+    section { padding: 18px 16px; }
+    .item { padding: 16px; }
+    .item dl { grid-template-columns: 1fr; gap: 2px 0; }
+    .item dt { padding-top: 8px; }
+    .biz-grid { grid-template-columns: 1fr; }
+    .rank { width: 36px; height: 36px; font-size: 15px; }
+  }
+
+  /* 인쇄 */
+  @media print {
+    body { background: #fff; padding: 0; }
+    section, .item, .biz-card { box-shadow: none; page-break-inside: avoid; }
+    .doc-head, .urgent, .action-plan { background: #f0f0f0 !important; color: #1d1d1b !important; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="doc-head">
+    <div class="doc-title">국가지원사업 긴급 도전 · Top 10 + 신청 체크리스트</div>
+    <div class="doc-sub">2026년 5월 27일 기준 최신 지원사업 분석 및 매칭 보고서</div>
+    <div class="doc-meta">
+      <span>📋 작성: 국가지원사업 조사 전문가 (안티그래비티)</span>
+      <span>📅 작성일: 2026년 5월 27일 (개업 5개월 26일차)</span>
+      <span>🎯 대상: 연학원 (이진우 대표, 만 56세)</span>
+      <span>🏛 조사 범위: 울산광역시, 중기부, 창경센터, UIPA, KERIS 등</span>
+    </div>
+  </div>
+
+  <!-- 긴급 상황 안내 -->
+  <div class="urgent">
+    <strong>🔴 2026년 5월 27일자 긴급 동향 요약</strong>
+    <p>
+      1. <strong>울산 스타트업 허브 입주기업 2차 모집</strong>(~6/12) 공고가 발표되었습니다. 창업 3년 이내 기술 기반 기업 대상이며 4인용 무상 공간이 제공되는 최고의 기회입니다.<br>
+      2. <strong>유망 소상공인 지역상표(로컬브랜드) 육성사업</strong>(~6/5)이 시작되어 교육서비스 브랜드인 '연(緣)'의 판로 및 홍보를 지원받을 수 있습니다.<br>
+      3. <strong>2026년 6월 1일</strong>에 대표님은 정확히 <strong>개업 6개월</strong>을 달성하므로, 금융 지원(소진공 정책자금 및 울산신보 경영안정자금) 신청에 매우 유리해집니다.
+    </p>
+  </div>
+
+  <!-- 사업자 프로필 -->
+  <div class="biz-card">
+    <h3>📂 사업자 프로필 (신청용 데이터 표준)</h3>
+    <div class="biz-grid">
+      <div><strong>상호</strong>연학원 (연아카데미)</div>
+      <div><strong>대표자</strong>이진우 (만 56세)</div>
+      <div><strong>등록번호</strong>721-95-01801</div>
+      <div><strong>개업일</strong>2025-12-01 (6/1부로 6개월 경과)</div>
+      <div><strong>사업장</strong>울산 북구 강동산하2로 43</div>
+      <div><strong>업태/종목</strong>교육서비스업 · 국·영·수·논술</div>
+      <div><strong>사업자 유형</strong>부가가치세 면세사업자</div>
+      <div><strong>고용</strong>1인 사업자 (대표 본인)</div>
+      <div><strong>개발 자산</strong>AI 솔루션 4종 (수풀AI·영풀·연플래너·단어장)</div>
+      <div><strong>홈페이지</strong>y-life.kr · yeon-ai.kr</div>
+    </div>
+  </div>
+
+  <!-- 1순위: 지금 바로 신청 -->
+  <section>
+    <h2><span class="num">1순위</span>지금 바로 신청 가능 (상시 및 6월 초 마감)</h2>
+
+    <!-- 1번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">1</div>
+        <div class="item-title">
+          <h3>울산 스타트업 허브 입주기업 2차 모집</h3>
+          <div class="org">울산창조경제혁신센터</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 최적 조건 매칭</span>
+        <span class="badge urgent-now">🔥 6월 12일 16:00 마감</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>독립된 4인실 사무공간(514호) 무상 제공, 책상/의자/수납장 등 사무 집기 지원, 라운지/미팅룸 제공, 고정 IP 비용 지원, 액셀러레이팅 프로그램 연계</dd>
+        <dt>지원 기간</dt><dd class="highlight">최대 2년 ~ 3년 입주 가능 (기본 2년 + 연장 시 최대 3년)</dd>
+        <dt>신청 자격</dt><dd>기술 기반의 우수한 창업 아이템을 보유한 창업 3년 이내의 (예비)창업기업 (연학원 개업 5개월차로 자격 완전 충족)</dd>
+        <dt>적합 이유</dt><dd class="highlight">단독 1인 창조기업이면서 AI 코칭 솔루션(수풀AI, 영풀, 연플래너)을 개발하고 있으므로 '기술 기반 창업기업'에 완벽히 부합함. 울산 내에서 가장 전문적인 창업 인프라 무료 이용 가능.</dd>
+        <dt>신청 방법</dt><dd>울산 스타트업 허브 누리집 온라인 접수</dd>
+        <dt>공식 URL</dt><dd><a href="https://ulsanstartuphub.kr" target="_blank">https://ulsanstartuphub.kr</a></dd>
+        <dt>제출 서류</dt><dd>입주신청서 및 사업계획서(양식 제공), 사업자등록증, 국세/지방세 완납증명서 등</dd>
+      </dl>
+      <div class="checklist">
+        <div class="checklist-title">✅ 신청 체크리스트</div>
+        <ul>
+          <li><input type="checkbox"> 울산 스타트업 허브 회원가입 및 공고 확인</li>
+          <li><input type="checkbox"> 입주 신청서 및 기술 창업 계획서 다운로드</li>
+          <li><input type="checkbox"> '수풀AI + 연플래너' 중심의 자기주도학습 솔루션 기술 사업계획서 작성</li>
+          <li><input type="checkbox"> 세금 완납 증명서 준비 (홈택스/정부24)</li>
+          <li><input type="checkbox"> 6월 12일 16:00 이전 최종 업로드 및 신청 접수</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">2</div>
+        <div class="item-title">
+          <h3>2026년 유망 소상공인 지역상표(로컬브랜드) 육성사업</h3>
+          <div class="org">울산경제일자리진흥원</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 적합 매칭</span>
+        <span class="badge urgent-now">🔥 6월 5일 마감</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>소상공인 고유의 브랜드 자산 강화 및 판로 개척 지원, 전문 컨설팅, 디자인/홍보 지원</dd>
+        <dt>지원 한도</dt><dd class="highlight">브랜드 고도화, 판로 지원 및 로컬 브랜딩 맞춤형 지원</dd>
+        <dt>신청 자격</dt><dd>울산 관내 사업장을 두고 영업 중인 소상공인 (연학원 해당)</dd>
+        <dt>적합 이유</dt><dd class="highlight">연소사(이진우 대표)의 '인연과 소통'을 담은 교육 공동체 미디어 브랜드 '연(緣, y-life.kr)'을 울산 지역을 대표하는 고품격 교육 콘텐츠 브랜드로 브랜딩하고 마케팅 자금을 확보하기 최적의 타이밍.</dd>
+        <dt>신청 방법</dt><dd>울산경제일자리진흥원 담당자 이메일 접수 및 문의(성장지원팀 052-283-7134)</dd>
+        <dt>공식 URL</dt><dd><a href="https://www.ubpi.or.kr" target="_blank">https://www.ubpi.or.kr</a> (공지사항 참조)</dd>
+      </dl>
+      <div class="checklist">
+        <div class="checklist-title">✅ 신청 체크리스트</div>
+        <ul>
+          <li><input type="checkbox"> 진흥원 홈페이지 공고문 및 신청 서식 다운로드</li>
+          <li><input type="checkbox"> '연(緣) 라이프' 및 '연아카데미' 브랜딩 계획안 요약서 작성</li>
+          <li><input type="checkbox"> 사업자등록증 사본, 소상공인 확인서 발급 (중소기업현황정보시스템)</li>
+          <li><input type="checkbox"> 6월 5일까지 성장지원팀 접수 완료</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">3</div>
+        <div class="item-title">
+          <h3>소상공인 정책자금 융자 (직접대출·대리대출)</h3>
+          <div class="org">중소벤처기업부 · 소상공인시장진흥공단</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 6월 1일부터 신청 최적</span>
+        <span class="badge always">상시 접수 (예산 소진 시까지)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>시중금리 대비 우대 인하된 저리 정책 융자 (운전자금)</dd>
+        <dt>지원 한도</dt><dd class="highlight">일반경영안정자금 최대 7,000만원, 성장기반자금 최대 2억원</dd>
+        <dt>신청 자격</dt><dd>소상공인기본법상 소상공인, 영업 중인 면세사업자 포함</dd>
+        <dt>최적 타이밍</dt><dd class="highlight"><strong>6월 1일(개업 6개월 경과) 직후 신청 권장.</strong> 6개월 미만일 때는 매출 실적 등으로 인해 부결되거나 한도가 낮게 책정되나, 6개월 충족 후에는 평가 한도가 대폭 우대됩니다.</dd>
+        <dt>신청 방법</dt><dd>소상공인정책자금 누리집(ols.semas.or.kr) 온라인 접수 또는 소진공 울산센터 방문</dd>
+        <dt>필요 서류</dt><dd>사업자등록증, 면세사업자수입금액증명원, 임대차계약서, 납세증명서</dd>
+      </dl>
+      <div class="checklist">
+        <div class="checklist-title">✅ 신청 체크리스트</div>
+        <ul>
+          <li><input type="checkbox"> 6월 1일 개업 6개월 기준 도달 대기</li>
+          <li><input type="checkbox"> 면세사업자 수입금액증명원 및 지방세/국세 완납 증명서 준비</li>
+          <li><input type="checkbox"> 소상공인 정책자금 사이트 회원가입 및 한도 자가진단</li>
+          <li><input type="checkbox"> 6월 2~3일 즉시 온라인 직접 대출 또는 대리 보증 신청</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">4</div>
+        <div class="item-title">
+          <h3>울산 소상공인 경영안정자금 (이차보전 및 보증)</h3>
+          <div class="org">울산광역시 · 울산신용보증재단</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 3번 정책자금과 병행</span>
+        <span class="badge always">상시 접수 (한도 소진 시까지)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>울산시 소상공인 대상 대출 금리 중 2.0%p~2.5%p 수준의 이자 차액 직접 보전 및 신용 보증서 발급</dd>
+        <dt>지원 한도</dt><dd class="highlight">최대 8,000만원 이내</dd>
+        <dt>적합 이유</dt><dd class="highlight">3번 정부 정책자금과 울산시 지방 자금 중 금리 혜택이 우수한 것을 비교하여 유리한 조건으로 융자 실행 가능. 역시 <strong>6월 1일 이후 신청 시 대출 한도 심사에 극도로 유리</strong>함.</dd>
+        <dt>문의처</dt><dd>울산신용보증재단 대표전화 (052-289-1100)</dd>
+        <dt>공식 URL</dt><dd><a href="https://www.ulsansinbo.co.kr" target="_blank">https://www.ulsansinbo.co.kr</a></dd>
+      </dl>
+      <div class="checklist">
+        <div class="checklist-title">✅ 신청 체크리스트</div>
+        <ul>
+          <li><input type="checkbox"> 울산신용보증재단 온라인 상담 또는 전화 예약</li>
+          <li><input type="checkbox"> 주거래 은행 대출 한도 및 이차보전 적용 가능 여부 사전 문의</li>
+          <li><input type="checkbox"> 구비 서류(임대차 계약서, 사업자증명 등) 지참하여 신용평가 신청</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">5</div>
+        <div class="item-title">
+          <h3>울산 1인 창조기업 지원센터 입주 (상시)</h3>
+          <div class="org">울산경제일자리진흥원</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 가점 획득용</span>
+        <span class="badge always">상시/수시 (공석 발생 시 추가 공고)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>1인 창업 전용 공용/개별 사무실 지원, 컨설팅, <strong>향후 국가 R&D 및 정부사업 지원 시 가점</strong></dd>
+        <dt>전략적 가치</dt><dd class="highlight">1번의 '스타트업 허브'와 비교하여 본인의 개별 사업장은 유지하면서 가점 확보를 우선시할 때 최선의 선택지. 공석 여부를 주기적으로 센터에 직접 유선 확인 권장.</dd>
+        <dt>문의</dt><dd>울산경제일자리진흥원 창업기반팀 (052-283-7173)</dd>
+      </dl>
+    </div>
+
+    <!-- 6번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank">6</div>
+        <div class="item-title">
+          <h3>소상공인 경영/마케팅 컨설팅 지원</h3>
+          <div class="org">소상공인시장진흥공단</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 진입 장벽 제로</span>
+        <span class="badge always">상시 (연중 운영)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>디지털 전환(AI 챗봇 서비스 활용), 온라인 홍보, 세무/회계 등 1:1 컨설턴트 밀착 배정 (비비용성 지원)</dd>
+        <dt>적합 이유</dt><dd>1인 지식서비스 소상공인이 디지털 브랜딩(y-life.kr)을 더욱 효과적으로 지역 학부모들에게 알리는 로컬 마케팅 전략 수립에 무료 전문가 자문 활용 가능.</dd>
+        <dt>신청 방법</dt><dd>소상공인24(www.sbiz24.kr) 접속 후 신청</dd>
+      </dl>
+    </div>
+
+  </section>
+
+  <!-- 2순위: 공고 대기 및 추가 모집 예정 -->
+  <section>
+    <h2><span class="num">2순위</span>공고 대기·추가 모집 예정 (알림 설정)</h2>
+
+    <!-- 7번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank two">7</div>
+        <div class="item-title">
+          <h3>혁신 소상공인 AI 활용 지원사업 (2026 신설)</h3>
+          <div class="org">중소벤처기업부 · 소상공인시장진흥공단</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅✅ 최적합 신사업</span>
+        <span class="badge waiting">본 공고 발표 대기 중 (상반기 내)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>AI 솔루션 활용 및 비즈니스 모델 고도화 지원 (총 예산 1,436억 규모 대형 사업)</dd>
+        <dt>적합 이유</dt><dd class="highlight">교육 분야에 AI 기술(수풀AI, 영풀)을 자체 결합한 '연아카데미' 모델이 사업 계획 요건에 100% 매칭됨. 공고 즉시 신청 필수.</dd>
+        <dt>대비 전략</dt><dd>소상공인24(www.sbiz24.kr)에서 공고 알림 신청하고, 수풀AI 소개용 한 장 기획서(원페이지 제안서) 사전 구축.</dd>
+      </dl>
+    </div>
+
+    <!-- 8번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank two">8</div>
+        <div class="item-title">
+          <h3>NIPA 산업맞춤형 혁신바우처 지원사업 (AX 컨설팅)</h3>
+          <div class="org">과학기술정보통신부 · 정보통신산업진흥원(NIPA)</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 기술 매칭</span>
+        <span class="badge waiting">2차 공고 대기 (6~7월 예상)</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>소상공인/중소기업에 AX(인공지능 전환) 검증(PoC) 및 적용 비용 바우처 지원</dd>
+        <dt>적합 이유</dt><dd>기존 국영수 학원에 AI 기반 자기주도 학습 및 맞춤형 코칭 플랫폼을 융합하는 PoC 기금(1천만~2천만원 상당) 확보 가능.</dd>
+      </dl>
+    </div>
+
+    <!-- 9번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank two">9</div>
+        <div class="item-title">
+          <h3>울산 콘텐츠기업지원센터 CEO 인큐베이터</h3>
+          <div class="org">울산정보산업진흥원 (UIPA)</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-warn">⚠️ 콘텐츠 분류 매칭</span>
+        <span class="badge waiting">수시/추가 모집 대기</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>콘텐츠 분야 초기 스타트업 대상 집중 보육 프로그램 및 교육, 네트워킹</dd>
+        <dt>적합 이유</dt><dd>교육서비스 및 철학 칼럼(y-life.kr)을 디지털 교육 콘텐츠 비즈니스로 피봇팅하는 멘토링 프로그램으로 참여 가능.</dd>
+      </dl>
+    </div>
+
+    <!-- 10번 -->
+    <div class="item">
+      <div class="item-head">
+        <div class="rank two">10</div>
+        <div class="item-title">
+          <h3>KERIS 에듀테크 소프트랩 2차 실증 기업 모집</h3>
+          <div class="org">한국교육학술정보원 (KERIS)</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge fit-ok">✅ 공교육 레퍼런스</span>
+        <span class="badge waiting">하반기 보완 프로그램 대기</span>
+      </div>
+      <dl>
+        <dt>지원 내용</dt><dd>학교 현장 및 교사 대상 에듀테크 검증 매칭 및 공교육 공식 레퍼런스(증명서) 제공</dd>
+        <dt>적합 이유</dt><dd>수풀AI 및 영풀의 공교육 교실 검증 이력을 확보할 수 있는 사실상 국내 유일의 공식 루트. 하반기 추가 모집 공고 확인.</dd>
+      </dl>
+    </div>
+
+  </section>
+
+  <!-- 핵심 액션 플랜 -->
+  <section class="action-plan">
+    <h2><span class="num">🎯</span>핵심 액션 플랜 — 대표님을 위한 단기 로드맵</h2>
+
+    <div class="action-row">
+      <div class="action-num">1</div>
+      <div>
+        <strong>이번 주 중 (5/27 ~ 5/31) · 사전 서류 및 브랜드 신청 준비</strong>
+        <p>
+          ① 홈택스에서 <strong>지방세/국세 완납 증명서</strong> 및 <strong>면세사업자수입금액증명원</strong> 발급하여 클라우드에 보관.<br>
+          ② **2번 지역상표(로컬브랜드) 육성사업** 신청 마감(~6/5)이 빠르므로, 울산경제일자리진흥원(052-283-7134)에 사전 전화 문의 후 서식 작성 개시.<br>
+          ③ **1번 스타트업 허브 입주**(514호) 신청 계획서 작성 준비 ('수풀AI + 연플래너' 활용안 구상).
+        </p>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">2</div>
+      <div>
+        <strong>다음 주 초 (6/1 ~ 6/5) · 창업 6개월 도래 및 자금 상담</strong>
+        <p>
+          ① 6월 1일이 개업 6개월 경과일이므로, 당일 **3번 소상공인 정책자금(Semas)**과 **4번 울산신보(052-289-1100)**에 동시에 대출 보증 한도 상담 신청.<br>
+          ② 완성된 로컬브랜드 육성사업 신청서를 이메일로 최종 제출 (6월 5일 마감).
+        </p>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">3</div>
+      <div>
+        <strong>6월 중순까지 (6/8 ~ 6/12) · 입주 지원서 제출</strong>
+        <p>
+          ① **1번 울산 스타트업 허브** 온라인 신청 시스템에 접속, 준비한 서류와 기술 창업계획서를 6월 12일 16:00 전까지 업로드 완료.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 알림 사이트 링크 -->
+  <section>
+    <h2><span class="num">🔔</span>모바일 즐겨찾기용 정부 공고 사이트</h2>
+    <div class="site-grid">
+      <div class="site-card"><a href="https://www.bizinfo.go.kr" target="_blank">📋 기업마당</a><p>모든 정부 지원사업 통합 검색</p></div>
+      <div class="site-card"><a href="https://ulsanstartuphub.kr" target="_blank">🚀 울산 스타트업 허브</a><p>스타트업 허브 입주 및 지원</p></div>
+      <div class="site-card"><a href="https://www.sbiz24.kr" target="_blank">🏪 소상공인24</a><p>소상공인 정책 지원 및 신청</p></div>
+      <div class="site-card"><a href="https://www.ubpi.or.kr" target="_blank">🏛 울산경제일자리진흥원</a><p>울산 로컬브랜드 육성 등</p></div>
+      <div class="site-card"><a href="https://uipa.or.kr" target="_blank">💻 울산정보산업진흥원</a><p>ICT 및 콘텐츠 신규 지원 공고</p></div>
+      <div class="site-card"><a href="https://www.keris.or.kr" target="_blank">📚 KERIS 공지사항</a><p>에듀테크 실증 관련 공고</p></div>
+    </div>
+  </section>
+
+  <footer>
+    연학원 국가지원사업 분석 보고서 — 2026-05-27<br>
+    본 페이지는 대표님만 접근 가능한 비밀 링크로 제공됩니다.
+  </footer>
+
+</div>
+</body>
+</html>
