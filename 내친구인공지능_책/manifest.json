@@ -1,0 +1,17 @@
+{
+  "name": "내 친구 인공지능",
+  "short_name": "내친구AI",
+  "description": "연소사와 AI가 함께 여는 여정 - 마법사 AI와 MCP 가이드북",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#26211D",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/cover.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
