@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F8F6F2" />
+  <title>곳간 — Y Life</title>
+  <meta name="description" content="공부에 필요한 모든 것이 차곡차곡 쌓이는 자리. 학습법, 도구·자료, 시간관리, 멘탈, 과목별, 시험·입시 등 연소사가 연재하는 모든 글이 한 곳에." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <header class="app-bar">
+    <div class="container inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">緣</span>
+        <span>Y LIFE</span>
+      </a>
+      <nav class="nav-center">
+        <a href="index.html">홈</a>
+        <a href="index.html#philosophy">철학</a>
+        <a href="column.html">연의 서재</a>
+        <a href="news.html">공지사항</a>
+        <a href="index.html#contact">문의</a>
+      </nav>
+      <div class="nav-right">
+        <button class="lang-toggle" data-lang-toggle>
+          <span data-lang-toggle-label>KOREAN / ENGLISH</span>
+        </button>
+        <button class="menu-btn" data-menu-btn aria-label="메뉴">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-drawer" data-mobile-drawer>
+      <a href="index.html">홈</a>
+      <a href="index.html#philosophy">철학</a>
+      <a href="column.html">연의 서재</a>
+      <a href="news.html">공지사항</a>
+      <a href="index.html#contact">문의</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <header class="page-header">
+      <span class="page-tag">LEARNING · STOREHOUSE</span>
+      <h1 class="page-title">곳간</h1>
+      <p class="page-subtitle">공부 살림이 차곡차곡 쌓이는 자리</p>
+      <p class="page-intro">학습법, 도구와 자료, 시간 관리, 멘탈과 동기, 과목별 노하우, 시험·입시. 연소사가 매주 한 편씩 길어 올리는 글이 이곳에 모입니다. 옛 한옥의 곳간처럼 — 필요할 때 와서 꺼내 쓰는 자리.</p>
+    </header>
+
+    <section class="section" style="padding: 60px 0;">
+
+      <!-- 코너 소개 띠 -->
+      <div class="gokgan-intro">
+        <div class="seal">곳간</div>
+        <div class="seal-body">
+          <strong>곳간(庫間)</strong>은 옛 한옥에서 한 해의 살림을 차곡차곡 쟁여두던 곳입니다. 「연의 서재」가 생각이 쌓이는 자리라면, <strong>「곳간」</strong>은 공부에 필요한 살림 — 방법·도구·자료·태도 — 이 쌓이는 자리입니다. 한 편 한 편이 모여 한 권의 살림책이 됩니다.
+        </div>
+      </div>
+
+      <!-- 보기 모드 토글 -->
+      <div class="view-toggle" style="margin-bottom: 24px;">
+        <button type="button" id="viewBtnTopic" class="active">주제별 모아보기</button>
+        <button type="button" id="viewBtnBoard">게시판으로 보기</button>
+      </div>
+
+      <!-- 검색 & 필터 -->
+      <div class="board-toolbar">
+        <div class="board-search">
+          <input type="text" id="boardSearch" placeholder="제목·내용으로 검색" aria-label="검색어 입력" />
+          <button type="button" onclick="filterBoard()">SEARCH</button>
+        </div>
+        <div class="board-filters" id="boardFilters">
+          <button class="filter-chip active" data-cat="전체">전체</button>
+          <button class="filter-chip" data-cat="학습법">학습법</button>
+          <button class="filter-chip" data-cat="도구·자료">도구·자료</button>
+          <button class="filter-chip" data-cat="시간관리">시간관리</button>
+          <button class="filter-chip" data-cat="멘탈·동기">멘탈·동기</button>
+          <button class="filter-chip" data-cat="과목별">과목별</button>
+          <button class="filter-chip" data-cat="시험·입시">시험·입시</button>
+        </div>
+      </div>
+
+      <!-- 주제별 모아보기 -->
+      <section class="topic-section" id="topicView">
+        <!-- 동적 채움 -->
+      </section>
+
+      <!-- 게시판 -->
+      <table class="board" id="boardTable">
+        <thead>
+          <tr>
+            <th class="center">No.</th>
+            <th class="center">분류</th>
+            <th>제목</th>
+            <th class="center">날짜</th>
+            <th class="right">읽음</th>
+          </tr>
+        </thead>
+        <tbody id="boardBody">
+          <!-- 동적 채움 -->
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <nav class="board-pagination" id="boardPagination" aria-label="페이지 이동">
+        <a class="arrow" href="#" aria-label="이전">‹</a>
+        <span class="current">1</span>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a class="arrow" href="#" aria-label="다음">›</a>
+      </nav>
+
+      <!-- 빈 상태 (검색결과 없음) -->
+      <div class="empty-state" id="boardEmpty" style="display:none;">
+        <div class="empty-state-title">아직 이 분류의 글이 없습니다</div>
+        <p class="empty-state-desc">곧 채워질 자리입니다. 다른 분류도 둘러보세요.</p>
+      </div>
+
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 Y LIFE · CONNECTED BY 緣</div>
+        <div class="ink-mark">緣</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 곳간 게시글 목록 — 새 글이 늘어나면 이 배열에 한 줄씩 추가
+    // (글이 쌓이면 백엔드/Firestore 연동으로 옮길 수 있음)
+    const POSTS = [
+      {
+        no: 12,
+        cat: '학습법',
+        title: '5.2.5.5 복습법이 통하는 진짜 이유',
+        excerpt: '5분, 2분, 5시간, 5일. 이 네 박자가 단순한 시간표가 아니라 뇌의 망각곡선과 정확히 맞물리는 이유를 풀어봅니다.',
+        date: '2026.05.08',
+        views: 312,
+        isNew: true,
+        href: '#'
+      },
+      {
+        no: 11,
+        cat: '도구·자료',
+        title: '연플래너로 하루 1분, 5.2.5.5를 자동화하는 법',
+        excerpt: '체크리스트 하나로 복습 주기가 알아서 굴러갑니다. 학생이 직접 켜본 화면 위주로 정리.',
+        date: '2026.05.02',
+        views: 268,
+        isNew: true,
+        href: '#'
+      },
+      {
+        no: 10,
+        cat: '시간관리',
+        title: '하루를 셋으로 — 배려·배움·놀기 시간배분 실전',
+        excerpt: '학원에 7시간을 매여있는 중학생이 어떻게 세 시간을 떼어 쓸 수 있는지, 실제 학생 사례 두 개.',
+        date: '2026.04.24',
+        views: 421,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 9,
+        cat: '멘탈·동기',
+        title: '시험 일주일 전, 마음이 무너질 때 가장 먼저 해야 할 것',
+        excerpt: '계획표를 다시 짜는 게 아니라 호흡 한 번. 의식적 몰입은 마음이 가라앉은 자리에서만 시작됩니다.',
+        date: '2026.04.18',
+        views: 567,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 8,
+        cat: '학습법',
+        title: '의식적 몰입은 결과가 아니라 과정입니다',
+        excerpt: '진짜 몰입은 집중에서 흩어짐, 다시 돌아옴이 반복되는 그 과정 전체에 있습니다.',
+        date: '2026.04.10',
+        views: 891,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 7,
+        cat: '과목별',
+        title: '수학 — 답을 맞히고도 오답인 풀이는 왜 위험한가',
+        excerpt: '수풀AI가 풀이 1·2·3을 보여주는 이유. 같은 답이라도 어떤 개념으로 도달했는지가 다음 문제를 결정합니다.',
+        date: '2026.04.03',
+        views: 612,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 6,
+        cat: '시험·입시',
+        title: '내신 한 달 전, 학생이 가장 많이 흔들리는 세 가지',
+        excerpt: '점수에 대한 두려움, 친구와의 비교, 부모의 기대. 셋 중 어느 것 하나도 단순하지 않습니다.',
+        date: '2026.03.28',
+        views: 743,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 5,
+        cat: '도구·자료',
+        title: '스무고개 상담카드 — 신입 학생의 첫 한 시간을 다르게 시작하는 법',
+        excerpt: '20개 질문이 뭘 가능하게 하는지, 실제 상담 기록 두 편을 바탕으로.',
+        date: '2026.03.20',
+        views: 489,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 4,
+        cat: '멘탈·동기',
+        title: '100일 습관에서 가장 위험한 시기는',
+        excerpt: '15일에서 21일 사이. 이 일주일이 뇌가 \'이게 정말 나의 새 일상인가\'를 판단하는 분기점입니다.',
+        date: '2026.03.12',
+        views: 1024,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 3,
+        cat: '학습법',
+        title: '복습은 같은 책을 두 번 읽는 게 아닙니다',
+        excerpt: '복습의 본질은 \'다른 각도에서 다시 만나기\'. 같은 자세, 같은 시간, 같은 형광펜으로 두 번 읽는 건 복습이 아닙니다.',
+        date: '2026.03.05',
+        views: 658,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 2,
+        cat: '시간관리',
+        title: '아침 10분, 손글씨 한 페이지가 하루를 잡는 이유',
+        excerpt: '의식적 몰입의 출발점은 \'몸을 먼저 앉히는 의식\'에 있습니다. 명상·손글씨·짧은 일기가 같은 자리.',
+        date: '2026.02.27',
+        views: 532,
+        isNew: false,
+        href: '#'
+      },
+      {
+        no: 1,
+        cat: '도구·자료',
+        title: '학습 도구는 결국 \'기록\'으로 결정됩니다',
+        excerpt: '아무리 좋은 앱도 기록이 끊기면 무용지물. 어떤 기록이 살아남는지에 대한 12년치 관찰.',
+        date: '2026.02.20',
+        views: 814,
+        isNew: false,
+        href: '#'
+      }
+    ];
+
+    // 카테고리 메타 (각 분류의 부제·설명)
+    const CATEGORIES = [
+      { name: '학습법',     en: 'METHODS',     desc: '5.2.5.5, 의식적 몰입, 100일 습관 — 공부의 뼈대가 되는 방법들.' },
+      { name: '도구·자료',   en: 'TOOLS',       desc: '연플래너·수풀AI·스무고개 같은 디지털 도구와 종이 양식.' },
+      { name: '시간관리',    en: 'TIME',        desc: '하루를 셋으로 — 배려·배움·놀기. 그 균형을 잡는 실전.' },
+      { name: '멘탈·동기',   en: 'MIND',        desc: '시험 전 무너지는 마음, 100일 고비, 부모와의 대화.' },
+      { name: '과목별',      en: 'BY SUBJECT',  desc: '수학, 영어, 국어 — 과목마다 다른 결의 공부법.' },
+      { name: '시험·입시',   en: 'EXAMS',       desc: '내신·수능·진학. 한 시기를 한 편의 글로.' }
+    ];
+
+    let currentCategory = '전체';
+    let currentSearch = '';
+    let viewMode = 'topic';   // 'topic' | 'board'
+
+    function getFiltered() {
+      return POSTS.filter(p => {
+        const catOk = (currentCategory === '전체') || (p.cat === currentCategory);
+        const q = currentSearch.trim().toLowerCase();
+        const searchOk = !q || (p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q));
+        return catOk && searchOk;
+      });
+    }
+
+    function renderBoard() {
+      const tbody = document.getElementById('boardBody');
+      const empty = document.getElementById('boardEmpty');
+      const table = document.getElementById('boardTable');
+      const pagi  = document.getElementById('boardPagination');
+
+      const filtered = getFiltered();
+
+      if (filtered.length === 0) {
+        table.style.display = 'none';
+        pagi.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      table.style.display = '';
+      pagi.style.display  = '';
+      empty.style.display = 'none';
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr onclick="location.href='${p.href}'">
+          <td class="no">${String(p.no).padStart(2,'0')}</td>
+          <td class="cat"><span class="pill">${p.cat}</span></td>
+          <td class="title">
+            ${p.title}${p.isNew ? '<span class="new">NEW</span>' : ''}
+            <span class="excerpt">${p.excerpt}</span>
+          </td>
+          <td class="date">${p.date}</td>
+          <td class="views">${p.views.toLocaleString()}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderTopicView() {
+      const wrap = document.getElementById('topicView');
+      const filtered = getFiltered();
+
+      // 카테고리 결정: '전체'면 모든 카테고리, 특정 분류면 그 분류만
+      const showCats = (currentCategory === '전체')
+        ? CATEGORIES
+        : CATEGORIES.filter(c => c.name === currentCategory);
+
+      let html = '';
+      showCats.forEach(cat => {
+        const posts = filtered.filter(p => p.cat === cat.name)
+                              .sort((a,b) => b.no - a.no)
+                              .slice(0, 6);  // 카테고리당 최신 6편
+
+        html += `
+          <div class="topic-block">
+            <div class="topic-block-head">
+              <div>
+                <div class="topic-block-title">
+                  <span class="ko">${cat.name}</span>
+                  <span class="count">${cat.en} · ${posts.length}편</span>
+                </div>
+                <div class="topic-block-desc">${cat.desc}</div>
+              </div>
+              <button class="topic-block-more" data-jump="${cat.name}">전체 보기 →</button>
+            </div>
+            <div class="topic-block-list">
+              ${posts.length === 0
+                ? '<div class="topic-empty" style="grid-column: 1 / -1;">아직 이 분류의 글이 없습니다. 곧 채워질 자리입니다.</div>'
+                : posts.map(p => `
+                    <a href="${p.href}" class="topic-card">
+                      ${p.isNew ? '<span class="new">NEW</span>' : ''}
+                      <div class="num">No. ${String(p.no).padStart(2,'0')}</div>
+                      <div class="t-title">${p.title}</div>
+                      <p class="t-excerpt">${p.excerpt}</p>
+                      <div class="t-meta">
+                        <span>${p.date}</span>
+                        <span>${p.views.toLocaleString()} 읽음</span>
+                      </div>
+                    </a>
+                  `).join('')
+              }
+            </div>
+          </div>
+        `;
+      });
+
+      // 검색 결과가 모든 카테고리에서 0이면 빈 상태 안내
+      if (filtered.length === 0) {
+        html = `
+          <div class="empty-state" style="padding: 80px 20px;">
+            <div class="empty-state-title">검색 결과가 없습니다</div>
+            <p class="empty-state-desc">다른 키워드나 분류로 다시 시도해보세요.</p>
+          </div>
+        `;
+      }
+
+      wrap.innerHTML = html;
+
+      // 카테고리 점프 버튼
+      wrap.querySelectorAll('[data-jump]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.jump;
+          // 게시판 모드로 전환 + 해당 카테고리 칩 활성화
+          setView('board');
+          document.querySelectorAll('.filter-chip').forEach(c => {
+            c.classList.toggle('active', c.dataset.cat === target);
+          });
+          currentCategory = target;
+          renderAll();
+          document.querySelector('.board-toolbar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    function setView(mode) {
+      viewMode = mode;
+      document.getElementById('viewBtnTopic').classList.toggle('active', mode === 'topic');
+      document.getElementById('viewBtnBoard').classList.toggle('active', mode === 'board');
+      document.getElementById('topicView').style.display     = (mode === 'topic') ? 'block' : 'none';
+      document.getElementById('boardTable').style.display    = (mode === 'board') ? '' : 'none';
+      document.getElementById('boardPagination').style.display = (mode === 'board') ? '' : 'none';
+      // 빈 상태는 renderBoard가 다시 결정
+      document.getElementById('boardEmpty').style.display = 'none';
+    }
+
+    function renderAll() {
+      if (viewMode === 'topic') renderTopicView();
+      else renderBoard();
+    }
+
+    function filterBoard() {
+      currentSearch = document.getElementById('boardSearch').value;
+      renderAll();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 초기 보기: 주제별
+      setView('topic');
+      renderAll();
+
+      // 보기 모드 토글
+      document.getElementById('viewBtnTopic').addEventListener('click', () => {
+        setView('topic'); renderAll();
+      });
+      document.getElementById('viewBtnBoard').addEventListener('click', () => {
+        setView('board'); renderAll();
+      });
+
+      // 카테고리 칩 클릭
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentCategory = chip.dataset.cat;
+          renderAll();
+        });
+      });
+
+      // 검색 엔터
+      document.getElementById('boardSearch').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); filterBoard(); }
+      });
+
+      // 모바일 드로어 토글
+      const menuBtn = document.querySelector('[data-menu-btn]');
+      const drawer  = document.querySelector('[data-mobile-drawer]');
+      if (menuBtn && drawer) {
+        menuBtn.addEventListener('click', () => drawer.classList.toggle('open'));
+      }
+    });
+  </script>
+
+</body>
+</html>

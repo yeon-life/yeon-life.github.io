@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -652,6 +652,12 @@
     <h2>최근 쓰인 글</h2>
   </div>
   <div class="portfolio-grid">
+    <article class="portfolio-card" onclick="location.href='column-ulsan-restaurant.html'">
+      <div class="portfolio-meta"><span>2026.05.28</span><span>6분</span></div>
+      <h4>그건 뭐한다꼬 문능교?</h4>
+      <p>생아구탕이 맞느냐는 질문에 퉁명스레 대꾸하는 아주머니. 투박한 경상도 말투 속에 깃든 당당함과 신뢰에 대한 이야기…</p>
+      <div class="cat">철학</div>
+    </article>
     <article class="portfolio-card">
       <div class="portfolio-meta"><span>2026.04.10</span><span>7분</span></div>
       <h4>100일 습관에서 가장 위험한 시기는</h4>
@@ -698,6 +704,7 @@
     </div>
   </div>
   <ul class="archive-list" id="archiveList">
+    <li data-cat="철학" onclick="location.href='column-ulsan-restaurant.html'" style="cursor:pointer;"><span class="archive-date">2026.05.28</span><span class="archive-title">그건 뭐한다꼬 문능교?</span><span class="archive-cat">철학</span></li>
     <li data-cat="자기주도"><span class="archive-date">2026.04.10</span><span class="archive-title">100일 습관에서 가장 위험한 시기는</span><span class="archive-cat">자기주도</span></li>
     <li data-cat="학부모"><span class="archive-date">2026.04.05</span><span class="archive-title">아이의 말을 들을 때 가장 먼저 버려야 할 것</span><span class="archive-cat">학부모</span></li>
     <li data-cat="철학"><span class="archive-date">2026.03.28</span><span class="archive-title">의식적 몰입은 결과가 아니라 과정입니다</span><span class="archive-cat">철학</span></li>
@@ -783,8 +790,5 @@
   }
 </script>
 
-
-<script src="yeon-pwa.js" defer></script>
 </body>
 </html>
-
