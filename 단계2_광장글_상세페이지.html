@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>'선택'이라는 말의 무게 — 아골라</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e; --soft-c:#8a9398;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:linear-gradient(180deg,var(--warm) 0%,var(--paper) 100%);color:var(--soft);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* 상단 */
+  .topbar{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .topbar .in{display:flex;justify-content:space-between;align-items:center}
+  .topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+  .topbar a:hover{color:var(--teal)}
+
+  /* 빵부스러기 */
+  .crumb{padding:18px 0;font-size:12px;color:var(--muted);letter-spacing:.06em;border-bottom:1px solid var(--line);background:var(--warm)}
+  .crumb a{color:var(--teal);font-family:var(--serif);font-weight:600}
+  .crumb .sep{margin:0 8px;color:var(--soft-c)}
+
+  /* 본문 레이아웃 */
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:64px;padding:48px 0 80px}
+
+  /* 글 본문 */
+  article{max-width:720px}
+  .article-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+  .article-meta .where{color:var(--amber);font-weight:700}
+  .article-meta .now{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:rgba(168,123,62,.12);color:var(--amber);font-weight:700;font-size:10px}
+  .article-meta .now::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--amber);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .article-title{font-family:var(--serif);font-size:clamp(22px, 3vw, 34px);font-weight:700;line-height:1.3;letter-spacing:-.02em;color:var(--ink);margin-bottom:22px;word-break:keep-all;overflow-wrap:break-word}
+  .article-deck{font-family:var(--serif);font-size:19px;font-weight:400;font-style:italic;color:var(--muted);line-height:1.65;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+
+  /* 글쓴이 영역 */
+  .byline{display:flex;align-items:center;gap:14px;padding-bottom:32px;border-bottom:1px solid var(--line);margin-bottom:48px}
+  .by-photo{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:22px;flex-shrink:0}
+  .by-info{flex:1}
+  .by-name{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .by-meta{font-size:12px;color:var(--muted)}
+  .by-meta strong{color:var(--teal);font-weight:600}
+  .by-follow{padding:8px 16px;background:transparent;border:1px solid var(--ink);font-family:var(--serif);font-size:12px;font-weight:600;color:var(--ink);transition:all .2s}
+  .by-follow:hover{background:var(--ink);color:var(--warm)}
+
+  /* 본문 단락 */
+  .article-body p{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.95;color:var(--soft);margin-bottom:20px}
+  .article-body p:first-of-type::first-letter{font-family:var(--serif);font-size:64px;font-weight:900;float:left;line-height:.95;padding:6px 10px 0 0;color:var(--ink)}
+  .article-body h3{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin:36px 0 14px;letter-spacing:-.01em}
+  .article-body blockquote{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--teal);line-height:1.55;padding:24px 0;margin:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;font-weight:400;letter-spacing:-.01em}
+  .article-body blockquote::before{content:"" ";color:var(--amber);font-size:32px;line-height:0;vertical-align:-12px;margin-right:4px}
+  .article-body blockquote::after{content:"" ";color:var(--amber);font-size:32px;line-height:0;vertical-align:-12px;margin-left:4px}
+
+  /* 글 끝 — 좋은 물음 */
+  .end-block{margin-top:48px;padding:36px;background:var(--surface);border:1px solid var(--line);border-radius:4px;text-align:center}
+
+  /* ===== 응답 흐름 띠 (본문 메타 아래) ===== */
+  .flow-strip{
+    margin:24px 0 32px;padding:14px 22px 14px 48px;
+    background:linear-gradient(135deg,rgba(42,83,88,.06),rgba(196,146,62,.04));
+    border-left:3px solid var(--teal);
+    border-radius:0 8px 8px 0;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:14px;position:relative;
+  }
+  .flow-strip::before{
+    content:"流";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    font-family:var(--serif);font-size:22px;color:var(--teal);opacity:.35;
+  }
+  .flow-strip .fs-text{font-size:13px;color:var(--ink);line-height:1.55}
+  .flow-strip .fs-text b{color:var(--teal);font-weight:700}
+  .flow-strip .fs-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12px;color:var(--teal);text-decoration:none;font-weight:700;
+    border-bottom:1px dashed var(--teal);padding-bottom:1px;cursor:pointer;
+  }
+  .flow-strip .fs-cta:hover{border-bottom-style:solid}
+
+  /* ===== 응답 마이크 — 본문 끝, 댓글 위 ===== */
+  .reply-mic{
+    margin:48px 0 32px;padding:32px;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    border-radius:6px;
+    box-shadow:0 8px 28px rgba(31,29,28,.06);
+    position:relative;
+  }
+  .reply-mic::before{
+    content:"\201C";position:absolute;left:18px;top:6px;
+    font-family:var(--serif);font-size:72px;line-height:1;
+    color:var(--teal);opacity:.16;pointer-events:none;
+  }
+  .reply-mic .rm-kicker{
+    font-size:11px;letter-spacing:.18em;color:var(--amber);
+    font-weight:700;text-transform:uppercase;margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .reply-mic .rm-kicker::before{
+    content:"●";color:var(--teal);font-size:8px;
+  }
+  .reply-mic h3{
+    font-family:var(--serif);font-size:22px;font-weight:700;
+    color:var(--ink);margin-bottom:6px;letter-spacing:-.01em;
+  }
+  .reply-mic .rm-sub{
+    font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7;
+  }
+  .reply-mic .rm-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .reply-mic .rm-chip{
+    padding:6px 12px;border-radius:999px;
+    background:var(--paper);border:1px solid var(--line);
+    color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;
+    transition:all .2s;font-family:inherit;
+  }
+  .reply-mic .rm-chip:hover{border-color:var(--teal);color:var(--teal)}
+  .reply-mic .rm-chip.active{background:var(--teal);color:var(--paper);border-color:var(--teal)}
+  .reply-mic .rm-input{
+    width:100%;min-height:96px;
+    padding:14px 16px;
+    border:1px solid var(--line);border-radius:6px;
+    font-family:var(--sans);font-size:15px;line-height:1.7;
+    color:var(--ink);background:var(--warm);
+    resize:vertical;outline:none;transition:all .2s;
+  }
+  .reply-mic .rm-input:focus{border-color:var(--teal);background:var(--paper)}
+  .reply-mic .rm-input::placeholder{color:#a8b1ad;font-style:italic}
+  .reply-mic .rm-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:12px;gap:12px;flex-wrap:wrap;
+  }
+  .reply-mic .rm-hint{font-size:11px;color:var(--muted);font-style:italic;flex:1;min-width:200px}
+  .reply-mic .rm-actions{display:flex;gap:8px}
+  .reply-mic .rm-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 18px;border-radius:6px;font-size:13px;font-weight:700;
+    cursor:pointer;transition:all .2s;border:1px solid var(--ink);
+    font-family:inherit;
+  }
+  .reply-mic .rm-btn.primary{background:var(--ink);color:var(--paper)}
+  .reply-mic .rm-btn.primary:hover{background:var(--teal);border-color:var(--teal)}
+  .reply-mic .rm-btn.ghost{background:var(--paper);color:var(--ink)}
+  .reply-mic .rm-btn.ghost:hover{background:var(--warm)}
+
+  @media (max-width:640px){
+    .reply-mic{padding:22px 20px}
+    .reply-mic h3{font-size:18px}
+    .reply-mic .rm-foot{flex-direction:column;align-items:flex-start}
+    .reply-mic .rm-actions{width:100%}
+    .reply-mic .rm-btn{flex:1;justify-content:center}
+  }
+  .end-q{font-family:var(--serif);font-size:14px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .end-q::before{content:"";display:inline-block;width:20px;height:1px;background:var(--amber);margin-right:8px;vertical-align:5px}
+  .end-question{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);line-height:1.6;margin-bottom:24px;font-style:italic}
+  .vote-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;background:var(--ink);color:var(--warm);border:none;font-family:var(--serif);font-size:14px;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s}
+  .vote-btn:hover{background:var(--teal)}
+  .vote-btn .ico{font-size:18px;color:var(--amber)}
+  .vote-btn .cnt{padding-left:12px;border-left:1px solid rgba(244,240,230,.3);margin-left:6px;font-weight:400;color:var(--amber)}
+  .end-explain{font-size:12px;color:var(--soft-c);margin-top:14px;font-style:italic}
+
+  /* 댓글 영역 */
+  .comments{margin-top:64px}
+  .comments-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:28px}
+  .comments-head h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink)}
+  .comments-head h2 .cnt{font-size:16px;color:var(--amber);margin-left:6px;font-weight:400}
+  .comments-sort{font-size:12px;color:var(--muted);letter-spacing:.06em}
+  .comments-sort a{color:var(--ink);font-weight:600;margin-left:8px}
+  .comments-sort a.act{color:var(--teal)}
+
+  .new-comment{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px;margin-bottom:32px}
+  .new-comment-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;color:var(--muted)}
+  .new-comment-meta .av{width:28px;height:28px;border-radius:50%;background:var(--paper);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px;font-weight:700}
+  .new-comment textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:4px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);resize:vertical;background:var(--warm);outline:none;line-height:1.7}
+  .new-comment textarea:focus{border-color:var(--teal)}
+  .new-comment-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .new-comment-hint{font-size:11px;color:var(--muted);font-style:italic}
+  .new-comment-submit{padding:10px 20px;background:var(--teal);color:var(--warm);font-family:var(--serif);font-size:13px;font-weight:700;cursor:pointer;border:none;transition:background .2s}
+  .new-comment-submit:hover{background:var(--ink)}
+
+  /* 댓글 한 건 */
+  .cm{padding:22px 0;border-bottom:1px solid var(--line)}
+  .cm:last-child{border-bottom:none}
+  .cm-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .cm-av{width:32px;height:32px;border-radius:50%;color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:14px;flex-shrink:0}
+  .cm-name{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink)}
+  .cm-role{font-size:11px;color:var(--muted);padding:1px 8px;background:var(--cool);border-radius:999px;letter-spacing:.04em}
+  .cm-time{font-size:11px;color:var(--soft-c);margin-left:auto}
+  .cm-body{font-family:var(--serif);font-size:16px;line-height:1.75;color:var(--soft);margin-bottom:10px;padding-left:42px}
+  .cm-foot{display:flex;gap:14px;font-size:11px;color:var(--muted);padding-left:42px}
+  .cm-foot button{color:var(--muted);font-size:11px;background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+  .cm-foot button:hover{color:var(--teal)}
+  .cm-foot button.depth-btn:hover{color:var(--amber)}
+  .cm-foot .depth-cnt{color:var(--amber);font-weight:600}
+
+  /* 답글 (들여쓰기) */
+  .cm.reply{margin-left:42px;background:rgba(232,228,217,.3);padding:16px;border-left:2px solid var(--line);border-bottom:none;margin-top:8px}
+  .cm.reply .cm-body, .cm.reply .cm-foot{padding-left:42px}
+
+  /* 사이드바 */
+  aside.side{position:sticky;top:24px;align-self:start}
+  .side-block{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:24px;margin-bottom:24px}
+  .side-tag{font-size:10px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .side-tag::before{content:"";display:inline-block;width:18px;height:1px;background:var(--amber);margin-right:8px;vertical-align:3px}
+  .side-h{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4}
+  .side-deck{font-size:12px;color:var(--muted);line-height:1.6}
+
+  /* 화두 카드 */
+  .hwadu-card{background:var(--ink);color:var(--warm);padding:24px;border-radius:4px;margin-bottom:24px}
+  .hwadu-tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--amber);margin-bottom:10px}
+  .hwadu-q{font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--warm);font-style:italic;font-weight:400}
+
+  /* 관련 글 */
+  .related-list{display:flex;flex-direction:column;gap:14px}
+  .related-item{display:block;padding-bottom:12px;border-bottom:1px dashed var(--line);cursor:pointer;transition:transform .2s,background .2s;text-decoration:none;color:inherit;border-radius:3px}
+  .related-item:hover{transform:translateX(3px);background:rgba(196,146,62,.05)}
+  .related-item:last-child{border-bottom:none}
+  .related-item .who{font-size:10px;color:var(--teal);font-weight:600;margin-bottom:4px}
+  .related-item h4{font-family:var(--serif);font-size:14px;font-weight:500;color:var(--ink);line-height:1.4;margin-bottom:4px;transition:color .18s}
+  .related-item:hover h4{color:var(--teal)}
+  .related-item .e{font-size:10px;color:var(--muted)}
+
+  /* 화두 카드 — 클릭 가능 */
+  .hwadu-card{cursor:pointer;transition:transform .2s,box-shadow .2s}
+  .hwadu-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+
+  /* 푸터 */
+  .footer{padding:32px 0;border-top:2px solid var(--ink);background:var(--warm);text-align:center;font-size:12px;color:var(--muted)}
+
+  /* 좁은 분할 화면에서도 안전 — 사이드바를 더 일찍 본문 아래로 */
+  @media (max-width:1280px){
+    .layout{grid-template-columns:1fr;gap:40px}
+    aside.side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    aside.side .side-block:nth-child(1),
+    aside.side .hwadu-card{grid-column:1 / -1}
+    .flow-strip{padding:14px 20px 14px 44px}
+  }
+  @media (max-width:900px){
+    .article-deck{font-size:16px}
+    .reply-mic{padding:26px 22px}
+    .reply-mic h3{font-size:19px}
+    aside.side{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 20px}
+    .article-body p{font-size:16px}
+    .byline{flex-wrap:wrap}
+    .article-meta{gap:6px;font-size:10px}
+  }
+
+  /* ===== 메타 한 글자씩 떨어지는 문제 — white-space:nowrap으로 단어 단위 유지 ===== */
+  .article-meta{flex-wrap:wrap;row-gap:6px;column-gap:10px}
+  .article-meta > span,
+  .article-meta .where,
+  .article-meta .now{
+    white-space:nowrap;word-break:keep-all;flex-shrink:0;
+  }
+  /* 사이드 화두 카드·관련 글 — 좁은 폭에서 한국어 단어 단위로만 줄바꿈 */
+  .hwadu-tag,.hwadu-q,.side-tag,
+  .related-item .who,.related-item h4,.related-item .e{
+    word-break:keep-all;overflow-wrap:break-word;
+  }
+  .hwadu-card,.side-block{min-width:0;overflow-wrap:break-word}
+  /* 좁은 본문에서 메타 일부 숨김 (마지막 두 항목만 보이게) — 정 안 들어갈 때 */
+  @media (max-width:520px){
+    .article-meta{gap:4px;font-size:9.5px}
+    .article-meta > span:nth-child(5),
+    .article-meta > span:nth-child(6),
+    .article-meta > span:nth-child(7){display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap in">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr</a>
+  </div>
+</div>
+
+<div class="crumb">
+  <div class="wrap">
+    <a href="시안_v4_홈페이지.html">홈</a>
+    <span class="sep">›</span>
+    <a href="시안_v4_홈페이지.html#plaza">광장</a>
+    <span class="sep">›</span>
+    <a href="단계2_광장글_상세페이지.html?forum=아골라&title=아골라%20전체%20보기">아골라</a>
+    <span class="sep">›</span>
+    <span style="color:var(--ink)">'선택'이라는 말의 무게</span>
+  </div>
+</div>
+
+<div class="wrap layout">
+
+  <!-- ===== 본문 ===== -->
+  <article>
+
+    <div class="article-meta">
+      <span class="where">阿閣羅 · 아골라</span>
+      <span>·</span>
+      <span class="now">지금 깊어지는 중</span>
+      <span>·</span>
+      <span>2026.05.14. 14:32</span>
+      <span>·</span>
+      <span>읽는 시간 6분</span>
+    </div>
+
+    <h1 class="article-title">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h1>
+
+    <p class="article-deck">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까. 이번 주 화두를 따라 30년 된 실험을 다시 읽어 보았다.</p>
+
+    <!-- 응답 흐름 띠 -->
+    <div class="flow-strip">
+      <div class="fs-text">
+        이 글에 <b>23명</b>이 응답했고 <b>좋은 물음 14개</b>가 오갔습니다. 당신의 한 마디가 한 사람 더 깊게 합니다.
+      </div>
+      <a class="fs-cta" href="#replyMic">응답하러 가기 ↓</a>
+    </div>
+
+    <!-- 글쓴이 -->
+    <div class="byline">
+      <div class="by-photo">林</div>
+      <div class="by-info">
+        <div class="by-name">임선생</div>
+        <div class="by-meta">윤리 교사 · <strong>철학 · 동서양</strong> · 작성 글 12편 · 좋은 물음 받음 248</div>
+      </div>
+      <button class="by-follow">팔로우</button>
+    </div>
+
+    <!-- 본문 -->
+    <div class="article-body">
+      <p>벤저민 리벳(Benjamin Libet)이 1983년에 발표한 실험이 다시 화제다. 이번 주 연라이프 화두로 올라온 "사람은 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다"라는 문장이 그 실험을 직접 가리키고 있기 때문이다.</p>
+
+      <p>실험은 단순했다. 피험자에게 "원할 때 손가락을 까딱하라"고 시키고, 그 결정의 순간을 본인이 시계로 기록하게 한다. 그리고 동시에 뇌에서 운동 준비 전위(RP)가 일어나는 시점을 측정한다. 결과는 놀라웠다. <strong>뇌의 준비 전위가 의식적 결정보다 평균 350밀리초 먼저 일어났다.</strong> 즉, 우리가 "결정했다"고 느끼기도 전에 뇌는 이미 움직이고 있었다는 것이다.</p>
+
+      <h3>이 결과를 어떻게 읽어야 할까</h3>
+
+      <p>가장 흔한 해석은 "자유의지는 환상이다"라는 결론이다. 하지만 나는 이 해석이 너무 빠르다고 본다. 리벳 자신도 평생 이 결론에 반대했다. 그는 결정 이후에도 행위를 "취소(veto)"할 시간이 있다는 데 주목했다. 자유의지는 행위를 시작하는 데 있는 게 아니라, <strong>시작된 충동을 중단할 수 있는 능력</strong>에 있다는 것이다.</p>
+
+      <blockquote>자유란 처음부터 끝까지 내가 짠 각본이 아니라, 이미 움직이기 시작한 무엇을 어디서 멈출 것인지를 아는 일인지 모른다.</blockquote>
+
+      <p>이렇게 보면 동양철학의 한 자락이 떠오른다. 노자의 "無爲"는 아무것도 하지 않는 것이 아니라, <em>억지로 끌고 가지 않는다</em>는 의미에 가깝다. 무엇이 이미 일어나려고 하는지를 살피고, 그 흐름을 거스르지 않으면서 다만 방향을 줄 뿐. 신경과학과 2,500년 전의 사상이 같은 자리를 가리키고 있는 것은 우연일까.</p>
+
+      <h3>그래서 화두로 돌아오면</h3>
+
+      <p>"나는 누구인가." 이 질문은 새삼스럽다. 다만 이번 주 우리가 같이 물어볼 만한 변형은 이것이다. <strong>나는 시작하는 자인가, 멈출 줄 아는 자인가.</strong> 의식 이전에 이미 시작된 충동들을 부정하기보다, 그것을 알아차리고 어디서 멈출지를 정하는 일이 어쩌면 더 정직한 자유일 수 있겠다.</p>
+
+      <p>이번 한 주, 내가 한 결정들을 거꾸로 적어 보려 한다. 어디서 멈췄어야 했는데 못 멈췄는지. 어디서 멈출 뻔했다가 흘러갔는지. 그 자리에 다른 종류의 자유가 있을 것 같다.</p>
+    </div>
+
+    <!-- 좋은 물음 -->
+    <div class="end-block">
+      <div class="end-q">이 글의 좋은 물음</div>
+      <p class="end-question">"자유의지는 시작하는 능력인가, 멈추는 능력인가?"</p>
+      <button class="vote-btn" id="depthBtn">
+        <span class="ico">◐</span>
+        <span>좋은 물음입니다</span>
+        <span class="cnt">24</span>
+      </button>
+      <p class="end-explain">"좋아요"가 아니라 "이건 정말 좋은 물음이다"라는 표식입니다.</p>
+    </div>
+
+    <!-- 응답 마이크 — 이 글에 답하는 자리 -->
+    <div class="reply-mic" id="replyMic">
+      <div class="rm-kicker">내 차례 · 이 글에 응답</div>
+      <h3>당신이라면 이 자리에 어떤 한 마디를 보태시겠습니까</h3>
+      <p class="rm-sub">댓글이 아니어도 됩니다. 짧게 한 줄로 이어가셔도, 인용해서 답하셔도, 더 좋은 물음으로 흐름을 바꾸셔도 좋습니다.</p>
+      <div class="rm-chips">
+        <button type="button" class="rm-chip active" data-prompt="">짧은 한 마디</button>
+        <button type="button" class="rm-chip" data-prompt="이 글의 다음 문장을 인용하며 답합니다:&#10;> &#10;&#10;나의 생각: ">인용해서 답</button>
+        <button type="button" class="rm-chip" data-prompt="이 글에 이어 새 한 편을 써 봅니다:&#10;&#10;제목: &#10;&#10;본문: ">긴 글로 쓰기</button>
+        <button type="button" class="rm-chip" data-prompt="이 글에 답하기보다, 더 좋은 물음을 던져 봅니다:&#10;&#10;나의 물음: ">더 좋은 물음</button>
+        <button type="button" class="rm-chip" data-prompt="내 일상의 한 장면이 이 글과 만났습니다:&#10;&#10;">내 경험으로</button>
+      </div>
+      <textarea class="rm-input" id="replyMicInput" placeholder="이 글을 읽고 내 안에 일어난 한 마디… 한 줄이면 충분합니다."></textarea>
+      <div class="rm-foot">
+        <div class="rm-hint">광장 약속 — 말에는 마음씨가 그대로 담깁니다.</div>
+        <div class="rm-actions">
+          <button class="rm-btn ghost" id="replyMicSave">초고 저장</button>
+          <button class="rm-btn primary" id="replyMicSend">광장에 보내기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 댓글 -->
+    <section class="comments">
+      <div class="comments-head">
+        <h2>댓글 <span class="cnt">7</span></h2>
+        <div class="comments-sort">
+          정렬:
+          <a class="act">깊어진 순</a>
+          <a>·</a>
+          <a>최신 순</a>
+        </div>
+      </div>
+
+      <!-- 새 댓글 -->
+      <div class="new-comment">
+        <div class="new-comment-meta">
+          <div class="av">손</div>
+          <span>연소사로 댓글 남기는 중</span>
+        </div>
+        <textarea placeholder="이 글의 어떤 부분이 마음에 남았는지, 어떤 새 질문이 떠올랐는지 적어주세요."></textarea>
+        <div class="new-comment-foot">
+          <span class="new-comment-hint">광장 약속: 마음씨가 글에 그대로 담깁니다.</span>
+          <button class="new-comment-submit">댓글 남기기</button>
+        </div>
+      </div>
+
+      <!-- 댓글들 -->
+      <div class="cm">
+        <div class="cm-head">
+          <div class="cm-av" style="background:linear-gradient(135deg,#d8c8a4,#eee4d0)">朴</div>
+          <span class="cm-name">박주민</span>
+          <span class="cm-role">사회·지역</span>
+          <span class="cm-time">5시간 전</span>
+        </div>
+        <p class="cm-body">"시작하는 자인가, 멈출 줄 아는 자인가" 이 문장이 한참 머물게 합니다. 매일 한 줄씩 적어두면 좋겠어요. 어디서 멈췄어야 했는지를 적는 일기장이 있다면 그게 곧 자유의 기록일 것 같습니다.</p>
+        <div class="cm-foot">
+          <button class="depth-btn">◐ <span class="depth-cnt">12</span></button>
+          <button>답글</button>
+          <button>인용</button>
+        </div>
+      </div>
+
+      <!-- 답글 -->
+      <div class="cm reply">
+        <div class="cm-head">
+          <div class="cm-av" style="background:linear-gradient(135deg,#b0c0c5,#d8d3c7)">林</div>
+          <span class="cm-name">임선생</span>
+          <span class="cm-time" style="margin-left:auto">3시간 전</span>
+        </div>
+        <p class="cm-body">그 일기장의 이름을 "멈춤 노트"라고 부르면 어떨까요. 다음 주 화두로도 좋을 것 같습니다.</p>
+        <div class="cm-foot">
+          <button class="depth-btn">◐ <span class="depth-cnt">5</span></button>
+          <button>답글</button>
+        </div>
+      </div>
+
+      <div class="cm">
+        <div class="cm-head">
+          <div class="cm-av" style="background:linear-gradient(135deg,#bcb0b8,#d4cdc1)">玄</div>
+          <span class="cm-name">현지영</span>
+          <span class="cm-role">청년·미래</span>
+          <span class="cm-time">2시간 전</span>
+        </div>
+        <p class="cm-body">청년에게는 "선택해"라는 말이 가장 무거운 짐이에요. 시작은 너무 많고, 멈춰도 된다는 허락은 너무 적습니다. 멈춤이 자유라는 말이 위로가 됩니다.</p>
+        <div class="cm-foot">
+          <button class="depth-btn">◐ <span class="depth-cnt">18</span></button>
+          <button>답글</button>
+          <button>인용</button>
+        </div>
+      </div>
+
+      <div class="cm">
+        <div class="cm-head">
+          <div class="cm-av" style="background:var(--cool)">민</div>
+          <span class="cm-name">민서</span>
+          <span class="cm-role">중1 · 아곤란</span>
+          <span class="cm-time">1시간 전</span>
+        </div>
+        <p class="cm-body">어른들의 글이 어렵지만 끝까지 읽었어요. 그러니까 결정하는 것보다 안 하는 게 더 어렵다는 말씀이죠? 학교에서 욕 하고 싶을 때 안 하는 게 자유라는 말 같네요.</p>
+        <div class="cm-foot">
+          <button class="depth-btn">◐ <span class="depth-cnt">22</span></button>
+          <button>답글</button>
+        </div>
+      </div>
+
+      <div class="cm">
+        <div class="cm-head">
+          <div class="cm-av" style="background:linear-gradient(135deg,#c8d0c4,#e8e4d9)">崔</div>
+          <span class="cm-name">최영재</span>
+          <span class="cm-role">아골라 단골</span>
+          <span class="cm-time">30분 전</span>
+        </div>
+        <p class="cm-body">노자의 無爲와 리벳을 연결한 자리가 좋습니다. 다만 동양에서 멈춤은 단순한 거부가 아니라 흐름에 대한 이해라는 점이 강조되면 더 좋을 것 같아요. 다음 글이 기대됩니다.</p>
+        <div class="cm-foot">
+          <button class="depth-btn">◐ <span class="depth-cnt">8</span></button>
+          <button>답글</button>
+        </div>
+      </div>
+
+    </section>
+
+  </article>
+
+  <!-- ===== 사이드바 ===== -->
+  <aside class="side">
+
+    <!-- 화두 -->
+    <a class="hwadu-card" href="단계2_광장글_상세페이지.html?id=h-19&forum=화두&title=사람은%20자신이%20의식적으로%20선택한다고%20믿지만%2C%20그%20이전에%20이미%20몸이%20먼저%20움직이기%20시작한다.%20그렇다면%20%27나%27는%20누구인가%3F&by=연소사" style="text-decoration:none;color:inherit;display:block">
+      <div class="hwadu-tag">話頭 #19 · 이 주의 화두</div>
+      <p class="hwadu-q">"사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다."</p>
+    </a>
+
+    <!-- 함께 읽기 좋은 글 -->
+    <div class="side-block">
+      <div class="side-tag">함께 읽기 좋은 글</div>
+      <div class="related-list">
+        <a class="related-item" href="단계2_광장글_상세페이지.html?title=기록되지%20않은%20결정은%20정말%20내%20결정인가&forum=아골라&by=박주민">
+          <div class="who">박주민 · 아골라</div>
+          <h4>기록되지 않은 결정은 정말 내 결정인가</h4>
+          <div class="e">좋은 물음 48 · 댓글 12</div>
+        </a>
+        <a class="related-item" href="단계2_광장글_상세페이지.html?title=%22몸이%20먼저%20안다%22는%20말의%20동양적%20뿌리&forum=아골라&by=최영재">
+          <div class="who">최영재 · 아골라</div>
+          <h4>"몸이 먼저 안다"는 말의 동양적 뿌리</h4>
+          <div class="e">좋은 물음 29 · 댓글 3</div>
+        </a>
+        <a class="related-item" href="단계2_광장글_상세페이지.html?title=내가%20좋아하는%20것을%20진짜%20내가%20좋아하는%20걸까요%3F&forum=아곤란&by=민서">
+          <div class="who">민서 · 아곤란</div>
+          <h4>내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</h4>
+          <div class="e">좋은 물음 36 · 댓글 9</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 임선생 소개 -->
+    <div class="side-block">
+      <div class="side-tag">이 글을 쓴 사람</div>
+      <div style="display:flex;gap:12px;margin-bottom:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;flex-shrink:0">林</div>
+        <div>
+          <div style="font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)">임선생</div>
+          <div style="font-size:11px;color:var(--muted)">@lim-teacher</div>
+        </div>
+      </div>
+      <p style="font-family:var(--serif);font-size:13px;font-style:italic;color:var(--muted);line-height:1.65;margin-bottom:14px">학교에서 윤리를 가르치고, 퇴근하면 동서양 철학을 다시 읽습니다.</p>
+      <a href="시안_v3_블로그.html" style="display:block;padding:10px;background:var(--warm);border:1px solid var(--line);text-align:center;font-family:var(--serif);font-size:13px;color:var(--ink);font-weight:600;transition:all .2s">임선생의 마당 가기 →</a>
+    </div>
+
+    <!-- 광장 약속 -->
+    <div class="side-block">
+      <div class="side-tag">광장의 약속</div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.75;font-style:italic">말에는 마음씨가 그대로 담깁니다. 좋은 물음을 키우는 댓글, 글쓴이를 존중하는 반론, 학생을 가르치려 하지 않는 어른의 자리.</p>
+    </div>
+
+  </aside>
+
+</div>
+
+<footer class="footer">
+  <div class="wrap">© 2026 y-life.kr — 광장의 한 자리. 인연으로 오고, 인연으로 간다.</div>
+</footer>
+
+<!-- 토스트 -->
+<div id="aToast" style="position:fixed;left:50%;bottom:36px;transform:translateX(-50%);background:#1b2725;color:#fbf8f1;padding:10px 22px;border-radius:999px;font-size:13px;z-index:80;opacity:0;visibility:hidden;transition:all .25s"></div>
+
+<script>
+  /* ============================================================
+     0. 토스트 헬퍼
+     ============================================================ */
+  const toastEl = document.getElementById('aToast');
+  let toastTimer;
+  function toast(m){
+    toastEl.textContent = m;
+    toastEl.style.opacity = '1';
+    toastEl.style.visibility = 'visible';
+    toastEl.style.transform = 'translateX(-50%) translateY(-4px)';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.style.opacity = '0'; toastEl.style.visibility = 'hidden';
+      toastEl.style.transform = 'translateX(-50%)';
+    }, 2200);
+  }
+
+  /* ============================================================
+     1. 좋은 물음 투표 (기존)
+     ============================================================ */
+  let depthVoted = false;
+  const depthBtn = document.getElementById('depthBtn');
+  if (depthBtn) depthBtn.addEventListener('click', () => {
+    if (depthVoted) return;
+    const cntEl = depthBtn.querySelector('.cnt');
+    cntEl.textContent = parseInt(cntEl.textContent) + 1;
+    depthBtn.style.background = 'var(--amber)';
+    depthBtn.querySelector('span:nth-child(2)').textContent = '좋은 물음에 마음 보냈음';
+    depthVoted = true;
+    toast('좋은 물음에 마음을 보냈습니다');
+  });
+
+  /* ============================================================
+     2. 글마다 콘텐츠 사전 — querystring(title|id)으로 바뀜
+     ============================================================ */
+  const ARTICLES = {
+    '기록되지 않은 결정은 정말 내 결정인가': {
+      forum: '阿閣羅 · 아골라', forumSlug: '아골라',
+      tag: '깊어짐',
+      title: '기록되지 않은 결정은 정말 내 결정인가',
+      deck: '한 주 동안 내가 한 "결정"들을 거꾸로 적어 보았다. 70%는 결정이 아니라 흐름이었다.',
+      time: '2026.05.13. 21:08', read: '읽는 시간 5분',
+      author: { name:'박주민', han:'朴', meta:'사회비평가 · <strong>사회 · 지역</strong> · 작성 글 28편 · 좋은 물음 받음 412', handle:'@park-jumin', bio:'골목과 광장 사이에서 보고 들은 것을 적습니다.', avatarGrad:'linear-gradient(135deg,#d8c8a4,#eee4d0)' },
+      body: `
+        <p>한 주 동안 내가 한 "결정"이라 부른 것들을 노트에 거꾸로 적어 보았다. 점심 메뉴, 퇴근길의 노선, 누구에게 답장을 먼저 할지, 무엇을 사고 무엇을 미룰지. 70%는 결정이 아니라 흐름이었다. 어제의 패턴, 옆 사람의 권유, 알고리즘이 내민 첫 화면.</p>
+        <h3>'결정'이라 부르는 순간</h3>
+        <p>그 70%의 흐름을 결정이라 부를 때, 나는 무엇을 잃는가. 가장 큰 손실은 <strong>책임의 자리</strong>를 흐름에 빼앗기는 일이다. 흐름은 책임지지 않는다. "그땐 그럴 수밖에 없었어"라는 말이 가능해진다.</p>
+        <blockquote>기록되지 않은 결정은, 어쩌면 결정이 아니라 사후에 결정이라고 이름 붙여진 흐름이다.</blockquote>
+        <p>그래서 이번 주 한 가지 실험을 한다. 결정의 순간, 한 줄을 적는다. "왜 이걸 골랐는지." 한 줄이라도 적힌 결정은 적어도 내 것이 된다.</p>
+      `,
+      endQ: '"기록되지 않은 결정은 결정인가, 흐름인가?"',
+      endCnt: 48
+    },
+    '"몸이 먼저 안다"는 말의 동양적 뿌리': {
+      forum: '阿閣羅 · 아골라', forumSlug: '아골라',
+      tag: '아골라',
+      title: '"몸이 먼저 안다"는 말의 동양적 뿌리',
+      deck: '신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.',
+      time: '2026.05.12. 18:40', read: '읽는 시간 7분',
+      author: { name:'최영재', han:'崔', meta:'고전 연구가 · <strong>동양 사상</strong> · 작성 글 19편 · 좋은 물음 받음 287', handle:'@choi-youngjae', bio:'노자와 장자를 일상의 언어로 옮겨 적습니다.', avatarGrad:'linear-gradient(135deg,#c8d0c4,#e8e4d9)' },
+      body: `
+        <p>리벳 실험이 다시 화제가 되면서, "몸이 먼저 안다"는 표현이 자주 들린다. 신경과학의 결론은 새롭지 않다. 동양에서는 이미 오래전부터 같은 말을 했다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.</p>
+        <h3>無爲 — 행하지 않음이라는 행위</h3>
+        <p>노자의 無爲는 아무것도 하지 않는 것이 아니다. 억지로 끌고 가지 않는다는 의미에 가깝다. 이미 일어나려 하는 것을 살피고, 그 흐름을 거스르지 않으면서 다만 방향을 줄 뿐. 의식이 행위를 시작하는 게 아니라, 시작된 행위와 함께 흐른다는 통찰이 그 자리에 이미 있었다.</p>
+        <blockquote>몸이 먼저 안다는 말은 신경과학의 발견이 아니라, 오래된 동양적 직관의 재발견이다.</blockquote>
+        <p>그렇다고 동양이 신경과학보다 앞섰다는 자랑은 부질없다. 다만 두 길이 같은 자리를 가리키고 있다는 것이 흥미롭다. 그 만남에서 우리가 길어 올릴 만한 한 줄이 있다면, "흐름을 거스르지 않으면서, 어디서 멈출지를 아는 일"일 것이다.</p>
+      `,
+      endQ: '"동양의 無爲와 서양의 自由意志는 같은 자리를 가리키는가?"',
+      endCnt: 29
+    },
+    '내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?': {
+      forum: '阿昆蘭 · 아곤란', forumSlug: '아곤란',
+      tag: '지금',
+      title: '내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?',
+      deck: '친구들이 좋아하니까 좋아진 건지, 원래 내가 좋아한 건지 헷갈려요.',
+      time: '2026.05.14. 09:12', read: '읽는 시간 3분',
+      author: { name:'민서', han:'민', meta:'중1 · <strong>아곤란 주민</strong> · 작성 글 6편 · 좋은 물음 받음 58', handle:'@minseo-13', bio:'학교에서 본 것과 들은 것을 솔직하게 적어요.', avatarGrad:'linear-gradient(135deg,#e0a467,#c38d56)' },
+      body: `
+        <p>요즘 친구들이 다들 같은 가수를 좋아해요. 저도 그 가수를 좋아해요. 그런데 어느 날 문득 이런 생각이 들었어요. <strong>제가 그 가수를 좋아하게 된 건, 친구들이 좋아해서일까요, 아니면 원래 제 마음에 들어서일까요?</strong></p>
+        <p>곰곰이 생각해 보니까, 처음 그 노래를 들었을 때는 별 느낌이 없었어요. 친구들이 매일 얘기하고 같이 영상 보고 하다 보니까, 어느 순간부터 저도 좋아하게 됐어요. 그러면 이건 제가 좋아하는 게 맞나요?</p>
+        <blockquote>친구가 좋아해서 좋아진 것도 제가 좋아하는 거라고 할 수 있을까요? 아니면 그건 친구의 마음을 빌린 거예요?</blockquote>
+        <p>어른들은 어떠세요? 어른들이 좋아하는 영화나 음식 같은 것도, 원래부터 좋아한 거예요, 주변에서 좋다고 해서 좋아진 거예요?</p>
+      `,
+      endQ: '"빌려온 좋아함도 내 좋아함인가?"',
+      endCnt: 36
+    },
+    'h-19': {
+      forum: '話頭 · 이 주의 화두', forumSlug: '화두',
+      tag: '이 주의 화두',
+      title: '사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 \'나\'는 누구인가?',
+      deck: '이 주의 화두 #19. 광장이 이 한 문장 위에서 한 주 동안 깊어집니다.',
+      time: '2026.05.11. 06:00', read: '한 주의 물음',
+      author: { name:'연소사', han:'蓮', meta:'편집인 · <strong>이 주의 화두 제안</strong> · 누적 19편 · 좋은 물음 받음 1,820', handle:'@yeon-sosa', bio:'연라이프 편집인. 매주 하나의 물음을 광장에 내려놓습니다.', avatarGrad:'linear-gradient(135deg,#c8d0c4,#e8e4d9)' },
+      body: `
+        <p>이번 주 연라이프 광장의 가운데에 이 한 문장을 놓습니다. 벤저민 리벳의 실험을 다시 떠올리게 하는 문장이지만, 우리가 여기서 묻고 싶은 것은 실험 그 자체가 아닙니다.</p>
+        <blockquote>"사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 '나'는 누구인가?"</blockquote>
+        <p>이 문장이 던지는 것은 자유의지가 있느냐 없느냐의 옛 논쟁이 아닙니다. <strong>내가 시작했다고 믿는 모든 일에 이미 다른 무엇이 먼저 움직였다면, 나는 그 무엇과 어떻게 살아야 하는가</strong> — 이 자리입니다.</p>
+        <p>한 주 동안 아골라에서 어른들이 토론하고, 아곤란에서 학생들이 자기 언어로 묻고, 칼럼 네 분이 각자의 시선으로 응답합니다. 광장의 모든 글이 이 한 문장 둘레로 모입니다.</p>
+        <p>이 화두에 대한 글을 한 편 적어 광장에 올려주세요. 결론보다 한 단계 더 좋은 물음을 적은 글에 좋은 물음 표식이 모입니다.</p>
+      `,
+      endQ: '"몸이 먼저라는 사실을 알고도 나는 어떻게 살아야 하는가?"',
+      endCnt: 187
+    }
+  };
+
+  /* ============================================================
+     3. querystring 읽어 콘텐츠 동적 반영
+     ============================================================ */
+  (function renderFromQuery(){
+    const p = new URLSearchParams(location.search);
+    const id = p.get('id');
+    const titleParam = p.get('title');
+    let key = null;
+    if (id && ARTICLES[id]) key = id;
+    else if (titleParam && ARTICLES[titleParam]) key = titleParam;
+    else if (titleParam) {
+      // 부분 일치 fallback
+      const m = Object.keys(ARTICLES).find(k => k.includes(titleParam) || titleParam.includes(k.slice(0,12)));
+      if (m) key = m;
+    }
+    if (!key) return; // 기본 화면 (Libet 글) 그대로 둠
+
+    const a = ARTICLES[key];
+    // 메타
+    const metaEl = document.querySelector('.article-meta');
+    if (metaEl) metaEl.innerHTML = `
+      <span class="where">${a.forum}</span>
+      <span>·</span>
+      <span class="now">${a.tag}</span>
+      <span>·</span>
+      <span>${a.time}</span>
+      <span>·</span>
+      <span>${a.read}</span>
+    `;
+    // 제목 / 부제 / 본문
+    const titleEl = document.querySelector('.article-title');
+    if (titleEl) titleEl.textContent = a.title;
+    const deckEl = document.querySelector('.article-deck');
+    if (deckEl) deckEl.textContent = a.deck;
+    const bodyEl = document.querySelector('.article-body');
+    if (bodyEl) bodyEl.innerHTML = a.body;
+    // byline
+    const photo = document.querySelector('.by-photo');
+    if (photo) { photo.textContent = a.author.han; photo.style.background = a.author.avatarGrad; }
+    const byName = document.querySelector('.by-name');
+    if (byName) byName.textContent = a.author.name;
+    const byMeta = document.querySelector('.by-meta');
+    if (byMeta) byMeta.innerHTML = a.author.meta;
+    // end-question
+    const endQ = document.querySelector('.end-question');
+    if (endQ) endQ.textContent = a.endQ;
+    const endCnt = document.querySelector('#depthBtn .cnt');
+    if (endCnt) endCnt.textContent = a.endCnt;
+    // 우측 "이 글을 쓴 사람" 박스
+    const sideAuthorBox = document.querySelectorAll('.side-block')[document.querySelectorAll('.side-block').length - 2]; // "이 글을 쓴 사람"은 광장 약속 직전 블록
+    if (sideAuthorBox) {
+      const av = sideAuthorBox.querySelector('div[style*="border-radius:50%"]');
+      const nm = sideAuthorBox.querySelector('div[style*="font-weight:700"]');
+      const hd = sideAuthorBox.querySelector('div[style*="@"]');
+      const bi = sideAuthorBox.querySelector('p');
+      const gobtn = sideAuthorBox.querySelector('a');
+      if (av) { av.textContent = a.author.han; av.style.background = a.author.avatarGrad; }
+      if (nm) nm.textContent = a.author.name;
+      if (hd) hd.textContent = a.author.handle;
+      if (bi) bi.textContent = a.author.bio;
+      if (gobtn) gobtn.textContent = a.author.name + '의 마당 가기 →';
+    }
+    // breadcrumb
+    const crumbWrap = document.querySelector('.crumb .wrap');
+    if (crumbWrap) {
+      crumbWrap.innerHTML = `
+        <a href="시안_v4_홈페이지.html">홈</a>
+        <span class="sep">›</span>
+        <a href="시안_v4_홈페이지.html#plaza">광장</a>
+        <span class="sep">›</span>
+        <a href="단계2_광장글_상세페이지.html?forum=${encodeURIComponent(a.forumSlug)}">${a.forumSlug}</a>
+        <span class="sep">›</span>
+        <span style="color:var(--ink)">${a.title.length > 24 ? a.title.slice(0,23)+'…' : a.title}</span>
+      `;
+    }
+    // 페이지 타이틀
+    document.title = a.title + ' · 연라이프';
+    // 본문이 바뀌면 스크롤은 최상단으로
+    window.scrollTo({top:0});
+  })();
+
+  /* ============================================================
+     4. 인터랙티브 버튼들 — placeholder 토스트
+     ============================================================ */
+  // 팔로우
+  const followBtn = document.querySelector('.by-follow');
+  if (followBtn) {
+    let followed = false;
+    followBtn.addEventListener('click', () => {
+      followed = !followed;
+      followBtn.textContent = followed ? '팔로우 중' : '팔로우';
+      followBtn.style.background = followed ? 'var(--ink)' : '';
+      followBtn.style.color = followed ? 'var(--paper)' : '';
+      toast(followed ? '팔로우했습니다' : '팔로우를 취소했습니다');
+    });
+  }
+  // 새 댓글 작성
+  const newBtn = document.querySelector('.new-comment-submit');
+  if (newBtn) newBtn.addEventListener('click', () => {
+    const ta = document.querySelector('.new-comment textarea');
+    if (!ta || !ta.value.trim()) { toast('댓글 내용을 적어주세요'); return; }
+    toast('댓글이 등록되었습니다');
+    ta.value = '';
+  });
+  // 댓글 작은 버튼들 (◐, 답글, 인용)
+  document.querySelectorAll('.cm-foot button').forEach(b => {
+    b.addEventListener('click', () => {
+      const t = b.textContent.trim();
+      if (t.includes('◐')) {
+        const cnt = b.querySelector('.depth-cnt');
+        if (cnt) cnt.textContent = parseInt(cnt.textContent) + 1;
+        b.style.background = 'rgba(196,146,62,.15)';
+        toast('좋은 댓글에 마음을 보냈습니다');
+      } else if (t === '답글') {
+        toast('답글 작성은 곧 열립니다');
+      } else if (t === '인용') {
+        toast('인용 기능은 곧 열립니다');
+      }
+    });
+  });
+  // 응답 마이크 — 주제 칩
+  document.querySelectorAll('.reply-mic .rm-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.reply-mic .rm-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const prompt = chip.dataset.prompt || '';
+      const inp = document.getElementById('replyMicInput');
+      const cur = inp.value.trim();
+      if (!cur || cur === inp.dataset.lastPrompt) {
+        inp.value = prompt;
+        inp.dataset.lastPrompt = prompt;
+        inp.focus();
+        inp.setSelectionRange(prompt.length, prompt.length);
+      } else {
+        toast('적고 있는 내용이 있어서 시작 문구를 안 바꿨습니다');
+      }
+    });
+  });
+  // 응답 마이크 — 초고 저장
+  document.getElementById('replyMicSave')?.addEventListener('click', () => {
+    const inp = document.getElementById('replyMicInput');
+    const val = (inp.value || '').trim();
+    if (!val) { toast('적은 내용이 없습니다'); return; }
+    try {
+      const drafts = JSON.parse(localStorage.getItem('yl-drafts') || '[]');
+      drafts.push({ text: val, at: Date.now(), articleTitle: document.querySelector('.article-title')?.textContent });
+      localStorage.setItem('yl-drafts', JSON.stringify(drafts));
+      toast('초고 저장됨 — 이어 쓸 수 있습니다');
+    } catch(e) { toast('저장 중 문제가 생겼습니다'); }
+  });
+  // 응답 마이크 — 광장에 보내기
+  document.getElementById('replyMicSend')?.addEventListener('click', () => {
+    const inp = document.getElementById('replyMicInput');
+    const val = (inp.value || '').trim();
+    if (!val) { inp.focus(); toast('한 마디를 적어주세요'); return; }
+    toast('광장에 보냈습니다 — 첫 응답으로 한 사람이 더 깊어집니다');
+    setTimeout(() => { inp.value = ''; }, 800);
+  });
+
+  // 댓글 정렬
+  document.querySelectorAll('.comments-sort a').forEach(a => {
+    if (a.textContent.trim() === '·') return;
+    a.style.cursor = 'pointer';
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.comments-sort a').forEach(x => x.classList.remove('act'));
+      a.classList.add('act');
+      toast(a.textContent.trim() + '으로 정렬');
+    });
+  });
+</script>
+
+</body>
+</html>
