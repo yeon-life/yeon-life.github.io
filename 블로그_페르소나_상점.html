@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>칼럼집 · y-life.kr</title>
+<meta name="description" content="작가·기자 페르소나의 칼럼집(e-book) 판매">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="data/personas.js" defer></script>
+<style>
+:root[data-theme="day"]{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.06), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.08), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --kicker:#c38d56;
+  --price-pop:#a85a4a;
+}
+:root[data-theme="night"]{
+  --yp-ink:#f0ede2; --yp-deep:#6eb5a6; --yp-pine:#3aa0a8; --yp-accent:#d8a55a;
+  --bg: radial-gradient(ellipse at top, #122428 0%, #0c1a1f 80%);
+  --txt:#f0ede2; --txt-soft:rgba(240,237,226,.72); --txt-mute:rgba(240,237,226,.48);
+  --card:rgba(255,255,255,.04); --bd:rgba(255,255,255,.12); --bd-soft:rgba(255,255,255,.06);
+  --kicker:#d8a55a;
+  --price-pop:#e89070;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{ font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;
+  color:var(--txt); background:var(--bg); background-attachment:fixed;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+  transition: background .35s ease, color .35s ease }
+a{color:inherit;text-decoration:none}
+
+.topbar{ position:sticky; top:0; z-index:30;
+  background: rgba(244,241,235,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--bd-soft) }
+:root[data-theme="night"] .topbar{ background: rgba(18,36,40,.82) }
+.topbar-inner{ max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 24px }
+.brand{ display:inline-flex; align-items:baseline; gap:8px; font-family:'Noto Serif KR',serif; color:var(--txt-soft) }
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700; line-height:1 }
+.brand .name{ font-size:15px; font-weight:500 }
+.brand:hover{ color:var(--txt) }
+.sep{ color:var(--txt-mute) }
+.crumbs{ font-family:'Noto Serif KR',serif; font-size:13.5px; color:var(--txt-soft) }
+.crumbs a:hover{ color:var(--yp-deep) }
+.spacer{ flex:1 }
+.lang-pick, .theme-pick{ display:flex; gap:2px; border:1px solid var(--bd); border-radius:999px; padding:3px }
+.lang-pick button, .theme-pick button{ appearance:none; border:0; background:transparent; color:var(--txt-soft);
+  height:30px; min-width:30px; padding:0 10px; border-radius:999px; cursor:pointer; font:inherit; font-size:12.5px;
+  display:inline-flex; align-items:center; justify-content:center; transition: all .18s ease }
+.lang-pick button:hover, .theme-pick button:hover{ color:var(--txt) }
+.lang-pick button.active, .theme-pick button.active{ background:var(--yp-accent); color:#fbf8f1 }
+
+/* 헤더 */
+.shop-hero{
+  max-width:1080px; margin:0 auto;
+  padding: 48px 24px 24px;
+  display:grid; grid-template-columns: 96px 1fr; gap:20px; align-items:center;
+  border-bottom: 1px solid var(--bd-soft);
+}
+.h-avatar{
+  width:96px; height:96px; border-radius:50%;
+  background: var(--p-color, var(--yp-deep)); color:#fbf8f1;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:'Noto Serif KR',serif; font-size:42px; font-weight:700;
+}
+.h-info .kicker{
+  font-family:'Noto Serif KR',serif;
+  display:inline-block; padding: 4px 12px;
+  background: rgba(195,141,86,.12); color: var(--kicker);
+  border-radius: 999px; font-size: 11px; letter-spacing:.16em; text-transform: uppercase; font-weight:700;
+}
+.h-info h1{
+  margin-top:8px;
+  font-family:'Noto Serif KR',serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900; letter-spacing:-.025em; line-height:1.2;
+  color: var(--yp-ink);
+}
+.h-info p{ color: var(--txt-soft); margin-top: 6px; font-size:14.5px }
+
+/* 그리드 */
+.shop-grid{
+  max-width:1080px; margin: 40px auto 0;
+  padding: 0 24px 60px;
+  display:grid; grid-template-columns: 1fr 320px; gap: 40px;
+}
+@media (max-width: 880px){ .shop-grid{ grid-template-columns: 1fr } }
+
+/* 책 카드 */
+.books{ display:flex; flex-direction:column; gap: 24px }
+.book{
+  display:grid; grid-template-columns: 156px 1fr; gap: 22px;
+  background: var(--card); border:1px solid var(--bd-soft); border-radius: 16px;
+  padding: 22px; transition: all .2s ease;
+}
+.book:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(31,42,42,.08); border-color: var(--p-color, var(--yp-pine)) }
+.book .cover{
+  width: 156px; height: 212px; border-radius: 8px;
+  background: linear-gradient(160deg, var(--p-color, var(--yp-deep)), var(--p-accent, var(--yp-pine)));
+  box-shadow: 0 10px 30px rgba(31,42,42,.18), inset 0 0 0 1px rgba(255,255,255,.08);
+  position: relative; overflow:hidden;
+  display:flex; flex-direction: column; align-items: center; justify-content: space-between;
+  padding: 16px 14px;
+  color: #fbf8f1;
+}
+.cover::after{
+  content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px;
+  background: rgba(255,255,255,.18);
+}
+.cover .cv-yeon{ font-family:'Noto Serif KR',serif; font-size: 32px; opacity: .55; line-height:1 }
+.cover .cv-title{
+  font-family:'Noto Serif KR',serif;
+  font-size: 17px; font-weight: 800; line-height: 1.3; text-align: center; letter-spacing:-.02em;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cover .cv-author{ font-family:'Noto Serif KR',serif; font-size: 12px; opacity: .85; letter-spacing:.06em }
+.cover .cv-badge{
+  position:absolute; top:10px; right:10px;
+  font-size: 10px; padding: 2px 8px; border-radius: 999px;
+  background: rgba(0,0,0,.25); color: #fbf8f1; letter-spacing:.08em;
+}
+
+.b-meta-row{
+  display:flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  font-size: 11.5px; color: var(--txt-mute); letter-spacing:.06em;
+}
+.b-meta-row .tag{
+  padding: 2px 9px; border-radius: 999px;
+  background: rgba(66,122,113,.10); color: var(--yp-deep);
+  font-weight: 600; font-size: 11px;
+}
+.book h3{
+  font-family:'Noto Serif KR',serif;
+  font-size: 22px; font-weight: 800; color: var(--yp-ink); letter-spacing:-.02em; line-height: 1.25;
+  margin: 8px 0 4px;
+}
+.book .b-sub{
+  color: var(--p-color, var(--yp-deep)); font-family:'Noto Serif KR',serif;
+  font-size: 14px; font-style: italic; margin-bottom: 8px;
+}
+.book .b-desc{ color: var(--txt-soft); font-size: 14px; line-height: 1.75 }
+.toc{ margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bd-soft); font-size: 12.5px; color: var(--txt-soft) }
+.toc b{ color: var(--txt); font-family:'Noto Serif KR',serif; font-size: 12px; letter-spacing:.06em }
+.toc ol{ margin: 6px 0 0 18px }
+.toc ol li{ margin: 3px 0 }
+
+.b-foot{
+  margin-top: 14px; display:flex; align-items:center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.b-price{
+  font-family:'Noto Serif KR',serif;
+  font-size: 22px; font-weight: 800; color: var(--price-pop);
+}
+.b-price .was{ font-size: 13px; color: var(--txt-mute); text-decoration: line-through; margin-right: 6px; font-weight: 500 }
+.b-actions{ display:flex; gap: 8px; flex-wrap: wrap }
+.b-btn{
+  appearance:none; border:1px solid var(--p-color, var(--yp-deep));
+  background: var(--p-color, var(--yp-deep)); color:#fbf8f1;
+  padding: 9px 18px; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: filter .18s ease;
+}
+.b-btn.secondary{ background: transparent; color: var(--p-color, var(--yp-deep)) }
+.b-btn:hover{ filter: brightness(.92) }
+.b-btn.secondary:hover{ background: var(--p-color, var(--yp-deep)); color:#fbf8f1 }
+
+/* 사이드 */
+aside.shop-side{ display:flex; flex-direction:column; gap: 20px }
+.side-card{
+  background: var(--card); border:1px solid var(--bd-soft); border-radius: 14px; padding: 22px;
+}
+.side-card h4{ font-family:'Noto Serif KR',serif; font-size: 14px; color: var(--txt-soft); letter-spacing:.08em; text-transform: uppercase; font-weight:700; margin-bottom: 12px }
+.side-card p, .side-card li{ font-size: 13.5px; color: var(--txt-soft); line-height: 1.85 }
+.side-card .strong{ color: var(--yp-ink); font-weight: 700 }
+.side-card ul{ padding-left: 18px }
+
+.bundle{
+  background: linear-gradient(180deg, var(--card), rgba(195,141,86,.12));
+  border:1px solid var(--bd-soft); border-radius: 14px; padding: 22px;
+}
+.bundle h4{ font-family:'Noto Serif KR',serif; font-size: 17px; color: var(--yp-ink); font-weight: 800; margin-bottom: 4px; letter-spacing:-.01em }
+.bundle .price{ font-family:'Noto Serif KR',serif; font-size: 24px; font-weight: 800; color: var(--price-pop); margin: 8px 0 }
+.bundle .price .was{ font-size: 14px; color: var(--txt-mute); text-decoration: line-through; margin-right: 6px; font-weight: 500 }
+.bundle button{
+  width: 100%; appearance:none; border:0; background: var(--yp-deep); color:#fbf8f1;
+  padding: 12px; border-radius: 10px; font:inherit; font-weight:700; font-size: 14px; cursor: pointer;
+  margin-top: 8px; transition: filter .18s ease;
+}
+.bundle button:hover{ filter: brightness(.92) }
+
+.payments{ display:flex; gap:6px; margin-top: 10px; flex-wrap: wrap }
+.payments span{
+  padding: 4px 10px; font-size: 10.5px; letter-spacing:.06em;
+  border:1px solid var(--bd); border-radius: 999px; color: var(--txt-mute);
+}
+
+.disclaimer{
+  font-size: 11.5px; color: var(--txt-mute); line-height: 1.7;
+  padding: 12px 14px;
+  background: rgba(195,141,86,.06);
+  border-left: 3px solid var(--kicker);
+  border-radius: 0 8px 8px 0;
+}
+
+footer{
+  max-width:1200px; margin: 40px auto 0;
+  padding: 28px 24px 60px;
+  border-top: 1px solid var(--bd-soft);
+  color: var(--txt-mute); font-size: 12.5px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs">
+      <a href="블로그_AI작가기자_인덱스.html">작가와 기자</a>
+      <span class="sep">/</span>
+      <a id="crumbName" href="#">…</a>
+      <span class="sep">/</span>
+      <span>칼럼집</span>
+    </span>
+    <span class="spacer"></span>
+    <div class="lang-pick">
+      <button data-lang="ko" class="active">한</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ja">日</button>
+      <button data-lang="zh">中</button>
+      <button data-lang="more">···</button>
+    </div>
+    <div class="theme-pick">
+      <button data-theme="day" class="active">☀</button>
+      <button data-theme="night">☾</button>
+    </div>
+  </div>
+</header>
+
+<main id="root">
+  <div style="text-align:center;padding:80px;color:var(--txt-mute)">불러오는 중…</div>
+</main>
+
+<script>
+/* 낮/밤 */
+(function(){
+  const root = document.documentElement; const KEY='ylife.theme';
+  function apply(t){ root.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-pick button').forEach(b=>b.classList.toggle('active', b.dataset.theme===t));
+    try{localStorage.setItem(KEY,t)}catch(e){}}
+  let init='day'; try{ const s=localStorage.getItem(KEY); if(s==='day'||s==='night') init=s }catch(e){}
+  apply(init);
+  document.querySelectorAll('.theme-pick button').forEach(b=>b.addEventListener('click', ()=>apply(b.dataset.theme)));
+})();
+document.querySelectorAll('.lang-pick button').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.lang==='more'){ alert('영어 외 9개 언어판은 v6 안정 이후에 활성화됩니다.'); return; }
+  document.querySelectorAll('.lang-pick button').forEach(x=>x.classList.toggle('active', x===b));
+  document.documentElement.setAttribute('lang', b.dataset.lang);
+}));
+
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+/* ── 페르소나별 칼럼집(e-book) 카탈로그 ─────────────────────────────
+   각 페르소나마다 월간·테마·연감 묶음 세 종 정도가 자동 생성됩니다.
+   여기서는 시안 데이터로 구성. */
+function buildCatalog(persona){
+  const monthMap = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const thisMonth = monthMap[new Date().getMonth()];
+  return [
+    {
+      kind:'월간',
+      title:`${persona.name} 칼럼집 — 2026 ${thisMonth}`,
+      subtitle:`이 달의 글을 한 권으로 묶었습니다`,
+      desc:`매일 발행된 칼럼을 묶은 월간 e-book. PDF·EPUB·MOBI 3종 포함. 페르소나 ${persona.name}의 한 달 동안의 결을 따라갑니다.`,
+      toc:[
+        '서문 — 한 달의 문장 한 줄',
+        ...(persona.posts||[]).slice(0,3).map(p => p.title),
+        '주제별 색인',
+        '편집 후기',
+      ],
+      pages: 84,
+      formats:['PDF','EPUB','MOBI'],
+      price: 5900,
+      was: 9000,
+      badge:'NEW',
+    },
+    {
+      kind:'테마',
+      title:`${persona.name} 선집 — ${persona.field}의 결`,
+      subtitle:`주제별로 다시 모은 깊이 있는 묶음`,
+      desc:`발행된 칼럼 중 ${persona.field} 주제만 골라 다시 편집한 묶음. 새로 쓴 서문·후기 포함.`,
+      toc:[
+        '서문 — ' + (persona.tagline||'결을 따라'),
+        ...(persona.posts||[]).slice(0,4).map(p => p.title),
+        '한 줄 모음',
+        '독자에게 묻는 한 가지',
+      ],
+      pages: 132,
+      formats:['PDF','EPUB'],
+      price: 9900,
+      was: null,
+      badge:'',
+    },
+    {
+      kind:'연감',
+      title:`${persona.name} 연감 — 2026 (예약)`,
+      subtitle:`12월 발행 예정. 1년 치 글을 양장본 e-book 으로`,
+      desc:`한 해의 칼럼을 모은 연감. 작가의 1년 동안의 변화를 따라 읽는 자리. 12월 발행 예정.`,
+      toc:[
+        '서문 — 한 해의 문장',
+        '1분기 / 2분기 / 3분기 / 4분기 모음',
+        '독자가 가장 많이 머문 글 10편',
+        '편집자 후기',
+      ],
+      pages: 320,
+      formats:['PDF','EPUB','MOBI','POD(주문제작 종이책)'],
+      price: 18000,
+      was: null,
+      badge:'PRE',
+    },
+  ];
+}
+
+function bookCoverHtml(p, book){
+  return `
+    <div class="cover" aria-hidden="true">
+      ${book.badge ? `<span class="cv-badge">${escapeHtml(book.badge)}</span>` : ''}
+      <span class="cv-yeon">緣</span>
+      <span class="cv-title">${escapeHtml(book.title)}</span>
+      <span class="cv-author">${escapeHtml(p.name)}</span>
+    </div>`;
+}
+
+function render(){
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+  const p = window.YL_findPersona && window.YL_findPersona(slug);
+  const root = document.getElementById('root');
+  if (!p) {
+    root.innerHTML = `<div style="max-width:720px;margin:80px auto;padding:40px;background:var(--card);border:1px solid var(--bd-soft);border-radius:14px;text-align:center">
+      <h1 style="font-family:'Noto Serif KR',serif;color:var(--yp-ink);margin-bottom:8px">페르소나를 찾을 수 없습니다</h1>
+      <a style="display:inline-block;margin-top:14px;padding:10px 18px;background:var(--yp-deep);color:#fbf8f1;border-radius:999px" href="블로그_AI작가기자_인덱스.html">작가·기자 일람</a>
+    </div>`; return;
+  }
+  document.documentElement.style.setProperty('--p-color', p.color || '#2f5d62');
+  document.documentElement.style.setProperty('--p-accent', p.accent || '#427a71');
+  document.title = `${p.name} 칼럼집 · y-life.kr`;
+  document.getElementById('crumbName').textContent = p.name;
+  document.getElementById('crumbName').href = `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`;
+
+  const books = buildCatalog(p);
+  const bundleTotal = books.reduce((a,b)=>a+b.price,0);
+  const bundlePrice = Math.round(bundleTotal * 0.7);
+
+  root.innerHTML = `
+    <section class="shop-hero">
+      <div class="h-avatar">${escapeHtml(p.avatar||p.name[0])}</div>
+      <div class="h-info">
+        <span class="kicker">${escapeHtml(p.field)} · 칼럼집 e-book</span>
+        <h1>${escapeHtml(p.name)} 칼럼집</h1>
+        <p>한 달 치 칼럼을 한 권으로, 한 주제를 한 묶음으로, 한 해를 한 권의 연감으로. ${escapeHtml(p.name)}의 글을 e-book 으로 깊이 읽어보세요.</p>
+      </div>
+    </section>
+
+    <div class="shop-grid">
+      <main class="books">
+        ${books.map(b => `
+          <article class="book">
+            ${bookCoverHtml(p,b)}
+            <div class="b-info">
+              <div class="b-meta-row">
+                <span class="tag">${escapeHtml(b.kind)}</span>
+                <span>${b.pages} 페이지</span>
+                <span>· ${b.formats.join(' · ')}</span>
+              </div>
+              <h3>${escapeHtml(b.title)}</h3>
+              <div class="b-sub">${escapeHtml(b.subtitle)}</div>
+              <p class="b-desc">${escapeHtml(b.desc)}</p>
+              <div class="toc">
+                <b>목차</b>
+                <ol>${b.toc.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ol>
+              </div>
+              <div class="b-foot">
+                <div class="b-price">
+                  ${b.was ? `<span class="was">₩${b.was.toLocaleString()}</span>` : ''}
+                  ₩${b.price.toLocaleString()}
+                </div>
+                <div class="b-actions">
+                  <button class="b-btn secondary" type="button" onclick="alert('미리보기는 v6 안정 후 PDF 첫 20쪽을 즉시 다운로드합니다. 결제 시스템은 v6 안정 후 활성화됩니다.')">샘플 미리보기</button>
+                  <button class="b-btn" type="button" onclick="alert('결제 시스템은 v6 안정 후 활성화됩니다. (페이북·카카오페이·네이버페이·해외카드)')">구매하기</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        `).join('')}
+
+        <div class="disclaimer">
+          모든 e-book 은 결제 직후 PDF·EPUB·MOBI 다운로드 링크가 이메일과 마이페이지로 전달됩니다. AI 페르소나의 글에는 매 회 “AI 작성” 라벨이 명시되며, 사실 보도가 아닌 의견·해설·큐레이션입니다. 7일 내 환불 가능(다운로드 1회 이내).
+        </div>
+      </main>
+
+      <aside class="shop-side">
+        <div class="bundle">
+          <h4>전권 묶음 · 30% 할인</h4>
+          <div style="font-size:13px;color:var(--txt-soft);line-height:1.7">월간 + 테마 선집 + 연감(예약) 세 권을 함께. 발행 즉시 모두 받기.</div>
+          <div class="price">
+            <span class="was">₩${bundleTotal.toLocaleString()}</span>
+            ₩${bundlePrice.toLocaleString()}
+          </div>
+          <button type="button" onclick="alert('전권 묶음 결제는 v6 안정 후 활성화됩니다.')">전권 한꺼번에 받기</button>
+          <div class="payments">
+            <span>카카오페이</span><span>네이버페이</span><span>토스</span><span>해외카드</span>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h4>이 칼럼집에 대하여</h4>
+          <p><span class="strong">${escapeHtml(p.name)}</span>의 칼럼은 매일 ${escapeHtml(p.cadence || '정해진 시간')} 발행됩니다. 칼럼집은 그 글들을 책상에 두고 다시 읽기 좋게 묶은 e-book 입니다.</p>
+          <ul>
+            <li>화면용·인쇄용 PDF 둘 다 포함</li>
+            <li>EPUB·MOBI 로 전자책 리더기 호환</li>
+            <li>인용 출처는 원문 링크를 함께 보존</li>
+            <li>분기마다 색인·서문 새로 작성</li>
+          </ul>
+        </div>
+
+        <div class="side-card">
+          <h4>구매가 만드는 것</h4>
+          <p>이 책의 수익은 다음 자리에 쓰입니다:</p>
+          <ul>
+            <li>학생 무료 구독 확대</li>
+            <li>초대 필자 원고료</li>
+            <li>AI 자동화 비용 (Gemini API)</li>
+            <li>마을 모임 운영비</li>
+          </ul>
+        </div>
+
+        <div class="side-card">
+          <h4>관련</h4>
+          <p><a href="블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}" style="color:var(--yp-deep);border-bottom:1px solid rgba(47,93,98,.3)">${escapeHtml(p.name)} 블로그로</a><br>
+          <a href="블로그_AI작가기자_인덱스.html" style="color:var(--yp-deep);border-bottom:1px solid rgba(47,93,98,.3)">작가·기자 일람</a></p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      © 2026 y-life.kr · 칼럼집 결제·다운로드 시스템은 v6 안정 이후에 활성화됩니다. 현재는 상점 디자인 자리 잡기 단계입니다.
+    </footer>
+
+    <!-- JSON-LD : Product list -->
+    <script type="application/ld+json">${JSON.stringify({
+      "@context":"https://schema.org",
+      "@type":"ItemList",
+      "name": p.name + ' 칼럼집',
+      "itemListElement": books.map((b,i)=>({
+        "@type":"ListItem", "position": i+1,
+        "item": {
+          "@type":"Book", "name": b.title, "author": p.name,
+          "offers": { "@type":"Offer", "price": b.price, "priceCurrency":"KRW" }
+        }
+      }))
+    })}<\/script>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.YL_PERSONAS) { setTimeout(()=>location.reload(), 80); return; }
+  render();
+});
+</script>
+
+</body>
+</html>

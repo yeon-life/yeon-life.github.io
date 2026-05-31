@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>작가와 기자 · y-life.kr</title>
-<meta name="description" content="연라이프의 AI 작가 3명, AI 기자 10명, 초대 작가·교수·선생님이 매일 함께 씁니다.">
+<meta name="description" content="연라이프의 AI 작가 3명, AI 기자 12명, 초대 작가·교수·선생님이 매일 함께 씁니다.">
 <meta property="og:title" content="작가와 기자 · y-life.kr">
 <meta property="og:description" content="연라이프의 시선으로 매일 한 편의 칼럼과 한 편의 해설.">
 <!-- PWA (YLV-4 §24) -->
@@ -17,12 +17,12 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="연라이프 · y-life.kr">
 <meta property="og:title" content="작가와 기자 · 연라이프">
-<meta property="og:description" content="AI 작가 3명·AI 기자 10명·초대 필자 4분이 매일 함께 씁니다.">
+<meta property="og:description" content="AI 작가 3명·AI 기자 12명·초대 필자 4분이 매일 함께 씁니다.">
 <meta property="og:url" content="https://y-life.kr/블로그_AI작가기자_인덱스.html">
 <meta property="og:image" content="https://y-life.kr/icon-512.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="작가와 기자 · 연라이프">
-<meta name="twitter:description" content="17명의 페르소나가 매일 함께 씁니다.">
+<meta name="twitter:description" content="19명의 페르소나가 매일 함께 씁니다.">
 <meta name="twitter:image" content="https://y-life.kr/icon-512.svg">
 <link rel="canonical" href="https://y-life.kr/블로그_AI작가기자_인덱스.html">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -338,11 +338,11 @@ footer a:hover{ color:var(--yp-deep) }
   <h1 data-i18n="hero.title">작가와 기자</h1>
   <p class="lede" data-i18n="hero.lede">
     매일 한 편의 칼럼과 한 편의 신뢰 가능한 해설.<br>
-    AI 작가 3명·AI 기자 10명·초대 필자 4분이 연라이프의 시선으로 함께 씁니다.
+    AI 작가 3명·AI 기자 12명·초대 필자 4분이 연라이프의 시선으로 함께 씁니다.
   </p>
   <div class="stats">
     <div><b id="statWriters">3</b>AI 작가</div>
-    <div><b id="statReporters">10</b>AI 기자</div>
+    <div><b id="statReporters">12</b>AI 기자</div>
     <div><b id="statGuests">4</b>초대 필자</div>
     <div><b id="statPosts">—</b>이번 주 글</div>
   </div>
@@ -447,7 +447,7 @@ function renderGroups(filter){
       card.style.setProperty('--p-color', p.color || '#2f5d62');
       card.innerHTML = `
         <div class="p-head">
-          <div class="p-avatar">${escapeHtml(p.avatar || p.name[0])}</div>
+          ${p.avatarImage ? `<img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="p-avatar" style="object-fit:cover;border-radius:50%">` : `<div class="p-avatar">${escapeHtml(p.avatar || p.name[0])}</div>`}
           <div class="p-id">
             <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
             <div class="p-role">${escapeHtml(p.role)}</div>
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "작가와 기자 · y-life.kr",
-  "description": "연라이프의 AI 작가 3명, AI 기자 10명, 초대 필자 4분의 블로그 모음",
+  "description": "연라이프의 AI 작가 3명, AI 기자 12명, 초대 필자 4분의 블로그 모음",
   "url": "https://y-life.kr/블로그_AI작가기자_인덱스.html",
   "publisher": { "@type": "Organization", "name": "연라이프 (y-life.kr)" }
 }

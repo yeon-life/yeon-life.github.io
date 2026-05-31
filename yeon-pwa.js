@@ -573,7 +573,7 @@
           <div class="mega-col-2-pane" data-pane="sesang">
             <div class="col-2-title">세상 · 世</div>
             <div class="sub-list">
-              <a class="sub-item" href="/오늘의_연라이프_2026-05-18.html"><div class="sub-icon">今</div><div class="sub-text"><div class="sub-name">오늘의 뉴스</div><div class="sub-desc">매일 13편 전체</div></div></a>
+              <a class="sub-item" href="/오늘의_연라이프_2026-05-18.html"><div class="sub-icon">今</div><div class="sub-text"><div class="sub-name">오늘의 뉴스</div><div class="sub-desc">매일 15편 전체</div></div></a>
               <a class="sub-item" href="/오늘의_연라이프_2026-05-18.html"><div class="sub-icon">時</div><div class="sub-text"><div class="sub-name">시사</div><div class="sub-desc">정책 · 경제 · 사회</div></div></a>
               <a class="sub-item" href="/오늘의_연라이프_2026-05-18.html"><div class="sub-icon">界</div><div class="sub-text"><div class="sub-name">세계 흐름</div><div class="sub-desc">옆 나라 · 먼 나라</div></div></a>
               <a class="sub-item" href="/오늘의_연라이프_2026-05-18.html"><div class="sub-icon">来</div><div class="sub-text"><div class="sub-name">미래 뉴스</div><div class="sub-desc">과학·기술·환경</div></div></a>
@@ -638,9 +638,9 @@
           </div>
           <div class="mega-col-3-pane" data-pane="sesang">
             <div class="featured-block">
-              <div class="featured-tag">오늘의 13편</div>
+              <div class="featured-tag">오늘의 15편</div>
               <div class="featured-title">시사와 세계, 미래 뉴스</div>
-              <div class="featured-deck">매일 엄선된 13편의 고품격 분석 뉴스를 연라이프에서 확인하세요.</div>
+              <div class="featured-deck">매일 엄선된 15편의 고품격 분석 뉴스를 연라이프에서 확인하세요.</div>
             </div>
           </div>
           <div class="mega-col-3-pane" data-pane="where">

@@ -324,17 +324,17 @@ footer{ text-align: center; color: var(--txt-mute); font-size: 12px; padding-top
     <h3>14-1. 시간표</h3>
 <pre>03:00 · Cron 트리거 (Cloudflare Workers)
 03:30 · RSS 수집·큐레이션
-04:00 · Gemini 13편 병렬 호출
+04:00 · Gemini 15편 병렬 호출
 05:00 · 본문 + 이미지 생성
 05:30 · 검수 큐 + 아침 알림
 06:00 · 첫 발행
-06:00~09:00 · 13편 순차 발행</pre>
-    <h3>14-2. 페르소나 17명</h3>
+06:00~14:30 · 15편 순차 발행</pre>
+    <h3>14-2. 페르소나 19명</h3>
     <table class="tbl">
       <thead><tr><th>그룹</th><th>인원</th><th>빈도</th><th>모델</th></tr></thead>
       <tbody>
         <tr><td>AI 작가</td><td>3</td><td>매일 1편</td><td>Gemini 2.5 Pro</td></tr>
-        <tr><td>AI 기자</td><td>10</td><td>매일 1편</td><td>Gemini 2.5 Flash</td></tr>
+        <tr><td>AI 기자</td><td>12</td><td>매일 1편</td><td>Gemini 2.5 Flash</td></tr>
         <tr><td>초대 필자</td><td>4</td><td>주 1~2회</td><td>사람 작성</td></tr>
       </tbody>
     </table>
@@ -682,6 +682,7 @@ DB·인증 → Firebase
     <table class="tbl">
       <thead><tr><th>버전</th><th>날짜</th><th>변경 사항</th></tr></thead>
       <tbody>
+        <tr><td><strong>YLV-6.1</strong></td><td>2026-06-01</td><td>AI 기자 12명으로 확대(스포츠 한태수, 예능 소서희 추가) 및 매일 15편 발행 주기 확대 반영.</td></tr>
         <tr><td><strong>YLV-6</strong></td><td>2026-05-27</td><td>YUV6 동기화 승급. YUV6 신표준 5개 흡수: §18 자동 업데이트(Service Worker + idle 리로드), §21 배포·코드 보호(Cloudflare Pages + Workers + Firebase, Thin Client), §22 Obsidian Vault, §23 내보내기 v1.1.10(6형식), §24 PWA. §3-4 <code>y_user_no</code> + ID/PW 변경 이력. §4-3 본인 확인 10일 유예. §5-1 Gemma 4 26B 챗봇 기본. 비밀번호 평문 금지·Thin Client 명문화.</td></tr>
         <tr><td>YLV-3.2 (백업)</td><td>2026-05-27</td><td>YUV-3.2 상속 + 미디어 고유 7개. "학원→연아카데미". <code>_백업/v_20260518_pre_YLV4/</code></td></tr>
       </tbody>

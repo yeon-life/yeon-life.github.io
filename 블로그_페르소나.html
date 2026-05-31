@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블로그 · y-life.kr</title>
+<meta name="description" content="연라이프 작가·기자 페르소나의 블로그">
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.svg">
+<!-- OG / Twitter (페르소나별로 JS 가 동적 갱신) -->
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="연라이프 · y-life.kr">
+<meta property="og:title" id="og-title" content="작가·기자 블로그 · 연라이프">
+<meta property="og:description" id="og-desc" content="연라이프 페르소나 19명의 블로그.">
+<meta property="og:image" content="https://y-life.kr/icon-512.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="tw-title" content="작가·기자 블로그 · 연라이프">
+<meta name="twitter:description" id="tw-desc" content="연라이프 페르소나 19명.">
+<meta name="twitter:image" content="https://y-life.kr/icon-512.svg">
+<link rel="canonical" id="canonical-link" href="https://y-life.kr/블로그_페르소나.html">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="data/personas.js" defer></script>
+<script src="yeon-pwa.js" defer></script>
+<style>
+:root[data-theme="day"]{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.10), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --kicker:#c38d56;
+  --hero-overlay: linear-gradient(180deg, rgba(244,241,235,0) 0%, rgba(244,241,235,.85) 90%);
+}
+:root[data-theme="night"]{
+  --yp-ink:#f0ede2; --yp-deep:#6eb5a6; --yp-pine:#3aa0a8; --yp-accent:#d8a55a;
+  --yp-mist:#122428; --yp-line:rgba(255,255,255,.10);
+  --yp-card:rgba(255,255,255,.04); --yp-peach:rgba(196,146,62,.08);
+  --bg: radial-gradient(ellipse at top, #122428 0%, #0c1a1f 80%);
+  --txt:#f0ede2; --txt-soft:rgba(240,237,226,.72); --txt-mute:rgba(240,237,226,.48);
+  --card:rgba(255,255,255,.04); --bd:rgba(255,255,255,.12); --bd-soft:rgba(255,255,255,.06);
+  --kicker:#d8a55a;
+  --hero-overlay: linear-gradient(180deg, rgba(12,26,31,0) 0%, rgba(12,26,31,.85) 90%);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;
+  color:var(--txt); background:var(--bg); background-attachment:fixed;
+  line-height:1.7; -webkit-font-smoothing:antialiased;
+  transition: background .35s ease, color .35s ease;
+}
+a{color:inherit;text-decoration:none}
+
+/* 상단 바 */
+.topbar{
+  position:sticky; top:0; z-index:30;
+  background: rgba(244,241,235,.85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--bd-soft);
+}
+:root[data-theme="night"] .topbar{ background: rgba(18,36,40,.82) }
+.topbar-inner{ max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 24px }
+.brand{ display:inline-flex; align-items:baseline; gap:8px; font-family:'Noto Serif KR',serif; color:var(--txt-soft) }
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700; line-height:1 }
+.brand .name{ font-size:15px; font-weight:500 }
+.brand:hover{ color:var(--txt) }
+.sep{ color:var(--txt-mute) }
+.crumbs{ font-family:'Noto Serif KR',serif; font-size:13.5px; color:var(--txt-soft) }
+.crumbs a:hover{ color:var(--yp-deep) }
+.spacer{ flex:1 }
+.lang-pick, .theme-pick{ display:flex; gap:2px; border:1px solid var(--bd); border-radius:999px; padding:3px }
+.lang-pick button, .theme-pick button{
+  appearance:none; border:0; background:transparent; color:var(--txt-soft);
+  height:30px; min-width:30px; padding:0 10px;
+  border-radius:999px; cursor:pointer; font:inherit; font-size:12.5px;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition: all .18s ease;
+}
+.lang-pick button:hover, .theme-pick button:hover{ color:var(--txt) }
+.lang-pick button.active, .theme-pick button.active{ background:var(--yp-accent); color:#fbf8f1 }
+.subscribe-btn{
+  appearance:none; border:1px solid var(--p-color, var(--yp-deep));
+  background: transparent; color: var(--p-color, var(--yp-deep));
+  padding: 7px 16px; border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease;
+}
+.subscribe-btn:hover{ background: var(--p-color, var(--yp-deep)); color: #fbf8f1 }
+
+/* 히어로 (페르소나 프로필) */
+.hero{
+  position: relative;
+  border-bottom: 1px solid var(--bd-soft);
+  background:
+    radial-gradient(ellipse at 80% 0%, var(--p-glow, rgba(195,141,86,.18)) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, var(--p-glow2, rgba(66,122,113,.15)) 0%, transparent 55%);
+}
+.hero-inner{
+  max-width:1080px; margin:0 auto;
+  padding: 56px 24px 40px;
+  display: grid; grid-template-columns: 124px 1fr auto; gap: 28px; align-items: center;
+}
+.hero-avatar{
+  width:124px; height:124px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--p-color, var(--yp-deep));
+  color: #fbf8f1;
+  font-family:'Noto Serif KR',serif; font-size: 52px; font-weight: 700;
+  box-shadow: 0 14px 40px rgba(31,42,42,.18);
+  flex-shrink:0;
+}
+.hero-id .kicker{
+  font-family:'Noto Serif KR',serif;
+  display:inline-block; padding: 5px 12px;
+  background: rgba(195,141,86,.12); color: var(--kicker);
+  border-radius: 999px;
+  font-size: 11.5px; letter-spacing:.16em; text-transform: uppercase; font-weight: 700;
+}
+.hero-id h1{
+  font-family:'Noto Serif KR',serif;
+  font-size: clamp(34px, 4.5vw, 48px);
+  font-weight: 900; letter-spacing:-.025em; line-height:1.1;
+  color: var(--yp-ink); margin-top: 12px;
+}
+.hero-id h1 .hanja{ color: var(--txt-mute); font-size: 24px; margin-left: 10px; font-weight: 400 }
+.hero-id .tagline{
+  font-family:'Noto Serif KR',serif; font-style: italic;
+  font-size: 16px; color: var(--txt-soft); line-height: 1.7;
+  margin-top: 8px;
+}
+.hero-meta{
+  display:flex; gap:16px; flex-wrap:wrap;
+  margin-top: 12px;
+  color: var(--txt-mute); font-size: 12.5px;
+}
+.hero-meta .dot{ width:5px; height:5px; border-radius:50%; background: var(--p-color, var(--yp-pine)); display:inline-block; margin-right:6px; vertical-align: middle }
+.hero-actions{ display:flex; flex-direction:column; gap:8px; align-items:flex-end }
+.bio-strip{
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 24px 40px;
+  color: var(--txt-soft); font-size: 15px; line-height: 1.85;
+  font-family:'Noto Serif KR',serif;
+  border-bottom: 1px solid var(--bd-soft);
+}
+
+/* 본문 그리드 */
+.content{
+  max-width: 1080px; margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid; grid-template-columns: 1fr 280px; gap: 48px;
+}
+@media (max-width: 920px){
+  .content{ grid-template-columns: 1fr; gap: 24px }
+  .hero-inner{ grid-template-columns: 1fr; text-align: center }
+  .hero-avatar{ margin: 0 auto }
+  .hero-actions{ align-items: center }
+}
+
+/* 칼럼 목록 */
+.posts h2.section-title{
+  font-family:'Noto Serif KR',serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--yp-ink);
+  padding-bottom: 12px; margin-bottom: 18px;
+  border-bottom: 2px solid var(--yp-deep);
+  display: flex; align-items: baseline; gap: 10px;
+}
+.posts h2.section-title .count{ font-size: 12px; color: var(--txt-mute); font-weight:400 }
+
+.post{
+  display: grid; grid-template-columns: 1fr;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--bd-soft);
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.post:hover{ background: var(--card); padding-left: 14px; padding-right: 14px; border-radius: 8px; border-color: transparent }
+.post .meta{
+  font-size: 11.5px; color: var(--txt-mute);
+  letter-spacing: .06em; margin-bottom: 8px;
+}
+.post .meta .ai-tag{
+  display:inline-block; padding: 2px 8px; border-radius: 999px;
+  background: rgba(195,141,86,.14); color: var(--kicker);
+  font-size: 10.5px; font-weight: 600; margin-right: 8px;
+  letter-spacing: .12em;
+}
+.post h3{
+  font-family:'Noto Serif KR',serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--yp-ink); letter-spacing: -.02em; line-height: 1.35;
+  margin-bottom: 6px;
+}
+.post .kicker-text{
+  color: var(--p-color, var(--yp-deep));
+  font-family:'Noto Serif KR',serif;
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.post .excerpt{ color: var(--txt-soft); font-size: 14.5px; line-height: 1.75 }
+.post:last-child{ border-bottom: 0 }
+
+/* 사이드 */
+aside.sidebar{ display: flex; flex-direction: column; gap: 24px }
+.side-card{
+  background: var(--card);
+  border: 1px solid var(--bd-soft);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+.side-card h4{
+  font-family:'Noto Serif KR',serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--txt-soft); letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.about-list, .focus-list{ font-size: 13.5px; color: var(--txt); line-height: 1.85 }
+.focus-list span{
+  display:inline-block; margin: 3px 4px 3px 0;
+  padding: 3px 10px;
+  background: rgba(66,122,113,.08); color: var(--yp-deep);
+  border-radius: 999px; font-size: 12px;
+}
+:root[data-theme="night"] .focus-list span{ background: rgba(110,181,166,.12); color: var(--yp-deep) }
+
+.sub-box{
+  background: linear-gradient(180deg, var(--card), var(--yp-peach));
+  border: 1px solid var(--bd-soft);
+  border-radius: 14px;
+  padding: 22px;
+}
+.sub-box h4{ font-family:'Noto Serif KR',serif; font-size: 16px; font-weight: 700; color: var(--yp-ink); letter-spacing: -.01em; margin-bottom: 6px }
+.sub-box p{ color: var(--txt-soft); font-size: 13px; line-height: 1.7; margin-bottom: 12px }
+.sub-form{ display:flex; gap:6px }
+.sub-form input{
+  flex: 1; border: 1px solid var(--bd); background: var(--card);
+  border-radius: 8px; padding: 9px 12px; font: inherit; font-size: 13px; color: var(--txt); outline: none;
+}
+.sub-form input:focus{ border-color: var(--yp-deep) }
+.sub-form button{
+  appearance: none; border: 0; background: var(--p-color, var(--yp-deep)); color: #fbf8f1;
+  padding: 0 14px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: filter .18s ease;
+}
+.sub-form button:hover{ filter: brightness(.92) }
+
+.shop-card{
+  background: var(--card); border: 1px solid var(--bd-soft); border-radius: 14px; padding: 22px;
+  position: relative; overflow: hidden;
+}
+.shop-card::after{
+  content: '✦'; position: absolute; top: -6px; right: 14px; font-size: 40px;
+  color: var(--p-color, var(--yp-accent)); opacity: .25; transform: rotate(15deg);
+}
+.shop-card h4{ font-family:'Noto Serif KR',serif; font-size: 16px; font-weight: 700; color: var(--yp-ink); margin-bottom: 6px }
+.shop-card p{ color: var(--txt-soft); font-size: 13px; line-height: 1.7; margin-bottom: 12px }
+.shop-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  padding: 8px 16px; border-radius: 999px;
+  background: var(--p-color, var(--yp-deep)); color: #fbf8f1;
+  font-size: 13px; font-weight: 600;
+  transition: filter .18s ease;
+}
+.shop-btn:hover{ filter: brightness(.92) }
+
+/* AdSense 슬롯 자리 */
+.ad-side{
+  border: 1px dashed var(--bd); border-radius: 12px;
+  text-align: center; color: var(--txt-mute); font-size: 11.5px; letter-spacing: .06em;
+  padding: 26px 18px;
+}
+.ad-side::before{ content: 'AdSense · 300×250 reserved'; opacity: .55 }
+
+/* 광고 in-feed (목록 사이) */
+.ad-infeed{
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px dashed var(--bd); border-radius: 12px;
+  text-align: center; color: var(--txt-mute); font-size: 11.5px; letter-spacing: .06em;
+}
+.ad-infeed::before{ content: 'AdSense · in-feed reserved'; opacity: .55 }
+
+/* 사용자 안내 (잘못된 slug) */
+.notfound{
+  max-width: 720px; margin: 80px auto;
+  padding: 40px;
+  background: var(--card); border:1px solid var(--bd-soft); border-radius: 14px;
+  text-align: center;
+}
+.notfound h1{ font-family:'Noto Serif KR',serif; color: var(--yp-ink); margin-bottom: 12px }
+.notfound a.btn{
+  display:inline-block; margin-top:14px;
+  padding: 10px 18px; background: var(--yp-deep); color: #fbf8f1; border-radius: 999px;
+}
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html" title="홈으로">
+      <span class="yeon">緣</span>
+      <span class="name">y-life.kr</span>
+    </a>
+    <span class="sep">/</span>
+    <span class="crumbs">
+      <a href="블로그_AI작가기자_인덱스.html">작가와 기자</a>
+      <span class="sep">/</span>
+      <span id="crumbName">…</span>
+    </span>
+    <span class="spacer"></span>
+    <button class="subscribe-btn" id="subBtnTop" type="button">＋ 구독</button>
+    <div class="lang-pick" role="group" aria-label="언어">
+      <button data-lang="ko" class="active">한</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ja">日</button>
+      <button data-lang="zh">中</button>
+      <button data-lang="more" title="더보기">···</button>
+    </div>
+    <div class="theme-pick" role="group" aria-label="낮/밤">
+      <button data-theme="day" class="active">☀</button>
+      <button data-theme="night">☾</button>
+    </div>
+  </div>
+</header>
+
+<!-- 본문은 JS 가 렌더 -->
+<main id="root">
+  <div style="text-align:center;padding:80px;color:var(--txt-mute)">불러오는 중…</div>
+</main>
+
+<script>
+/* ── 낮/밤 ── */
+(function(){
+  const root = document.documentElement;
+  const KEY = 'ylife.theme';
+  function apply(t){
+    root.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-pick button').forEach(b=>b.classList.toggle('active', b.dataset.theme===t));
+    try{ localStorage.setItem(KEY, t) }catch(e){}
+  }
+  let init = 'day';
+  try{ const s = localStorage.getItem(KEY); if(s==='day'||s==='night') init = s; }catch(e){}
+  apply(init);
+  document.querySelectorAll('.theme-pick button').forEach(b=>b.addEventListener('click', ()=>apply(b.dataset.theme)));
+})();
+(function(){
+  document.querySelectorAll('.lang-pick button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(b.dataset.lang==='more'){ alert('영어 외 9개 언어판은 v6 안정 이후에 활성화됩니다.'); return; }
+      document.querySelectorAll('.lang-pick button').forEach(x=>x.classList.toggle('active', x===b));
+      document.documentElement.setAttribute('lang', b.dataset.lang);
+    });
+  });
+})();
+
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function render(){
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+  const p = window.YL_findPersona && window.YL_findPersona(slug);
+  const root = document.getElementById('root');
+
+  if (!p) {
+    document.getElementById('crumbName').textContent = '페르소나를 찾을 수 없습니다';
+    root.innerHTML = `
+      <div class="notfound">
+        <h1>페르소나를 찾을 수 없습니다</h1>
+        <p style="color:var(--txt-soft)">URL의 slug 가 올바른지 확인해 주세요.</p>
+        <a class="btn" href="블로그_AI작가기자_인덱스.html">작가·기자 일람으로</a>
+      </div>`;
+    return;
+  }
+
+  // 테마 색 페르소나에 맞춰
+  document.documentElement.style.setProperty('--p-color', p.color || '#2f5d62');
+  document.documentElement.style.setProperty('--p-glow', hexToRgba(p.color, .18));
+  document.documentElement.style.setProperty('--p-glow2', hexToRgba(p.accent, .15));
+
+  document.title = `${p.name} · 블로그 · y-life.kr`;
+  document.getElementById('crumbName').textContent = p.name;
+  // OG 태그 동적 갱신
+  const ogTitle = `${p.name} (${p.role}) · 연라이프`;
+  const ogDesc = p.tagline || `${p.field} 페르소나의 블로그`;
+  const ogUrl = `https://y-life.kr/블로그_페르소나.html?slug=${p.slug}`;
+  document.getElementById('og-title')?.setAttribute('content', ogTitle);
+  document.getElementById('og-desc')?.setAttribute('content', ogDesc);
+  document.getElementById('tw-title')?.setAttribute('content', ogTitle);
+  document.getElementById('tw-desc')?.setAttribute('content', ogDesc);
+  document.getElementById('canonical-link')?.setAttribute('href', ogUrl);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content', ogUrl);
+
+  const groupLabel = ({'ai-writer':'AI 작가','ai-reporter':'AI 기자','guest':'초대 필자'})[p.kind] || '필자';
+  const isAi = p.kind === 'ai-writer' || p.kind === 'ai-reporter';
+
+  root.innerHTML = `
+    <section class="hero">
+      <div class="hero-inner">
+        ${p.avatarImage ? `
+          <img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="hero-avatar" style="object-fit:cover;border-radius:50%;display:inline-block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+          <div class="hero-avatar" style="display:none;">${escapeHtml(p.avatar || p.name[0])}</div>
+        ` : `
+          <div class="hero-avatar">${escapeHtml(p.avatar || p.name[0])}</div>
+        `}
+        <div class="hero-id">
+          <span class="kicker">${escapeHtml(groupLabel)} · ${escapeHtml(p.field)}</span>
+          <h1>${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span>${p.age ? `<span style="font-size:18px;font-weight:normal;color:var(--txt-soft);margin-left:10px">(${escapeHtml(p.age)}세)</span>` : ''}</h1>
+          <div class="tagline">${escapeHtml(p.tagline)}</div>
+          <div class="hero-meta">
+            <span><span class="dot"></span>${escapeHtml(p.cadence || '주 1회')}</span>
+            <span><span class="dot"></span>총 ${(p.posts||[]).length}편 게재</span>
+            ${(p.sources && p.sources.length) ? `<span><span class="dot"></span>출처 ${p.sources.length}곳 인용</span>` : ''}
+            ${isAi ? `<span><span class="dot"></span>AI 페르소나 · 의견·해설 (사실 보도 아님)</span>` : ''}
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button class="subscribe-btn" type="button" onclick="alert('구독은 v6 안정 후 활성화됩니다. 메일 등록 자리만 잡혀 있습니다.')">＋ 구독하기</button>
+        </div>
+      </div>
+      <div class="bio-strip">${escapeHtml(p.bio)}</div>
+    </section>
+
+    <div class="content">
+      <main class="posts">
+        <h2 class="section-title">최근 칼럼 <span class="count">${(p.posts||[]).length}편</span></h2>
+
+        ${(p.posts||[]).map((post, idx) => `
+          ${idx === 2 ? `<div class="ad-infeed" aria-label="광고 자리"></div>` : ''}
+          <a class="post" href="블로그_페르소나_칼럼.html?slug=${encodeURIComponent(p.slug)}&post=${encodeURIComponent(post.id)}">
+            <div class="meta">
+              ${isAi ? `<span class="ai-tag">AI 작성</span>` : ''}
+              <span>${escapeHtml(post.date)}</span>
+              ${post.date && post.date !== 'TBD' ? '<span> · 약 2,500자</span>' : ''}
+            </div>
+            <div class="kicker-text">${escapeHtml(post.kicker || '')}</div>
+            <h3>${escapeHtml(post.title)}</h3>
+            <p class="excerpt">${escapeHtml(post.excerpt || '')}</p>
+          </a>
+        `).join('')}
+
+        ${(p.posts||[]).length === 0 ? `
+          <div style="padding:40px;text-align:center;color:var(--txt-mute)">아직 게재된 글이 없습니다.</div>` : ''}
+      </main>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>About</h4>
+          <div class="about-list">
+            <strong style="color:var(--yp-ink)">${escapeHtml(p.name)}</strong>${p.hanja ? ` · ${escapeHtml(p.hanja)}` : ''}<br>
+            <span style="color:var(--txt-soft)">${escapeHtml(groupLabel)} · ${escapeHtml(p.field)}</span><br>
+            <small style="color:var(--txt-mute)">${escapeHtml(p.voice || '')}</small>
+          </div>
+        </div>
+
+        ${(p.focus && p.focus.length) ? `
+        <div class="side-card">
+          <h4>관심 주제</h4>
+          <div class="focus-list">${p.focus.map(f=>`<span>${escapeHtml(f)}</span>`).join('')}</div>
+        </div>` : ''}
+
+        ${(p.sources && p.sources.length) ? `
+        <div class="side-card">
+          <h4>주요 인용 매체</h4>
+          <div style="font-size:13px;color:var(--txt-soft);line-height:1.85">${p.sources.map(escapeHtml).join(' · ')}</div>
+          <small style="color:var(--txt-mute);display:block;margin-top:10px;line-height:1.6">사실 보도가 아닌 큐레이션·해설입니다. 모든 인용에는 원문 링크가 표시됩니다.</small>
+        </div>` : ''}
+
+        <div class="sub-box">
+          <h4>새 글 알림 받기</h4>
+          <p>${escapeHtml(p.name)}의 새 칼럼이 발행되면 이메일로 알림을 보내 드립니다.</p>
+          <form class="sub-form" onsubmit="event.preventDefault(); alert('구독 시스템은 v6 안정 후 활성화됩니다.')">
+            <input type="email" placeholder="이메일 주소" required>
+            <button type="submit">구독</button>
+          </form>
+        </div>
+
+        <a class="shop-card" href="블로그_페르소나_상점.html?slug=${encodeURIComponent(p.slug)}">
+          <h4>칼럼집 만나기</h4>
+          <p>한 달 치 칼럼을 한 권의 책으로 모은 e-book. ${escapeHtml(p.name)}의 묶음집을 만나보세요.</p>
+          <span class="shop-btn">상점 가기 →</span>
+        </a>
+
+        <div class="side-card" style="padding:14px">
+          <div class="ad-side" aria-label="광고 자리"></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">${JSON.stringify({
+      "@context":"https://schema.org",
+      "@type":"Blog",
+      "name": p.name + " · 블로그",
+      "description": p.tagline,
+      "publisher": { "@type":"Organization", "name":"연라이프 (y-life.kr)" },
+      "author": { "@type": isAi ? "Person" : "Person", "name": p.name, "description": p.role + ' · ' + p.field }
+    })}<\/script>
+  `;
+
+  // 상단 구독 버튼
+  document.getElementById('subBtnTop').onclick = () => {
+    alert(p.name + ' 구독은 v6 안정 후 활성화됩니다.');
+  };
+}
+
+function hexToRgba(hex, a){
+  if(!hex) return `rgba(195,141,86,${a})`;
+  const m = hex.replace('#','');
+  const n = m.length === 3 ? m.split('').map(c=>c+c).join('') : m;
+  const r = parseInt(n.slice(0,2),16), g = parseInt(n.slice(2,4),16), b = parseInt(n.slice(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  if (!window.YL_PERSONAS) { setTimeout(()=>location.reload(), 80); return; }
+  render();
+});
+</script>
+
+</body>
+</html>
