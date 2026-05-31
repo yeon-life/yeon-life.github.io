@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 창립 철학 및 요구사항 색인집 · y-life.kr</title>
+<meta name="description" content="연라이프(y-life.kr) 창립 철학, 미디어 사명, AI 필진 규격 및 요구사항 색인집">
+<meta name="theme-color" content="#2f5d62">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root[data-theme="day"] {
+  --yp-ink: #1f2a2a;
+  --yp-deep: #2f5d62;
+  --yp-pine: #427a71;
+  --yp-accent: #c38d56;
+  --yp-mist: #f4f1eb;
+  --yp-line: #d7d1c5;
+  --yp-card: #fffdf8;
+  --yp-peach: #f3e7dd;
+  --bg: linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt: #1f2a2a;
+  --txt-soft: #536060;
+  --txt-mute: #7b8686;
+  --card: #fffdf8;
+  --bd: #d7d1c5;
+  --bd-soft: rgba(31,42,42,0.08);
+  --sidebar-bg: #fffdf8;
+}
+:root[data-theme="night"] {
+  --yp-ink: #f0ede2;
+  --yp-deep: #6eb5a6;
+  --yp-pine: #3aa0a8;
+  --yp-accent: #d8a55a;
+  --bg: radial-gradient(ellipse at top, #122428 0%, #0c1a1f 80%);
+  --txt: #f0ede2;
+  --txt-soft: rgba(240,237,226,0.72);
+  --txt-mute: rgba(240,237,226,0.48);
+  --card: rgba(255,255,255,0.04);
+  --bd: rgba(255,255,255,0.12);
+  --bd-soft: rgba(255,255,255,0.06);
+  --sidebar-bg: rgba(18, 32, 35, 0.95);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  color: var(--txt);
+  background: var(--bg);
+  background-attachment: fixed;
+  line-height: 1.8;
+  transition: background 0.3s, color 0.3s;
+}
+
+a {
+  color: var(--yp-deep);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+a:hover {
+  color: var(--yp-accent);
+}
+
+/* 상단바 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(244, 241, 235, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd-soft);
+  transition: background 0.3s;
+}
+:root[data-theme="night"] .topbar {
+  background: rgba(18, 36, 40, 0.85);
+}
+.topbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 24px;
+}
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--yp-accent);
+  border: 0;
+}
+.brand .yeon {
+  font-size: 24px;
+}
+.crumbs {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px;
+  color: var(--txt-soft);
+  font-weight: 500;
+}
+.spacer {
+  flex: 1;
+}
+.theme-pick {
+  display: flex;
+  gap: 2px;
+  border: 1px solid var(--bd);
+  border-radius: 999px;
+  padding: 3px;
+}
+.theme-pick button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--txt-soft);
+  height: 28px;
+  width: 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.theme-pick button.active {
+  background: var(--yp-accent);
+  color: #fffdf8;
+}
+
+/* 레이아웃 구조 */
+.container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 60px);
+}
+
+/* 사이드바 메뉴판 */
+.sidebar {
+  width: 320px;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  border-right: 1px solid var(--bd-soft);
+  padding: 32px 24px;
+  background: var(--sidebar-bg);
+  transition: background 0.3s;
+}
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--bd);
+  border-radius: 2px;
+}
+
+.menu-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--yp-accent);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.menu-list {
+  list-style: none;
+}
+.menu-item {
+  margin-bottom: 12px;
+}
+.menu-link {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--txt-soft);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+}
+.menu-link:hover, .menu-link.active {
+  background: var(--yp-mist);
+  color: var(--yp-deep);
+  border-left-color: var(--yp-deep);
+}
+
+.submenu-list {
+  list-style: none;
+  padding-left: 18px;
+  margin-top: 6px;
+}
+.submenu-item {
+  margin-bottom: 4px;
+}
+.submenu-link {
+  display: block;
+  font-size: 13px;
+  color: var(--txt-mute);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.submenu-link:hover, .submenu-link.active {
+  color: var(--yp-accent);
+  background: rgba(195,141,86,0.06);
+}
+
+/* 본문 영역 */
+.content {
+  flex: 1;
+  padding: 48px 48px 100px;
+  max-width: 960px;
+}
+
+/* 문서 디자인 */
+header.doc-head {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--bd-soft);
+}
+.kicker {
+  font-family: 'Noto Serif KR', serif;
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(195, 141, 86, 0.12);
+  color: var(--yp-accent);
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+h1.doc-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--yp-ink);
+  line-height: 1.25;
+}
+.doc-meta {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--txt-mute);
+  letter-spacing: 0.04em;
+}
+
+section.doc-section {
+  scroll-margin-top: 80px;
+  background: var(--card);
+  border: 1px solid var(--bd-soft);
+  border-radius: 16px;
+  padding: 32px 40px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 42, 42, 0.02);
+}
+:root[data-theme="night"] section.doc-section {
+  box-shadow: none;
+}
+
+section.doc-section h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--yp-ink);
+  letter-spacing: -0.015em;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--yp-deep);
+}
+
+section.doc-section h3 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--yp-deep);
+  margin-top: 24px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+section.doc-section h3::before {
+  content: "◆";
+  font-size: 10px;
+  color: var(--yp-accent);
+}
+
+section.doc-section p {
+  margin: 10px 0;
+  font-size: 14.5px;
+  color: var(--txt-soft);
+  line-height: 1.85;
+}
+
+section.doc-section ul, section.doc-section ol {
+  padding-left: 24px;
+  margin: 12px 0;
+}
+section.doc-section ul li, section.doc-section ol li {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--txt-soft);
+  line-height: 1.8;
+}
+
+/* 강조 상자 */
+blockquote.quote {
+  padding: 16px 24px;
+  margin: 20px 0;
+  background: rgba(47, 93, 98, 0.04);
+  border-left: 4px solid var(--yp-deep);
+  border-radius: 0 10px 10px 0;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px;
+  color: var(--yp-ink);
+  font-style: italic;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.tag-badge {
+  font-size: 11px;
+  background: var(--yp-mist);
+  color: var(--yp-pine);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* 표 스타일 */
+table.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13.5px;
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  overflow: hidden;
+}
+table.tbl th {
+  background: var(--yp-peach);
+  color: var(--yp-ink);
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--bd);
+}
+table.tbl td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bd-soft);
+  color: var(--txt-soft);
+}
+table.tbl tr:last-child td {
+  border-bottom: 0;
+}
+
+/* 모바일 모드 버튼 */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--yp-deep);
+  color: #fffdf8;
+  border: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+  font-size: 20px;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed;
+    left: -320px;
+    top: 60px;
+    z-index: 95;
+    transition: left 0.3s;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  .content {
+    padding: 32px 20px 80px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="crumbs">창립 철학 색인집</span>
+    <span class="spacer"></span>
+    <div class="theme-pick" role="group" aria-label="테마 전환">
+      <button data-theme="day" class="active">☀</button>
+      <button data-theme="night">☾</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- 사이드바 메뉴판 (TOC) -->
+  <aside class="sidebar" id="ylSidebar">
+    <div class="menu-title">큰 갈래 및 색인</div>
+    <ul class="menu-list">
+      <li class="menu-item">
+        <a href="#intro" class="menu-link active">색인집 개요</a>
+      </li>
+      <li class="menu-item">
+        <a href="#s1" class="menu-link">1. 미디어 사명·시선</a>
+        <ul class="submenu-list">
+          <li><a href="#s1-1" class="submenu-link">날카로운 시선</a></li>
+          <li><a href="#s1-2" class="submenu-link">사회 공익적 역할</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#s2" class="menu-link">2. 필진의 품격·나이</a>
+        <ul class="submenu-list">
+          <li><a href="#s2-1" class="submenu-link">연령 매칭 원칙</a></li>
+          <li><a href="#s2-2" class="submenu-link">위품 있는 얼굴</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#s3" class="menu-link">3. 지속성·광고 정책</a>
+        <ul class="submenu-list">
+          <li><a href="#s3-1" class="submenu-link">지속성 & 자동화</a></li>
+          <li><a href="#s3-2" class="submenu-link">독자 존중형 최소 광고</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#s4" class="menu-link">4. 비평가 그룹(검수)</a>
+        <ul class="submenu-list">
+          <li><a href="#s4-1" class="submenu-link">비평가 3인의 역할</a></li>
+          <li><a href="#s4-2" class="submenu-link">2단계 검수 루프</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#s5" class="menu-link">5. 블로그·카테고리</a>
+        <ul class="submenu-list">
+          <li><a href="#s5-1" class="submenu-link">고유 블로그</a></li>
+          <li><a href="#s5-2" class="submenu-link">신설 사전 허락제</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#s6" class="menu-link">6. 디자인·시각 정돈</a>
+        <ul class="submenu-list">
+          <li><a href="#s6-1" class="submenu-link">타이틀 크기 조정</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#history" class="menu-link">유지 관리 & 이력</a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- 본문 컨텐츠 -->
+  <main class="content">
+    <header class="doc-head" id="intro">
+      <span class="kicker">yeonlife philosophy & requirements index</span>
+      <h1 class="doc-title">연라이프 창립 철학 및 요구사항 색인집</h1>
+      <div class="doc-meta">시행일 2026-06-01 · 최종 갱신 2026-06-01 · 버전 v1.0 · 승인: 연소사</div>
+    </header>
+
+    <section class="doc-section">
+      <h2>색인집 개요</h2>
+      <p>본 문서는 연라이프의 설립자이자 발행인인 **연소사(이진우 본원장님)**께서 연라이프 미디어 사이트 제작 및 운영 과정에서 지시하신 **핵심 철학, 가치관, 미디어 방향성, AI 필진 규격 및 운영 요구사항**을 체계적으로 수집하고 분류하여 색인화(Index)한 것입니다.</p>
+      <p>운영자(연소사)가 언제든지 필요한 철학을 찾아보기 쉽게 하고, AI 조력자 또한 집필 및 시스템 변경 시 이 원칙을 엄격하게 상시 준수하기 위한 **연라이프 최상위 백과사전**입니다.</p>
+    </section>
+
+    <!-- 제1조 -->
+    <section class="doc-section" id="s1">
+      <h2>1. 미디어 사명 및 날카로운 시선 (Mission & Perspective)</h2>
+      <blockquote class="quote">
+        "역시 연라이프의 시선은 날카로워"라는 평을 얻을 수 있도록 사회 공익적으로 중요한 역할을 해야 한다.
+      </blockquote>
+
+      <h3 id="s1-1">1-1. 날카로운 시선과 차별적 해석 (철학-01)</h3>
+      <p><strong>요구사항:</strong> 사람들이 관심 가지는 핫한 주제(유튜브 영상 트렌드, 최근 시사 등)를 다루되, 대중의 시선을 무비판적으로 모방하지 않고 <strong>우리만의 독창적이고 날카로운 시선과 해석</strong>을 통해 독자가 사안을 다각도로 볼 수 있도록 돕습니다.</p>
+      <p><strong>적용:</strong> AI 필진이 글을 쓸 때, 단순히 사실을 나열하거나 AI 특유의 훈계조 단어를 쓰지 않고 핵심 논점을 파헤치는 집필 방식을 적용합니다.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#날카로운시선</span>
+        <span class="tag-badge">#차별적해석</span>
+        <span class="tag-badge">#유튜브영상분석</span>
+      </div>
+
+      <h3 id="s1-2">1-2. 사회 공익적 역할 완비 (철학-02)</h3>
+      <p><strong>요구사항:</strong> 시사 언론 일간지의 역할을 충실히 하기 위해 각 분야에서 부족함이 없어야 하며, 단순 가십성 주제를 지양하고 <strong>사회 공익적 책임</strong>을 다하는 격조 높은 미디어가 되어야 합니다.</p>
+      <p><strong>적용:</strong> 스포츠·예능 분야를 공식 추가하여 일간지 형식을 완비하고, 모든 글은 공익적 성찰을 담도록 통제합니다.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#사회공익</span>
+        <span class="tag-badge">#시사일간지역할</span>
+        <span class="tag-badge">#공익적미디어</span>
+      </div>
+    </section>
+
+    <!-- 제2조 -->
+    <section class="doc-section" id="s2">
+      <h2>2. 필진의 품격 및 나이·의상 원칙 (Persona Design)</h2>
+      <blockquote class="quote">
+        "우리 AI 작가들에게 오랜 시간 세상사에 대한 지혜가 느껴질 수 있도록 너무 어린 기자나 작가는 고용하지 않는다."
+      </blockquote>
+
+      <h3 id="s2-1">2-1. 연령 및 역할 매칭 원칙 (필진-01)</h3>
+      <p><strong>요구사항:</strong> 글에서 오랜 지혜와 연륜이 묻어날 수 있도록 작가와 기자단에게 역할에 맞는 연령대를 부여합니다.</p>
+      <ul>
+        <li><strong>AI 작가 3인:</strong> 깊은 성찰과 인문학적 고찰이 필요한 만큼 <strong>55세~62세</strong>의 중후한 연령 부여.</li>
+        <li><strong>AI 기자단 12인:</strong> 전문성과 현장 활동성에 따라 나이를 다르게 배정 (예: 정치·의료 등은 40대 중후반, 스포츠·예능 등 현장감이 중요한 영역은 30대 초반으로 배정).</li>
+      </ul>
+      <p><strong>적용:</strong> `data/personas.js` 파일 내에 각 필진의 나이(`age`) 속성을 공식 지정.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#지혜로운연령</span>
+        <span class="tag-badge">#역할별나이부여</span>
+        <span class="tag-badge">#작가단연령</span>
+        <span class="tag-badge">#기자단연령</span>
+      </div>
+
+      <h3 id="s2-2">2-2. 위품 있는 얼굴 (필진-02)</h3>
+      <p><strong>요구사항:</strong> 독자에게 신뢰감을 주고 친근하게 다가갈 수 있도록 AI 작가와 기자단에게 **위품 있는 정면 얼굴(프로필 이미지)**을 선물합니다. 배경은 지저분하지 않고 어떤 카드에나 잘 스며들 수 있게 **배경이 투명하게 비치는 진짜 PNG**로 제작합니다.</p>
+      <p><strong>적용:</strong>
+        독자와 대화하듯 정면을 응시하며 온화하게 웃는 프로필 이미지 재생성. 파이썬 외곽선 추출(Flood-fill) 알고리즘을 사용해 배경을 완벽한 투명(Alpha Channel 0)으로 누끼를 따서 `ryuon.png`, `baekseowon.png`, `minhajun.png`로 반영.
+      </p>
+      <div class="tag-list">
+        <span class="tag-badge">#정면응시</span>
+        <span class="tag-badge">#위품있는얼굴</span>
+        <span class="tag-badge">#진짜투명배경</span>
+        <span class="tag-badge">#PNG프로필</span>
+      </div>
+    </section>
+
+    <!-- 제3조 -->
+    <section class="doc-section" id="s3">
+      <h2>3. 지속 가능한 운영 및 광고 정책 (Sustainability & Ad Policy)</h2>
+      <blockquote class="quote">
+        "독자들이 기분 나쁘지 않을 정도의 아주 작은 공간만 광고판으로 내준다."
+      </blockquote>
+
+      <h3 id="s3-1">3-1. 지속 가능한 회사 운영비 조달 (운영-01)</h3>
+      <p><strong>요구사항:</strong> 꾸준히 발행이 되도록 자동화 시스템을 갖추고, 구글 애드센스 광고를 통해 회사의 기본적인 운영비(API 비용, 호스팅 서버 비용)를 조달할 수 있는 자생력을 갖춥니다.</p>
+      <p><strong>적용:</strong> 새벽 3시 Cron 가동 및 Gemini API 15편 칼럼 병렬 빌드 시스템 안착.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#자생력</span>
+        <span class="tag-badge">#상시자동발행</span>
+        <span class="tag-badge">#회사운영비</span>
+      </div>
+
+      <h3 id="s3-2">3-2. 독자 존중형 최소 광고 (운영-02)</h3>
+      <p><strong>요구사항:</strong> 독자의 가독성을 방해하거나 불쾌감을 느끼지 않도록 아주 최소한의 영역에만 광고를 내어줍니다.</p>
+      <ul>
+        <li><strong>광고 0 (무광고):</strong> 사이트 메인 홈(광장), 실시간 뉴스, 학생 글(아곤란), 토론 광장(아골라) 등 공익적 영역은 광고 완전 배제.</li>
+        <li><strong>허용 영역 (블로그 전용):</strong> 개별 필진 블로그에 한해 **우측 사이드바 1개(300×250)** 및 **글 목록 인피드 1개**로 제한. 전면 광고나 플로팅 팝업 광고는 절대 금지.</li>
+      </ul>
+      <p><strong>적용:</strong> 블로그 사이드바 하단 및 리스트 인피드로 애드센스 판형 제약 구현.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#최소광고</span>
+        <span class="tag-badge">#무광고영역</span>
+        <span class="tag-badge">#애드센스수칙</span>
+      </div>
+    </section>
+
+    <!-- 제4조 -->
+    <section class="doc-section" id="s4">
+      <h2>4. 비평가 그룹(최종 검수팀) 도입 (Editorial Review Chain)</h2>
+      <blockquote class="quote">
+        "비평가 그룹을 만들어서 각종 뉴스와 칼럼, 기타 연라이프에 올라갈 글들을 상세하게 분석하여 최종 검수팀을 만든다."
+      </blockquote>
+
+      <h3 id="s4-1">4-1. 비평가 3인의 역할 분담 (검수-01)</h3>
+      <p><strong>요구사항:</strong> 글이 독자에게 공개되기 전, 글의 격조와 품격을 유지할 수 있도록 정밀 분석 및 자율 수정을 진행할 비평가 그룹을 조직합니다.</p>
+      <ul>
+        <li><strong>인문·문학 비평가:</strong> AI 특유의 훈계조(adult-like) 문장과 상투어 필터링.</li>
+        <li><strong>사실·논리 비평가:</strong> 1차 출처 인용 여부 검수 및 전문 영역(의료·법률 등) 단정 표현 제한.</li>
+        <li><strong>중립·균형 비평가:</strong> 비교 프레임("X가 아니라 Y") 배제 및 다층 인용 확인.</li>
+      </ul>
+      <div class="tag-list">
+        <span class="tag-badge">#최종검수팀</span>
+        <span class="tag-badge">#비평가그룹</span>
+        <span class="tag-badge">#격조높은글</span>
+      </div>
+
+      <h3 id="s4-2">4-2. 2단계 자율 검수 프로세스</h3>
+      <p>비평가 그룹의 1차 자율 검증을 거친 후, 기준 점수를 넘는 안전하고 격조 높은 원고만 최종 편집인(연소사)의 승인 대기함(검수 큐)에 올라가도록 처리하여 품위를 유지합니다.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#자율교정루프</span>
+        <span class="tag-badge">#검수체인</span>
+      </div>
+    </section>
+
+    <!-- 제5조 -->
+    <section class="doc-section" id="s5">
+      <h2>5. 고유 블로그 및 카테고리 관리 (Layout & Categorization)</h2>
+      <blockquote class="quote">
+        "구독자들이 좋아하는 기자들의 개인 블로그를 방문하여 그 기자의 글을 모두 감상할 수 있도록 만들고 블로그도 정말로 전문적으로 만들어야 한다."
+      </blockquote>
+
+      <h3 id="s5-1">5-1. 필진 고유 블로그 및 전문 구성 (구조-01)</h3>
+      <p><strong>요구사항:</strong> 독자가 좋아하는 기자의 개인 서재에 방문하여 그 기자가 쓴 글을 일목요연하게 모두 모아볼 수 있도록 구성하고, 전문적인 지식인 매거진 형태를 지킵니다.</p>
+      <p><strong>적용:</strong> `블로그_페르소나.html?slug={id}` 개별 라우팅 시스템 구현. 해당 필자의 이메일 뉴스레터 구독 폼 및 그동안 쓴 글을 엮어 파는 E-Book 칼럼집 상점 연동.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#고유블로그</span>
+        <span class="tag-badge">#개인서재</span>
+        <span class="tag-badge">#E-Book상점</span>
+      </div>
+
+      <h3 id="s5-2">5-2. 카테고리(게재란) 신설 사전 허락제 (구조-02)</h3>
+      <p><strong>요구사항:</strong> 꼭 필요한 부분이 있어 새로운 게재란(섹션)을 만들 때는 <strong>반드시 발행인(연소사)의 허락</strong>을 받고 만들어야 합니다. 임의로 카테고리를 늘리거나 수정하지 않습니다.</p>
+      <p><strong>적용:</strong> 스포츠·예능 및 문화예술(culture) 카테고리 신설 시 연소사의 사전 승인을 거쳐 적용.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#사전허락제</span>
+        <span class="tag-badge">#섹션신설규칙</span>
+        <span class="tag-badge">#카테고리통제</span>
+      </div>
+    </section>
+
+    <!-- 제6조 -->
+    <section class="doc-section" id="s6">
+      <h2>6. 디자인 및 시각 정돈 (Aesthetics & Typography)</h2>
+      <blockquote class="quote">
+        "메인 타이틀 글씨 크기를 한 두단계 작게 표현하자."
+      </blockquote>
+
+      <h3 id="s6-1">6-1. 메인 타이틀 크기 조정 및 시각적 정돈 (시각-01)</h3>
+      <p><strong>요구사항:</strong> 첫 화면 진입 시 부담스럽게 튀지 않도록 메인 타이틀(화두 등)의 글씨 크기를 한두 단계 작게 조절하여 페이지 전체의 시각적 밸런스와 품격을 높집니다.</p>
+      <p><strong>적용:</strong> 메인 화두 타이틀(`.hero-quote`) 폰트 크기를 기존 `46px`에서 `38px`로 축소. 태블릿 반응형 크기 `32px` ➔ `28px`, 모바일 크기 `26px` ➔ `22px`로 비례 축소 적용하여 정돈감 완성.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#메인타이틀축소</span>
+        <span class="tag-badge">#시각적밸런스</span>
+      </div>
+    </section>
+
+    <!-- 이력 관리 -->
+    <section class="doc-section" id="history">
+      <h2>유지 관리 및 버전 변경 이력 (Version History)</h2>
+      <p>본 색인집은 **연소사의 요구사항**이 추가되거나 미디어 운영 방침이 업그레이드될 때마다 상시 갱신되며, 아래와 같이 버전 번호로 관리됩니다.</p>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>버전</th>
+            <th>날짜</th>
+            <th>주요 업데이트 내용</th>
+            <th>변경 승인</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>v1.0</strong></td>
+            <td>2026-06-01</td>
+            <td>최초 색인집 작성. 15편 기사 및 19인 필진 반영. 정면/투명 배경 프로필 이미지 및 나이/지위별 품격 서술 규칙 색인화. HTML 버전 세트 생성 및 좌측 다이내믹 메뉴판 탑재.</td>
+            <td>연소사 승인</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<!-- 모바일 메뉴 버튼 -->
+<button class="mobile-menu-toggle" id="ylMobileToggle" aria-label="메뉴 열기">☰</button>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const KEY = 'ylife.theme';
+
+  // 1. 테마 제어
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-pick button').forEach(b => b.classList.toggle('active', b.dataset.theme === t));
+    try { localStorage.setItem(KEY, t); } catch(e) {}
+  }
+  let initTheme = 'day';
+  try {
+    const s = localStorage.getItem(KEY);
+    if (s === 'day' || s === 'night') initTheme = s;
+  } catch(e) {}
+  applyTheme(initTheme);
+
+  document.querySelectorAll('.theme-pick button').forEach(b => {
+    b.addEventListener('click', () => applyTheme(b.dataset.theme));
+  });
+
+  // 2. 모바일 사이드바 토글
+  const toggleBtn = document.getElementById('ylMobileToggle');
+  const sidebar = document.getElementById('ylSidebar');
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar.classList.toggle('open');
+      toggleBtn.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+    });
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && e.target !== toggleBtn) {
+        sidebar.classList.remove('open');
+        toggleBtn.textContent = '☰';
+      }
+    });
+  }
+
+  // 3. 스크롤 스파이 (ScrollSpy) - 현재 스크롤 위치에 맞춰 좌측 메뉴 강조
+  const sections = document.querySelectorAll('section.doc-section, header.doc-head');
+  const navLinks = document.querySelectorAll('.menu-link, .submenu-link');
+
+  window.addEventListener('scroll', () => {
+    let current = "";
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (pageYOffset >= (sectionTop - 120)) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      const href = link.getAttribute('href').substring(1);
+      if (href === current) {
+        link.classList.add('active');
+        // 부모 메뉴인 큰 주제도 같이 활성화
+        const parentLink = link.closest('.menu-item')?.querySelector('.menu-link');
+        if (parentLink && parentLink !== link) {
+          parentLink.classList.add('active');
+        }
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
