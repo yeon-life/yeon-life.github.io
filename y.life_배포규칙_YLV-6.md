@@ -663,6 +663,10 @@ YUV6 §14 모두 적용 + 연라이프 추가:
 
 ## 26. 배포 전 점검 체크리스트 ⭐
 
+### 📦 데이터 및 정적 자산 무결성 (재발 방지 필수)
+- [ ] `data/personas.js` 및 `data/articles_today.js` 등 핵심 기사 데이터 파일이 배포 디렉토리(`yeon-life.github.io`)에 누락 없이 복사되었는가?
+- [ ] `git status` 상 `Untracked files` 목록에 서빙해야 할 파일이 방치되어 있지 않은가?
+
 ### 통합 계정·권한·보안 (YUV6 §3·§14)
 - [ ] `y_accounts` 단일 사용?
 - [ ] 5계층 권한 분리?
