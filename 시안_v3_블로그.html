@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임선생의 블로그 — y-life.kr</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink-deep:#1a2326; --ink-soft:#2a3438;
+    --teal-deep:#2a5358; --teal-mid:#4a6878;
+    --amber-quiet:#a87b3e;
+    --line-soft:#d8d3c7; --line-fine:#e8e4d9;
+    --paper-base:#f4f0e6; --paper-warm:#f6f3ec; --paper-cool:#eee9dc;
+    --surface:#fbfaf5; --surface-pure:#ffffff;
+    --text-body:#2a3438; --text-muted:#5e6a6e; --text-soft:#8a9398;
+    --font-title:"Noto Serif KR",serif;
+    --font-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);color:var(--text-body);background:linear-gradient(180deg,var(--paper-warm) 0%,var(--paper-base) 60%,var(--paper-cool) 100%);line-height:1.75;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .container{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  /* ===== 상단 (홈으로 돌아가는 미니 바) ===== */
+  .topbar{border-bottom:1px solid var(--line-soft);padding:12px 0;background:var(--paper-warm)}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .home-link{display:inline-flex;align-items:center;gap:8px;color:var(--text-body);font-weight:600;font-family:var(--font-title)}
+  .home-link:hover{color:var(--teal-deep)}
+  .home-link .ico{font-family:var(--font-title);color:var(--teal-deep);font-size:18px}
+  .top-right{display:flex;gap:14px;align-items:center}
+  .top-right .meta{color:var(--text-soft)}
+  .icon-btn{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .2s}
+  .icon-btn:hover{background:var(--line-fine);color:var(--ink-deep)}
+  .icon-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ===== 블로그 헤더 (커버 + 프로필) ===== */
+  .blog-hero{position:relative;border-bottom:1px solid var(--line-soft)}
+  .cover{height:280px;background:linear-gradient(135deg,#2a5358 0%,#4a6878 40%,#a87b3e 100%);position:relative;overflow:hidden}
+  .cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(244,240,230,.15),transparent 50%),radial-gradient(circle at 70% 60%,rgba(26,35,38,.25),transparent 60%)}
+  .cover-edit{position:absolute;top:16px;right:16px;background:rgba(26,35,38,.5);color:var(--paper-warm);padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;backdrop-filter:blur(8px);display:inline-flex;align-items:center;gap:6px;z-index:2}
+  .cover-edit svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round}
+
+  .profile-row{display:flex;align-items:flex-end;gap:24px;margin-top:-60px;position:relative;z-index:2;padding:0 32px 32px}
+  .profile-photo{width:128px;height:128px;border-radius:50%;background:linear-gradient(135deg,#c8d0c4,#dfe6d3);border:6px solid var(--paper-warm);display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:48px;font-weight:700;color:var(--teal-deep);flex-shrink:0;box-shadow:0 4px 16px rgba(26,35,38,.1)}
+  .profile-info{flex:1;padding-bottom:8px}
+  .profile-name{font-family:var(--font-title);font-size:36px;font-weight:700;color:var(--ink-deep);letter-spacing:-.02em;margin-bottom:6px}
+  .profile-url{font-size:13px;color:var(--text-muted);font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em;margin-bottom:10px}
+  .profile-bio{font-family:var(--font-title);font-size:17px;color:var(--text-body);font-style:italic;line-height:1.6;max-width:600px}
+  .profile-actions{display:flex;gap:8px;padding-bottom:8px}
+  .btn-follow{padding:9px 18px;background:var(--ink-deep);color:var(--paper-warm);border-radius:999px;font-size:13px;font-weight:600;transition:all .2s}
+  .btn-follow:hover{background:var(--teal-deep)}
+  .btn-share{padding:9px 14px;background:var(--surface);border:1px solid var(--line-soft);color:var(--ink-deep);border-radius:999px;font-size:13px;font-weight:600;transition:all .2s}
+  .btn-share:hover{border-color:var(--teal-deep);color:var(--teal-deep)}
+
+  .profile-stats{display:flex;gap:32px;padding:18px 32px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--text-muted)}
+  .profile-stats strong{color:var(--ink-deep);font-family:var(--font-title);font-weight:700;font-size:15px;margin-right:4px}
+
+  /* ===== 탭 ===== */
+  .blog-tabs{border-bottom:1px solid var(--ink-deep);background:var(--paper-warm);position:sticky;top:0;z-index:40}
+  .tabs-inner{display:flex;gap:0}
+  .tab{padding:18px 28px;font-family:var(--font-title);font-size:16px;font-weight:600;color:var(--text-muted);position:relative;transition:color .2s}
+  .tab:hover{color:var(--ink-deep)}
+  .tab.active{color:var(--ink-deep)}
+  .tab.active::after{content:"";position:absolute;bottom:-1px;left:28px;right:28px;height:2px;background:var(--ink-deep)}
+  .tab .count{font-size:12px;color:var(--text-soft);margin-left:6px;font-weight:400;font-family:var(--font-body)}
+
+  /* ===== 콘텐츠 영역 ===== */
+  .blog-main{padding:48px 0 64px}
+
+  /* 소개 섹션 */
+  .intro{background:var(--surface);border:1px solid var(--line-fine);border-radius:4px;padding:36px;margin-bottom:48px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start}
+  .intro h2{font-family:var(--font-title);font-size:14px;color:var(--amber-quiet);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .intro h2::before{content:"";display:inline-block;width:20px;height:1px;background:var(--amber-quiet);margin-right:8px;vertical-align:5px}
+  .intro p{font-size:16px;line-height:1.85;color:var(--text-body);margin-bottom:14px}
+  .intro p:last-child{margin-bottom:0}
+  .intro-side{font-size:12px;color:var(--text-muted);text-align:right;min-width:160px}
+  .intro-side div{margin-bottom:10px;line-height:1.6}
+  .intro-side strong{display:block;color:var(--ink-deep);font-family:var(--font-title);font-size:14px;font-weight:600;margin-bottom:2px}
+
+  /* 섹션 헤더 */
+  .sec-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink-deep);padding-bottom:14px;margin-bottom:28px;margin-top:48px}
+  .sec-head h2{font-family:var(--font-title);font-size:28px;font-weight:700;color:var(--ink-deep);letter-spacing:-.015em}
+  .sec-head .more{font-size:12px;color:var(--text-muted);letter-spacing:.06em;font-weight:600}
+  .sec-head .more:hover{color:var(--teal-deep)}
+
+  /* 최근 글 */
+  .posts{display:flex;flex-direction:column;gap:32px}
+  .post{padding-bottom:32px;border-bottom:1px dashed var(--line-soft);cursor:pointer;transition:transform .25s}
+  .post:hover{transform:translateX(4px)}
+  .post:last-child{border-bottom:none}
+  .post-meta{display:flex;gap:10px;font-size:11px;color:var(--text-muted);margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  .post-meta .cat{color:var(--amber-quiet)}
+  .post-title{font-family:var(--font-title);font-size:28px;font-weight:600;line-height:1.35;color:var(--ink-deep);margin-bottom:12px;letter-spacing:-.015em}
+  .post-deck{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:12px}
+  .post-foot{display:flex;gap:14px;font-size:12px;color:var(--text-soft);align-items:center}
+  .post-foot .depth{color:var(--amber-quiet);font-weight:600}
+
+  /* 광장 활동 */
+  .plaza-strip{background:var(--surface);border:1px solid var(--line-fine);border-radius:4px;padding:28px}
+  .plaza-strip-head{font-size:13px;color:var(--text-muted);margin-bottom:18px;font-style:italic}
+  .plaza-items{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pl-item{padding:16px;background:var(--paper-warm);border-radius:4px;cursor:pointer;transition:all .2s;border:1px solid transparent}
+  .pl-item:hover{border-color:var(--line-soft)}
+  .pl-where{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--teal-deep);margin-bottom:6px}
+  .pl-title{font-family:var(--font-title);font-size:16px;font-weight:500;line-height:1.45;color:var(--ink-deep);margin-bottom:6px}
+  .pl-meta{font-size:11px;color:var(--text-muted)}
+
+  /* 내 가게 */
+  .shop{background:linear-gradient(180deg,var(--surface),var(--paper-warm));border:1px solid var(--line-soft);border-radius:4px;padding:36px;margin-top:48px}
+  .shop-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .shop-head h2{font-family:var(--font-title);font-size:24px;font-weight:700;color:var(--ink-deep)}
+  .shop-toggle{font-size:11px;color:var(--text-muted)}
+  .shop-toggle .on{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--teal-deep);margin-right:6px;vertical-align:1px}
+  .shop-desc{font-size:13px;color:var(--text-muted);margin-bottom:24px;font-style:italic;line-height:1.6}
+  .shop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+  .product{background:var(--surface-pure);border:1px solid var(--line-fine);border-radius:4px;overflow:hidden;cursor:pointer;transition:all .25s}
+  .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(26,35,38,.08)}
+  .product-img{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--paper-cool),var(--paper-base));position:relative}
+  .product-img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(168,123,62,.18),transparent 55%)}
+  .product-body{padding:18px}
+  .product-kind{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-quiet);font-weight:700;margin-bottom:6px}
+  .product-name{font-family:var(--font-title);font-size:17px;font-weight:600;color:var(--ink-deep);line-height:1.4;margin-bottom:8px}
+  .product-story{font-size:12px;color:var(--text-muted);line-height:1.55;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .product-foot{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed var(--line-fine)}
+  .product-price{font-family:var(--font-title);font-size:15px;font-weight:700;color:var(--ink-deep)}
+  .product-link{font-size:11px;color:var(--text-muted)}
+  .product-link svg{width:11px;height:11px;vertical-align:-1px;margin-left:3px}
+
+  /* 안내 박스 */
+  .help-box{background:var(--paper-cool);border-left:3px solid var(--amber-quiet);padding:20px 24px;border-radius:0 4px 4px 0;margin-top:48px;font-size:13px;color:var(--text-muted);line-height:1.7}
+  .help-box strong{color:var(--ink-deep);font-family:var(--font-title);font-weight:600;display:block;font-size:14px;margin-bottom:6px}
+
+  /* 푸터 */
+  .footer{padding:32px 0;border-top:1px solid var(--line-soft);text-align:center;color:var(--text-muted);font-size:12px;margin-top:64px;background:var(--paper-warm)}
+
+  @media (max-width:1024px){
+    .container{padding:0 24px}
+    .profile-row{flex-direction:column;align-items:flex-start;gap:18px;margin-top:-48px;padding:0 24px 24px}
+    .profile-photo{width:96px;height:96px;font-size:36px}
+    .profile-name{font-size:28px}
+    .profile-stats{flex-wrap:wrap;gap:18px;padding:16px 24px}
+    .intro{grid-template-columns:1fr;padding:24px}
+    .intro-side{text-align:left;border-top:1px dashed var(--line-soft);padding-top:16px}
+    .plaza-items{grid-template-columns:1fr}
+    .shop-grid{grid-template-columns:1fr 1fr}
+    .tab{padding:14px 18px;font-size:14px}
+    .post-title{font-size:22px}
+  }
+  @media (max-width:640px){
+    .cover{height:200px}
+    .shop-grid{grid-template-columns:1fr}
+    .sec-head h2{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 미니 상단 ===== -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <a href="시안_v3_홈페이지.html" class="home-link">
+        <span class="ico">緣</span>
+        <span>y-life.kr 홈으로</span>
+      </a>
+      <div class="top-right">
+        <span class="meta">2026.05.14.</span>
+        <button class="icon-btn" title="검색">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        </button>
+        <button class="icon-btn" title="더 보기">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 블로그 헤더 ===== -->
+<section class="blog-hero">
+  <div class="cover">
+    <a href="#" class="cover-edit">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      커버 바꾸기
+    </a>
+  </div>
+  <div class="container">
+    <div class="profile-row">
+      <div class="profile-photo">林</div>
+      <div class="profile-info">
+        <h1 class="profile-name">임선생의 마당</h1>
+        <div class="profile-url">y-life.kr / @lim-teacher</div>
+        <p class="profile-bio">학교에서 윤리를 가르치고, 퇴근하면 동서양 철학을 다시 읽습니다. 천천히 묻는 사람을 좋아합니다.</p>
+      </div>
+      <div class="profile-actions">
+        <button class="btn-follow">팔로우</button>
+        <button class="btn-share">공유</button>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div><strong>12</strong>편의 글</div>
+      <div><strong>248</strong>명이 읽음</div>
+      <div><strong>34</strong>편의 광장 활동</div>
+      <div><strong>3</strong>개 가게 상품</div>
+      <div style="margin-left:auto;color:var(--text-soft)">2026년 1월 입주</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 탭 ===== -->
+<nav class="blog-tabs">
+  <div class="container">
+    <div class="tabs-inner">
+      <a class="tab active">소개</a>
+      <a class="tab">글 <span class="count">12</span></a>
+      <a class="tab">광장 활동 <span class="count">34</span></a>
+      <a class="tab">가게 <span class="count">3</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== 메인 ===== -->
+<main class="blog-main">
+  <div class="container">
+
+    <!-- 소개 -->
+    <section class="intro">
+      <div>
+        <h2>소개</h2>
+        <p>안녕하세요. 임선생입니다. 학교에서 학생들과 윤리를 같이 읽고, 퇴근하면 다시 한 번 책상 앞에 앉아 동양철학과 서양철학을 번갈아 봅니다.</p>
+        <p>이 마당에는 학생들과 나눈 이야기, 책을 읽다 멈춰진 자리, 동료 선생님들과의 토론에서 떠오른 질문들을 기록합니다. 자주 들러 주세요. 천천히 답을 찾기보다, 같이 잘 묻고 싶습니다.</p>
+      </div>
+      <div class="intro-side">
+        <div><strong>거처</strong>울산광역시 중구</div>
+        <div><strong>관심</strong>윤리 · 신경철학 · 동서양 비교</div>
+        <div><strong>요즘 읽는 책</strong>『이갈리아의 딸들』</div>
+        <div><strong>연락</strong>아골라 쪽지로</div>
+      </div>
+    </section>
+
+    <!-- 최근 글 -->
+    <div class="sec-head">
+      <h2>최근 글</h2>
+      <a href="#" class="more">전체 글 12편 →</a>
+    </div>
+
+    <section class="posts">
+      <article class="post">
+        <div class="post-meta">
+          <span class="cat">철학</span>
+          <span>·</span>
+          <span>2시간 전</span>
+          <span>·</span>
+          <span>읽는 시간 6분</span>
+        </div>
+        <h3 class="post-title">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h3>
+        <p class="post-deck">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까. 이번 주 화두를 따라 30년 된 실험을 다시 읽어 보았다.</p>
+        <div class="post-foot">
+          <span class="depth">◐ 좋은 물음 24</span>
+          <span>·</span>
+          <span>댓글 7</span>
+          <span>·</span>
+          <span>읽음 86</span>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-meta">
+          <span class="cat">교실</span>
+          <span>·</span>
+          <span>5월 9일</span>
+          <span>·</span>
+          <span>읽는 시간 4분</span>
+        </div>
+        <h3 class="post-title">"왜요?"가 가장 많이 나오는 수업의 특징</h3>
+        <p class="post-deck">3년간 윤리 수업에서 학생들이 '왜요?'를 가장 많이 물어본 차시를 모아 비교해 보았다. 공통점은 하나였다.</p>
+        <div class="post-foot">
+          <span class="depth">◐ 좋은 물음 31</span>
+          <span>·</span>
+          <span>댓글 14</span>
+          <span>·</span>
+          <span>읽음 142</span>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-meta">
+          <span class="cat">읽기</span>
+          <span>·</span>
+          <span>5월 2일</span>
+          <span>·</span>
+          <span>읽는 시간 8분</span>
+        </div>
+        <h3 class="post-title">맹자의 '不忍人之心'과 공감의 신경과학</h3>
+        <p class="post-deck">2,300년 전의 한 문장이 거울 뉴런 연구와 만나는 자리. 책상 위에 두 권의 책을 펼쳐 두고 한 주를 보냈다.</p>
+        <div class="post-foot">
+          <span class="depth">◐ 좋은 물음 19</span>
+          <span>·</span>
+          <span>댓글 6</span>
+          <span>·</span>
+          <span>읽음 73</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- 광장 활동 -->
+    <div class="sec-head">
+      <h2>광장 활동</h2>
+      <a href="#" class="more">전체 활동 34건 →</a>
+    </div>
+    <section class="plaza-strip">
+      <p class="plaza-strip-head">아골라·아곤란·시민 저널에 남긴 글과 댓글이 자동으로 모입니다.</p>
+      <div class="plaza-items">
+        <div class="pl-item">
+          <div class="pl-where">아골라 · 2시간 전</div>
+          <h4 class="pl-title">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h4>
+          <div class="pl-meta">좋은 물음 24 · 댓글 7</div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-where">아곤란 · 어제 (답글)</div>
+          <h4 class="pl-title">"내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?"에 답글</h4>
+          <div class="pl-meta">민서 학생에게 · 좋아요 12</div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-where">아골라 · 5월 7일</div>
+          <h4 class="pl-title">교사가 가장 자주 받는 윤리적 딜레마 5가지</h4>
+          <div class="pl-meta">좋은 물음 41 · 댓글 18</div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-where">시민 저널 · 4월 30일 (검증 참여)</div>
+          <h4 class="pl-title">울산 청소년 정신건강 실태 — 교사 시선 검토</h4>
+          <div class="pl-meta">6단계 중 4단계 참여</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 내 가게 -->
+    <section class="shop">
+      <div class="shop-head">
+        <h2>임선생의 가게</h2>
+        <div class="shop-toggle"><span class="on"></span>공개 중 · 외부 결제 링크</div>
+      </div>
+      <p class="shop-desc">물건마다 만든 이야기가 함께 있습니다. 결제는 외부 플랫폼으로 안전하게 이루어집니다.</p>
+      <div class="shop-grid">
+        <div class="product">
+          <div class="product-img"></div>
+          <div class="product-body">
+            <div class="product-kind">책 · 자작</div>
+            <h3 class="product-name">『학생이 묻기를 멈출 때』</h3>
+            <p class="product-story">15년 교사 생활에서 가장 많이 들은 질문들과 가장 적게 들은 질문들을 모은 책. 자비출판.</p>
+            <div class="product-foot">
+              <span class="product-price">15,000원</span>
+              <a href="#" class="product-link">알라딘에서 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <div class="product">
+          <div class="product-img"></div>
+          <div class="product-body">
+            <div class="product-kind">강의 · 온라인</div>
+            <h3 class="product-name">중·고생을 위한 윤리 입문 8강</h3>
+            <p class="product-story">교실에서 가장 자주 막히는 여덟 가지 윤리 주제를 학생 눈높이로 풀었습니다.</p>
+            <div class="product-foot">
+              <span class="product-price">48,000원</span>
+              <a href="#" class="product-link">클래스101에서 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <div class="product">
+          <div class="product-img"></div>
+          <div class="product-body">
+            <div class="product-kind">소품 · 손편지</div>
+            <h3 class="product-name">학생에게 보내는 손편지 — 1년 12통</h3>
+            <p class="product-story">학생 한 명에게 매달 한 통씩, 1년간 12통의 손편지를 보냅니다. 학부모 신청 가능.</p>
+            <div class="product-foot">
+              <span class="product-price">120,000원 / 1년</span>
+              <a href="#" class="product-link">신청하기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 안내 -->
+    <div class="help-box">
+      <strong>이 블로그는 연라이프 기본 셋팅이 적용되었습니다.</strong>
+      가입과 동시에 같은 모양의 마당이 자동으로 만들어집니다. 표지 이미지, 한 줄 소개, 가게 켜기 정도만 손대면 곧바로 운영할 수 있습니다. 더 자유롭게 꾸미고 싶으면 <a href="#" style="color:var(--teal-deep);font-weight:600">사이트 빌더</a>로 옮길 수 있어요.
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">© 2026 y-life.kr — 임선생의 마당은 연라이프 마을의 한 자리입니다.</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

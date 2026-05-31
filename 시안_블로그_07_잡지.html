@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>박주민 매거진 · Issue 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e; --soft-c:#8a9398;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+  /* 상단 */
+  .topbar{padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);background:var(--warm)}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;letter-spacing:.06em}
+  .topbar a{color:var(--ink);font-family:var(--serif);font-weight:700}
+
+  /* 매거진 마스트헤드 */
+  .masthead{padding:36px 0 24px;border-bottom:3px solid var(--ink);background:var(--warm)}
+  .mast-row1{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}
+  .mast-row1 .left{color:var(--amber);font-weight:700}
+  .mast-row1 .right{font-family:var(--serif);font-weight:600}
+  .mast-name{font-family:var(--serif);font-size:64px;font-weight:900;color:var(--ink);letter-spacing:-.03em;line-height:1;margin-bottom:10px}
+  .mast-tag{font-family:var(--serif);font-size:14px;color:var(--muted);font-style:italic;letter-spacing:.04em;border-top:1px solid var(--line);padding-top:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+
+  /* 탭 */
+  .tabs{padding:14px 0;border-bottom:1px solid var(--ink);background:var(--warm);position:sticky;top:0;z-index:10}
+  .tabs-inner{display:flex;gap:0}
+  .tab{padding:12px 22px;font-family:var(--serif);font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;position:relative;cursor:pointer;transition:color .2s}
+  .tab:hover,.tab.active{color:var(--ink)}
+  .tab.active::after{content:"";position:absolute;bottom:-15px;left:22px;right:22px;height:3px;background:var(--ink)}
+  .tab .num{font-size:10px;color:var(--soft-c);margin-left:4px;letter-spacing:0;font-family:var(--sans)}
+
+  /* 표지 — 잡지 커버 */
+  .cover{padding:56px 0 48px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:end}
+  .cover-feat{}
+  .cover-issue{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+  .cover-issue::before{content:"";display:inline-block;width:30px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .cover-headline{font-family:var(--serif);font-size:68px;font-weight:900;line-height:1.02;letter-spacing:-.03em;color:var(--ink);margin-bottom:18px}
+  .cover-deck{font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--soft);font-style:italic;border-top:1px solid var(--ink);padding-top:16px;max-width:540px}
+
+  .cover-side{}
+  .author-img{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#d8c8a4,#eee4d0);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:32px;font-weight:700;margin-bottom:16px}
+  .author-name{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .author-role{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+  .author-bio{font-family:var(--serif);font-size:14px;color:var(--muted);line-height:1.7;font-style:italic;border-left:2px solid var(--line);padding-left:14px;margin-bottom:18px}
+  .author-stats{display:flex;gap:18px;font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .author-stats strong{display:block;color:var(--ink);font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:2px}
+
+  /* 콘텐츠 */
+  .content{padding:64px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .col h2.section{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--ink)}
+
+  /* 소개 — 큰 단으로 */
+  .intro p{font-family:var(--serif);font-size:16px;line-height:1.95;color:var(--soft);margin-bottom:14px}
+  .intro p:first-of-type::first-letter{font-family:var(--serif);font-size:56px;font-weight:900;float:left;line-height:1;padding-right:8px;padding-top:6px;color:var(--ink)}
+
+  /* 최근 글 */
+  .post{padding-bottom:24px;margin-bottom:24px;border-bottom:1px dashed var(--line);cursor:pointer;transition:transform .25s}
+  .post:hover{transform:translateX(4px)}
+  .post:last-child{border-bottom:none}
+  .post-cat{display:inline-block;font-size:10px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+  .post-title{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em}
+  .post-deck{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+  .post-meta{font-size:11px;color:var(--soft-c);letter-spacing:.04em}
+  .post-meta .depth{color:var(--amber);font-weight:600;margin-right:8px}
+
+  /* 광장 활동 */
+  .pa-band{padding:48px 0;background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pa-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:24px}
+  .pa-head h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink)}
+  .pa-head .more{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .pa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .pa-card{}
+  .pa-where{font-family:var(--serif);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .pa-title{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:6px}
+  .pa-meta{font-size:11px;color:var(--muted)}
+
+  /* 가게 — 매거진 광고 페이지 */
+  .shop{padding:64px 0;border-top:1px solid var(--line)}
+  .shop-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:36px}
+  .shop-head h2{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
+  .shop-head .note{font-size:12px;color:var(--muted);font-style:italic}
+  .shop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .product{background:var(--surface);border:1px solid var(--line);transition:all .25s;cursor:pointer}
+  .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(26,35,38,.08)}
+  .product-img{aspect-ratio:4/3;background:linear-gradient(135deg,var(--cool),var(--paper));position:relative}
+  .product-img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(168,123,62,.15),transparent 60%)}
+  .product-body{padding:20px}
+  .product-kind{font-family:var(--serif);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .product-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:10px}
+  .product-story{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .product-foot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--fine);padding-top:10px}
+  .product-price{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)}
+  .product-link{font-family:var(--serif);font-size:11px;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+
+  /* 푸터 — 잡지 인디시아 */
+  .footer{padding:32px 0;border-top:3px solid var(--ink);background:var(--warm);text-align:center}
+  .footer-name{font-family:var(--serif);font-size:18px;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-bottom:6px}
+  .footer-meta{font-size:11px;color:var(--muted);letter-spacing:.08em}
+
+  @media (max-width:1024px){
+    .cover{grid-template-columns:1fr;gap:36px}
+    .cover-headline{font-size:48px}
+    .content{grid-template-columns:1fr;gap:36px}
+    .pa-grid{grid-template-columns:1fr 1fr}
+    .shop-grid{grid-template-columns:1fr 1fr}
+    .mast-name{font-size:48px}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 20px}
+    .cover-headline{font-size:36px}
+    .mast-name{font-size:36px}
+    .pa-grid{grid-template-columns:1fr}
+    .shop-grid{grid-template-columns:1fr}
+    .tab{padding:10px 14px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr</a>
+    <span>2026.05.14.</span>
+  </div>
+</div>
+
+<!-- 매거진 마스트헤드 -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-row1">
+      <span class="left">Issue 12 · 2026 May</span>
+      <span class="right">매주 금요일 발간</span>
+    </div>
+    <h1 class="mast-name">朴 MAGAZINE</h1>
+    <div class="mast-tag">
+      <span>박주민의 매거진 — 사회 · 지역 · 사람</span>
+      <span>@parkjumin · 울산</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap tabs-inner">
+    <a class="tab active">표지</a>
+    <a class="tab">기사 <span class="num">12</span></a>
+    <a class="tab">광장 <span class="num">34</span></a>
+    <a class="tab">가게 <span class="num">3</span></a>
+  </div>
+</nav>
+
+<!-- 표지 -->
+<section class="cover wrap">
+  <div class="cover-feat">
+    <div class="cover-issue">이번 호 커버 스토리</div>
+    <h2 class="cover-headline">울산의 봄은 어떤 사람들의 봄인가</h2>
+    <p class="cover-deck">태화강 둑길에서 만난 다섯 사람의 봄 이야기. 같은 강물을 같은 시간에 바라보지만, 다섯 개의 봄이 거기 있었다. 어떤 봄은 처음이었고, 어떤 봄은 마지막이었다.</p>
+  </div>
+  <div class="cover-side">
+    <div class="author-img">朴</div>
+    <div class="author-name">박주민</div>
+    <div class="author-role">Editor · Writer</div>
+    <p class="author-bio">사회와 지역을 같이 봅니다. 매주 한 가지 풍경을 천천히 들여다보고 한 편의 글로 옮깁니다.</p>
+    <div class="author-stats">
+      <div><strong>12</strong><span>이번 호 기사</span></div>
+      <div><strong>34</strong><span>광장 활동</span></div>
+      <div><strong>248</strong><span>구독자</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 콘텐츠 - 두 단 -->
+<section class="content wrap">
+
+  <div class="col">
+    <h2 class="section">— 발행인의 말</h2>
+    <div class="intro">
+      <p>매주 금요일, 한 가지 풍경을 골라 한 편의 글로 옮깁니다. 빠른 뉴스가 놓치는 자리에 천천히 머무는 일이 제가 잘하는 일이라고 믿습니다.</p>
+      <p>이번 호는 봄을 다섯 갈래로 나눠 보았습니다. 같은 강물, 다른 다섯 사람. 한 사람의 봄을 읽는다는 것은 그 사람의 한 해를 읽는 일이기도 합니다.</p>
+      <p>천천히 읽어 주세요. 그리고 이번 호에 대한 생각을 광장에서 함께 나눠 주시면 좋겠습니다.</p>
+    </div>
+  </div>
+
+  <div class="col">
+    <h2 class="section">— 이번 호 기사</h2>
+    <article class="post">
+      <div class="post-cat">커버 · 사람</div>
+      <h3 class="post-title">울산의 봄은 어떤 사람들의 봄인가</h3>
+      <p class="post-deck">태화강 둑길에서 만난 다섯 사람의 봄 이야기. 어떤 봄은 처음이었고, 어떤 봄은 마지막이었다.</p>
+      <div class="post-meta"><span class="depth">◐ 좋은 물음 41</span>읽은 사람 248명 · 5월 12일</div>
+    </article>
+    <article class="post">
+      <div class="post-cat">사회 · 지역</div>
+      <h3 class="post-title">시민과학자 12명이 측정한 한 달</h3>
+      <p class="post-deck">태화강 봄철 수질을 주민들이 직접 다섯 지점에서 측정했다. 행정의 수치와 어떻게 달랐는지.</p>
+      <div class="post-meta"><span class="depth">◐ 좋은 물음 28</span>읽은 사람 142명 · 5월 9일</div>
+    </article>
+    <article class="post">
+      <div class="post-cat">기록 · 답사</div>
+      <h3 class="post-title">언양 지석묘 — 사라지는 것과 남는 것</h3>
+      <p class="post-deck">훼손되고 있는 지석묘군 현장을 다녀온 기록. 사라지는 것을 기록하는 일의 무게.</p>
+      <div class="post-meta"><span class="depth">◐ 좋은 물음 19</span>읽은 사람 96명 · 5월 6일</div>
+    </article>
+    <article class="post">
+      <div class="post-cat">단상 · 도시</div>
+      <h3 class="post-title">저녁 7시의 풍경</h3>
+      <p class="post-deck">한 도시의 저녁 7시를 한 달간 같은 자리에서 찍었다. 30장의 사진이 만든 한 편의 다큐.</p>
+      <div class="post-meta"><span class="depth">◐ 좋은 물음 22</span>읽은 사람 134명 · 5월 2일</div>
+    </article>
+  </div>
+
+</section>
+
+<!-- 광장 활동 -->
+<section class="pa-band">
+  <div class="wrap">
+    <div class="pa-head">
+      <h2>광장 활동</h2>
+      <a href="#" class="more">전체 34건 →</a>
+    </div>
+    <div class="pa-grid">
+      <div class="pa-card">
+        <div class="pa-where">아골라 · 어제</div>
+        <div class="pa-title">기록되지 않은 결정은 정말 내 결정인가</div>
+        <div class="pa-meta">좋은 물음 48 · 댓글 12</div>
+      </div>
+      <div class="pa-card">
+        <div class="pa-where">시민 저널 · 5월 10일</div>
+        <div class="pa-title">울산 쇠부리축제 — 예산 대비 시민 만족도 분석</div>
+        <div class="pa-meta">검증 3/6 단계 진행 중</div>
+      </div>
+      <div class="pa-card">
+        <div class="pa-where">아골라 · 5월 7일</div>
+        <div class="pa-title">로컬 미디어가 살아남는 길은 어디에 있나</div>
+        <div class="pa-meta">좋은 물음 31 · 댓글 22</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 가게 -->
+<section class="shop wrap">
+  <div class="shop-head">
+    <h2>매거진의 부록 — 박주민의 가게</h2>
+    <span class="note">정기 구독자에게는 10% 할인이 적용됩니다</span>
+  </div>
+  <div class="shop-grid">
+    <div class="product">
+      <div class="product-img"></div>
+      <div class="product-body">
+        <div class="product-kind">정기 구독 · 매거진</div>
+        <h3 class="product-name">朴 MAGAZINE 연간 구독</h3>
+        <p class="product-story">매주 금요일 한 편의 깊은 기사. 종이 매거진 분기별 발송 포함.</p>
+        <div class="product-foot">
+          <span class="product-price">88,000원 / 년</span>
+          <a class="product-link">구독하기 →</a>
+        </div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-img"></div>
+      <div class="product-body">
+        <div class="product-kind">단행본 · 자작</div>
+        <h3 class="product-name">『울산 사람들의 한 해』</h3>
+        <p class="product-story">2025년 1년간 만난 52명의 울산 시민 이야기. 한 사람당 한 페이지.</p>
+        <div class="product-foot">
+          <span class="product-price">22,000원</span>
+          <a class="product-link">알라딘 →</a>
+        </div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-img"></div>
+      <div class="product-body">
+        <div class="product-kind">사진 · 인쇄</div>
+        <h3 class="product-name">'저녁 7시' 사진 30장 세트</h3>
+        <p class="product-story">한 달간 같은 자리에서 찍은 도시의 저녁 7시. 엽서 크기 30장.</p>
+        <div class="product-foot">
+          <span class="product-price">38,000원</span>
+          <a class="product-link">주문하기 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-name">朴 MAGAZINE</div>
+  <div class="footer-meta">Issue 12 · 2026 May · 박주민 발행 · 연라이프 마을의 한 자리</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  }));
+</script>
+
+</body>
+</html>

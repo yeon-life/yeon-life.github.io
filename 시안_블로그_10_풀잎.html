@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하은이의 작은 정원 — 풀잎</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명 유지 */
+  --ink:#1a2326;--soft:#2a3438;--teal:#2a5358;--leaf:#5a8a72;--leaf-soft:#a8c8a8;--amber:#a87b3e;
+  --line:#c8d4c0;--fine:#e0e8d8;--muted:#5e6a6e;
+  --paper:#eef2e8;--paper2:#f4f0e6;--surface:#fbfdf8;
+  --serif:"Noto Serif KR",serif;--sans:"Pretendard",sans-serif;--round:"Gowun Dodum",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--round);background:linear-gradient(180deg,var(--paper) 0%,var(--paper2) 100%);color:var(--soft);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.wrap{max-width:920px;margin:0 auto;padding:0 32px;position:relative}
+
+.topbar{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:rgba(238,242,232,.7)}
+.topbar-in{display:flex;justify-content:space-between;align-items:center;max-width:920px;margin:0 auto;padding:0 32px}
+.topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+/* 식물 장식 */
+.leaf-deco{position:absolute;font-family:var(--serif);color:rgba(90,138,114,.3);line-height:1;pointer-events:none;z-index:0}
+.leaf-1{top:-10px;right:20px;font-size:80px}
+.leaf-2{top:200px;left:-30px;font-size:60px;color:rgba(168,123,62,.25)}
+.leaf-3{top:400px;right:-20px;font-size:50px;color:rgba(90,138,114,.25)}
+
+/* 헤더 */
+.head{padding:64px 0 32px;text-align:center;position:relative;z-index:1}
+.photo{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--leaf-soft),var(--paper2));color:var(--leaf);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:38px;font-weight:700;margin:0 auto 18px;box-shadow:0 4px 14px rgba(90,138,114,.15)}
+.name{font-family:var(--round);font-size:32px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.handle{font-size:12px;color:var(--muted);font-family:monospace;margin-bottom:16px}
+.bio{font-family:var(--round);font-size:15px;color:var(--soft);line-height:1.7;max-width:480px;margin:0 auto 24px}
+.stats{display:flex;justify-content:center;gap:28px;font-size:11px;color:var(--muted);padding-top:18px;border-top:1px dashed var(--line);max-width:400px;margin:0 auto}
+.stats strong{display:block;color:var(--leaf);font-family:var(--round);font-size:18px;font-weight:700;margin-bottom:2px}
+
+/* 탭 */
+.tabs{padding:18px 0;border-top:1px dashed var(--line);border-bottom:2px solid var(--leaf);display:flex;justify-content:center;gap:32px;background:rgba(238,242,232,.5);position:relative;z-index:1}
+.tab{font-family:var(--round);font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:4px 0;position:relative}
+.tab:hover{color:var(--leaf)}
+.tab.active{color:var(--leaf)}
+.tab.active::after{content:"";position:absolute;bottom:-19px;left:0;right:0;height:3px;background:var(--leaf);border-radius:2px}
+.tab .ico{font-family:var(--serif);color:var(--leaf);font-size:12px}
+
+/* 섹션 */
+.section{padding:40px 0;border-bottom:1px dashed var(--line);position:relative;z-index:1}
+.section-h{font-family:var(--round);font-size:18px;color:var(--leaf);font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.section-h::before{content:"❀";color:var(--amber);font-size:16px}
+
+/* 소개 */
+.intro{background:var(--surface);border-radius:16px;padding:24px 28px;border:1px solid var(--fine)}
+.intro p{font-family:var(--round);font-size:15px;line-height:1.85;color:var(--soft);margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+
+/* 글 — 정원 화분 같은 카드 */
+.post-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.post{background:var(--surface);border-radius:16px;padding:22px;border:1px solid var(--fine);cursor:pointer;transition:all .3s;position:relative}
+.post:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(90,138,114,.12);border-color:var(--leaf-soft)}
+.post-icon{position:absolute;top:-12px;left:20px;width:32px;height:32px;border-radius:50%;background:var(--leaf);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;font-weight:300}
+.post.amber .post-icon{background:var(--amber)}
+.post.gold .post-icon{background:#d4a85a}
+.post-date{font-size:11px;color:var(--muted);margin-top:8px;margin-bottom:8px;font-family:var(--round);font-weight:500}
+.post-title{font-family:var(--round);font-size:18px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:10px}
+.post-deck{font-family:var(--round);font-size:13px;color:var(--soft);line-height:1.7;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.post-foot{display:flex;gap:10px;font-size:11px;color:var(--muted);padding-top:10px;border-top:1px dashed var(--fine)}
+.post-foot .heart{color:var(--amber);font-weight:700}
+
+/* 광장 */
+.pa-grid{display:flex;flex-direction:column;gap:10px}
+.pa-item{background:var(--surface);border-radius:12px;padding:14px 18px;border:1px solid var(--fine);display:flex;align-items:center;gap:14px}
+.pa-bullet{width:8px;height:8px;border-radius:50%;background:var(--leaf);flex-shrink:0}
+.pa-text{flex:1}
+.pa-where{font-size:11px;color:var(--leaf);font-weight:700;margin-bottom:2px}
+.pa-title{font-family:var(--round);font-size:14px;font-weight:700;color:var(--ink);line-height:1.4}
+.pa-meta{font-size:11px;color:var(--muted)}
+
+/* 가게 */
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.product{background:var(--surface);border-radius:16px;padding:18px;border:1px solid var(--fine);cursor:pointer;transition:all .25s;position:relative}
+.product:hover{border-color:var(--leaf-soft);transform:translateY(-2px)}
+.product::before{content:"";position:absolute;top:14px;right:14px;font-family:var(--serif);font-size:20px;color:var(--amber)}
+.product.a::before{content:"❀"}
+.product.b::before{content:"✿"}
+.product-kind{font-size:10px;color:var(--leaf);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.product-name{font-family:var(--round);font-size:16px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:10px}
+.product-story{font-family:var(--round);font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.product-price{font-family:var(--round);font-size:14px;font-weight:700;color:var(--ink)}
+
+/* 안내 */
+.help-box{background:rgba(168,123,62,.08);border-radius:12px;padding:16px 18px;font-family:var(--round);font-size:13px;color:var(--soft);line-height:1.6;margin-top:24px}
+.help-box strong{color:var(--leaf);font-weight:700}
+
+.footer{padding:40px 0 24px;text-align:center;font-family:var(--round);font-size:12px;color:var(--muted)}
+.footer-leaf{font-family:var(--serif);color:var(--leaf);font-size:24px;margin-bottom:6px;letter-spacing:.4em}
+
+@media (max-width:640px){
+  .wrap,.topbar-in{padding:0 20px}
+  .leaf-1,.leaf-2,.leaf-3{display:none}
+  .post-grid,.shop-grid{grid-template-columns:1fr}
+  .name{font-size:26px}
+  .tabs{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>2026.05.14.</span></div></div>
+
+<div class="wrap">
+
+  <span class="leaf-deco leaf-1">芽</span>
+  <span class="leaf-deco leaf-2">蕾</span>
+  <span class="leaf-deco leaf-3">葉</span>
+
+  <header class="head">
+    <div class="photo">하</div>
+    <h1 class="name">하은이의 작은 정원</h1>
+    <div class="handle">@haeun</div>
+    <p class="bio">초등학교 6학년 · 식물을 좋아해요 · 매일 작은 발견 한 가지씩</p>
+    <div class="stats">
+      <div><strong>17</strong>글</div>
+      <div><strong>92</strong>응원</div>
+      <div><strong>12</strong>광장</div>
+      <div><strong>2</strong>가게</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <a class="tab active"><span class="ico">序</span>소개</a>
+    <a class="tab"><span class="ico">記</span>기록</a>
+    <a class="tab"><span class="ico">議</span>광장</a>
+    <a class="tab"><span class="ico">廛</span>가게</a>
+  </nav>
+
+  <!-- 소개 -->
+  <section class="section">
+    <div class="section-h">하은이의 소개</div>
+    <div class="intro">
+      <p>안녕하세요! 저는 하은이고, 초등학교 6학년이에요.</p>
+      <p>식물을 좋아해서 베란다에 작은 화분 12개를 키우고 있어요. 매일 학교 갔다 오면 식물한테 인사하고, 새로운 잎이 났는지, 색깔이 변했는지 봐요.</p>
+      <p>여기에는 매일 본 것, 알게 된 것, 들었던 생각을 쓸 거예요. 짧게 쓰는 날이 더 많을 거예요!</p>
+    </div>
+  </section>
+
+  <!-- 기록 -->
+  <section class="section">
+    <div class="section-h">최근 기록</div>
+    <div class="post-grid">
+      <article class="post">
+        <div class="post-icon">芽</div>
+        <div class="post-date">5월 14일 · 맑음</div>
+        <h3 class="post-title">오늘 핀 꽃 한 송이</h3>
+        <p class="post-deck">3월에 심은 작은 씨앗이 두 달 만에 꽃을 피웠어요! 노란색이에요. 엄마가 "수선화 닮았다"고 했는데 저는 그냥 노란꽃이라고 부를 거예요.</p>
+        <div class="post-foot"><span class="heart">♥ 14</span><span>댓글 5</span></div>
+      </article>
+
+      <article class="post amber">
+        <div class="post-icon">日</div>
+        <div class="post-date">5월 13일 · 흐림</div>
+        <h3 class="post-title">학교 가는 길에 본 것</h3>
+        <p class="post-deck">담장 틈 사이에 작은 풀이 자라고 있었어요. 시멘트 사이에서 어떻게 자랐을까요? 물도 별로 없을 것 같은데. 식물은 정말 강한 것 같아요.</p>
+        <div class="post-foot"><span class="heart">♥ 22</span><span>댓글 8</span></div>
+      </article>
+
+      <article class="post gold">
+        <div class="post-icon">問</div>
+        <div class="post-date">5월 12일 · 비</div>
+        <h3 class="post-title">비 오는 날에는 식물도 좋아할까?</h3>
+        <p class="post-deck">오늘 비가 왔어요. 베란다 화분들이 비를 못 맞아서 좀 미안했어요. 그래서 물뿌리개로 비처럼 뿌려줬어요. 진짜 비랑은 다르겠지만요.</p>
+        <div class="post-foot"><span class="heart">♥ 18</span><span>댓글 6</span></div>
+      </article>
+
+      <article class="post">
+        <div class="post-icon">記</div>
+        <div class="post-date">5월 10일 · 맑음</div>
+        <h3 class="post-title">엄마가 알려준 식물 이름</h3>
+        <p class="post-deck">제가 모르는 식물 이름을 엄마가 알려줬어요. "민들레." 알고 있다고 생각했는데 노란 거 말고 하얀 솜털이 된 것도 같은 식물이라는 걸 처음 알았어요!</p>
+        <div class="post-foot"><span class="heart">♥ 11</span><span>댓글 3</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 광장 -->
+  <section class="section">
+    <div class="section-h">광장 활동</div>
+    <div class="pa-grid">
+      <div class="pa-item">
+        <div class="pa-bullet"></div>
+        <div class="pa-text">
+          <div class="pa-where">아곤란 · 어제</div>
+          <div class="pa-title">생각이 너무 빨라서 멈출 수가 없어요</div>
+        </div>
+        <div class="pa-meta">♥ 18 · 댓글 5</div>
+      </div>
+      <div class="pa-item">
+        <div class="pa-bullet"></div>
+        <div class="pa-text">
+          <div class="pa-where">아곤란 · 5월 11일</div>
+          <div class="pa-title">민서 친구의 글에 댓글 달았어요</div>
+        </div>
+        <div class="pa-meta">"저도 그래요!"</div>
+      </div>
+      <div class="pa-item">
+        <div class="pa-bullet"></div>
+        <div class="pa-text">
+          <div class="pa-where">화두 · 5월 9일</div>
+          <div class="pa-title">이 주의 화두에 좋은 물음 줬어요</div>
+        </div>
+        <div class="pa-meta">"몸이 먼저 안다" 신기해요</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가게 -->
+  <section class="section">
+    <div class="section-h">하은이네 정원</div>
+    <div class="shop-grid">
+      <div class="product a">
+        <div class="product-kind">씨앗 · 나눔</div>
+        <h3 class="product-name">우리집 노란꽃 씨앗</h3>
+        <p class="product-story">제가 키운 노란꽃에서 받은 씨앗이에요. 5개씩 나눠 드려요!</p>
+        <div class="product-price">무료 (배송비만)</div>
+      </div>
+      <div class="product b">
+        <div class="product-kind">손그림 · 손편지</div>
+        <h3 class="product-name">우리집 식물 그림 카드</h3>
+        <p class="product-story">제가 그린 식물 그림 카드예요. 12종류의 식물을 그렸어요.</p>
+        <div class="product-price">3,000원 / 장</div>
+      </div>
+    </div>
+    <div class="help-box">
+      <strong>이 블로그는 '풀잎' 템플릿이에요</strong><br>
+      식물을 좋아하거나 자연을 가까이 두는 분에게 잘 어울려요. 둥근 폰트와 초록빛 배경, 작은 식물 모티프로 따뜻한 인상을 줍니다.
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-leaf">芽 蕾 葉 花</div>
+  <p>하은이의 작은 정원 · 연라이프 마을의 한 자리</p>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',e=>{e.preventDefault();document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active')}));
+</script>
+
+</body>
+</html>

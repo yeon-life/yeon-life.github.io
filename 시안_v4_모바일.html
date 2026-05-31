@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>y-life.kr — 모바일 시안</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e; --soft-c:#8a9398;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:linear-gradient(180deg,#e8e0cc 0%,#dcd4c0 100%);color:var(--soft);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+  /* 페이지 헤더 */
+  .page-head{padding:48px 32px 32px;text-align:center;border-bottom:1px solid var(--line);background:var(--warm)}
+  .page-meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .page-meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .page-head h1{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--ink);letter-spacing:-.02em;margin-bottom:12px}
+  .page-head h1 em{font-style:italic;color:var(--teal)}
+  .page-head .lede{font-size:14px;color:var(--muted);max-width:640px;margin:0 auto;line-height:1.7}
+
+  /* 폰 프레임 그리드 */
+  .phones{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;padding:48px 32px 64px;max-width:1640px;margin:0 auto}
+  .phone-wrap{}
+  .phone-label{text-align:center;margin-bottom:16px}
+  .phone-label .num{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+  .phone-label .title{font-family:var(--serif);font-size:18px;color:var(--ink);font-weight:700;margin-bottom:6px}
+  .phone-label .desc{font-size:12px;color:var(--muted);line-height:1.5;max-width:240px;margin:0 auto}
+
+  /* 폰 프레임 */
+  .phone{width:340px;height:680px;border-radius:36px;background:#1a2326;padding:8px;margin:0 auto;box-shadow:0 20px 50px rgba(26,35,38,.2)}
+  .phone-screen{width:100%;height:100%;border-radius:28px;overflow:hidden;background:var(--warm);position:relative;display:flex;flex-direction:column;font-size:11px}
+  .phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:24px;background:#1a2326;border-radius:0 0 18px 18px;z-index:10}
+  .phone-screen{padding-top:32px}
+
+  /* 공통 상단 바 */
+  .pb-topbar{padding:8px 16px;border-bottom:1px solid var(--line);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;background:var(--warm);flex-shrink:0}
+  .pb-mast{padding:16px;border-bottom:1.5px solid var(--ink);background:var(--warm);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .pb-brand{font-family:var(--serif);font-size:24px;font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1}
+  .pb-brand .yeon{color:var(--teal);font-size:20px;margin-right:3px}
+  .pb-menu-btn{width:36px;height:36px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--warm)}
+  .pb-menu-btn.closed{background:transparent;color:var(--ink)}
+  .pb-menu-btn svg{width:14px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+
+  .pb-scroll{flex:1;overflow-y:auto}
+
+  /* === 폰 1: 홈 — 화두 === */
+  .p1-hero{padding:24px 16px;border-bottom:1px solid var(--line)}
+  .p1-kicker{font-family:var(--serif);font-size:9px;letter-spacing:.16em;color:var(--amber);font-weight:700;text-transform:uppercase;margin-bottom:10px}
+  .p1-kicker::before{content:"";display:inline-block;width:14px;height:1px;background:var(--amber);margin-right:6px;vertical-align:2px}
+  .p1-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;background:rgba(168,123,62,.12);color:var(--amber);font-size:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-left:4px;vertical-align:1px}
+  .p1-badge::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--amber)}
+  .p1-quote{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.4;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px}
+  .p1-quote em{font-style:italic;color:var(--teal)}
+  .p1-byline{font-size:10px;color:var(--muted);font-style:italic;margin-bottom:14px}
+  .p1-actions{display:flex;flex-direction:column;gap:6px}
+  .p1-btn{padding:10px 14px;font-size:11px;font-weight:700;font-family:var(--sans);text-align:center}
+  .p1-btn-1{background:var(--teal);color:#fff}
+  .p1-btn-2{background:transparent;color:var(--amber);border:1px solid var(--amber)}
+
+  .p1-plaza-peek{padding:16px;background:rgba(251,250,245,.5)}
+  .p1-plaza-head{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px;text-align:center}
+  .p1-plaza-sub{font-size:10px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:12px}
+  .p1-post{padding:10px 0;border-bottom:1px dashed var(--line)}
+  .p1-post:last-child{border:none}
+  .p1-post .m{font-size:8px;color:var(--muted);margin-bottom:3px}
+  .p1-post .m .w{color:var(--teal);font-weight:600}
+  .p1-post h4{font-family:var(--serif);font-size:11px;font-weight:500;color:var(--ink);line-height:1.4}
+
+  /* === 폰 2: 메가 메뉴 열린 상태 === */
+  .p2-menu{background:var(--warm)}
+  .p2-mh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .p2-mh-label{font-family:var(--serif);font-size:9px;letter-spacing:.16em;color:var(--amber);font-weight:700;text-transform:uppercase}
+  .p2-search{margin:12px 16px;padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;font-size:10px;color:var(--soft-c);display:flex;align-items:center;gap:6px}
+  .p2-search svg{width:11px;height:11px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round}
+  .p2-cat{padding:12px 16px;border-bottom:1px solid var(--fine);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .p2-cat.active{background:var(--surface);border-left:3px solid var(--teal);padding-left:13px}
+  .p2-cat-name{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--ink)}
+  .p2-cat.active .p2-cat-name{color:var(--teal)}
+  .p2-cat-desc{font-size:9px;color:var(--muted);margin-top:1px}
+  .p2-cat-arrow{font-size:14px;color:var(--soft-c);font-family:var(--serif)}
+  .p2-cat.active .p2-cat-arrow{color:var(--teal);transform:rotate(90deg)}
+  .p2-subs{padding:8px 16px 12px;background:var(--paper)}
+  .p2-sub-item{padding:8px 0;display:flex;align-items:center;gap:10px}
+  .p2-sub-ico{width:24px;height:24px;border-radius:4px;background:var(--surface);border:1px solid var(--fine);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:11px;font-weight:700;color:var(--teal);flex-shrink:0}
+  .p2-sub-text .n{font-size:11px;font-weight:600;color:var(--ink)}
+  .p2-sub-text .d{font-size:9px;color:var(--muted)}
+
+  /* === 폰 3: 광장 === */
+  .p3-plaza-head{padding:24px 16px;text-align:center;border-bottom:1px solid var(--ink)}
+  .p3-hanja{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.2em;margin-bottom:4px}
+  .p3-h{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin-bottom:6px}
+  .p3-lede{font-size:10px;color:var(--muted);font-style:italic}
+
+  .p3-tabs{display:flex;border-bottom:1px solid var(--line)}
+  .p3-tab{flex:1;padding:10px 8px;text-align:center;font-family:var(--serif);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+  .p3-tab.active{color:var(--ink);border-bottom:2px solid var(--ink)}
+  .p3-tab .hanja{font-size:9px;color:var(--amber);margin-left:3px;font-weight:400}
+
+  .p3-posts{padding:14px 16px}
+  .p3-post{padding:12px 0;border-bottom:1px dashed var(--line)}
+  .p3-post:last-child{border:none}
+  .p3-post-meta{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted);margin-bottom:5px}
+  .p3-post-meta .now{padding:1px 6px;border-radius:999px;background:rgba(168,123,62,.12);color:var(--amber);font-weight:700;font-size:7px;letter-spacing:.06em;text-transform:uppercase}
+  .p3-post-meta .who{color:var(--teal);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  .p3-post-meta .who .dot{width:14px;height:14px;border-radius:50%;background:var(--cool);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;font-family:var(--serif)}
+  .p3-post h4{font-family:var(--serif);font-size:13px;font-weight:500;color:var(--ink);line-height:1.35;margin-bottom:4px}
+  .p3-post .snip{font-size:10px;color:var(--muted);line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .p3-post .vote{display:flex;gap:10px;font-size:9px;color:var(--muted)}
+  .p3-post .vote .d{color:var(--amber);font-weight:600}
+
+  /* === 폰 4: 블로그 === */
+  .p4-cover{height:80px;background:linear-gradient(135deg,var(--teal),var(--teal-mid) 40%,var(--amber));position:relative}
+  .p4-profile{padding:0 16px 16px;margin-top:-22px;position:relative;text-align:center;border-bottom:1px solid var(--line)}
+  .p4-photo{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#c8d0c4,#dfe6d3);border:3px solid var(--warm);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:24px;font-weight:700;color:var(--teal);margin:0 auto 8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .p4-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .p4-handle{font-size:9px;color:var(--muted);font-family:monospace;margin-bottom:8px}
+  .p4-bio{font-family:var(--serif);font-size:11px;color:var(--soft);font-style:italic;line-height:1.5;margin-bottom:10px}
+  .p4-stats{display:flex;justify-content:center;gap:14px;font-size:9px;color:var(--muted)}
+  .p4-stats strong{display:block;color:var(--ink);font-family:var(--serif);font-size:12px;font-weight:700}
+
+  .p4-tabs{display:flex;border-bottom:1px solid var(--ink);background:var(--warm)}
+  .p4-tab{flex:1;padding:10px 4px;text-align:center;font-family:var(--serif);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer}
+  .p4-tab.active{color:var(--ink);border-bottom:2px solid var(--ink)}
+
+  .p4-content{padding:16px}
+  .p4-mark{font-family:var(--serif);font-size:9px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+  .p4-intro{font-family:var(--serif);font-size:12px;color:var(--soft);line-height:1.7;margin-bottom:14px;font-weight:300}
+  .p4-post{padding:10px 0;border-bottom:1px dashed var(--line)}
+  .p4-post:last-child{border:none}
+  .p4-post .d{font-size:8px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+  .p4-post h4{font-family:var(--serif);font-size:13px;font-weight:500;color:var(--ink);line-height:1.3;margin-bottom:4px}
+  .p4-post .e{font-size:9px;color:var(--muted)}
+
+  /* 메모 카드 */
+  .notes{max-width:1640px;margin:0 auto;padding:40px 32px 80px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+  .note{background:var(--warm);padding:20px;border-radius:4px;border-left:3px solid var(--teal);font-size:13px;color:var(--muted);line-height:1.65}
+  .note strong{display:block;color:var(--ink);font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:6px}
+
+  @media (max-width:1280px){
+    .phones,.notes{grid-template-columns:repeat(2,1fr);max-width:760px}
+  }
+  @media (max-width:640px){
+    .phones,.notes{grid-template-columns:1fr;max-width:380px}
+    .phone{width:300px;height:600px}
+  }
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <div class="page-meta">y-life.kr · 모바일 시안 · 2026.05.14.</div>
+  <h1>폰에서는 이렇게 <em>흐릅니다</em></h1>
+  <p class="lede">새벽의 신뢰 팔레트와 광장 중심 구조가 좁은 화면에서 어떻게 보이는지, 네 개의 핵심 상태로 보여드립니다.</p>
+</header>
+
+<section class="phones">
+
+  <!-- 1. 홈 -->
+  <div class="phone-wrap">
+    <div class="phone-label">
+      <div class="num">No.01</div>
+      <div class="title">홈 — 화두</div>
+      <p class="desc">마스트헤드와 이 주의 화두. 광장 미리보기까지 한 화면에.</p>
+    </div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="pb-topbar"><span>2026.05.14.</span><span>연마을</span></div>
+        <div class="pb-mast">
+          <div class="pb-brand"><span class="yeon">緣</span>y-life.kr</div>
+          <button class="pb-menu-btn closed"><svg viewBox="0 0 24 16"><line x1="2" y1="3" x2="22" y2="3"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="13" x2="14" y2="13"/></svg></button>
+        </div>
+        <div class="pb-scroll">
+          <div class="p1-hero">
+            <div class="p1-kicker">話頭 #19 <span class="p1-badge">깊어지는 중</span></div>
+            <h2 class="p1-quote">사람은 자신이 의식적으로 <em>선택한다</em>고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다.</h2>
+            <div class="p1-byline">— 연소사 제안 · 글 23편</div>
+            <div class="p1-actions">
+              <div class="p1-btn p1-btn-1">아골라에서 토론하기</div>
+              <div class="p1-btn p1-btn-2">아곤란에서 생각 나누기</div>
+            </div>
+          </div>
+          <div class="p1-plaza-peek">
+            <div class="p1-plaza-head">廣 場 광장</div>
+            <div class="p1-plaza-sub">어른은 토론, 학생은 질문</div>
+            <div class="p1-post">
+              <div class="m"><span class="w">林 임선생</span> · 아골라 · 2시간 전</div>
+              <h4>'선택'이라는 말의 무게</h4>
+            </div>
+            <div class="p1-post">
+              <div class="m"><span class="w">민 민서</span> · 아곤란 · 중1</div>
+              <h4>내가 좋아하는 걸 진짜 좋아할까요?</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 메가 메뉴 -->
+  <div class="phone-wrap">
+    <div class="phone-label">
+      <div class="num">No.02</div>
+      <div class="title">메가 메뉴 (모바일)</div>
+      <p class="desc">차림표를 누르면 아코디언으로 펼쳐짐. 한 손으로 쉽게.</p>
+    </div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="pb-topbar"><span>차림표 · Menu</span></div>
+        <div class="pb-mast">
+          <div class="pb-brand"><span class="yeon">緣</span>y-life.kr</div>
+          <button class="pb-menu-btn"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+        </div>
+        <div class="pb-scroll p2-menu">
+          <div class="p2-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            <span>화두 · 글 · 사람 검색</span>
+          </div>
+          <div class="p2-cat">
+            <div><div class="p2-cat-name">화두</div><div class="p2-cat-desc">이 주의 가운데 물음</div></div>
+            <span class="p2-cat-arrow">›</span>
+          </div>
+          <div class="p2-cat active">
+            <div><div class="p2-cat-name">광장</div><div class="p2-cat-desc">아골라 · 아곤란</div></div>
+            <span class="p2-cat-arrow">›</span>
+          </div>
+          <div class="p2-subs">
+            <div class="p2-sub-item">
+              <div class="p2-sub-ico">議</div>
+              <div class="p2-sub-text"><div class="n">아골라 阿閣羅</div><div class="d">어른의 토론</div></div>
+            </div>
+            <div class="p2-sub-item">
+              <div class="p2-sub-ico">問</div>
+              <div class="p2-sub-text"><div class="n">아곤란 阿昆蘭</div><div class="d">학생의 질문</div></div>
+            </div>
+            <div class="p2-sub-item">
+              <div class="p2-sub-ico">深</div>
+              <div class="p2-sub-text"><div class="n">이 주의 인사이트</div><div class="d">가장 깊은 글 Top 10</div></div>
+            </div>
+          </div>
+          <div class="p2-cat">
+            <div><div class="p2-cat-name">칼럼</div><div class="p2-cat-desc">네 사람의 시선</div></div>
+            <span class="p2-cat-arrow">›</span>
+          </div>
+          <div class="p2-cat">
+            <div><div class="p2-cat-name">세상</div><div class="p2-cat-desc">오늘 · 시사 · 세계</div></div>
+            <span class="p2-cat-arrow">›</span>
+          </div>
+          <div class="p2-cat">
+            <div><div class="p2-cat-name">블로그</div><div class="p2-cat-desc">나의 마당</div></div>
+            <span class="p2-cat-arrow">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 광장 -->
+  <div class="phone-wrap">
+    <div class="phone-label">
+      <div class="num">No.03</div>
+      <div class="title">광장 — 핵심</div>
+      <p class="desc">아골라·아곤란을 탭으로 전환. 글이 시원하게 보임.</p>
+    </div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="pb-topbar"><span>광장</span><span>2026.05.14.</span></div>
+        <div class="p3-plaza-head">
+          <div class="p3-hanja">廣 場</div>
+          <h2 class="p3-h">광장</h2>
+          <p class="p3-lede">어른은 토론, 학생은 질문</p>
+        </div>
+        <div class="p3-tabs">
+          <a class="p3-tab active">아골라<span class="hanja">議</span></a>
+          <a class="p3-tab">아곤란<span class="hanja">問</span></a>
+          <a class="p3-tab">인사이트</a>
+        </div>
+        <div class="p3-posts pb-scroll">
+          <div class="p3-post">
+            <div class="p3-post-meta">
+              <span class="now">지금</span>
+              <span class="who"><span class="dot">林</span>임선생</span>
+              <span>· 2시간 전</span>
+            </div>
+            <h4>'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h4>
+            <p class="snip">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대.</p>
+            <div class="vote"><span class="d">◐ 좋은 물음 24</span><span>댓글 7</span></div>
+          </div>
+          <div class="p3-post">
+            <div class="p3-post-meta">
+              <span class="who"><span class="dot">朴</span>박주민</span>
+              <span>· 어제</span>
+            </div>
+            <h4>기록되지 않은 결정은 정말 내 결정인가</h4>
+            <p class="snip">한 주 동안 내가 한 결정들을 거꾸로 적어보았다. 70%는 결정이 아니라 흐름이었다.</p>
+            <div class="vote"><span class="d">◐ 좋은 물음 48</span><span>댓글 12</span></div>
+          </div>
+          <div class="p3-post">
+            <div class="p3-post-meta">
+              <span class="who"><span class="dot">崔</span>최영재</span>
+              <span>· 2일 전</span>
+            </div>
+            <h4>"몸이 먼저 안다"는 말의 동양적 뿌리</h4>
+            <p class="snip">신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.</p>
+            <div class="vote"><span class="d">◐ 좋은 물음 29</span><span>댓글 3</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 블로그 -->
+  <div class="phone-wrap">
+    <div class="phone-label">
+      <div class="num">No.04</div>
+      <div class="title">블로그 — 내 마당</div>
+      <p class="desc">표지·프로필·탭. 자기 글이 쌓이는 자기 자리.</p>
+    </div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="pb-topbar"><span>← y-life.kr</span><span>···</span></div>
+        <div class="pb-scroll">
+          <div class="p4-cover"></div>
+          <div class="p4-profile">
+            <div class="p4-photo">林</div>
+            <div class="p4-name">임선생의 마당</div>
+            <div class="p4-handle">y-life.kr/@lim-teacher</div>
+            <div class="p4-bio">학교에서 윤리를 가르치고,<br>퇴근하면 책상 앞에 앉습니다.</div>
+            <div class="p4-stats">
+              <div><strong>12</strong>글</div>
+              <div><strong>248</strong>독자</div>
+              <div><strong>34</strong>광장</div>
+              <div><strong>3</strong>가게</div>
+            </div>
+          </div>
+          <div class="p4-tabs">
+            <a class="p4-tab active">소개</a>
+            <a class="p4-tab">글</a>
+            <a class="p4-tab">광장</a>
+            <a class="p4-tab">가게</a>
+          </div>
+          <div class="p4-content">
+            <div class="p4-mark">— 소개</div>
+            <p class="p4-intro">안녕하세요. 임선생입니다. 학교에서 학생들과 윤리를 같이 읽고, 퇴근하면 동양철학과 서양철학을 번갈아 봅니다.</p>
+            <div class="p4-mark" style="margin-top:14px">— 최근 글</div>
+            <div class="p4-post">
+              <div class="d">철학 · 5월 14일</div>
+              <h4>'선택'이라는 말의 무게</h4>
+              <div class="e">◐ 24 · 댓글 7</div>
+            </div>
+            <div class="p4-post">
+              <div class="d">교실 · 5월 9일</div>
+              <h4>"왜요?"가 많이 나오는 수업의 특징</h4>
+              <div class="e">◐ 31 · 댓글 14</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- 메모 -->
+<section class="notes">
+  <div class="note">
+    <strong>한 손으로 닿는 자리</strong>
+    상단 메뉴 버튼은 오른쪽 엄지가 자연스럽게 닿는 자리에 둡니다. 화두 버튼도 화면 중하단에 배치해 누르기 쉽습니다.
+  </div>
+  <div class="note">
+    <strong>3열이 1열로</strong>
+    데스크탑의 3열 메가 메뉴는 폰에서 아코디언으로 합쳐집니다. 위계는 그대로지만, 한 번에 한 갈래씩 펼쳐서 봅니다.
+  </div>
+  <div class="note">
+    <strong>광장은 탭으로</strong>
+    데스크탑의 3열 광장(아골라·아곤란·인사이트)은 폰에서 상단 탭으로 전환됩니다. 광장이 폰에서도 가장 큰 면적을 차지합니다.
+  </div>
+  <div class="note">
+    <strong>블로그는 단일 흐름</strong>
+    블로그는 위에서 아래로 표지 → 프로필 → 탭 → 본문. 데스크탑과 같은 순서, 더 단순한 폭. 가게와 광장 활동도 그대로.
+  </div>
+</section>
+
+</body>
+</html>

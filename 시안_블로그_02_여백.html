@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임선생 — 여백</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --amber:#a87b3e;
+    --line:#e8e4d9; --muted:#8a9398; --body:#3a4448;
+    --paper:#fbfaf5; --warm:#f6f3ec;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--paper);color:var(--body);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+  /* 상단 미니 바 */
+  .topbar{padding:18px 0;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);letter-spacing:.06em}
+  .topbar-inner{max-width:680px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+  .topbar a{color:var(--soft);font-family:var(--serif);font-weight:600}
+  .topbar a:hover{color:var(--teal)}
+
+  /* 컨테이너 - 매우 좁게 */
+  .wrap{max-width:680px;margin:0 auto;padding:0 24px}
+
+  /* 헤더 - 중앙 정렬, 매우 미니멀 */
+  .head{padding:96px 0 72px;text-align:center}
+  .photo{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#c8d0c4,#e8e4d9);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:32px;font-weight:300;margin:0 auto 32px}
+  .name{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--ink);letter-spacing:.16em;margin-bottom:14px}
+  .handle{font-size:11px;color:var(--muted);letter-spacing:.12em;margin-bottom:32px;font-family:ui-monospace,monospace}
+  .bio{font-family:var(--serif);font-size:17px;color:var(--soft);font-style:italic;line-height:1.7;max-width:480px;margin:0 auto 40px}
+  .div-line{width:40px;height:1px;background:var(--line);margin:0 auto}
+
+  /* 메타 - 점선으로 구분 */
+  .stats{display:flex;justify-content:center;gap:36px;padding:32px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .stats strong{display:block;color:var(--ink);font-family:var(--serif);font-size:18px;font-weight:400;letter-spacing:0;margin-bottom:4px;text-transform:none}
+
+  /* 탭 - 매우 절제된 */
+  .tabs{display:flex;justify-content:center;gap:32px;padding:36px 0 0}
+  .tab{font-family:var(--serif);font-size:13px;font-weight:400;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;padding:6px 0;position:relative;cursor:pointer;transition:color .2s}
+  .tab:hover,.tab.active{color:var(--ink)}
+  .tab.active::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--ink)}
+
+  /* 소개 */
+  .intro{padding:72px 0 60px;border-bottom:1px solid var(--line)}
+  .section-mark{text-align:center;font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.24em;text-transform:uppercase;margin-bottom:32px}
+  .intro p{font-family:var(--serif);font-size:17px;color:var(--soft);line-height:2;text-align:left;margin-bottom:18px;font-weight:300}
+  .intro p:last-child{margin-bottom:0}
+
+  /* 최근 글 */
+  .posts{padding:60px 0}
+  .post{padding:48px 0;border-bottom:1px solid var(--line);text-align:center}
+  .post:last-child{border-bottom:none}
+  .post-date{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;font-family:var(--serif)}
+  .post-title{font-family:var(--serif);font-size:26px;font-weight:400;line-height:1.45;color:var(--ink);letter-spacing:-.01em;margin-bottom:18px}
+  .post-deck{font-family:var(--serif);font-size:15px;font-weight:300;color:var(--soft);line-height:1.85;max-width:520px;margin:0 auto 24px;font-style:italic}
+  .post-read{font-family:var(--serif);font-size:12px;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+  .post-read::after{content:" →";margin-left:2px}
+
+  /* 광장 활동 - 더 절제된 리스트 */
+  .plaza-block{padding:60px 0;border-top:1px solid var(--line)}
+  .pa-item{padding:20px 0;text-align:center}
+  .pa-where{font-size:10px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+  .pa-title{font-family:var(--serif);font-size:16px;font-weight:400;color:var(--ink);line-height:1.5}
+  .pa-meta{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+
+  /* 가게 */
+  .shop{padding:60px 0;border-top:1px solid var(--line)}
+  .shop-list{display:flex;flex-direction:column;gap:48px;align-items:center}
+  .product{text-align:center;max-width:480px}
+  .product-kind{font-size:10px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+  .product-name{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:12px;letter-spacing:-.01em}
+  .product-story{font-family:var(--serif);font-size:14px;font-weight:300;color:var(--soft);line-height:1.85;font-style:italic;margin-bottom:20px}
+  .product-link{display:inline-block;padding:10px 24px;border:1px solid var(--line);font-family:var(--serif);font-size:12px;color:var(--soft);letter-spacing:.12em;text-transform:uppercase;transition:all .2s;font-weight:400}
+  .product-link:hover{border-color:var(--ink);color:var(--ink)}
+  .product-price{display:block;font-family:var(--serif);font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+
+  /* 푸터 */
+  .footer{padding:60px 0;text-align:center;font-family:var(--serif);font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .footer a{color:var(--teal);font-weight:500}
+
+  @media (max-width:640px){
+    .wrap,.topbar-inner{padding:0 20px}
+    .name{font-size:28px;letter-spacing:.1em}
+    .head{padding:64px 0 48px}
+    .post-title{font-size:22px}
+    .stats{gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr</a>
+    <span>2026.05.14.</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="photo">林</div>
+    <h1 class="name">임 선 생</h1>
+    <div class="handle">@lim-teacher</div>
+    <p class="bio">천천히 묻는 사람을 좋아합니다.<br>학교에서 윤리를 가르치고, 퇴근하면 책상 앞에 앉습니다.</p>
+    <div class="div-line"></div>
+  </header>
+
+  <div class="stats">
+    <div><strong>12</strong>글</div>
+    <div><strong>248</strong>독자</div>
+    <div><strong>34</strong>광장 활동</div>
+    <div><strong>3</strong>가게</div>
+  </div>
+
+  <nav class="tabs">
+    <a class="tab active">소개</a>
+    <a class="tab">글</a>
+    <a class="tab">광장</a>
+    <a class="tab">가게</a>
+  </nav>
+
+  <!-- 소개 -->
+  <section class="intro">
+    <div class="section-mark">— 소개</div>
+    <p>안녕하세요. 임선생입니다.</p>
+    <p>학교에서 학생들과 윤리를 같이 읽고, 퇴근하면 다시 한 번 책상 앞에 앉아 동양철학과 서양철학을 번갈아 봅니다.</p>
+    <p>이 마당에는 학생들과 나눈 이야기, 책을 읽다 멈춰진 자리, 동료 선생님들과의 토론에서 떠오른 질문들을 기록합니다.</p>
+    <p>자주 들러 주세요. 천천히 답을 찾기보다, 같이 잘 묻고 싶습니다.</p>
+  </section>
+
+  <!-- 최근 글 -->
+  <section class="posts">
+    <div class="section-mark">— 최근 글</div>
+    <article class="post">
+      <div class="post-date">2026 · 5월 14일</div>
+      <h2 class="post-title">'선택'이라는 말의 무게</h2>
+      <p class="post-deck">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까.</p>
+      <a class="post-read">읽기</a>
+    </article>
+    <article class="post">
+      <div class="post-date">2026 · 5월 9일</div>
+      <h2 class="post-title">"왜요?"가 가장 많이 나오는 수업의 특징</h2>
+      <p class="post-deck">3년간 윤리 수업에서 학생들이 '왜요?'를 가장 많이 물어본 차시를 모아 비교해 보았다. 공통점은 하나였다.</p>
+      <a class="post-read">읽기</a>
+    </article>
+    <article class="post">
+      <div class="post-date">2026 · 5월 2일</div>
+      <h2 class="post-title">맹자의 不忍人之心과 공감의 신경과학</h2>
+      <p class="post-deck">2,300년 전의 한 문장이 거울 뉴런 연구와 만나는 자리. 책상 위에 두 권의 책을 펼쳐 두고 한 주를 보냈다.</p>
+      <a class="post-read">읽기</a>
+    </article>
+  </section>
+
+  <!-- 광장 활동 -->
+  <section class="plaza-block">
+    <div class="section-mark">— 광장 활동</div>
+    <div class="pa-item">
+      <div class="pa-where">아골라 · 2시간 전</div>
+      <div class="pa-title">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</div>
+      <div class="pa-meta">좋은 물음 24 · 댓글 7</div>
+    </div>
+    <div class="pa-item">
+      <div class="pa-where">아곤란 · 어제 (답글)</div>
+      <div class="pa-title">민서 학생의 '내가 좋아하는 것' 질문에 답함</div>
+      <div class="pa-meta">좋아요 12</div>
+    </div>
+    <div class="pa-item">
+      <div class="pa-where">아골라 · 5월 7일</div>
+      <div class="pa-title">교사가 가장 자주 받는 윤리적 딜레마 5가지</div>
+      <div class="pa-meta">좋은 물음 41 · 댓글 18</div>
+    </div>
+  </section>
+
+  <!-- 가게 -->
+  <section class="shop">
+    <div class="section-mark">— 가게</div>
+    <div class="shop-list">
+      <div class="product">
+        <div class="product-kind">책 · 자작</div>
+        <h3 class="product-name">『학생이 묻기를 멈출 때』</h3>
+        <p class="product-story">15년 교사 생활에서 가장 많이 들은 질문들과 가장 적게 들은 질문들을 모은 책. 자비출판.</p>
+        <a href="#" class="product-link">알라딘에서 보기</a>
+        <span class="product-price">15,000원</span>
+      </div>
+      <div class="product">
+        <div class="product-kind">강의 · 온라인</div>
+        <h3 class="product-name">중·고생을 위한 윤리 입문 8강</h3>
+        <p class="product-story">교실에서 가장 자주 막히는 여덟 가지 윤리 주제를 학생 눈높이로 풀었습니다.</p>
+        <a href="#" class="product-link">클래스101에서 보기</a>
+        <span class="product-price">48,000원</span>
+      </div>
+      <div class="product">
+        <div class="product-kind">소품 · 손편지</div>
+        <h3 class="product-name">학생에게 보내는 손편지 — 1년 12통</h3>
+        <p class="product-story">학생 한 명에게 매달 한 통씩, 1년간 12통의 손편지를 보냅니다.</p>
+        <a href="#" class="product-link">신청하기</a>
+        <span class="product-price">120,000원 / 1년</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <p>임선생의 마당 · 연라이프 마을의 한 자리</p>
+  <p style="margin-top:6px"><a href="시안_v4_홈페이지.html">y-life.kr</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  }));
+</script>
+
+</body>
+</html>

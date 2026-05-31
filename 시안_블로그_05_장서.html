@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최영재의 서고 — 장서</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명 유지 */
+  --ink:#1a2326;--soft:#2a3438;--teal:#2a5358;--amber:#a87b3e;--line:#d8d3c7;--fine:#e8e4d9;--muted:#5e6a6e;--paper:#f4f0e6;--warm:#f6f3ec;--cool:#eee9dc;--surface:#fbfaf5;--serif:"Noto Serif KR",serif;--sans:"Pretendard",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.75;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+.topbar{padding:14px 32px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm);display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+.layout{flex:1;display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 50px)}
+
+/* 좌측 책장 */
+.shelf{background:var(--ink);color:var(--warm);padding:36px 24px;display:flex;flex-direction:column}
+.shelf-brand{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.2;margin-bottom:6px;letter-spacing:-.015em}
+.shelf-brand .name{color:var(--amber);display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.shelf-handle{font-size:11px;color:rgba(244,240,230,.5);font-family:monospace;margin-bottom:24px;letter-spacing:.04em}
+.shelf-bio{font-family:var(--serif);font-size:13px;color:rgba(244,240,230,.85);font-style:italic;line-height:1.65;padding:14px 0;border-top:1px solid rgba(244,240,230,.15);border-bottom:1px solid rgba(244,240,230,.15);margin-bottom:24px}
+
+.shelf-cats{flex:1}
+.shelf-h{font-family:var(--serif);font-size:10px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px;padding-left:8px}
+.shelf-cat{padding:10px 14px;font-family:var(--serif);font-size:14px;font-weight:500;color:rgba(244,240,230,.7);cursor:pointer;border-left:3px solid transparent;display:flex;justify-content:space-between;align-items:center;transition:all .2s}
+.shelf-cat:hover{color:var(--warm)}
+.shelf-cat.act{color:var(--warm);background:rgba(244,240,230,.06);border-left-color:var(--amber)}
+.shelf-cat .n{font-size:11px;color:rgba(244,240,230,.4);font-family:var(--sans)}
+
+.shelf-stats{padding-top:20px;border-top:1px solid rgba(244,240,230,.15);font-size:11px;color:rgba(244,240,230,.5);display:flex;flex-direction:column;gap:6px}
+.shelf-stats strong{color:var(--amber);font-family:var(--serif);font-weight:700}
+
+/* 우측 본문 */
+.main{padding:48px 56px;overflow-y:auto;background:var(--paper)}
+.crumb{font-size:11px;color:var(--muted);letter-spacing:.06em;margin-bottom:18px}
+.crumb a{color:var(--teal);font-family:var(--serif);font-weight:600}
+.crumb .sep{margin:0 6px}
+
+.cat-head{padding-bottom:24px;border-bottom:2px solid var(--ink);margin-bottom:36px}
+.cat-label{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.cat-title{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px}
+.cat-desc{font-family:var(--serif);font-size:14px;color:var(--muted);font-style:italic;line-height:1.65;max-width:580px}
+
+/* 책등(목록) */
+.book-list{display:flex;flex-direction:column}
+.book{padding:24px 0;border-bottom:1px dashed var(--line);cursor:pointer;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:start;transition:transform .25s}
+.book:hover{transform:translateX(4px)}
+.book:last-child{border-bottom:none}
+.book-num{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding-top:4px}
+.book-num strong{display:block;font-size:24px;color:var(--ink);font-weight:900;letter-spacing:-.02em;margin-bottom:2px}
+.book-body h3{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:8px;letter-spacing:-.01em}
+.book-body p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.book-meta{font-size:11px;color:var(--soft-c)}
+.book-meta .depth{color:var(--amber);font-weight:600;margin-right:8px}
+.book-side{text-align:right;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding-top:4px}
+.book-side strong{display:block;color:var(--ink);font-family:var(--serif);font-size:13px;font-weight:600;text-transform:none;letter-spacing:0;margin-bottom:2px}
+
+/* 사이드 모듈 */
+.module{margin-top:48px;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.module-h{font-family:var(--serif);font-size:13px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.shop-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shop-item{padding:14px;background:var(--warm);border:1px solid var(--fine);cursor:pointer}
+.shop-item:hover{border-color:var(--teal)}
+.shop-k{font-size:10px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.shop-n{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:8px}
+.shop-p{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--ink)}
+
+@media (max-width:1024px){
+  .layout{grid-template-columns:1fr}
+  .shelf{padding:24px 32px}
+  .main{padding:32px 24px}
+  .book{grid-template-columns:60px 1fr;gap:18px}
+  .book-side{display:none}
+  .shop-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>2026.05.14.</span></div>
+
+<div class="layout">
+
+  <!-- 좌측 책장 -->
+  <aside class="shelf">
+    <h1 class="shelf-brand"><span class="name">崔 영재</span>최영재의<br>서고</h1>
+    <div class="shelf-handle">@choi-archive</div>
+    <p class="shelf-bio">국문학 박사 과정. 옛 글을 천천히 읽고, 짧게 옮깁니다.</p>
+    <div class="shelf-cats">
+      <div class="shelf-h">分 類</div>
+      <div class="shelf-cat act">철학<span class="n">12</span></div>
+      <div class="shelf-cat">교실<span class="n">8</span></div>
+      <div class="shelf-cat">읽기<span class="n">23</span></div>
+      <div class="shelf-cat">사색<span class="n">6</span></div>
+      <div class="shelf-cat">번역<span class="n">15</span></div>
+      <div class="shelf-cat">잡문<span class="n">4</span></div>
+    </div>
+    <div class="shelf-stats">
+      <div>총 <strong>68</strong>권의 책</div>
+      <div>읽은 사람 <strong>1,248</strong>명</div>
+      <div>2025년 9월 입주</div>
+    </div>
+  </aside>
+
+  <!-- 우측 본문 -->
+  <main class="main">
+    <div class="crumb">
+      <a href="시안_v4_홈페이지.html">홈</a><span class="sep">›</span>
+      <a href="#">서고</a><span class="sep">›</span>
+      <span style="color:var(--ink)">철학</span>
+    </div>
+
+    <div class="cat-head">
+      <div class="cat-label">分類 · 哲學</div>
+      <h2 class="cat-title">철학</h2>
+      <p class="cat-desc">동양과 서양 사이를 오가며, 같은 자리를 가리키는 두 언어를 발견할 때 가장 기쁩니다.</p>
+    </div>
+
+    <div class="book-list">
+      <div class="book">
+        <div class="book-num"><strong>012</strong>최근</div>
+        <div class="book-body">
+          <h3>"몸이 먼저 안다"는 말의 동양적 뿌리</h3>
+          <p>신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다. 노자와 리벳을 함께 읽으며.</p>
+          <div class="book-meta"><span class="depth">◐ 29</span>읽음 142 · 댓글 3</div>
+        </div>
+        <div class="book-side"><strong>5월 12일</strong>읽는 시간 7분</div>
+      </div>
+
+      <div class="book">
+        <div class="book-num"><strong>011</strong></div>
+        <div class="book-body">
+          <h3>맹자의 不忍人之心과 거울 뉴런</h3>
+          <p>2,300년 전의 한 문장이 신경과학과 만나는 자리. 책상 위에 두 권의 책을 펼쳐 두고 한 주를 보냈다.</p>
+          <div class="book-meta"><span class="depth">◐ 18</span>읽음 86 · 댓글 4</div>
+        </div>
+        <div class="book-side"><strong>5월 6일</strong>읽는 시간 9분</div>
+      </div>
+
+      <div class="book">
+        <div class="book-num"><strong>010</strong></div>
+        <div class="book-body">
+          <h3>장자의 '坐忘'과 명상의 신경학</h3>
+          <p>잊음으로 얻는다는 역설. 디폴트 모드 네트워크 연구가 동양적 명상을 어떻게 다시 읽게 만드는지.</p>
+          <div class="book-meta"><span class="depth">◐ 24</span>읽음 112 · 댓글 6</div>
+        </div>
+        <div class="book-side"><strong>4월 29일</strong>읽는 시간 8분</div>
+      </div>
+
+      <div class="book">
+        <div class="book-num"><strong>009</strong></div>
+        <div class="book-body">
+          <h3>퇴계 이황의 '敬'을 다시 읽다</h3>
+          <p>스피노자의 '경의'(reverentia)와 퇴계의 '경'(敬)이 만난다. 두 사람이 같은 자리에 머무는 것에 대하여.</p>
+          <div class="book-meta"><span class="depth">◐ 15</span>읽음 64 · 댓글 2</div>
+        </div>
+        <div class="book-side"><strong>4월 22일</strong>읽는 시간 11분</div>
+      </div>
+
+      <div class="book">
+        <div class="book-num"><strong>008</strong></div>
+        <div class="book-body">
+          <h3>'氣'와 빛, 그리고 양자물리학</h3>
+          <p>고대 동양의 氣 개념이 현대 물리학과 만나는 자리에 대해 — 무리한 합치보다는 적절한 거리를 두며.</p>
+          <div class="book-meta"><span class="depth">◐ 11</span>읽음 47 · 댓글 1</div>
+        </div>
+        <div class="book-side"><strong>4월 15일</strong>읽는 시간 13분</div>
+      </div>
+    </div>
+
+    <!-- 광장 활동 -->
+    <div class="module">
+      <div class="module-h">광장 활동 · 최근 6건</div>
+      <div style="font-size:13px;line-height:1.85;color:var(--muted)">
+        · <strong style="color:var(--teal)">아골라</strong> '선택'이라는 말의 무게 글에 댓글 (3시간 전)<br>
+        · <strong style="color:var(--teal)">아골라</strong> 노자의 無爲에 관한 메모 (5월 8일)<br>
+        · <strong style="color:var(--teal)">아곤란</strong> 학생 질문에 답글 (5월 6일)<br>
+        · <strong style="color:var(--teal)">시민저널</strong> 6단계 검증 4단계 참여 (5월 4일)
+      </div>
+    </div>
+
+    <!-- 가게 -->
+    <div class="module">
+      <div class="module-h">서고의 부록 · 가게</div>
+      <div class="shop-row">
+        <div class="shop-item">
+          <div class="shop-k">책 · 자작</div>
+          <div class="shop-n">『동서양 마음을 가로지르다』</div>
+          <div class="shop-p">18,000원</div>
+        </div>
+        <div class="shop-item">
+          <div class="shop-k">번역 · 자작</div>
+          <div class="shop-n">『장자 내편』 새 번역본</div>
+          <div class="shop-p">22,000원</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

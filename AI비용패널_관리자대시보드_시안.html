@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자 — AI 비용 모니터링 패널</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--cool);color:var(--soft);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+
+  /* 상단 */
+  .topbar{background:var(--ink);color:var(--warm);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+  .topbar .brand{font-family:var(--serif);font-size:20px;font-weight:700}
+  .topbar .brand .yeon{color:var(--amber)}
+  .topbar .nav{display:flex;gap:24px;font-size:13px}
+  .topbar .nav a{color:rgba(244,240,230,.7);font-weight:600}
+  .topbar .nav a.active{color:var(--amber)}
+  .topbar .user{font-size:12px;color:rgba(244,240,230,.6)}
+
+  /* 페이지 헤더 */
+  .page-head{background:var(--warm);padding:24px 32px;border-bottom:1px solid var(--line)}
+  .page-head h1{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
+  .page-head .sub{font-size:13px;color:var(--muted);margin-top:4px}
+  .page-head .refresh{float:right;font-size:12px;color:var(--teal);font-weight:600}
+
+  /* 본문 */
+  .wrap{max-width:1280px;margin:0 auto;padding:32px}
+
+  /* 최상단 — 알림 박스 */
+  .alert{background:rgba(168,123,62,.1);border:1px solid var(--amber);border-radius:6px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:13px}
+  .alert .ico{width:32px;height:32px;border-radius:50%;background:var(--amber);color:white;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;flex-shrink:0}
+  .alert strong{color:var(--ink);font-weight:700}
+
+  /* 1단 — 큰 숫자 카드 4개 */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  .kpi{background:var(--warm);border:1px solid var(--line);border-radius:6px;padding:18px 20px}
+  .kpi-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .kpi-tag::before{content:"";display:inline-block;width:14px;height:1px;background:var(--amber);margin-right:6px;vertical-align:3px}
+  .kpi-value{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin-bottom:4px}
+  .kpi-value .unit{font-size:14px;color:var(--muted);font-weight:400;margin-left:2px}
+  .kpi-trend{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+  .kpi-trend.up{color:var(--red)}
+  .kpi-trend.down{color:var(--green)}
+
+  /* 2단 — 차트 + 사이드 */
+  .row-2{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
+  .card{background:var(--warm);border:1px solid var(--line);border-radius:6px;padding:20px 24px}
+  .card h2{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+  .card h2 .h-sub{font-size:11px;color:var(--muted);font-weight:400;font-family:var(--sans)}
+
+  /* 막대 차트 */
+  .chart-bars{height:200px;display:flex;align-items:flex-end;gap:6px;padding:14px 0;border-bottom:1px solid var(--fine);position:relative}
+  .chart-bars .grid-line{position:absolute;left:0;right:0;border-top:1px dashed var(--line);font-size:9px;color:var(--muted);text-align:right;padding-right:6px;line-height:0}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+  .bar-col .bar{width:100%;background:var(--teal);border-radius:2px 2px 0 0;transition:all .2s;position:relative}
+  .bar-col .bar:hover{background:var(--amber)}
+  .bar-col .bar-2{position:absolute;bottom:0;width:100%;background:var(--teal-mid);border-radius:2px 2px 0 0;opacity:.7}
+  .bar-col .label{font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.04em}
+  .bar-col .val{position:absolute;top:-18px;font-size:9px;color:var(--ink);font-family:var(--serif);font-weight:700;white-space:nowrap}
+  .legend{display:flex;gap:14px;margin-top:14px;font-size:11px;color:var(--muted)}
+  .legend .dot{width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;display:inline-block}
+
+  /* 모델별 사용 */
+  .model-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--fine)}
+  .model-row:last-child{border:none}
+  .model-info{display:flex;align-items:center;gap:10px}
+  .model-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:13px}
+  .model-icon.claude{background:#A87B3E;color:white}
+  .model-icon.gemini{background:#4A6878;color:white}
+  .model-name{font-size:13px;font-weight:600;color:var(--ink)}
+  .model-sub{font-size:10px;color:var(--muted)}
+  .model-cost{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)}
+  .model-pct{font-size:10px;color:var(--muted);text-align:right}
+
+  /* 3단 — 기능별 + 한도 */
+  .row-3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+
+  /* 기능별 비용 */
+  .feat-row{display:grid;grid-template-columns:24px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--fine);font-size:13px}
+  .feat-row:last-child{border:none}
+  .feat-dot{width:12px;height:12px;border-radius:3px}
+  .feat-name{font-weight:600;color:var(--ink)}
+  .feat-count{font-size:11px;color:var(--muted)}
+  .feat-cost{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:14px}
+
+  /* 한도 진행 바 */
+  .limit-row{margin-bottom:14px}
+  .limit-row:last-child{margin-bottom:0}
+  .limit-head{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;margin-bottom:6px}
+  .limit-name{color:var(--ink);font-weight:600}
+  .limit-pct{color:var(--muted);font-family:var(--serif);font-weight:700}
+  .limit-pct.warn{color:var(--amber)}
+  .limit-pct.danger{color:var(--red)}
+  .limit-bar{height:8px;background:var(--cool);border-radius:4px;overflow:hidden}
+  .limit-fill{height:100%;background:var(--teal);border-radius:4px;transition:width .3s}
+  .limit-fill.warn{background:var(--amber)}
+  .limit-fill.danger{background:var(--red)}
+  .limit-detail{font-size:10px;color:var(--muted);margin-top:3px}
+
+  /* 4단 — 최근 호출 로그 */
+  .log-table{width:100%;border-collapse:collapse;font-size:12px}
+  .log-table th{text-align:left;padding:8px 10px;background:var(--surface);color:var(--muted);font-weight:600;font-size:10px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+  .log-table td{padding:8px 10px;border-bottom:1px dashed var(--fine);line-height:1.5}
+  .log-table tr:hover td{background:var(--surface)}
+  .log-time{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+  .log-feat{font-weight:600;color:var(--ink)}
+  .log-model{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em}
+  .log-model.claude{background:rgba(168,123,62,.15);color:var(--amber)}
+  .log-model.gemini{background:rgba(74,104,120,.15);color:var(--teal-mid)}
+  .log-tokens{font-family:var(--serif);color:var(--ink);font-weight:600;text-align:right}
+  .log-cost{font-family:var(--serif);font-weight:700;color:var(--ink);text-align:right}
+  .log-status{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700}
+  .log-status.ok{background:rgba(90,138,114,.15);color:var(--green)}
+  .log-status.warn{background:rgba(168,123,62,.15);color:var(--amber)}
+
+  /* 푸터 안내 */
+  .info-box{background:var(--warm);border:1px solid var(--line);border-radius:6px;padding:18px 22px;margin-top:24px;font-size:13px;color:var(--muted);line-height:1.75}
+  .info-box strong{color:var(--ink);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  @media (max-width:1024px){
+    .kpi-grid{grid-template-columns:1fr 1fr}
+    .row-2,.row-3{grid-template-columns:1fr}
+    .wrap{padding:20px}
+    .topbar,.page-head{padding:14px 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<div class="topbar">
+  <div class="brand"><span class="yeon">緣</span> y-life.kr · 관리자</div>
+  <nav class="nav">
+    <a href="#">대시보드</a>
+    <a href="#">게시판</a>
+    <a href="#">화두</a>
+    <a href="#">회원</a>
+    <a class="active">AI 비용</a>
+    <a href="#">설정</a>
+  </nav>
+  <div class="user">연소사 · 로그아웃</div>
+</div>
+
+<!-- 페이지 헤더 -->
+<div class="page-head">
+  <h1>AI 비용 모니터링 <span style="font-size:14px;color:var(--muted);font-weight:400">· Claude Haiku 4.5 + Gemini Flash</span></h1>
+  <div class="sub">실시간 호출 추적 · 매시간 자동 갱신 <span class="refresh">↻ 방금 새로 고침 (1분 전)</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 알림 -->
+  <div class="alert">
+    <div class="ico">i</div>
+    <div>
+      이번 달 예상 비용은 <strong>약 8,400원</strong>입니다. 설정해두신 월 한도 <strong>30,000원</strong>의 28% 사용 중.
+      현재 페이스로는 한도 내에서 안전하게 운영됩니다.
+    </div>
+  </div>
+
+  <!-- KPI 4개 -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-tag">이번 달 누적</div>
+      <div class="kpi-value">5,820<span class="unit">원</span></div>
+      <div class="kpi-trend up">↑ 어제보다 +320원</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-tag">예상 월말</div>
+      <div class="kpi-value">8,400<span class="unit">원</span></div>
+      <div class="kpi-trend">한도 30,000원 중 28%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-tag">오늘 호출</div>
+      <div class="kpi-value">487<span class="unit">회</span></div>
+      <div class="kpi-trend down">↓ 어제 524회</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-tag">평균 응답</div>
+      <div class="kpi-value">1.2<span class="unit">초</span></div>
+      <div class="kpi-trend down">↓ 안정적</div>
+    </div>
+  </div>
+
+  <!-- 2단: 차트 + 모델별 -->
+  <div class="row-2">
+
+    <!-- 일별 비용 차트 -->
+    <div class="card">
+      <h2>최근 14일 일별 비용 <span class="h-sub">단위: 원</span></h2>
+      <div class="chart-bars">
+        <div class="bar-col"><div class="val">180</div><div class="bar" style="height:30%"></div><div class="label">5/2</div></div>
+        <div class="bar-col"><div class="val">240</div><div class="bar" style="height:40%"></div><div class="label">5/3</div></div>
+        <div class="bar-col"><div class="val">120</div><div class="bar" style="height:20%"></div><div class="label">5/4</div></div>
+        <div class="bar-col"><div class="val">320</div><div class="bar" style="height:54%"></div><div class="label">5/5</div></div>
+        <div class="bar-col"><div class="val">280</div><div class="bar" style="height:47%"></div><div class="label">5/6</div></div>
+        <div class="bar-col"><div class="val">340</div><div class="bar" style="height:57%"></div><div class="label">5/7</div></div>
+        <div class="bar-col"><div class="val">420</div><div class="bar" style="height:70%"></div><div class="label">5/8</div></div>
+        <div class="bar-col"><div class="val">380</div><div class="bar" style="height:63%"></div><div class="label">5/9</div></div>
+        <div class="bar-col"><div class="val">450</div><div class="bar" style="height:75%"></div><div class="label">5/10</div></div>
+        <div class="bar-col"><div class="val">510</div><div class="bar" style="height:85%"></div><div class="label">5/11</div></div>
+        <div class="bar-col"><div class="val">480</div><div class="bar" style="height:80%"></div><div class="label">5/12</div></div>
+        <div class="bar-col"><div class="val">540</div><div class="bar" style="height:90%"></div><div class="label">5/13</div></div>
+        <div class="bar-col"><div class="val">320</div><div class="bar" style="height:54%;background:var(--amber)"></div><div class="label">5/14</div></div>
+        <div class="bar-col"><div class="val">240</div><div class="bar" style="height:40%;background:var(--amber)"></div><div class="label">5/15</div></div>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--teal)"></span>지난 일</span>
+        <span><span class="dot" style="background:var(--amber)"></span>오늘 (진행중)</span>
+        <span style="margin-left:auto;color:var(--ink);font-weight:600">14일 평균 일 333원</span>
+      </div>
+    </div>
+
+    <!-- 모델별 사용 -->
+    <div class="card">
+      <h2>모델별 사용 현황 <span class="h-sub">이번 달</span></h2>
+      <div class="model-row">
+        <div class="model-info">
+          <div class="model-icon claude">C</div>
+          <div>
+            <div class="model-name">Claude Haiku 4.5</div>
+            <div class="model-sub">챗봇 · 1,254회 호출</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="model-cost">5,640원</div>
+          <div class="model-pct">96.9%</div>
+        </div>
+      </div>
+      <div class="model-row">
+        <div class="model-info">
+          <div class="model-icon gemini">G</div>
+          <div>
+            <div class="model-name">Gemini 2.5 Flash</div>
+            <div class="model-sub">모더 · 820회 (무료)</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="model-cost">0원</div>
+          <div class="model-pct">무료 한도 내</div>
+        </div>
+      </div>
+      <div class="model-row">
+        <div class="model-info">
+          <div class="model-icon" style="background:var(--cool);color:var(--ink)">CF</div>
+          <div>
+            <div class="model-name">Cloudflare Workers</div>
+            <div class="model-sub">2,074회 게이트웨이</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="model-cost">0원</div>
+          <div class="model-pct">무료 한도 내</div>
+        </div>
+      </div>
+      <div class="model-row" style="font-weight:700;padding-top:14px;border-top:2px solid var(--ink);border-bottom:none">
+        <div class="model-info">
+          <div class="model-name" style="font-family:var(--serif);font-size:14px">합계</div>
+        </div>
+        <div class="model-cost">5,640원</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3단: 기능별 + 한도 -->
+  <div class="row-3">
+
+    <!-- 기능별 비용 -->
+    <div class="card">
+      <h2>기능별 비용 분해 <span class="h-sub">이번 달</span></h2>
+      <div class="feat-row">
+        <div class="feat-dot" style="background:var(--amber)"></div>
+        <div>
+          <div class="feat-name">광장 질문 챗봇</div>
+          <div class="feat-count">854회 · 평균 800 토큰</div>
+        </div>
+        <div></div>
+        <div class="feat-cost">3,890원</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-dot" style="background:var(--teal)"></div>
+        <div>
+          <div class="feat-name">FAQ 챗봇</div>
+          <div class="feat-count">400회 · 평균 600 토큰</div>
+        </div>
+        <div></div>
+        <div class="feat-cost">1,750원</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-dot" style="background:var(--teal-mid)"></div>
+        <div>
+          <div class="feat-name">아골라 글 모더레이션</div>
+          <div class="feat-count">540회 · Gemini 무료</div>
+        </div>
+        <div></div>
+        <div class="feat-cost">0원</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-dot" style="background:var(--green)"></div>
+        <div>
+          <div class="feat-name">아곤란 글 모더레이션</div>
+          <div class="feat-count">280회 · Gemini 무료</div>
+        </div>
+        <div></div>
+        <div class="feat-cost">0원</div>
+      </div>
+    </div>
+
+    <!-- 한도 진행률 -->
+    <div class="card">
+      <h2>한도 사용률 <span class="h-sub">이번 달</span></h2>
+
+      <div class="limit-row">
+        <div class="limit-head">
+          <span class="limit-name">월 예산</span>
+          <span class="limit-pct">28%</span>
+        </div>
+        <div class="limit-bar"><div class="limit-fill" style="width:28%"></div></div>
+        <div class="limit-detail">5,640원 / 30,000원</div>
+      </div>
+
+      <div class="limit-row">
+        <div class="limit-head">
+          <span class="limit-name">Gemini 무료 한도 (1,500/일)</span>
+          <span class="limit-pct">55%</span>
+        </div>
+        <div class="limit-bar"><div class="limit-fill" style="width:55%"></div></div>
+        <div class="limit-detail">오늘 820회 / 1,500회</div>
+      </div>
+
+      <div class="limit-row">
+        <div class="limit-head">
+          <span class="limit-name">Cloudflare Workers (10만/일)</span>
+          <span class="limit-pct">2%</span>
+        </div>
+        <div class="limit-bar"><div class="limit-fill" style="width:2%"></div></div>
+        <div class="limit-detail">오늘 2,074회 / 100,000회</div>
+      </div>
+
+      <div class="limit-row">
+        <div class="limit-head">
+          <span class="limit-name">Anthropic 일일 한도</span>
+          <span class="limit-pct">제한 없음</span>
+        </div>
+        <div class="limit-bar"><div class="limit-fill" style="width:5%"></div></div>
+        <div class="limit-detail">사용량 기반 — 예산만 관리</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 최근 호출 로그 -->
+  <div class="card">
+    <h2>최근 AI 호출 로그 <span class="h-sub">최근 20건 · 5분마다 갱신</span></h2>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>시간</th>
+          <th>기능</th>
+          <th>모델</th>
+          <th>토큰 (입력/출력)</th>
+          <th>응답</th>
+          <th>비용</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="log-time">14:23:47</td><td class="log-feat">광장 챗봇</td><td><span class="log-model claude">Haiku</span></td><td class="log-tokens">512 / 318</td><td>1.1s</td><td class="log-cost">5.4원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:22:31</td><td class="log-feat">아곤란 모더</td><td><span class="log-model gemini">Flash</span></td><td class="log-tokens">298 / 47</td><td>0.5s</td><td class="log-cost">0원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:20:14</td><td class="log-feat">FAQ 챗봇</td><td><span class="log-model claude">Haiku</span></td><td class="log-tokens">421 / 256</td><td>0.9s</td><td class="log-cost">4.2원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:18:02</td><td class="log-feat">아골라 모더</td><td><span class="log-model gemini">Flash</span></td><td class="log-tokens">312 / 52</td><td>0.4s</td><td class="log-cost">0원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:17:33</td><td class="log-feat">아골라 모더</td><td><span class="log-model gemini">Flash</span></td><td class="log-tokens">478 / 68</td><td>0.6s</td><td class="log-cost">0원</td><td><span class="log-status warn">차단</span></td></tr>
+        <tr><td class="log-time">14:15:09</td><td class="log-feat">광장 챗봇</td><td><span class="log-model claude">Haiku</span></td><td class="log-tokens">624 / 412</td><td>1.4s</td><td class="log-cost">6.8원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:12:47</td><td class="log-feat">아곤란 모더</td><td><span class="log-model gemini">Flash</span></td><td class="log-tokens">198 / 41</td><td>0.3s</td><td class="log-cost">0원</td><td><span class="log-status ok">정상</span></td></tr>
+        <tr><td class="log-time">14:08:21</td><td class="log-feat">FAQ 챗봇</td><td><span class="log-model claude">Haiku</span></td><td class="log-tokens">389 / 287</td><td>1.0s</td><td class="log-cost">4.4원</td><td><span class="log-status ok">정상</span></td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:14px;text-align:center;font-size:12px"><a href="#">전체 로그 보기 →</a></div>
+  </div>
+
+  <!-- 설정 안내 -->
+  <div class="info-box">
+    <strong>비용 한도 알림 설정</strong>
+    이번 달 예산이 70% 도달하면 이메일로 알림이 옵니다. 100% 도달하면 챗봇이 자동으로 일시 정지되고 폴백(Gemini Flash 무료)으로 전환됩니다. 한도·알림 규칙은 <a href="#">설정 → AI 비용 한도</a>에서 조정할 수 있어요.
+  </div>
+
+  <div class="info-box" style="border-color:var(--teal);background:rgba(42,83,88,.05)">
+    <strong>비용을 더 줄이고 싶다면</strong>
+    · <strong>프롬프트 캐싱 활성화</strong>: 같은 시스템 프롬프트를 반복 사용할 때 Claude는 90% 할인을 자동 적용합니다.<br>
+    · <strong>FAQ를 우선 답변</strong>: 자주 묻는 질문은 정적 답변으로 처리하면 챗봇 호출이 줄어듭니다.<br>
+    · <strong>대화 길이 제한</strong>: 챗봇 대화당 최대 5턴으로 제한하면 평균 비용이 절반으로 감소합니다.
+  </div>
+
+</div>
+
+</body>
+</html>

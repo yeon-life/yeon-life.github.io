@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>현지영의 둘레길 — 풍경</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명 유지 */
+  --ink:#1a2326;--soft:#2a3438;--teal:#2a5358;--teal-mid:#4a6878;--amber:#a87b3e;--line:#d8d3c7;--fine:#e8e4d9;--muted:#5e6a6e;--paper:#f4f0e6;--warm:#f6f3ec;--cool:#eee9dc;--surface:#fbfaf5;--serif:"Noto Serif KR",serif;--sans:"Pretendard",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:linear-gradient(90deg,var(--warm) 0%,var(--paper) 50%,var(--cool) 100%);color:var(--soft);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+.topbar{padding:14px 32px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm);display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+/* 헤더 */
+.head{padding:36px 32px;border-bottom:2px solid var(--ink);background:var(--warm);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.head-l{display:flex;align-items:center;gap:18px}
+.photo{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#bcb0b8,#d4cdc1);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:26px;font-weight:700;flex-shrink:0}
+.name-block .name{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin-bottom:2px}
+.name-block .handle{font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:4px}
+.name-block .bio{font-family:var(--serif);font-size:13px;color:var(--soft);font-style:italic}
+.head-r{display:flex;gap:24px;font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.head-r strong{display:block;color:var(--ink);font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:2px}
+
+/* 탭 */
+.tabs{padding:14px 32px;background:var(--warm);border-bottom:1px solid var(--line);display:flex;gap:24px}
+.tab{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;padding:6px 0;position:relative}
+.tab.active{color:var(--ink)}
+.tab.active::after{content:"";position:absolute;bottom:-15px;left:0;right:0;height:2px;background:var(--ink)}
+
+/* 시리즈 안내 */
+.series-intro{padding:40px 32px;text-align:center;border-bottom:1px solid var(--line)}
+.series-tag{font-family:var(--serif);font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.series-tag::before,.series-tag::after{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin:0 12px;vertical-align:5px}
+.series-title{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+.series-deck{font-family:var(--serif);font-size:15px;color:var(--muted);font-style:italic;line-height:1.7;max-width:580px;margin:0 auto}
+.scroll-hint{margin-top:24px;font-size:11px;color:var(--soft-c);letter-spacing:.16em;text-transform:uppercase}
+.scroll-hint::after{content:" →";color:var(--amber);font-weight:700;font-size:14px;margin-left:6px}
+
+/* 가로 스크롤 패널들 */
+.panels-wrap{padding:24px 0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:32px;-webkit-overflow-scrolling:touch}
+.panels-wrap::-webkit-scrollbar{height:8px}
+.panels-wrap::-webkit-scrollbar-track{background:var(--cool)}
+.panels-wrap::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.panels-wrap::-webkit-scrollbar-thumb:hover{background:var(--teal)}
+.panels{display:flex;gap:24px;padding:24px 32px;min-width:max-content}
+.panel{width:340px;height:480px;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;scroll-snap-align:start;cursor:pointer;transition:all .3s}
+.panel:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(26,35,38,.1)}
+.panel-img{height:200px;background:linear-gradient(135deg,#dfe6d3,#e7d9bf);position:relative}
+.panel-img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(42,83,88,.15),transparent 60%)}
+.panel.act .panel-img{background:linear-gradient(135deg,var(--teal-mid),var(--amber))}
+.panel.p3 .panel-img{background:linear-gradient(135deg,#c8d0c4,#d8c8a4)}
+.panel.p4 .panel-img{background:linear-gradient(135deg,#a8b8a8,#cdd3c4)}
+.panel.p5 .panel-img{background:linear-gradient(135deg,#bcb0b8,#d8d3c7)}
+.panel-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.panel-no{font-family:var(--serif);font-size:10px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.panel-title{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+.panel-deck{font-size:13px;color:var(--muted);line-height:1.65;flex:1;margin-bottom:14px}
+.panel-foot{font-size:11px;color:var(--soft-c);padding-top:12px;border-top:1px solid var(--fine);display:flex;justify-content:space-between}
+.panel-foot .depth{color:var(--amber);font-weight:600}
+.panel.act .panel-no{color:#fff}
+.panel.act{background:var(--ink);color:var(--warm);border-color:var(--ink)}
+.panel.act .panel-title{color:var(--warm)}
+.panel.act .panel-deck{color:rgba(244,240,230,.7)}
+.panel.act .panel-foot{color:rgba(244,240,230,.5);border-top-color:rgba(244,240,230,.15)}
+.panel.act .panel-foot .depth{color:var(--amber)}
+
+/* 소개 */
+.intro-block{padding:48px 32px;border-top:1px solid var(--line);max-width:760px;margin:0 auto}
+.section-h{font-family:var(--serif);font-size:13px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:20px}
+.section-h::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+.intro p{font-family:var(--serif);font-size:16px;line-height:1.95;color:var(--soft);margin-bottom:14px}
+
+/* 광장·가게 */
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:32px;border-top:1px solid var(--line);max-width:1200px;margin:0 auto}
+.block{}
+.pl-item{padding:14px 18px;background:var(--surface);border:1px solid var(--fine);margin-bottom:10px;cursor:pointer}
+.pl-item:hover{border-color:var(--teal)}
+.pl-where{font-size:10px;color:var(--teal);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.pl-title{font-family:var(--serif);font-size:14px;font-weight:500;color:var(--ink);line-height:1.4}
+.product{padding:18px;background:var(--surface);border:1px solid var(--fine);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.product-name{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.product-kind{font-size:10px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.product-price{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink)}
+
+.footer{padding:30px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);background:var(--warm)}
+
+@media (max-width:768px){
+  .bottom{grid-template-columns:1fr}
+  .head{flex-direction:column;align-items:flex-start}
+  .panel{width:280px;height:420px}
+  .panel-img{height:160px}
+  .panel-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>2026.05.14.</span></div>
+
+<header class="head">
+  <div class="head-l">
+    <div class="photo">玄</div>
+    <div class="name-block">
+      <h1 class="name">현지영의 둘레길</h1>
+      <div class="handle">@hyun-walk</div>
+      <p class="bio">청년이 도시를 걷는 기록 — 한 걸음씩 옆으로.</p>
+    </div>
+  </div>
+  <div class="head-r">
+    <div><strong>18</strong>편</div>
+    <div><strong>3</strong>시리즈</div>
+    <div><strong>164</strong>독자</div>
+    <div><strong>2</strong>가게</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <a class="tab active">시리즈</a>
+  <a class="tab">소개</a>
+  <a class="tab">광장</a>
+  <a class="tab">가게</a>
+</nav>
+
+<!-- 시리즈 표지 -->
+<section class="series-intro">
+  <div class="series-tag">시리즈 1 · Spring Walks</div>
+  <h2 class="series-title">봄, 둘레로 걸어 들어가는 다섯 걸음</h2>
+  <p class="series-deck">3월의 둑길에서 5월의 빛까지. 같은 길을 다섯 번 걷고, 다섯 번 다른 봄을 만났습니다. 옆으로 스크롤해 주세요.</p>
+  <div class="scroll-hint">옆으로 걷기</div>
+</section>
+
+<!-- 가로 스크롤 패널 -->
+<div class="panels-wrap">
+  <div class="panels">
+
+    <article class="panel">
+      <div class="panel-img"></div>
+      <div class="panel-body">
+        <div class="panel-no">No.01 · 봄의 입구</div>
+        <h3 class="panel-title">3월, 둑길에 처음 풀이 보였다</h3>
+        <p class="panel-deck">아직 추웠지만 풀이 먼저 알았다. 둑길 끝의 작은 둔덕에 푸른 잎이 한 무더기 올라왔다. 봄은 늘 어디선가 먼저 시작된다.</p>
+        <div class="panel-foot"><span class="depth">◐ 14</span><span>3월 18일</span></div>
+      </div>
+    </article>
+
+    <article class="panel act">
+      <div class="panel-img"></div>
+      <div class="panel-body">
+        <div class="panel-no">No.02 · 걸어 들어가다</div>
+        <h3 class="panel-title">4월, 같은 길을 다시 걸으며</h3>
+        <p class="panel-deck">3월에 본 작은 풀이 4월엔 무성해졌다. 같은 길이 다른 풍경이 되는 데 한 달이 걸린다. 그 사이 나도 조금 변했을까.</p>
+        <div class="panel-foot"><span class="depth">◐ 22</span><span>4월 8일</span></div>
+      </div>
+    </article>
+
+    <article class="panel p3">
+      <div class="panel-img"></div>
+      <div class="panel-body">
+        <div class="panel-no">No.03 · 봄의 한가운데</div>
+        <h3 class="panel-title">5월, 빛이 가장 정직한 때</h3>
+        <p class="panel-deck">5월의 빛은 무엇도 가리지 않는다. 풀잎 하나하나, 나무 그늘의 무늬, 흙의 거친 결까지. 봄의 절정은 결국 빛의 정직함이다.</p>
+        <div class="panel-foot"><span class="depth">◐ 28</span><span>5월 6일</span></div>
+      </div>
+    </article>
+
+    <article class="panel p4">
+      <div class="panel-img"></div>
+      <div class="panel-body">
+        <div class="panel-no">No.04 · 만난 사람들</div>
+        <h3 class="panel-title">같은 시간, 같은 자리에 오는 사람들</h3>
+        <p class="panel-deck">매주 같은 시간 둑길을 걸으니, 같은 시간 걷는 다른 사람들이 보이기 시작했다. 노인 한 분, 강아지와 청년, 그리고 나.</p>
+        <div class="panel-foot"><span class="depth">◐ 19</span><span>5월 12일</span></div>
+      </div>
+    </article>
+
+    <article class="panel p5">
+      <div class="panel-img"></div>
+      <div class="panel-body">
+        <div class="panel-no">No.05 · 봄의 끝</div>
+        <h3 class="panel-title">5월 말, 다음 계절을 마중 나가며</h3>
+        <p class="panel-deck">아직 덜 지났지만 곧 끝난다. 봄의 끝을 미리 인사해 두는 일도 한 봄의 일부다. 다음 시리즈는 여름.</p>
+        <div class="panel-foot"><span class="depth">◐ 발행 예정</span><span>5월 25일</span></div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<!-- 소개 -->
+<section class="intro-block">
+  <div class="section-h">소개</div>
+  <div class="intro">
+    <p>스무 살, 직장과 학교 사이 어디쯤에서 살고 있습니다. 매주 같은 길을 걷는 것이 제가 정한 작은 규칙이에요. 같은 길을 반복해서 걸으면 매번 다른 풍경이 보입니다. 그 작은 차이를 글로 옮기는 일이 좋아서 시작했어요.</p>
+    <p>시리즈 단위로 글을 묶어 발표합니다. 한 시즌이 끝나면 다음 시즌. 천천히, 옆으로, 한 걸음씩 걸어 가요.</p>
+  </div>
+</section>
+
+<!-- 광장·가게 -->
+<section class="bottom">
+  <div class="block">
+    <div class="section-h">광장 활동</div>
+    <div class="pl-item">
+      <div class="pl-where">아골라 · 어제</div>
+      <div class="pl-title">선택지가 많은 시대의 결정 피로</div>
+    </div>
+    <div class="pl-item">
+      <div class="pl-where">아곤란 · 5월 9일 (답글)</div>
+      <div class="pl-title">중1 민서 학생의 질문에 답글</div>
+    </div>
+    <div class="pl-item">
+      <div class="pl-where">칼럼 · 5월 5일</div>
+      <div class="pl-title">스무 살이 본 '결정의 무게'</div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="section-h">가게</div>
+    <div class="product">
+      <div>
+        <div class="product-kind">사진집 · 자작</div>
+        <div class="product-name">『봄 둘레길 — 다섯 걸음』</div>
+      </div>
+      <div class="product-price">15,000원</div>
+    </div>
+    <div class="product">
+      <div>
+        <div class="product-kind">엽서 · 묶음</div>
+        <div class="product-name">시즌1 사진 엽서 10장 세트</div>
+      </div>
+      <div class="product-price">8,000원</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">현지영의 둘레길 · 연라이프 마을의 한 자리</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',e=>{e.preventDefault();document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active')}));
+</script>
+
+</body>
+</html>

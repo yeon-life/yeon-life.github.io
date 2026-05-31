@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>민서의 노트</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --teal:#2a5358; --amber:#a87b3e; --red:#a85048;
+    --paper:#f7f1de; --paper2:#f4ecd0;
+    --line:#d6c8a0; --muted:#7a705a; --body:#2a3438;
+    --hand:"Nanum Pen Script",cursive; --round:"Gowun Dodum",sans-serif;
+    --serif:"Noto Serif KR",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--round);background:var(--paper);color:var(--body);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background-image:repeating-linear-gradient(180deg,transparent,transparent 31px,rgba(168,123,62,.15) 31px,rgba(168,123,62,.15) 32px);
+  }
+  body::before{content:"";position:fixed;left:60px;top:0;bottom:0;width:1px;background:rgba(168,80,72,.4);z-index:1;pointer-events:none}
+  @media(min-width:1024px){body::before{left:max(60px,calc(50vw - 440px))}}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+  /* 상단 */
+  .topbar{padding:14px 0;border-bottom:1px dashed var(--line);font-size:11px;color:var(--muted);position:relative;z-index:2;background:var(--paper)}
+  .topbar-inner{max-width:880px;margin:0 auto;padding:0 32px 0 96px;display:flex;justify-content:space-between;align-items:center}
+  .topbar a{color:var(--ink);font-family:var(--serif);font-weight:700}
+  .topbar a:hover{color:var(--teal)}
+
+  .wrap{max-width:880px;margin:0 auto;padding:0 32px 0 96px;position:relative;z-index:2}
+
+  /* 헤더 */
+  .head{padding:48px 0 32px}
+  .name{font-family:var(--hand);font-size:64px;color:var(--ink);line-height:1;margin-bottom:8px}
+  .handle{font-family:var(--hand);font-size:22px;color:var(--teal);margin-bottom:20px;line-height:1.2}
+  .bio{font-family:var(--hand);font-size:26px;color:var(--ink);line-height:1.45;margin-bottom:28px}
+  .stats{display:flex;gap:24px;font-family:var(--hand);font-size:20px;color:var(--muted);margin-bottom:8px}
+  .stats strong{color:var(--ink);font-weight:400}
+
+  /* 메모 표시 */
+  .sticky-note{position:absolute;top:32px;right:-20px;background:#fbe8a8;padding:14px 18px;font-family:var(--hand);font-size:18px;color:var(--ink);transform:rotate(3deg);box-shadow:2px 4px 8px rgba(0,0,0,.1);max-width:200px;line-height:1.4}
+  .sticky-note::before{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:50px;height:14px;background:rgba(168,80,72,.3);border-radius:0 0 4px 4px}
+
+  /* 탭 */
+  .tabs{padding:20px 0;border-top:1px dashed var(--line);border-bottom:2px solid var(--ink);display:flex;gap:24px}
+  .tab{font-family:var(--hand);font-size:24px;color:var(--muted);cursor:pointer;padding:4px 0;position:relative;transition:color .2s}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--red)}
+  .tab.active::after{content:"";position:absolute;bottom:-22px;left:0;right:0;height:2px;background:var(--red)}
+  .tab .num{font-family:var(--round);font-size:13px;margin-left:4px;color:var(--muted)}
+
+  /* 섹션 */
+  .section{padding:36px 0;border-bottom:1px dashed var(--line)}
+  .section-mark{display:inline-block;font-family:var(--hand);font-size:26px;color:var(--red);margin-bottom:18px}
+  .section-mark::before{content:"※ "}
+
+  /* 소개 */
+  .intro p{font-family:var(--hand);font-size:22px;color:var(--ink);line-height:1.6;margin-bottom:12px}
+  .intro .doodle{display:inline-block;color:var(--amber);transform:rotate(-5deg);margin-right:4px}
+
+  /* 글 목록 */
+  .post{padding:24px 0;border-bottom:1px dashed var(--line);position:relative;padding-left:48px}
+  .post:last-child{border-bottom:none}
+  .post::before{content:attr(data-num);position:absolute;left:0;top:24px;font-family:var(--hand);font-size:32px;color:var(--amber);line-height:1}
+  .post-date{font-family:var(--hand);font-size:18px;color:var(--muted);margin-bottom:4px}
+  .post-title{font-family:var(--hand);font-size:28px;color:var(--ink);line-height:1.3;margin-bottom:8px}
+  .post-deck{font-family:var(--round);font-size:14px;color:var(--body);line-height:1.7;margin-bottom:10px}
+  .post-meta{font-family:var(--hand);font-size:18px;color:var(--teal)}
+  .post-meta .heart{color:var(--red)}
+
+  /* 광장 활동 */
+  .pa-item{padding:14px 0;display:flex;align-items:flex-start;gap:12px}
+  .pa-arrow{font-family:var(--hand);font-size:24px;color:var(--red);line-height:1.2}
+  .pa-body{flex:1}
+  .pa-where{font-family:var(--hand);font-size:18px;color:var(--teal);margin-bottom:2px}
+  .pa-title{font-family:var(--hand);font-size:20px;color:var(--ink);line-height:1.4}
+  .pa-meta{font-family:var(--hand);font-size:16px;color:var(--muted)}
+
+  /* 가게 */
+  .shop-list{display:flex;flex-direction:column;gap:24px}
+  .product{padding:18px;background:rgba(255,253,240,.6);border:1.5px dashed var(--line);position:relative}
+  .product::before{content:"♥";position:absolute;top:-10px;right:14px;background:var(--paper);padding:0 6px;font-family:var(--hand);font-size:20px;color:var(--red)}
+  .product-kind{font-family:var(--hand);font-size:18px;color:var(--amber);margin-bottom:4px}
+  .product-name{font-family:var(--hand);font-size:24px;color:var(--ink);line-height:1.3;margin-bottom:6px}
+  .product-story{font-family:var(--round);font-size:13px;color:var(--body);line-height:1.65;margin-bottom:12px}
+  .product-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:10px}
+  .product-price{font-family:var(--hand);font-size:22px;color:var(--ink)}
+  .product-link{font-family:var(--hand);font-size:18px;color:var(--teal)}
+  .product-link:hover{color:var(--red)}
+  .product-link::after{content:" →"}
+
+  /* 도움말 */
+  .help{margin:48px 0;padding:18px;background:rgba(168,80,72,.06);border-left:3px solid var(--red);font-family:var(--hand);font-size:18px;color:var(--ink);line-height:1.5}
+  .help strong{display:block;font-size:20px;color:var(--red);margin-bottom:4px}
+
+  .footer{padding:48px 0 24px;text-align:center;font-family:var(--hand);font-size:18px;color:var(--muted)}
+  .footer a{color:var(--teal)}
+
+  @media (max-width:640px){
+    .wrap,.topbar-inner{padding:0 24px 0 64px}
+    body::before{left:36px}
+    .name{font-size:48px}
+    .sticky-note{display:none}
+    .post{padding-left:36px}
+    .post::before{font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr</a>
+    <span>2026.05.14.</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="head" style="position:relative">
+    <h1 class="name">민서의 노트</h1>
+    <div class="handle">@minseo · 중학교 1학년</div>
+    <p class="bio">매일 한 줄씩 쓰는 중!<br>친구들이 한 말, 수업 시간에 든 생각, 자기 전에 떠오른 것들.</p>
+    <div class="stats">
+      <span><strong>23</strong>편</span>
+      <span><strong>56</strong>좋아요</span>
+      <span><strong>18</strong>광장</span>
+    </div>
+    <div class="sticky-note">"숙제 같지 않은<br>일기장이라 좋아요"</div>
+  </header>
+
+  <nav class="tabs">
+    <a class="tab active">소개</a>
+    <a class="tab">글<span class="num">23</span></a>
+    <a class="tab">광장<span class="num">18</span></a>
+    <a class="tab">가게<span class="num">2</span></a>
+  </nav>
+
+  <!-- 소개 -->
+  <section class="section">
+    <div class="section-mark">소개</div>
+    <div class="intro">
+      <p><span class="doodle">✿</span> 안녕! 나는 민서야.</p>
+      <p>중학교 1학년이고, 수학은 잘 못하지만 책 읽는 거랑 그림 그리는 건 좋아해.</p>
+      <p>여기에는 그냥 매일매일 떠오른 생각들을 적을 거야. 학교에서 있었던 일, 친구가 한 말, 자기 전에 든 이상한 생각들.</p>
+      <p><span class="doodle">✿</span> 부담 없이 놀러 와줘.</p>
+    </div>
+  </section>
+
+  <!-- 글 -->
+  <section class="section">
+    <div class="section-mark">최근 글</div>
+    <article class="post" data-num="①">
+      <div class="post-date">5월 14일 (목)</div>
+      <h2 class="post-title">내가 좋아하는 것을 진짜 내가 좋아하는 걸까?</h2>
+      <p class="post-deck">친구들이 K-팝을 좋아하니까 나도 좋아하게 된 건지, 원래 내가 좋아한 건지 진짜 헷갈려. 오늘 음악 시간에 갑자기 그 생각이 들었어.</p>
+      <div class="post-meta"><span class="heart">♥</span> 좋아요 36 · 댓글 9</div>
+    </article>
+    <article class="post" data-num="②">
+      <div class="post-date">5월 12일 (화)</div>
+      <h2 class="post-title">생각이 너무 빨라서 멈출 수가 없어요</h2>
+      <p class="post-deck">자기 전에 머릿속에서 생각이 막 튀어나와. 그 생각도 내가 선택한 건 아닌 것 같은데, 그럼 누가 만드는 거지?</p>
+      <div class="post-meta"><span class="heart">♥</span> 좋아요 18 · 댓글 5</div>
+    </article>
+    <article class="post" data-num="③">
+      <div class="post-date">5월 10일 (일)</div>
+      <h2 class="post-title">수학 시간에 든 이상한 생각</h2>
+      <p class="post-deck">선생님이 "1 + 1 = 2"라고 했는데 갑자기 왜 그게 당연한지 모르겠어졌어. 사과 하나랑 사과 하나는 정말 같은 사과 두 개가 맞을까?</p>
+      <div class="post-meta"><span class="heart">♥</span> 좋아요 24 · 댓글 11</div>
+    </article>
+  </section>
+
+  <!-- 광장 활동 -->
+  <section class="section">
+    <div class="section-mark">광장에서 한 일</div>
+    <div class="pa-item">
+      <div class="pa-arrow">→</div>
+      <div class="pa-body">
+        <div class="pa-where">아곤란 · 2시간 전</div>
+        <div class="pa-title">"내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?" 올림</div>
+        <div class="pa-meta">좋은 물음 36개 받음!</div>
+      </div>
+    </div>
+    <div class="pa-item">
+      <div class="pa-arrow">→</div>
+      <div class="pa-body">
+        <div class="pa-where">아곤란 · 어제</div>
+        <div class="pa-title">하은이 글에 댓글 달았어</div>
+        <div class="pa-meta">"나도 그래!"</div>
+      </div>
+    </div>
+    <div class="pa-item">
+      <div class="pa-arrow">→</div>
+      <div class="pa-body">
+        <div class="pa-where">화두 · 5월 12일</div>
+        <div class="pa-title">이 주의 화두 글에 좋은 물음 줬어</div>
+        <div class="pa-meta">"몸이 먼저 안다"라는 말이 신기했어</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가게 -->
+  <section class="section">
+    <div class="section-mark">민서네 가게</div>
+    <div class="shop-list">
+      <div class="product">
+        <div class="product-kind">손그림 · 손편지</div>
+        <h3 class="product-name">친구에게 보내는 손그림 카드</h3>
+        <p class="product-story">한 장 한 장 손으로 그렸어. 친구 이름이랑 좋아하는 색깔 알려주면 그 친구만을 위한 카드를 만들어 줄게.</p>
+        <div class="product-bottom">
+          <span class="product-price">5,000원 / 장</span>
+          <a href="#" class="product-link">주문하기</a>
+        </div>
+      </div>
+      <div class="product">
+        <div class="product-kind">중고 · 책</div>
+        <h3 class="product-name">『어린왕자』 (낙서 약간 있음)</h3>
+        <p class="product-story">3번 정도 읽었어. 내가 좋아하는 페이지에 작은 별 표시 해뒀어. 누가 가져가서 또 읽어주면 좋겠어.</p>
+        <div class="product-bottom">
+          <span class="product-price">3,000원</span>
+          <a href="#" class="product-link">사고 싶어요</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 도움말 -->
+  <div class="help">
+    <strong>이 블로그는 '노트' 템플릿이에요</strong>
+    학생이나 매일 짧게 쓰는 사람에게 잘 어울려요. 종이 색깔이랑 손글씨 폰트는 설정에서 바꿀 수 있어요.
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>민서의 노트 · 연라이프 마을의 한 자리</p>
+  <p style="margin-top:6px"><a href="시안_v4_홈페이지.html">y-life.kr</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  }));
+</script>
+
+</body>
+</html>
