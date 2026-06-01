@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>홍보·SNS 전략 지침 · y-life.kr</title>
+<meta name="description" content="연라이프의 홍보·SNS 전략 — 11개 채널, 자동 송출, 캠페인 5개, 12개월 로드맵.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd; --yp-sage:#dfe8de;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.05), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.07), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --warn:#a85a4a; --ok:#427a71;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{ font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; color:var(--txt); background:var(--bg); background-attachment:fixed;
+  line-height:1.8; -webkit-font-smoothing:antialiased }
+a{color:var(--yp-deep); border-bottom:1px solid rgba(47,93,98,.25); text-decoration:none}
+a:hover{ color:var(--yp-accent); border-bottom-color: var(--yp-accent) }
+
+.topbar{ position:sticky; top:0; z-index:30; background: rgba(244,241,235,.9);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--bd-soft) }
+.topbar-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 24px }
+.brand{ display:inline-flex; align-items:baseline; gap:8px; font-family:'Noto Serif KR',serif; color:var(--txt-soft) }
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700 }
+.brand .name{ font-size:15px; font-weight:500 }
+.sep{ color:var(--txt-mute) }
+.crumbs{ font-family:'Noto Serif KR',serif; font-size:13.5px; color:var(--txt-soft) }
+.spacer{ flex:1 }
+.live-pill{ display:inline-flex; align-items:center; gap:6px; padding: 5px 12px; border-radius: 999px;
+  background: rgba(168,90,74,.10); color: var(--warn); font-size: 11.5px; font-weight: 700; letter-spacing:.1em }
+.live-pill::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--warn); animation: pulse 1.6s ease-in-out infinite }
+@keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.wrap{ max-width:1100px; margin:0 auto; padding: 48px 24px 80px }
+header.doc-head{ text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--bd-soft) }
+.doc-head .kicker{ font-family:'Noto Serif KR',serif; display:inline-block; padding: 5px 14px;
+  background: rgba(195,141,86,.12); color: var(--yp-accent); border-radius: 999px;
+  font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700 }
+.doc-head h1{ font-family:'Noto Serif KR',serif; font-size: clamp(32px, 5vw, 48px); font-weight: 900;
+  letter-spacing: -.025em; color: var(--yp-ink); margin: 16px 0 14px; line-height: 1.2 }
+.doc-head .mission{ max-width: 720px; margin: 22px auto 0;
+  font-family:'Noto Serif KR',serif; font-size: 19px; color: var(--yp-deep);
+  font-style: italic; line-height: 1.7;
+  padding: 18px 24px; border-top: 1px solid var(--bd-soft); border-bottom: 1px solid var(--bd-soft) }
+.doc-head .meta{ margin-top: 14px; font-size: 12.5px; color: var(--txt-mute); letter-spacing: .06em }
+
+.toc{ background: rgba(255,253,248,.65); border: 1px solid var(--bd-soft); border-radius: 14px;
+  padding: 22px 28px; margin-bottom: 28px }
+.toc h3{ font-family:'Noto Serif KR',serif; font-size: 14px; color: var(--txt-soft);
+  letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 12px }
+.toc ol{ columns: 2; column-gap: 24px; padding-left: 20px; font-size: 14px }
+.toc ol li{ margin: 4px 0; break-inside: avoid }
+.toc a{ border:0 }
+
+section.card{ background: var(--card); border: 1px solid var(--bd-soft); border-radius: 16px;
+  padding: 36px 40px; margin-bottom: 28px }
+section.card h2{ font-family:'Noto Serif KR',serif; font-size: 26px; font-weight: 800; color: var(--yp-ink);
+  letter-spacing: -.02em; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--yp-deep) }
+section.card h3{ font-family:'Noto Serif KR',serif; font-size: 19px; font-weight: 700; color: var(--yp-ink); margin: 22px 0 8px }
+section.card h4{ font-size: 14px; font-weight: 700; color: var(--yp-deep); margin: 14px 0 6px; letter-spacing: .04em }
+section.card p{ margin: 8px 0; color: var(--txt); font-size: 15px }
+section.card ul, section.card ol{ padding-left: 22px; margin: 8px 0 }
+section.card ul li, section.card ol li{ margin: 5px 0; color: var(--txt); font-size: 14.5px; line-height: 1.8 }
+section.card code{ background: var(--yp-mist); border: 1px solid var(--bd); padding: 2px 7px;
+  border-radius: 4px; font-size: 13px; color: var(--yp-deep); font-family: 'JetBrains Mono', monospace }
+section.card pre{ background: var(--yp-mist); border: 1px solid var(--bd); padding: 16px 20px; border-radius: 10px;
+  overflow-x: auto; margin: 14px 0; line-height: 1.7;
+  font-family: 'JetBrains Mono', Menlo, monospace; font-size: 13px; color: var(--txt) }
+
+table.tbl{ width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px;
+  border: 1px solid var(--bd); border-radius: 10px; overflow: hidden }
+table.tbl th{ background: var(--yp-peach); color: var(--yp-ink);
+  font-family:'Noto Serif KR',serif; font-weight: 700;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--bd) }
+table.tbl td{ padding: 10px 14px; border-bottom: 1px solid var(--bd-soft); vertical-align: top }
+table.tbl tr:last-child td{ border-bottom: 0 }
+table.tbl tr:nth-child(even) td{ background: rgba(244,241,235,.4) }
+
+.badge{ display:inline-block; padding: 2px 10px; border-radius: 999px;
+  background: rgba(66,122,113,.12); color: var(--yp-deep);
+  font-size: 11.5px; font-weight: 600; letter-spacing: .06em }
+.badge.warn{ background: rgba(168,90,74,.12); color: var(--warn) }
+.badge.ok{ background: rgba(66,122,113,.14); color: var(--ok) }
+.badge.accent{ background: rgba(195,141,86,.14); color: var(--yp-accent) }
+
+.note{ padding: 14px 18px; margin: 14px 0;
+  background: rgba(195,141,86,.07); border-left: 3px solid var(--yp-accent);
+  border-radius: 0 8px 8px 0; font-size: 14px; color: var(--txt); line-height: 1.75 }
+
+/* 채널 그리드 */
+.channels{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+  margin: 18px 0;
+}
+.ch{
+  background: var(--card); border: 1px solid var(--bd-soft); border-radius: 12px;
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ch-head{ display: flex; align-items: center; gap: 10px; margin-bottom: 6px }
+.ch-icon{ font-size: 24px; width: 40px; height: 40px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--yp-mist); flex-shrink: 0 }
+.ch-name{ font-family:'Noto Serif KR',serif; font-size: 16px; font-weight: 700; color: var(--yp-ink) }
+.ch-target{ font-size: 11.5px; color: var(--txt-mute); letter-spacing: .04em }
+.ch-content{ font-size: 13px; color: var(--txt); line-height: 1.7 }
+.ch-freq{ font-size: 11.5px; color: var(--yp-deep); font-weight: 600; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--bd-soft) }
+
+/* 캠페인 카드 */
+.campaign{
+  background: linear-gradient(135deg, rgba(47,93,98,.06), rgba(195,141,86,.06));
+  border: 1px solid var(--bd-soft); border-radius: 14px;
+  padding: 22px 26px; margin: 14px 0;
+}
+.campaign h4{ font-family:'Noto Serif KR',serif; font-size: 17px; font-weight: 800;
+  color: var(--yp-ink); margin: 0 0 8px }
+.campaign h4 .hash{ color: var(--yp-accent); margin-right: 6px }
+.campaign p{ color: var(--txt-soft); font-size: 14px; line-height: 1.75 }
+
+/* KPI 표 강조 */
+.kpi-table{ font-size: 13px }
+.kpi-table th, .kpi-table td{ text-align: center }
+.kpi-table th:first-child, .kpi-table td:first-child{ text-align: left; color: var(--txt-soft) }
+.kpi-table td.highlight{ font-weight: 700; color: var(--yp-deep) }
+
+footer{ text-align: center; color: var(--txt-mute); font-size: 12.5px; padding-top: 20px; margin-top: 40px; border-top: 1px solid var(--bd-soft) }
+
+@media (max-width: 720px){
+  .toc ol{ columns: 1 }
+  .channels{ grid-template-columns: 1fr }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html" style="border:0"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs">홍보·SNS 전략 지침</span>
+    <span class="spacer"></span>
+    <span class="live-pill">LIVING DOCUMENT</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <header class="doc-head">
+    <span class="kicker">marketing · promotion · sns</span>
+    <h1>홍보·SNS 전략 지침</h1>
+    <div class="mission">
+      "같은 사건, 세 시선으로." — 모든 채널의 단일 슬로건.
+    </div>
+    <div class="meta">최초 작성 2026-05-18 · 살아있는 지침 · 변경 시 .md / .html / 메모리 동기화</div>
+  </header>
+
+  <nav class="toc">
+    <h3>목차</h3>
+    <ol>
+      <li><a href="#assets">1 · 차별화 자산 8가지</a></li>
+      <li><a href="#audience">2 · 타겟 독자</a></li>
+      <li><a href="#channels">3 · 채널별 전략 (11개)</a></li>
+      <li><a href="#auto-sns">4 · 자동 SNS 송출 시스템</a></li>
+      <li><a href="#content-types">5 · 콘텐츠 유형 5개</a></li>
+      <li><a href="#seo">6 · SEO·검색 전략</a></li>
+      <li><a href="#campaigns">7 · 캠페인 5개</a></li>
+      <li><a href="#press">8 · 언론·매체 노출</a></li>
+      <li><a href="#kpi">9 · KPI · 측정 지표</a></li>
+      <li><a href="#roadmap">10 · 12개월 로드맵</a></li>
+      <li><a href="#update-rule">11 · 변경 규칙</a></li>
+      <li><a href="#history">12 · 갱신 이력</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 자산 -->
+  <section class="card" id="assets">
+    <h2>1 · 차별화 자산 8가지 (홍보의 근거)</h2>
+    <table class="tbl">
+      <thead><tr><th>#</th><th>자산</th><th>왜 강한가</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>신뢰도 8축 평가 100% 공개</strong></td><td>"AI 점수 공개한 첫 한국어 미디어". 언론학자·미디어 모니터링 단체가 좋아함.</td></tr>
+        <tr><td>2</td><td>좌·중·우 매체 동시 인용 의무</td><td>색깔 논쟁에 지친 독자의 직관에 호소</td></tr>
+        <tr><td>3</td><td>매일 13편 자동 발행</td><td>SEO·재방문률 동시에 강력</td></tr>
+        <tr><td>4</td><td>화두·아골라·아곤란</td><td>단순 뉴스가 아닌 정체성. 학생·학부모에 강함</td></tr>
+        <tr><td>5</td><td>K-Wave 양방향 다국어</td><td>영어판 후 해외 트래픽 자석</td></tr>
+        <tr><td>6</td><td>글로벌 마켓 시그널</td><td>광고 단가 가장 높은 카테고리</td></tr>
+        <tr><td>7</td><td>AI 작가·기자 17명 페르소나</td><td>독자 친밀감</td></tr>
+        <tr><td>8</td><td>칼럼집 e-book 판매</td><td>수익 자리 + 작가 IP</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 2. 타겟 -->
+  <section class="card" id="audience">
+    <h2>2 · 타겟 독자</h2>
+    <h3>1차 (출시 ~ 3개월)</h3>
+    <p>30~50대 한국인, 평소 진영 색채에 피로한 직장인·중간 관리자. 한겨레/조선 둘 다 안 보고 정착 못한 사람.</p>
+    <h3>2차 (3 ~ 6개월)</h3>
+    <p>학생·학부모, 논술·교육·읽기 관심층. 시·문학·인문에 관심 있는 4050. 자영업자·시민기자 지망.</p>
+    <h3>3차 (6개월 ~ 1년)</h3>
+    <p>해외 K-콘텐츠 팬(영어판 후), 한국어 학습자, 글로벌 마켓 자리는 투자자도.</p>
+  </section>
+
+  <!-- 3. 채널 -->
+  <section class="card" id="channels">
+    <h2>3 · 채널별 전략 (11개)</h2>
+
+    <div class="channels">
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">📷</div><div><div class="ch-name">인스타그램 ★</div><div class="ch-target">MZ + 30~40대</div></div></div>
+        <div class="ch-content">카드뉴스 시리즈 (6~10장) · Reels 1분 칼럼 낭독 · Stories 매일 화두</div>
+        <div class="ch-freq">일 2~3 Stories + 주 3 피드 + 주 1 Reels</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">📘</div><div><div class="ch-name">페이스북</div><div class="ch-target">40~60대</div></div></div>
+        <div class="ch-content">발행 글 자동 송출 · 주간 인기글 5편 정리</div>
+        <div class="ch-freq">일 2~3 (필터링)</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">𝕏</div><div><div class="ch-name">X (트위터)</div><div class="ch-target">언론인·학자</div></div></div>
+        <div class="ch-content">칼럼 풀쿼트 + 링크 · 신뢰도 미니 인포그래픽</div>
+        <div class="ch-freq">일 13 자동</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">@</div><div><div class="ch-name">Threads</div><div class="ch-target">차분한 톤 선호층</div></div></div>
+        <div class="ch-content">X와 같은 콘텐츠, 더 긴 형식 허용</div>
+        <div class="ch-freq">일 13 자동</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">📺</div><div><div class="ch-name">유튜브 ★</div><div class="ch-target">광범위 + SEO</div></div></div>
+        <div class="ch-content">Shorts 1분 칼럼 낭독 · 주간 정리 10분 · Country of the Day 5분</div>
+        <div class="ch-freq">Shorts 주 5~7 + 주간 1</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">💬</div><div><div class="ch-name">카카오톡 채널 ★</div><div class="ch-target">한국 특화 푸시</div></div></div>
+        <div class="ch-content">매일 아침 1통 — 화두 + 추천 글 3편</div>
+        <div class="ch-freq">일 1 (06:30)</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">🟢</div><div><div class="ch-name">네이버 블로그·포스트 ★</div><div class="ch-target">한국 검색 SEO</div></div></div>
+        <div class="ch-content">매일 13편 자동 동기화 (정식 글)</div>
+        <div class="ch-freq">일 13 자동</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">🎮</div><div><div class="ch-name">디스코드</div><div class="ch-target">깊은 팬덤</div></div></div>
+        <div class="ch-content">화두 토론방 · 광장 봇 · 신뢰도 평가 의견방</div>
+        <div class="ch-freq">일 5~10 봇 + 주 1 모임</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">🎵</div><div><div class="ch-name">틱톡 (선택)</div><div class="ch-target">1020 + 한국어 학습 외국인</div></div></div>
+        <div class="ch-content">1분 칼럼 낭독 + 한국어 자막</div>
+        <div class="ch-freq">주 3</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">💼</div><div><div class="ch-name">링크드인</div><div class="ch-target">전문가·미디어 학자</div></div></div>
+        <div class="ch-content">"AI 신뢰 8축" 같은 전문 글 (수동)</div>
+        <div class="ch-freq">주 1~2</div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-icon">📌</div><div><div class="ch-name">핀터레스트 (K-Wave)</div><div class="ch-target">해외 시각 소비자</div></div></div>
+        <div class="ch-content">K-pop · K-드라마 · 한식 카드 핀 (영문판 후)</div>
+        <div class="ch-freq">주 5</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>채널 우선순위 (자원 한정 시):</strong> ★ 표시한 4개 — 인스타·유튜브·카카오톡·네이버 — 를 가장 먼저 가동. 나머지는 자동 송출로 유지.
+    </div>
+  </section>
+
+  <!-- 4. 자동 송출 -->
+  <section class="card" id="auto-sns">
+    <h2>4 · 자동 SNS 송출 시스템</h2>
+    <p>매일 발행 직후 자동 송출. 사람 손 없이 돌아감.</p>
+    <pre>06:30 KST · 글 발행 → OG 이미지 자동 생성 (글 제목·페르소나 배지)
+06:35 KST · X · Threads · 페이스북 · 인스타 Stories 자동 송출
+06:40 KST · 네이버 블로그 자동 동기화
+06:45 KST · 카카오톡 채널 발송 (매일 1통, 13편 묶음)
+07:00 KST · 유튜브 Shorts 자동 업로드 (AI 낭독 + 자막)
+주 1회   · 카드뉴스 시리즈 + 주간 정리 영상 + 보도자료 자동 메일링</pre>
+
+    <h3>도구</h3>
+    <table class="tbl">
+      <thead><tr><th>도구</th><th>용도</th><th>월 비용</th></tr></thead>
+      <tbody>
+        <tr><td>Buffer / Hootsuite / Make.com</td><td>SNS 자동 송출</td><td>$10~30</td></tr>
+        <tr><td>Canva API</td><td>카드뉴스 템플릿 자동 채움</td><td>$15</td></tr>
+        <tr><td>ElevenLabs / Google TTS</td><td>AI 낭독 (페르소나 목소리)</td><td>$5~22</td></tr>
+        <tr><td>Pictory / Submagic</td><td>자막 + 영상 자동 생성</td><td>$15~25</td></tr>
+        <tr><td><strong>합계</strong></td><td><strong>약 3~5만원/월</strong></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>자동화 풀가동 비용 약 3만원에 추가 → <strong>월 약 6~8만원 운영비</strong>로 전체 미디어 가동 가능.</p>
+  </section>
+
+  <!-- 5. 콘텐츠 유형 -->
+  <section class="card" id="content-types">
+    <h2>5 · 콘텐츠 유형 5개</h2>
+    <ol>
+      <li><strong>글 자동 송출</strong> — 매일 13편이 채널별 자동 (가장 기본)</li>
+      <li><strong>카드뉴스 시리즈</strong> — "이번 주 화두" 6장, "신뢰도 미터로 읽는 한 편"</li>
+      <li><strong>영상</strong> — 유튜브 Shorts 1분 · 주간 10분 · Country 5분</li>
+      <li><strong>코어 메시지 광고</strong> — "점수만 보여주지 않습니다. 점수가 어떻게 매겨졌는지도 보여드립니다."</li>
+      <li><strong>이벤트·캠페인</strong> — 7번 참조</li>
+    </ol>
+  </section>
+
+  <!-- 6. SEO -->
+  <section class="card" id="seo">
+    <h2>6 · SEO · 검색 전략</h2>
+    <h3>한국 SEO 키워드</h3>
+    <p><code>오늘의 뉴스 해설</code> · <code>공정한 뉴스</code> · <code>신뢰할 수 있는 뉴스</code> · <code>같은 사건 세 시선</code> · <code>AI 뉴스 신뢰도</code> · <code>AI 작가 칼럼</code> · <code>이번 주 화두</code> · <code>논술 글쓰기</code></p>
+    <h3>구조화 데이터 (JSON-LD)</h3>
+    <ul>
+      <li><code>Article</code>·<code>NewsArticle</code> 모든 칼럼</li>
+      <li><code>Blog</code> 페르소나 페이지</li>
+      <li><code>Organization</code> 사이트 전체</li>
+      <li><code>Review</code> 신뢰도 점수 → 구글 결과에 별 표시 가능</li>
+    </ul>
+    <h3>매일 13편 → 인덱싱 자석</h3>
+    <p>구글이 "활발히 갱신되는 사이트"로 인식 → 인덱싱 우선순위 ↑</p>
+    <h3>백링크 전략</h3>
+    <ul>
+      <li>학술·언론학자 사이트에서 인용되도록 신뢰도 정책 페이지 강조</li>
+      <li>미디어 모니터링 단체에 자료 제공 → 그쪽 보고서에 인용 유도</li>
+    </ul>
+  </section>
+
+  <!-- 7. 캠페인 -->
+  <section class="card" id="campaigns">
+    <h2>7 · 캠페인 5개</h2>
+
+    <div class="campaign">
+      <h4><span class="hash">#</span>내가 모르는 나라 한 곳</h4>
+      <p>매일 한 나라를 알아가는 1년 챌린지. Country of the Day 연계. 독자가 자기 동네 매체와 비교한 글 제출 → 우수작 게재.</p>
+    </div>
+
+    <div class="campaign">
+      <h4><span class="hash">#</span>오늘의 한 줄 풀쿼트 챌린지</h4>
+      <p>매일 발행 글에서 풀쿼트 자동 추출 → 독자가 자기 SNS에 공유. 자동 OG 카드: 풀쿼트 + 페르소나 이름 + 사이트 로고.</p>
+    </div>
+
+    <div class="campaign">
+      <h4><span class="hash">#</span>내 신뢰 점수 자가 진단</h4>
+      <p>독자가 평소 어느 매체를 보는지 체크 → 좌·중·우 균형 점수 계산. "당신은 한 진영에 70% 노출 — 다른 시선도 만나 보시겠어요?" 결과 카드 공유.</p>
+    </div>
+
+    <div class="campaign">
+      <h4><span class="hash">#</span>한 사건, 세 시선 — 독자 참여</h4>
+      <p>매주 한 사건에 대해 독자가 직접 글 제출. 우수작 3편(좌·중·우)을 사이트에 함께 게재. 학생 부문(아곤란) 별도 운영.</p>
+    </div>
+
+    <div class="campaign">
+      <h4><span class="hash">#</span>K-Wave 작가 (영어판 후)</h4>
+      <p>외국인 독자가 한국 문학·문화에 대한 글 영어로 작성. 우수작 한국어 번역 + 본국 매체와 협력 게재.</p>
+    </div>
+  </section>
+
+  <!-- 8. 언론 -->
+  <section class="card" id="press">
+    <h2>8 · 언론·매체 노출</h2>
+    <h3>보도자료 (출시 직후) — 제목 후보</h3>
+    <ul>
+      <li><strong>"AI 신뢰 점수를 100% 공개하는 한국어 미디어, '연라이프' 출시"</strong></li>
+      <li>"AI 작가·기자 17명이 매일 쓰는 미디어 — 점수도 공개"</li>
+      <li>"공정해서가 아니라 공정해지도록 설계해서 — 새 미디어의 약속"</li>
+    </ul>
+    <h3>배포 대상</h3>
+    <p>언론진흥재단 · 미디어오늘 · 슬로우뉴스 · 한국기자협회 · 저널리즘 학회.</p>
+    <h3>인플루언서·전문가 시드</h3>
+    <ul>
+      <li>언론학 교수 5~10명에게 신뢰도 정책 페이지 직접 안내</li>
+      <li>시민단체·미디어 모니터링 단체와 자료 공유</li>
+      <li>사용자(연소사)가 미디어오늘·슬로우뉴스 등에 1편 기고</li>
+    </ul>
+  </section>
+
+  <!-- 9. KPI -->
+  <section class="card" id="kpi">
+    <h2>9 · KPI · 측정 지표</h2>
+    <table class="tbl kpi-table">
+      <thead><tr><th>지표</th><th>1개월</th><th>3개월</th><th>6개월</th><th>1년</th></tr></thead>
+      <tbody>
+        <tr><td>월간 UV (방문자)</td><td>5,000</td><td>30,000</td><td>100,000</td><td class="highlight">500,000</td></tr>
+        <tr><td>월간 PV</td><td>25,000</td><td>150,000</td><td>500,000</td><td class="highlight">2.5M</td></tr>
+        <tr><td>평균 체류 시간</td><td>1분</td><td>2분</td><td>3분</td><td class="highlight">4분</td></tr>
+        <tr><td>재방문률 ★</td><td>15%</td><td>30%</td><td>45%</td><td class="highlight">55%</td></tr>
+        <tr><td>카카오톡 친구</td><td>100</td><td>1,000</td><td>5,000</td><td class="highlight">30,000</td></tr>
+        <tr><td>인스타 팔로워</td><td>200</td><td>2,000</td><td>10,000</td><td class="highlight">50,000</td></tr>
+        <tr><td>유튜브 구독자</td><td>50</td><td>500</td><td>5,000</td><td class="highlight">30,000</td></tr>
+        <tr><td>월 광고 수익</td><td>0~3만</td><td>10만</td><td>30만</td><td class="highlight">150만</td></tr>
+        <tr><td>월 칼럼집 판매</td><td>0</td><td>5권</td><td>50권</td><td class="highlight">300권</td></tr>
+      </tbody>
+    </table>
+    <div class="note ok">
+      <strong>가장 중요한 지표는 ★ 재방문률.</strong> 한 번 방문이 아닌 매일 오는 사람을 만드는 게 핵심.
+    </div>
+  </section>
+
+  <!-- 10. 로드맵 -->
+  <section class="card" id="roadmap">
+    <h2>10 · 12개월 로드맵</h2>
+    <table class="tbl">
+      <thead><tr><th>시기</th><th>핵심 마일스톤</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge accent">D-7 ~ D-1</span> 출시 직전</td><td>베타 라벨로 사이트 살리기. 보도자료 초안 5명 사전 시드.</td></tr>
+        <tr><td><span class="badge">1주차</span></td><td>매일 SNS 자동 송출 가동. 가족·친지·지인 알리기.</td></tr>
+        <tr><td><span class="badge">~1개월</span></td><td>카카오톡 채널 + 인스타 카드뉴스 + 보도자료 본 배포.</td></tr>
+        <tr><td><span class="badge">2~3개월</span></td><td>유튜브 Shorts 정기 + 캠페인 #1 (`내가 모르는 나라`). 학술·언론 시드.</td></tr>
+        <tr><td><span class="badge">3~6개월</span></td><td>캠페인 #2 (`오늘의 한 줄`) + 칼럼집 e-book 첫 출간.</td></tr>
+        <tr><td><span class="badge ok">6~9개월</span></td><td>영문판 출시 + 미디엄·핀터레스트 진출. K-Wave 가동.</td></tr>
+        <tr><td><span class="badge ok">9~12개월</span></td><td>풀 다국어 + 캠페인 #5 (K-Wave 작가). 자동화 풀가동.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 11. 변경 규칙 -->
+  <section class="card" id="update-rule">
+    <h2>11 · 변경 규칙</h2>
+    <p>홍보 전략 변경 시 함께 갱신:</p>
+    <ol>
+      <li><code>홍보전략_지침.md</code> (텍스트 편집용)</li>
+      <li><code>홍보전략_지침.html</code> (이 문서, 시각화)</li>
+      <li>메모리 <code>project_yeon_blog_adsense.md</code></li>
+      <li>본 문서 12번 "갱신 이력" 한 줄 추가</li>
+    </ol>
+  </section>
+
+  <!-- 12. 이력 -->
+  <section class="card" id="history">
+    <h2>12 · 갱신 이력</h2>
+    <table class="tbl">
+      <thead><tr><th>날짜</th><th>변경 사항</th></tr></thead>
+      <tbody>
+        <tr><td>2026-05-18</td><td>1차 작성. 8자산 · 타겟 3차 · 11 채널 · 자동 송출 · 캠페인 5개 · KPI · 12개월 로드맵 통합.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    © 2026 y-life.kr · 살아있는 지침 (Living Document) · 변경 시 .md/.html/메모리 동기화 필수
+  </footer>
+
+</div>
+
+</body>
+</html>

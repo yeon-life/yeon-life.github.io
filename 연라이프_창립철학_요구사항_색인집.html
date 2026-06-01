@@ -485,6 +485,7 @@ table.tbl tr:last-child td {
         <a href="#s7" class="menu-link">7. 시스템 안정성·재발방지</a>
         <ul class="submenu-list">
           <li><a href="#s7-1" class="submenu-link">배포 전 자동 검증</a></li>
+          <li><a href="#s7-2" class="submenu-link">품질 사고 극복 이력</a></li>
         </ul>
       </li>
       <li class="menu-item">
@@ -498,7 +499,7 @@ table.tbl tr:last-child td {
     <header class="doc-head" id="intro">
       <span class="kicker">yeonlife philosophy & requirements index</span>
       <h1 class="doc-title">연라이프 창립 철학 및 요구사항 색인집</h1>
-      <div class="doc-meta">시행일 2026-06-01 · 최종 갱신 2026-06-01 · 버전 v1.2 · 승인: 연소사</div>
+      <div class="doc-meta">시행일 2026-06-01 · 최종 갱신 2026-06-01 · 버전 v1.3 · 승인: 연소사</div>
     </header>
 
     <section class="doc-section">
@@ -685,6 +686,20 @@ table.tbl tr:last-child td {
         <span class="tag-badge">#구문오류검증</span>
         <span class="tag-badge">#품질게이트</span>
       </div>
+
+      <h3 id="s7-2">7-2. 품질 사고 극복 이력 및 기술적 재발방지 설계 (시스템-02)</h3>
+      <p><strong>요구사항:</strong> 과거 발생했던 주요 장애 유형들을 투명하게 기록하고, 동일한 실수가 재발하지 않도록 시스템 송수신부 양쪽에 이중의 안전 설계를 구현합니다.</p>
+      <ul>
+        <li><strong>깃 푸시 누락으로 인한 404 파일 없음 오류:</strong> 로컬 작업 폴더 복사는 수행했으나 Git Staging 및 Push 과정이 누락되어 실서버 접속 시 404가 발생했던 장애입니다. ➔ <em>배포 프로세스를 결합한 자동화 스크립트(`깃허브_올리기_더블클릭.bat`)를 가동하여 배포를 단일 트랜잭션으로 제어합니다.</em></li>
+        <li><strong>템플릿 리터럴 내 백틱 중복 사용으로 인한 구문 오류 (SyntaxError):</strong> HTML 백틱 템플릿 스트링 리터럴 안에서 스크립트 분할 연산 시 백틱 기호(`` ` ``)를 그대로 사용하여 템플릿이 깨지고 화면 로딩이 무한 루프("불러오는 중...")에 빠졌던 장애입니다. ➔ <em>스크립트 동적 연산 시 싱글 쿼트(`'`)를 강제하며, 배포 전 전수 검증 스크립트(`check_backticks.py`)를 통해 템플릿 스트링 깨짐 여부를 상시 검사합니다.</em></li>
+        <li><strong>카드 링크와 상세 페이지 파라미터 불일치로 인한 링크 깨짐 오류:</strong> 카드 리스트 렌더링 시에는 `author=이름` 파라미터로 링크가 연결되었으나, 상세 페이지에서는 `slug`와 `post` 파라미터만 대기하고 있어 본문을 찾지 못했던 장애입니다. ➔ <em>송신부 카드 렌더링 시 표준 포맷(`slug` 및 `post`)을 매핑하도록 수정하고, 수신부에서는 `author` 파라미터만 단독으로 넘어오는 경우에도 한글 저자명을 기반으로 해당 페르소나와 최신 글을 자동으로 매핑해 보여주는 양방향 호환성 폴백 로직을 구축하여 해결했습니다.</em></li>
+      </ul>
+      <div class="tag-list">
+        <span class="tag-badge">#장애이력</span>
+        <span class="tag-badge">#재발방지설계</span>
+        <span class="tag-badge">#이중안전장치</span>
+        <span class="tag-badge">#하위호환폴백</span>
+      </div>
     </section>
 
     <!-- 이력 관리 -->
@@ -701,6 +716,12 @@ table.tbl tr:last-child td {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><strong>v1.3</strong></td>
+            <td>2026-06-01</td>
+            <td>과거 품질 사고 이력(404, SyntaxError, 파라미터 미스매칭) 및 기술적 재발방지 이중 안전 설계 상세 반영.</td>
+            <td>연소사 지시</td>
+          </tr>
           <tr>
             <td><strong>v1.2</strong></td>
             <td>2026-06-01</td>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>매일 자동 발행 시스템 설계 · y-life.kr</title>
+<meta name="description" content="AI 작가·기자 페르소나의 매일 칼럼 자동 생성·검수·발행 흐름. RSS 스크랩 + Gemini API + 이미지 폴백.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd; --yp-sage:#dfe8de;
+  --bg: radial-gradient(circle at top left, rgba(195,141,86,.05), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(66,122,113,.07), transparent 22%),
+        linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --card:#fffdf8; --bd:#d7d1c5; --bd-soft:rgba(31,42,42,.08);
+  --warn:#a85a4a; --ok:#427a71;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{ font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; color:var(--txt); background:var(--bg); background-attachment:fixed;
+  line-height:1.8; -webkit-font-smoothing:antialiased }
+a{color:var(--yp-deep); border-bottom:1px solid rgba(47,93,98,.25); text-decoration:none}
+a:hover{ color:var(--yp-accent); border-bottom-color: var(--yp-accent) }
+
+/* 상단 바 */
+.topbar{ position:sticky; top:0; z-index:30; background: rgba(244,241,235,.85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--bd-soft) }
+.topbar-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 24px }
+.brand{ display:inline-flex; align-items:baseline; gap:8px; font-family:'Noto Serif KR',serif; color:var(--txt-soft) }
+.brand .yeon{ font-size:22px; color:var(--yp-accent); font-weight:700 }
+.brand .name{ font-size:15px; font-weight:500 }
+.brand:hover{ color:var(--txt) }
+.sep{ color:var(--txt-mute) }
+.crumbs{ font-family:'Noto Serif KR',serif; font-size:13.5px; color:var(--txt-soft) }
+.spacer{ flex:1 }
+.back{ font-size: 13px; color:var(--txt-soft) }
+
+/* 본문 */
+.wrap{ max-width:1100px; margin:0 auto; padding: 48px 24px 80px }
+header.doc-head{
+  text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--bd-soft);
+}
+.doc-head .kicker{
+  font-family:'Noto Serif KR',serif;
+  display:inline-block; padding: 5px 14px;
+  background: rgba(195,141,86,.12); color: var(--yp-accent);
+  border-radius: 999px;
+  font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+}
+.doc-head h1{
+  font-family:'Noto Serif KR',serif;
+  font-size: clamp(30px, 4.5vw, 44px); font-weight: 900;
+  letter-spacing: -.025em; color: var(--yp-ink); margin: 16px 0 14px; line-height: 1.2;
+}
+.doc-head .lede{
+  max-width: 720px; margin: 0 auto;
+  font-family:'Noto Serif KR',serif; font-size: 17px; color: var(--txt-soft);
+  font-style: italic; line-height: 1.75;
+}
+.doc-head .meta{ margin-top: 14px; font-size: 12.5px; color: var(--txt-mute); letter-spacing: .06em }
+
+/* 섹션 카드 */
+section.card{
+  background: var(--card); border: 1px solid var(--bd-soft); border-radius: 16px;
+  padding: 36px 40px; margin-bottom: 28px;
+}
+section.card h2{
+  font-family:'Noto Serif KR',serif;
+  font-size: 26px; font-weight: 800; color: var(--yp-ink); letter-spacing: -.02em;
+  padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--yp-deep);
+}
+section.card h3{
+  font-family:'Noto Serif KR',serif;
+  font-size: 19px; font-weight: 700; color: var(--yp-ink); margin: 24px 0 10px;
+}
+section.card h4{
+  font-size: 14px; font-weight: 700; color: var(--yp-deep); margin: 16px 0 6px;
+  letter-spacing: .04em;
+}
+section.card p{ margin: 10px 0; color: var(--txt); font-size: 15.5px }
+section.card ul, section.card ol{ padding-left: 22px; margin: 8px 0 }
+section.card ul li, section.card ol li{ margin: 6px 0; color: var(--txt); font-size: 15px; line-height: 1.85 }
+section.card hr{ border: 0; border-top: 1px solid var(--bd-soft); margin: 20px 0 }
+section.card code{
+  background: var(--yp-mist); border: 1px solid var(--bd);
+  padding: 2px 7px; border-radius: 4px; font-size: 13px; color: var(--yp-deep);
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+section.card pre{
+  background: var(--yp-mist); border: 1px solid var(--bd);
+  padding: 16px 18px; border-radius: 10px; overflow-x: auto;
+  margin: 14px 0; line-height: 1.55;
+}
+section.card pre code{ background: transparent; border: 0; padding: 0; font-size: 13px; color: var(--txt) }
+
+/* TOC */
+.toc{
+  background: rgba(255,253,248,.65);
+  border: 1px solid var(--bd-soft); border-radius: 14px;
+  padding: 22px 28px; margin-bottom: 28px;
+}
+.toc h3{ font-family:'Noto Serif KR',serif; font-size: 15px; color: var(--txt-soft);
+  letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 12px }
+.toc ol{ columns: 2; column-gap: 24px; padding-left: 20px; font-size: 14px }
+.toc ol li{ margin: 4px 0; break-inside: avoid }
+.toc a{ border:0 }
+
+/* 흐름도 (mermaid 비스무리 — 직접 SVG로 단순화) */
+.flow{
+  display:flex; flex-direction: column; gap: 8px;
+  padding: 22px 18px; background: var(--yp-mist); border-radius: 12px; border: 1px dashed var(--bd);
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace; font-size: 13px; color: var(--txt);
+  line-height: 1.85;
+}
+.flow .step{ display:flex; gap:14px; align-items:flex-start; padding: 6px 0 }
+.flow .step .n{
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--yp-deep); color: #fbf8f1;
+  display:inline-flex; align-items: center; justify-content: center;
+  font-family:'Noto Serif KR',serif; font-weight: 700; font-size: 13px;
+}
+.flow .arrow{ margin-left: 13px; color: var(--txt-mute); font-size: 16px; line-height: 1 }
+
+/* 표 */
+table.tbl{
+  width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px;
+  border: 1px solid var(--bd); border-radius: 10px; overflow: hidden;
+}
+table.tbl th{
+  background: var(--yp-peach); color: var(--yp-ink);
+  font-family:'Noto Serif KR',serif; font-weight: 700;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--bd);
+}
+table.tbl td{ padding: 10px 14px; border-bottom: 1px solid var(--bd-soft); vertical-align: top }
+table.tbl tr:last-child td{ border-bottom: 0 }
+table.tbl tr:nth-child(even) td{ background: rgba(244,241,235,.4) }
+
+/* 배지·노트 */
+.badge{
+  display:inline-block; padding: 2px 10px; border-radius: 999px;
+  background: rgba(66,122,113,.12); color: var(--yp-deep);
+  font-size: 11.5px; font-weight: 600; letter-spacing: .06em;
+}
+.badge.warn{ background: rgba(168,90,74,.12); color: var(--warn) }
+.badge.ok  { background: rgba(66,122,113,.14); color: var(--ok) }
+.note{
+  padding: 14px 18px; margin: 14px 0;
+  background: rgba(195,141,86,.07); border-left: 3px solid var(--yp-accent);
+  border-radius: 0 8px 8px 0; font-size: 14px; color: var(--txt); line-height: 1.75;
+}
+.note.warn{ background: rgba(168,90,74,.08); border-left-color: var(--warn) }
+
+footer{ text-align: center; color: var(--txt-mute); font-size: 12.5px; padding-top: 20px }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs"><a href="블로그_AI작가기자_인덱스.html" style="border:0;color:var(--txt-soft)">작가와 기자</a> <span class="sep">/</span> 자동화 설계서</span>
+    <span class="spacer"></span>
+    <a class="back" href="블로그_AI작가기자_인덱스.html" style="border:0">← 일람</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="doc-head">
+    <span class="kicker">v0.1 · system design</span>
+    <h1>매일 자동 발행 시스템 설계서</h1>
+    <p class="lede">
+      AI 작가 3명·AI 기자 10명이 매일 한 편의 신뢰 가능한 칼럼을 발행하기 위한 흐름.<br>
+      진짜 뉴스 스크랩 + Gemini API 칼럼 생성(2,500자) + 이미지 자동 폴백 + 사람 검수.
+    </p>
+    <div class="meta">2026-05-18 · 연라이프 · 설계 단계 (실 구현은 v6 안정 후)</div>
+  </header>
+
+  <nav class="toc">
+    <h3>목차</h3>
+    <ol>
+      <li><a href="#goal">설계 목표</a></li>
+      <li><a href="#flow">전체 흐름 (8 단계)</a></li>
+      <li><a href="#sources">진짜 뉴스 스크랩 — RSS 화이트리스트</a></li>
+      <li><a href="#gen">Gemini API 칼럼 생성</a></li>
+      <li><a href="#image">이미지 자동 처리</a></li>
+      <li><a href="#review">사람 검수 큐</a></li>
+      <li><a href="#publish">발행·아카이브·전체 색인</a></li>
+      <li><a href="#cost">비용·안전장치</a></li>
+      <li><a href="#runtime">실행 환경 (Cloudflare · GH Actions)</a></li>
+      <li><a href="#roadmap">단계별 로드맵</a></li>
+      <li><a href="#risk">위험·윤리·면책</a></li>
+    </ol>
+  </nav>
+
+  <section class="card" id="goal">
+    <h2>1 · 설계 목표</h2>
+    <p>매일 <strong>AI 작가 3편 + AI 기자 10편 = 총 13편</strong>의 칼럼을 정해진 시각에 발행한다. 모든 글은:</p>
+    <ul>
+      <li><strong>2,500자 ± 200</strong>, 큰 인용·소제목 2–3개·관련 그림 1장 포함</li>
+      <li>기자의 글은 <strong>실제 뉴스 스크랩</strong>을 출처로 두고, 사실 보도가 아닌 <em>연라이프 시선의 해설</em></li>
+      <li>작가의 글은 <strong>화두·아골라·아곤란</strong>의 흐름과 그날의 결을 따라가는 산문</li>
+      <li>매 글에 <span class="badge">AI 작성</span> 라벨 + 인용 출처 명시 + 의학·법률 면책</li>
+      <li><strong>사람 검수 큐</strong>를 거치지 않은 글은 자동 발행되지 않는다 (안전장치)</li>
+    </ul>
+  </section>
+
+  <section class="card" id="flow">
+    <h2>2 · 전체 흐름 (8 단계)</h2>
+    <div class="flow">
+      <div class="step"><span class="n">1</span><div><strong>스케줄러</strong> — Cloudflare Cron (또는 GitHub Actions cron). 매일 새벽 02:00 KST 트리거.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">2</span><div><strong>스크랩</strong> — 각 페르소나 RSS 화이트리스트에서 지난 24시간 기사 20~50건 수집.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">3</span><div><strong>큐레이션</strong> — Gemini 가 페르소나 관심·문체에 맞는 기사 3–5건 선별. 중요도·신뢰도 채점.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">4</span><div><strong>본문 생성</strong> — Gemini 가 페르소나 프롬프트로 2,500자 칼럼 1편 작성. 인용·출처 자동 삽입.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">5</span><div><strong>이미지</strong> — 원본 OG 이미지 시도 → 라이선스 확인 → 실패 시 Gemini Imagen 으로 추상 이미지 생성.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">6</span><div><strong>검수 큐</strong> — Firestore <code>articles_pending/</code> 컬렉션에 저장. 관리자 대시보드 알림.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">7</span><div><strong>승인</strong> — 연소사 (또는 위임 관리자) 가 30분 안에 한 번 훑고 ✓. 거부 시 자동 폐기 + 사유 메모.</div></div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">8</span><div><strong>발행</strong> — 페르소나 정해진 시각(06:30–13:30)에 자동 발행. 사이트·RSS·이메일 구독·SNS 카드 동시 송출.</div></div>
+    </div>
+  </section>
+
+  <section class="card" id="sources">
+    <h2>3 · 진짜 뉴스 스크랩 — RSS 화이트리스트</h2>
+    <p>가짜 글이 아닌 <strong>진짜 보도된 기사</strong>만 출처로 사용한다. 페르소나별로 신뢰 가능한 매체를 미리 등록한다 (페르소나 데이터의 <code>sources</code> 배열).</p>
+
+    <table class="tbl">
+      <thead><tr><th>분야</th><th>국내</th><th>해외</th></tr></thead>
+      <tbody>
+        <tr><td>사회</td><td>연합뉴스 · 한겨레 · 동아일보 · KBS</td><td>—</td></tr>
+        <tr><td>정치</td><td>연합 · 한겨레 · 조선 · 중앙 · 한국</td><td>—</td></tr>
+        <tr><td>국제</td><td>연합</td><td>Reuters · AP · AFP · BBC · Le Monde</td></tr>
+        <tr><td>경제</td><td>한국경제 · 매일경제 · 연합인포맥스</td><td>Bloomberg · FT</td></tr>
+        <tr><td>문화</td><td>씨네21 · 아트인사이트 · 월간미술</td><td>—</td></tr>
+        <tr><td>과학</td><td>동아사이언스</td><td>Nature News · Science · arXiv · IEEE</td></tr>
+        <tr><td>환경</td><td>기상청 · 환경부 · 한겨레21</td><td>NOAA · Carbon Brief</td></tr>
+        <tr><td>교육</td><td>교육부 · KEDI · EBSi · 에듀프레스</td><td>—</td></tr>
+        <tr><td>의료</td><td>질병관리청 · 대한의학회</td><td>NEJM · Lancet · BMJ</td></tr>
+        <tr><td>울산</td><td>경상일보 · 울산매일 · 울산저널 · KBS울산</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h4>수집 방식</h4>
+    <ul>
+      <li>매체별 공식 RSS(<code>/rss</code>, <code>/feed</code>) 또는 sitemap 우선</li>
+      <li>해외 매체는 <code>NewsAPI</code> 또는 매체 자체 RSS 사용</li>
+      <li>중복 제거 (URL 정규화 + 제목 유사도 0.85 이상은 한 묶음으로)</li>
+      <li>지난 24시간 + 페르소나 관심 키워드 매칭 점수 ≥ 0.6 만 다음 단계로</li>
+    </ul>
+
+    <div class="note">
+      <strong>저작권 원칙</strong> — 기사 원문은 <em>인용 단위(2~3문장)</em>만 사용한다. 본문 전체 복제는 절대 하지 않으며, 모든 인용에 <code>원문 보기</code> 링크를 표시한다. 사진은 매체의 라이선스가 명시된 경우에만 사용 (대부분 직접 사용 금지) → 자동 이미지 폴백.
+    </div>
+  </section>
+
+  <section class="card" id="gen">
+    <h2>4 · Gemini API 칼럼 생성</h2>
+    <p>당분간 <code>gemini-2.5-pro</code> 또는 <code>gemini-2.5-flash</code> 를 사용. 한국어 본문 품질·비용을 함께 고려해 페르소나별 등급을 다르게 설정.</p>
+
+    <table class="tbl">
+      <thead><tr><th>모델</th><th>용도</th><th>가격(추정)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><code>gemini-2.5-pro</code></td><td>AI 작가 3명 (산문)</td><td>입력 $1.25 / 출력 $5 per 1M tok</td><td>품질 우선</td></tr>
+        <tr><td><code>gemini-2.5-flash</code></td><td>AI 기자 10명 (해설)</td><td>입력 $0.15 / 출력 $0.60 per 1M tok</td><td>대량 작업</td></tr>
+        <tr><td><code>gemini-2.5-flash</code></td><td>큐레이션·채점</td><td>위와 동일</td><td>분류·요약·점수</td></tr>
+      </tbody>
+    </table>
+
+    <h3>칼럼 1편당 토큰 예상</h3>
+    <ul>
+      <li>입력 ≈ 3,500 토큰 (시스템 프롬프트 + 기사 5건 발췌 + 페르소나 카드)</li>
+      <li>출력 ≈ 2,500 토큰 (2,500자 ± 200)</li>
+      <li>비용: Flash 기준 약 <strong>$0.0021/편</strong> (≈ 3원) · Pro 기준 약 <strong>$0.0169/편</strong> (≈ 22원)</li>
+      <li>일 13편 × 30일 = <strong>월 약 2,800원 ~ 8,500원</strong> (페르소나 등급 혼합)</li>
+    </ul>
+
+    <h3>시스템 프롬프트 구조 (페르소나별 슬롯)</h3>
+<pre><code>You are {{persona.name}} ({{persona.role}}, {{persona.field}}).
+Voice: {{persona.voice}}
+Focus: {{persona.focus.join(', ')}}
+Today's date: {{date}}
+
+Mission:
+- Write one Korean column of about 2,500 characters (±200).
+- Use 2~3 H2 subheads, 1 H3, one blockquote with cite, one "pullquote" sentence.
+- Cite 2~3 real news sources from the provided list. Quote at most 2~3 sentences each, with permalink.
+- Never claim facts you cannot trace to a source.
+- NEVER produce libelous content about real, named persons.
+- Avoid "X-not-Y" rhetorical frames (per 연라이프 카피 원칙).
+- End with a question that opens the reader's thinking.
+- Output JSON: { "title", "kicker", "subtitle", "body_html", "pullquote", "sources":[{title,url}], "tags":[…] }
+
+Sources you may cite (and ONLY these):
+{{#sources}} - {{title}} ({{url}}) {{/sources}}
+
+Today's curated headlines (already filtered for relevance):
+{{#headlines}} - {{title}} | {{outlet}} | {{date}} | {{summary}} {{/headlines}}
+</code></pre>
+
+    <h3>품질 가드</h3>
+    <ul>
+      <li>출력 JSON 검증 → 누락 필드 시 1회 재시도</li>
+      <li>자동 길이 체크 (2,300~2,700자)</li>
+      <li>금지어 사전 (선정성·정치 편향·의료 단정) 충돌 시 검수 큐로 자동 라우팅</li>
+      <li>인용 URL 이 실제 응답 200 인지 HEAD 요청으로 확인</li>
+    </ul>
+  </section>
+
+  <section class="card" id="image">
+    <h2>5 · 이미지 자동 처리</h2>
+    <p>모든 칼럼은 <strong>대표 이미지 1장</strong>이 포함되어야 한다. 다음 순서로 시도한다.</p>
+
+    <div class="flow">
+      <div class="step"><span class="n">A</span><div><strong>OG 이미지 시도</strong> — 인용한 첫 번째 매체의 <code>og:image</code>. 라이선스가 “인용·공정사용” 범주이고 매체 자체에서 직접 임베딩 허용한 경우만.</div></div>
+      <div class="arrow">↓ 실패</div>
+      <div class="step"><span class="n">B</span><div><strong>무료 이미지 라이브러리</strong> — Unsplash · Pexels API 에서 분야 키워드로 검색.</div></div>
+      <div class="arrow">↓ 실패</div>
+      <div class="step"><span class="n">C</span><div><strong>Gemini Imagen 자동 생성</strong> — “추상적·은유적·중립적” 프롬프트로 자체 생성. 사람 얼굴 생성 금지.</div></div>
+      <div class="arrow">↓ 실패</div>
+      <div class="step"><span class="n">D</span><div><strong>SVG 폴백</strong> — 페르소나 색조의 추상 도형(원·선·점). 자동 생성 SVG 한 장. 늘 성공.</div></div>
+    </div>
+
+    <div class="note">
+      <strong>Imagen 프롬프트 원칙</strong> — “photo of …”, “portrait of …” 등은 절대 사용하지 않는다. 항상 “gentle abstract illustration of …, soft paper tones, no people, no text” 형태. 정치인·종교 지도자·의료 인물 묘사 금지.
+    </div>
+
+    <h4>비용</h4>
+    <ul>
+      <li>OG/Unsplash/Pexels: <span class="badge ok">무료</span></li>
+      <li>Imagen: 이미지 1장 약 $0.02 — 일 평균 <strong>2–3장만</strong> 폴백 사용 시 월 1,200~1,800원</li>
+    </ul>
+  </section>
+
+  <section class="card" id="review">
+    <h2>6 · 사람 검수 큐 (반드시 거침)</h2>
+    <p>자동으로 발행하지 않는다. 모든 글은 Firebase Firestore <code>articles_pending/</code> 컬렉션에 저장된 뒤, 통합 관리 대시보드에 알림이 뜬다.</p>
+
+    <h3>검수 항목 (체크리스트)</h3>
+    <ol>
+      <li>분야와 페르소나 톤이 맞는가</li>
+      <li>인용된 매체 링크가 실제 작동하는가 (자동 검증 결과 표시)</li>
+      <li>사실 단정·편향이 없는가 (특히 정치·의료)</li>
+      <li>“AI 작성” 라벨이 표시되어 있는가</li>
+      <li>이미지가 적절한가 (사람 얼굴·민감 장면 없음)</li>
+      <li>본문 길이가 2,500자 ± 200 범위 안인가</li>
+    </ol>
+
+    <h3>처리</h3>
+    <ul>
+      <li><span class="badge ok">승인</span> → <code>articles_published/{slug}/{post-id}</code> 로 이동, 발행 시각 큐에 등록</li>
+      <li><span class="badge warn">수정 요청</span> → 사유 메모 → Gemini 재생성 (한 번까지)</li>
+      <li><span class="badge warn">폐기</span> → 사유 메모, 페르소나의 그날 발행은 한 번 건너뜀</li>
+    </ul>
+
+    <div class="note warn">
+      <strong>안전장치</strong> — 검수 큐에 24시간 이상 머문 글은 자동 발행되지 않고 자동 폐기된다. 휴가·부재 시 사이트가 잠시 조용해질 뿐, 잘못된 글이 나가는 일은 없다.
+    </div>
+  </section>
+
+  <section class="card" id="publish">
+    <h2>7 · 발행·아카이브·전체 색인</h2>
+    <p>승인된 글은 페르소나마다 정해진 시각에 자동 발행된다 (페르소나 카드의 <code>cadence</code> 참조).</p>
+
+    <h3>발행 동선</h3>
+    <ol>
+      <li>정적 HTML 생성 (블로그_페르소나_칼럼.html 의 데이터 슬롯에 주입)</li>
+      <li>RSS 피드 갱신 (<code>/rss/{slug}.xml</code>)</li>
+      <li>이메일 구독자 알림 (Resend · SendGrid 등 사용 검토)</li>
+      <li>SNS 카드 자동 생성 (OG 이미지) — 페이스북·X·카카오 채널 자리 잡기</li>
+      <li>광장 생각의 지도에 새 노드 자동 추가 (작가/기자별 색)</li>
+    </ol>
+
+    <h3>아카이브·색인</h3>
+    <ul>
+      <li>월별 색인 페이지 자동 생성 (<code>/archive/{slug}/{YYYY-MM}.html</code>)</li>
+      <li>주제 태그 페이지 자동 생성</li>
+      <li>전체 사이트 sitemap.xml 자동 갱신</li>
+      <li>매월 1일 → 페르소나별 “월간 e-book” 자동 묶음 (PDF · EPUB · MOBI) — 상점 페이지에 자동 등록</li>
+    </ul>
+  </section>
+
+  <section class="card" id="cost">
+    <h2>8 · 비용·안전장치</h2>
+    <table class="tbl">
+      <thead><tr><th>항목</th><th>단가</th><th>일 사용</th><th>월 합계</th></tr></thead>
+      <tbody>
+        <tr><td>Gemini 본문 (Flash · 기자 10)</td><td>$0.0021</td><td>10편</td><td>약 850원</td></tr>
+        <tr><td>Gemini 본문 (Pro · 작가 3)</td><td>$0.017</td><td>3편</td><td>약 2,100원</td></tr>
+        <tr><td>Gemini 큐레이션·요약</td><td>—</td><td>13페르소나</td><td>약 600원</td></tr>
+        <tr><td>Imagen 이미지 폴백</td><td>$0.02</td><td>평균 2–3장</td><td>약 1,500원</td></tr>
+        <tr><td>OG·RSS·이메일 송출</td><td>—</td><td>—</td><td>무료/저렴</td></tr>
+        <tr><td><strong>월 합계</strong></td><td>—</td><td>—</td><td><strong>약 5,000–9,000원</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>안전장치</h3>
+    <ul>
+      <li>Google AI Studio 월 한도 <strong>$20</strong> 설정 (한도 도달 시 자동 정지)</li>
+      <li>자체 예산 한도 <strong>30,000원</strong> — 70% 도달 시 이메일, 100% 도달 시 자동 정지</li>
+      <li>이상 호출(10분에 100건 초과) 자동 일시 정지</li>
+      <li>API 키는 Cloudflare Workers 환경 변수에 보관 (클라이언트 노출 금지)</li>
+    </ul>
+  </section>
+
+  <section class="card" id="runtime">
+    <h2>9 · 실행 환경</h2>
+    <p>YUV 3.2 표준 부합. 본인 컴퓨터를 켜둘 필요 없는 클라우드 구성.</p>
+
+    <h3>옵션 A — Cloudflare 단일 (권장)</h3>
+    <ul>
+      <li><strong>Cloudflare Cron Triggers</strong> — 매일 02:00 KST 자동 실행</li>
+      <li><strong>Cloudflare Workers</strong> — 스크랩·Gemini 호출 함수</li>
+      <li><strong>Cloudflare R2</strong> — 이미지 저장</li>
+      <li><strong>Cloudflare D1 또는 Firestore</strong> — 글·검수 큐 DB</li>
+      <li><strong>Cloudflare Pages</strong> — 정적 사이트 호스팅 (현재 GH Pages 에서 마이그레이션 예정)</li>
+    </ul>
+
+    <h3>옵션 B — GitHub Actions + 외부 DB</h3>
+    <ul>
+      <li>GitHub Actions cron — 동일 시각 트리거</li>
+      <li>Workers/Lambda 없이 Actions 안에서 모두 처리</li>
+      <li>이미지는 GitHub 저장소 또는 R2 로 push</li>
+      <li>장점: 비용 0원에 가까움 · 단점: 시간 제약(60분) · 큰 작업은 분할 필요</li>
+    </ul>
+
+    <div class="note">
+      <strong>키 관리</strong> — Gemini API 키는 Cloudflare Workers 환경 변수 또는 GitHub Actions Secrets 에만 둔다. 사이트 정적 자산에 절대 노출하지 않는다.
+    </div>
+  </section>
+
+  <section class="card" id="roadmap">
+    <h2>10 · 단계별 로드맵 (4주)</h2>
+    <table class="tbl">
+      <thead><tr><th>주차</th><th>작업</th><th>산출물</th><th>예상 비용</th></tr></thead>
+      <tbody>
+        <tr><td>1주차</td><td>Gemini API 키 발급 · 월 한도 설정 · Cloudflare 가입 · Workers 1차 셋업</td><td>키 보관 · 비용 모니터링 패널 가동</td><td>0원</td></tr>
+        <tr><td>2주차</td><td>RSS 스크랩·중복 제거·페르소나 매칭 점수</td><td>매일 새벽 12~30건 큐레이션 산출</td><td>≈ 500원</td></tr>
+        <tr><td>3주차</td><td>본문 생성·이미지 폴백·검수 큐 (Firestore)</td><td>매일 13편 후보가 검수 큐로 도착</td><td>≈ 3,000원</td></tr>
+        <tr><td>4주차</td><td>발행·RSS·이메일·SNS 카드·아카이브</td><td>실제 발행 시작 · 월간 e-book 자동 묶음 1회 확인</td><td>≈ 5,000원</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="risk">
+    <h2>11 · 위험·윤리·면책</h2>
+    <ul>
+      <li><strong>저작권</strong> — 인용은 2~3문장으로 한정, 원문 링크 의무. 매체별 인용 정책 자동 점검.</li>
+      <li><strong>편향</strong> — 정치 페르소나는 한 사건당 최소 3개 매체 인용 의무.</li>
+      <li><strong>의료·법률·금융</strong> — 진단·처방·법률 조언·매매 권유 절대 금지. 전문가 상담 권고 문구 자동 삽입.</li>
+      <li><strong>실명 비방</strong> — 실명 인물의 부정적 단정 금지. 공인의 공적 행위에 대한 비평은 출처 기반으로만.</li>
+      <li><strong>아동 안전</strong> — 미성년 관련 사건은 익명 처리만 인용. 사진 사용 금지.</li>
+      <li><strong>AI 표기</strong> — “AI 작성” 라벨 노출. 칼럼 끝 면책 문구 자동 삽입.</li>
+      <li><strong>광고·이해 충돌</strong> — 페르소나가 광고주의 상품을 직접 추천하지 않는다 (편집·광고 분리).</li>
+    </ul>
+
+    <div class="note">
+      <strong>최종 책임</strong> — AI 페르소나의 글에 대한 최종 편집 책임은 연소사(편집인)에게 있다. 자동 발행이라는 표현은 운영의 자동화를 의미하지만, <em>검수 없이는 어떤 글도 발행되지 않는다</em>.
+    </div>
+  </section>
+
+  <footer>
+    © 2026 y-life.kr · 본 설계서는 v0.1 시안입니다. 디자인 마무리 후 1주차부터 실 구현을 시작합니다.
+  </footer>
+</div>
+
+</body>
+</html>
