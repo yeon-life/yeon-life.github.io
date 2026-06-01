@@ -482,6 +482,12 @@ table.tbl tr:last-child td {
         </ul>
       </li>
       <li class="menu-item">
+        <a href="#s7" class="menu-link">7. 시스템 안정성·재발방지</a>
+        <ul class="submenu-list">
+          <li><a href="#s7-1" class="submenu-link">배포 전 자동 검증</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
         <a href="#history" class="menu-link">유지 관리 & 이력</a>
       </li>
     </ul>
@@ -492,7 +498,7 @@ table.tbl tr:last-child td {
     <header class="doc-head" id="intro">
       <span class="kicker">yeonlife philosophy & requirements index</span>
       <h1 class="doc-title">연라이프 창립 철학 및 요구사항 색인집</h1>
-      <div class="doc-meta">시행일 2026-06-01 · 최종 갱신 2026-06-01 · 버전 v1.1 · 승인: 연소사</div>
+      <div class="doc-meta">시행일 2026-06-01 · 최종 갱신 2026-06-01 · 버전 v1.2 · 승인: 연소사</div>
     </header>
 
     <section class="doc-section">
@@ -663,6 +669,24 @@ table.tbl tr:last-child td {
       </div>
     </section>
 
+    <!-- 제7조 -->
+    <section class="doc-section" id="s7">
+      <h2>7. 시스템 안정성 및 재발방지 위원회 (System Stability & Quality Gate)</h2>
+      <blockquote class="quote">
+        "앞으로는 이런 일이 일어나지 않도록 재발방지 위원회를 만들어 배포 안정성을 철저히 지킨다."
+      </blockquote>
+
+      <h3 id="s7-1">7-1. 배포 전 자동화 검증 프로세스 가동 (시스템-01)</h3>
+      <p><strong>요구사항:</strong> 페이지 로딩이 멈추거나 자바스크립트 구문 에러가 있는 상태로 배포되는 일이 없도록, 모든 배포 전 파일에 대해 구문 오류(Syntax Check) 및 파라미터 매핑 유효성을 검증하는 정적 분석 검증 체인(재발방지 위원회)을 운영합니다.</p>
+      <p><strong>적용:</strong> Git 푸시 전 스크립트를 통한 자바스크립트 문법 검사 및 비정상 로딩 요소를 탐지하는 테스트 단계를 구성하여 배포 안정성을 극대화합니다.</p>
+      <div class="tag-list">
+        <span class="tag-badge">#재발방지위원회</span>
+        <span class="tag-badge">#배포안정성</span>
+        <span class="tag-badge">#구문오류검증</span>
+        <span class="tag-badge">#품질게이트</span>
+      </div>
+    </section>
+
     <!-- 이력 관리 -->
     <section class="doc-section" id="history">
       <h2>유지 관리 및 버전 변경 이력 (Version History)</h2>
@@ -677,6 +701,12 @@ table.tbl tr:last-child td {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><strong>v1.2</strong></td>
+            <td>2026-06-01</td>
+            <td>시스템 안정성을 위한 재발방지 위원회(배포 전 자동 검증 프로세스) 규정 신설.</td>
+            <td>연소사 지시</td>
+          </tr>
           <tr>
             <td><strong>v1.1</strong></td>
             <td>2026-06-01</td>
