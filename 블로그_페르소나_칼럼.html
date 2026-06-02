@@ -359,7 +359,7 @@ footer{
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="시안_v4_홈페이지.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <a class="brand" href="index.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
     <span class="sep">/</span>
     <span class="crumbs">
       <a href="블로그_AI작가기자_인덱스.html">작가와 기자</a>
@@ -565,7 +565,7 @@ function render(){
   document.getElementById('crumbPost').textContent = post.title;
   // OG 태그 동적 갱신
   const ogTitle = `${post.title} — ${p.name}`;
-  const ogDesc = (post.excerpt || piece.subtitle || '').slice(0, 200);
+  const ogDesc = (post.excerpt || post.kicker || '').slice(0, 200);
   const ogUrl = `https://y-life.kr/블로그_페르소나_칼럼.html?slug=${p.slug}&post=${post.id}`;
   document.getElementById('og-title')?.setAttribute('content', ogTitle);
   document.getElementById('og-desc')?.setAttribute('content', ogDesc);
