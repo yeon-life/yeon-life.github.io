@@ -668,21 +668,105 @@
   };
 
   /* ============================================================
-     3. querystring 읽어 콘텐츠 동적 반영
+     3. querystring 읽어 콘텐츠 동적 반영 + 라우팅 예외 처리
      ============================================================ */
+  // 지금 읽을 수 있는 글 목록 (안내 화면용) — 기본 Libet 글 포함
+  function buildKnownList(){
+    const list = [{
+      label: "'선택'이라는 말의 무게 — Libet 실험을 다시 읽다",
+      who: '임선생 · 아골라',
+      href: '단계2_광장글_상세페이지.html'
+    }];
+    Object.keys(ARTICLES).forEach(k => {
+      const a = ARTICLES[k];
+      const href = (a.forumSlug === '화두')
+        ? '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(k)
+        : '단계2_광장글_상세페이지.html?title=' + encodeURIComponent(k);
+      list.push({ label: a.title, who: a.author.name + ' · ' + a.forumSlug, href });
+    });
+    return list;
+  }
+
+  // ARTICLES에서 키 찾기 (안전한 부분 일치 — 오매칭 방지)
+  function resolveArticleKey(id, titleParam){
+    if (id && ARTICLES[id]) return id;
+    if (titleParam && ARTICLES[titleParam]) return titleParam;
+    // 부분 일치는 6자 이상일 때만, 양방향 포함 관계만 허용 (slice 추정 매칭 제거)
+    if (titleParam && titleParam.length >= 6){
+      const m = Object.keys(ARTICLES).find(k => k.includes(titleParam) || titleParam.includes(k));
+      if (m) return m;
+    }
+    return null;
+  }
+
+  // 매끄러운 안내 화면 렌더 (글 없음 / 포럼 목록) — Libet 글로 튕기지 않음
+  function renderNotice(opts){
+    const article = document.querySelector('article');
+    if (!article) return;
+    let items = buildKnownList();
+    if (opts.forumFilter){
+      const filtered = items.filter(it => it.who.indexOf(opts.forumFilter) !== -1);
+      if (filtered.length) items = filtered;
+    }
+    const links = items.map(it =>
+      '<a class="related-item" href="' + it.href + '" style="display:block">' +
+        '<div class="who">' + it.who + '</div>' +
+        '<h4>' + it.label + '</h4>' +
+      '</a>').join('');
+
+    article.innerHTML =
+      '<div class="article-meta"><span class="where">' + opts.kicker + '</span></div>' +
+      '<h1 class="article-title">' + opts.heading + '</h1>' +
+      '<p class="article-deck">' + opts.message + '</p>' +
+      '<div class="end-block" style="text-align:left">' +
+        '<div class="end-q">지금 읽을 수 있는 글</div>' +
+        '<div class="related-list" style="margin-top:8px">' + links + '</div>' +
+        '<div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap">' +
+          '<a class="vote-btn" href="index.html"><span class="ico">⌂</span><span>홈으로</span></a>' +
+          '<a class="vote-btn" href="index.html#plaza" style="background:var(--teal)"><span class="ico">◎</span><span>광장 둘러보기</span></a>' +
+        '</div>' +
+      '</div>';
+
+    const crumbWrap = document.querySelector('.crumb .wrap');
+    if (crumbWrap) crumbWrap.innerHTML =
+      '<a href="index.html">홈</a><span class="sep">›</span>' +
+      '<a href="index.html#plaza">광장</a><span class="sep">›</span>' +
+      '<span style="color:var(--ink)">' + opts.heading + '</span>';
+    document.title = opts.heading + ' · 연라이프';
+    window.scrollTo({top:0});
+  }
+
   (function renderFromQuery(){
     const p = new URLSearchParams(location.search);
     const id = p.get('id');
     const titleParam = p.get('title');
-    let key = null;
-    if (id && ARTICLES[id]) key = id;
-    else if (titleParam && ARTICLES[titleParam]) key = titleParam;
-    else if (titleParam) {
-      // 부분 일치 fallback
-      const m = Object.keys(ARTICLES).find(k => k.includes(titleParam) || titleParam.includes(k.slice(0,12)));
-      if (m) key = m;
+    const forumParam = p.get('forum');
+
+    // 파라미터가 전혀 없으면 기본 Libet 글 그대로 (의도된 기본 화면)
+    if (!id && !titleParam && !forumParam) return;
+
+    const key = resolveArticleKey(id, titleParam);
+
+    // 글을 못 찾음 → Libet 글로 튕기지 않고 안내 화면 렌더
+    if (!key) {
+      const isForumListing = forumParam && (!titleParam || /전체|모두|보기/.test(titleParam));
+      if (isForumListing) {
+        renderNotice({
+          kicker: forumParam + ' · 광장',
+          heading: forumParam + ' 글 모음',
+          message: '이 목록 화면은 아직 시안 단계예요. 지금은 아래 글들을 펼쳐 읽으실 수 있습니다.',
+          forumFilter: forumParam
+        });
+      } else {
+        renderNotice({
+          kicker: '광장',
+          heading: '찾는 글을 만나지 못했습니다',
+          message: '주소가 바뀌었거나 아직 시안에 담기지 않은 글일 수 있어요. 아래에서 지금 읽을 수 있는 글로 이어가 주세요.',
+          forumFilter: null
+        });
+      }
+      return;
     }
-    if (!key) return; // 기본 화면 (Libet 글) 그대로 둠
 
     const a = ARTICLES[key];
     // 메타
