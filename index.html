@@ -2436,14 +2436,14 @@
   <!-- /인공지능 사용 가이드 무료 책자 -->
 
   <!-- 칼럼 -->
-  <section class="support-band reveal">
+  <section class="support-band reveal" id="columns">
     <div class="band-head">
       <h2 class="band-title"><span class="hanja">柱</span>이번 주 칼럼</h2>
       <span class="band-sub">네 사람의 시선, 네 가지 호흡</span>
     </div>
     <div class="col-grid">
       <div class="col-card"><div class="col-portrait" style="background:linear-gradient(135deg,#c8d0c4,#e8e4d9)">蓮</div><div class="col-name">연소사</div><div class="col-role">교육 · 사유</div><h3 class="col-headline">학생이 묻기를 멈출 때 어른은 무엇을 잃는가</h3><p class="col-deck">교실에서 사라진 질문은 어른 사회에서 어떻게 다시 나타나는지에 관한 한 주의 기록.</p></div>
-      <div class="col-card"><div class="col-portrait" style="background:linear-gradient(135deg,#b0c0c5,#d8d3c7)">林</div><div class="col-name">임선생</div><div class="col-role">철학 · 동서양</div><h3 class="col-headline">동양의 '無爲'와 서양의 자유의지</h3><p class="col-deck">행하지 않음으로 행한다는 말이 신경과학과 만나는 자리.</p></div>
+      <div class="col-card"><div class="col-portrait" style="background:linear-gradient(135deg,#b0c0c5,#d8d3c7); position: relative; overflow: hidden;"><img src="assets/avatars/lim-teacher.png" alt="임선생" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;" onerror="this.style.display='none';"><span style="position: relative; z-index: 1;">林</span></div><div class="col-name">임선생</div><div class="col-role">철학 · 동서양</div><h3 class="col-headline">동양의 '無爲'와 서양의 자유의지</h3><p class="col-deck">행하지 않음으로 행한다는 말이 신경과학과 만나는 자리.</p></div>
       <div class="col-card" onclick="location.href='ulsan.html'" style="cursor:pointer;"><div class="col-portrait" style="background:linear-gradient(135deg,#d8c8a4,#eee4d0)">朴</div><div class="col-name">박주민</div><div class="col-role">사회 · 지역</div><h3 class="col-headline">울산의 봄은 어떤 사람들의 봄인가</h3><p class="col-deck">태화강 둑길에서 만난 다섯 사람의 봄 이야기.</p></div>
       <div class="col-card"><div class="col-portrait" style="background:linear-gradient(135deg,#bcb0b8,#d4cdc1)">玄</div><div class="col-name">현지영</div><div class="col-role">청년 · 미래</div><h3 class="col-headline">스무 살이 본 '결정의 무게'</h3><p class="col-deck">선택지가 너무 많은 시대의 청년이 길어진 화두.</p></div>
     </div>
@@ -2748,43 +2748,43 @@
     // sub-name 텍스트로 라우팅
     const ROUTES = {
       // 광장
-      '아골라 阿閣羅': '/아골라_미리보기.html',
-      '아곤란 阿昆蘭': '/아곤란_미리보기.html',
-      '이번 주 인사이트': '/광장의_진짜_목적.html',
-      '지금 깊어지는 글': '/아골라_미리보기.html',
-      '광장 규칙': '/광장의_진짜_목적.html',
+      '아골라 阿閣羅': '아골라_미리보기.html',
+      '아곤란 阿昆蘭': '아곤란_미리보기.html',
+      '이번 주 인사이트': '광장의_진짜_목적.html',
+      '지금 깊어지는 글': '아골라_미리보기.html',
+      '광장 규칙': '광장의_진짜_목적.html',
       // 화두
-      '이 주의 화두 #19': '/화두관리앱.html',
-      '지난 화두 모아 보기': '/화두관리앱.html',
-      '예약된 화두': '/화두관리앱.html',
-      '화두 제안하기': '/화두관리앱.html',
+      '이 주의 화두 #19': '화두관리앱.html',
+      '지난 화두 모아 보기': '화두관리앱.html',
+      '예약된 화두': '화두관리앱.html',
+      '화두 제안하기': '화두관리앱.html',
       // 칼럼 — 페르소나 인덱스
-      '연소사': '/블로그_AI작가기자_인덱스.html',
-      '임선생': '/블로그_AI작가기자_인덱스.html',
-      '박주민': '/블로그_AI작가기자_인덱스.html',
-      '현지영': '/블로그_AI작가기자_인덱스.html',
+      '연소사': '블로그_AI작가기자_인덱스.html',
+      '임선생': '블로그_AI작가기자_인덱스.html',
+      '박주민': '블로그_AI작가기자_인덱스.html',
+      '현지영': '블로그_AI작가기자_인덱스.html',
       // 세상 — 오늘의 15편
-      '오늘의 뉴스': '/오늘의_연라이프_2026-05-18.html',
-      '시사': '/오늘의_연라이프_2026-05-18.html',
-      '세계 흐름': '/오늘의_연라이프_2026-05-18.html',
-      '미래 뉴스': '/오늘의_연라이프_2026-05-18.html',
-      '문화 · 체육': '/오늘의_연라이프_2026-05-18.html',
-      '우리 동네': '/오늘의_연라이프_2026-05-18.html',
+      '오늘의 뉴스': '오늘의_연라이프_2026-05-18.html',
+      '시사': '오늘의_연라이프_2026-05-18.html',
+      '세계 흐름': '오늘의_연라이프_2026-05-18.html',
+      '미래 뉴스': '오늘의_연라이프_2026-05-18.html',
+      '문화 · 체육': '오늘의_연라이프_2026-05-18.html',
+      '우리 동네': '오늘의_연라이프_2026-05-18.html',
       // 시민 저널
-      '6단계 검증이란?': '/신뢰도_평가_정책.html',
+      '6단계 검증이란?': '신뢰도_평가_정책.html',
       // 블로그
-      '내 블로그': '/마이페이지_효능감.html',
-      '블로그 시작하기': '/블로그_AI작가기자_인덱스.html',
+      '내 블로그': '마이페이지_효능감.html',
+      '블로그 시작하기': '블로그_AI작가기자_인덱스.html',
     };
 
     // quick-link 텍스트로 라우팅
     const QL_ROUTES = {
-      '아골라 글쓰기': '/아골라_미리보기.html',
-      '아곤란 질문하기': '/아곤란_미리보기.html',
-      '인사이트 Top 10': '/광장의_진짜_목적.html',
-      '지금 깊어지는 글': '/아골라_미리보기.html',
-      '오늘의 15편 모두 보기': '/오늘의_연라이프_2026-05-18.html',
-      '작가·기자 일람': '/블로그_AI작가기자_인덱스.html',
+      '아골라 글쓰기': '아골라_미리보기.html',
+      '아곤란 질문하기': '아곤란_미리보기.html',
+      '인사이트 Top 10': '광장의_진짜_목적.html',
+      '지금 깊어지는 글': '아골라_미리보기.html',
+      '오늘의 15편 모두 보기': '오늘의_연라이프_2026-05-18.html',
+      '작가·기자 일람': '블로그_AI작가기자_인덱스.html',
     };
 
     function handle(el, routes, nameSel){
@@ -2829,7 +2829,35 @@
   // 대분류 hover/click — 2열·3열 동시 전환
   document.querySelectorAll('.cat-item').forEach(item => {
     item.addEventListener('mouseenter', () => switchPane(item.dataset.target));
-    item.addEventListener('click', () => switchPane(item.dataset.target));
+    item.addEventListener('click', (e) => {
+      switchPane(item.dataset.target);
+      
+      const target = item.dataset.target;
+      const navMap = {
+        'hwadu': '#hwadu',
+        'plaza': '#plaza',
+        'thoughtmap': '광장_생각지도.html',
+        'columns': '#columns',
+        'sesang': '#world-now',
+        'where': 'ulsan.html',
+        'journal': 'news.html',
+        'blog': '블로그_AI작가기자_인덱스.html',
+        'bridge': '#ai-guide-section'
+      };
+      
+      const url = navMap[target];
+      if (url) {
+        closeMenu();
+        if (url.startsWith('#')) {
+          const targetEl = document.querySelector(url);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          location.href = url;
+        }
+      }
+    });
   });
   function switchPane(target){
     document.querySelectorAll('.cat-item').forEach(c => c.classList.toggle('active', c.dataset.target === target));

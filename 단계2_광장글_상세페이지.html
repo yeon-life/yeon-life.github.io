@@ -334,7 +334,10 @@
 
     <!-- 글쓴이 -->
     <div class="byline">
-      <div class="by-photo">林</div>
+      <div class="by-photo" style="position: relative; overflow: hidden;">
+        <img src="assets/avatars/lim-teacher.png" alt="임선생" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;" onerror="this.style.display='none';">
+        <span style="position: relative; z-index: 1;">林</span>
+      </div>
       <div class="by-info">
         <div class="by-name">임선생</div>
         <div class="by-meta">윤리 교사 · <strong>철학 · 동서양</strong> · 작성 글 12편 · 좋은 물음 받음 248</div>
@@ -534,7 +537,10 @@
     <div class="side-block">
       <div class="side-tag">이 글을 쓴 사람</div>
       <div style="display:flex;gap:12px;margin-bottom:12px">
-        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;flex-shrink:0">林</div>
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;flex-shrink:0; position: relative; overflow: hidden;">
+          <img src="assets/avatars/lim-teacher.png" alt="임선생" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;" onerror="this.style.display='none';">
+          <span style="position: relative; z-index: 1;">林</span>
+        </div>
         <div>
           <div style="font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)">임선생</div>
           <div style="font-size:11px;color:var(--muted)">@lim-teacher</div>
@@ -598,6 +604,66 @@
      2. 글마다 콘텐츠 사전 — querystring(title|id)으로 바뀜
      ============================================================ */
   const ARTICLES = {
+    '동양의 \'無爲\'와 서양의 자유의지': {
+      forum: '柱 · 칼럼', forumSlug: '칼럼',
+      tag: '칼럼',
+      title: "동양의 '無爲'와 서양의 자유의지",
+      deck: '행하지 않음으로 행한다는 말이 신경과학과 만나는 자리. 동서양을 가로지르는 사유.',
+      time: '2026.05.18. 09:00', read: '읽는 시간 6분',
+      author: { name:'임선생', han:'林', meta:'윤리 교사 · <strong>철학 · 동서양</strong> · 작성 글 12편 · 좋은 물음 받음 248', handle:'@lim-teacher', bio:'학교에서 윤리를 가르치고, 퇴근하면 동서양 철학을 다시 읽습니다.', avatarGrad:'linear-gradient(135deg,#b0c0c5,#d8d3c7)', avatarImage:'assets/avatars/lim-teacher.png' },
+      body: `
+        <p>무위(無爲)는 아무것도 하지 않는 소극적 도피가 아니다. 그것은 주관적 의도나 인위적 강제를 내려놓고, 사물의 흐름(자연)에 온전히 몸을 싣는 가장 적극적인 행위의 방식이다.</p>
+        <p>현대 신경과학은 우리가 '자유의지'라고 부르는 의식적 선택이 실제 행동보다 늦게 일어난다는 점을 밝혀냈다. 이것은 자유의 부정처럼 보이지만, 사실은 자아의 인위적인 지시가 없어도 몸과 마음이 스스로 조화롭게 흘러간다는 동양의 무위 사상과 일치한다.</p>
+        <blockquote>"행함이 없으되 행하지 못함이 없다(無爲而無不爲)."</blockquote>
+        <p>우리가 '나'라고 집착하는 뇌의 좁은 의식을 내려놓을 때, 우리는 마침내 무위의 넓은 바다와 만나게 된다.</p>
+      `,
+      endQ: '"의식을 내려놓은 자리에서 참된 자유가 시작되는가?"',
+      endCnt: 248
+    },
+    '학생이 묻기를 멈출 때 어른은 무엇을 잃는가': {
+      forum: '柱 · 칼럼', forumSlug: '칼럼',
+      tag: '칼럼',
+      title: '학생이 묻기를 멈출 때 어른은 무엇을 잃는가',
+      deck: '교실에서 사라진 질문은 어른 사회에서 어떻게 다시 나타나는지에 관한 한 주의 기록.',
+      time: '2026.05.18. 09:00', read: '읽는 시간 5분',
+      author: { name:'연소사', han:'蓮', meta:'편집인 · <strong>이 주의 화두 제안</strong> · 누적 19편 · 좋은 물음 받음 1,820', handle:'@yeon-sosa', bio:'연라이프 편집인. 매주 하나의 물음을 광장에 내려놓습니다.', avatarGrad:'linear-gradient(135deg,#c8d0c4,#e8e4d9)', avatarImage:'assets/avatars/yeon-sosa.png' },
+      body: `
+        <p>교실에서 학생들의 질문이 사라진 것은 어제오늘의 일이 아니다. 점수를 위한 공부 속에서 질문은 시간 낭비가 되었다. 그러나 더 심각한 문제는 질문이 사라진 교실을 거친 이들이 어른이 되었을 때 일어난다.</p>
+        <p>질문하기를 멈춘 어른들은 기성 사회의 질서나 주어진 명령을 비판 없이 수용한다. 이것은 권위주의의 온상이 되며, 사회의 창조적 동력을 갈가리 찢어놓는다.</p>
+        <blockquote>"배우고 묻지 않으면 그것은 배운 것이 아니다."</blockquote>
+        <p>학생들의 질문을 지키는 일은 단지 교육의 문제를 넘어, 우리 사회의 민주적 미래와 소통의 지평을 지키는 가장 첫 번째 자리다.</p>
+      `,
+      endQ: '"질문이 사라진 교실에서 우리는 어떤 미래를 배우는가?"',
+      endCnt: 182
+    },
+    '울산의 봄은 어떤 사람들의 봄인가': {
+      forum: '柱 · 칼럼', forumSlug: '칼럼',
+      tag: '칼럼',
+      title: '울산의 봄은 어떤 사람들의 봄인가',
+      deck: '태화강 둑길에서 만난 다섯 사람의 봄 이야기.',
+      time: '2026.05.18. 09:00', read: '읽는 시간 5분',
+      author: { name:'박주민', han:'朴', meta:'사회비평가 · <strong>사회 · 지역</strong> · 작성 글 28편 · 좋은 물음 받음 412', handle:'@park-jumin', bio:'골목 and 광장 사이에서 보고 들은 것을 적습니다.', avatarGrad:'linear-gradient(135deg,#d8c8a4,#eee4d0)' },
+      body: `
+        <p>울산의 봄은 태화강의 십리대숲에서, 혹은 공장 지대의 굴뚝 사이에서 각자 다른 모양으로 찾아온다. 퇴근길의 노동자에게, 강가를 산책하는 노부부에게 봄의 의미는 같지 않다.</p>
+        <p>지역 공동체는 한 사람 한 사람의 일상이 모여 만들어지는 모자이크다. 한 주의 둑길 산책을 통해 울산이라는 도시가 품은 다채로운 목소리를 하나의 글판 위에 모아본다.</p>
+      `,
+      endQ: '"당신이 맞이한 오늘의 봄은 어떤 얼굴을 하고 있습니까?"',
+      endCnt: 412
+    },
+    '스무 살이 본 \'결정의 무게\'': {
+      forum: '柱 · 칼럼', forumSlug: '칼럼',
+      tag: '칼럼',
+      title: "스무 살이 본 '결정의 무게'",
+      deck: '선택지가 너무 많은 시대의 청년이 길어진 화두.',
+      time: '2026.05.18. 09:00', read: '읽는 시간 5분',
+      author: { name:'현지영', han:'玄', meta:'대학생 · <strong>청년 · 미래</strong> · 작성 글 8편 · 좋은 물음 받음 94', handle:'@hyeon-jiyoung', bio:'광장에서 청년의 언어를 채웁니다.', avatarGrad:'linear-gradient(135deg,#bcb0b8,#d4cdc1)' },
+      body: `
+        <p>인생의 갈림길마다 주어지는 수많은 선택지들 앞에서 스무 살의 청년들은 흔들린다. 대학, 취업, 주거. 모든 것이 개인의 결정에 달렸다고 말하지만, 그 결정의 이면에는 거대한 구조적 압박이 작용하고 있다.</p>
+        <p>선택의 자유가 극대화된 시대에 오히려 청년들이 더 깊은 무기력에 빠지는 이유는 무엇일까. 그 결정의 무게를 혼자 짊어지게 만드는 광장의 공백을 들여다본다.</p>
+      `,
+      endQ: '"많은 선택지 앞에서 우리는 정말 자유로운가?"',
+      endCnt: 94
+    },
     '기록되지 않은 결정은 정말 내 결정인가': {
       forum: '阿閣羅 · 아골라', forumSlug: '아골라',
       tag: '깊어짐',
@@ -789,7 +855,18 @@
     if (bodyEl) bodyEl.innerHTML = a.body;
     // byline
     const photo = document.querySelector('.by-photo');
-    if (photo) { photo.textContent = a.author.han; photo.style.background = a.author.avatarGrad; }
+    if (photo) {
+      if (a.author.avatarImage) {
+        photo.innerHTML = `<img src="${a.author.avatarImage}" alt="${a.author.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror=\"this.style.display='none';\">` +
+                          `<span style="position:relative;z-index:1;">${a.author.han}</span>`;
+        photo.style.background = 'none';
+        photo.style.position = 'relative';
+        photo.style.overflow = 'hidden';
+      } else {
+        photo.textContent = a.author.han;
+        photo.style.background = a.author.avatarGrad;
+      }
+    }
     const byName = document.querySelector('.by-name');
     if (byName) byName.textContent = a.author.name;
     const byMeta = document.querySelector('.by-meta');
@@ -807,7 +884,18 @@
       const hd = sideAuthorBox.querySelector('div[style*="@"]');
       const bi = sideAuthorBox.querySelector('p');
       const gobtn = sideAuthorBox.querySelector('a');
-      if (av) { av.textContent = a.author.han; av.style.background = a.author.avatarGrad; }
+      if (av) {
+        if (a.author.avatarImage) {
+          av.innerHTML = `<img src="${a.author.avatarImage}" alt="${a.author.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror=\"this.style.display='none';\">` +
+                         `<span style="position:relative;z-index:1;">${a.author.han}</span>`;
+          av.style.background = 'none';
+          av.style.position = 'relative';
+          av.style.overflow = 'hidden';
+        } else {
+          av.textContent = a.author.han;
+          av.style.background = a.author.avatarGrad;
+        }
+      }
       if (nm) nm.textContent = a.author.name;
       if (hd) hd.textContent = a.author.handle;
       if (bi) bi.textContent = a.author.bio;
