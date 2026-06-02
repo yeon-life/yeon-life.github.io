@@ -52,7 +52,9 @@
 
   /* 글쓴이 영역 */
   .byline{display:flex;align-items:center;gap:14px;padding-bottom:32px;border-bottom:1px solid var(--line);margin-bottom:48px}
-  .by-photo{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:22px;flex-shrink:0}
+  .by-photo{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:22px;flex-shrink:0;position:relative;overflow:hidden}
+  /* 글쓴이 실제 사진 — 있으면 글자 위를 덮고, 로드 실패 시 onerror로 제거되어 글자 폴백 */
+  .avatar-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
   .by-info{flex:1}
   .by-name{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:2px}
   .by-meta{font-size:12px;color:var(--muted)}
@@ -334,9 +336,9 @@
 
     <!-- 글쓴이 -->
     <div class="byline">
-      <div class="by-photo" style="position: relative; overflow: hidden;">
-        <img src="assets/avatars/lim-teacher.png" alt="임선생" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;" onerror="this.style.display='none';">
-        <span style="position: relative; z-index: 1;">林</span>
+      <div class="by-photo">
+        <span>林</span>
+        <img class="avatar-photo" src="assets/avatars/lim-teacher.png" alt="임선생" onerror="this.remove()">
       </div>
       <div class="by-info">
         <div class="by-name">임선생</div>
@@ -537,9 +539,9 @@
     <div class="side-block">
       <div class="side-tag">이 글을 쓴 사람</div>
       <div style="display:flex;gap:12px;margin-bottom:12px">
-        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;flex-shrink:0; position: relative; overflow: hidden;">
-          <img src="assets/avatars/lim-teacher.png" alt="임선생" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;" onerror="this.style.display='none';">
-          <span style="position: relative; z-index: 1;">林</span>
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#b0c0c5,#d8d3c7);color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;flex-shrink:0;position:relative;overflow:hidden">
+          <span>林</span>
+          <img class="avatar-photo" src="assets/avatars/lim-teacher.png" alt="임선생" onerror="this.remove()">
         </div>
         <div>
           <div style="font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)">임선생</div>
