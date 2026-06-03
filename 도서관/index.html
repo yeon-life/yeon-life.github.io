@@ -34,6 +34,30 @@
   .ynav a:hover{background:rgba(47,93,98,.08);color:var(--deep)}
   .ynav a.on{background:var(--deep);color:#fff}
   .ynav a.homeb{color:var(--accent)}
+  /* ① 연라이프 전체 메뉴판 (햄버거 + 드로어) */
+  .ylmenu-btn{background:var(--deep);color:#fff;border:none;border-radius:9px;padding:9px 13px;font:600 14px/1 var(--sans);cursor:pointer;flex-shrink:0}
+  .ylmenu-btn:hover{background:var(--pine)}
+  .yl-drawer{position:fixed;inset:0;z-index:200;background:rgba(31,42,42,.45);display:none}
+  .yl-drawer.open{display:block}
+  .yl-drawer-in{position:absolute;top:0;left:0;bottom:0;width:min(370px,87vw);background:var(--card);box-shadow:4px 0 26px rgba(0,0,0,.2);overflow-y:auto;padding:18px 18px 48px;animation:slidein .25s ease}
+  @keyframes slidein{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+  .yl-dh{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:6px}
+  .yl-dh b{font-family:var(--serif);font-size:16px;color:var(--deep)}
+  .yl-dh button{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
+  .yl-drawer-in>a{display:flex;align-items:center;gap:12px;padding:14px 6px;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink);text-decoration:none}
+  .yl-drawer-in>a:hover{background:var(--mist)}
+  .yl-drawer-in>a .han{font-family:var(--serif);color:var(--accent);width:24px;text-align:center;flex-shrink:0;font-size:17px}
+  .yl-drawer-in>a small{color:var(--muted);font-size:11px;margin-left:auto}
+  /* ② 도서관 카테고리 보기 (큰 버튼 + 패널) */
+  .cat-cta{text-align:center;margin:20px 0 0}
+  .cat-big{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;border:none;border-radius:14px;padding:15px 30px;font:700 17px/1 var(--serif);cursor:pointer;box-shadow:0 6px 18px rgba(195,141,86,.32)}
+  .cat-big:hover{background:#a87b3e;transform:translateY(-1px)}
+  .cat-panel{max-width:760px;margin:14px auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px 20px;display:none}
+  .cat-panel.open{display:block}
+  .cat-panel h4{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.04em;margin:12px 0 8px}
+  .cat-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .cat-chips button{background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit}
+  .cat-chips button:hover{border-color:var(--accent);color:var(--accent)}
   /* 히어로 */
   .hero{text-align:center;padding:46px 0 28px}
   .hero .seal{font-family:var(--serif);font-size:34px;color:var(--accent)}
@@ -75,9 +99,12 @@
 </head>
 <body>
   <div class="top"><div class="wrap in">
-    <div class="brand">
-      <a href="/index.html" title="연라이프 홈으로"><span class="y">緣</span> 연라이프</a>
-      <span class="bsep">›</span><span class="bcur">연 작은도서관</span>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="ylMenuBtn" class="ylmenu-btn" aria-label="연라이프 전체 메뉴 열기">☰ 전체 메뉴</button>
+      <div class="brand">
+        <a href="/index.html" title="연라이프 홈으로"><span class="y">緣</span> 연라이프</a>
+        <span class="bsep">›</span><span class="bcur">연 작은도서관</span>
+      </div>
     </div>
     <nav class="ynav" aria-label="연라이프 메뉴">
       <a href="/index.html#hwadu">화두</a>
@@ -107,6 +134,35 @@
       </div>
     </section>
 
+    <div class="cat-cta">
+      <button id="catBtn" class="cat-big">📚 도서관 카테고리 보기</button>
+    </div>
+    <div id="catPanel" class="cat-panel">
+      <h4>학년별</h4>
+      <div class="cat-chips">
+        <button data-g="초1·2">초등 1·2학년</button>
+        <button data-g="초3·4">초등 3·4학년</button>
+        <button data-g="초5·6">초등 5·6학년</button>
+        <button data-g="중등">중학</button>
+        <button data-g="고등">고등</button>
+      </div>
+      <h4>상태별</h4>
+      <div class="cat-chips">
+        <button data-st="all">전체</button>
+        <button data-st="wip">완성 중</button>
+        <button data-st="final">완성본</button>
+      </div>
+      <h4>주제로 찾기</h4>
+      <div class="cat-chips">
+        <button data-q="한글">한글·글자</button>
+        <button data-q="문장">문장</button>
+        <button data-q="친구">우정·친구</button>
+        <button data-q="용기">용기</button>
+        <button data-q="마음">마음</button>
+        <button data-q="가족">가족</button>
+      </div>
+    </div>
+
     <div class="toolbar">
       <div class="search"><input id="q" type="search" placeholder="관심 있는 주제·제목으로 찾아보세요 (예: 우정, 시간, 용기)"></div>
       <div class="filters" id="filters">
@@ -117,6 +173,21 @@
     </div>
     <div class="count" id="count">불러오는 중…</div>
     <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="yl-drawer" id="ylDrawer">
+    <div class="yl-drawer-in">
+      <div class="yl-dh"><b>緣 연라이프 — 전체 메뉴판</b><button id="ylClose" aria-label="닫기">✕</button></div>
+      <a href="/index.html"><span class="han">家</span> 연라이프 홈 <small>첫 화면</small></a>
+      <a href="/index.html#hwadu"><span class="han">話</span> 이 주의 화두</a>
+      <a href="/index.html#plaza"><span class="han">廣</span> 광장 — 아골라·아곤란</a>
+      <a href="/index.html#world-now"><span class="han">世</span> 세상 — 오늘·시사·세계</a>
+      <a href="/index.html"><span class="han">柱</span> 칼럼 — 네 사람의 시선</a>
+      <a href="/도서관/"><span class="han">蓮</span> 연 작은도서관 <small>지금 여기</small></a>
+      <a href="/index.html"><span class="han">圖</span> 생각의 지도</a>
+      <a href="/index.html"><span class="han">記</span> 시민 저널 · 블로그</a>
+      <a href="/index.html"><span class="han">緣</span> 인연의 다리 — 생태계</a>
+    </div>
   </div>
 
   <footer><div class="wrap">© 2026 연 작은도서관 · y-life.kr — 이름·인기가 아니라, 좋은 생각이 가장 높은 자리에.</div></footer>
@@ -171,6 +242,24 @@
   $('#q').addEventListener('input',e=>{state.q=e.target.value;render()});
   $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
     document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));b.classList.add('active');state.f=b.dataset.f;render();});
+</script>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var dr=$('#ylDrawer');
+  $('#ylMenuBtn').addEventListener('click',function(){dr.classList.add('open')});
+  $('#ylClose').addEventListener('click',function(){dr.classList.remove('open')});
+  dr.addEventListener('click',function(e){if(e.target===dr)dr.classList.remove('open')});
+  var cb=$('#catBtn'), cp=$('#catPanel'), q=$('#q');
+  cb.addEventListener('click',function(){cp.classList.toggle('open');if(cp.classList.contains('open'))cp.scrollIntoView({behavior:'smooth',block:'nearest'})});
+  function setSearch(v){q.value=v;q.dispatchEvent(new Event('input'));setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60)}
+  cp.querySelectorAll('[data-g]').forEach(function(b){b.addEventListener('click',function(){setSearch(b.dataset.g)})});
+  cp.querySelectorAll('[data-q]').forEach(function(b){b.addEventListener('click',function(){setSearch(b.dataset.q)})});
+  cp.querySelectorAll('[data-st]').forEach(function(b){b.addEventListener('click',function(){
+    var f=document.querySelector('#filters .chip[data-f="'+b.dataset.st+'"]'); if(f)f.click();
+    setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60);
+  })});
+})();
 </script>
 </body>
 </html>
