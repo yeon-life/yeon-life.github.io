@@ -1,0 +1,23 @@
+{
+  "name": "세 글자 단어 친구들",
+  "short_name": "세 글자 단어 친구",
+  "description": "글자 셋이 모이면 이름이 생겨요",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

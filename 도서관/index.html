@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연 작은도서관 — y-life.kr</title>
+<meta name="description" content="연 작은도서관 — 좋은 생각을 가진 이야기가 영구히 머무는 곳. AI와 사람이 함께 짓는 작은 도서관.">
+<meta property="og:title" content="연 작은도서관">
+<meta property="og:description" content="좋은 생각을 가진 이야기가 영구히 머무는 곳.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1f2a2a; --deep:#2f5d62; --pine:#427a71; --accent:#c38d56;
+    --mist:#f4f1eb; --card:#fffdf8; --line:#d7d1c5; --muted:#5e6a6e;
+    --warm:#f6f3ec; --paper:#f4f0e6;
+    --ai:#6a7fb0; --human:#b06a6a;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:linear-gradient(180deg,var(--warm),var(--paper));color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  /* 상단 */
+  .top{border-bottom:1px solid var(--line);background:var(--warm)}
+  .top .in{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px}
+  .top a.home{font-family:var(--serif);font-weight:700;color:var(--ink)}
+  .top a.home .y{color:var(--accent)}
+  /* 히어로 */
+  .hero{text-align:center;padding:46px 0 28px}
+  .hero .seal{font-family:var(--serif);font-size:34px;color:var(--accent)}
+  .hero h1{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--ink);margin:6px 0 10px;letter-spacing:-.02em}
+  .hero p{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto}
+  /* 저자 투명성 배너 */
+  .authorbar{max-width:720px;margin:22px auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+  .authorbar .ttl{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em;margin-bottom:10px;text-align:center}
+  .ratio{height:16px;border-radius:999px;overflow:hidden;display:flex;border:1px solid var(--line)}
+  .ratio .ai{background:var(--ai)} .ratio .human{background:var(--human)}
+  .ratio-legend{display:flex;justify-content:center;gap:18px;margin-top:10px;font-size:12px;flex-wrap:wrap}
+  .ratio-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .ratio-note{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  /* 툴바 */
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin:26px 0 8px}
+  .search{flex:1;min-width:220px;max-width:420px;position:relative}
+  .search input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:999px;font-family:inherit;font-size:14px;background:var(--card);outline:none}
+  .search input:focus{border-color:var(--pine)}
+  .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit}
+  .chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+  .count{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 18px}
+  /* 책 그리드 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;padding-bottom:60px}
+  .book{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+  .book:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(31,42,42,.1)}
+  .cover{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;position:relative}
+  .cover h3{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;line-height:1.35;word-break:keep-all;text-shadow:0 1px 4px rgba(0,0,0,.18)}
+  .badge{position:absolute;top:8px;left:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;color:#fff}
+  .b-정식{background:var(--pine)} .b-준비본{background:var(--accent)} .b-초안{background:var(--muted)}
+  .ai-tag{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;padding:3px 7px;border-radius:999px;background:rgba(106,127,176,.92);color:#fff}
+  .meta{padding:10px 12px 14px}
+  .meta .t{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:3px;word-break:keep-all}
+  .meta .s{font-size:11.5px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .meta .g{font-size:10px;color:var(--accent);font-weight:700;margin-top:6px}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0}
+  footer{border-top:2px solid var(--ink);background:var(--warm);text-align:center;font-size:12px;color:var(--muted);padding:24px 0}
+</style>
+</head>
+<body>
+  <div class="top"><div class="wrap in">
+    <a class="home" href="/index.html"><span class="y">緣</span> y-life.kr</a>
+    <span style="color:var(--muted)">연 작은도서관</span>
+  </div></div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="seal">蓮</div>
+      <h1>연 작은도서관</h1>
+      <p>좋은 생각을 가진 이야기가 영구히 머무는 곳.</p>
+      <p style="margin-top:8px;color:var(--accent);font-weight:600;font-size:14px">📖 <b>완성 중</b> — 글 내용 검수는 마쳤고, 디자인과 그림만 다듬는 중인 책자예요. 미리 읽어보실 수 있습니다.</p>
+
+      <div class="authorbar">
+        <div class="ttl">이 도서관의 글은 누가 썼나요 — 정직하게 보여 드립니다</div>
+        <div class="ratio" id="ratioBar"><div class="ai" style="width:100%"></div></div>
+        <div class="ratio-legend">
+          <span><i style="background:var(--ai)"></i><b id="aiPct">AI 창작 100%</b></span>
+          <span><i style="background:var(--human)"></i><b id="humanPct">사람 창작 0%</b></span>
+        </div>
+        <div class="ratio-note">지금은 AI가 지은 이야기로 시작합니다. 앞으로 사람 작가의 글이 더해지며, 각 책에 누가 썼는지 항상 표시됩니다.</div>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="search"><input id="q" type="search" placeholder="관심 있는 주제·제목으로 찾아보세요 (예: 우정, 시간, 용기)"></div>
+      <div class="filters" id="filters">
+        <button class="chip active" data-f="all">전체</button>
+        <button class="chip" data-f="wip">완성 중</button>
+        <button class="chip" data-f="final">완성본</button>
+      </div>
+    </div>
+    <div class="count" id="count">불러오는 중…</div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <footer><div class="wrap">© 2026 연 작은도서관 · y-life.kr — 이름·인기가 아니라, 좋은 생각이 가장 높은 자리에.</div></footer>
+
+<script>
+  const COVERS=[['#2f5d62','#427a71'],['#c38d56','#a87b3e'],['#5a6e8c','#7c8db0'],['#7a6a4a','#a08a62'],['#4a6b5e','#6b8c7e']];
+  let ALL=[], state={f:'all',q:''};
+  const $=s=>document.querySelector(s);
+  function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function render(){
+    const g=$('#grid'); const q=state.q.trim();
+    let list=ALL.filter(b=>{
+      const fin=b.status==='정상';
+      if(state.f==='final' && !fin) return false;
+      if(state.f==='wip' && fin) return false;
+      if(q){const h=(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase(); if(!h.includes(q.toLowerCase())) return false;}
+      return true;
+    });
+    $('#count').textContent = `${list.length}권 표시 · 전체 ${ALL.length}권`;
+    if(!list.length){g.innerHTML='<div class="empty">찾는 조건의 책이 아직 없어요. 다른 낱말로 찾아보거나, 곧 채워질 책을 기다려 주세요.</div>';return;}
+    g.innerHTML=list.map((b,i)=>{
+      const c=COVERS[(parseInt(b.num)||i)%COVERS.length];
+      const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
+      return `<a class="book" href="${esc(b.url)}">
+        <div class="cover" style="background:linear-gradient(135deg,${c[0]},${c[1]})">
+          <span class="badge" style="background:${b.status==='정상'?'var(--pine)':'var(--accent)'}">${b.status==='정상'?'완성본':'완성 중'}</span>
+          <span class="ai-tag">AI 창작</span>
+          <h3>${esc(b.title)}</h3>${bi}
+        </div>
+        <div class="meta">
+          <div class="t">${esc(b.title)}</div>
+          <div class="s">${esc(b.sub||'')}</div>
+          <div class="g">${esc(b.grade||'')}</div>
+        </div></a>`;
+    }).join('');
+  }
+  function setRatio(){
+    const ai=ALL.filter(b=>b.authorType==='AI').length, total=ALL.length||1;
+    const aiPct=Math.round(ai/total*100), hPct=100-aiPct;
+    $('#ratioBar').innerHTML=`<div class="ai" style="width:${aiPct}%"></div><div class="human" style="width:${hPct}%"></div>`;
+    $('#aiPct').textContent=`AI 창작 ${aiPct}%`; $('#humanPct').textContent=`사람 창작 ${hPct}%`;
+  }
+  Promise.all([
+    fetch('books.json?v='+Date.now()).then(r=>r.json()),
+    fetch('search-index.json?v='+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))
+  ]).then(([d,si])=>{
+    const txt={}; (si.items||[]).forEach(i=>{txt[i.slug]=i.text||'';});
+    ALL=(d.books||[]).map(b=>Object.assign({},b,{text:txt[b.folder]||''}))
+      .sort((a,b)=>(a.status==='정상'?0:1)-(b.status==='정상'?0:1) || (parseInt(a.num)||0)-(parseInt(b.num)||0));
+    setRatio(); render();
+  }).catch(e=>{$('#count').textContent='목록을 불러오지 못했습니다.';});
+  $('#q').addEventListener('input',e=>{state.q=e.target.value;render()});
+  $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));b.classList.add('active');state.f=b.dataset.f;render();});
+</script>
+</body>
+</html>

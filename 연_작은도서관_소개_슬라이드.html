@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연 작은도서관 — 30초 소개</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;background:#1a1714;font-family:"Noto Serif KR",serif;overflow:hidden;}
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#f4f1eb;}
+  .frame{position:relative;width:100%;max-width:100vw;aspect-ratio:16/9;max-height:100vh;overflow:hidden;background:#1a1714;}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;}
+  .slide.on{opacity:1;}
+  .slide img{width:100%;height:100%;object-fit:cover;animation:kb 6s ease-out forwards;}
+  @keyframes kb{from{transform:scale(1.0)}to{transform:scale(1.08)}}
+  /* 자막 */
+  .cap{position:absolute;left:0;right:0;bottom:8%;text-align:center;padding:0 8%;
+    color:#fff;font-size:clamp(18px,3.2vw,40px);font-weight:500;line-height:1.5;
+    text-shadow:0 2px 14px rgba(0,0,0,.55);opacity:0;transform:translateY(14px);
+    transition:opacity 1s ease .3s, transform 1s ease .3s;}
+  .slide.on .cap{opacity:1;transform:translateY(0);}
+  /* 하단 그라데이션(자막 가독) */
+  .slide::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 42%);pointer-events:none;}
+  /* 엔딩(緣) */
+  .ending{display:flex;flex-direction:column;align-items:center;justify-content:center;background:
+     radial-gradient(circle at 50% 45%, #fbf7ef, #efe7d8);}
+  .ending .yeon{font-size:clamp(60px,12vw,150px);font-weight:700;color:#2f5d62;line-height:1;margin-bottom:.15em;}
+  .ending .name{font-size:clamp(22px,4vw,44px);font-weight:700;color:#2a2a2a;letter-spacing:.08em;}
+  .ending .tag{margin-top:.6em;font-size:clamp(14px,2.4vw,26px);color:#6b6b6b;}
+  .ending::after{display:none;}
+  /* 컨트롤 */
+  .ctrl{position:fixed;top:14px;right:16px;z-index:10;display:flex;gap:8px;}
+  .ctrl button{font-family:inherit;font-size:13px;border:none;border-radius:20px;padding:7px 14px;cursor:pointer;
+    background:rgba(255,255,255,.85);color:#2a2a2a;box-shadow:0 1px 6px rgba(0,0,0,.2);}
+  .progress{position:fixed;left:0;top:0;height:3px;background:#c38d56;width:0;z-index:10;transition:width .2s linear;}
+  .hint{position:fixed;bottom:10px;left:0;right:0;text-align:center;color:#999;font-size:11px;z-index:10;font-family:sans-serif;}
+</style>
+</head>
+<body>
+  <div class="progress" id="prog"></div>
+  <div class="ctrl">
+    <button id="replay">↻ 다시</button>
+  </div>
+  <div class="stage"><div class="frame" id="frame"></div></div>
+  <div class="hint">연 작은도서관 · 30초 소개 (6장면 자동 재생) — 힉스필드 z_image 이미지</div>
+
+<script>
+  const CDN='https://d8j0ntlcm91z4.cloudfront.net/user_3E855sAf6HBEnu7ETMz6UkyN9Xn/';
+  const slides=[
+    {img:'hf_20260603_030139_b85a3ae5-a4a4-4b01-a2a6-324128f7c274.png', cap:'작은 도서관에, 잠자던 글자들이 깨어납니다.'},
+    {img:'hf_20260603_030220_3aa65fc6-e2fd-44e7-b97e-d16a6951f6e5.png', cap:'한글이 친구가 되어, 이야기가 시작됩니다.'},
+    {img:'hf_20260603_030420_97955862-657d-491e-b575-bbde7e91e799.png', cap:'한 낱말을 누르면, 뜻과 소리가 함께 옵니다.'},
+    {img:'hf_20260603_030527_68f481c8-f39d-43c4-9693-16ef6d381254.png', cap:'작은 도서관에, 좋은 이야기가 한 권씩 쌓입니다.'},
+    {img:'hf_20260603_030642_cd211c1e-e9fd-487d-9f6e-b9da2dc147b7.png', cap:'세계의 아이들이, 한글로 좋은 생각을 만납니다.'},
+    {ending:true}
+  ];
+  const PER=5000; // 5초/장 → 30초
+  const frame=document.getElementById('frame');
+  // build
+  slides.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='slide'+(s.ending?' ending':'');
+    if(s.ending){
+      d.innerHTML='<div class="yeon">緣</div><div class="name">연 작은도서관</div><div class="tag">작은 빛 하나가, 세상을 잇습니다.</div>';
+    } else {
+      d.innerHTML='<img src="'+CDN+s.img+'" alt=""><div class="cap">'+s.cap+'</div>';
+    }
+    frame.appendChild(d);
+  });
+  const els=[...frame.children];
+  const prog=document.getElementById('prog');
+  let idx=0, timer=null, t0=0, raf=null;
+  function show(i){
+    els.forEach(e=>e.classList.remove('on'));
+    // restart kenburns
+    const im=els[i].querySelector('img'); if(im){im.style.animation='none'; void im.offsetWidth; im.style.animation='';}
+    els[i].classList.add('on');
+  }
+  function tick(){
+    const el=(performance.now()-t0)/(PER*slides.length);
+    prog.style.width=Math.min(100,el*100)+'%';
+    raf=requestAnimationFrame(tick);
+  }
+  function play(){
+    clearInterval(timer); cancelAnimationFrame(raf);
+    idx=0; show(0); t0=performance.now(); tick();
+    timer=setInterval(()=>{
+      idx++;
+      if(idx>=slides.length){ clearInterval(timer); cancelAnimationFrame(raf); prog.style.width='100%'; return; }
+      show(idx);
+    }, PER);
+  }
+  document.getElementById('replay').onclick=play;
+  play();
+</script>
+</body>
+</html>

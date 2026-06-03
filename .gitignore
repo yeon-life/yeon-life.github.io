@@ -1,1 +1,4 @@
 .vercel
+
+# 사진 자동화 작업공간(안티그래비티↔Claude 내부 공유) — 사이트 배포 제외, 사진(PNG)은 assets/avatars/ 에 별도 저장되어 배포됨
+assets/avatars/_automation/

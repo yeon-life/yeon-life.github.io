@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성향 게이지 시안 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4f1eb; --card:#fffdf8; --ink:#1f2a2a; --muted:#5e6a6e; --line:#e3ddd0;
+    /* 연한(채도 낮춘) 정치 스펙트럼 */
+    --left:#6b86b8;   /* 좌 · 차분한 파랑 */
+    --mid:#9a8bb8;    /* 중도 · 은은한 보라 */
+    --right:#c07f76;  /* 우 · 눅은 벽돌빛 */
+    --font-title:"Noto Serif KR",serif;
+    --font-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);
+    line-height:1.6;padding:32px 18px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;}
+  h1{font-family:var(--font-title);font-weight:700;font-size:24px;margin:0 0 6px;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 28px;}
+  h2{font-family:var(--font-title);font-size:17px;margin:34px 0 4px;}
+  .concept-desc{color:var(--muted);font-size:13px;margin:0 0 16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px 18px;margin:12px 0;}
+  .rep-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .rep-id{min-width:128px;}
+  .rep-name{font-family:var(--font-title);font-weight:500;font-size:15px;}
+  .rep-field{color:var(--muted);font-size:12px;}
+  .gauge-box{flex:1;min-width:200px;}
+  /* 끝 라벨 */
+  .ends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    letter-spacing:.04em;margin-top:6px;}
+
+  /* ───────── 시안 A : 연한 그라데이션 점 + 강조 마커 ───────── */
+  .gA{display:flex;gap:7px;align-items:center;}
+  .gA .dot{width:12px;height:12px;border-radius:50%;opacity:.30;transition:.2s;}
+  .gA .dot.on{opacity:1;transform:scale(1.45);box-shadow:0 0 0 3px rgba(31,42,42,.10);
+    outline:1.5px solid rgba(31,42,42,.55);outline-offset:1px;}
+
+  /* ───────── 시안 B : 미니멀 그라데이션 트랙 + 포인터 ───────── */
+  .gB{position:relative;padding-top:14px;}
+  .gB .track{height:6px;border-radius:6px;
+    background:linear-gradient(90deg,var(--left),var(--mid),var(--right));opacity:.5;}
+  .gB .pin{position:absolute;top:0;transform:translateX(-50%);
+    width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;
+    border-top:7px solid var(--ink);}
+  .gB .pin-dot{position:absolute;top:8px;transform:translate(-50%,0);
+    width:14px;height:14px;border-radius:50%;border:2px solid var(--card);
+    box-shadow:0 1px 4px rgba(0,0,0,.18);}
+
+  /* ───────── 시안 C : 은은한 점 + 후광 강조 1개 ───────── */
+  .gC{display:flex;gap:8px;align-items:center;}
+  .gC .dot{width:9px;height:9px;border-radius:50%;opacity:.22;}
+  .gC .dot.on{width:16px;height:16px;opacity:1;position:relative;}
+  .gC .dot.on::after{content:"";position:absolute;inset:-6px;border-radius:50%;
+    background:currentColor;opacity:.18;}
+
+  .note{font-size:12px;color:var(--muted);background:#efeadd;border-radius:10px;
+    padding:12px 14px;margin-top:30px;line-height:1.7;}
+  .pos-label{font-size:11px;color:var(--muted);margin-left:8px;white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>성향 게이지 — 시안 3종</h1>
+  <p class="sub">좌(파랑) · 중도(보라) · 우(벽돌) 한 축 · 10단계 · 연한 색 · 위치 표시.<br>아래 세 가지 표현 방식을 같은 기자들에게 적용해 비교합니다.</p>
+
+  <h2>시안 A — 연한 그라데이션 점 + 강조 마커</h2>
+  <p class="concept-desc">10개 점 전체가 좌→우 그라데이션으로 연하게 깔리고, 해당 위치만 또렷하게(테두리+살짝 확대). 가장 직관적.</p>
+  <div class="card" id="cardA"></div>
+
+  <h2>시안 B — 미니멀 트랙 + 포인터</h2>
+  <p class="concept-desc">얇은 그라데이션 띠 위에 포인터가 위치를 가리킴. 가장 절제되고 우아함(슬라이더 느낌).</p>
+  <div class="card" id="cardB"></div>
+
+  <h2>시안 C — 은은한 점 + 후광 강조</h2>
+  <p class="concept-desc">점들은 아주 연하게, 해당 위치 하나만 커지며 부드러운 후광. 미니멀하면서 시선이 자연히 모임.</p>
+  <div class="card" id="cardC"></div>
+
+  <div class="note">
+    · 색은 편집 톤과 안 부딪히게 <b>채도를 낮춘 연한 색</b>입니다. (좌 #6b86b8 · 중도 #9a8bb8 · 우 #c07f76)<br>
+    · 색만으론 부족하니 <b>끝 라벨(좌·중도·우)</b>과 위치 텍스트를 함께 둡니다(색맹·흑백 배려).<br>
+    · 좁은 화면에서도 한 줄로 접히게(반응형).<br>
+    · 실제 값은 <code>personas.js</code>의 <code>leaning</code>(1~10) 한 필드로 제어 — 공론지기 공개 기준으로 산정.
+  </div>
+</div>
+
+<script>
+  // 샘플 기자 (좌·중도·우 위치 예시)
+  const reps=[
+    {name:'임시연', field:'경제·금융', leaning:3},
+    {name:'박서연', field:'교육',     leaning:5},
+    {name:'백사현', field:'정치',     leaning:8},
+  ];
+  // 1~10 → 좌(파랑)~우(벽돌) 색 보간 (가운데는 보라)
+  function lerp(a,b,t){return Math.round(a+(b-a)*t);}
+  function hex(c){return '#'+c.map(x=>x.toString(16).padStart(2,'0')).join('');}
+  const LEFT=[0x6b,0x86,0xb8], MID=[0x9a,0x8b,0xb8], RIGHT=[0xc0,0x7f,0x76];
+  function colorAt(i){ // i:0~9
+    const t=i/9;
+    if(t<=0.5){const u=t/0.5;return hex([lerp(LEFT[0],MID[0],u),lerp(LEFT[1],MID[1],u),lerp(LEFT[2],MID[2],u)]);}
+    const u=(t-0.5)/0.5;return hex([lerp(MID[0],RIGHT[0],u),lerp(MID[1],RIGHT[1],u),lerp(MID[2],RIGHT[2],u)]);
+  }
+  function label(v){return v<=3?'좌':v>=8?'우':v<=4?'중도-좌':v>=7?'중도-우':'중도';}
+
+  function ends(){return '<div class="ends"><span>좌</span><span>중도</span><span>우</span></div>';}
+
+  function gaugeA(v){
+    let s='<div class="gA">';
+    for(let i=0;i<10;i++){const on=(i+1)===v;s+=`<span class="dot${on?' on':''}" style="background:${colorAt(i)}"></span>`;}
+    s+='</div>';return s+ends();
+  }
+  function gaugeB(v){
+    const pct=((v-0.5)/10*100).toFixed(1);
+    return `<div class="gB"><div class="pin" style="left:${pct}%"></div>`+
+      `<div class="pin-dot" style="left:${pct}%;background:${colorAt(v-1)}"></div>`+
+      `<div class="track"></div></div>`+ends();
+  }
+  function gaugeC(v){
+    let s='<div class="gC">';
+    for(let i=0;i<10;i++){const on=(i+1)===v;s+=`<span class="dot${on?' on':''}" style="${on?'color:'+colorAt(i)+';background:'+colorAt(i):'background:'+colorAt(i)}"></span>`;}
+    s+='</div>';return s+ends();
+  }
+
+  function render(id,fn){
+    const el=document.getElementById(id);
+    el.innerHTML=reps.map(r=>
+      `<div class="rep-row" style="margin:10px 0">
+         <div class="rep-id"><div class="rep-name">${r.name}</div><div class="rep-field">${r.field}</div></div>
+         <div class="gauge-box">${fn(r.leaning)}</div>
+         <span class="pos-label">${label(r.leaning)} · ${r.leaning}/10</span>
+       </div>`).join('');
+  }
+  render('cardA',gaugeA);
+  render('cardB',gaugeB);
+  render('cardC',gaugeC);
+</script>
+</body>
+</html>

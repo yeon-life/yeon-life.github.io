@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 — 정치 성향 원형 나침반 시안 (본인+연라이프 평가)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FDFCF8; --card:#fff; --ink:#2a2a2a; --muted:#6b6b6b; --line:#ddd;
+    --soft-blue:#aebfd6; --soft-red:#d8a6a0; --ring:#e0d9cb;
+    --font-title:"Noto Serif KR",serif;
+    --font-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.6;padding:24px 18px;}
+  h1{font-family:var(--font-title);font-size:22px;text-align:center;margin-bottom:6px;}
+  .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:28px;}
+  .grid-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;max-width:980px;margin:0 auto;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;}
+  .head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .photo{width:46px;height:46px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:.72rem;color:#999;border:1px solid var(--line);}
+  .name{font-family:var(--font-title);font-weight:700;font-size:1.05rem;}
+  .role{font-size:.8rem;color:var(--muted);}
+  .readouts{font-size:.78rem;margin-top:3px;}
+  .readouts b{color:#000;}
+  .readouts .self{color:var(--muted);}
+
+  .compass{position:relative;width:100%;max-width:210px;aspect-ratio:1/1;margin:10px auto 4px;border-radius:50%;
+    background:
+      radial-gradient(circle, transparent 0 60%, rgba(0,0,0,0.015) 60% 100%),
+      linear-gradient(90deg, var(--soft-blue) 0%, #f1ece2 45%, #f1ece2 55%, var(--soft-red) 100%);
+    border:1.5px solid var(--ring);overflow:hidden;}
+  .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px dashed #cfc6b4;border-radius:50%;}
+  .ring.r1{width:33%;height:33%;}
+  .ring.r2{width:66%;height:66%;}
+  .cross-v,.cross-h{position:absolute;background:#c7bda9;}
+  .cross-v{left:50%;top:0;bottom:0;width:1.5px;transform:translateX(-50%);}
+  .cross-h{top:50%;left:0;right:0;height:1.5px;transform:translateY(-50%);}
+  .axis{position:absolute;font-size:11px;font-weight:700;color:#555;background:rgba(253,252,248,.8);padding:0 3px;border-radius:3px;z-index:3;}
+  .axis .mini{display:block;font-size:8px;font-weight:500;color:#a59c8c;text-align:center;}
+  .axis.top{top:5px;left:50%;transform:translateX(-50%);}
+  .axis.bottom{bottom:5px;left:50%;transform:translateX(-50%);}
+  .axis.left{left:5px;top:50%;transform:translateY(-50%);}
+  .axis.right{right:5px;top:50%;transform:translateY(-50%);}
+  .center-tick{position:absolute;top:50%;left:50%;width:4px;height:4px;border-radius:50%;background:#b3a98f;transform:translate(-50%,-50%);}
+
+  /* 연결선 (두 평가 간 간격) */
+  .link{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+
+  /* 두 마커 */
+  .dot{position:absolute;border-radius:50%;transform:translate(-50%,-50%);z-index:2;}
+  .dot.yeon{width:15px;height:15px;background:var(--ink);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);} /* 연라이프=채운 점 */
+  .dot.self{width:14px;height:14px;background:var(--paper);border:2px dashed var(--ink);} /* 본인=빈 점선 점 */
+  .dot::after{content:attr(data-tag);position:absolute;left:50%;top:118%;transform:translateX(-50%);
+    font-size:9px;font-weight:800;color:#000;background:rgba(253,252,248,.9);padding:0 2px;border-radius:2px;white-space:nowrap;}
+
+  .legend{display:flex;gap:14px;justify-content:center;font-size:10.5px;color:var(--muted);margin-top:8px;}
+  .legend i{font-style:normal;display:inline-flex;align-items:center;gap:4px;}
+  .lg-yeon{width:11px;height:11px;border-radius:50%;background:var(--ink);display:inline-block;}
+  .lg-self{width:11px;height:11px;border-radius:50%;background:var(--paper);border:2px dashed var(--ink);display:inline-block;}
+  .axis-caption{font-size:10px;color:var(--muted);text-align:center;margin-top:6px;}
+  .note{max-width:980px;margin:30px auto 0;font-size:12px;color:var(--muted);background:#efeadd;border-radius:10px;padding:14px 16px;line-height:1.7;}
+</style>
+</head>
+<body>
+  <h1>정치 성향 원형 나침반 — 본인 선언 + 연라이프 평가</h1>
+  <p class="sub">가로=경제(좌·우) · 세로=사회·가치(진보·보수) · 중심에서 멀수록 강함 · 두 점의 간격 = 자기인식과 글의 차이</p>
+
+  <div class="grid-wrap" id="grid"></div>
+
+  <div class="note">
+    · <b>● 연라이프 평가</b>(공론지기·비평단이 <u>실제 쓴 글</u>을 분석해 매김) &nbsp;/&nbsp; <b>○ 본인 선언</b>(필자가 스스로 밝힌 성향).<br>
+    · <b>두 점의 거리 = 정직의 지표.</b> "중도라 했는데 글은 진보·좌" 같은 차이가 한눈에 — 어느 쪽도 진실을 독점하지 않고 둘 다 투명 공개.<br>
+    · 비색 단서: 채운 점/점선 빈 점(형태 구분)·십자선·동심원·방위 라벨 → 색맹·흑백 대응.<br>
+    · 좌(연한 파랑)–우(연한 빨강)=경제 / 위(진보)–아래(보수)=사회·가치. 평가 근거는 공론지기 공개 기준에 따름.
+  </div>
+
+<script>
+  // x:-1(좌)~+1(우) 경제 / y:-1(보수,아래)~+1(진보,위) 사회
+  // self=본인 선언, yeon=연라이프(글 분석) 평가
+  const people=[
+    {name:'김지윤', role:'시사 기획 기자', self:{x:-0.3,y:0.3}, yeon:{x:-0.6,y:0.55}},
+    {name:'박상현', role:'교육 정책 위원', self:{x:0,y:0},      yeon:{x:0.1,y:-0.15}},
+    {name:'박민수', role:'경제·정책 분석', self:{x:0.4,y:-0.3},  yeon:{x:0.65,y:-0.55}},
+    {name:'이서연', role:'문화·사회',     self:{x:0.2,y:0.6},   yeon:{x:0.5,y:0.45}},
+  ];
+  function readout(x,y){
+    const ew=Math.abs(x)<0.15, ns=Math.abs(y)<0.15;
+    if(ew&&ns) return '중도';
+    const eco=ew?'':(x<0?'좌':'우'), soc=ns?'':(y>0?'진보':'보수');
+    if(!eco) return soc; if(!soc) return eco; return soc+'·'+eco;
+  }
+  const map=v=>({l:(50+v.x*45),t:(50-v.y*45)});
+  document.getElementById('grid').innerHTML = people.map(p=>{
+    const s=map(p.self), y=map(p.yeon);
+    return `<div class="card">
+      <div class="head"><div class="photo">사진</div>
+        <div><div class="name">${p.name}</div><div class="role">${p.role}</div>
+          <div class="readouts"><b>연라이프: ${readout(p.yeon.x,p.yeon.y)}</b> <span class="self">· 본인: ${readout(p.self.x,p.self.y)}</span></div>
+        </div></div>
+      <div class="compass">
+        <div class="ring r2"></div><div class="ring r1"></div>
+        <div class="cross-v"></div><div class="cross-h"></div>
+        <svg class="link" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <line x1="${s.l}" y1="${s.t}" x2="${y.l}" y2="${y.t}" stroke="#a89e88" stroke-width="0.8" stroke-dasharray="2 2"/>
+        </svg>
+        <span class="axis top">진보<span class="mini">개방</span></span>
+        <span class="axis bottom"><span class="mini">전통</span>보수</span>
+        <span class="axis left">좌<span class="mini">분배</span></span>
+        <span class="axis right">우<span class="mini">시장</span></span>
+        <span class="center-tick"></span>
+        <span class="dot self" style="left:${s.l}%;top:${s.t}%" data-tag="본인"></span>
+        <span class="dot yeon" style="left:${y.l}%;top:${y.t}%" data-tag="연"></span>
+      </div>
+      <div class="legend"><i><span class="lg-yeon"></span>연라이프 평가(글 분석)</i><i><span class="lg-self"></span>본인 선언</i></div>
+      <div class="axis-caption">가로=경제 · 세로=사회·가치</div>
+    </div>`;
+  }).join('');
+</script>
+</body>
+</html>

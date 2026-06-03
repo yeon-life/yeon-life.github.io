@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연라이프 필자 성향 표시 디자인 제안</title>
+    <style>
+        /* [기본 스타일 및 지면 환경 시뮬레이션] */
+        :root {
+            /* 1. 색상 팔레트: 연한(채도 낮춘) 톤 */
+            --color-bg-base: #FDFCF8; /* 따뜻한 종이색 배경 */
+            --color-text-main: #333333; /* 먹빛 글자 */
+            --color-border: #DDDDDD;
+
+            /* 정치 성향 표현 색상 (파스텔/뮤트 톤) */
+            --color-bias-left: #A1B5C9;   /* 차분한 블루 그레이 (좌) */
+            --color-bias-center: #A9AF94; /* 은은한 세이지 그린 (중도) */
+            --color-bias-right: #E0C9B1;  /* 부드러운 오트밀 베이지 (우) */
+
+            --color-bias-text: #555555;   /* 라벨 텍스트 색상 */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'KoPub Batang', serif; /* 명조 제목용 (가족명은 예시) */
+            background-color: var(--color-bg-base);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1, h2, h3 { font-weight: 700; margin-bottom: 0.5em; }
+        p { margin-bottom: 1em; font-family: sans-serif; } /* 본문은 고딕 */
+
+        /* [디자인 설명 (필수 제출 요소)] */
+        .design-doc {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            margin-bottom: 40px;
+            font-family: sans-serif;
+            max-width: 800px;
+        }
+        .design-doc h2 { font-size: 1.2rem; color: #000; }
+        .design-doc ul { margin-left: 20px; margin-bottom: 1em; list-style-type: disc;}
+        .design-doc li { margin-bottom: 0.5em; font-size: 0.95rem;}
+
+        /* [연라이프 기자/작가 카드 (예시 부모 컨테이너)] */
+        .author-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        .author-card {
+            background: #fff;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+        .author-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+        .author-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .author-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888;
+        }
+        .author-info h3 { margin: 0; font-size: 1.1rem; }
+        .author-info p { margin: 0; font-size: 0.85rem; color: #666; font-family: sans-serif;}
+
+
+        /* =========================================
+           [핵심 CSS: 정치 성향 시각 표시 디자인]
+           ========================================= */
+
+        /* 1. 구조: 3분할 슬라이더 바 */
+        .bias-indicator {
+            width: 100%;
+            font-family: sans-serif; /* 정보 전달용 고딕 */
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* 라벨과 바 사이 간격 */
+        }
+
+        /* 2. 텍스트 라벨 (색맹/흑백 대응 필수 요소) */
+        .bias-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px; /* 작지만 또렷하게 */
+            font-weight: bold;
+            color: var(--color-bias-text);
+            text-transform: uppercase; /* 정돈된 느낌 */
+            letter-spacing: 0.05em;
+        }
+        /* 중앙 '중도'는 명확히 가운데 정렬 */
+        .bias-label.center {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* 3. 트랙 (바) */
+        .bias-track {
+            height: 8px; /* 너무 두껍지 않게 */
+            background-color: #E6E6E6; /* 기본 회색 트랙 (비활성) */
+            border-radius: 4px;
+            position: relative; /* 마커 위치 기준 */
+            overflow: hidden; /* 영역 밖 마커 숨김 */
+            display: flex; /* 3영역 분할을 위해 플렉스 사용 */
+        }
+
+        /* 4. 영역 분할 (비색 단서: 영역 구분선) */
+        .bias-segment {
+            flex: 1;
+            height: 100%;
+            border-right: 1px solid rgba(255,255,255,0.6); /* 흑백에서도 보이는 구분선 */
+        }
+        .bias-segment:last-child { border-right: none; } /* 마지막 선 제거 */
+
+        /* 5. 마커 (Positioning & Shape) */
+        .bias-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 33.333%; /* 한 영역 전체를 차지 */
+            border-radius: 4px;
+            box-shadow: inset 0 0 0 1.5px rgba(0,0,0,0.1); /* 약간의 입체감, 정직한 인상 */
+
+            /* 반응형/데이터 주입을 위한 변수 */
+            --marker-pos: 33.333%; /* 기본값: 중도 */
+            left: var(--marker-pos);
+
+            transition: left 0.3s ease-out, background-color 0.3s ease-out; /* 부드러운 움직임 */
+        }
+
+        /* [성향 데이터 주입 시스템]
+           서버나 JS에서 HTML의 style="--marker-pos: X%" 값과
+           아래 클래스 중 하나를 함께 부여합니다. */
+
+        /* A. 좌 (Left) */
+        .bias-indicator.is-left .bias-marker {
+            left: 0%;
+            background-color: var(--color-bias-left);
+        }
+        .bias-indicator.is-left .bias-label.left { color: #000; font-weight: 900;} /* 활성 라벨 강조 */
+
+        /* B. 중도 (Center) */
+        .bias-indicator.is-center .bias-marker {
+            left: 33.333%;
+            background-color: var(--color-bias-center);
+        }
+        .bias-indicator.is-center .bias-label.center { color: #000; font-weight: 900;}
+
+        /* C. 우 (Right) */
+        .bias-indicator.is-right .bias-marker {
+            left: 66.666%;
+            background-color: var(--color-bias-right);
+        }
+        .bias-indicator.is-right .bias-label.right { color: #000; font-weight: 900;}
+
+
+        /* [반응형 대응] */
+        @media (max-width: 480px) {
+            .bias-labels { font-size: 10px; }
+            .bias-track { height: 6px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 디자인 설명 영역 -->
+    <div class="design-doc">
+        <h2>디자인 설명</h2>
+        <ul>
+            <li><strong>투명함을 담은 '단정함':</strong> 연라이프의 '정직한 투명함' 가치를 반영하여, 화려한 그래픽이나 애니메이션을 배제하고 정보 전달에 집중한 3분할 슬라이더 바 형태를 채택했습니다. 좁은 공간에서도 깨지지 않고 자연스러운 반응형 구성입니다.</li>
+            <li><strong>비색(非色) 단서 강화:</strong> 색맹이나 흑백 출력 환경에서도 성향을 즉시 파악할 수 있도록 1) 상단에 명확한 '좌/중도/우' 텍스트 라벨을 배치하고 활성 상태를 글자 굵기로 강조했으며, 2) 바 내부에도 흰색 구분선을 넣어 영역을 물리적으로 나누었습니다.</li>
+            <li><strong>조화로운 뮤트 톤:</strong> 지면의 따뜻한 배경색 및 먹빛 명조체와 어우러지도록 정치적 원색(쨍한 빨강/파랑) 대신 채도를 낮춘 파스텔/뮤트 톤(블루 그레이, 세이지 그린, 오트밀 베이지)을 사용하여 심리적 거부감을 줄였습니다.</li>
+        </ul>
+    </div>
+
+    <!-- 기자 카드 예시 영역 -->
+    <div class="author-card-container">
+
+        <!-- 예시 1: 좌 성향 -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 1</div>
+                <div class="author-info">
+                    <h3>김철수 기자</h3>
+                    <p>사회문제 & 교육 전문</p>
+                </div>
+            </div>
+
+            <!-- 정치 성향 표시 (HTML 주입 시 클래스와 style 속성 변경) -->
+            <div class="bias-indicator is-left">
+                <div class="bias-labels">
+                    <span class="bias-label left">좌</span>
+                    <span class="bias-label center">중도</span>
+                    <span class="bias-label right">우</span>
+                </div>
+                <div class="bias-track">
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-marker"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 예시 2: 중도 성향 -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 2</div>
+                <div class="author-info">
+                    <h3>이영희 작가</h3>
+                    <p>글로벌 시사 & 트렌드</p>
+                </div>
+            </div>
+
+            <!-- 정치 성향 표시 (중도 상태) -->
+            <div class="bias-indicator is-center">
+                <div class="bias-labels">
+                    <span class="bias-label left">좌</span>
+                    <span class="bias-label center">중도</span>
+                    <span class="bias-label right">우</span>
+                </div>
+                <div class="bias-track">
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-marker"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 예시 3: 우 성향 -->
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 3</div>
+                <div class="author-info">
+                    <h3>박민수 기자</h3>
+                    <p>경제 & 정책 분석</p>
+                </div>
+            </div>
+
+            <!-- 정치 성향 표시 (우 상태) -->
+            <div class="bias-indicator is-right">
+                <div class="bias-labels">
+                    <span class="bias-label left">좌</span>
+                    <span class="bias-label center">중도</span>
+                    <span class="bias-label right">우</span>
+                </div>
+                <div class="bias-track">
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-segment"></div>
+                    <div class="bias-marker"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

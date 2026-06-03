@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 — 정치 성향 2D 나침반 시안</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FDFCF8; --card:#fff; --ink:#2a2a2a; --muted:#6b6b6b; --line:#ddd;
+    --soft-blue:#8fa9c9;   /* 좌(경제) 힌트 */
+    --soft-red:#cf9089;    /* 우(경제) 힌트 */
+    --grid:#e3ddd0;
+    --font-title:"Noto Serif KR",serif;
+    --font-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.6;padding:24px 18px;}
+  h1{font-family:var(--font-title);font-size:22px;text-align:center;margin-bottom:6px;}
+  .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:28px;}
+  .grid-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;max-width:1000px;margin:0 auto;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;}
+  .head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .photo{width:48px;height:48px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#999;border:1px solid var(--line);}
+  .name{font-family:var(--font-title);font-weight:700;font-size:1.05rem;}
+  .role{font-size:.82rem;color:var(--muted);}
+  .quad-readout{font-size:.8rem;color:#000;font-weight:700;margin-top:2px;}
+
+  /* 2D 나침반 */
+  .compass{position:relative;width:100%;max-width:240px;aspect-ratio:1/1;margin:8px auto 0;
+    border:1px solid var(--grid);border-radius:8px;background:
+      repeating-linear-gradient(0deg,transparent,transparent 24px,#f3efe6 24px,#f3efe6 25px),
+      repeating-linear-gradient(90deg,transparent,transparent 24px,#f3efe6 24px,#f3efe6 25px);}
+  /* 중심 십자선 */
+  .compass::before,.compass::after{content:"";position:absolute;background:#cfc7b6;}
+  .compass::before{left:50%;top:0;bottom:0;width:1.5px;transform:translateX(-50%);}
+  .compass::after{top:50%;left:0;right:0;height:1.5px;transform:translateY(-50%);}
+  /* 축 끝 라벨 */
+  .axis{position:absolute;font-size:11px;font-weight:700;color:var(--muted);}
+  .axis.top{top:4px;left:50%;transform:translateX(-50%);}
+  .axis.bottom{bottom:4px;left:50%;transform:translateX(-50%);}
+  .axis.left{left:4px;top:50%;transform:translateY(-50%);}
+  .axis.right{right:4px;top:50%;transform:translateY(-50%);}
+  .axis .mini{display:block;font-size:9px;font-weight:500;color:#a59c8c;text-align:center;}
+  /* 위치 점 */
+  .dot{position:absolute;width:16px;height:16px;border-radius:50%;
+    background:#fff;border:2.5px solid var(--ink);transform:translate(-50%,-50%);
+    box-shadow:0 1px 4px rgba(0,0,0,.2);}
+  .dot::after{content:attr(data-tag);position:absolute;left:50%;top:120%;transform:translateX(-50%);
+    white-space:nowrap;font-size:10px;font-weight:700;color:#000;background:rgba(253,252,248,.85);padding:0 3px;border-radius:3px;}
+  /* 축 의미 캡션 */
+  .axis-caption{font-size:10px;color:var(--muted);text-align:center;margin-top:10px;}
+  .note{max-width:1000px;margin:30px auto 0;font-size:12px;color:var(--muted);background:#efeadd;border-radius:10px;padding:14px 16px;line-height:1.7;}
+</style>
+</head>
+<body>
+  <h1>정치 성향 2D 나침반 (시안)</h1>
+  <p class="sub">가로 = 경제(좌·우) · 세로 = 사회·가치(진보·보수). 점 하나로 입체 성향 표시.</p>
+
+  <div class="grid-wrap" id="grid"></div>
+
+  <div class="note">
+    · <b>가로축(좌-우)=경제</b>: 분배·평등(좌) ↔ 시장·성장(우) &nbsp;|&nbsp; <b>세로축(진보-보수)=사회·가치</b>: 변화·개방(위·진보) ↔ 전통·질서(아래·보수)<br>
+    · 이래야 두 축이 <b>서로 다른 것</b>을 재므로, "경제는 보수인데 사회는 진보" 같은 결이 표현됩니다(아래 4번 예시).<br>
+    · 비색 단서: 십자선·격자·축 라벨·점 옆 이름표 → 색맹·흑백에서도 위치 파악 가능.<br>
+    · ⚠️ 한눈에 읽기는 단순 막대보다 어렵습니다 → 카드/프로필 같은 <b>넓은 자리</b>에 적합. 바이라인 옆엔 막대가 나음.
+  </div>
+
+<script>
+  // x: -1(좌) ~ +1(우, 경제) / y: -1(보수,아래) ~ +1(진보,위, 사회)
+  const people=[
+    {name:'김지윤', role:'시사 기획 기자', x:-0.6, y:0.5, tag:'진보·좌'},
+    {name:'박상현', role:'교육 정책 위원', x:0, y:0, tag:'중도'},
+    {name:'박민수', role:'경제·정책 분석', x:0.6, y:-0.5, tag:'보수·우'},
+    {name:'이서연', role:'문화·사회', x:0.45, y:0.45, tag:'경제 우·사회 진보'},
+  ];
+  function quadName(x,y){
+    const ew = Math.abs(x)<0.15, ns = Math.abs(y)<0.15;
+    if(ew&&ns) return '중도';
+    const eco = x<0?'좌':'우', soc = y>0?'진보':'보수';
+    return soc+'·'+eco;
+  }
+  document.getElementById('grid').innerHTML = people.map(p=>{
+    const left=((p.x+1)/2*100).toFixed(1);
+    const top=((1-p.y)/2*100).toFixed(1);
+    return `<div class="card">
+      <div class="head">
+        <div class="photo">사진</div>
+        <div><div class="name">${p.name}</div><div class="role">${p.role}</div>
+          <div class="quad-readout">${quadName(p.x,p.y)}</div></div>
+      </div>
+      <div class="compass">
+        <span class="axis top">진보<span class="mini">변화·개방</span></span>
+        <span class="axis bottom"><span class="mini">전통·질서</span>보수</span>
+        <span class="axis left">좌<span class="mini">분배</span></span>
+        <span class="axis right">우<span class="mini">시장</span></span>
+        <span class="dot" style="left:${left}%;top:${top}%" data-tag="${p.name}"></span>
+      </div>
+      <div class="axis-caption">가로=경제(좌·우) · 세로=사회·가치(진보·보수)</div>
+    </div>`;
+  }).join('');
+</script>
+</body>
+</html>

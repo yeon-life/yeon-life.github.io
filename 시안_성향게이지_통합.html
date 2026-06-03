@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연라이프 — 필자 정치 성향 통합 표시 시스템</title>
+    <style>
+        /* [1. 기본 지면 환경 설정] */
+        :root {
+            --color-bg-base: #FDFCF8;
+            --color-text-main: #333333;
+            --color-border: #DDDDDD;
+            --color-bias-left: #A1B5C9;
+            --color-bias-right: #E0C9B1;
+            --color-bias-center: #A9AF94;
+            --color-bias-marker-bg: #FFFFFF;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'KoPub Batang', serif; background-color: var(--color-bg-base); color: var(--color-text-main); line-height: 1.6; padding: 20px; }
+        h1.page-title { font-size: 1.8rem; font-weight: 700; text-align: center; margin-bottom: 40px; color: #000; }
+        .author-card-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .author-card { background: #FFFFFF; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 20px; transition: box-shadow 0.2s ease; position: relative; }
+        .author-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .author-header { display: flex; align-items: center; gap: 16px; }
+        .author-photo { width: 60px; height: 60px; border-radius: 50%; background-color: #eee; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; border: 1px solid var(--color-border); }
+        .author-info h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 2px; }
+        .author-info p { font-family: sans-serif; font-size: 0.9rem; color: #666; margin: 0; }
+        .political-spectrum { border-top: 1px solid #EEE; padding-top: 16px; display: flex; flex-direction: column; gap: 12px; font-family: sans-serif; }
+        .spectrum-title { font-size: 0.9rem; font-weight: bold; color: #555; }
+        .spectrum-track { height: 12px; background-color: #EEEEEE; border-radius: 6px; position: relative; overflow: hidden; display: flex; border: 1px solid var(--color-border); }
+        .spectrum-segment { flex: 1; height: 100%; border-right: 1px solid rgba(255,255,255,0.7); }
+        .spectrum-segment:last-child { border-right: none; }
+        .spectrum-marker { position: absolute; top: 50%; transform: translateY(-50%); height: 20px; background-color: var(--color-bias-marker-bg); border-radius: 4px; border: 2px solid; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; transition: left 0.3s ease-out, border-color 0.3s ease-out; }
+        .spectrum-marker span { display: block; }
+        .spectrum-marker.marker-left { width: 30%; border-radius: 4px 10px 10px 4px; border-color: var(--color-bias-left); color: var(--color-bias-left); left: 0px; }
+        .spectrum-marker.marker-left::before { content: "◁"; position: absolute; left: 4px; font-size: 10px; }
+        .spectrum-marker.marker-right { width: 30%; border-radius: 10px 4px 4px 10px; border-color: var(--color-bias-right); color: var(--color-bias-right); right: 0px; }
+        .spectrum-marker.marker-right::after { content: "▷"; position: absolute; right: 4px; font-size: 10px; }
+        .spectrum-marker.marker-center { width: 22px; height: 22px; border-radius: 50%; border-color: var(--color-bias-center); color: var(--color-bias-center); left: 50%; transform: translate(-50%, -50%); }
+        .spectrum-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 500; color: #777; margin-top: 4px; }
+        .spectrum-label.center { flex: 1; text-align: center; }
+        .is-active { color: #000 !important; font-weight: 800; }
+        @media (max-width: 480px) {
+            .author-card-container { grid-template-columns: 1fr; }
+            .spectrum-labels { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">연라이프 필자 정치 성향 표시 디자인 제안</h1>
+    <div class="author-card-container">
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 1</div>
+                <div class="author-info"><h3>김철수 기자</h3><p>사회문제 &amp; 교육 전문</p></div>
+            </div>
+            <div class="political-spectrum">
+                <p class="spectrum-title">필자 성향 (진보·좌)</p>
+                <div class="spectrum-track">
+                    <div class="spectrum-segment"></div><div class="spectrum-segment"></div><div class="spectrum-segment"></div>
+                    <div class="spectrum-marker marker-left"><span>좌</span></div>
+                </div>
+                <div class="spectrum-labels">
+                    <span class="spectrum-label left is-active">진보 / 좌</span>
+                    <span class="spectrum-label center">중도</span>
+                    <span class="spectrum-label right">우 / 보수</span>
+                </div>
+            </div>
+        </div>
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 2</div>
+                <div class="author-info"><h3>이영희 작가</h3><p>문화 &amp; 트렌드</p></div>
+            </div>
+            <div class="political-spectrum">
+                <p class="spectrum-title">필자 성향 (중도)</p>
+                <div class="spectrum-track">
+                    <div class="spectrum-segment"></div><div class="spectrum-segment"></div><div class="spectrum-segment"></div>
+                    <div class="spectrum-marker marker-center"><span></span></div>
+                </div>
+                <div class="spectrum-labels">
+                    <span class="spectrum-label left">진보 / 좌</span>
+                    <span class="spectrum-label center is-active">중도</span>
+                    <span class="spectrum-label right">우 / 보수</span>
+                </div>
+            </div>
+        </div>
+        <div class="author-card">
+            <div class="author-header">
+                <div class="author-photo">AI 3</div>
+                <div class="author-info"><h3>박민수 기자</h3><p>경제 &amp; 정책 분석</p></div>
+            </div>
+            <div class="political-spectrum">
+                <p class="spectrum-title">필자 성향 (우·보수)</p>
+                <div class="spectrum-track">
+                    <div class="spectrum-segment"></div><div class="spectrum-segment"></div><div class="spectrum-segment"></div>
+                    <div class="spectrum-marker marker-right"><span>우</span></div>
+                </div>
+                <div class="spectrum-labels">
+                    <span class="spectrum-label left">진보 / 좌</span>
+                    <span class="spectrum-label center">중도</span>
+                    <span class="spectrum-label right is-active">우 / 보수</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
