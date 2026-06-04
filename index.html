@@ -27,8 +27,8 @@
 <link rel="canonical" href="https://y-life.kr/index.html">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<script src="data/personas.js" defer></script>
-<script src="data/articles_today.js" defer></script>
+<script src="data/personas.js?v=20260604b" defer></script>
+<script src="data/articles_today.js?v=20260604b" defer></script>
 <script src="yeon-pwa.js" defer></script>
 <style>
   :root {
@@ -1260,10 +1260,6 @@
           <div class="brand"><span class="yeon">緣</span>y-life.kr</div>
           <div class="brand-sub">연라이프</div>
         </a>
-        <a href="https://yeon.ai.kr" target="_blank" rel="noopener" class="brand-link gate-brand" title="연마을 — 지금 운영 중인 마을 (새 탭으로 열림)">
-          <div class="brand-gate">yeon.ai.kr</div>
-          <div class="brand-sub gate-sub">연마을</div>
-        </a>
       </div>
       <div class="tagline item-hide">삶 · 인연 · 소통<br>그 깊은 연(緣)으로 잇다</div>
       <div class="masthead-right">
@@ -1378,6 +1374,13 @@
         </div>
         <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
       </div>
+      <div class="cat-item" data-target="academy">
+        <div class="cat-item-text">
+          <div class="cat-name">연플래닝아카데미</div>
+          <div class="cat-desc">지점 · 연아카데미 앱 모음</div>
+        </div>
+        <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
       <div class="cat-item" data-target="bridge">
         <div class="cat-item-text">
           <div class="cat-name">인연의 다리</div>
@@ -1474,11 +1477,19 @@
         </div>
       </div>
 
+      <div class="mega-col-2-pane" data-pane="academy">
+        <div class="col-2-title">연플래닝아카데미 · 學</div>
+        <div class="sub-list">
+          <a class="sub-item" href="yp/samsan/"><div class="sub-icon">三</div><div class="sub-text"><div class="sub-name">삼산점</div><div class="sub-desc">박미향 원장 · 운영 중</div></div></a>
+          <a class="sub-item" aria-disabled="true" style="opacity:.55;cursor:not-allowed;" title="준비 중"><div class="sub-icon">市</div><div class="sub-text"><div class="sub-name">시청점 (본원)</div><div class="sub-desc">준비 중</div></div></a>
+          <a class="sub-item" aria-disabled="true" style="opacity:.55;cursor:not-allowed;" title="준비 중"><div class="sub-icon">東</div><div class="sub-text"><div class="sub-name">강동점</div><div class="sub-desc">준비 중</div></div></a>
+          <a class="sub-item"><div class="sub-icon">📱</div><div class="sub-text"><div class="sub-name">연아카데미 앱 모음</div><div class="sub-desc">수풀·영풀·연플래너·스무고개 →</div></div></a>
+        </div>
+      </div>
+
       <div class="mega-col-2-pane" data-pane="bridge">
         <div class="col-2-title">인연의 다리</div>
         <div class="sub-list">
-          <a class="sub-item" data-bridge="yeonai" href="https://yeon.ai.kr" target="_blank" rel="noopener"><div class="sub-icon">村</div><div class="sub-text"><div class="sub-name">연마을 yeon.ai.kr</div><div class="sub-desc">지금 운영 중인 마을 ↗</div></div></a>
-          <a class="sub-item" data-bridge="supulai" href="https://yeon.ai.kr/supul" target="_blank" rel="noopener"><div class="sub-icon">學</div><div class="sub-text"><div class="sub-name">수풀AI · 영풀</div><div class="sub-desc">완전학습 교육 AI ↗</div></div></a>
           <a class="sub-item" data-bridge="builder" href="builder.html"><div class="sub-icon">作</div><div class="sub-text"><div class="sub-name">사이트 빌더</div><div class="sub-desc">코딩 없이 만드는 페이지</div></div></a>
           <a class="sub-item" data-bridge="diagnosis" href="challenge-diagnosis.html"><div class="sub-icon">📋</div><div class="sub-text"><div class="sub-name">지원사업 자가진단</div><div class="sub-desc">정부 및 울산시 맞춤형 지원 매칭</div></div></a>
           <a class="sub-item" data-bridge="memoir" href="javascript:void(0)" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="준비 중 — 2027년 봄 개관 예정"><div class="sub-icon">記</div><div class="sub-text"><div class="sub-name">자서전 공방</div><div class="sub-desc">준비 중 · 2027 예정</div></div></a>
@@ -1572,6 +1583,23 @@
 
       <div class="mega-col-3-pane" data-pane="bridge" id="megaPaneBridge">
         <!-- sub-item 호버 시 동적 채움. 초기값은 연마을 -->
+      </div>
+
+      <div class="mega-col-3-pane" data-pane="academy">
+        <div class="featured-block">
+          <div class="featured-tag">연아카데미 앱 모음</div>
+          <div class="featured-title">점수가 아니라 이해를 묻는 학습 동반자</div>
+          <div class="featured-deck">연플래닝아카데미의 학습 철학을 담은 AI 학습 앱들. 이제 모두 연라이프 안으로 들어옵니다.</div>
+          <div class="featured-meta"><span class="now">연라이프 이전 중</span>종류별로 차례차례 공개</div>
+        </div>
+        <div class="quick-links" style="margin-top:18px">
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">數</span><span class="ql-name">수풀 · 수학 AI</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">英</span><span class="ql-name">영풀 · 영어 AI</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">劃</span><span class="ql-name">연플래너 · 자기관리</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">問</span><span class="ql-name">스무고개 · 강점탐색</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.5;cursor:not-allowed;" title="준비 중"><span class="ql-ico">科</span><span class="ql-name">과학 AI · 준비중</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.5;cursor:not-allowed;" title="준비 중"><span class="ql-ico">史</span><span class="ql-name">사회·역사 AI · 준비중</span></a>
+        </div>
       </div>
 
     </div>
@@ -2060,36 +2088,36 @@
 
     <div class="eco-grid">
 
-      <!-- 연마을 -->
-      <a class="eco-card eco-yeonai" href="https://yeon.ai.kr" target="_blank" rel="noopener">
+      <!-- 연플래닝아카데미 -->
+      <a class="eco-card eco-yeonai" href="yp/samsan/">
         <div class="eco-top">
-          <div class="eco-icon">村</div>
+          <div class="eco-icon">學</div>
           <span class="eco-status live">운영 중</span>
         </div>
-        <h3>연마을<span class="han">yeon.ai.kr</span></h3>
-        <p class="eco-deck">같은 결의 사람들이 모이는 첫 번째 마을. 일상의 결을 함께 나눕니다.</p>
+        <h3>연플래닝아카데미<span class="han">삼산점</span></h3>
+        <p class="eco-deck">자기주도 학습 코칭 아카데미. 박미향 원장과 함께 '습관'을 바꿉니다.</p>
         <div class="eco-news">
-          <div class="nl">지금 살고 있는 주민 <b>1,247명</b></div>
-          <div class="nl">이번 주 새 주민 <b>+12</b> · 새 글 <b>34편</b></div>
-          <div class="nl">오늘의 한 마디 — "동네 책방이 다시 문을 열었습니다"</div>
+          <div class="nl">삼산점 <b>운영 중</b> · 시청·강동점 준비 중</div>
+          <div class="nl">학부모 간담회 <b>6/17·24(수)</b> 저녁 7:30</div>
+          <div class="nl">오늘의 한 마디 — "공부보다 습관을, 정답보다 질문을"</div>
         </div>
-        <span class="eco-cta">마을로 들어가기 ↗</span>
+        <span class="eco-cta">아카데미 보기 →</span>
       </a>
 
       <!-- 수풀AI·영풀 -->
-      <a class="eco-card eco-supul" href="https://yeon.ai.kr/supul" target="_blank" rel="noopener">
+      <a class="eco-card eco-supul" href="yp/samsan/">
         <div class="eco-top">
           <div class="eco-icon">學</div>
-          <span class="eco-status beta">베타</span>
+          <span class="eco-status beta">이전 중</span>
         </div>
-        <h3>수풀AI · 영풀<span class="han">완전학습</span></h3>
-        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 연아카데미 9년 철학을 그대로.</p>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
         <div class="eco-news">
-          <div class="nl">베타 학생 <b>86명</b> 학습 중</div>
-          <div class="nl">이번 주 풀린 문제 <b>1,420</b>개 · 정복 단원 <b>+9</b></div>
-          <div class="nl">신규 — 영풀 영어 문법 단원 추가</div>
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차례차례 이전 중</b></div>
+          <div class="nl">신규 — 과학 AI · 사회·역사 AI 준비 중</div>
         </div>
-        <span class="eco-cta">수풀 만나보기 ↗</span>
+        <span class="eco-cta">앱 모음 보기 →</span>
       </a>
 
       <!-- 사이트 빌더 -->
@@ -2933,7 +2961,7 @@
     function fillAll(){
       // 칼럼은 SUB_PANEL.columns 기반으로 통합 처리됨 (fillColumns는 호출하지 않음)
       fillSesang('all');
-      fillBridge('yeonai');
+      fillBridge('builder');
     }
 
     /* "칼럼" 패널 — AI 작가 3명 글 */
@@ -3056,11 +3084,11 @@
     const BRIDGE_CONTENT = {
       yeonai: {
         tag: '연라이프 생태계 · 지금 운영 중인 마을',
-        title: '연마을 yeon.ai.kr — 같은 결을 가진 사람들이 모이는 자리',
+        title: '연플래닝아카데미 — 자기주도 학습 코칭이 자라는 자리',
         deck: '연라이프와 한 가족인 첫 번째 마을. 일상의 결을 함께 나누는 사람들이 모여 있습니다. 한 번의 가입으로 광장·블로그·자서전 공방까지 함께 씁니다.',
         meta: ['지금 살고 있는 주민 1,247명', '한 계정 · 5개 공간'],
         quick: [
-          { ico:'村', name:'연마을 둘러보기', href:'https://yeon.ai.kr' },
+          { ico:'學', name:'연플래닝아카데미 보기', href:'yp/samsan/' },
           { ico:'入', name:'한 계정으로 가입하기', href:'#' },
           { ico:'問', name:'마을 자주 묻는 말', href:'#' }
         ]
@@ -3112,7 +3140,7 @@
     function fillBridge(sub){
       const wrap = document.getElementById('megaPaneBridge');
       if (!wrap) return;
-      const c = BRIDGE_CONTENT[sub] || BRIDGE_CONTENT.yeonai;
+      const c = BRIDGE_CONTENT[sub] || BRIDGE_CONTENT.builder;
       // 활성 sub 표시
       document.querySelectorAll('.sub-item[data-bridge]').forEach(el => {
         el.classList.toggle('active', el.dataset.bridge === sub);
@@ -3482,7 +3510,7 @@
     }
 
     /* bridge는 외부 데이터 의존이 없으므로 즉시 1회 채움 — 의존성 대기와 무관 */
-    fillBridge('yeonai');
+    fillBridge('builder');
     wireSubcatHover();
     wireSubPaneHover();
     preFillAllPanes();

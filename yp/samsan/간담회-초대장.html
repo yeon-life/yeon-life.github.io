@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학부모 간담회 초대 — 연플래닝 학원 삼산점</title>
+<meta property="og:title" content="2026 학부모 간담회 초대 | 연플래닝 학원 삼산점">
+<meta property="og:description" content="AI 시대, 그리고 교육 — 이제 공부 방법이 바뀌어야 합니다. 6월 17일·24일(수) 저녁 7시 30분.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --deep:#2f5d62;--pine:#427a71;--ink:#1f2a2a;
+  --accent:#c38d56;--accent2:#e8a96e;
+  --mist:#f4f1eb;--sand:#e7d9bf;--sage:#dfe8de;--card:#fffdf8;--peach:#f3e7dd;
+  --line:#d7d1c5;--t1:#1f2a2a;--t2:#536060;--t3:#6a7676;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%, rgba(195,141,86,0.16), transparent 38%),
+    radial-gradient(circle at 88% 92%, rgba(66,122,113,0.16), transparent 38%),
+    linear-gradient(165deg,#1a2e2e 0%,#13201f 55%,#1c2418 100%);
+  color:var(--t1);font-family:'Noto Sans KR',sans-serif;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:24px 14px;
+}
+.card{
+  width:100%;max-width:430px;background:var(--card);border-radius:28px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.45);position:relative;
+}
+/* 상단 헤더 */
+.head{
+  background:linear-gradient(160deg,#23433f 0%,#2f5d62 60%,#34534a 100%);
+  padding:34px 30px 28px;text-align:center;position:relative;overflow:hidden;
+}
+.head::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%, rgba(232,169,110,0.18), transparent 55%);}
+.logo{display:inline-flex;align-items:center;gap:9px;position:relative;z-index:1;margin-bottom:18px}
+.logo-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:19px;font-weight:700;color:#fff}
+.logo-txt{color:#fff;font-size:14px;font-weight:800;letter-spacing:.3px}
+.eyebrow{display:inline-block;background:rgba(232,169,110,0.16);border:1px solid rgba(232,169,110,0.4);
+  color:var(--accent2);font-size:11.5px;font-weight:700;letter-spacing:2px;padding:6px 16px;border-radius:999px;
+  position:relative;z-index:1;margin-bottom:16px}
+.head h1{font-family:'Noto Serif KR',serif;color:#fff;font-size:30px;font-weight:700;line-height:1.32;position:relative;z-index:1}
+.head h1 em{color:var(--accent2);font-style:normal}
+.head .sub{color:rgba(255,255,255,0.72);font-size:13.5px;margin-top:12px;position:relative;z-index:1;line-height:1.7}
+
+/* 본문 */
+.body{padding:30px 30px 26px}
+.greet{font-size:14px;color:var(--t2);line-height:1.95;text-align:center;margin-bottom:24px}
+.greet b{color:var(--deep);font-weight:700}
+
+.tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:26px}
+.tag{background:var(--sage);color:var(--deep);font-size:11.5px;font-weight:600;padding:6px 13px;border-radius:999px}
+
+/* 정보 박스 */
+.info{background:var(--mist);border:1px solid var(--line);border-radius:18px;padding:6px 18px;margin-bottom:22px}
+.row{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.row:last-child{border-bottom:none}
+.row .ic{font-size:18px;width:26px;text-align:center;flex-shrink:0;line-height:1.5}
+.row .lab{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.5px;margin-bottom:3px}
+.row .val{font-size:14px;color:var(--ink);font-weight:600;line-height:1.6}
+.row .val .em{color:var(--rust,#b05830);font-weight:800}
+.pick{display:inline-block;background:var(--peach);color:#a85a32;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+
+/* 날짜 강조 */
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.date-box{background:#fff;border:1.5px solid var(--accent);border-radius:16px;padding:16px 10px;text-align:center}
+.date-box .dl{font-size:12px;color:var(--t3);font-weight:600;margin-bottom:4px}
+.date-box .dd{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:var(--deep)}
+.date-box .dt{font-size:12px;color:var(--accent);font-weight:700;margin-top:3px}
+.pickline{text-align:center;font-size:12px;color:var(--t3);margin:-12px 0 22px}
+
+/* 안내 */
+.notice{background:rgba(47,93,98,0.06);border-left:3px solid var(--deep);border-radius:0 12px 12px 0;
+  padding:13px 16px;font-size:12.5px;color:var(--t2);line-height:1.75;margin-bottom:24px}
+.notice b{color:var(--deep)}
+
+/* CTA */
+.cta{display:flex;flex-direction:column;gap:10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;border-radius:14px;
+  font-size:15px;font-weight:700;text-decoration:none;border:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:filter .2s,transform .15s}
+.btn:active{transform:scale(0.98)}
+.btn-call{background:var(--accent);color:#fff}
+.btn-call:hover{filter:brightness(1.06)}
+.btn-sms{background:var(--deep);color:#fff}
+.btn-sms:hover{filter:brightness(1.1)}
+
+.foot{text-align:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.foot .pn{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--ink);font-weight:700}
+.foot .pr{font-size:12px;color:var(--t3);margin-top:3px}
+
+/* 인쇄 버튼 */
+.print-bar{text-align:center;margin-top:18px}
+.print-btn{background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);
+  font-size:13px;font-weight:600;padding:9px 20px;border-radius:999px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.print-btn:hover{background:rgba(255,255,255,0.1)}
+
+@media(max-width:380px){
+  .head h1{font-size:26px}
+  .body{padding:26px 22px 22px}
+  .dates{grid-template-columns:1fr 1fr}
+}
+
+/* 인쇄 */
+@media print{
+  body{background:#fff;padding:0;display:block}
+  .card{box-shadow:none;max-width:100%;border-radius:0}
+  .head{background:#2f5d62 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-bar,.cta{display:none}
+  .head h1 em,.tag,.date-box,.info,.notice{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <!-- 헤더 -->
+  <div class="head">
+    <div class="logo">
+      <div class="logo-mark">연</div>
+      <div class="logo-txt">연플래닝 학원 · 삼산점</div>
+    </div>
+    <div class="eyebrow">2026 학부모 간담회</div>
+    <h1>AI 시대,<br><em>그리고 교육</em></h1>
+    <div class="sub">이제 공부 방법이 바뀌어야 합니다.<br>직접 보고 판단하세요.</div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="body">
+    <p class="greet">
+      안녕하세요, 학부모님.<br>
+      AI를 잘 쓰는 아이와 그렇지 않은 아이의 격차가<br>
+      눈에 보이게 벌어지고 있습니다.<br>
+      <b>연플래닝 삼산점</b>이 준비한 AI 교육방향 특강에<br>
+      소중한 학부모님을 초대합니다.
+    </p>
+
+    <div class="tags">
+      <span class="tag">교육방향 안내</span>
+      <span class="tag">학습 패턴 분석</span>
+      <span class="tag">예전방식 vs AI 학습 전략</span>
+      <span class="tag">수업 직접 시연</span>
+    </div>
+
+    <!-- 날짜 (택1) -->
+    <div class="dates">
+      <div class="date-box">
+        <div class="dl">6월</div>
+        <div class="dd">17일</div>
+        <div class="dt">수요일 · 저녁 7시 30분</div>
+      </div>
+      <div class="date-box">
+        <div class="dl">6월</div>
+        <div class="dd">24일</div>
+        <div class="dt">수요일 · 저녁 7시 30분</div>
+      </div>
+    </div>
+    <p class="pickline">※ 두 날짜 중 <b style="color:var(--deep)">편하신 날 하루</b>를 선택해 주세요</p>
+
+    <!-- 정보 -->
+    <div class="info">
+      <div class="row">
+        <div class="ic">📍</div>
+        <div>
+          <div class="lab">장소</div>
+          <div class="val">남구 월평로 232 1층 · 연플래닝 학원<br><span style="font-size:12px;color:var(--t3);font-weight:500">삼산동 삼신초등학교 인근 · 인근 주차 가능</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="ic">👨‍👩‍👧</div>
+        <div>
+          <div class="lab">대상</div>
+          <div class="val">초·중·고 학부모님 누구나</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="ic">🎤</div>
+        <div>
+          <div class="lab">진행</div>
+          <div class="val">이진우 · 박미향 원장 직접 설명</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 신청 안내 -->
+    <div class="notice">
+      <b>예약제로 운영</b>됩니다.<br>
+      참석을 원하시면 <b>원하시는 날짜를 선택</b>하셔서<br>
+      아래 번호로 <b>문자</b> 남겨 주시면 됩니다.<br>
+      참석 후 결정하셔도 늦지 않습니다. 😊
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <a class="btn btn-sms" href="sms:01041365608?body=안녕하세요, 학부모 간담회 참석 신청합니다. (희망 날짜: 6월 17일 / 24일 중 택1) 학생 이름: ">📩 문자로 간담회 신청하기</a>
+      <a class="btn btn-call" href="tel:01041365608">📞 전화 문의 010-4136-5608</a>
+    </div>
+
+    <div class="foot">
+      <div class="pn">박미향 원장 드림</div>
+      <div class="pr">연플래닝 학원 삼산점 (연 AI 학습코칭 아카데미)</div>
+    </div>
+  </div>
+</div>
+
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+</div>
+</body>
+</html>
