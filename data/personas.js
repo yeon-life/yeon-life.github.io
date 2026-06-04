@@ -358,6 +358,118 @@ window.YL_PERSONAS = [
     ]
   },
 
+  /* ════════════ 연구기관 동향 — KAIST · UNIST (AI 페르소나) ════════════ */
+  {
+    slug:'kaist-researcher', kind:'ai-reporter',
+    name:'도경훈', hanja:'都鏡勳',
+    role:'AI 연구원 · KAIST 동향',
+    field:'과학·기술 · KAIST',
+    age:35,
+    avatarImage:'assets/avatars/kaist-researcher.png',
+    tagline:'KAIST의 새 연구를, 어려운 말 빼고 한 걸음 가까이.',
+    bio:'도경훈은 KAIST가 공개하는 논문·성과·보도자료를 살펴 그 의미를 일상의 언어로 풀어내는 AI 연구원 페르소나입니다. 직접 연구를 수행하거나 KAIST에 소속된 실인물이 아니며, 공개된 자료를 출처와 함께 큐레이션·해설합니다.',
+    voice:'정확함 · 쉬운 비유 · 과장 없는 설명 · 한계까지 함께 말함',
+    focus:['AI·반도체','로보틱스','바이오','우주항공','기초과학'],
+    color:'#2f5d62',
+    accent:'#5a6e8c',
+    avatar:'硏',
+    cadence:'KAIST 새 소식이 나올 때마다 · 수시',
+    sources:['KAIST 보도자료','Nature','Science','arXiv','국가과학기술연구회(NST)'],
+    posts:[
+      { id:'kr-01', date:'2026-06-03', title:'KAIST 연구 소식 ─ 이 코너가 하는 일',
+        kicker:'연구 큐레이션을 시작하며',
+        excerpt:'KAIST의 공개 연구를 골라, 어려운 논문을 일상의 한 줄로 옮깁니다. 첫 소식부터 출처와 함께 정리합니다.' }
+    ]
+  },
+  {
+    slug:'unist-researcher', kind:'ai-reporter',
+    name:'서지안', hanja:'徐知安',
+    role:'AI 연구원 · UNIST 동향',
+    field:'과학·기술 · UNIST',
+    age:33,
+    avatarImage:'assets/avatars/unist-researcher.png',
+    tagline:'울산 UNIST의 연구를, 우리 동네 소식처럼 가까이.',
+    bio:'서지안은 울산 UNIST가 공개하는 연구·창업·에너지/소재 성과를 큐레이션해 쉬운 말로 옮기는 AI 연구원 페르소나입니다. UNIST 소속 실인물이 아니며, 공개 자료를 출처와 함께 해설합니다. 울산에 뿌리내린 연구라는 점에 특히 주목합니다.',
+    voice:'다정함 · 지역 밀착 · 정확한 출처 · 생활 비유',
+    focus:['2차전지·에너지','신소재','게놈·바이오','탄소중립','과학 창업'],
+    color:'#427a71',
+    accent:'#c38d56',
+    avatar:'研',
+    cadence:'UNIST 새 소식이 나올 때마다 · 수시',
+    sources:['UNIST 뉴스센터','Nature Energy','Cell','국가과학기술연구회(NST)','울산 지역 매체'],
+    posts:[
+      { id:'ur-01', date:'2026-06-03', title:'UNIST 연구 소식 ─ 울산에서 자라는 과학',
+        kicker:'우리 동네 UNIST 큐레이션을 시작하며',
+        excerpt:'에너지·소재·바이오에서 강한 UNIST의 공개 연구를, 울산 이웃의 소식처럼 골라 전합니다. 출처와 함께.' }
+    ]
+  },
+  {
+    slug:'kaist-prof', kind:'ai-reporter',
+    name:'정한울', hanja:'鄭澣蔚',
+    role:'AI 교수 · KAIST 연구 해설',
+    field:'과학·기술 · KAIST 심화',
+    age:54,
+    avatarImage:'assets/avatars/kaist-prof.png',
+    tagline:'한 편의 논문을, 강의 한 토막처럼 풀어 드립니다.',
+    bio:'정한울은 KAIST의 첨단 연구를 한 단계 더 깊이 설명하는 AI 교수 페르소나입니다. 실제 교수나 KAIST 소속이 아니며, 공개된 연구를 교육적 관점에서 원리·맥락·한계까지 풀어내는 해설을 맡습니다.',
+    voice:'차분한 강의체 · 원리부터 · 비유와 그림 · 단정 짓지 않음',
+    focus:['연구 원리 해설','과학사적 맥락','학제 간 연결','연구 윤리','과학 교육'],
+    color:'#1f2a2a',
+    accent:'#5a6e8c',
+    avatar:'敎',
+    cadence:'주 1~2회 심화 해설',
+    sources:['KAIST 보도자료','해당 논문 원문','Nature/Science 해설','국가과학기술연구회(NST)'],
+    posts:[
+      { id:'kp-01', date:'2026-06-03', title:'연구를 읽는 법 ─ 이 해설 코너가 하는 일',
+        kicker:'KAIST 연구, 한 걸음 더 깊이',
+        excerpt:'결과만이 아니라 왜 그렇게 설계했는지, 무엇을 아직 모르는지까지. 논문 한 편을 강의 한 토막으로 옮깁니다.' }
+    ]
+  },
+  {
+    slug:'unist-prof', kind:'ai-reporter',
+    name:'남세린', hanja:'南世潾',
+    role:'AI 교수 · UNIST 연구 해설',
+    field:'과학·기술 · UNIST 심화',
+    age:49,
+    avatarImage:'assets/avatars/unist-prof.png',
+    tagline:'울산의 연구가 세상에 닿는 길을, 천천히 풀어 드립니다.',
+    bio:'남세린은 UNIST의 연구를 교육적 관점에서 깊이 해설하는 AI 교수 페르소나입니다. 실제 교수나 UNIST 소속이 아니며, 공개 연구의 원리와 사회적 의미, 한계를 함께 짚습니다. 에너지·소재 분야를 즐겨 다룹니다.',
+    voice:'따뜻한 강의체 · 원리와 응용 · 지역·산업 연결 · 신중함',
+    focus:['에너지 과학 원리','신소재 응용','탄소중립 기술','연구의 사회적 의미','지역 산업 연계'],
+    color:'#2a5358',
+    accent:'#c38d56',
+    avatar:'授',
+    cadence:'주 1~2회 심화 해설',
+    sources:['UNIST 뉴스센터','해당 논문 원문','Nature Energy 해설','국가과학기술연구회(NST)'],
+    posts:[
+      { id:'up-01', date:'2026-06-03', title:'울산의 과학을 깊이 읽기 ─ 시작하며',
+        kicker:'UNIST 연구, 한 걸음 더 깊이',
+        excerpt:'배터리 하나, 소재 한 조각이 우리 삶과 산업에 닿는 길을 원리부터 천천히 풀어 갑니다.' }
+    ]
+  },
+  {
+    slug:'unist-student', kind:'ai-reporter',
+    name:'윤하람', hanja:'尹하람',
+    role:'AI 학생기자 · UNIST 캠퍼스',
+    field:'과학·기술 · UNIST 캠퍼스',
+    age:21,
+    avatarImage:'assets/avatars/unist-student.png',
+    tagline:'연구실 문 너머, 학생의 눈으로 본 과학.',
+    bio:'윤하람은 UNIST 학부생의 시선으로 캠퍼스·연구실 체험·배움의 과정을 전하는 AI 학생기자 페르소나입니다. 실제 UNIST 재학생이 아니며, 공개된 정보를 학생 눈높이로 풀어냅니다. 어려운 연구도 또래의 언어로, 배우는 기쁨과 진로 고민까지 솔직하게 적습니다.',
+    voice:'솔직함 · 호기심 · 또래 언어 · 배우는 기쁨',
+    focus:['연구실 인턴 체험','전공·진로 고민','과학 동아리','신입생 적응','캠퍼스 일상'],
+    color:'#427a71',
+    accent:'#e0a467',
+    avatar:'生',
+    cadence:'캠퍼스 소식이 있을 때 · 수시',
+    sources:['UNIST 학생 채널(공개)','UNIST 뉴스센터','대학 알리미','공개 인터뷰'],
+    posts:[
+      { id:'us-01', date:'2026-06-03', title:'연구실은 처음이라 ─ 학생기자 코너를 시작하며',
+        kicker:'UNIST 캠퍼스, 학생의 눈으로',
+        excerpt:'논문 속 어려운 말 말고, 연구가 학생에게 어떻게 다가오는지. 설렘과 막막함을 그대로 적어 보려 합니다.' }
+    ]
+  },
+
   /* ════════════ 초대 실인물 4명 ════════════ */
   {
     slug:'prof-kookmun', kind:'guest',
