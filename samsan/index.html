@@ -12,7 +12,7 @@
 <meta property="og:title" content="연AI 학습심리코칭 전문센터 | 삼산 연아카데미">
 <meta property="og:description" content="스스로 생각하고 자라는 아이를 위한 학습심리코칭 · 초등 공부 습관 · 문해력 · 자기주도">
 <meta property="og:url" content="https://samsan.y-life.kr">
-<meta property="og:image" content="./og-image.png">
+<meta property="og:image" content="https://samsan.y-life.kr/og-image.png">
 <link rel="canonical" href="https://samsan.y-life.kr">
 <meta name="theme-color" content="#2f5d62">
 <link rel="icon" href="./favicon.ico">
@@ -40,6 +40,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:0 clamp(10px,3vw,28p
 nav.scrolled{background:rgba(20,33,33,0.97);backdrop-filter:blur(14px);box-shadow:0 4px 28px rgba(0,0,0,0.22)}
 .nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:13px;letter-spacing:.5px;color:white;text-decoration:none;white-space:nowrap;flex-shrink:0}
 .nav-logo-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:white}
+.nav-logo-img{height:28px;width:auto;object-fit:contain;filter:brightness(0) invert(1);flex-shrink:0}
+@media(max-width:768px){.nav-logo-img{height:24px}}
+@media(max-width:380px){.nav-logo-img{height:20px}}
 .nav-tabs{display:flex;align-items:center;gap:2px;flex:1;justify-content:center}
 .nav-tab{position:relative;color:rgba(255,255,255,0.55);text-decoration:none;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;transition:color 0.2s,background 0.2s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:'Noto Sans KR',sans-serif}
 .nav-tab:hover{color:white;background:rgba(255,255,255,0.07)}
@@ -88,7 +91,7 @@ nav.scrolled{background:rgba(20,33,33,0.97);backdrop-filter:blur(14px);box-shado
 /* ─────────────── 모바일 하단 CTA ─────────────── */
 .mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;padding:12px 16px 18px;background:linear-gradient(to top,rgba(15,25,25,0.98) 60%,transparent 100%)}
 .mobile-cta-bar button{width:100%;padding:15px 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-size:15px;font-weight:800;border:none;border-radius:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;letter-spacing:.5px;box-shadow:0 4px 20px rgba(195,141,86,0.4)}
-@media(max-width:768px){.mobile-cta-bar{display:block}}
+@media(max-width:768px){.mobile-cta-bar{display:block}body{padding-bottom:88px}}
 
 /* ─────────────── 페이드인 ─────────────── */
 .fi{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
@@ -163,6 +166,12 @@ section{padding:88px 0}
 .about-info-label{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.5px;margin-bottom:3px}
 .about-info-value{font-size:14px;color:var(--t1);line-height:1.7;font-weight:500}
 .about-principal{background:linear-gradient(135deg,var(--deep) 0%,var(--pine) 100%);border-radius:20px;padding:32px;color:white;margin-top:20px}
+.principal-speech-bubble{position:relative;background:#fffdf8;border:1.5px solid var(--accent);border-radius:16px;padding:14px 22px;margin-bottom:18px;box-shadow:0 6px 20px rgba(195,141,86,0.12);text-align:center;display:inline-block}
+.principal-speech-bubble::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%) rotate(45deg);width:14px;height:14px;background:#fffdf8;border-right:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent)}
+.principal-speech-text{font-family:'Nanum Pen Script',cursive;font-size:28px;color:var(--rust);line-height:1.35;white-space:nowrap}
+@media(max-width:880px){
+  .principal-photo-card{margin-top:28px!important}
+}
 .about-principal-tag{font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:1px;margin-bottom:8px}
 .about-principal-name{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:4px}
 .about-principal-sub{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7}
@@ -917,6 +926,12 @@ footer strong{color:rgba(255,255,255,0.65)}
     if (user) {
       currentProfile = await getUserProfile(user.uid);
       updateNavForUser(user, currentProfile);
+      
+      // SSO 토큰 자동 갱신 및 저장
+      if (currentProfile && (currentProfile.role === 'teacher' || currentProfile.role === 'admin' || currentProfile.role === 'main_admin')) {
+        saveSsoToken(user.email, currentProfile.role);
+      }
+
       // 신규 사용자면 역할 선택 모달 표시 (관리자 모달 아님)
       if (!currentProfile || !currentProfile.role) {
         openRoleSelect(user);
@@ -924,6 +939,7 @@ footer strong{color:rgba(255,255,255,0.65)}
     } else {
       currentProfile = null;
       updateNavForGuest();
+      try { localStorage.removeItem('yeon_sso_token'); } catch(e) {}
     }
   });
 
@@ -1113,7 +1129,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <!-- ─────────────── NAV ─────────────── -->
 <nav id="nav">
   <a class="nav-logo" href="#hero" onclick="logoSecretTap(event)">
-    <div class="nav-logo-mark">연</div>
+    <img src="images/logo.png" alt="연플래닝" class="nav-logo-img">
     삼산 연아카데미
   </a>
 
@@ -1188,7 +1204,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div class="mobile-sub-list" id="mob-cat-1">
           <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-headmaster')"><span class="mobile-sub-item-icon">⭐</span>연플래닝 아카데미 본원장님 특별 수업</a>
           <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-literacy')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-book-open"/></svg></span>문해력 수업</a>
-          <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-concept')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-calculator"/></svg></span>초등 개념 수업</a>
+          <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-concept')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-brain"/></svg></span>초등 영, 수, 국 교과목 수업</a>
           <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-planner')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-clipboard"/></svg></span>1:1 플래너 관리</a>
           <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#class-eng')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-globe"/></svg></span>영어 학습법</a>
           <a class="mobile-sub-item" onclick="megaGoSubpage('수업-안내.html#special-class-movie')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-film"/></svg></span>영화 인문학</a>
@@ -1242,7 +1258,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div class="mobile-sub-list" id="mob-cat-5">
           <a class="mobile-sub-item" onclick="megaGo('#consultation')"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-msg"/></svg></span>수업 상담</a>
           <a class="mobile-sub-item" href="tel:01041365608"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-phone"/></svg></span>010-4136-5608</a>
-          <a class="mobile-sub-item" href="https://open.kakao.com/o/s0000000" target="_blank"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-heart"/></svg></span>카카오톡 문의</a>
+          <a class="mobile-sub-item" href="https://open.kakao.com/o/sjEDNSoi" target="_blank"><span class="mobile-sub-item-icon"><svg class="ico"><use href="#i-heart"/></svg></span>카카오톡 문의</a>
         </div>
       </div>
     </div>
@@ -1262,7 +1278,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div class="sub-group-title">박미향 원장 직접 수업</div>
         <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-headmaster')"><span class="sub-item-icon">⭐</span><span class="sub-item-text">연플래닝 아카데미 본원장님 특별 수업</span><span class="sub-item-new">주1회</span></a>
         <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-literacy')"><span class="sub-item-icon"><svg class="ico"><use href="#i-book-open"/></svg></span><span class="sub-item-text">문해력 수업</span></a>
-        <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-concept')"><span class="sub-item-icon"><svg class="ico"><use href="#i-calculator"/></svg></span><span class="sub-item-text">초등 개념 수업</span></a>
+        <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-concept')"><span class="sub-item-icon"><svg class="ico"><use href="#i-brain"/></svg></span><span class="sub-item-text">초등 영, 수, 국 교과목 수업</span></a>
         <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-planner')"><span class="sub-item-icon"><svg class="ico"><use href="#i-clipboard"/></svg></span><span class="sub-item-text">1:1 플래너 관리</span></a>
         <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#class-eng')"><span class="sub-item-icon"><svg class="ico"><use href="#i-globe"/></svg></span><span class="sub-item-text">영어 학습법</span></a>
         <a class="sub-item" onclick="megaGoSubpage('수업-안내.html#special-class-movie')"><span class="sub-item-icon"><svg class="ico"><use href="#i-film"/></svg></span><span class="sub-item-text">영화 인문학</span></a>
@@ -1306,7 +1322,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div class="sub-group-title">상담·문의</div>
         <a class="sub-item" onclick="megaGo('#consultation')"><span class="sub-item-icon"><svg class="ico"><use href="#i-msg"/></svg></span><span class="sub-item-text">수업 상담</span></a>
         <a class="sub-item" href="tel:01041365608" onclick="closeMega()"><span class="sub-item-icon"><svg class="ico"><use href="#i-phone"/></svg></span><span class="sub-item-text">010-4136-5608</span></a>
-        <a class="sub-item" href="https://open.kakao.com/o/s0000000" target="_blank" onclick="closeMega()"><span class="sub-item-icon"><svg class="ico"><use href="#i-heart"/></svg></span><span class="sub-item-text">카카오톡 문의</span></a>
+        <a class="sub-item" href="https://open.kakao.com/o/sjEDNSoi" target="_blank" onclick="closeMega()"><span class="sub-item-icon"><svg class="ico"><use href="#i-heart"/></svg></span><span class="sub-item-text">카카오톡 문의</span></a>
       </div>
     </div>
 
@@ -1360,7 +1376,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <a class="featured-card" onclick="megaGo('#meeting')">
           <div class="featured-card-emoji"><svg class="ico"><use href="#i-mic"/></svg></div>
           <div class="featured-card-title">학부모 간담회</div>
-          <div class="featured-card-sub">6월 10일(수) 저녁 7:30 · 11일(목) 오전 10:30 — 직접 오셔서 물어보세요</div>
+          <div class="featured-card-sub">6월 10일 · 17일 (수) 오후 7시 30분 — 직접 오셔서 물어보세요</div>
         </a>
         <a class="featured-card" href="./간담회_안내장.html">
           <div class="featured-card-emoji"><svg class="ico"><use href="#i-file-text"/></svg></div>
@@ -1390,8 +1406,8 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
   <!-- 가로 와이드 히어로 일러스트 (5669x2782 → 1600x785 압축) · WebP 우선 + PNG 폴백 -->
   <div class="hero-illust">
     <picture>
-      <source srcset="./이미지/책읽는학생_가로.webp" type="image/webp">
-      <img src="./이미지/책읽는학생_가로.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <source srcset="images/student_horizontal.png" type="image/webp">
+      <img src="images/student_horizontal.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
     </picture>
   </div>
   <div class="hero-glow"></div>
@@ -1485,7 +1501,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div id="about-principal" class="about-principal fi d2">
           <div class="about-principal-tag">원장</div>
           <div class="about-principal-name">박미향 원장</div>
-          <div class="about-principal-sub">
+          <div class="about-principal-sub" style="margin-bottom:0;">
             작가 · 강연자 · 교육자<br>
             삼산 연아카데미를 맡고 있습니다.<br><br>
             아이들이 스스로 생각하고, 스스로 계획하고,<br>
@@ -1493,6 +1509,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
             이진우 원장과 함께 연아카데미의 20년 철학을<br>
             삼산에서 이어가겠습니다.
           </div>
+
           <!-- 저서 3권 -->
           <div style="margin-top:18px;padding:16px;background:var(--mist);border-radius:12px;border-left:4px solid var(--accent);">
             <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.8px;margin-bottom:10px;"><svg class="ico"><use href="#i-book"/></svg> 박미향 원장 저서</div>
@@ -1508,13 +1525,57 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
               </div>
             </div>
           </div>
-          <!-- 활동 단체 4개 -->
-          <div style="margin-top:12px;padding:14px 16px;background:var(--sage);border-radius:12px;">
-            <div style="font-size:11px;font-weight:700;color:var(--deep);letter-spacing:.8px;margin-bottom:10px;"><svg class="ico"><use href="#i-leaf"/></svg> 박미향 원장 활동</div>
-            <div style="display:flex;flex-direction:column;gap:6px;">
-              <div style="font-size:12.5px;color:var(--ink);"><span style="font-weight:600;">이야기 끓이는 주전자</span> <span style="color:var(--t3);">대표</span></div>
-              <div style="font-size:12.5px;color:var(--ink);"><span style="font-weight:600;">어린이 인문학 아카데미</span> <span style="color:var(--t3);">총괄</span></div>
-              <div style="font-size:12.5px;color:var(--ink);"><span style="font-weight:600;">삼산 연아카데미</span> <span style="color:var(--t3);">원장</span></div>
+
+          <!-- 원장 프로필 -->
+          <div style="margin-top:12px;padding:16px;background:var(--sage);border-radius:12px;">
+            <div style="font-size:11px;font-weight:700;color:var(--deep);letter-spacing:.8px;margin-bottom:12px;"><svg class="ico"><use href="#i-user"/></svg> 박미향 원장 프로필</div>
+            
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;">
+              <!-- 학력 및 대표경력 -->
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:var(--deep);margin-bottom:8px;opacity:0.85;">학력 및 대표경력</div>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;">
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>홍익대학교 교육대학원 미술교육학 석사 졸업</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>차 의과대학교 미술치료학 석사 수료</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>이야기 끓이는 주전자 대표이사</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <!-- 주요 자격 및 활동 -->
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:var(--deep);margin-bottom:8px;opacity:0.85;">주요 자격 및 활동</div>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;">
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>홍익대학교 중등학교 정교사 (2급) 미술</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>직업 상담사 2급 / 국가기술자격</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>미술심리 상담사 1급 자격증</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>진로진학 상담사 3급 자격 인증</span>
+                  </li>
+                  <li style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;align-items:flex-start;gap:6px;">
+                    <svg class="ico" style="margin-top:3px;font-size:10px;color:var(--pine);"><use href="#i-check"/></svg>
+                    <span>울산구치소 교정위원 강사 / 법무부</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -1534,6 +1595,19 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div class="history-item fi d3">
             <div class="history-year">2026</div>
             <div class="history-desc">삼산점 신규 개원. 박미향 원장과 함께 AI × 자기주도학습의 새 챕터를 시작합니다.</div>
+          </div>
+        </div>
+        
+        <!-- 원장 대표 사진 및 슬로건 말풍선 카드 -->
+        <div class="principal-photo-card fi d2" style="margin-top:36px; text-align:center;">
+          <div class="principal-speech-bubble">
+            <div class="principal-speech-text">
+              "공부보다 습관을, 정답보다 질문을,<br>속도보다 자기주도를."
+            </div>
+          </div>
+          <div style="position:relative; display:inline-block; max-width:300px; margin:0 auto;">
+            <img src="images/park_profile.jpg" alt="박미향 원장 프로필 사진" style="width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; border-radius:20px; box-shadow:0 12px 36px rgba(31,42,42,0.15); border:4px solid white; display:block;">
+            <span style="position:absolute; bottom:16px; right:16px; background:var(--accent); color:white; font-size:12px; font-weight:700; padding:5px 12px; border-radius:999px; box-shadow:0 2px 8px rgba(0,0,0,0.15); letter-spacing:0.5px;">박미향 원장</span>
           </div>
         </div>
       </div>
@@ -1556,7 +1630,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 
       <p>공부할 곳은 많고, 정보도 넘칩니다. 그런데 정작 우리 아이가 책상 앞에 앉을 때 어떤 마음으로 앉는지, 한 문장을 어떻게 읽어 내는지, 모르는 것을 만났을 때 어떻게 반응하는지 — 그 자리를 함께 지켜봐 줄 어른은 의외로 많지 않습니다.</p>
 
-      <p>저희 아카데미가 가장 정성을 쏟는 것은 <strong>문해력 수업 · 초등 개념 수업 · 1:1 플래너 관리</strong> 이 세 가지입니다. 화려해 보이는 도구보다, 매일 같은 시간에 책을 펴는 손, 천천히 한 줄 한 줄 읽어 내는 눈, 스스로 다음 한 걸음을 적어보는 펜 — 이 작은 동작들이 모여 아이의 학습 습관이 됩니다.</p>
+      <p>저희 아카데미가 가장 정성을 쏟는 것은 <strong>문해력 수업 · 초등 영, 수, 국 교과목 수업 · 1:1 플래너 관리</strong> 이 세 가지입니다. 화려해 보이는 도구보다, 매일 같은 시간에 책을 펴는 손, 천천히 한 줄 한 줄 읽어 내는 눈, 스스로 다음 한 걸음을 적어보는 펜 — 이 작은 동작들이 모여 아이의 학습 습관이 됩니다.</p>
 
       <p>저는 학부모님께 화려한 약속을 드리지 않겠습니다. 다만 <em>매일 함께</em>, 아이가 스스로 생각하고 스스로 자라는 그 자리를 묵묵히 지키겠습니다. 100일이 지나면 분명히 보입니다. 작은 습관이 우리 아이를 어떻게 바꿔 놓는지를요.</p>
 
@@ -1615,7 +1689,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
   <div class="container">
     <span class="sec-badge teal fi">개설 수업</span>
     <h2 class="sec-title fi d1">삼산 연아카데미<br>개설 수업 안내</h2>
-    <p class="sec-sub fi d2">문해력 수업 · 초등 개념 수업 · 1:1 플래너 관리 — 박미향 원장이 직접 설계한 세 가지 핵심 수업입니다.<br>스스로 공부하는 습관을 매일 함께 만들어 갑니다.</p>
+    <p class="sec-sub fi d2">문해력 수업 · 초등 영, 수, 국 교과목 수업 · 1:1 플래너 관리 — 박미향 원장이 직접 설계한 세 가지 핵심 수업입니다.<br>스스로 공부하는 습관을 매일 함께 만들어 갑니다.</p>
     <div class="fi d2" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:32px">
       <div style="background:var(--sage);border-radius:14px;padding:14px 28px;text-align:center">
         <div style="font-size:22px;font-weight:800;color:var(--deep);font-family:'Noto Serif KR',serif">주 4회</div>
@@ -1763,14 +1837,14 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div style="font-size:30px;">⭐</div>
           <div style="font-weight:700;font-size:18px;color:var(--ink);font-family:'Noto Serif KR',serif;">연플래닝 아카데미 본원장님 특별 수업</div>
         </div>
-        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px;">박미향 원장님이 <b style="color:var(--accent);">주 1회 직접 진행</b>하는 플래닝 특별 강좌입니다. 20년 자기주도 학습 철학과 연플래닝 노하우를 압축해, 학생이 스스로 "왜·무엇을·어떻게 공부할지"를 설계하는 시간을 가집니다.<br><br>일반 수업으로는 만나기 어려운 박 원장님과의 1:1 호흡을 정기적으로 가질 수 있는 시간입니다.</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px;">이진우 원장님이 <b style="color:var(--accent);">주 1회 직접 진행</b>하는 플래닝 특별 강좌입니다. 20년 자기주도 학습 철학과 연플래닝 노하우를 압축해, 학생이 스스로 "왜·무엇을·어떻게 공부할지"를 설계하는 시간을 가집니다.<br><br>일반 수업으로는 만나기 어려운 이 원장님과의 1:1 호흡을 정기적으로 가질 수 있는 시간입니다.</div>
         <div style="background:var(--sage);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
           <div style="font-size:12px;font-weight:700;color:var(--deep);margin-bottom:6px;">수업 핵심</div>
           <div style="font-size:13px;color:var(--ink);line-height:1.8;">① 자기 미래 설계 → ② 플래너 작성 원칙 → ③ 습관 점검 → ④ 학습 전략 코칭</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
           <span style="background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;">주 1회</span>
-          <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;">박미향 원장 직접</span>
+          <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;">이진우 원장 직접</span>
           <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;">플래닝 강좌</span>
           <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;">정원 제한</span>
         </div>
@@ -1795,8 +1869,8 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         </div>
         <div id="class-concept" style="background:var(--card);border:1.5px solid var(--line);border-top:5px solid var(--accent);border-radius:16px;padding:24px 22px;">
           <div style="font-size:30px;margin-bottom:12px;"><svg class="ico"><use href="#i-brain"/></svg></div>
-          <div style="font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">초등 개념 수업</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:12px;">수학·과학 핵심 개념을 스스로 이해하고 설명할 수 있을 때까지 반복합니다.<br><br>단순히 문제를 푸는 것이 아닙니다. 「기억의 궁전」과 「목차 외우기」 학습법을 적용해 개념이 구조적으로 머릿속에 자리잡도록 돕습니다.</div>
+          <div style="font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">초등 영, 수, 국 교과목 수업</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:12px;">영어·수학·국어 핵심 개념과 교과 내용을 스스로 이해하고 설명할 수 있을 때까지 반복합니다.<br><br>단순히 문제를 푸는 것이 아닙니다. 「기억의 궁전」과 「목차 외우기」 학습법을 적용해 개념이 구조적으로 머릿속에 자리잡도록 돕습니다.</div>
           <div style="background:#fff5f4;border-radius:10px;padding:12px 14px;border-left:3px solid var(--accent);margin-bottom:14px;">
             <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px;">박 원장 방식</div>
             <div style="font-size:12px;color:var(--ink);line-height:1.75;">개념 이해 → 목차 구조 외우기 → 기억의 궁전으로 장기 기억 → 스스로 설명 가능 수준 확인</div>
@@ -1804,7 +1878,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
             <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">초등 4~6학년</span>
             <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">주 2~4회</span>
-            <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">수학·과학</span>
+            <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">영어·수학·국어</span>
           </div>
           <a href="수업-안내.html#class-concept" style="display:inline-block;margin-top:14px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:999px;text-decoration:none;">자세히 보기 →</a>
         </div>
@@ -1897,6 +1971,58 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
             <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">책 출판 경험</span>
           </div>
           <a href="수업-안내.html#special-class-book" style="display:inline-block;margin-top:14px;background:var(--pine);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:999px;text-decoration:none;">자세히 보기 →</a>
+        </div>
+
+        <div id="special-class-art" style="background:var(--card);border:1.5px solid var(--line);border-top:5px solid var(--accent);border-radius:16px;padding:24px 22px;">
+          <div style="font-size:30px;margin-bottom:12px;"><svg class="ico"><use href="#i-sparkles"/></svg></div>
+          <div style="font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">창의심리 미술수업</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:12px;">미술 활동을 통해 아이의 정서적 안정과 창의성을 키우고, 내면의 심리를 치유하는 특별 수업입니다.<br><br>자유로운 드로잉과 색채 표현을 통해 스트레스를 해소하고, 스스로 표현하는 즐거움을 배웁니다.</div>
+          <div style="background:#fff5f4;border-radius:10px;padding:12px 14px;border-left:3px solid var(--accent);margin-bottom:14px;">
+            <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px;">수업 흐름</div>
+            <div style="font-size:12px;color:var(--ink);line-height:1.75;">① 자유로운 드로잉 → ② 감정 표현 채색 → ③ 입체 조형 창작 → ④ 작품 이야기 나누기</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">창의 미술</span>
+            <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">정서 심리</span>
+            <span style="background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">초등부</span>
+          </div>
+          <a href="수업-안내.html#special-class-art" style="display:inline-block;margin-top:14px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:999px;text-decoration:none;">자세히 보기 →</a>
+        </div>
+
+        <div id="special-class-nie" style="background:var(--card);border:1.5px solid var(--line);border-top:5px solid var(--pine);border-radius:16px;padding:24px 22px;">
+          <div style="font-size:30px;margin-bottom:12px;"><svg class="ico"><use href="#i-file-text"/></svg></div>
+          <div style="font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">NIE 교육 (신문스크랩)</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:12px;">매일 새로운 뉴스와 칼럼을 읽고 스크랩하며, 세상의 흐름을 읽는 안목을 기릅니다.<br><br>시사 이슈에 대한 비판적 사고력과 문해력을 키우고, 자기 생각을 한 편의 짧은 글이나 마인드맵으로 정리합니다.</div>
+          <div style="background:var(--mist);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="font-size:12px;font-weight:700;color:var(--deep);margin-bottom:4px;">수업 흐름</div>
+            <div style="font-size:12px;color:var(--ink);line-height:1.75;">① 신문 기사 선택 → ② 핵심 요약 및 스크랩 → ③ 시사 분석 및 의견 쓰기 → ④ 발표 및 토론</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">신문 스크랩</span>
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">시사 문해력</span>
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">비판적 사고</span>
+          </div>
+          <a href="수업-안내.html#special-class-nie" style="display:inline-block;margin-top:14px;background:var(--pine);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:999px;text-decoration:none;">자세히 보기 →</a>
+        </div>
+
+        <div id="special-class-character" style="background:var(--card);border:1.5px solid var(--line);border-top:5px solid var(--deep);border-radius:16px;padding:24px 22px;">
+          <div style="font-size:30px;margin-bottom:12px;"><svg class="ico"><use href="#i-heart"/></svg></div>
+          <div style="font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">이진우 원장 직강 인성교육</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:12px;">바른 인성과 마음 태도가 공부의 진짜 시작입니다.<br><br>이진우 원장이 직접 진행하며, 학생들에게 인지적 능력뿐 아니라 정서적 회복탄력성과 삶을 대하는 올바른 태도를 심어주는 특별 교육입니다.</div>
+          <div style="background:var(--mist);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="font-size:12px;font-weight:700;color:var(--deep);margin-bottom:4px;">수업 흐름</div>
+            <div style="font-size:12px;color:var(--ink);line-height:1.75;">① 고전 명상 글씨 쓰기 → ② 마음 다스리기 강연 → ③ 감사 일기 쓰기 → ④ 행동 약속 및 피드백</div>
+          </div>
+          <div style="background:linear-gradient(135deg,var(--deep),var(--pine));border-radius:10px;padding:12px 14px;color:white;margin-bottom:14px;">
+            <div style="font-size:12px;opacity:0.85;">이진우 원장이 직접 진행합니다</div>
+            <div style="font-size:13px;font-weight:700;margin-top:2px;">바른 마음과 학습 태도를 세우는 직강</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">이진우 원장</span>
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">인성 교육</span>
+            <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">태도 교정</span>
+          </div>
+          <a href="수업-안내.html#special-class-character" style="display:inline-block;margin-top:14px;background:var(--deep);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:999px;text-decoration:none;">자세히 보기 →</a>
         </div>
 
       </div>
@@ -2000,7 +2126,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         학생이 직접 약속을 정합니다. 선생님이 시키는 것이 아닙니다. 자기 약속을 자기 손으로 체크하는 것 — 이것이 습관의 씨앗입니다.
       </div>
       <div style="text-align:center;">
-        <a href="../00_박미향_100일_체크리스트_인쇄.html" aria-label="100일 체크리스트 인쇄 페이지로 이동" style="display:inline-block;padding:12px 28px;background:var(--deep);color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.3px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(47,93,98,.25);"><svg class="ico"><use href="#i-clipboard"/></svg> 100일 체크리스트 전체 보기 →</a>
+        <a href="./00_박미향_100일_체크리스트_인쇄.html" aria-label="100일 체크리스트 인쇄 페이지로 이동" style="display:inline-block;padding:12px 28px;background:var(--deep);color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.3px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(47,93,98,.25);"><svg class="ico"><use href="#i-clipboard"/></svg> 100일 체크리스트 전체 보기 →</a>
       </div>
     </div>
 
@@ -2073,11 +2199,11 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <div class="event-date-row">
           <div class="event-date-box">
             <strong>6월 10일</strong>
-            <span>수요일 저녁 7:30</span>
+            <span>수요일 저녁 7시 30분</span>
           </div>
           <div class="event-date-box">
-            <strong>6월 11일</strong>
-            <span>목요일 오전 10:30</span>
+            <strong>6월 17일</strong>
+            <span>수요일 저녁 7시 30분</span>
           </div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
@@ -2177,8 +2303,8 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <!-- 빙산 사진 (사용자 첨부) — 정신 영역의 빙산 모델 -->
         <figure class="iceberg-photo" style="margin:0 0 16px;border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(15,33,40,0.18);background:#0e3038;">
           <picture>
-            <source srcset="이미지/빙산_정신영역.webp" type="image/webp">
-            <img src="이미지/빙산_정신영역.jpg" alt="정신 영역의 빙산 모델 — 의식(의지) 위, 무의식(최근 습관·오래된 습관·잠재 의식·타고남·본능) 아래" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+            <source srcset="images/iceberg.jpg" type="image/webp">
+            <img src="images/iceberg.jpg" alt="정신 영역의 빙산 모델 — 의식(의지) 위, 무의식(최근 습관·오래된 습관·잠재 의식·타고남·본능) 아래" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
           </picture>
         </figure>
         <p style="font-size:13px;color:var(--t2);line-height:1.8;">무의식 영역은 의식보다 <strong>비교되지 않을 만큼 크고 힘도 강합니다.</strong> 작심으로 무엇을 하려 해도 무의식의 습관이 반대 방향이면, 결국 옛 습관이 이깁니다.</p>
@@ -2361,9 +2487,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <!-- ─────────────── 출판기념회 ─────────────── -->
 <section id="event-publication" style="background:var(--card);">
   <div class="container">
-    <span class="sec-badge warm fi">행사 안내</span>
+    <span class="sec-badge warm fi">지난 행사 후기</span>
     <h2 class="sec-title fi d1">박미향 원장<br>출판 기념회 & 강연회</h2>
-    <p class="sec-sub fi d2">「당신의 글쓰기가 돈이 된다」 출간 기념 · 2026년 5월 10일</p>
+    <p class="sec-sub fi d2">「당신의 글쓰기가 돈이 된다」 출간 기념 · 2026년 5월 10일 성황리에 마쳤습니다</p>
 
     <div class="fi d2" style="max-width:700px;margin:0 auto;">
       <!-- 메인 행사 카드 -->
@@ -2385,12 +2511,12 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
             <div style="font-size:12px;opacity:0.85;">울산 남구 월평로 191 1층</div>
           </div>
           <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;">
-            <div style="font-size:11px;opacity:0.75;margin-bottom:4px;"><svg class="ico"><use href="#i-coffee"/></svg> 혜택</div>
-            <div style="font-weight:700;font-size:15px;">당일 무료</div>
-            <div style="font-size:12px;opacity:0.85;">커피 · 음료 무료 제공</div>
+            <div style="font-size:11px;opacity:0.75;margin-bottom:4px;"><svg class="ico"><use href="#i-coffee"/></svg> 현장</div>
+            <div style="font-weight:700;font-size:15px;">성황리에 마침</div>
+            <div style="font-size:12px;opacity:0.85;">함께해 주셔서 감사합니다</div>
           </div>
         </div>
-        <p style="font-size:13.5px;opacity:0.9;line-height:1.85;">박미향 원장의 책쓰기 강의와 윤창영 작가의 시집 발간이 함께 이루어지는 자리입니다. 글쓰기가 어떻게 삶을 바꾸는지 직접 들어보세요.</p>
+        <p style="font-size:13.5px;opacity:0.9;line-height:1.85;">박미향 원장의 책쓰기 강의와 윤창영 작가의 시집 발간이 함께 이루어진 자리였습니다. 글쓰기가 어떻게 삶을 바꾸는지 함께 나눈 따뜻한 시간이었습니다.</p>
       </div>
 
       <!-- 강연 내용 -->
@@ -2411,7 +2537,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
       </div>
 
       <div style="background:var(--sage);border-radius:14px;padding:20px 22px;text-align:center;">
-        <p style="font-size:13.5px;color:var(--ink);line-height:1.85;margin-bottom:16px;">삼산 연아카데미에서 공부할 아이들도, 학부모님도, 글쓰기에 관심 있는 분이라면 누구나 환영합니다. 당일 커피·음료는 무료입니다.</p>
+        <p style="font-size:13.5px;color:var(--ink);line-height:1.85;margin-bottom:16px;">함께해 주신 학부모님과 학생, 그리고 글벗 여러분께 깊이 감사드립니다. 앞으로도 삼산 연아카데미는 아이들의 글과 생각이 자라는 자리를 이어 가겠습니다.</p>
         <a class="btn btn-warm" href="tel:01041365608" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:var(--accent);color:white;padding:12px 24px;border-radius:10px;font-weight:700;font-size:14px;"><svg class="ico"><use href="#i-phone"/></svg> 문의 010-4136-5608</a>
       </div>
     </div>
@@ -2426,12 +2552,107 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <!-- ─────────────── 원장 칼럼 anchor ─────────────── -->
 <div id="thoughts-principal" style="display:none"></div>
 
+
+<!-- ─────────────── 학원 Q&A (FAQ) ─────────────── -->
+<section id="faq" style="padding: 80px 32px; background: var(--bg); border-top: 1.5px solid var(--line);">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <style>
+      .faq-item.open .faq-a { max-height: 300px !important; }
+    </style>
+    <h2 class="fi" style="font-family:'Noto Serif KR',serif; font-size: clamp(24px, 3.5vw, 30px); color: var(--ink); font-weight: 700; text-align: center; margin-bottom: 8px;">자주 묻는 질문 (Q&A)</h2>
+    <p class="fi d1" style="text-align: center; font-size: 13.5px; color: var(--t3); margin-bottom: 48px;">학부모님들께서 삼산 연아카데미에 가장 자주 물어보시는 질문들을 모았습니다.</p>
+    
+    <div class="faq-list fi d2">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">1. 수업은 어떤 방식으로 진행되나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">기본 플래닝 과정(플래너, 문해력 독서수업)과 단과반(수학, 영어)으로 운영됩니다. 학생의 성향과 학습 상태를 고려하여 맞춤형으로 진행합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">2. 숙제는 얼마나 내주나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">숙제는 학생마다 다르게 진행됩니다. 상담을 통해 학습 수준과 성향을 파악한 후 아이에게 맞는 양과 방식으로 제공합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">3. 수업 시간은 어떻게 되나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">기본 과정은 2시간, 단과반은 1시간 수업으로 진행됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">4. 책 읽는 것을 싫어하는데 수업이 가능할까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 레벨 테스트를 통해 학생 수준과 흥미에 맞는 도서를 선정하여 부담 없이 시작할 수 있도록 돕습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">5. 원비는 얼마인가요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">학생 상담 후 수업 형태와 등원 횟수에 따라 달라집니다. 상담 후 자세히 안내드립니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">6. 단과 선생님들이 따로 계신가요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">삼산점은 수학, 영어 단과 선생님께서 각각 개별적으로 수업을 진행하고 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">7. 수업은 소수정예인가요? 개별 관리인가요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">기본적으로 소수정예로 운영되며, 학생에 따라 원장이 직접 개별 관리하는 학생들도 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">8. 학부모 상담과 피드백은 어떻게 받아보나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">연플래닝 과정에서는 플래너 관리와 독서 활동 후 진단 점수를 카카오톡으로 전달드리며, 학생의 변화 과정을 꾸준히 공유드립니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">9. 고등부도 가능한가요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">고등부는 1:1 개별 지도만 진행하고 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">10. 공부를 싫어하는 학생인데 적응할 수 있을까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 1:1 맞춤형 코칭 방식으로 진행하기 때문에 학생 개개인에 맞춰 접근합니다. 대부분의 학생들이 점차 흥미를 느끼고 자연스럽게 공부 습관을 만들어갑니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">11. 우리 아이도 효과를 볼 수 있을까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">학생마다 변화의 속도는 다르지만, 단순히 성적만 올리는 것이 아니라 공부 습관과 자기주도성을 만드는 것을 목표로 합니다. 학생 성향에 맞춰 접근하기 때문에 대부분 긍정적인 변화를 경험합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">12. 얼마나 다녀야 변화가 보이나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">개인차는 있지만 보통 공부 습관 변화는 2~3개월 정도부터 나타나는 경우가 많으며, 꾸준히 관리할수록 학습 변화도 함께 만들어집니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">13. 성적 향상도 가능한가요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 다만 단순 문제풀이보다 공부 습관, 학습 태도, 이해력을 함께 관리하여 보다 근본적인 변화를 목표로 하고 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">14. 집중력이 부족한 아이도 괜찮을까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 집중력이 부족한 학생일수록 학습 방법과 환경 설계가 중요하기 때문에 학생 성향에 맞춰 지도합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">15. 우리 아이가 내성적이라 적응을 못할까 걱정돼요.</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">처음부터 무리하게 진행하지 않습니다. 학생 속도에 맞춰 관계 형성과 적응 과정을 충분히 고려하며 진행합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">16. 레벨 테스트는 어떻게 진행되나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">단순 시험이 아니라 학생의 학습 수준, 습관, 독서 수준, 성향 등을 함께 파악하는 과정으로 진행됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">17. 수업 외에도 공부 습관 관리가 이루어지나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">네, 플래너 관리와 학습 점검을 통해 단순히 수업만 듣고 끝나는 것이 아니라 스스로 공부하는 습관을 만들어갈 수 있도록 돕습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">18. 학원을 여러 개 다니는데 병행이 가능할까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 현재 학습량과 스케줄을 고려하여 무리하지 않는 범위 안에서 조절하여 진행합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">19. 아이가 공부를 너무 싫어하는데 괜찮을까요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">오히려 그런 학생들이 많이 찾아옵니다. 처음부터 공부를 잘하게 만드는 것이 아니라, 공부에 대한 거부감을 줄이고 작은 성공 경험을 쌓아갈 수 있도록 돕습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">20. 상담만 받아볼 수도 있나요?</div>
+        <div class="faq-a" style="font-size:13.5px; line-height:1.75; color:var(--t2); padding-left:4px;">가능합니다. 학생 상태를 먼저 파악하고 방향성을 함께 고민하는 것만으로도 도움이 될 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─────────────── CTA ─────────────── -->
 <section id="cta">
   <div class="container">
     <h2 class="cta-title fi">직접 보고 판단하세요.<br>연아카데미가 보여드립니다.</h2>
     <p class="cta-sub fi d1">
-      6월 10일(수) 저녁 7:30 · 11일(목) 오전 10:30<br>
+      6월 10일 · 17일 수요일 저녁 7시 30분<br>
       학부모 간담회에서 AI 수업을 직접 시연합니다.
     </p>
     <div class="cta-btns fi d2">
@@ -2446,11 +2667,14 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 
 <!-- ─────────────── 모바일 하단 CTA ─────────────── -->
 <div class="mobile-cta-bar" id="mobileCta">
-  <button onclick="openSignup()"><svg class="ico"><use href="#i-mail"/></svg> 간담회 신청 — 6월 10일(수) 저녁 7:30 · 11일(목) 오전 10:30</button>
+  <button onclick="openSignup()"><svg class="ico"><use href="#i-mail"/></svg> 간담회 신청 — 6월 10일 · 17일 수요일 저녁 7시 30분</button>
 </div>
 
 <!-- ─────────────── FOOTER ─────────────── -->
 <footer>
+  <div style="margin-bottom:18px; opacity:0.65; display:flex; justify-content:center; align-items:center;">
+    <img src="images/logo.png" alt="연플래닝 로고" style="height:32px; width:auto; object-fit:contain; filter: brightness(0) invert(1);">
+  </div>
   <strong>연 학습심리코칭 전문센터 (삼산 연아카데미)</strong><br>
   울산광역시 남구 월평로 232 1층 · 초등 4학년 ~ 고등 2학년<br>
   대표 원장 이진우 · 삼산점 원장 박미향<br>
@@ -2469,7 +2693,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <div class="modal-overlay" id="userLoginModal" onclick="closeUserLoginIfOutside(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeUserLogin()"><svg class="ico"><use href="#i-x"/></svg></button>
-    <div class="modal-logo">연</div>
+    <div class="modal-logo" style="background:none; border-radius:0; width:auto; height:32px; margin-bottom:18px;">
+      <img src="images/logo.png" alt="연플래닝" style="height:32px; width:auto; object-fit:contain;">
+    </div>
     <h3 id="userModalTitle">로그인</h3>
     <p class="modal-sub">학생·학부모·선생님 모두 이용할 수 있어요</p>
     <div class="modal-error" id="userLoginError"></div>
@@ -2575,7 +2801,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <div class="modal-overlay" id="loginModal" onclick="closeLoginIfOutside(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeLogin()"><svg class="ico"><use href="#i-x"/></svg></button>
-    <div class="modal-logo">연</div>
+    <div class="modal-logo" style="background:none; border-radius:0; width:auto; height:32px; margin-bottom:18px;">
+      <img src="images/logo.png" alt="연플래닝" style="height:32px; width:auto; object-fit:contain;">
+    </div>
     <h3>관리자 로그인</h3>
     <p class="modal-sub">삼산 연아카데미 관리자 페이지</p>
     <div class="modal-error" id="loginError"></div>
@@ -2606,9 +2834,11 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 <div class="modal-overlay" id="signupModal" onclick="closeSignupIfOutside(event)">
   <div class="modal signup-modal">
     <button class="modal-close" onclick="closeSignup()"><svg class="ico"><use href="#i-x"/></svg></button>
-    <div class="modal-logo">연</div>
+    <div class="modal-logo" style="background:none; border-radius:0; width:auto; height:32px; margin-bottom:18px;">
+      <img src="images/logo.png" alt="연플래닝" style="height:32px; width:auto; object-fit:contain;">
+    </div>
     <h3>학부모 간담회 신청</h3>
-    <p class="modal-sub">6월 10일(수) 저녁 7:30 · 11일(목) 오전 10:30 · 삼산 연아카데미</p>
+    <p class="modal-sub">6월 10일 · 17일 수요일 저녁 7시 30분 · 삼산 연아카데미</p>
 
     <div class="modal-success" id="signupSuccess">
       <svg class="ico"><use href="#i-check"/></svg> <strong>신청이 완료되었습니다.</strong><br>
@@ -2624,12 +2854,12 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <label class="signup-radio selected" onclick="selectDate(this,'2026-06-10')">
             <input type="radio" name="sessionDate" value="2026-06-10" checked>
             <strong>6월 10일</strong>
-            <span>수요일 저녁 7:30</span>
+            <span>수요일 저녁 7시 30분</span>
           </label>
-          <label class="signup-radio" onclick="selectDate(this,'2026-06-11')">
-            <input type="radio" name="sessionDate" value="2026-06-11">
-            <strong>6월 11일</strong>
-            <span>목요일 오전 10:30</span>
+          <label class="signup-radio" onclick="selectDate(this,'2026-06-17')">
+            <input type="radio" name="sessionDate" value="2026-06-17">
+            <strong>6월 17일</strong>
+            <span>수요일 저녁 7시 30분</span>
           </label>
         </div>
       </div>
@@ -3283,7 +3513,7 @@ document.querySelectorAll('.fi-soft').forEach(el => observer.observe(el));
       <a href="#meeting" class="samsan-popup-item" onclick="goPopupLink(event,'meeting');openSignup();">
         <div class="spi-icon"><svg class="ico"><use href="#i-building"/></svg></div>
         <div class="spi-text">
-          <div class="spi-title">학부모 간담회 — 6/10(수) 저녁 7:30 · 11(목) 오전 10:30</div>
+          <div class="spi-title">학부모 간담회 — 6/10 · 17(수) 저녁 7시 30분</div>
           <div class="spi-sub">1·2차 신청 접수 중 · 홈페이지에서 간단히 신청</div>
           <div class="spi-desc">박미향 원장이 직접 자녀 학습 코칭 방향을 함께 그립니다</div>
         </div>
@@ -3427,10 +3657,10 @@ const CHATBOT_SYSTEM = `당신은 울산 삼산동 "삼산 연아카데미"의 �
 
 [박미향 원장님 직접 수업 — 3가지]
 1) 문해력 수업 — 글을 읽고 생각하는 힘
-2) 초등 개념 수업 — 교과 기본 개념을 단단히
+2) 초등 영, 수, 국 교과목 수업 — 영어·수학·국어 기본개념 단단히
 3) 1:1 플래너 관리 — 자기주도 학습 습관 형성
 
-[본원장님 특별 수업]
+[본원장님 특별 수업 (이진우 원장 직접 진행)]
 - 플래닝 강좌 (자기주도 학습 설계)
 - 영화 인문학 (생각하는 힘 기르기)
 - 영어 학습법 코칭
@@ -3439,19 +3669,25 @@ const CHATBOT_SYSTEM = `당신은 울산 삼산동 "삼산 연아카데미"의 �
 - 어린이 동시 수업 (윤창영 작가)
 - 박원채 논술
 - 책쓰기 수업
+- 창의심리 미술수업
+- NIE 교육 (신문스크랩)
+- 이진우 원장 직강 인성교육
 
 [학부모 간담회 — 신청 받는 중]
 - 2026년 6월 10일(수) 저녁 7시 30분
-- 2026년 6월 11일(목) 오전 10시 30분
+- 2026년 6월 17일(수) 저녁 7시 30분
 - 박미향 원장님이 직접 교육 철학·수업 운영을 설명합니다
 - 신청: 010-4136-5608 또는 홈페이지 '간담회 신청'
 
+
+[자주 묻는 질문과 답변 (Q&A)]
+1. Q: 수업은 어떤 방식으로 진행되나요?\n   A: 기본 플래닝 과정(플래너, 문해력 독서수업)과 단과반(수학, 영어)으로 운영됩니다. 학생의 성향과 학습 상태를 고려하여 맞춤형으로 진행합니다.\n2. Q: 숙제는 얼마나 내주나요?\n   A: 숙제는 학생마다 다르게 진행됩니다. 상담을 통해 학습 수준과 성향을 파악한 후 아이에게 맞는 양과 방식으로 제공합니다.\n3. Q: 수업 시간은 어떻게 되나요?\n   A: 기본 과정은 2시간, 단과반은 1시간 수업으로 진행됩니다.\n4. Q: 책 읽는 것을 싫어하는데 수업이 가능할까요?\n   A: 가능합니다. 레벨 테스트를 통해 학생 수준과 흥미에 맞는 도서를 선정하여 부담 없이 시작할 수 있도록 돕습니다.\n5. Q: 원비는 얼마인가요?\n   A: 학생 상담 후 수업 형태와 등원 횟수에 따라 달라집니다. 상담 후 자세히 안내드립니다.\n6. Q: 단과 선생님들이 따로 계신가요?\n   A: 삼산점은 수학, 영어 단과 선생님께서 각각 개별적으로 수업을 진행하고 있습니다.\n7. Q: 수업은 소수정예인가요? 개별 관리인가요?\n   A: 기본적으로 소수정예로 운영되며, 학생에 따라 원장이 직접 개별 관리하는 학생들도 있습니다.\n8. Q: 학부모 상담과 피드백은 어떻게 받아보나요?\n   A: 연플래닝 과정에서는 플래너 관리와 독서 활동 후 진단 점수를 카카오톡으로 전달드리며, 학생의 변화 과정을 꾸준히 공유드립니다.\n9. Q: 고등부도 가능한가요?\n   A: 고등부는 1:1 개별 지도만 진행하고 있습니다.\n10. Q: 공부를 싫어하는 학생인데 적응할 수 있을까요?\n   A: 가능합니다. 1:1 맞춤형 코칭 방식으로 진행하기 때문에 학생 개개인에 맞춰 접근합니다. 대부분의 학생들이 점차 흥미를 느끼고 자연스럽게 공부 습관을 만들어갑니다.\n11. Q: 우리 아이도 효과를 볼 수 있을까요?\n   A: 학생마다 변화의 속도는 다르지만, 단순히 성적만 올리는 것이 아니라 공부 습관과 자기주도성을 만드는 것을 목표로 합니다. 학생 성향에 맞춰 접근하기 때문에 대부분 긍정적인 변화를 경험합니다.\n12. Q: 얼마나 다녀야 변화가 보이나요?\n   A: 개인차는 있지만 보통 공부 습관 변화는 2~3개월 정도부터 나타나는 경우가 많으며, 꾸준히 관리할수록 학습 변화도 함께 만들어집니다.\n13. Q: 성적 향상도 가능한가요?\n   A: 가능합니다. 다만 단순 문제풀이보다 공부 습관, 학습 태도, 이해력을 함께 관리하여 보다 근본적인 변화를 목표로 하고 있습니다.\n14. Q: 집중력이 부족한 아이도 괜찮을까요?\n   A: 가능합니다. 집중력이 부족한 학생일수록 학습 방법과 환경 설계가 중요하기 때문에 학생 성향에 맞춰 지도합니다.\n15. Q: 우리 아이가 내성적이라 적응을 못할까 걱정돼요.\n   A: 처음부터 무리하게 진행하지 않습니다. 학생 속도에 맞춰 관계 형성과 적응 과정을 충분히 고려하며 진행합니다.\n16. Q: 레벨 테스트는 어떻게 진행되나요?\n   A: 단순 시험이 아니라 학생의 학습 수준, 습관, 독서 수준, 성향 등을 함께 파악하는 과정으로 진행됩니다.\n17. Q: 수업 외에도 공부 습관 관리가 이루어지나요?\n   A: 네, 플래너 관리와 학습 점검을 통해 단순히 수업만 듣고 끝나는 것이 아니라 스스로 공부하는 습관을 만들어갈 수 있도록 돕습니다.\n18. Q: 학원을 여러 개 다니는데 병행이 가능할까요?\n   A: 가능합니다. 현재 학습량과 스케줄을 고려하여 무리하지 않는 범위 안에서 조절하여 진행합니다.\n19. Q: 아이가 공부를 너무 싫어하는데 괜찮을까요?\n   A: 오히려 그런 학생들이 많이 찾아옵니다. 처음부터 공부를 잘하게 만드는 것이 아니라, 공부에 대한 거부감을 줄이고 작은 성공 경험을 쌓아갈 수 있도록 돕습니다.\n20. Q: 상담만 받아볼 수도 있나요?\n   A: 가능합니다. 학생 상태를 먼저 파악하고 방향성을 함께 고민하는 것만으로도 도움이 될 수 있습니다.\n
 [안내 원칙 — 매우 중요]
 1) 따뜻하고 정중한 어투. 답변은 2~4문장 짧고 간결하게.
 2) <svg class="ico"><use href="#i-alert"/></svg>️ "AI 교육 중심"으로 몰지 마세요. 본질은 "학습심리코칭·자기주도 학습·문해력·습관 형성"입니다. AI는 도구이지 주제가 아닙니다.
 3) 수업료·세부 커리큘럼·반 편성은 절대 임의로 답하지 말고 "박미향 원장님과 직접 상담(010-4136-5608)을 권해드립니다"로 안내하세요.
-4) "어떤 수업이 좋을까요?" → 박미향 원장 직접 수업 3가지(문해력·초등 개념·1:1 플래너)를 자녀 학년·고민에 맞춰 추천하세요.
-5) "간담회 신청?" → 6/10(수) 저녁 7:30 · 6/11(목) 오전 10:30 두 차례 안내 + 홈페이지 신청 페이지 또는 010-4136-5608.
+4) "어떤 수업이 좋을까요?" → 박미향 원장 직접 수업 3가지(문해력·초등 영, 수, 국 교과목·1:1 플래너)를 자녀 학년·고민에 맞춰 추천하세요.
+5) "간담회 신청?" → 6/10(수)·6/17(수) 저녁 7시 30분 두 차례 안내 + 홈페이지 신청 페이지 또는 010-4136-5608.
 6) 아카데미 외 질문(타 학원 평가, 시사, 정치 등)에는 "그 부분은 원장님과 직접 통화로 안내드립니다(010-4136-5608)"라고 부드럽게 마무리하세요.
 7) 박미향 원장님의 핵심 철학: "공부보다 습관을, 정답보다 질문을, 속도보다 자기주도를."
 `;

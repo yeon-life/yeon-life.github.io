@@ -1158,6 +1158,10 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
         <a class="opt-item" onclick="doUserLogout()"><svg class="ico"><use href="#i-door"/></svg> 로그아웃</a>
       </div>
     </div>
+    <!-- QR · 스마트폰 설치 -->
+    <button class="nav-options" onclick="openQrModal()" id="qrBtn" aria-label="QR · 스마트폰에 설치" title="QR · 스마트폰에 설치" style="margin-right:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="14" x2="14" y2="17"/><line x1="14" y1="20" x2="14" y2="21"/><line x1="17" y1="14" x2="21" y2="14"/><line x1="21" y1="17" x2="21" y2="21"/><line x1="17" y1="21" x2="18" y2="21"/></svg>
+    </button>
     <!-- 관리자 버튼 제거됨 — 푸터 미니멀 진입(·) 또는 로고 5회 클릭으로 진입 -->
     <div class="nav-options" onclick="toggleOptions()" id="optBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.47 14.26M3.46 19.07A10 10 0 0 1 4.93 4.93"/><path d="M12 2v2M12 20v2M2 12H4M20 12h2"/></svg>
@@ -2689,6 +2693,23 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
   </svg>
 </a>
 
+<!-- ─────────────── QR · 스마트폰 설치 모달 ─────────────── -->
+<div class="modal-overlay" id="qrModal" onclick="closeQrIfOutside(event)">
+  <div class="modal" style="max-width:360px;text-align:center">
+    <button class="modal-close" onclick="closeQrModal()">✕</button>
+    <div class="modal-logo">연</div>
+    <h3>스마트폰에 설치하기</h3>
+    <p class="modal-sub">QR을 스캔하거나 링크를 복사해 휴대폰에서 열고<br>"홈 화면에 추가"를 누르면 앱처럼 설치됩니다 📱</p>
+    <img src="images/qr-samsan.png" alt="연플래닝아카데미 삼산점 QR" width="200" height="200" style="width:200px;height:200px;border-radius:14px;border:1.5px solid var(--line);padding:8px;background:#fff;margin:4px auto 0;display:block" loading="lazy" decoding="async">
+    <div style="display:flex;gap:8px;margin:18px 0 0;align-items:center">
+      <input id="qrUrlInput" readonly value="https://y-life.kr/yp/samsan/" onclick="this.select()" style="flex:1;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:13px;color:var(--ink);background:var(--mist);font-family:'Noto Sans KR',sans-serif;text-align:center">
+      <button class="modal-btn" style="width:auto;margin:0;padding:11px 18px;white-space:nowrap" onclick="copyQrLink(this)">복사</button>
+    </div>
+    <button class="modal-btn warm" onclick="shareQrLink()" style="margin-top:10px"><svg class="ico" style="width:16px;height:16px;vertical-align:-2px;margin-right:4px"><use href="#i-mail"/></svg> 링크 공유하기 (카톡 등)</button>
+    <p class="modal-note">설치하면 빠른 실행 · 알림을 받을 수 있어요</p>
+  </div>
+</div>
+
 <!-- ─────────────── 사용자 로그인 모달 ─────────────── -->
 <div class="modal-overlay" id="userLoginModal" onclick="closeUserLoginIfOutside(event)">
   <div class="modal">
@@ -3021,6 +3042,40 @@ function switchClass(type) {
 /* ── 옵션 메뉴 ── */
 function toggleOptions() {
   document.getElementById('optMenu').classList.toggle('open');
+}
+
+/* ── QR · 스마트폰 설치 모달 ── */
+const QR_URL = 'https://y-life.kr/yp/samsan/';
+function openQrModal() {
+  document.getElementById('optMenu')?.classList.remove('open');
+  document.getElementById('qrModal').classList.add('open');
+}
+function closeQrModal() {
+  document.getElementById('qrModal').classList.remove('open');
+}
+function closeQrIfOutside(e) {
+  if (e.target === document.getElementById('qrModal')) closeQrModal();
+}
+function copyQrLink(btn) {
+  const txt = QR_URL;
+  const done = () => { const o = btn.textContent; btn.textContent = '복사됨 ✓'; setTimeout(() => btn.textContent = o, 1500); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done).catch(() => fallbackCopy(txt, done));
+  } else { fallbackCopy(txt, done); }
+}
+function fallbackCopy(txt, done) {
+  const i = document.getElementById('qrUrlInput');
+  if (i) { i.focus(); i.select(); try { document.execCommand('copy'); done && done(); } catch(e) { alert('복사 실패 — 링크를 길게 눌러 복사해주세요'); } }
+}
+async function shareQrLink() {
+  const data = { title: '연플래닝아카데미 삼산점', text: '연플래닝아카데미 삼산점 — 스마트폰에 설치해 보세요', url: QR_URL };
+  if (navigator.share) {
+    try { await navigator.share(data); } catch(e) {}
+  } else {
+    // 데스크톱: 링크 복사로 대체
+    try { await navigator.clipboard.writeText(QR_URL); } catch(e) {}
+    if (typeof showToast === 'function') showToast('공유 미지원 — 링크를 복사했어요'); else alert('링크를 복사했습니다: ' + QR_URL);
+  }
 }
 document.addEventListener('click', e => {
   if (!document.getElementById('optBtn').contains(e.target)) {

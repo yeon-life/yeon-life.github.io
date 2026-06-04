@@ -4264,21 +4264,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('panel-register').style.display='block';
   }
 
-  // ── SSO: 홈페이지에서 로그인한 경우 선생님 인증 자동 통과 ──
+  // ── SSO: 홈페이지에서 로그인한 경우 선생님 앱으로 자동 이동 ──
   try {
     const raw = localStorage.getItem('yeon_sso_token');
     if (raw) {
       const tok = JSON.parse(raw);
-      const valid = tok && tok.role === 'teacher' && (Date.now() - tok.ts) < 86400000; // 24시간
+      const valid = tok && (tok.role === 'teacher' || tok.role === 'admin' || tok.role === 'main_admin') && (Date.now() - tok.ts) < 86400000; // 24시간
       if (valid) {
-        document.getElementById('set-school').value = S.school;
-        document.getElementById('set-classcode').value = localStorage.getItem('sp_class_code') || '';
-        renderStudentAdmin();
-        renderWeakSummary();
-        renderInactiveStudents();
-        renderCogLevelAdmin();
-        showScreen('s-settings');
-        updateBadge();
+        location.replace('teacher.html');
         return;
       }
     }

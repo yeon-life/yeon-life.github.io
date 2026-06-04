@@ -6,12 +6,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="삼산 연아카데미">
-<meta property="og:image" content="https://yeon.ai.kr/ulsan/y-planning_ss/og-image.png">
-<title>학부모 간담회 안내장 · 삼산 연아카데미 (6/10 수 저녁 7:30 · 11 목 오전 10:30)</title>
-<meta name="description" content="박미향 원장이 직접 진행하는 학부모 간담회 안내장. 2026년 6월 10일(수) 저녁 7:30 · 11일(목) 오전 10:30, 삼산 연아카데미.">
+<meta property="og:image" content="https://samsan.y-life.kr/og-image.png">
+<title>학부모 간담회 안내장 · 삼산 연아카데미 (6/10·17 수 저녁 7시 30분)</title>
+<meta name="description" content="박미향 원장이 직접 진행하는 학부모 간담회 안내장. 2026년 6월 10일·17일 수요일 저녁 7시 30분, 삼산 연아카데미.">
 <meta property="og:title" content="학부모 간담회 안내장 — 삼산 연아카데미">
-<meta property="og:description" content="공부하는 '습관'을 바꿉니다 — 박미향 원장과 함께하는 학부모 간담회. 6/10(수) 저녁 7:30 · 11(목) 오전 10:30.">
-<meta property="og:url" content="https://yeon.ai.kr/ulsan/y-planning_ss/간담회_안내장.html">
+<meta property="og:description" content="공부하는 '습관'을 바꿉니다 — 박미향 원장과 함께하는 학부모 간담회. 6/10·17(수) 저녁 7시 30분.">
+<meta property="og:url" content="https://samsan.y-life.kr/간담회_안내장.html">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#2f5d62">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,158 +60,15 @@ body{font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--mi
 .brand-strip .home-link{display:inline-flex;align-items:center;gap:6px}
 
 /* 히어로 */
-/* 히어로 */
-#hero{background:var(--card);color:var(--ink);padding:72px 20px 60px;position:relative;overflow:hidden;border-bottom:1.5px solid var(--border);border-top:1.5px solid var(--border)}
-#hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231f2a2a' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/svg%3E") repeat;pointer-events:none}
+#hero{background:linear-gradient(160deg,var(--deep) 0%,var(--pine) 60%,#3d7a6e 100%);color:#fff;padding:64px 20px 56px;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E") repeat;pointer-events:none}
 .hero-inner{max-width:720px;margin:0 auto;position:relative}
-.hero-badge{display:inline-block;background:rgba(47,93,98,0.06);color:var(--deep);font-size:11.5px;font-weight:700;letter-spacing:1px;padding:6px 16px;border-radius:999px;border:1px solid rgba(47,93,98,0.2);margin-bottom:22px}
-.hero-title{font-family:'Noto Serif KR',serif;font-size:clamp(28px,7vw,44px);font-weight:700;color:var(--deep);line-height:1.35;margin-bottom:16px}
-.hero-title em{color:var(--rust);font-style:normal;display:block}
-.hero-principal{display:inline-flex;align-items:center;gap:10px;background:rgba(195,141,86,0.08);border:1px solid rgba(195,141,86,0.3);border-radius:999px;padding:8px 18px;margin-top:18px;font-size:13.5px;color:var(--ink)}
-.hero-principal strong{color:var(--rust);font-weight:700}
-.hero-sub{color:var(--gray);font-size:clamp(14.5px,3.5vw,18px);line-height:1.85;margin-top:22px;max-width:580px}
-
-/* ── 봉투 오프닝 오버레이 스타일 ── */
-.envelope-overlay {
-  position: fixed;
-  inset: 0;
-  background: #142121;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1000px;
-  transition: opacity 0.8s ease, visibility 0.8s;
-  overflow: hidden;
-}
-.envelope-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-.envelope-wrapper {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-.envelope {
-  position: relative;
-  width: min(380px, 90vw);
-  height: 240px;
-  background: #e7d9bf;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease;
-}
-.envelope-flap {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 0;
-  border-left: calc(min(380px, 90vw) / 2) solid transparent;
-  border-right: calc(min(380px, 90vw) / 2) solid transparent;
-  border-top: 120px solid #d4c5ab;
-  transform-origin: top;
-  z-index: 3;
-  transition: transform 0.6s ease 0.2s;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
-}
-.envelope.open .envelope-flap {
-  transform: rotateX(180deg);
-  z-index: 1;
-}
-.envelope-paper {
-  position: absolute;
-  bottom: 10px; left: 10px; right: 10px;
-  height: 220px;
-  background: #fffdf8;
-  border-radius: 4px;
-  z-index: 2;
-  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.6s;
-  padding: 20px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-}
-.envelope.open .envelope-paper {
-  transform: translateY(-80px);
-}
-.envelope-card-preview {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  border: 1px solid rgba(195,141,86,0.3);
-  padding: 10px;
-  text-align: center;
-}
-.env-badge {
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.env-title {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 20px;
-  color: var(--deep);
-  margin-bottom: 4px;
-}
-.env-text {
-  font-size: 12px;
-  color: var(--gray);
-  margin-bottom: 12px;
-}
-.env-sender {
-  font-size: 11px;
-  color: var(--accent);
-  font-weight: 600;
-}
-.envelope-seal {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 50px;
-  background: #b05830;
-  border-radius: 50%;
-  z-index: 4;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 0 8px rgba(0,0,0,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, opacity 0.4s ease 0.4s;
-  border: 2px solid #a04820;
-}
-.envelope-seal:hover {
-  transform: translateX(-50%) scale(1.1);
-}
-.envelope.open .envelope-seal {
-  opacity: 0;
-  pointer-events: none;
-}
-.seal-text {
-  color: #fff;
-  font-family: 'Noto Serif KR', serif;
-  font-weight: 700;
-  font-size: 18px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-.envelope-hint {
-  color: rgba(255,255,255,0.7);
-  font-size: 14px;
-  margin-top: 10px;
-  font-family: 'Noto Sans KR', sans-serif;
-  animation: pulse-hint 2s infinite;
-}
-@keyframes pulse-hint {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9);font-size:11px;font-weight:700;letter-spacing:2px;padding:6px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);margin-bottom:22px}
+.hero-title{font-family:'Noto Serif KR',serif;font-size:clamp(26px,7vw,40px);font-weight:700;color:#fff;line-height:1.35;margin-bottom:16px}
+.hero-title em{color:var(--accent2);font-style:normal;display:block}
+.hero-principal{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:999px;padding:8px 16px;margin-top:18px;font-size:13px;color:rgba(255,255,255,0.95)}
+.hero-principal strong{color:var(--accent2);font-weight:700}
+.hero-sub{color:rgba(255,255,255,0.85);font-size:clamp(14px,3.5vw,17px);line-height:1.85;margin-top:22px;max-width:560px}
 
 /* 일정 카드 (큰 — 안내장의 핵심 정보) */
 #schedule{background:#fff8ef;border-bottom:3px solid var(--accent)}
@@ -411,27 +268,6 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 </script>
 </head>
 <body>
-<!-- 봉투 오프닝 오버레이 -->
-<div id="envelope-overlay" class="envelope-overlay">
-  <div class="envelope-wrapper">
-    <div class="envelope">
-      <div class="envelope-flap"></div>
-      <div class="envelope-paper">
-        <div class="envelope-card-preview">
-          <div class="env-badge">📩 INVITATION</div>
-          <h2 class="env-title">학부모 간담회</h2>
-          <p class="env-text">공부하는 '습관'을 바꿉니다</p>
-          <div class="env-sender">삼산 연아카데미</div>
-        </div>
-      </div>
-      <div class="envelope-seal" onclick="openEnvelope()">
-        <span class="seal-text">연</span>
-      </div>
-    </div>
-    <p class="envelope-hint">붉은 인장을 클릭하여 초대장을 열어주세요.</p>
-  </div>
-</div>
-
 <a href="#main-content" class="skip-to-content">본문 바로가기</a>
 <a id="main-content" tabindex="-1" style="position:absolute;left:0;top:0"></a>
 
@@ -480,9 +316,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
       </div>
       <div class="schedule-card">
         <span class="badge">2차</span>
-        <div class="date">6월 11일</div>
-        <div class="day">2026년 목요일</div>
-        <div class="time">오전 10:30</div>
+        <div class="date">6월 17일</div>
+        <div class="day">2026년 수요일</div>
+        <div class="time">저녁 7:30</div>
       </div>
     </div>
 
@@ -501,8 +337,8 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     <div class="divider"></div>
 
     <figure class="reading-illust" role="img" aria-label="책을 읽고 있는 학생 일러스트">
-      <!-- ILLUSTRATION: 사용자가 ./이미지/책읽는학생.png (또는 .jpg) 를 저장하면 자동으로 표시됩니다 -->
-      <img src="./이미지/책읽는학생.png" alt="책을 읽고 있는 학생 일러스트" class="reading-illust-img" loading="lazy" decoding="async">
+      <!-- ILLUSTRATION: 사용자가 ./images/student_horizontal.png (또는 .jpg) 를 저장하면 자동으로 표시됩니다 -->
+      <img src="images/student_horizontal.png" alt="책을 읽고 있는 학생 일러스트" class="reading-illust-img" loading="lazy" decoding="async">
     </figure>
 
     <div class="greeting-card">
@@ -554,7 +390,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
       <div class="agenda-card">
         <span class="agenda-icon">📚</span>
         <div class="agenda-title">박미향 원장 직접 수업</div>
-        <div class="agenda-text">문해력·초등 개념·1:1 플래너 관리·영화 인문학 — 원장이 직접 진행하는 수업 안내.</div>
+        <div class="agenda-text">문해력·초등 영, 수, 국 교과목·1:1 플래너 관리·영화 인문학 — 원장이 직접 진행하는 수업 안내.</div>
       </div>
       <div class="agenda-card">
         <span class="agenda-icon">💬</span>
@@ -609,9 +445,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     <div class="cls-group">
       <h3 class="cls-group-title">👩‍🏫 박미향 원장 직접 수업</h3>
       <div class="cls-list">
-        <div class="cls-item"><span class="ic">⭐</span><span><span class="nm">본원장님 특별 수업 <small>주 1회 · 박미향 원장</small></span></span></div>
+        <div class="cls-item"><span class="ic">⭐</span><span><span class="nm">본원장님 특별 수업 <small>주 1회 · 이진우 원장</small></span></span></div>
         <div class="cls-item"><span class="ic">📖</span><span><span class="nm">문해력 수업 <small>읽고 이해하는 힘</small></span></span></div>
-        <div class="cls-item"><span class="ic">🔢</span><span><span class="nm">초등 개념 수업 <small>기본기 다지기</small></span></span></div>
+        <div class="cls-item"><span class="ic">🔢</span><span><span class="nm">초등 영, 수, 국 교과목 수업 <small>기본기 다지기</small></span></span></div>
         <div class="cls-item"><span class="ic">📋</span><span><span class="nm">1:1 플래너 관리 <small>스스로 계획하는 훈련</small></span></span></div>
         <div class="cls-item"><span class="ic">🌐</span><span><span class="nm">영어 학습법 <small>방법부터 바꾸기</small></span></span></div>
         <div class="cls-item"><span class="ic">🎬</span><span><span class="nm">영화 인문학 <small>생각하는 힘 기르기</small></span></span></div>
@@ -619,11 +455,14 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     </div>
 
     <div class="cls-group">
-      <h3 class="cls-group-title">✨ 특별 수업 <small>(외부 강사 진행)</small></h3>
+      <h3 class="cls-group-title">✨ 특별 수업 <small>(외부 강사 진행 및 기타)</small></h3>
       <div class="cls-list">
         <div class="cls-item"><span class="ic">📝</span><span><span class="nm">박원채 논술 <small>논술 전문 강사</small></span></span></div>
         <div class="cls-item"><span class="ic">📗</span><span><span class="nm">책쓰기 수업 <small>나만의 책 만들기</small></span></span></div>
         <div class="cls-item"><span class="ic">✍️</span><span><span class="nm">어린이 동시 수업 <small>윤창영 작가 직강</small></span></span></div>
+        <div class="cls-item"><span class="ic">🎨</span><span><span class="nm">창의심리 미술수업 <small>마음 정서 치유</small></span></span></div>
+        <div class="cls-item"><span class="ic">📰</span><span><span class="nm">NIE 교육 (신문스크랩) <small>시사 문해력 향상</small></span></span></div>
+        <div class="cls-item"><span class="ic">🧘</span><span><span class="nm">이진우 원장 직강 인성교육 <small>바른 마음과 태도</small></span></span></div>
       </div>
     </div>
   </div>
@@ -690,9 +529,9 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 
 <script>
   // 안내장 공식 URL
-  var INVITE_URL = 'https://yeon.ai.kr/ulsan/y-planning_ss/간담회_안내장.html';
+  var INVITE_URL = 'https://samsan.y-life.kr/간담회_안내장.html';
   var INVITE_TITLE = '학부모 간담회 안내장 — 삼산 연아카데미';
-  var INVITE_TEXT = "박미향 원장이 직접 진행하는 학부모 간담회 안내입니다. 6/10(수) 저녁 7:30 · 11(목) 오전 10:30. '습관'을 바꾸는 자녀 학습 코칭에 대해 함께 이야기 나누어요.";
+  var INVITE_TEXT = "박미향 원장이 직접 진행하는 학부모 간담회 안내입니다. 6/10·17(수) 저녁 7시 30분. '습관'을 바꾸는 자녀 학습 코칭에 대해 함께 이야기 나누어요.";
 
   function showToast(msg) {
     var t = document.getElementById('toast');
@@ -734,34 +573,4 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     var shareData = {
       title: INVITE_TITLE,
       text: INVITE_TEXT,
-      url: INVITE_URL
-    };
-    if (navigator.share) {
-      navigator.share(shareData).then(function(){
-        showToast('✅ 공유가 완료되었습니다');
-      }).catch(function(){});
-    } else {
-      copyUrl();
-    }
-  }
-
-  // 봉투 열기 이벤트
-  document.addEventListener('DOMContentLoaded', function() {
-    if (sessionStorage.getItem('envelope-opened')) {
-      var overlay = document.getElementById('envelope-overlay');
-      if (overlay) overlay.style.display = 'none';
-    }
-  });
-
-  function openEnvelope() {
-    var env = document.querySelector('.envelope');
-    if (env) env.classList.add('open');
-    sessionStorage.setItem('envelope-opened', 'true');
-    setTimeout(function() {
-      var overlay = document.getElementById('envelope-overlay');
-      if (overlay) overlay.classList.add('hidden');
-    }, 1600);
-  }
-</script>
-</body>
-</html>
+      url

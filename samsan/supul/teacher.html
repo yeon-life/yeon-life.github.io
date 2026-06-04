@@ -4253,8 +4253,27 @@ document.addEventListener('DOMContentLoaded',()=>{
 function teacherGoMain(){ location.href = './'; }
 function adminGoMain(){ location.href = './'; }
 
-// 페이지 로드 시 선생님 인증 자동 실행
+// 페이지 로드 시 선생님 인증 자동 실행 및 SSO 체크
 window.addEventListener('DOMContentLoaded', function(){
+  try {
+    const raw = localStorage.getItem('yeon_sso_token');
+    if (raw) {
+      const tok = JSON.parse(raw);
+      const valid = tok && (tok.role === 'teacher' || tok.role === 'admin' || tok.role === 'main_admin') && (Date.now() - tok.ts) < 86400000; // 24시간
+      if (valid) {
+        document.getElementById('set-school').value = S.school;
+        document.getElementById('set-classcode').value = localStorage.getItem('sp_class_code') || '';
+        renderStudentAdmin();
+        renderWeakSummary();
+        renderInactiveStudents();
+        renderCogLevelAdmin();
+        showScreen('s-settings');
+        updateBadge();
+        return;
+      }
+    }
+  } catch(e) {}
+
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   openTeacherAuth();
 });

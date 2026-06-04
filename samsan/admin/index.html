@@ -558,6 +558,7 @@ a{text-decoration:none;color:inherit}
   window.__signOut = async () => {
     if (unsubscribeSignups) unsubscribeSignups();
     if (unsubscribeStudents) unsubscribeStudents();
+    try { localStorage.removeItem('yeon_sso_token'); } catch(e) {}
     await signOut(auth);
     location.replace("../");
   };
@@ -670,12 +671,12 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div class="kpi-card">
             <div class="kpi-head"><span class="kpi-label">6월 10일 (수) 1차</span><div class="kpi-icon teal">📅</div></div>
             <div class="kpi-value" id="kpiSession1">0<span class="unit">명</span></div>
-            <div class="kpi-meta">참석 예정 / 20시</div>
+            <div class="kpi-meta">참석 예정 / 19시 30분</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-head"><span class="kpi-label">6월 17일 (수) 2차</span><div class="kpi-icon teal">📅</div></div>
             <div class="kpi-value" id="kpiSession2">0<span class="unit">명</span></div>
-            <div class="kpi-meta">참석 예정 / 20시</div>
+            <div class="kpi-meta">참석 예정 / 19시 30분</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-head"><span class="kpi-label">전체 원생</span><div class="kpi-icon green">👥</div></div>
@@ -706,7 +707,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
       <!-- ─── 간담회 신청 ─── -->
       <section class="page" id="page-signups">
         <div class="page-head">
-          <div><h1 class="page-title">학부모 간담회 신청</h1><p class="page-sub">6월 10일 / 6월 17일 (수) 저녁 8시 · 실시간 동기화</p></div>
+          <div><h1 class="page-title">학부모 간담회 신청</h1><p class="page-sub">6월 10일 / 6월 17일 (수) 저녁 7시 30분 · 실시간 동기화</p></div>
           <div class="page-actions">
             <button class="btn btn-ghost btn-sm" onclick="exportSignupsCSV()">📥 CSV 저장</button>
           </div>
@@ -1212,12 +1213,12 @@ async function saveCounsel() {
 
 /* ─── 메시지 템플릿 ─── */
 const TEMPLATES = [
-  { label: '간담회 안내', text: '안녕하세요, 삼산 연아카데미 박미향 원장입니다 😊\n\n6월 학부모 간담회를 아래와 같이 안내드립니다.\n\n📅 1차: 6월 10일(수) 저녁 8시\n📅 2차: 6월 17일(수) 저녁 8시\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n참석을 원하시는 날짜로 홈페이지에서 사전 신청 부탁드립니다.\n👉 https://samsan.y-life.kr/간담회_안내장.html\n\n감사합니다 🙏' },
+  { label: '간담회 안내', text: '안녕하세요, 삼산 연아카데미 박미향 원장입니다 😊\n\n6월 학부모 간담회를 아래와 같이 안내드립니다.\n\n📅 1차: 6월 10일(수) 저녁 7시 30분\n📅 2차: 6월 17일(수) 저녁 7시 30분\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n참석을 원하시는 날짜로 홈페이지에서 사전 신청 부탁드립니다.\n👉 https://samsan.y-life.kr/간담회_안내장.html\n\n감사합니다 🙏' },
   { label: '월 회비 안내', text: '안녕하세요, 삼산 연아카데미입니다.\n\n이달 수강료 납부 안내드립니다.\n\n납부 계좌: (계좌번호 입력)\n납부 기간: (날짜 입력)까지\n\n늘 함께해 주셔서 감사합니다 😊' },
   { label: '결석 안내 (학부모→아카데미)', text: '선생님 안녕하세요.\n[학생 이름] 학부모입니다.\n\n오늘 (이유)로 인해 수업에 결석하게 되었습니다.\n양해 부탁드립니다.\n\n감사합니다.' },
   { label: '수업 보충 안내', text: '안녕하세요, 삼산 연아카데미입니다.\n\n[학생 이름] 학생의 보충 수업 일정을 안내드립니다.\n📅 일시: (날짜 및 시간)\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n해당 일정 확인 후 회신 부탁드립니다 🙏' },
   { label: '학습 진도 공유', text: '안녕하세요 학부모님, 삼산 연아카데미 박미향 원장입니다.\n\n[학생 이름] 학생의 이번 달 학습 현황을 공유드립니다.\n\n✅ 진도: (과목/단원)\n💪 잘하고 있는 점: \n📌 개선이 필요한 부분: \n📋 이번 달 습관 점검: \n\n가정에서도 응원해 주세요 😊' },
-  { label: '신입생 모집 홍보', text: '🌟 삼산 연아카데미 신입생 모집 🌟\n초등, 공부하는 \'습관\'을 바꿉니다.\n\n✅ 박미향 원장 학습심리코칭\n✅ 자기주도 학습 습관 형성 (100일 프로그램)\n✅ 1:1 플래너 관리 · 문해력 수업\n✅ 초등 4학년 ~ 고등 2학년\n\n6월 학부모 간담회: 6/10·17(수) 저녁 8시\n지금 바로 상담 신청하세요!\n📞 010-4136-5608\n🌐 samsan.y-life.kr' }
+  { label: '신입생 모집 홍보', text: '🌟 삼산 연아카데미 신입생 모집 🌟\n초등, 공부하는 \'습관\'을 바꿉니다.\n\n✅ 박미향 원장 학습심리코칭\n✅ 자기주도 학습 습관 형성 (100일 프로그램)\n✅ 1:1 플래너 관리 · 문해력 수업\n✅ 초등 4학년 ~ 고등 2학년\n\n6월 학부모 간담회: 6/10·17(수) 저녁 7시 30분\n지금 바로 상담 신청하세요!\n📞 010-4136-5608\n🌐 samsan.y-life.kr' }
 ];
 
 function renderTemplates() {
@@ -1534,7 +1535,7 @@ function renderList(container, items) {
   container.innerHTML = '<div class="signup-list">' + items.map(s => {
     const status = s.status||'pending';
     const dateLabel = s.sessionDate==='2026-06-10'?'6월 10일':s.sessionDate==='2026-06-17'?'6월 17일':(s.sessionDate||'미정');
-    const dayName = s.sessionDate==='2026-06-10'?'수 20시':s.sessionDate==='2026-06-17'?'수 20시':'';
+    const dayName = s.sessionDate==='2026-06-10'?'수 19:30':s.sessionDate==='2026-06-17'?'수 19:30':'';
     const phoneClean = (s.phone||'').replace(/[^0-9]/g,'');
     return `<div class="signup-row ${status==='attended'||status==='cancelled'?'completed':''}">
       <div class="signup-date">${dateLabel}<small>${dayName}</small></div>

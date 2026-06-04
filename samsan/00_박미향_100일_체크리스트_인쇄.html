@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100일 자기주도 학습 습관 만들기 · 삼산 연아카데미</title>
+<meta name="description" content="삼산 연아카데미 박미향 원장과 함께하는 100일 자기주도 학습 습관 체크리스트. 화면 체크 · A4 인쇄 모두 지원합니다.">
+<link rel="icon" href="./favicon.ico">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2f5d62">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@400;600;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#2f5d62; --pine:#427a71; --accent:#c38d56; --accent2:#e8a96e;
+    --card:#fffdf8; --bg:#f6f2ea; --ink:#2a2a28; --t2:#5b5953; --t3:#8a877f;
+    --line:#e7e0d3; --sage:#eef2ea; --mist:#f3efe6; --done:#e8f0ea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:'Noto Sans KR',sans-serif; color:var(--ink); background:var(--bg);
+    line-height:1.6; padding:24px 16px 80px;
+  }
+  .wrap{max-width:920px;margin:0 auto;}
+
+  /* ── 화면 인쇄 버튼 ── */
+  .print-bar{
+    position:sticky; top:0; z-index:50; display:flex; flex-wrap:wrap; gap:10px;
+    justify-content:center; padding:12px; margin:-24px -16px 24px; background:rgba(246,242,234,.92);
+    backdrop-filter:blur(6px); border-bottom:1.5px solid var(--line);
+  }
+  .pbtn{
+    display:inline-flex; align-items:center; gap:7px; cursor:pointer; border:none;
+    font-family:inherit; font-weight:700; font-size:14px; padding:11px 20px; border-radius:999px;
+    color:#fff; background:var(--deep); transition:transform .15s, box-shadow .15s;
+    box-shadow:0 4px 12px rgba(47,93,98,.22);
+  }
+  .pbtn.alt{background:var(--accent);box-shadow:0 4px 12px rgba(195,141,86,.22);}
+  .pbtn.ghost{background:transparent;color:var(--deep);box-shadow:none;border:1.5px solid var(--line);}
+  .pbtn:hover{transform:translateY(-2px);}
+  .pbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* ── 헤더 ── */
+  header{text-align:center;margin-bottom:26px;}
+  .brand{font-size:12px;font-weight:700;letter-spacing:1px;color:var(--accent);margin-bottom:10px;}
+  h1{font-family:'Noto Serif KR',serif;font-size:30px;font-weight:700;color:var(--deep);line-height:1.35;margin-bottom:10px;}
+  h1 .sub{display:block;font-size:16px;color:var(--t2);font-weight:400;margin-top:8px;}
+  .pen{font-family:'Nanum Pen Script',cursive;font-size:22px;color:var(--pine);}
+
+  .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:24px 22px;margin-bottom:22px;}
+  .card h2{font-size:16px;font-weight:800;color:var(--deep);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:8px;background:var(--deep);color:#fff;font-size:12px;}
+
+  .quote{background:var(--sage);border-left:4px solid var(--pine);border-radius:0 12px 12px 0;padding:16px 18px;color:var(--t2);font-size:14px;line-height:1.9;}
+  .quote b{color:var(--ink);}
+
+  /* ── 매일 습관 5가지 ── */
+  .habits{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .habit{display:flex;gap:10px;align-items:flex-start;background:var(--mist);border-radius:12px;padding:13px 14px;}
+  .habit .h-no{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .habit .h-t{font-size:13.5px;}
+  .habit .h-t b{display:block;color:var(--ink);font-weight:700;margin-bottom:2px;}
+  .habit .h-t span{color:var(--t3);font-size:12px;}
+
+  /* ── 100일 그리드 ── */
+  .legend{font-size:12.5px;color:var(--t3);margin-bottom:14px;text-align:center;}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  .day{
+    aspect-ratio:1/1; border:1.5px solid var(--line); border-radius:10px; background:var(--card);
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--t2);
+    cursor:pointer; user-select:none; transition:background .12s,border-color .12s,color .12s; position:relative;
+  }
+  .day:hover{border-color:var(--pine);}
+  .day.done{background:var(--deep);border-color:var(--deep);color:#fff;}
+  .day.done::after{content:"✓";position:absolute;font-size:14px;}
+  .day.done .n{opacity:.45;font-size:10px;position:absolute;top:3px;left:5px;}
+  .day .n{pointer-events:none;}
+  .milestone{border-color:var(--accent);border-width:2px;}
+
+  .progress-row{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap;}
+  .bar{flex:1;min-width:160px;height:12px;background:var(--mist);border-radius:999px;overflow:hidden;}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pine),var(--deep));transition:width .3s;}
+  .progress-txt{font-size:13px;font-weight:700;color:var(--deep);}
+  .reset{font-size:12px;color:var(--t3);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
+
+  /* ── 주차별 다짐 ── */
+  .weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+  .week{border:1.5px dashed var(--line);border-radius:12px;padding:14px 16px;}
+  .week .wk{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px;}
+  .week .line{border-bottom:1px solid var(--line);height:26px;}
+
+  footer{text-align:center;color:var(--t3);font-size:12px;line-height:1.9;margin-top:30px;}
+  footer a{color:var(--pine);text-decoration:none;}
+  .back{display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;color:var(--deep);text-decoration:none;font-weight:700;font-size:13px;}
+
+  @media(max-width:560px){
+    body{padding:18px 12px 70px;}
+    h1{font-size:24px;}
+    .grid{grid-template-columns:repeat(5,1fr);gap:6px;}
+    .day{font-size:12px;}
+  }
+
+  /* ════════ 인쇄: 모드 ① 원본 그대로 ════════ */
+  @media print{
+    @page{size:A4;margin:12mm;}
+    body{background:#fff;padding:0;}
+    .print-bar,.back,.reset,.no-print{display:none !important;}
+    .card{break-inside:avoid;border-color:#ccc;}
+    .day{cursor:default;}
+    a[href]:after{content:"";}
+  }
+
+  /* ════════ 인쇄: 모드 ② 절약형 (흑백·여백최소·콤팩트) ════════ */
+  body.saver{}
+  @media print{
+    body.saver{font-size:11px;}
+    body.saver .quote,body.saver .habit,body.saver .week{background:#fff !important;border-color:#999 !important;}
+    body.saver .habit .h-no,body.saver .card h2 .num{background:#fff !important;color:#000 !important;border:1px solid #000;}
+    body.saver h1,body.saver .card h2,body.saver .progress-txt,body.saver .brand,body.saver .wk{color:#000 !important;}
+    body.saver .day{border-color:#000 !important;color:#000 !important;border-radius:4px;border-width:1px;}
+    body.saver .day.done{background:#000 !important;color:#fff !important;}
+    body.saver .card{border-radius:6px;padding:12px 12px;margin-bottom:10px;border-color:#000;}
+    body.saver .grid{gap:4px;}
+    body.saver .pen,body.saver .legend{color:#000 !important;}
+    body.saver *{box-shadow:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="print-bar no-print">
+  <button class="pbtn" onclick="printMode('full')">
+    <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    원본 그대로 인쇄
+  </button>
+  <button class="pbtn alt" onclick="printMode('saver')">
+    <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    절약형 인쇄 (흑백·콤팩트)
+  </button>
+</div>
+
+<div class="wrap">
+  <a class="back no-print" href="./index.html">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    삼산 연아카데미 홈으로
+  </a>
+
+  <header>
+    <div class="brand">삼산 연아카데미 · 박미향 원장</div>
+    <h1>100일, 스스로 공부하는<br>습관을 만듭니다
+      <span class="sub">자기주도 학습 습관 100일 체크리스트</span>
+    </h1>
+    <p class="pen">하루 한 칸씩, 천천히 — 100일이면 습관이 됩니다</p>
+  </header>
+
+  <div class="card">
+    <div class="quote">
+      <b>"공부는 양이 아니라 '매일'입니다."</b><br>
+      거창한 계획보다, 작은 일을 100일 동안 빠짐없이 해내는 힘이 아이를 바꿉니다.
+      오늘 한 칸을 채우는 것 — 그것이 자기주도 학습의 첫걸음입니다. 부모님은 결과가 아니라
+      '오늘도 해냈구나'를 함께 기뻐해 주세요.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">1</span> 매일 체크할 5가지 작은 습관</h2>
+    <div class="habits">
+      <div class="habit"><span class="h-no">1</span><span class="h-t"><b>플래너 쓰기</b><span>오늘 할 일 적기</span></span></div>
+      <div class="habit"><span class="h-no">2</span><span class="h-t"><b>할 일 끝내기</b><span>적은 것 다 하기</span></span></div>
+      <div class="habit"><span class="h-no">3</span><span class="h-t"><b>복습 10분</b><span>배운 것 다시 보기</span></span></div>
+      <div class="habit"><span class="h-no">4</span><span class="h-t"><b>책 읽기 10분</b><span>어떤 책이든 좋아요</span></span></div>
+      <div class="habit"><span class="h-no">5</span><span class="h-t"><b>글씨 명상 1줄</b><span>천천히 또박또박</span></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">2</span> 100일 도전 — 하루 한 칸</h2>
+    <p class="legend">5가지를 모두 한 날, 그 날짜 칸을 색칠하세요. (화면에서는 칸을 눌러 체크 · 인쇄해서 손으로 칠해도 됩니다)<br>테두리가 진한 칸은 <b style="color:var(--accent)">10일 단위 미니 목표</b>입니다.</p>
+    <div class="grid" id="grid"></div>
+    <div class="progress-row no-print">
+      <div class="bar"><i id="barFill"></i></div>
+      <span class="progress-txt" id="progressTxt">0 / 100일</span>
+      <button class="reset" onclick="resetAll()">처음부터 다시</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">3</span> 10일마다 나에게 한마디 (다짐 · 칭찬)</h2>
+    <div class="weeks">
+      <div class="week"><div class="wk">1~10일</div><div class="line"></div></div>
+      <div class="week"><div class="wk">11~20일</div><div class="line"></div></div>
+      <div class="week"><div class="wk">21~30일</div><div class="line"></div></div>
+      <div class="week"><div class="wk">31~50일</div><div class="line"></div></div>
+      <div class="week"><div class="wk">51~70일</div><div class="line"></div></div>
+      <div class="week"><div class="wk">71~100일</div><div class="line"></div></div>
+    </div>
+  </div>
+
+  <footer>
+    삼산 연아카데미 · 박미향 원장 직통 <a href="tel:01041365608">010-4136-5608</a><br>
+    울산광역시 남구 월평로 232 1층 · 초등 4학년 ~ 고등 2학년
+  </footer>
+</div>
+
+<script>
+  const TOTAL = 100;
+  const KEY = 'samsan-100day-checklist';
+  const grid = document.getElementById('grid');
+  let done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ done = {}; }
+
+  for (let d = 1; d <= TOTAL; d++){
+    const cell = document.createElement('div');
+    cell.className = 'day' + (d % 10 === 0 ? ' milestone' : '') + (done[d] ? ' done' : '');
+    cell.innerHTML = '<span class="n">' + d + '</span>';
+    cell.dataset.day = d;
+    cell.addEventListener('click', () => toggle(d, cell));
+    grid.appendChild(cell);
+  }
+
+  function toggle(d, cell){
+    if (done[d]) { delete done[d]; cell.classList.remove('done'); }
+    else { done[d] = 1; cell.classList.add('done'); }
+    save();
+  }
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){}
+    updateProgress();
+  }
+  function updateProgress(){
+    const n = Object.keys(done).length;
+    document.getElementById('progressTxt').textContent = n + ' / 100일';
+    document.getElementById('barFill').style.width = (n) + '%';
+  }
+  function resetAll(){
+    if (!confirm('체크한 기록을 모두 지울까요?')) return;
+    done = {}; save();
+    document.querySelectorAll('.day.done').forEach(c => c.classList.remove('done'));
+  }
+  updateProgress();
+
+  function printMode(mode){
+    document.body.classList.toggle('saver', mode === 'saver');
+    window.print();
+  }
+  window.addEventListener('afterprint', () => document.body.classList.remove('saver'));
+</script>
+</body>
+</html>
