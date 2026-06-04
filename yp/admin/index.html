@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연플래닝아카데미 — 통합 관리 대시보드</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --deep:#2f5d62;--pine:#427a71;--ink:#1f2a2a;--accent:#c38d56;--accent2:#e8a96e;
+  --mist:#f4f1eb;--sand:#e7d9bf;--sage:#dfe8de;--card:#fffdf8;--peach:#f3e7dd;--line:#d7d1c5;
+  --t1:#1f2a2a;--t2:#536060;--t3:#6a7676;--rust:#b05830;--ok:#3d7a5c;--white:#fff;
+  /* 지점 색 */
+  --c-sicheong:#2f5d62;--c-gangdong:#9a6a3a;--c-samsan:#427a71;
+}
+html{scroll-behavior:smooth}
+body{background:var(--mist);color:var(--t1);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
+
+/* 게이트 */
+#gate{position:fixed;inset:0;background:linear-gradient(160deg,#1a2e2e,#13201f);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px}
+.gate-card{background:var(--card);border-radius:24px;padding:40px 34px;max-width:380px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.4)}
+.gate-logo{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:24px;font-weight:700;color:#fff;margin:0 auto 18px}
+.gate-card h1{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--ink);margin-bottom:6px}
+.gate-card p{font-size:13px;color:var(--t3);line-height:1.7;margin-bottom:22px}
+.gate-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px}
+.gate-google{background:#fff;color:#333;border:1.5px solid var(--line);margin-bottom:10px}
+.gate-google:hover{background:var(--mist)}
+.gate-err{background:rgba(176,80,48,0.08);border:1px solid rgba(176,80,48,0.25);color:var(--rust);font-size:12.5px;padding:11px;border-radius:10px;margin-top:14px;display:none;line-height:1.6}
+.gate-err.show{display:block}
+.gate-note{font-size:11.5px;color:var(--t3);margin-top:16px;line-height:1.6}
+
+/* 헤더 */
+header{position:sticky;top:0;z-index:100;background:rgba(20,33,33,0.97);backdrop-filter:blur(12px);padding:0 22px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.hd-left{display:flex;align-items:center;gap:11px;min-width:0}
+.hd-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.hd-title{color:#fff;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd-title span{display:block;font-size:10.5px;color:rgba(255,255,255,0.5);font-weight:500}
+.hd-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hd-user{font-size:12px;color:rgba(255,255,255,0.7);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-btn{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:background 0.2s}
+.hd-btn:hover{background:rgba(255,255,255,0.16)}
+.hd-btn.spin svg{animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.wrap{max-width:1180px;margin:0 auto;padding:22px 18px 60px}
+
+/* 지점 요약 카드 */
+.branch-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:26px}
+.bcard{background:var(--card);border-radius:18px;padding:20px;border:1.5px solid var(--line);border-top:5px solid var(--bc);position:relative;overflow:hidden}
+.bcard-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.bcard-name{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:var(--ink)}
+.bcard-badge{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:999px}
+.bcard-badge.live{background:rgba(61,122,92,0.12);color:var(--ok)}
+.bcard-badge.soon{background:var(--mist);color:var(--t3)}
+.bcard-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.bstat{text-align:center;background:var(--mist);border-radius:12px;padding:11px 6px}
+.bstat-num{font-size:21px;font-weight:800;color:var(--bc);font-family:'Noto Serif KR',serif;line-height:1}
+.bstat-lab{font-size:10.5px;color:var(--t3);margin-top:5px}
+
+/* 탭 */
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all 0.18s}
+.tab:hover{border-color:var(--deep)}
+.tab.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+/* 패널 */
+.panel{background:var(--card);border-radius:18px;border:1.5px solid var(--line);margin-bottom:20px;overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);gap:10px}
+.panel-title{font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.panel-count{font-size:11px;font-weight:700;background:var(--sage);color:var(--deep);padding:2px 9px;border-radius:999px}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+th{text-align:left;padding:11px 16px;background:var(--mist);color:var(--t2);font-weight:700;font-size:11.5px;letter-spacing:.3px;white-space:nowrap}
+td{padding:12px 16px;border-top:1px solid var(--line);color:var(--ink);vertical-align:middle}
+tr:hover td{background:rgba(66,122,113,0.03)}
+.chip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.chip-sicheong{background:rgba(47,93,98,0.12);color:var(--c-sicheong)}
+.chip-gangdong{background:rgba(154,106,58,0.12);color:var(--c-gangdong)}
+.chip-samsan{background:rgba(66,122,113,0.14);color:var(--c-samsan)}
+.chip-st{background:var(--peach);color:var(--rust)}
+.chip-ok{background:rgba(61,122,92,0.12);color:var(--ok)}
+.empty{padding:34px;text-align:center;color:var(--t3);font-size:13px}
+.muted{color:var(--t3);font-size:12px}
+.loading{padding:30px;text-align:center;color:var(--t3);font-size:13px}
+@media(max-width:600px){
+  .wrap{padding:16px 12px 50px}
+  .hd-user{display:none}
+  .bcard-stats{grid-template-columns:1fr 1fr 1fr}
+}
+</style>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, query, orderBy, onSnapshot, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBZpM3niLp4wCdmD8U4HIC1k42AnCfRJEs",
+  authDomain: "yeon-samsan.firebaseapp.com",
+  projectId: "yeon-samsan",
+  storageBucket: "yeon-samsan.firebasestorage.app",
+  messagingSenderId: "234777837772",
+  appId: "1:234777837772:web:b997733871987b94690269"
+};
+
+const BRANCHES = [
+  { id:'sicheong', name:'시청 본원', short:'시청', cls:'sicheong', live:true },
+  { id:'gangdong', name:'강동점',   short:'강동', cls:'gangdong', live:false },
+  { id:'samsan',   name:'삼산점',   short:'삼산', cls:'samsan',   live:true }
+];
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 데이터 저장소
+const data = {}; // data[branchId] = { students:[], signups:[] }
+BRANCHES.forEach(b => data[b.id] = { students:[], signups:[] });
+const unsubs = [];
+let activeBranch = 'all';
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// ── 인증 ──
+window.__dashLogin = async () => {
+  const err = $('#gateErr'); err.classList.remove('show');
+  try {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt:'select_account' });
+    await signInWithPopup(auth, provider);
+  } catch(e) {
+    err.textContent = e.code === 'auth/popup-closed-by-user' ? '로그인 창이 닫혔습니다.' : ('로그인 실패: ' + (e.message||''));
+    err.classList.add('show');
+  }
+};
+window.__dashLogout = async () => { await signOut(auth); location.reload(); };
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { showGate(); return; }
+  // 권한 확인: main_admin 또는 admin
+  let role = null, academyIds = [];
+  try {
+    const snap = await getDoc(doc(db,'users',user.uid));
+    if (snap.exists()) { role = snap.data().role; academyIds = snap.data().academyIds || []; }
+  } catch(e) {}
+  const isMain = role === 'main_admin';
+  const isMultiAdmin = (role === 'admin' || role === 'branch_admin') && academyIds.length;
+  if (!isMain && !isMultiAdmin) {
+    showGate('이 통합 대시보드는 본원 원장(main_admin) 전용입니다.<br>현재 계정 권한: ' + (role||'없음') + '<br>Firebase에서 users/' + user.uid + ' 의 role을 main_admin으로 설정해 주세요.');
+    return;
+  }
+  // 접근 가능한 지점 (main_admin=전체, 그 외=academyIds)
+  const allowed = isMain ? BRANCHES.map(b=>b.id) : academyIds;
+  startDashboard(user, allowed);
+});
+
+function showGate(msg) {
+  $('#app').style.display = 'none';
+  $('#gate').style.display = 'flex';
+  if (msg) { const e = $('#gateErr'); e.innerHTML = msg; e.classList.add('show'); }
+}
+
+function startDashboard(user, allowed) {
+  $('#gate').style.display = 'none';
+  $('#app').style.display = 'block';
+  $('#hdUser').textContent = user.displayName || user.email;
+  // 실시간 구독 (접근 가능한 지점만)
+  unsubs.forEach(u=>u()); unsubs.length = 0;
+  BRANCHES.forEach(b => {
+    if (!allowed.includes(b.id)) return;
+    // students
+    unsubs.push(onSnapshot(collection(db,'academies',b.id,'students'),
+      snap => { data[b.id].students = snap.docs.map(d=>({id:d.id,...d.data()})); render(); },
+      ()=>{}));
+    // signups
+    unsubs.push(onSnapshot(query(collection(db,'academies',b.id,'signups'), orderBy('createdAt','desc')),
+      snap => { data[b.id].signups = snap.docs.map(d=>({id:d.id,...d.data()})); render(); },
+      ()=>{}));
+  });
+  render();
+}
+
+window.__dashRefresh = () => { const b=$('#refreshBtn'); b.classList.add('spin'); setTimeout(()=>b.classList.remove('spin'),700); render(); };
+window.__setBranch = (id) => { activeBranch = id; document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.b===id)); render(); };
+
+// ── 렌더 ──
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+function render() {
+  // 지점 요약 카드
+  $('#branchCards').innerHTML = BRANCHES.map(b => {
+    const d = data[b.id];
+    const stuCount = d.students.length;
+    const signupCount = d.signups.length;
+    const newSignup = d.signups.filter(s => !s.status || s.status==='신규' || s.status==='대기').length;
+    return `<div class="bcard" style="--bc:var(--c-${b.cls})">
+      <div class="bcard-head">
+        <div class="bcard-name">${b.name}</div>
+        <span class="bcard-badge ${b.live?'live':'soon'}">${b.live?'운영 중':'준비 중'}</span>
+      </div>
+      <div class="bcard-stats">
+        <div class="bstat"><div class="bstat-num">${stuCount}</div><div class="bstat-lab">등록 학생</div></div>
+        <div class="bstat"><div class="bstat-num">${newSignup}</div><div class="bstat-lab">신규 신청</div></div>
+        <div class="bstat"><div class="bstat-num">${signupCount}</div><div class="bstat-lab">간담회 누적</div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const branchesToShow = activeBranch==='all' ? BRANCHES.map(b=>b.id) : [activeBranch];
+
+  // 통합 학생 명단
+  let students = [];
+  branchesToShow.forEach(bid => data[bid].students.forEach(s => students.push({...s, _branch:bid})));
+  const stuPanel = $('#studentsBody');
+  $('#studentsCount').textContent = students.length + '명';
+  if (!students.length) {
+    stuPanel.innerHTML = `<tr><td colspan="4"><div class="empty">등록된 학생이 없습니다${activeBranch!=='all'?' (이 지점)':''}.</div></td></tr>`;
+  } else {
+    stuPanel.innerHTML = students.map(s => {
+      const b = BRANCHES.find(x=>x.id===s._branch);
+      return `<tr>
+        <td><b>${esc(s.name||'-')}</b></td>
+        <td>${esc(s.grade||s.school||'-')}</td>
+        <td><span class="chip chip-${b.cls}">${b.short}</span></td>
+        <td class="muted">${esc(s.phone||s.parentPhone||'-')}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // 통합 간담회 신청자
+  let signups = [];
+  branchesToShow.forEach(bid => data[bid].signups.forEach(s => signups.push({...s, _branch:bid})));
+  $('#signupsCount').textContent = signups.length + '건';
+  const sgBody = $('#signupsBody');
+  if (!signups.length) {
+    sgBody.innerHTML = `<tr><td colspan="5"><div class="empty">간담회 신청자가 없습니다.</div></td></tr>`;
+  } else {
+    sgBody.innerHTML = signups.map(s => {
+      const b = BRANCHES.find(x=>x.id===s._branch);
+      const st = s.status || '신규';
+      const stCls = (st==='확정'||st==='완료') ? 'chip-ok' : 'chip-st';
+      return `<tr>
+        <td><b>${esc(s.name||'-')}</b></td>
+        <td class="muted">${esc(s.phone||'-')}</td>
+        <td>${esc(s.sessionDate||s.session||'-')}</td>
+        <td><span class="chip chip-${b.cls}">${b.short}</span></td>
+        <td><span class="chip ${stCls}">${esc(st)}</span></td>
+      </tr>`;
+    }).join('');
+  }
+}
+</script>
+</head>
+<body>
+
+<!-- 로그인 게이트 -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">연</div>
+    <h1>통합 관리 대시보드</h1>
+    <p>연플래닝아카데미 본원 원장 전용<br>시청 · 강동 · 삼산 한 화면 관리</p>
+    <button class="gate-btn gate-google" onclick="__dashLogin()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.1 33.5 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l6.4-6.4C34.5 5.3 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.9 0 20.3-7.9 20.3-21 0-1.4-.2-2.8-.4-4h-.4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15.1 16.1 19.2 13 24 13c3 0 5.7 1.1 7.8 2.9l6.4-6.4C34.5 5.3 29.5 3 24 3 16.2 3 9.4 7.9 6.3 14.7z"/><path fill="#FBBC05" d="M24 45c5.4 0 10.3-1.8 14.1-4.9l-6.5-5.3C29.6 36.6 26.9 37.5 24 37.5c-5.6 0-10.3-3.8-11.9-8.9L5 34c3.1 6.8 9.9 11 19 11z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.8 2.3-2.3 4.2-4.2 5.6l6.5 5.3C41.8 36.2 45 30.4 45 24c0-1.4-.2-2.7-.5-4z"/></svg>
+      구글 계정으로 로그인
+    </button>
+    <div class="gate-err" id="gateErr"></div>
+    <div class="gate-note">권한이 없으면 연소사(본원)에게 문의하세요.</div>
+  </div>
+</div>
+
+<!-- 대시보드 본문 -->
+<div id="app" style="display:none">
+  <header>
+    <div class="hd-left">
+      <div class="hd-mark">연</div>
+      <div class="hd-title">연플래닝아카데미<span>통합 관리 대시보드</span></div>
+    </div>
+    <div class="hd-right">
+      <span class="hd-user" id="hdUser"></span>
+      <button class="hd-btn" id="refreshBtn" onclick="__dashRefresh()" title="새로고침" aria-label="새로고침">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </button>
+      <button class="hd-btn" onclick="__dashLogout()" title="로그아웃" aria-label="로그아웃">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- 지점 요약 -->
+    <div class="branch-cards" id="branchCards"></div>
+
+    <!-- 지점 필터 -->
+    <div class="tabs">
+      <button class="tab active" data-b="all" onclick="__setBranch('all')">전체</button>
+      <button class="tab" data-b="sicheong" onclick="__setBranch('sicheong')">시청 본원</button>
+      <button class="tab" data-b="gangdong" onclick="__setBranch('gangdong')">강동점</button>
+      <button class="tab" data-b="samsan" onclick="__setBranch('samsan')">삼산점</button>
+    </div>
+
+    <!-- 간담회 신청자 -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">📩 학부모 간담회 신청자 <span class="panel-count" id="signupsCount">0건</span></div>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>이름</th><th>연락처</th><th>희망일</th><th>지점</th><th>상태</th></tr></thead>
+          <tbody id="signupsBody"><tr><td colspan="5"><div class="loading">불러오는 중…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 학생 명단 -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">🎓 등록 학생 명단 <span class="panel-count" id="studentsCount">0명</span></div>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>이름</th><th>학년·학교</th><th>지점</th><th>연락처</th></tr></thead>
+          <tbody id="studentsBody"><tr><td colspan="4"><div class="loading">불러오는 중…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="muted" style="text-align:center;margin-top:10px">실시간 자동 갱신 · 데이터 출처: Firebase <code>academies/{지점}/</code> · 본원 원장(main_admin) 전용</p>
+  </div>
+</div>
+
+</body>
+</html>
