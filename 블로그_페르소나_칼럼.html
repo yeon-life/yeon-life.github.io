@@ -26,6 +26,7 @@
 <script src="data/personas.js?v=20260604b" defer></script>
 <script src="data/articles_today.js?v=20260604b" defer></script>
 <script src="data/review-ui.js?v=20260605" defer></script>
+<script src="data/print-service.js?v=20260605" defer></script>
 <script src="yeon-pwa.js" defer></script>
 <script src="data/exporters.js" defer></script>
 <style>
@@ -698,6 +699,7 @@ function render(){
     </div>
 
     ${(window.reviewBadges && window.reviewBadges(piece.review)) || ''}
+    <div class="psvc-row" style="margin:10px 0 2px">${(window.printServiceBtn && window.printServiceBtn()) || ''}</div>
 
     <article class="col-body">
       ${piece.body}
