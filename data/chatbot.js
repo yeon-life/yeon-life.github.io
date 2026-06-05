@@ -47,10 +47,10 @@
   }
 
   var css=
-   "#ylc-fab{position:fixed;right:24px;bottom:24px;z-index:9990;width:60px;height:60px;border-radius:50%;border:none;cursor:pointer;"
+   "#ylc-fab{position:fixed;right:20px;bottom:84px;z-index:9990;width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;"
   +"background:linear-gradient(135deg,#2f5d62,#427a71);color:#fff;font-size:26px;box-shadow:0 10px 26px rgba(31,42,42,.3);display:flex;align-items:center;justify-content:center}"
   +"#ylc-fab:hover{transform:translateY(-2px)}"
-  +"#ylc-panel{position:fixed;right:24px;bottom:96px;z-index:9991;width:min(360px,92vw);max-height:74vh;display:none;flex-direction:column;"
+  +"#ylc-panel{position:fixed;right:20px;bottom:152px;z-index:9991;width:min(360px,92vw);max-height:72vh;display:none;flex-direction:column;"
   +"background:#fbf8f1;border:1px solid #e7ddc9;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(31,42,42,.28)}"
   +"#ylc-panel.open{display:flex}"
   +"#ylc-head{background:linear-gradient(135deg,#2f5d62,#427a71);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}"
