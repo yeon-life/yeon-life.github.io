@@ -453,6 +453,7 @@ function renderGroups(filter){
           <div class="p-id">
             <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
             <div class="p-role">${escapeHtml(p.role)}</div>
+            <div class="p-kindbadge" style="display:inline-block;margin-top:6px;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;${p.kind==='guest'?'background:#f4efe1;color:#a96f36':'background:#eef3ef;color:#2f5d57'}">${p.kind==='guest'?'✍ 초대 필자 · 사람':'🤖 AI 페르소나'}</div>
           </div>
         </div>
         <span class="p-field">${escapeHtml(p.field)}</span>

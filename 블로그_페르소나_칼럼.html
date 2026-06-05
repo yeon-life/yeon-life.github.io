@@ -141,6 +141,11 @@ a{color:inherit;text-decoration:none}
   background: rgba(195,141,86,.14); color: var(--kicker);
   font-size: 10.5px; font-weight: 600; margin-right: 6px; letter-spacing: .1em;
 }
+.ai-banner{ display:flex; gap:8px; align-items:flex-start; background:#eef3ef; border:1px solid #cfe0d4;
+  border-radius:12px; padding:11px 14px; font-size:13.5px; color:#2a2620; line-height:1.65; margin:14px 0 2px }
+.ai-banner b{ color:#2f5d57 }
+.ai-banner.human{ background:#f4efe1; border-color:#e6d9bf }
+.ai-banner.human b{ color:#a96f36 }
 .b-share{ display:flex; gap: 8px }
 .b-share button{
   appearance:none; border:1px solid var(--bd); background: transparent; color: var(--txt-soft);
@@ -698,6 +703,9 @@ function render(){
       </div>
     </div>
 
+    ${isAi
+      ? `<div class="ai-banner">🤖 <div><b>AI가 쓴 글입니다.</b> ‘${escapeHtml(p.name)}’는 실제 사람이 아닌 <b>AI 페르소나</b>입니다 — 의견·해설·큐레이션이며 사실 보도가 아닙니다.</div></div>`
+      : `<div class="ai-banner human">✍ <div><b>초대 필자(실제 사람)</b>가 쓴 글입니다.</div></div>`}
     ${(window.reviewBadges && window.reviewBadges(piece.review)) || ''}
     <div class="psvc-row" style="margin:10px 0 2px">${(window.printServiceBtn && window.printServiceBtn()) || ''}</div>
 
