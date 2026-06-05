@@ -466,6 +466,12 @@ function renderGroups(filter){
     });
     wrap.appendChild(section);
   });
+  if (!wrap.children.length) {
+    wrap.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--txt-mute)">
+      <div style="font-size:1.05rem;font-weight:700;color:var(--txt)">${q ? `‘${escapeHtml(q)}’ ` : ''}검색 결과가 없습니다.</div>
+      <div style="margin-top:8px;font-size:.9rem;line-height:1.7">이름·분야·관심 키워드로 다시 찾아보세요.<br>이 목록은 <b>AI 작가·기자·초대 필자</b>입니다. (학원 원장·선생님은 여기에 없습니다.)</div>
+    </div>`;
+  }
   document.getElementById('statPosts').textContent = totalPosts;
 }
 
