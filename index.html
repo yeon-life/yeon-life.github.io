@@ -32,6 +32,7 @@
 <script src="data/personas.js?v=20260604b" defer></script>
 <script src="data/articles_today.js?v=20260604b" defer></script>
 <script src="yeon-pwa.js" defer></script>
+<script src="data/chatbot.js?v=20260606" defer></script>
 <style>
   :root {
   /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
@@ -673,6 +674,8 @@
   /* 줄 간격 */
   html[data-ls="wide"] p, html[data-ls="wide"] li{line-height:2.0 !important}
   html[data-ls="xwide"] p, html[data-ls="xwide"] li{line-height:2.3 !important}
+  /* 우하단 QR/공유 플로팅 버튼 숨김 (챗봇이 그 자리 사용) */
+  #yeon-share-btn{display:none !important}
 
   /* ===== 가입 알약 버튼 (사용 안 함 — 열쇠구멍 아이콘으로 통합) ===== */
   .signup-pill{display:none}
@@ -1913,7 +1916,7 @@
 
   <!-- ===== 연 작은도서관 — 히어로 진입 띠 ===== -->
   <section class="reveal" style="margin:10px 0 4px">
-    <a href="/도서관/index.html" style="display:block;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#2f5d62,#427a71);color:#fff;padding:clamp(24px,4vw,40px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
+    <a href="/도서관/index.html" style="display:block;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(47,93,98,.52),rgba(66,122,113,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(24px,4vw,40px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
       <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between">
         <div style="flex:1;min-width:240px">
           <div style="font-family:'Noto Serif KR',serif;font-size:13px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">蓮 · 연 작은도서관</div>
@@ -1937,7 +1940,7 @@
     <div style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
 
       <!-- 과학의 결 -->
-      <a href="https://yeon-science.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#26474f,#3f7d75);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
+      <a href="https://yeon-science.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(38,71,79,.52),rgba(63,125,117,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
         <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
           <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><circle cx="20" cy="20" r="6"/><ellipse cx="20" cy="20" rx="16" ry="7"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(120 20 20)"/></svg>
           科 · 과학의 결
@@ -1948,7 +1951,7 @@
       </a>
 
       <!-- 수학의 결 -->
-      <a href="https://yeon-math.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#473d80,#6357a6);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(50,40,70,.16)">
+      <a href="https://yeon-math.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(71,61,128,.52),rgba(99,87,166,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(50,40,70,.16)">
         <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
           <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><path d="M14 14 C14 9 25 9 30 14 C35 19 21 21 20 20 C19 19 5 21 10 26 C15 31 26 31 26 26"/></svg>
           數 · 수학의 결
