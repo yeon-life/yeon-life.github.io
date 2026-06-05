@@ -667,6 +667,12 @@
   html[data-fz="sm"]{font-size:14px}
   html[data-fz="md"]{font-size:16px}
   html[data-fz="lg"]{font-size:18px}
+  html[data-fz="xl"]{font-size:20px}
+  /* 본문 글꼴 */
+  html[data-ff="serif"] body{font-family:'Nanum Myeongjo','Noto Serif KR',serif}
+  /* 줄 간격 */
+  html[data-ls="wide"] p, html[data-ls="wide"] li{line-height:2.0 !important}
+  html[data-ls="xwide"] p, html[data-ls="xwide"] li{line-height:2.3 !important}
 
   /* ===== 가입 알약 버튼 (사용 안 함 — 열쇠구멍 아이콘으로 통합) ===== */
   .signup-pill{display:none}
@@ -1681,11 +1687,27 @@
         <button class="tm-pill" data-fz="sm">작게</button>
         <button class="tm-pill active" data-fz="md">보통</button>
         <button class="tm-pill" data-fz="lg">크게</button>
+        <button class="tm-pill" data-fz="xl">아주 크게</button>
+      </div>
+    </div>
+    <div class="tm-sec">
+      <div class="tm-label">본문 글꼴</div>
+      <div class="tm-pill-row" id="tmFfRow">
+        <button class="tm-pill active" data-ff="">돋움 (기본)</button>
+        <button class="tm-pill" data-ff="serif">명조 (바탕)</button>
+      </div>
+    </div>
+    <div class="tm-sec">
+      <div class="tm-label">줄 간격</div>
+      <div class="tm-pill-row" id="tmLsRow">
+        <button class="tm-pill active" data-ls="">보통</button>
+        <button class="tm-pill" data-ls="wide">넓게</button>
+        <button class="tm-pill" data-ls="xwide">더 넓게</button>
       </div>
     </div>
     <div class="tm-sec">
       <div class="tm-label">테마</div>
-      <p>이 페이지는 항상 따뜻한 종이결로 보입니다. 일부 페이지(생각의 지도, 마이페이지 등)에서는 우상단 낮/밤 토글로 어둡게 볼 수 있습니다.</p>
+      <p>이 페이지는 따뜻한 종이결로 보입니다. 생각의 지도·마이페이지 등 일부 페이지에서는 우상단 낮/밤 토글로 어둡게 볼 수 있습니다. (설정은 이 기기에 저장됩니다.)</p>
     </div>
     <div class="tm-sec" style="display:flex;justify-content:flex-end">
       <button class="tm-btn" data-close>닫기</button>
@@ -2833,11 +2855,45 @@
         document.documentElement.setAttribute('data-fz', fz);
         try { localStorage.setItem('yl-fz', fz); } catch(e){}
         document.querySelectorAll('#tmFzRow .tm-pill').forEach(x => x.classList.toggle('active', x===p));
-        toast('글자 크기를 ' + ({sm:'작게',md:'보통',lg:'크게'})[fz] + '로 바꿨습니다');
+        toast('글자 크기를 ' + ({sm:'작게',md:'보통',lg:'크게',xl:'아주 크게'})[fz] + '로 바꿨습니다');
       });
     });
     // 페이지 로드 시 저장된 크기 반영
     refreshFz();
+
+    /* 설정 — 본문 글꼴 */
+    function refreshFf(){
+      let v=''; try{ v=localStorage.getItem('yl-ff')||''; }catch(e){}
+      document.documentElement.setAttribute('data-ff', v);
+      document.querySelectorAll('#tmFfRow .tm-pill').forEach(p => p.classList.toggle('active', (p.dataset.ff||'')===v));
+    }
+    document.querySelectorAll('#tmFfRow .tm-pill').forEach(p => {
+      p.addEventListener('click', () => {
+        const v=p.dataset.ff||'';
+        document.documentElement.setAttribute('data-ff', v);
+        try{ localStorage.setItem('yl-ff', v); }catch(e){}
+        document.querySelectorAll('#tmFfRow .tm-pill').forEach(x => x.classList.toggle('active', x===p));
+        toast('본문 글꼴을 ' + (v==='serif'?'명조':'돋움') + '로 바꿨습니다');
+      });
+    });
+    refreshFf();
+
+    /* 설정 — 줄 간격 */
+    function refreshLs(){
+      let v=''; try{ v=localStorage.getItem('yl-ls')||''; }catch(e){}
+      document.documentElement.setAttribute('data-ls', v);
+      document.querySelectorAll('#tmLsRow .tm-pill').forEach(p => p.classList.toggle('active', (p.dataset.ls||'')===v));
+    }
+    document.querySelectorAll('#tmLsRow .tm-pill').forEach(p => {
+      p.addEventListener('click', () => {
+        const v=p.dataset.ls||'';
+        document.documentElement.setAttribute('data-ls', v);
+        try{ localStorage.setItem('yl-ls', v); }catch(e){}
+        document.querySelectorAll('#tmLsRow .tm-pill').forEach(x => x.classList.toggle('active', x===p));
+        toast('줄 간격을 ' + ({'':'보통','wide':'넓게','xwide':'더 넓게'})[v] + '로 바꿨습니다');
+      });
+    });
+    refreshLs();
     refreshAuthUI();
 
     /* 옛 대기 명단 폼은 가입 모달로 대체됨 — placeholder 가드만 유지 */
