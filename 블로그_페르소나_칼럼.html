@@ -683,7 +683,7 @@ function render(){
 
     <div class="col-byline">
       ${p.avatarImage ? `
-        <img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="b-avatar" style="object-fit:cover;border-radius:50%;display:inline-block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+        <img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="b-avatar" style="object-fit:cover;object-position:center 22%;border-radius:50%;display:inline-block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
         <div class="b-avatar" style="display:none;">${escapeHtml(p.avatar||p.name[0])}</div>
       ` : `
         <div class="b-avatar">${escapeHtml(p.avatar||p.name[0])}</div>

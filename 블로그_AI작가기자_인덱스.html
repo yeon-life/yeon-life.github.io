@@ -449,7 +449,7 @@ function renderGroups(filter){
       card.style.setProperty('--p-color', p.color || '#2f5d62');
       card.innerHTML = `
         <div class="p-head">
-          ${p.avatarImage ? `<img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="p-avatar" style="object-fit:cover;border-radius:50%">` : `<div class="p-avatar">${escapeHtml(p.avatar || p.name[0])}</div>`}
+          ${p.avatarImage ? `<img src="${escapeHtml(p.avatarImage)}" alt="${escapeHtml(p.name)}" class="p-avatar" style="object-fit:cover;object-position:center 22%;border-radius:50%">` : `<div class="p-avatar">${escapeHtml(p.avatar || p.name[0])}</div>`}
           <div class="p-id">
             <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
             <div class="p-role">${escapeHtml(p.role)}</div>
