@@ -13,8 +13,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요/index.html"
+   "status": "그림완성",
+   "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요/index.html",
+   "artCount": 19,
+   "deployed": true
   },
   {
    "folder": "001_ㄱㄴㄷ친구들이깨어났어요-샘플",
@@ -25,8 +27,10 @@
    "category": "동화",
    "bilingual": true,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요-샘플/index.html"
+   "status": "그림완성",
+   "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요-샘플/index.html",
+   "artCount": 19,
+   "deployed": true
   },
   {
    "folder": "002_ㅏㅑㅓㅕ노래하는모음",
@@ -37,8 +41,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/002_ㅏㅑㅓㅕ노래하는모음/index.html"
+   "status": "그림완성",
+   "url": "완성책장/002_ㅏㅑㅓㅕ노래하는모음/index.html",
+   "artCount": 18,
+   "deployed": true
   },
   {
    "folder": "003_받침없는글자나라",
@@ -49,8 +55,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/003_받침없는글자나라/index.html"
+   "status": "그림완성",
+   "url": "완성책장/003_받침없는글자나라/index.html",
+   "artCount": 19,
+   "deployed": true
   },
   {
    "folder": "004_받침이콩하고떨어졌어요",
@@ -61,8 +69,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/004_받침이콩하고떨어졌어요/index.html"
+   "status": "그림완성",
+   "url": "완성책장/004_받침이콩하고떨어졌어요/index.html",
+   "artCount": 18,
+   "deployed": true
   },
   {
    "folder": "005_두글자단어만들기",
@@ -73,8 +83,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/005_두글자단어만들기/index.html"
+   "status": "그림완성",
+   "url": "완성책장/005_두글자단어만들기/index.html",
+   "artCount": 19,
+   "deployed": true
   },
   {
    "folder": "006_세글자단어친구들",
@@ -85,8 +97,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/006_세글자단어친구들/index.html"
+   "status": "그림완성",
+   "url": "완성책장/006_세글자단어친구들/index.html",
+   "artCount": 23,
+   "deployed": true
   },
   {
    "folder": "007_헷갈리는글자숨바꼭질",
@@ -97,8 +111,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/007_헷갈리는글자숨바꼭질/index.html"
+   "status": "그림작업중",
+   "url": "완성책장/007_헷갈리는글자숨바꼭질/index.html",
+   "artCount": 6,
+   "deployed": true
   },
   {
    "folder": "008_쌍둥이글자가왔어요",
@@ -109,8 +125,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/008_쌍둥이글자가왔어요/index.html"
+   "status": "그림작업중",
+   "url": "완성책장/008_쌍둥이글자가왔어요/index.html",
+   "artCount": 1,
+   "deployed": true
   },
   {
    "folder": "009_짧은문장첫걸음",
@@ -121,8 +139,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/009_짧은문장첫걸음/index.html"
+   "status": "글완성",
+   "url": "완성책장/009_짧은문장첫걸음/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "010_나도이제책을읽어요",
@@ -133,8 +153,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/010_나도이제책을읽어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/010_나도이제책을읽어요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "011_하나둘셋숫자가보여요",
@@ -145,8 +167,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/011_하나둘셋숫자가보여요/index.html"
+   "status": "글완성",
+   "url": "완성책장/011_하나둘셋숫자가보여요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "012_0은아무것도없어요",
@@ -157,8 +181,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/012_0은아무것도없어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/012_0은아무것도없어요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "013_10까지세어볼까",
@@ -169,8 +195,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/013_10까지세어볼까/index.html"
+   "status": "글완성",
+   "url": "완성책장/013_10까지세어볼까/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "014_누가더많을까",
@@ -181,8 +209,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/014_누가더많을까/index.html"
+   "status": "글완성",
+   "url": "완성책장/014_누가더많을까/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "015_모으면늘어나요",
@@ -193,8 +223,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/015_모으면늘어나요/index.html"
+   "status": "글완성",
+   "url": "완성책장/015_모으면늘어나요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "016_하나씩빼면줄어요",
@@ -205,8 +237,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/016_하나씩빼면줄어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/016_하나씩빼면줄어요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "017_손가락더하기놀이",
@@ -217,8 +251,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/017_손가락더하기놀이/index.html"
+   "status": "글완성",
+   "url": "완성책장/017_손가락더하기놀이/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "018_사탕을나눠요",
@@ -229,8 +265,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/018_사탕을나눠요/index.html"
+   "status": "글완성",
+   "url": "완성책장/018_사탕을나눠요/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "019_20까지숫자친구들",
@@ -241,8 +279,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/019_20까지숫자친구들/index.html"
+   "status": "글완성",
+   "url": "완성책장/019_20까지숫자친구들/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "020_나는계산박사",
@@ -253,8 +293,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/020_나는계산박사/index.html"
+   "status": "글완성",
+   "url": "완성책장/020_나는계산박사/index.html",
+   "artCount": 0,
+   "deployed": true
   },
   {
    "folder": "021_처음가는학교두근두근",
@@ -265,8 +307,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/021_처음가는학교두근두근/index.html"
+   "status": "글완성",
+   "url": "완성책장/021_처음가는학교두근두근/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "022_내자리는어디일까",
@@ -277,8 +321,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/022_내자리는어디일까/index.html"
+   "status": "글완성",
+   "url": "완성책장/022_내자리는어디일까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "023_종이울리면",
@@ -289,8 +335,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/023_종이울리면/index.html"
+   "status": "글완성",
+   "url": "완성책장/023_종이울리면/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "024_화장실다녀올게요",
@@ -301,8 +349,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/024_화장실다녀올게요/index.html"
+   "status": "글완성",
+   "url": "완성책장/024_화장실다녀올게요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "025_급식시간이좋아",
@@ -313,8 +363,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/025_급식시간이좋아/index.html"
+   "status": "글완성",
+   "url": "완성책장/025_급식시간이좋아/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "026_줄을서요",
@@ -325,8 +377,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/026_줄을서요/index.html"
+   "status": "글완성",
+   "url": "완성책장/026_줄을서요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "027_손을들고말해요",
@@ -337,8 +391,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/027_손을들고말해요/index.html"
+   "status": "글완성",
+   "url": "완성책장/027_손을들고말해요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "028_쉬는시간친구들",
@@ -349,8 +405,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/028_쉬는시간친구들/index.html"
+   "status": "글완성",
+   "url": "완성책장/028_쉬는시간친구들/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "029_청소도함께해요",
@@ -361,8 +419,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/029_청소도함께해요/index.html"
+   "status": "글완성",
+   "url": "완성책장/029_청소도함께해요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "030_학교가좋아졌어요",
@@ -373,8 +433,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/030_학교가좋아졌어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/030_학교가좋아졌어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "031_오늘은기분이좋아",
@@ -385,8 +447,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/031_오늘은기분이좋아/index.html"
+   "status": "글완성",
+   "url": "완성책장/031_오늘은기분이좋아/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "032_눈물이났어요",
@@ -397,8 +461,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/032_눈물이났어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/032_눈물이났어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "033_화가나부글부글",
@@ -409,8 +475,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/033_화가나부글부글/index.html"
+   "status": "글완성",
+   "url": "완성책장/033_화가나부글부글/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "034_무서워서떨려요",
@@ -421,8 +489,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/034_무서워서떨려요/index.html"
+   "status": "글완성",
+   "url": "완성책장/034_무서워서떨려요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "035_부끄러워얼굴이빨개졌어",
@@ -433,8 +503,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/035_부끄러워얼굴이빨개졌어/index.html"
+   "status": "글완성",
+   "url": "완성책장/035_부끄러워얼굴이빨개졌어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "036_심심해뭐하지",
@@ -445,8 +517,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/036_심심해뭐하지/index.html"
+   "status": "글완성",
+   "url": "완성책장/036_심심해뭐하지/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "037_깜짝놀랐어",
@@ -457,8 +531,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/037_깜짝놀랐어/index.html"
+   "status": "글완성",
+   "url": "완성책장/037_깜짝놀랐어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "038_고마운마음",
@@ -469,8 +545,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/038_고마운마음/index.html"
+   "status": "글완성",
+   "url": "완성책장/038_고마운마음/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "039_미안해한마디",
@@ -481,8 +559,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/039_미안해한마디/index.html"
+   "status": "글완성",
+   "url": "완성책장/039_미안해한마디/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "040_내마음을말해요",
@@ -493,8 +573,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/040_내마음을말해요/index.html"
+   "status": "글완성",
+   "url": "완성책장/040_내마음을말해요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "041_모험가다람쥐토토",
@@ -505,8 +587,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/041_모험가다람쥐토토/index.html"
+   "status": "글완성",
+   "url": "완성책장/041_모험가다람쥐토토/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "042_어두운동굴속으로",
@@ -517,8 +601,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/042_어두운동굴속으로/index.html"
+   "status": "글완성",
+   "url": "완성책장/042_어두운동굴속으로/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "043_깊은숲을건너요",
@@ -529,8 +615,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/043_깊은숲을건너요/index.html"
+   "status": "글완성",
+   "url": "완성책장/043_깊은숲을건너요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "044_높은산을넘어",
@@ -541,8 +629,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/044_높은산을넘어/index.html"
+   "status": "글완성",
+   "url": "완성책장/044_높은산을넘어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "045_출렁이는강을건너",
@@ -553,8 +643,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/045_출렁이는강을건너/index.html"
+   "status": "글완성",
+   "url": "완성책장/045_출렁이는강을건너/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "046_흔들다리앞에서",
@@ -565,8 +657,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/046_흔들다리앞에서/index.html"
+   "status": "글완성",
+   "url": "완성책장/046_흔들다리앞에서/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "047_보물지도를찾아라",
@@ -577,8 +671,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/047_보물지도를찾아라/index.html"
+   "status": "글완성",
+   "url": "완성책장/047_보물지도를찾아라/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "048_길을잃었어요",
@@ -589,8 +685,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/048_길을잃었어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/048_길을잃었어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "049_친구를구하러가요",
@@ -601,8 +699,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/049_친구를구하러가요/index.html"
+   "status": "글완성",
+   "url": "완성책장/049_친구를구하러가요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "050_용감한토토집으로",
@@ -613,8 +713,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/050_용감한토토집으로/index.html"
+   "status": "글완성",
+   "url": "완성책장/050_용감한토토집으로/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "051_봄이왔어요",
@@ -625,8 +727,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/051_봄이왔어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/051_봄이왔어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "052_씨앗에서싹이나요",
@@ -637,8 +741,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/052_씨앗에서싹이나요/index.html"
+   "status": "글완성",
+   "url": "완성책장/052_씨앗에서싹이나요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "053_개미는부지런해",
@@ -649,8 +755,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/053_개미는부지런해/index.html"
+   "status": "글완성",
+   "url": "완성책장/053_개미는부지런해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "054_여름매미의노래",
@@ -661,8 +769,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/054_여름매미의노래/index.html"
+   "status": "글완성",
+   "url": "완성책장/054_여름매미의노래/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "055_애벌레가나비가됐어요",
@@ -673,8 +783,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/055_애벌레가나비가됐어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/055_애벌레가나비가됐어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "056_비오는날",
@@ -685,8 +797,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/056_비오는날/index.html"
+   "status": "글완성",
+   "url": "완성책장/056_비오는날/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "057_가을단풍잎",
@@ -697,8 +811,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/057_가을단풍잎/index.html"
+   "status": "글완성",
+   "url": "완성책장/057_가을단풍잎/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "058_거미줄이반짝반짝",
@@ -709,8 +825,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/058_거미줄이반짝반짝/index.html"
+   "status": "글완성",
+   "url": "완성책장/058_거미줄이반짝반짝/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "059_겨울잠자는동물들",
@@ -721,8 +839,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/059_겨울잠자는동물들/index.html"
+   "status": "글완성",
+   "url": "완성책장/059_겨울잠자는동물들/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "060_다시봄을기다려요",
@@ -733,8 +853,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/060_다시봄을기다려요/index.html"
+   "status": "글완성",
+   "url": "완성책장/060_다시봄을기다려요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "061_책속엔누가살까",
@@ -745,8 +867,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/061_책속엔누가살까/index.html"
+   "status": "글완성",
+   "url": "완성책장/061_책속엔누가살까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "062_잠자기전한권",
@@ -757,8 +881,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/062_잠자기전한권/index.html"
+   "status": "글완성",
+   "url": "완성책장/062_잠자기전한권/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "063_도서관에갔어요",
@@ -769,8 +895,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/063_도서관에갔어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/063_도서관에갔어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "064_내가좋아하는책",
@@ -781,8 +909,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/064_내가좋아하는책/index.html"
+   "status": "글완성",
+   "url": "완성책장/064_내가좋아하는책/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "065_책장을넘기면",
@@ -793,8 +923,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/065_책장을넘기면/index.html"
+   "status": "글완성",
+   "url": "완성책장/065_책장을넘기면/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "066_그림책속여행",
@@ -805,8 +937,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/066_그림책속여행/index.html"
+   "status": "글완성",
+   "url": "완성책장/066_그림책속여행/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "067_엄마랑함께읽어요",
@@ -817,8 +951,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/067_엄마랑함께읽어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/067_엄마랑함께읽어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "068_비밀책친구",
@@ -829,8 +965,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/068_비밀책친구/index.html"
+   "status": "글완성",
+   "url": "완성책장/068_비밀책친구/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "069_다읽었다뿌듯해",
@@ -841,8 +979,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/069_다읽었다뿌듯해/index.html"
+   "status": "글완성",
+   "url": "완성책장/069_다읽었다뿌듯해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "070_나만의책을만들어요",
@@ -853,8 +993,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/070_나만의책을만들어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/070_나만의책을만들어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "071_내이름은특별해",
@@ -865,8 +1007,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/071_내이름은특별해/index.html"
+   "status": "글완성",
+   "url": "완성책장/071_내이름은특별해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "072_거울속의나",
@@ -877,8 +1021,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/072_거울속의나/index.html"
+   "status": "글완성",
+   "url": "완성책장/072_거울속의나/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "073_우리가족을소개해요",
@@ -889,8 +1035,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/073_우리가족을소개해요/index.html"
+   "status": "글완성",
+   "url": "완성책장/073_우리가족을소개해요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "074_내가좋아하는것들",
@@ -901,8 +1049,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/074_내가좋아하는것들/index.html"
+   "status": "글완성",
+   "url": "완성책장/074_내가좋아하는것들/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "075_내가잘하는것",
@@ -913,8 +1063,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/075_내가잘하는것/index.html"
+   "status": "글완성",
+   "url": "완성책장/075_내가잘하는것/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "076_내몸은소중해",
@@ -925,8 +1077,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/076_내몸은소중해/index.html"
+   "status": "글완성",
+   "url": "완성책장/076_내몸은소중해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "077_내마음일기",
@@ -937,8 +1091,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/077_내마음일기/index.html"
+   "status": "글완성",
+   "url": "완성책장/077_내마음일기/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "078_커서뭐가될까",
@@ -949,8 +1105,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/078_커서뭐가될까/index.html"
+   "status": "글완성",
+   "url": "완성책장/078_커서뭐가될까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "079_어제보다자란나",
@@ -961,8 +1119,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/079_어제보다자란나/index.html"
+   "status": "글완성",
+   "url": "완성책장/079_어제보다자란나/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "080_나는나를사랑해",
@@ -973,8 +1133,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/080_나는나를사랑해/index.html"
+   "status": "글완성",
+   "url": "완성책장/080_나는나를사랑해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "081_깨끗이손을씻어요",
@@ -985,8 +1147,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/081_깨끗이손을씻어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/081_깨끗이손을씻어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "082_치카치카이를닦아요",
@@ -997,8 +1161,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/082_치카치카이를닦아요/index.html"
+   "status": "글완성",
+   "url": "완성책장/082_치카치카이를닦아요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "083_혼자옷을입어요",
@@ -1009,8 +1175,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/083_혼자옷을입어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/083_혼자옷을입어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "084_신발끈묶기",
@@ -1021,8 +1189,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/084_신발끈묶기/index.html"
+   "status": "글완성",
+   "url": "완성책장/084_신발끈묶기/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "085_아침에일어나요",
@@ -1033,8 +1203,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/085_아침에일어나요/index.html"
+   "status": "글완성",
+   "url": "완성책장/085_아침에일어나요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "086_밥을골고루먹어요",
@@ -1045,8 +1217,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/086_밥을골고루먹어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/086_밥을골고루먹어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "087_내물건정리하기",
@@ -1057,8 +1231,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/087_내물건정리하기/index.html"
+   "status": "글완성",
+   "url": "완성책장/087_내물건정리하기/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "088_일찍자고일찍일어나요",
@@ -1069,8 +1245,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/088_일찍자고일찍일어나요/index.html"
+   "status": "글완성",
+   "url": "완성책장/088_일찍자고일찍일어나요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "089_안전하게길을건너요",
@@ -1081,8 +1259,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/089_안전하게길을건너요/index.html"
+   "status": "글완성",
+   "url": "완성책장/089_안전하게길을건너요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "090_나도이제혼자할수있어",
@@ -1093,8 +1273,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/090_나도이제혼자할수있어/index.html"
+   "status": "글완성",
+   "url": "완성책장/090_나도이제혼자할수있어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "091_만약에하늘을날수있다면",
@@ -1105,8 +1287,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/091_만약에하늘을날수있다면/index.html"
+   "status": "글완성",
+   "url": "완성책장/091_만약에하늘을날수있다면/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "092_내방이우주선이됐어요",
@@ -1117,8 +1301,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/092_내방이우주선이됐어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/092_내방이우주선이됐어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "093_말하는인형",
@@ -1129,8 +1315,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/093_말하는인형/index.html"
+   "status": "글완성",
+   "url": "완성책장/093_말하는인형/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "094_구름위사탕나라",
@@ -1141,8 +1329,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/094_구름위사탕나라/index.html"
+   "status": "글완성",
+   "url": "완성책장/094_구름위사탕나라/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "095_거꾸로나라여행",
@@ -1153,8 +1343,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/095_거꾸로나라여행/index.html"
+   "status": "글완성",
+   "url": "완성책장/095_거꾸로나라여행/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "096_만약에동물이말을한다면",
@@ -1165,8 +1357,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/096_만약에동물이말을한다면/index.html"
+   "status": "글완성",
+   "url": "완성책장/096_만약에동물이말을한다면/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "097_작아진나",
@@ -1177,8 +1371,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/097_작아진나/index.html"
+   "status": "글완성",
+   "url": "완성책장/097_작아진나/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "098_무지개끝엔뭐가있을까",
@@ -1189,8 +1385,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/098_무지개끝엔뭐가있을까/index.html"
+   "status": "글완성",
+   "url": "완성책장/098_무지개끝엔뭐가있을까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "099_꿈속에서만난친구",
@@ -1201,8 +1399,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/099_꿈속에서만난친구/index.html"
+   "status": "글완성",
+   "url": "완성책장/099_꿈속에서만난친구/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "100_내가만든마법세계",
@@ -1213,8 +1413,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/100_내가만든마법세계/index.html"
+   "status": "글완성",
+   "url": "완성책장/100_내가만든마법세계/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "101_안녕친구가되자",
@@ -1225,8 +1427,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/101_안녕친구가되자/index.html"
+   "status": "글완성",
+   "url": "완성책장/101_안녕친구가되자/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "102_같이놀자",
@@ -1237,8 +1441,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/102_같이놀자/index.html"
+   "status": "글완성",
+   "url": "완성책장/102_같이놀자/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "103_내것을나눠줄게",
@@ -1249,8 +1455,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/103_내것을나눠줄게/index.html"
+   "status": "글완성",
+   "url": "완성책장/103_내것을나눠줄게/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "104_친구가울고있어",
@@ -1261,8 +1469,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/104_친구가울고있어/index.html"
+   "status": "글완성",
+   "url": "완성책장/104_친구가울고있어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "105_내가도와줄까",
@@ -1273,8 +1483,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/105_내가도와줄까/index.html"
+   "status": "글완성",
+   "url": "완성책장/105_내가도와줄까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "106_미안해화해하자",
@@ -1285,8 +1497,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/106_미안해화해하자/index.html"
+   "status": "글완성",
+   "url": "완성책장/106_미안해화해하자/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "107_차례를지켜요",
@@ -1297,8 +1511,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/107_차례를지켜요/index.html"
+   "status": "글완성",
+   "url": "완성책장/107_차례를지켜요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "108_친구의마음듣기",
@@ -1309,8 +1525,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/108_친구의마음듣기/index.html"
+   "status": "글완성",
+   "url": "완성책장/108_친구의마음듣기/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "109_우리는달라도친구",
@@ -1321,8 +1539,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/109_우리는달라도친구/index.html"
+   "status": "글완성",
+   "url": "완성책장/109_우리는달라도친구/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "110_좋은친구가되는법",
@@ -1333,8 +1553,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/110_좋은친구가되는법/index.html"
+   "status": "글완성",
+   "url": "완성책장/110_좋은친구가되는법/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "111_물은어디로흘러갈까",
@@ -1345,8 +1567,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/111_물은어디로흘러갈까/index.html"
+   "status": "글완성",
+   "url": "완성책장/111_물은어디로흘러갈까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "112_얼음이물이됐어요",
@@ -1357,8 +1581,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/112_얼음이물이됐어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/112_얼음이물이됐어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "113_따뜻한불조심해",
@@ -1369,8 +1595,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/113_따뜻한불조심해/index.html"
+   "status": "글완성",
+   "url": "완성책장/113_따뜻한불조심해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "114_바람이불어와요",
@@ -1381,8 +1609,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/114_바람이불어와요/index.html"
+   "status": "글완성",
+   "url": "완성책장/114_바람이불어와요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "115_소리는어떻게들릴까",
@@ -1393,8 +1623,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/115_소리는어떻게들릴까/index.html"
+   "status": "글완성",
+   "url": "완성책장/115_소리는어떻게들릴까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "116_그림자놀이",
@@ -1405,8 +1637,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/116_그림자놀이/index.html"
+   "status": "글완성",
+   "url": "완성책장/116_그림자놀이/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "117_무거울까가벼울까",
@@ -1417,8 +1651,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/117_무거울까가벼울까/index.html"
+   "status": "글완성",
+   "url": "완성책장/117_무거울까가벼울까/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "118_둥둥떠요가라앉아요",
@@ -1429,8 +1665,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/118_둥둥떠요가라앉아요/index.html"
+   "status": "글완성",
+   "url": "완성책장/118_둥둥떠요가라앉아요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "119_자석은힘이세",
@@ -1441,8 +1679,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/119_자석은힘이세/index.html"
+   "status": "글완성",
+   "url": "완성책장/119_자석은힘이세/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "120_왜그럴까궁금해",
@@ -1453,8 +1693,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/120_왜그럴까궁금해/index.html"
+   "status": "글완성",
+   "url": "완성책장/120_왜그럴까궁금해/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "121_설날세배를해요",
@@ -1465,8 +1707,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/121_설날세배를해요/index.html"
+   "status": "글완성",
+   "url": "완성책장/121_설날세배를해요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "122_추석송편을빚어요",
@@ -1477,8 +1721,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/122_추석송편을빚어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/122_추석송편을빚어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "123_곱게한복을입어요",
@@ -1489,8 +1735,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/123_곱게한복을입어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/123_곱게한복을입어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "124_우리동네한바퀴",
@@ -1501,8 +1749,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/124_우리동네한바퀴/index.html"
+   "status": "글완성",
+   "url": "완성책장/124_우리동네한바퀴/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "125_태극기가펄럭여요",
@@ -1513,8 +1763,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/125_태극기가펄럭여요/index.html"
+   "status": "글완성",
+   "url": "완성책장/125_태극기가펄럭여요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "126_김치는맛있어",
@@ -1525,8 +1777,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/126_김치는맛있어/index.html"
+   "status": "글완성",
+   "url": "완성책장/126_김치는맛있어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "127_전통놀이한마당",
@@ -1537,8 +1791,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/127_전통놀이한마당/index.html"
+   "status": "글완성",
+   "url": "완성책장/127_전통놀이한마당/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "128_할머니댁에가요",
@@ -1549,8 +1805,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/128_할머니댁에가요/index.html"
+   "status": "글완성",
+   "url": "완성책장/128_할머니댁에가요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "129_우리말우리글",
@@ -1561,8 +1819,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/129_우리말우리글/index.html"
+   "status": "글완성",
+   "url": "완성책장/129_우리말우리글/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "130_정월대보름달맞이",
@@ -1573,8 +1833,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/130_정월대보름달맞이/index.html"
+   "status": "글완성",
+   "url": "완성책장/130_정월대보름달맞이/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "131_아침이밝았어요",
@@ -1585,8 +1847,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/131_아침이밝았어요/index.html"
+   "status": "글완성",
+   "url": "완성책장/131_아침이밝았어요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "132_해가쨍쨍낮이에요",
@@ -1597,8 +1861,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/132_해가쨍쨍낮이에요/index.html"
+   "status": "글완성",
+   "url": "완성책장/132_해가쨍쨍낮이에요/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "133_저녁노을이물들어",
@@ -1609,8 +1875,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/133_저녁노을이물들어/index.html"
+   "status": "글완성",
+   "url": "완성책장/133_저녁노을이물들어/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "134_별이뜬밤",
@@ -1621,8 +1889,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/134_별이뜬밤/index.html"
+   "status": "글완성",
+   "url": "완성책장/134_별이뜬밤/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "135_시계는똑딱똑딱",
@@ -1633,8 +1903,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/135_시계는똑딱똑딱/index.html"
+   "status": "글완성",
+   "url": "완성책장/135_시계는똑딱똑딱/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "136_어제오늘내일",
@@ -1645,8 +1917,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/136_어제오늘내일/index.html"
+   "status": "글완성",
+   "url": "완성책장/136_어제오늘내일/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "137_일주일요일친구들",
@@ -1657,8 +1931,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/137_일주일요일친구들/index.html"
+   "status": "글완성",
+   "url": "완성책장/137_일주일요일친구들/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "138_아침에하는일",
@@ -1669,8 +1945,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/138_아침에하는일/index.html"
+   "status": "글완성",
+   "url": "완성책장/138_아침에하는일/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "139_잠자기전에는",
@@ -1681,8 +1959,10 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/139_잠자기전에는/index.html"
+   "status": "글완성",
+   "url": "완성책장/139_잠자기전에는/index.html",
+   "artCount": 0,
+   "deployed": false
   },
   {
    "folder": "140_하루가빙글빙글",
@@ -1693,12 +1973,15 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "임시",
-   "url": "완성책장/140_하루가빙글빙글/index.html"
+   "status": "글완성",
+   "url": "완성책장/140_하루가빙글빙글/index.html",
+   "artCount": 0,
+   "deployed": false
   }
  ],
  "statusModel": {
-  "임시": "2차 검수 통과·임시 배치(완성 중 표시)",
-  "정상": "완성본·정상 배치(완성본 표시)"
+  "그림완성": "그림까지 완성",
+  "그림작업중": "그림 작업 중",
+  "글완성": "글 검수 완료 · 그림 준비 중"
  }
 }

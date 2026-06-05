@@ -56,8 +56,26 @@
   .cat-panel.open{display:block}
   .cat-panel h4{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.04em;margin:12px 0 8px}
   .cat-chips{display:flex;flex-wrap:wrap;gap:8px}
-  .cat-chips button{background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit}
+  .cat-chips button{background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s,color .12s}
   .cat-chips button:hover{border-color:var(--accent);color:var(--accent)}
+  /* 펼침 메뉴판 (아코디언) */
+  .cat-acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+  .cat-acc+.cat-acc{margin-top:10px}
+  .cat-acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font:700 14.5px/1.2 var(--serif);color:var(--deep);background:var(--mist);user-select:none}
+  .cat-acc>summary::-webkit-details-marker{display:none}
+  .cat-acc>summary:hover{background:#efe9dd}
+  .cat-acc>summary .arw{display:inline-block;transition:transform .2s;color:var(--accent);margin-right:7px;font-size:13px}
+  .cat-acc[open]>summary .arw{transform:rotate(90deg)}
+  .cat-acc>summary .sub{font:600 11px/1.3 var(--sans);color:var(--muted);text-align:right;flex-shrink:0}
+  .cat-acc .body{padding:14px 16px 16px}
+  .cat-chips button .cnt{margin-left:7px;font-size:11px;color:var(--muted);font-weight:700}
+  .cat-chips button.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+  .cat-chips button.on .cnt{color:#d7e6e4}
+  .cat-chips button.zero{opacity:.42}
+  .cat-chips button.zero .cnt{color:var(--accent)}
+  .cat-reset{margin-top:14px;display:flex;justify-content:flex-end}
+  .cat-reset button{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
+  .cat-reset button:hover{border-color:var(--accent);color:var(--accent)}
   /* 히어로 */
   .hero{text-align:center;padding:42px 22px 30px;margin-top:10px;border-radius:18px;background:linear-gradient(rgba(246,243,236,.80),rgba(246,243,236,.9)),url('/assets/img/library-warm.png') center/cover;box-shadow:0 8px 26px rgba(31,42,42,.06)}
   .hero .seal{font-family:var(--serif);font-size:34px;color:var(--accent)}
@@ -121,7 +139,7 @@
       <div class="seal">蓮</div>
       <h1>연 작은도서관</h1>
       <p>좋은 생각을 가진 이야기가 영구히 머무는 곳.</p>
-      <p style="margin-top:8px;color:var(--accent);font-weight:600;font-size:14px">📖 <b>완성 중</b> — 글 내용 검수는 마쳤고, 디자인과 그림만 다듬는 중인 책자예요. 미리 읽어보실 수 있습니다.</p>
+      <p style="margin-top:8px;color:var(--accent);font-weight:600;font-size:14px">📖 글 검수를 마친 책들이 모였습니다. <b>그림까지 완성된 책</b>은 그렇게 표시되고, 나머지는 그림을 다듬는 중이에요. 모두 미리 읽어보실 수 있습니다.</p>
 
       <div class="authorbar">
         <div class="ttl">이 도서관의 글은 누가 썼나요 — 정직하게 보여 드립니다</div>
@@ -135,40 +153,62 @@
     </section>
 
     <div class="cat-cta">
-      <button id="catBtn" class="cat-big">📚 도서관 카테고리 보기</button>
+      <button id="catBtn" class="cat-big">📚 카테고리 펼쳐 보기</button>
     </div>
     <div id="catPanel" class="cat-panel">
-      <h4>학년별</h4>
-      <div class="cat-chips">
-        <button data-g="초1·2">초등 1·2학년</button>
-        <button data-g="초3·4">초등 3·4학년</button>
-        <button data-g="초5·6">초등 5·6학년</button>
-        <button data-g="중등">중학</button>
-        <button data-g="고등">고등</button>
-      </div>
-      <h4>상태별</h4>
-      <div class="cat-chips">
-        <button data-st="all">전체</button>
-        <button data-st="wip">완성 중</button>
-        <button data-st="final">완성본</button>
-      </div>
-      <h4>주제로 찾기</h4>
-      <div class="cat-chips">
-        <button data-q="한글">한글·글자</button>
-        <button data-q="문장">문장</button>
-        <button data-q="친구">우정·친구</button>
-        <button data-q="용기">용기</button>
-        <button data-q="마음">마음</button>
-        <button data-q="가족">가족</button>
-      </div>
+      <details class="cat-acc" open>
+        <summary><span><span class="arw">▸</span>주제로 찾기</span><span class="sub">관심 주제를 누르면 바로 검색돼요</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-q="친구">우정·친구</button>
+          <button data-q="마음">마음·감정</button>
+          <button data-q="모험">모험·여행</button>
+          <button data-q="글자">한글·글자</button>
+          <button data-q="숫자">숫자·셈</button>
+          <button data-q="가족">가족</button>
+          <button data-q="용기">용기·도전</button>
+          <button data-q="만약">상상·만약에</button>
+          <button data-q="하루">하루·시간</button>
+          <button data-q="구름">자연·날씨</button>
+          <button data-q="다람쥐">동물 친구</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>인기 시리즈·주인공</span><span class="sub">같은 친구가 나오는 이야기</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-q="토토">토토 이야기</button>
+          <button data-q="오므리">오므리</button>
+          <button data-q="다람쥐">다람쥐 친구들</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>학년별</span><span class="sub">읽기 수준에 맞춰 — 0권은 곧 채워져요</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-g="초1·2">초등 1·2학년</button>
+          <button data-g="초3·4">초등 3·4학년</button>
+          <button data-g="초5·6">초등 5·6학년</button>
+          <button data-g="중등">중학</button>
+          <button data-g="고등">고등</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>완성 상태</span><span class="sub">그림까지 · 작업 중 · 글만</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-st="all">전체</button>
+          <button data-st="done">그림까지 완성</button>
+          <button data-st="wip">그림 작업 중</button>
+          <button data-st="text">글 검수 완료</button>
+        </div></div>
+      </details>
+      <div class="cat-reset"><button id="catReset">↺ 필터 초기화</button></div>
     </div>
 
     <div class="toolbar">
       <div class="search"><input id="q" type="search" placeholder="관심 있는 주제·제목으로 찾아보세요 (예: 우정, 시간, 용기)"></div>
       <div class="filters" id="filters">
         <button class="chip active" data-f="all">전체</button>
-        <button class="chip" data-f="wip">완성 중</button>
-        <button class="chip" data-f="final">완성본</button>
+        <button class="chip" data-f="done">그림까지 완성</button>
+        <button class="chip" data-f="wip">그림 작업 중</button>
+        <button class="chip" data-f="text">글 검수 완료</button>
       </div>
     </div>
     <div class="count" id="count">불러오는 중…</div>
@@ -199,10 +239,9 @@
   function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
   function render(){
     const g=$('#grid'); const q=state.q.trim();
+    const STMAP={done:'그림완성',wip:'그림작업중',text:'글완성'};
     let list=ALL.filter(b=>{
-      const fin=b.status==='정상';
-      if(state.f==='final' && !fin) return false;
-      if(state.f==='wip' && fin) return false;
+      if(state.f!=='all' && b.status!==STMAP[state.f]) return false;
       if(q){const h=(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase(); if(!h.includes(q.toLowerCase())) return false;}
       return true;
     });
@@ -213,7 +252,8 @@
       const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
       return `<a class="book" href="${esc(b.url)}">
         <div class="cover" style="background:linear-gradient(135deg,${c[0]},${c[1]})">
-          <span class="badge" style="background:${b.status==='정상'?'var(--pine)':'var(--accent)'}">${b.status==='정상'?'완성본':'완성 중'}</span>
+          <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
+          ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}
           <span class="ai-tag">AI 창작</span>
           <h3>${esc(b.title)}</h3>${bi}
         </div>
@@ -230,14 +270,32 @@
     $('#ratioBar').innerHTML=`<div class="ai" style="width:${aiPct}%"></div><div class="human" style="width:${hPct}%"></div>`;
     $('#aiPct').textContent=`AI 창작 ${aiPct}%`; $('#humanPct').textContent=`사람 창작 ${hPct}%`;
   }
+  // 카테고리 칩별 실제 권수 계산 (0권 칩은 흐리게)
+  function catCount(btn){
+    if(btn.dataset.st){const st=btn.dataset.st;
+      if(st==='all')return ALL.length;
+      const m={done:'그림완성',wip:'그림작업중',text:'글완성'};
+      return ALL.filter(b=>b.status===m[st]).length;}
+    const v=(btn.dataset.q||btn.dataset.g||'').toLowerCase();
+    if(!v)return ALL.length;
+    return ALL.filter(b=>(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase().includes(v)).length;
+  }
+  function updateCatCounts(){
+    document.querySelectorAll('#catPanel .cat-chips button').forEach(b=>{
+      const n=catCount(b);
+      let c=b.querySelector('.cnt'); if(!c){c=document.createElement('span');c.className='cnt';b.appendChild(c);}
+      c.textContent=n;
+      b.classList.toggle('zero', n===0);
+    });
+  }
   Promise.all([
     fetch('books.json?v='+Date.now()).then(r=>r.json()),
     fetch('search-index.json?v='+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))
   ]).then(([d,si])=>{
     const txt={}; (si.items||[]).forEach(i=>{txt[i.slug]=i.text||'';});
     ALL=(d.books||[]).map(b=>Object.assign({},b,{text:txt[b.folder]||''}))
-      .sort((a,b)=>(a.status==='정상'?0:1)-(b.status==='정상'?0:1) || (parseInt(a.num)||0)-(parseInt(b.num)||0));
-    setRatio(); render();
+      .sort((a,b)=>(({'그림완성':0,'그림작업중':1,'글완성':2})[a.status]??3)-(({'그림완성':0,'그림작업중':1,'글완성':2})[b.status]??3) || (parseInt(a.num)||0)-(parseInt(b.num)||0));
+    setRatio(); render(); updateCatCounts();
   }).catch(e=>{$('#count').textContent='목록을 불러오지 못했습니다.';});
   $('#q').addEventListener('input',e=>{state.q=e.target.value;render()});
   $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
@@ -252,13 +310,21 @@
   dr.addEventListener('click',function(e){if(e.target===dr)dr.classList.remove('open')});
   var cb=$('#catBtn'), cp=$('#catPanel'), q=$('#q');
   cb.addEventListener('click',function(){cp.classList.toggle('open');if(cp.classList.contains('open'))cp.scrollIntoView({behavior:'smooth',block:'nearest'})});
-  function setSearch(v){q.value=v;q.dispatchEvent(new Event('input'));setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60)}
-  cp.querySelectorAll('[data-g]').forEach(function(b){b.addEventListener('click',function(){setSearch(b.dataset.g)})});
-  cp.querySelectorAll('[data-q]').forEach(function(b){b.addEventListener('click',function(){setSearch(b.dataset.q)})});
+  function clearOn(){cp.querySelectorAll('.cat-chips button.on').forEach(function(x){x.classList.remove('on')})}
+  function markOn(b){clearOn();b.classList.add('on')}
+  function toResults(){setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60)}
+  function setSearch(v){q.value=v;q.dispatchEvent(new Event('input'));toResults()}
+  cp.querySelectorAll('[data-g]').forEach(function(b){b.addEventListener('click',function(){markOn(b);setSearch(b.dataset.g)})});
+  cp.querySelectorAll('[data-q]').forEach(function(b){b.addEventListener('click',function(){markOn(b);setSearch(b.dataset.q)})});
   cp.querySelectorAll('[data-st]').forEach(function(b){b.addEventListener('click',function(){
+    markOn(b);
     var f=document.querySelector('#filters .chip[data-f="'+b.dataset.st+'"]'); if(f)f.click();
-    setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60);
+    toResults();
   })});
+  var rs=$('#catReset'); if(rs)rs.addEventListener('click',function(){
+    clearOn(); q.value=''; q.dispatchEvent(new Event('input'));
+    var allf=document.querySelector('#filters .chip[data-f="all"]'); if(allf)allf.click();
+  });
 })();
 </script>
 </body>
