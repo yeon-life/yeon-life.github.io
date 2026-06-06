@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yeon-thinkmap 임베드 템플릿</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link rel="stylesheet" href="engine/thinkmap.css">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  #map { width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="engine/thinkmap.js"></script>
+  <script>
+    // ─── 가장 단순한 사용 예 ───────────────────────────────
+    YeonThinkMap.mount('#map', {
+      nodes: [
+        { id: 'a', label: '첫 생각', cat: '새것', x: 0.4, y: 0.5 },
+        { id: 'b', label: '이어진 생각', cat: '복습필요', x: 0.6, y: 0.5 },
+      ],
+      edges: [
+        { from: 'a', to: 'b', type: 'connection' }
+      ],
+      options: {
+        title: '생각의 지도',
+        tagline: '내 생각을 키워보세요',
+      },
+      onNodeClick: (node) => {
+        console.log('클릭한 노드:', node);
+      }
+    });
+  </script>
+</body>
+</html>
