@@ -113,8 +113,8 @@ function render(list){
     var bcls=x.status==='승인'?'b-ok':x.status==='반려'?'b-no':'b-wait';
     var div=document.createElement('div'); div.className='card'+(done?' done':'');
     div.innerHTML='<div class="top"><span class="nm">'+esc(x.name)+'</span><span class="badge '+bcls+'">'+esc(x.status)+'</span></div>'
-      +'<div class="meta">연락처 <b>'+esc(x.contact)+'</b> · 입금자명 <b>'+esc(x.payer)+'</b><br>'
-      +esc(x.method)+' · 월 '+esc(String(x.price))+'원 · '+fmt(x.at)+(x.memo?'<br>메모: '+esc(x.memo):'')+'</div>'
+      +'<div class="meta"><b>'+esc(x.tier||'')+'</b> · 월 '+esc(String(x.price))+'원 · '+esc(x.method)+'<br>'
+      +'연락처 <b>'+esc(x.contact)+'</b> · 입금자명 <b>'+esc(x.payer)+'</b> · '+fmt(x.at)+(x.memo?'<br>메모: '+esc(x.memo):'')+'</div>'
       +(done?'':'<div class="acts"><button class="ap" data-row="'+x.row+'" data-a="approve">✓ 승인</button>'
         +'<button class="rj" data-row="'+x.row+'" data-a="reject">반려</button></div>');
     L.appendChild(div);
