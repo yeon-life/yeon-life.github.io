@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>연라이프 구독 · 결 시리즈 — 월 5,000원</title>
+<meta name="description" content="연라이프 결 시리즈(과학·수학·한글의 결) 구독. 월 5,000원. 계좌이체 또는 카카오·토스 송금 후 신청하면 연라이프가 확인하고 열어드립니다." />
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f4ed; --card:#fffdf8; --ink:#2a2723; --ink-deep:#1f2a2a;
+    --teal:#2f5d57; --teal-deep:#264a44; --gold:#a96f36; --line:#e7ddc9; --mut:#8a8275;
+    --serif:'Noto Serif KR',serif; --sans:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;padding:0 16px 60px}
+  .wrap{max-width:680px;margin:0 auto}
+  .top{display:flex;align-items:center;gap:10px;padding:18px 2px;flex-wrap:wrap}
+  .top a.home{font-family:var(--serif);font-weight:700;color:var(--teal-deep);text-decoration:none;font-size:15px}
+  .top .yeon{color:var(--gold)}
+  .top .sp{flex:1}
+  .printbtn{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .printbtn:hover{background:var(--teal);color:#fff}
+
+  .hero{background:linear-gradient(135deg,rgba(47,93,87,.10),rgba(169,111,54,.10));border:1px solid var(--line);border-radius:20px;padding:30px 24px;text-align:center;margin-top:4px}
+  .hero .eyebrow{font-family:var(--serif);font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700}
+  .hero h1{font-family:var(--serif);font-size:clamp(24px,5vw,32px);font-weight:700;color:var(--ink-deep);margin:8px 0 6px}
+  .hero .price{font-family:var(--serif);font-size:clamp(30px,8vw,46px);font-weight:700;color:var(--teal-deep);margin:6px 0}
+  .hero .price small{font-size:16px;color:var(--mut);font-weight:600}
+  .hero .deck{font-size:14px;color:#5b554c;max-width:460px;margin:6px auto 0}
+
+  .what{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:18px}
+  .what h2{font-family:var(--serif);font-size:16px;color:var(--ink-deep);margin-bottom:10px}
+  .what ul{list-style:none;display:grid;gap:8px}
+  .what li{display:flex;gap:9px;font-size:13.8px;color:#4a463f}
+  .what li b{color:var(--teal-deep)}
+  .chk{color:var(--teal);font-weight:800;flex:0 0 auto}
+
+  .step{font-family:var(--serif);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.04em;margin:26px 2px 10px}
+  .pay-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  @media(max-width:560px){.pay-grid{grid-template-columns:1fr}}
+  .pay-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px}
+  .pay-card h3{font-family:var(--serif);font-size:15px;color:var(--ink-deep);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+  .acct{font-size:14px;color:#3a3631;line-height:2}
+  .acct b{font-family:var(--serif);font-size:18px;color:var(--teal-deep);letter-spacing:.01em}
+  .copybtn{margin-top:8px;border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+  .copybtn:hover{background:var(--teal);color:#fff}
+  .send-links{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .send-links a{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:14px;border-radius:10px;padding:12px 14px}
+  .kakao{background:#FEE500;color:#3a2e00}
+  .toss{background:#3182f6;color:#fff}
+  .send-links a.disabled{background:#efeadd;color:#9a948b;pointer-events:none;font-weight:600;font-size:12.5px}
+  .hint{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.6}
+
+  form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px;margin-top:12px}
+  .fld{margin-bottom:13px}
+  .fld label{display:block;font-size:13px;font-weight:700;color:#4a463f;margin-bottom:5px}
+  .fld input,.fld select,.fld textarea{width:100%;border:1px solid #d7c9b4;border-radius:9px;padding:11px 13px;font-size:14px;font-family:inherit;background:#fff;outline:none}
+  .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--teal)}
+  .fld textarea{resize:vertical;min-height:60px}
+  .req{color:var(--gold)}
+  .submit{width:100%;border:none;background:var(--teal);color:#fff;border-radius:999px;padding:15px;font-size:15px;font-weight:700;font-family:var(--serif);cursor:pointer;margin-top:4px}
+  .submit:hover{background:var(--teal-deep)}
+  .ok{display:none;background:#eef3ef;border:1px solid #cfe0d4;border-radius:12px;padding:16px;margin-top:12px;color:var(--teal-deep);font-size:14px;line-height:1.7}
+  .ok.show{display:block}
+  .safe{font-size:11.5px;color:var(--mut);text-align:center;margin-top:20px;line-height:1.7}
+  .safe b{color:#6b655c}
+  footer{text-align:center;font-size:11.5px;color:var(--mut);margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+  footer a{color:var(--teal);text-decoration:none}
+
+  /* 인쇄 2모드 */
+  @media print{
+    .printbtn,.top .sp,.submit,.copybtn,.send-links{display:none!important}
+    body{padding:0}
+    .hero,.what,.pay-card,form{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  }
+  body.eco{}
+  body.eco .hero{background:#fff!important}
+  @media print{
+    body.eco *{background:#fff!important;color:#000!important;box-shadow:none!important}
+    body.eco .wrap{max-width:100%}
+    body.eco .pay-grid{display:block}
+    body.eco .acct b,body.eco .hero .price{color:#000!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="home" href="/"><span class="yeon">緣</span> y-life.kr</a>
+    <span class="sp"></span>
+    <button class="printbtn" onclick="ylPrint(false)">🖨 인쇄</button>
+    <button class="printbtn" onclick="ylPrint(true)">🌿 절약</button>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">결 시리즈 · 살아있는 교과서</div>
+    <h1>연라이프 구독</h1>
+    <div class="price">월 <b id="priceTxt">5,000</b><small>원</small></div>
+    <div class="deck">과학·수학·한글의 결을 모두 열어 드립니다. 매주 월요일 새벽 새 호로 채워집니다. 언제든 그만둘 수 있어요.</div>
+  </section>
+
+  <div class="what">
+    <h2>구독하면 열리는 것</h2>
+    <ul>
+      <li><span class="chk">✓</span><span><b>결 시리즈 전체</b> — 과학의 결 · 수학의 결 · 한글의 결</span></li>
+      <li><span class="chk">✓</span><span>학년별 <b>심화 문제·시험지·상세 해설</b> 전부 열람</span></li>
+      <li><span class="chk">✓</span><span>출력·자유 가공 등 <b>프리미엄 기능</b></span></li>
+      <li><span class="chk">✓</span><span>기본 읽기·인쇄는 <b>구독 없이도 무료</b>입니다</span></li>
+    </ul>
+  </div>
+
+  <div class="step">① 결제 — 아래 중 편한 방법으로 월 5,000원을 보냅니다</div>
+  <div class="pay-grid">
+    <div class="pay-card">
+      <h3>🏦 계좌이체</h3>
+      <div class="acct">
+        <span id="bankName">○○은행</span><br>
+        <b id="bankNo">000-000000-00-000</b><br>
+        예금주 <span id="bankHolder">이진우(연라이프)</span>
+      </div>
+      <button class="copybtn" onclick="copyAcct()">계좌번호 복사</button>
+    </div>
+    <div class="pay-card">
+      <h3>💸 간편 송금</h3>
+      <div class="send-links" id="sendLinks">
+        <a class="kakao" id="kakaoLink" href="#" target="_blank" rel="noopener">카카오페이로 송금</a>
+        <a class="toss" id="tossLink" href="#" target="_blank" rel="noopener">토스로 송금</a>
+      </div>
+      <div class="hint">송금 메시지/메모에 <b>본인 이름</b>을 적어 주시면 확인이 빨라요.</div>
+    </div>
+  </div>
+
+  <div class="step">② 신청 — 보내신 뒤 아래를 적어 주세요 (연라이프가 확인하고 열어드립니다)</div>
+  <form id="subForm">
+    <div class="fld"><label>이름 <span class="req">*</span></label><input name="name" required placeholder="홍길동" /></div>
+    <div class="fld"><label>연락받을 곳 <span class="req">*</span> (이메일 또는 휴대폰)</label><input name="contact" required placeholder="이메일 또는 010-0000-0000" /></div>
+    <div class="fld"><label>입금자명 <span class="req">*</span> (송금에 찍힌 이름)</label><input name="payer" required placeholder="이름이 다르면 꼭 적어 주세요" /></div>
+    <div class="fld"><label>결제 방법</label>
+      <select name="method">
+        <option>계좌이체</option>
+        <option>카카오페이</option>
+        <option>토스</option>
+      </select>
+    </div>
+    <div class="fld"><label>남길 말 (선택)</label><textarea name="memo" placeholder="예: 한글의 결만 보고 싶어요 / 영수증 필요"></textarea></div>
+    <button type="submit" class="submit">신청 보내기 →</button>
+    <div class="ok" id="okBox"></div>
+  </form>
+
+  <div class="safe">
+    <b>안전 안내</b> · 이 페이지는 카드번호·비밀번호를 받지 않습니다. 계좌이체/간편송금은 연소사님 계좌로 직접 보내는 방식이라 안전합니다.<br>
+    구독 활성화는 <b>입금 확인 후 연라이프가 직접</b> 처리합니다(자동 카드결제 아님).
+  </div>
+
+  <footer>
+    © 2026 y-life.kr · 연라이프 · 운영자 연소사 · 문의 <a id="mailLink" href="#">이메일</a><br>
+    <a href="/">← 연라이프 홈으로</a>
+  </footer>
+</div>
+
+<script>
+/* ===== 결제·구독 설정 (실제 값으로 교체) ===========================
+ *  ⚠ 아래 값만 채우면 바로 작동합니다. 비밀키는 절대 넣지 마세요(여긴 공개 파일).
+ *  · bank: 입금받을 계좌 (공개돼도 안전)
+ *  · kakao/toss: 카카오페이·토스 '송금 링크'(공개 안전). 없으면 빈칸 → 버튼 자동 숨김
+ *  · adminEmail: 신청 알림 받을 메일
+ *  · scriptUrl: Google Apps Script 웹앱 URL(배포 후). 비우면 메일 폴백으로 동작
+ */
+const PAY = {
+  price: '5,000',
+  bank:  { name:'○○은행', number:'000-000000-00-000', holder:'이진우(연라이프)' },
+  kakao: '',          // 예: https://qr.kakaopay.com/xxxxx
+  toss:  '',          // 예: https://toss.me/xxxxx
+  adminEmail: 'jinwooshon@gmail.com',
+  scriptUrl: ''       // 예: https://script.google.com/macros/s/XXXX/exec
+};
+
+/* ---- 화면에 값 반영 ---- */
+document.getElementById('priceTxt').textContent = PAY.price;
+document.getElementById('bankName').textContent = PAY.bank.name;
+document.getElementById('bankNo').textContent   = PAY.bank.number;
+document.getElementById('bankHolder').textContent = PAY.bank.holder;
+(function(){
+  var k=document.getElementById('kakaoLink'), t=document.getElementById('tossLink');
+  if(PAY.kakao){ k.href=PAY.kakao; } else { k.className='disabled'; k.textContent='카카오페이 송금 링크 준비 중'; k.removeAttribute('href'); }
+  if(PAY.toss){ t.href=PAY.toss; } else { t.className='disabled'; t.textContent='토스 송금 링크 준비 중'; t.removeAttribute('href'); }
+  document.getElementById('mailLink').href='mailto:'+PAY.adminEmail;
+})();
+
+function copyAcct(){
+  navigator.clipboard.writeText(PAY.bank.number).then(function(){
+    var b=event.target; var o=b.textContent; b.textContent='복사됨 ✓'; setTimeout(function(){b.textContent=o;},1500);
+  }).catch(function(){ alert('계좌번호: '+PAY.bank.number); });
+}
+
+/* ---- 신청 제출: Apps Script 있으면 서버로, 없으면 메일 폴백 ---- */
+document.getElementById('subForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f=e.target, data={};
+  ['name','contact','payer','method','memo'].forEach(function(k){ data[k]=(f[k]&&f[k].value||'').trim(); });
+  data.price=PAY.price; data.at=new Date().toISOString();
+  var ok=document.getElementById('okBox');
+
+  function done(){
+    ok.innerHTML='<b>신청이 접수됐어요. 고맙습니다 🌿</b><br>입금이 확인되면 연라이프가 <b>'+escapeHtml(data.contact)+'</b>(으)로 연락드리고 구독을 열어드립니다. 보통 하루 안에 처리돼요.';
+    ok.classList.add('show'); f.querySelector('.submit').textContent='접수 완료 ✓'; f.querySelector('.submit').disabled=true;
+    ok.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function mailFallback(){
+    var body='[연라이프 구독 신청]%0D%0A'
+      +'이름: '+enc(data.name)+'%0D%0A연락처: '+enc(data.contact)+'%0D%0A입금자명: '+enc(data.payer)
+      +'%0D%0A결제방법: '+enc(data.method)+'%0D%0A금액: 월 '+PAY.price+'원%0D%0A메모: '+enc(data.memo);
+    window.location.href='mailto:'+PAY.adminEmail+'?subject='+enc('연라이프 구독 신청 — '+data.name)+'&body='+body;
+    done();
+  }
+  if(PAY.scriptUrl){
+    fetch(PAY.scriptUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)})
+      .then(done).catch(mailFallback);
+  } else {
+    mailFallback();
+  }
+});
+function enc(s){return encodeURIComponent(s||'');}
+function escapeHtml(s){return String(s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+/* ---- 인쇄 2모드 ---- */
+function ylPrint(eco){ document.body.classList.toggle('eco',!!eco); setTimeout(function(){window.print();},60); }
+window.addEventListener('afterprint',function(){document.body.classList.remove('eco');});
+</script>
+</body>
+</html>
