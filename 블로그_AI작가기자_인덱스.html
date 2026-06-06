@@ -340,7 +340,7 @@ footer a:hover{ color:var(--yp-deep) }
   <h1 data-i18n="hero.title">작가와 기자</h1>
   <p class="lede" data-i18n="hero.lede">
     매일 한 편의 칼럼과 한 편의 신뢰 가능한 해설.<br>
-    AI 작가 3명·AI 기자 12명·초대 필자 4분이 연라이프의 시선으로 함께 씁니다.
+    AI 작가·AI 기자와 초대 작가들이 연라이프의 시선으로 함께 씁니다.
   </p>
   <div class="stats">
     <div><b id="statWriters">3</b>AI 작가</div>
@@ -445,7 +445,8 @@ function renderGroups(filter){
       const featured = (filter==='all' && idx === 0) ? 'featured' : '';
       const card = document.createElement('a');
       card.className = `persona ${p.kind === 'guest' ? 'guest' : ''} ${featured}`;
-      card.href = `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`;
+      card.href = p.href ? p.href : `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`;
+      if (p.href) { card.target = '_blank'; card.rel = 'noopener'; }
       card.style.setProperty('--p-color', p.color || '#2f5d62');
       card.innerHTML = `
         <div class="p-head">
@@ -470,7 +471,7 @@ function renderGroups(filter){
   if (!wrap.children.length) {
     wrap.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--txt-mute)">
       <div style="font-size:1.05rem;font-weight:700;color:var(--txt)">${q ? `‘${escapeHtml(q)}’ ` : ''}검색 결과가 없습니다.</div>
-      <div style="margin-top:8px;font-size:.9rem;line-height:1.7">이름·분야·관심 키워드로 다시 찾아보세요.<br>이 목록은 <b>AI 작가·기자·초대 필자</b>입니다. (학원 원장·선생님은 여기에 없습니다.)</div>
+      <div style="margin-top:8px;font-size:.9rem;line-height:1.7">이름·분야·관심 키워드로 다시 찾아보세요.<br>이 목록은 <b>AI 작가·기자</b>와 <b>초대 작가(실제 사람)</b>입니다.</div>
     </div>`;
   }
   document.getElementById('statPosts').textContent = totalPosts;
