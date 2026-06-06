@@ -356,7 +356,8 @@ footer a:hover{ color:var(--yp-deep) }
     <button class="tab active" data-group="all">전체 <span class="cnt" id="cntAll"></span></button>
     <button class="tab" data-group="ai-writer"><span class="ico">✎</span> AI 작가 <span class="cnt" id="cntW"></span></button>
     <button class="tab" data-group="ai-reporter"><span class="ico">⌬</span> AI 기자 <span class="cnt" id="cntR"></span></button>
-    <button class="tab" data-group="guest"><span class="ico">☘</span> 초대 필자 <span class="cnt" id="cntG"></span></button>
+    <button class="tab" data-group="guest"><span class="ico">☘</span> 초대 작가 <span class="cnt" id="cntG"></span></button>
+    <button class="tab" data-group="student"><span class="ico">✏</span> 학생 작가 <span class="cnt" id="cntS"></span></button>
   </div>
   <label class="search">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -454,7 +455,7 @@ function renderGroups(filter){
           <div class="p-id">
             <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
             <div class="p-role">${escapeHtml(p.role)}</div>
-            <div class="p-kindbadge" style="display:inline-block;margin-top:6px;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;${p.kind==='guest'?'background:#f4efe1;color:#a96f36':'background:#eef3ef;color:#2f5d57'}">${p.kind==='guest'?'✍ 초대 필자 · 사람':'🤖 AI 페르소나'}</div>
+            <div class="p-kindbadge" style="display:inline-block;margin-top:6px;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;${(p.kind==='guest'||p.kind==='student')?'background:#f4efe1;color:#a96f36':'background:#eef3ef;color:#2f5d57'}">${p.kind==='student'?'✏ 학생 작가 · 사람':p.kind==='guest'?'✍ 초대 작가 · 사람':'🤖 AI 페르소나'}</div>
           </div>
         </div>
         <span class="p-field">${escapeHtml(p.field)}</span>
@@ -495,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cntW').textContent   = all.filter(p=>p.kind==='ai-writer').length;
   document.getElementById('cntR').textContent   = all.filter(p=>p.kind==='ai-reporter').length;
   document.getElementById('cntG').textContent   = all.filter(p=>p.kind==='guest').length;
+  var _cs=document.getElementById('cntS'); if(_cs) _cs.textContent = all.filter(p=>p.kind==='student').length;
 
   let currentFilter = 'all';
   function go(){ renderGroups(currentFilter); }

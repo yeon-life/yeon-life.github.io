@@ -531,13 +531,28 @@ window.YL_PERSONAS = [
     href:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',
     cadence:'서재에서 만나기', sources:[], posts:[],
   },
+
+  /* ════════════ 학생 작가 — 직접 쓰고 책도 펴내는 어린 작가 ════════════ */
+  {
+    slug:'siheon-note', kind:'student',
+    name:'시헌', hanja:'',
+    role:'학생 작가 · 초등 4학년 · 연플래닝 논술',
+    field:'생각노트 · 논술',
+    tagline:'질문대장 시헌의 생각노트 — 직접 쓰고 책도 펴냈어요.',
+    bio:'초등 4학년 시헌이가 직접 쓰고 만드는 생각노트. 100일 약속, 나의 성장 기록, 타고난 강점을 또박또박 적어 갑니다.',
+    color:'#c38d56', accent:'#427a71', avatar:'시',
+    avatarImage:'https://y-life-blog.web.app/생각노트_oheon_v1/img/siheon.jpg',
+    href:'https://y-life-blog.web.app/생각노트_oheon_v1/index.html',
+    cadence:'생각노트에서 만나기', sources:[], posts:[],
+  },
 ];
 
 /* ── 그룹·통계 헬퍼 ─────────────────────────────────── */
 window.YL_PERSONA_GROUPS = {
   'ai-writer':  { label:'AI 작가',     desc:'매일 한 편의 칼럼. 연라이프의 시선으로 씁니다.', icon:'✎' },
   'ai-reporter':{ label:'AI 기자',     desc:'매일 한 편의 신뢰 가능한 큐레이션 해설.',         icon:'⌬' },
-  'guest':      { label:'초대 필자',   desc:'교수·선생·작가가 함께 씁니다.',                   icon:'☘' },
+  'guest':      { label:'초대 작가',   desc:'교수·선생·작가가 함께 씁니다.',                   icon:'☘' },
+  'student':    { label:'학생 작가',   desc:'직접 쓰고 책도 펴내는 어린 작가들.',             icon:'✏' },
 };
 
 window.YL_findPersona = function(slug){
