@@ -1139,13 +1139,7 @@
         rgba(238,233,220,.50) 60%,
         rgba(244,240,230,.55) 100%);
   }
-  #thinkmap-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-  #thinkmap-svg line{stroke:rgba(150,110,50,.20);stroke-width:1.1}
-  #thinkmap-svg .si-node{cursor:pointer;pointer-events:auto}
-  #thinkmap-svg .si-node circle{transition:fill .2s ease, r .2s ease}
-  #thinkmap-svg .si-node:hover circle{fill:#c4923e}
-  #thinkmap-svg text{font-family:"Noto Serif KR",serif;font-size:12.5px;text-anchor:middle;dominant-baseline:middle;fill:rgba(31,42,42,.60);paint-order:stroke;stroke:rgba(251,248,241,.72);stroke-width:3px;pointer-events:none}
-  #thinkmap-svg .si-center text{fill:#fff;stroke:none}
+  #thinkmap-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.92}
 
   /* 우하단 안내 — 빈 곳 클릭하면 지도로 진입 */
   .thinkmap-hint{
@@ -1285,7 +1279,7 @@
 
 <!-- ===== 생각의 지도 — 페이지 전체 바탕 레이어 ===== -->
 <div id="thinkmap-bg" data-thinkmap-bg>
-  <svg id="thinkmap-svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice"></svg>
+  <canvas id="thinkmap-canvas" aria-hidden="true"></canvas>
 </div>
 <div class="thinkmap-hint" id="thinkmapHint"><span class="ico">◉</span>빈 곳을 클릭하면 생각의 지도가 펼쳐집니다</div>
 
@@ -3914,74 +3908,6 @@
     bg.addEventListener('mouseenter', showHint, {once:true});
     // 1.6초 후에 자동으로 한 번
     setTimeout(showHint, 1600);
-  })();
-
-  /* ===== 연라이프 사이트맵 배경 (緣 중심 + 섹션 노드 둥둥 · 클릭 시 이동) ===== */
-  (function siteMapBg(){
-    var bg=document.getElementById('thinkmap-bg'), svg=document.getElementById('thinkmap-svg'), hint=document.getElementById('thinkmapHint');
-    if(!bg||!svg) return;
-    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var NS='http://www.w3.org/2000/svg';
-    var SECTIONS=[
-      {l:'도서관',h:'/도서관/'},
-      {l:'결 시리즈',h:'/#magazines'},
-      {l:'광장',h:'saranbang.html'},
-      {l:'질문 숲',h:'question-forest.html'},
-      {l:'생각의 지도',h:'광장_생각지도.html'},
-      {l:'블로그',h:'블로그_AI작가기자_인덱스.html'},
-      {l:'구독',h:'구독.html'},
-      {l:'과학의 결',h:'https://yeon-science.web.app'},
-      {l:'한글의 결',h:'https://yeon-hangeul.web.app'}
-    ];
-    var W=0,H=0,cx=0,cy=0,nodes=[],lines=[],cc=null,raf=null,t0=null;
-    function build(){
-      svg.innerHTML=''; nodes=[]; lines=[];
-      var r=bg.getBoundingClientRect(); W=r.width||innerWidth; H=r.height||innerHeight;
-      svg.setAttribute('viewBox','0 0 '+W+' '+H);
-      cx=W/2; cy=H*0.46; var R=Math.min(W,H)*0.34;
-      lines=SECTIONS.map(function(){var ln=document.createElementNS(NS,'line');svg.appendChild(ln);return ln;});
-      var cg=document.createElementNS(NS,'g'); cg.setAttribute('class','si-center');
-      cc=document.createElementNS(NS,'circle'); cc.setAttribute('r',30); cc.setAttribute('fill','rgba(196,146,62,.92)'); cg.appendChild(cc);
-      var cgl=document.createElementNS(NS,'circle'); cgl.setAttribute('r',30); cgl.setAttribute('fill','none'); cgl.setAttribute('stroke','rgba(196,146,62,.30)'); cgl.setAttribute('stroke-width','1.2'); cg.appendChild(cgl);
-      var ct=document.createElementNS(NS,'text'); ct.textContent='緣 연라이프'; ct.setAttribute('style','fill:#fff;stroke:none;font-size:13px;font-weight:700'); cg.appendChild(ct);
-      cg.setAttribute('transform','translate('+cx+','+cy+')'); svg.appendChild(cg);
-      nodes=SECTIONS.map(function(s,i){
-        var ang=(i/SECTIONS.length)*Math.PI*2 - Math.PI/2;
-        var g=document.createElementNS(NS,'g'); g.setAttribute('class','si-node');
-        var c=document.createElementNS(NS,'circle'); c.setAttribute('r',21); c.setAttribute('fill','rgba(63,125,117,.52)'); g.appendChild(c);
-        var tx=document.createElementNS(NS,'text'); tx.textContent=s.l; g.appendChild(tx);
-        g.addEventListener('click',function(e){ e.stopPropagation(); location.href=s.h; });
-        svg.appendChild(g);
-        return {g:g, ang:ang, baseR:R*(0.82+0.18*((i%3)/2)), phase:i*0.7};
-      });
-      place(0);
-    }
-    function place(t){
-      nodes.forEach(function(n,i){
-        var rr=n.baseR+Math.sin(t*0.5+n.phase)*14;
-        var aa=n.ang+Math.sin(t*0.16+n.phase)*0.05;
-        var x=cx+Math.cos(aa)*rr, y=cy+Math.sin(aa)*rr;
-        n.g.setAttribute('transform','translate('+x+','+y+')');
-        lines[i].setAttribute('x1',cx);lines[i].setAttribute('y1',cy);
-        lines[i].setAttribute('x2',x);lines[i].setAttribute('y2',y);
-      });
-    }
-    function frame(ts){ if(!t0)t0=ts; var t=(ts-t0)/1000;
-      if(cc) cc.setAttribute('r',30+Math.sin(t*0.9)*2);
-      place(t); raf=requestAnimationFrame(frame);
-    }
-    build(); raf=requestAnimationFrame(frame);
-    var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){cancelAnimationFrame(raf);t0=null;build();raf=requestAnimationFrame(frame);},300);});
-
-    bg.addEventListener('click',function(e){
-      var t=e.target;
-      if(t.closest && t.closest('.si-node')) return;
-      if(t.closest && t.closest('input,textarea,button,a,label,select,header,footer,main,section,article,aside,.masthead,.topbar,.container,.plaza-mic,.plaza,.hero,.editorial,.world-now,.ecosystem-band,.support-band,.plaza-purpose,.pc-item,.mega-menu,.mega-overlay,.tm-modal,.tm-overlay,.reveal,.navbar')) return;
-      window.location.href='광장_생각지도.html';
-    });
-    var hinted=false;
-    function showHint(){ if(hinted||!hint)return; hinted=true; hint.classList.add('show'); setTimeout(function(){hint.classList.remove('show');},5200); }
-    bg.addEventListener('mouseenter',showHint,{once:true}); setTimeout(showHint,1600);
   })();
 
   /* ============================================================
