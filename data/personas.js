@@ -563,3 +563,25 @@ window.YL_findPost = function(slug, postId){
   if (!p) return null;
   return (p.posts || []).find(x => x.id === postId) || null;
 };
+
+/* ── 정치 성향 좌표(본인 선언 = AI의 설계된 관점) ─────────────────
+ *  x: -1(좌·분배) ~ +1(우·시장)  /  y: -1(보수·전통) ~ +1(진보·개방)
+ *  출처: 연라이프_필진_이력성향_스펙_v1.md (편집 결정·연소사 검토 대상)
+ *  · 실존 인물(초대 작가·학생)은 정치성향을 임의 배정하지 않으므로 제외(정직 원칙).
+ *  · '연라이프 평가(글 분석)' 점은 실제 글 분석이 쌓이기 전까지 비워 둔다(지어내지 않음).
+ */
+(function(){
+  var L = {
+    'ryuon':[0,0.2], 'baekseowon':[-0.1,0.4], 'minhajun':[0,0],
+    'yeon-woojin':[-0.4,0.4], 'baek-sahyeon':[0,0], 'ha-taegyeong':[0.3,-0.1],
+    'lim-siyeon':[0.5,0], 'jang-ido':[-0.2,0.5], 'kim-jaehoon':[0.2,0.1],
+    'lee-jieun':[-0.4,0.5], 'park-seoyeon':[-0.1,0.3], 'shin-yugyeong':[0,0.1],
+    'gwon-nayeong':[0,0], 'han-taesu':[0,-0.2], 'so-seohee':[0.1,0.4],
+    'kaist-researcher':[0,0], 'unist-researcher':[0,0], 'kaist-prof':[0,0],
+    'unist-prof':[0,0], 'unist-student':[0,0],
+  };
+  (window.YL_PERSONAS || []).forEach(function(p){
+    var v = L[p.slug];
+    if (v) p.lean = { x:v[0], y:v[1], yeon:null };
+  });
+})();
