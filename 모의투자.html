@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>연 미래투자 학습 · 모의투자 (데모) — y-life.kr</title>
+<meta name="description" content="주식은 투기가 아니라, 아름다운 세상을 만드는 기업가 정신·먼 미래의 일. 가상 화폐로 배우는 연라이프 모의투자 학습실. 교육용 시뮬레이션(실거래·투자권유 아님)." />
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f4ed; --card:#fffdf8; --ink:#21302e; --ink2:#3a3631;
+    --teal:#2f5d57; --teald:#264a44; --gold:#a96f36; --pine:#427a71;
+    --line:#e7ddc9; --mut:#8a8275; --sky:#5b7fa6; --leaf:#4a9060;
+    --serif:'Noto Serif KR',serif; --sans:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;padding:0 16px 70px}
+  .wrap{max-width:860px;margin:0 auto}
+  .top{display:flex;align-items:center;gap:10px;padding:16px 2px;flex-wrap:wrap}
+  .top a.home{font-family:var(--serif);font-weight:700;color:var(--teald);text-decoration:none;font-size:15px}
+  .top .yeon{color:var(--gold)} .top .sp{flex:1}
+  .pbtn{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .pbtn:hover{background:var(--teal);color:#fff}
+
+  .hero{background:linear-gradient(135deg,rgba(47,93,87,.12),rgba(169,111,54,.10));border:1px solid var(--line);border-radius:20px;padding:30px 26px;margin-top:2px}
+  .hero .eyebrow{font-family:var(--serif);font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:700}
+  .hero h1{font-family:var(--serif);font-size:clamp(23px,4.6vw,32px);font-weight:800;color:var(--ink);margin:8px 0 10px;line-height:1.35}
+  .hero .vow{font-family:var(--serif);font-size:clamp(15px,2.6vw,18px);color:var(--teald);line-height:1.85;border-left:4px solid var(--gold);padding-left:14px}
+  .hero .vow b{color:var(--gold)}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .bdg{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:#eef3ef;color:var(--teald)}
+  .bdg.warn{background:#fbeedd;color:#9a7b35}
+  .flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center}
+  .fstep{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 15px;display:flex;flex-direction:column;gap:3px}
+  .fstep .fn{font-family:var(--serif);font-weight:800;color:var(--gold);font-size:13px}
+  .fstep b{font-size:14px;color:var(--ink)}
+  .fstep .ff{font-size:11.5px;color:var(--mut)}
+  .far{display:flex;align-items:center;color:var(--mut);font-weight:700;font-size:18px}
+  @media(max-width:560px){.far{display:none}}
+
+  h2.sec{font-family:var(--serif);font-size:clamp(18px,3vw,22px);color:var(--ink);margin:30px 2px 4px;font-weight:800}
+  .sec-d{font-size:13px;color:var(--mut);margin:0 2px 14px}
+  .demo-tag{font-size:10.5px;font-weight:800;color:#9a7b35;background:#fbeedd;border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .card h3{font-family:var(--serif);font-size:16px;color:var(--ink);margin-bottom:3px}
+  .card .world{font-size:12.5px;color:var(--pine);font-weight:600;margin-bottom:8px}
+  .card .desc{font-size:12.5px;color:var(--ink2);line-height:1.65}
+  .spark{margin:10px 0 6px}
+  .spark svg{width:100%;height:46px;display:block}
+  .spark .cap{font-size:10.5px;color:var(--mut);margin-top:3px}
+  .trend{font-size:11.5px;font-weight:700;color:var(--leaf)}
+
+  /* 가치 나침반 */
+  .compass-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .values{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .vchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;font-family:inherit}
+  .vchip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .vout{margin-top:12px;font-size:13px;color:var(--teald)}
+  .vout b{color:var(--gold)}
+
+  /* 변동요인 피드 */
+  .feed{display:flex;flex-direction:column;gap:11px}
+  .ev{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:12px;padding:14px 16px}
+  .ev .tag{font-size:11px;font-weight:700;color:var(--sky)}
+  .ev .t{font-family:var(--serif);font-weight:700;font-size:14.5px;margin:4px 0;color:var(--ink)}
+  .ev .src{font-size:11px;color:var(--mut)}
+  .ev .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:9px}
+
+  /* 가상 포트폴리오 */
+  .pf{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .pf-top{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;margin-bottom:12px}
+  .pf-cash{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--teald)}
+  .pf-cash small{font-size:12px;color:var(--mut);font-weight:600}
+  .hold{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(40,32,20,.06);font-size:13.5px}
+  .hold .nm{font-weight:600;color:var(--ink)} .hold .up{color:var(--leaf);font-weight:700} .hold .dn{color:#b65;font-weight:700}
+
+  /* 가설 노트 */
+  .thesis textarea{width:100%;border:1px solid #d7c9b4;border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;min-height:60px;outline:none;background:#fff}
+  .thesis textarea:focus{border-color:var(--teal)}
+  .thlist{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .th{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+  .th .when{font-size:11px;color:var(--mut);margin-bottom:3px}
+
+  /* AI·유료 버튼 + 무료 표시 */
+  .ai-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--gold);background:#fff;color:var(--gold);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .ai-btn:hover{background:var(--gold);color:#fff}
+  .ai-btn .lock{font-size:10px;font-weight:800;background:#fbeedd;color:#9a7b35;border-radius:999px;padding:1px 7px}
+  .ai-btn:hover .lock{background:rgba(255,255,255,.25);color:#fff}
+  .free-tag{font-size:10.5px;font-weight:800;color:var(--leaf);background:rgba(74,144,96,.14);border-radius:999px;padding:2px 9px}
+  .plain-btn{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .plain-btn:hover{background:var(--teal);color:#fff}
+
+  .note{background:#efeadd;border-radius:12px;padding:15px 17px;font-size:12.5px;color:var(--ink2);line-height:1.7;margin-top:14px}
+  .note b{color:var(--teald)}
+  .safe{font-size:11.5px;color:var(--mut);text-align:center;margin-top:22px;line-height:1.7}
+  footer{text-align:center;font-size:11.5px;color:var(--mut);margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+  footer a{color:var(--teal);text-decoration:none}
+
+  /* AI 안내 모달 */
+  .ov{position:fixed;inset:0;background:rgba(28,24,18,.45);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
+  .ov.open{display:flex}
+  .modal{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:380px;width:100%;padding:24px;text-align:center}
+  .modal h3{font-family:var(--serif);font-size:18px;color:var(--ink);margin-bottom:8px}
+  .modal p{font-size:13.5px;color:var(--ink2);line-height:1.7;margin-bottom:16px}
+  .modal .go{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:11px 20px;font-family:var(--serif)}
+  .modal .x{display:block;margin-top:12px;background:none;border:none;color:var(--mut);font-size:12.5px;cursor:pointer;font-family:inherit}
+
+  @media print{ .pbtn,.ai-btn,.plain-btn,.ov{display:none!important} body{padding:0} .card,.ev,.pf,.compass-wrap{box-shadow:none;border:1px solid #ccc;break-inside:avoid} }
+  @media print{ body.eco *{background:#fff!important;color:#000!important} body.eco .grid,body.eco .pf-top{display:block} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="home" href="/"><span class="yeon">緣</span> y-life.kr</a>
+    <span class="sp"></span>
+    <button class="pbtn" onclick="ylPrint(false)">인쇄</button>
+    <button class="pbtn" onclick="ylPrint(true)">절약 인쇄</button>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">연 미래투자 학습 · 모의투자</div>
+    <h1>투기가 아니라, 세상을 짓는 일</h1>
+    <div class="vow">주식은 투기가 아닙니다. <b>아름다운 세상을 만들기 위해, 내가 할 수 있는 기업가 정신으로</b>,
+      <b>먼 미래를 내다보고</b> 함께하는 일입니다. 여기서는 <b>가상 화폐</b>로, 수익률이 아니라 <b>생각</b>을 기릅니다.</div>
+    <div class="badges">
+      <span class="bdg">가상 화폐 · 실제 돈 아님</span>
+      <span class="bdg">교육용 시뮬레이션</span>
+      <span class="bdg warn">투자 권유 아님 · 매매 신호 없음</span>
+    </div>
+  </section>
+
+  <!-- 핵심 사용 흐름 (수익화 루프) -->
+  <div class="flow">
+    <div class="fstep"><span class="fn">STEP 1</span><b>미래 그래프를 본다</b><span class="ff">우리가 보는 미래 시각 · 무료</span></div>
+    <div class="far">→</div>
+    <div class="fstep"><span class="fn">STEP 2</span><b>내 의견을 넣는다</b><span class="ff">동의도 반론도 · 무료</span></div>
+    <div class="far">→</div>
+    <div class="fstep"><span class="fn">STEP 3</span><b>우리 AI의 생각을 듣는다</b><span class="ff">함께 토론 · AI·유료</span></div>
+  </div>
+
+  <!-- 1. 가치 나침반 -->
+  <h2 class="sec">① 내 가치 나침반</h2>
+  <p class="sec-d">먼저 묻습니다 — <b>나는 어떤 세상을 만들고 싶은가?</b> 수익률보다 이게 먼저입니다.</p>
+  <div class="compass-wrap">
+    <div class="values" id="values">
+      <button class="vchip" data-v="기후·지구">기후·지구</button>
+      <button class="vchip" data-v="교육·배움">교육·배움</button>
+      <button class="vchip" data-v="건강·생명">건강·생명</button>
+      <button class="vchip" data-v="존엄·공정">존엄·공정</button>
+      <button class="vchip" data-v="연결·평화">연결·평화</button>
+      <button class="vchip" data-v="탐험·미래">탐험·미래</button>
+    </div>
+    <div class="vout" id="vout">관심 가치를 골라보세요. 고른 가치가 아래 분야·기업을 보는 나침반이 됩니다.</div>
+  </div>
+
+  <!-- 2. 연구 레이더 -->
+  <h2 class="sec">② 연구 레이더 — 미래는 연구실에서 먼저 태어난다 <span class="demo-tag">표본 데이터</span></h2>
+  <p class="sec-d">매일의 뉴스 + 대학 연구 자료에서 <b>자라나는 분야</b>와 그 <b>발전 그래프</b>를 봅니다. (아래 그래프는 데모용 표본 · 실데이터는 다음 단계)</p>
+  <div class="grid" id="radar"></div>
+
+  <!-- 3. 변동요인 피드 -->
+  <h2 class="sec">③ 변동요인 알림 <span class="demo-tag">표본</span></h2>
+  <p class="sec-d">세상이 움직일 때 — “이 분야에 새로운 변동 발생요인이 생겼습니다.” <b>기회 잡으라는 신호가 아니라, 세상이 어디로 가는지</b> 읽는 자리입니다.</p>
+  <div class="feed" id="feed"></div>
+
+  <!-- 4. 가상 포트폴리오 -->
+  <h2 class="sec">④ 내 가상 포트폴리오 <span class="demo-tag">데모</span></h2>
+  <p class="sec-d">가상 화폐로 <b>먼 미래</b>를 함께할 기업·분야에 동참합니다. 단타·랭킹은 없습니다.</p>
+  <div class="pf">
+    <div class="pf-top">
+      <div class="pf-cash" id="cash">가상자금 10,000,000<small>가상원</small></div>
+      <div style="font-size:12.5px;color:var(--mut)">시작 가상자금으로 천천히, 10년을 봅니다.</div>
+    </div>
+    <div id="holdings"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <span class="free-tag">기록·수익률 계산 무료</span>
+      <button class="ai-btn" onclick="ylAI('내 포트폴리오 가치 정렬 분석')">내 투자가 내 가치와 맞나? <span class="lock">AI·유료</span></button>
+    </div>
+  </div>
+
+  <!-- 5. 예측 검증 -->
+  <h2 class="sec">⑤ 예측 검증 — 내 생각이 맞아떨어지는가</h2>
+  <p class="sec-d">“이 분야가 중요해질 것이다 (왜냐면…)”를 적어두고, 시간이 지나 <b>맞았는지 정직하게</b> 봅니다. 자랑이 아니라 배움입니다.</p>
+  <div class="pf thesis">
+    <textarea id="thIn" placeholder="예: 고체전지가 10년 안에 핵심이 될 것 — 안전·에너지밀도가 기후 전환의 길목이라서."></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <span class="free-tag">가설 기록 무료</span>
+      <button class="plain-btn" onclick="addThesis()">내 가설 적기</button>
+      <button class="ai-btn" onclick="ylAI('가설 회고 — 맞았나? 왜?')">AI와 함께 회고 <span class="lock">AI·유료</span></button>
+    </div>
+    <div class="thlist" id="thlist"></div>
+  </div>
+
+  <div class="note">
+    <b>무료 / 유료 안내</b> · 가상 매매·기록·수익률·가설 적기·분야 카드 보기는 <b>무료</b>입니다.
+    “왜·어떻게”를 풀어주는 <b>AI 해설·회고·맞춤 분석은 AI를 쓰므로 유료</b>(누르기 전 항상 알려드려요). 공통 변동요인·연구 그래프는 모두에게 무료로 공유됩니다.
+    <a href="/구독.html" style="color:var(--teald);font-weight:700">구독 요금제 보기 →</a>
+  </div>
+
+  <div class="safe">
+    이 화면은 <b>교육용 모의투자(데모)</b>입니다. 실제 돈·실거래·투자 권유가 아니며, 카드번호·비밀번호를 받지 않습니다.<br>
+    표시된 분야·그래프·뉴스는 <b>데모용 표본</b>이며, 실데이터·실시간·AI 분석은 다음 단계에서 서버를 거쳐 제공됩니다.
+  </div>
+
+  <footer>
+    © 2026 y-life.kr · 연라이프 · 모의투자 학습실(데모) · 연계: <a href="/광장_생각지도.html">생각의 지도</a> · <a href="/구독.html">구독</a><br>
+    <a href="/">← 연라이프 홈으로</a>
+  </footer>
+</div>
+
+<div class="ov" id="aiOv">
+  <div class="modal">
+    <h3 id="aiTitle">AI 기능 · 유료</h3>
+    <p id="aiMsg"></p>
+    <a class="go" href="/구독.html">구독 요금제 보기</a>
+    <button class="x" onclick="document.getElementById('aiOv').classList.remove('open')">닫기</button>
+  </div>
+</div>
+
+<script>
+/* ── 데모 표본 데이터 (실데이터·실시간 아님 · 명시) ── */
+var RADAR = [
+  {name:'고체전지', world:'기후·지구', desc:'더 안전하고 오래가는 배터리 — 전기차·저장의 길목.', s:[3,4,5,7,9,12,16,22], up:'+연구 가속'},
+  {name:'핵융합', world:'기후·지구', desc:'태양의 불을 땅 위에 — 깨끗한 에너지의 먼 꿈, 가까워지는 중.', s:[2,2,3,4,6,8,11,15], up:'+돌파 잇따름'},
+  {name:'mRNA·유전자', world:'건강·생명', desc:'몸의 언어로 병을 다루는 의학 — 백신을 넘어.', s:[5,7,9,10,12,13,15,17], up:'+꾸준히'},
+  {name:'양자컴퓨팅', world:'탐험·미래', desc:'풀 수 없던 문제를 푸는 계산 — 신소재·신약의 엔진.', s:[2,3,3,5,6,9,12,18], up:'+급가속'},
+  {name:'우주·위성', world:'탐험·미래', desc:'더 싸진 우주 — 관측·통신·지구를 돌보는 눈.', s:[4,5,6,8,9,11,13,16], up:'+성장'},
+  {name:'기후기술(CCUS)', world:'기후·지구', desc:'탄소를 잡아 다시 쓰는 기술 — 되돌리는 일.', s:[1,2,2,3,4,6,9,13], up:'+초기 급증'}
+];
+var FEED = [
+  {tag:'정책 · 세계', t:'주요국, 차세대 배터리 연구에 대규모 공공 투자 발표', src:'데모 표본 · 연라이프 ‘세계는 지금’ 연동 예정', field:'고체전지'},
+  {tag:'연구 · 대학', t:'국내외 연구진, 핵융합 플라스마 유지 시간 신기록 보고', src:'데모 표본 · 대학 연구 자료 연동 예정', field:'핵융합'},
+  {tag:'정책 · 기후', t:'탄소포집 의무·인센티브 강화 흐름 — 기후기술 수요 신호', src:'데모 표본', field:'기후기술'}
+];
+var HOLD = [
+  {nm:'기후 에너지 바스켓(가상)', pct:'+0.0%', cls:'up', note:'먼 미래 · 보유 1일째'},
+  {nm:'생명·건강 바스켓(가상)', pct:'+0.0%', cls:'up', note:'먼 미래 · 보유 1일째'}
+];
+
+function spark(arr){
+  var w=240,h=46,max=Math.max.apply(null,arr),min=Math.min.apply(null,arr),rng=(max-min)||1;
+  var pts=arr.map(function(v,i){var x=i/(arr.length-1)*w;var y=h-4-((v-min)/rng)*(h-10);return x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+  var lx=w, ly=h-4-((arr[arr.length-1]-min)/rng)*(h-10);
+  return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><polyline points="'+pts+'" fill="none" stroke="#427a71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="3" fill="#a96f36"/></svg>';
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+/* 연구 레이더 카드 */
+document.getElementById('radar').innerHTML = RADAR.map(function(r){
+  return '<div class="card"><h3>'+esc(r.name)+'</h3><div class="world">'+esc(r.world)+'</div>'
+    +'<div class="desc">'+esc(r.desc)+'</div>'
+    +'<div class="spark">'+spark(r.s)+'<div class="cap">분야 발전 그래프 · <span class="trend">'+esc(r.up)+'</span> · 표본</div></div>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px"><span class="free-tag">분야 보기 무료</span>'
+    +'<button class="ai-btn" onclick="ylAI(\''+esc(r.name)+' — 이 분야가 만드는 세상\')">왜 중요한가 <span class="lock">AI·유료</span></button></div></div>';
+}).join('');
+
+/* 변동요인 피드 */
+document.getElementById('feed').innerHTML = FEED.map(function(e){
+  return '<div class="ev"><div class="tag">'+esc(e.tag)+'</div><div class="t">'+esc(e.t)+'</div>'
+    +'<div class="src">출처: '+esc(e.src)+' · 관련 분야: <b>'+esc(e.field)+'</b></div>'
+    +'<div class="row"><span class="free-tag">알림 무료</span>'
+    +'<button class="ai-btn" onclick="ylAI(\''+esc(e.field)+' 변동요인 해설\')">이게 무슨 의미? <span class="lock">AI·유료</span></button></div></div>';
+}).join('');
+
+/* 포트폴리오 */
+document.getElementById('holdings').innerHTML = HOLD.map(function(h){
+  return '<div class="hold"><span class="nm">'+esc(h.nm)+'<br><span style="font-size:11px;color:#9a948b;font-weight:400">'+esc(h.note)+'</span></span><span class="'+h.cls+'">'+esc(h.pct)+'</span></div>';
+}).join('');
+
+/* 가치 나침반 */
+var picked=[];
+document.getElementById('values').addEventListener('click',function(e){
+  var b=e.target.closest('.vchip'); if(!b)return;
+  b.classList.toggle('on');
+  var v=b.dataset.v, i=picked.indexOf(v);
+  if(i>=0)picked.splice(i,1); else picked.push(v);
+  var out=document.getElementById('vout');
+  out.innerHTML = picked.length
+    ? '내 나침반: <b>'+picked.map(esc).join(' · ')+'</b><br><span style="font-size:12px;color:#8a8275">이 가치를 만드는 분야·기업에 먼 미래로 함께하는 걸 연습합니다. (수익률이 아니라 가치 정렬을 봅니다)</span>'
+    : '관심 가치를 골라보세요. 고른 가치가 아래 분야·기업을 보는 나침반이 됩니다.';
+});
+
+/* 가설 노트 (로컬 저장 — 본인 기기에만) */
+var THKEY='yeon_invest_thesis_demo';
+function loadTh(){ try{return JSON.parse(localStorage.getItem(THKEY)||'[]');}catch(e){return[];} }
+function renderTh(){
+  var arr=loadTh();
+  document.getElementById('thlist').innerHTML = arr.length? arr.map(function(t){
+    return '<div class="th"><div class="when">'+esc(t.when)+'</div>'+esc(t.text)+'</div>';
+  }).join('') : '<div style="font-size:12.5px;color:#9a948b">아직 적은 가설이 없어요. 먼 미래를 내다본 한 줄을 남겨보세요.</div>';
+}
+function addThesis(){
+  var ta=document.getElementById('thIn'), v=ta.value.trim(); if(!v)return;
+  var arr=loadTh(); var d=new Date();
+  arr.unshift({text:v, when:(d.getFullYear()+'.'+(d.getMonth()+1)+'.'+d.getDate())});
+  try{localStorage.setItem(THKEY,JSON.stringify(arr));}catch(e){}
+  ta.value=''; renderTh();
+}
+renderTh();
+
+/* AI·유료 안내 모달 */
+function ylAI(title){
+  document.getElementById('aiTitle').textContent='“'+title+'” · AI 기능';
+  document.getElementById('aiMsg').innerHTML='이 기능은 <b>AI를 사용</b>해 풀어드려요 — 그래서 <b>유료(구독/크레딧)</b>입니다.<br>지금은 데모라 실제 분석은 아직 연결 전이에요. 구독하면 “왜·어떻게”를 함께 생각해 드립니다.';
+  document.getElementById('aiOv').classList.add('open');
+}
+document.getElementById('aiOv').addEventListener('click',function(e){ if(e.target===this) this.classList.remove('open'); });
+
+/* 인쇄 2모드 */
+function ylPrint(eco){ document.body.classList.toggle('eco',!!eco); setTimeout(function(){window.print();},60); }
+window.addEventListener('afterprint',function(){document.body.classList.remove('eco');});
+</script>
+</body>
+</html>
