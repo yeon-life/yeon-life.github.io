@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>연라이프 · 구독 신청 관리(1클릭 승인)</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--paper:#f7f4ed;--card:#fffdf8;--ink:#2a2723;--teal:#2f5d57;--teal-deep:#264a44;--gold:#a96f36;--line:#e7ddc9;--mut:#8a8275;--serif:'Noto Serif KR',serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;padding:0 14px 60px}
+  .wrap{max-width:720px;margin:0 auto}
+  header{display:flex;align-items:center;gap:10px;padding:18px 2px;flex-wrap:wrap}
+  header h1{font-family:var(--serif);font-size:18px;color:var(--teal-deep)}
+  header .sp{flex:1}
+  .pill{font-size:12px;color:var(--mut)}
+  .setup{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:6px}
+  .setup h2{font-family:var(--serif);font-size:15px;margin-bottom:10px;color:var(--teal-deep)}
+  .fld{margin-bottom:10px}
+  .fld label{display:block;font-size:12.5px;font-weight:700;color:#4a463f;margin-bottom:4px}
+  .fld input{width:100%;border:1px solid #d7c9b4;border-radius:9px;padding:10px 12px;font-size:13.5px;font-family:inherit;background:#fff;outline:none}
+  .fld input:focus{border-color:var(--teal)}
+  .btn{border:none;background:var(--teal);color:#fff;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;font-family:var(--serif);cursor:pointer}
+  .btn:hover{background:var(--teal-deep)}
+  .btn.ghost{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .stat{display:flex;gap:14px;margin:16px 2px;font-size:13px;color:#5b554c;flex-wrap:wrap}
+  .stat b{color:var(--teal-deep)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:11px}
+  .card.done{opacity:.62}
+  .card .top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+  .card .nm{font-family:var(--serif);font-weight:700;font-size:16px;color:#2a2723}
+  .badge{font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px}
+  .b-wait{background:#fbeedd;color:#a8741f}
+  .b-ok{background:#eef3ef;color:#2f5d57}
+  .b-no{background:#f3e3e3;color:#a14a4a}
+  .card .meta{font-size:13px;color:#4a463f;line-height:1.9}
+  .card .meta b{color:#2a2723}
+  .acts{display:flex;gap:8px;margin-top:10px}
+  .acts button{border:none;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .ap{background:var(--teal);color:#fff}.ap:hover{background:var(--teal-deep)}
+  .rj{background:#fff;color:#a14a4a;border:1px solid #d9b4b4}
+  .empty{text-align:center;color:var(--mut);padding:40px 0;font-size:14px}
+  .err{background:#f7e7e7;border:1px solid #e0c0c0;color:#8a3a3a;border-radius:10px;padding:12px;font-size:13px;margin-top:10px;display:none}
+  .err.show{display:block}
+  .note{font-size:11.5px;color:var(--mut);margin-top:6px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>구독 신청 관리</h1><span class="pill">1클릭 승인</span>
+    <span class="sp"></span>
+    <button class="btn ghost" id="reload" style="display:none">새로고침</button>
+  </header>
+
+  <div class="setup" id="setup">
+    <h2>연결 설정 (이 기기에만 저장)</h2>
+    <div class="fld"><label>Apps Script 웹앱 URL</label><input id="url" placeholder="https://script.google.com/macros/s/XXXX/exec" /></div>
+    <div class="fld"><label>관리자 키 (ADMIN_KEY)</label><input id="key" type="password" placeholder="Apps Script에 정한 긴 암호" /></div>
+    <div class="row"><button class="btn" id="connect">연결</button><span class="note">키는 이 브라우저에만 저장됩니다(공개 안 됨).</span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="stat" id="stat" style="display:none">
+    <span>대기 <b id="cWait">0</b></span><span>승인 <b id="cOk">0</b></span><span>반려 <b id="cNo">0</b></span>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>
+var S={url:'',key:''};
+try{ S.url=sessionStorage.getItem('yl_admin_url')||''; S.key=sessionStorage.getItem('yl_admin_key')||''; }catch(e){}
+var $=function(id){return document.getElementById(id);};
+if(S.url) $('url').value=S.url; if(S.key) $('key').value=S.key;
+
+$('connect').onclick=function(){
+  S.url=$('url').value.trim(); S.key=$('key').value.trim();
+  if(!S.url||!S.key){ showErr('URL과 관리자 키를 모두 입력하세요.'); return; }
+  try{ sessionStorage.setItem('yl_admin_url',S.url); sessionStorage.setItem('yl_admin_key',S.key); }catch(e){}
+  load();
+};
+$('reload').onclick=load;
+
+function showErr(m){ var e=$('err'); e.textContent=m; e.classList.add('show'); }
+function hideErr(){ $('err').classList.remove('show'); }
+
+/* 목록 읽기 — JSONP (CORS 회피) */
+function load(){
+  hideErr();
+  var cb='ylcb_'+Date.now();
+  window[cb]=function(res){
+    delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s);
+    if(!res||!res.ok){ showErr('연결 실패 — URL 또는 관리자 키를 확인하세요. (auth)'); return; }
+    render(res.list||[]);
+  };
+  var s=document.createElement('script');
+  s.src=S.url+(S.url.indexOf('?')<0?'?':'&')+'key='+encodeURIComponent(S.key)+'&callback='+cb;
+  s.onerror=function(){ showErr('웹앱에 연결하지 못했습니다. URL을 확인하세요.'); };
+  document.body.appendChild(s);
+}
+
+function render(list){
+  $('setup').style.display='none'; $('stat').style.display='flex'; $('reload').style.display='inline-block';
+  var w=0,o=0,n=0;
+  list.forEach(function(x){ if(x.status==='승인')o++; else if(x.status==='반려')n++; else w++; });
+  $('cWait').textContent=w; $('cOk').textContent=o; $('cNo').textContent=n;
+  var L=$('list'); L.innerHTML='';
+  if(!list.length){ L.innerHTML='<div class="empty">아직 신청이 없습니다.</div>'; return; }
+  list.forEach(function(x){
+    var done=(x.status==='승인'||x.status==='반려');
+    var bcls=x.status==='승인'?'b-ok':x.status==='반려'?'b-no':'b-wait';
+    var div=document.createElement('div'); div.className='card'+(done?' done':'');
+    div.innerHTML='<div class="top"><span class="nm">'+esc(x.name)+'</span><span class="badge '+bcls+'">'+esc(x.status)+'</span></div>'
+      +'<div class="meta">연락처 <b>'+esc(x.contact)+'</b> · 입금자명 <b>'+esc(x.payer)+'</b><br>'
+      +esc(x.method)+' · 월 '+esc(String(x.price))+'원 · '+fmt(x.at)+(x.memo?'<br>메모: '+esc(x.memo):'')+'</div>'
+      +(done?'':'<div class="acts"><button class="ap" data-row="'+x.row+'" data-a="approve">✓ 승인</button>'
+        +'<button class="rj" data-row="'+x.row+'" data-a="reject">반려</button></div>');
+    L.appendChild(div);
+  });
+  L.querySelectorAll('button[data-a]').forEach(function(b){
+    b.onclick=function(){ act(b.dataset.a, b.dataset.row, b); };
+  });
+}
+
+/* 승인/반려 — POST (no-cors) 후 목록 새로고침 */
+function act(action,row,btn){
+  btn.disabled=true; btn.textContent='처리 중…';
+  fetch(S.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({action:action,row:Number(row),key:S.key})})
+    .then(function(){ setTimeout(load,700); })
+    .catch(function(){ showErr('처리 중 오류. 다시 시도하세요.'); btn.disabled=false; });
+}
+
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+function fmt(s){ try{var d=new Date(s); if(isNaN(d))return esc(s); return (d.getMonth()+1)+'/'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}catch(e){return esc(s);} }
+
+if(S.url&&S.key) load();
+</script>
+</body>
+</html>
