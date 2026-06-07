@@ -785,6 +785,13 @@
         '<h4>' + it.label + '</h4>' +
       '</a>').join('');
 
+    let postBtnHtml = '';
+    if (opts.forumFilter === '아곤란') {
+      postBtnHtml = '<a class="vote-btn" href="아곤란_미리보기.html" style="background:#c38d56;color:#fff"><span class="ico">✍</span><span>아곤란에 질문 남기기</span></a>';
+    } else if (opts.forumFilter === '아골라') {
+      postBtnHtml = '<a class="vote-btn" href="아골라_미리보기.html" style="background:#2f5d62;color:#fff"><span class="ico">✍</span><span>아골라에 의견 남기기</span></a>';
+    }
+
     article.innerHTML =
       '<div class="article-meta"><span class="where">' + opts.kicker + '</span></div>' +
       '<h1 class="article-title">' + opts.heading + '</h1>' +
@@ -795,6 +802,7 @@
         '<div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap">' +
           '<a class="vote-btn" href="index.html"><span class="ico">⌂</span><span>홈으로</span></a>' +
           '<a class="vote-btn" href="index.html#plaza" style="background:var(--teal)"><span class="ico">◎</span><span>광장 둘러보기</span></a>' +
+          postBtnHtml +
         '</div>' +
       '</div>';
 
