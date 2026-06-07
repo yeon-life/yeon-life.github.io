@@ -103,6 +103,34 @@
       border-radius: 1px;
     }
 
+    /* 본문 사진 */
+    .article-figure {
+      margin: 48px 0;
+    }
+    .article-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 2px;
+      box-shadow: 0 8px 30px rgba(40, 30, 20, 0.14);
+    }
+    .article-figure figcaption {
+      margin-top: 12px;
+      text-align: center;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--muted);
+      text-indent: 0;
+      word-break: keep-all;
+    }
+    .article-figure figcaption .credit {
+      display: inline-block;
+      margin-left: 6px;
+      opacity: 0.65;
+      letter-spacing: 0.02em;
+    }
+
     /* 하단 작성자 정보 */
     .article-author-card {
       margin-top: 80px;
@@ -210,8 +238,20 @@
 
     <div class="article-content">
       <p class="first-paragraph" data-i18n="pages.ulsan_restaurant.p1"></p>
+
+      <figure class="article-figure">
+        <img src="assets/img/ulsan/ulsan-store.jpg" alt="감포 생아구찜 가게 외관" loading="lazy" />
+        <figcaption>간판에 큼지막한 ‘생’ 한 글자. 발길을 잡은 건 그거 하나였다.<span class="credit">사진 · 연소사</span></figcaption>
+      </figure>
+
       <p data-i18n="pages.ulsan_restaurant.p2"></p>
       <p data-i18n="pages.ulsan_restaurant.p3"></p>
+
+      <figure class="article-figure">
+        <img src="assets/img/ulsan/ulsan-owner.jpg" alt="아구탕집 주인 아주머니" loading="lazy" />
+        <figcaption>“그건 뭐한다꼬 문능교” — 투박한 말투 뒤에, 음식에 대한 당당함이 있었다.<span class="credit">사진 · 연소사</span></figcaption>
+      </figure>
+
       <p data-i18n="pages.ulsan_restaurant.p4"></p>
       <p data-i18n="pages.ulsan_restaurant.p5"></p>
       <p data-i18n="pages.ulsan_restaurant.p6"></p>
@@ -222,6 +262,12 @@
       <p data-i18n="pages.ulsan_restaurant.p9"></p>
       <p data-i18n="pages.ulsan_restaurant.p10"></p>
       <p data-i18n="pages.ulsan_restaurant.p11"></p>
+
+      <figure class="article-figure">
+        <img src="assets/img/ulsan/ulsan-soup.jpg" alt="놋그릇에 담긴 생아구탕" loading="lazy" />
+        <figcaption>큰 냄비에 차려진 생아구탕. 각자 국그릇에 떠 나눠 먹는다.<span class="credit">사진 · 연소사</span></figcaption>
+      </figure>
+
       <p data-i18n="pages.ulsan_restaurant.p12"></p>
       <p data-i18n="pages.ulsan_restaurant.p13"></p>
       <p data-i18n="pages.ulsan_restaurant.p14"></p>

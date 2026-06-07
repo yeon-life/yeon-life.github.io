@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<!-- 감포 생아구찜 — 가게 소개·메뉴·예약(전화/문자)·QR 공유. 단독 페이지(연라이프 칼럼에서 소개). -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>감포 생아구찜 · 감포 바닷가 생물 손맛</title>
+<meta name="description" content="경주 감포항, 생물로만 끓이는 생아구찜·생아구탕. 욕쟁이 손맛 그대로. 전화·문자 예약 010-9178-7772. 모든 메뉴 포장 가능." />
+<meta name="theme-color" content="#1f5d6b" />
+<meta property="og:title" content="감포 생아구찜" />
+<meta property="og:description" content="감포 바닷가, 생물로만 끓이는 생아구찜·생아구탕. 예약 010-9178-7772." />
+<meta property="og:image" content="img/soup.jpg" />
+<meta property="og:type" content="restaurant" />
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbf7ef; --paper:#fffdf9; --ink:#2a2620; --soft:#5d564c; --muted:#8d8576;
+    --sea:#1f5d6b; --sea-d:#16454f; --gold:#c08a3e; --accent:#c5532f; --accent-d:#a8431f;
+    --line:#e7ded0; --line2:#efe7da; --shadow:0 10px 34px rgba(40,30,18,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  .serif{font-family:'Gowun Batang',serif}
+
+  /* 상단바 */
+  .top{position:sticky;top:0;z-index:50;background:rgba(251,247,239,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top .inner{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:11px 20px}
+  .brand{font-family:'Black Han Sans',sans-serif;font-size:20px;color:var(--sea);letter-spacing:-.01em}
+  .brand b{color:var(--accent)}
+  .top .sp{flex:1}
+  .callbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border-radius:999px;padding:8px 15px;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(197,83,47,.3)}
+  .callbtn:hover{background:var(--accent-d)}
+  .callbtn svg{width:16px;height:16px}
+
+  /* 히어로 */
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;color:#fff;
+    background:linear-gradient(180deg,rgba(15,40,46,.15),rgba(15,40,46,.78)),url('img/store.jpg') center 38%/cover}
+  .hero .h-in{max-width:980px;margin:0 auto;width:100%;padding:0 20px 46px}
+  .hero .eyebrow{font-family:'Gowun Batang',serif;letter-spacing:.22em;font-size:13px;opacity:.92;margin-bottom:12px}
+  .hero h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(38px,9vw,76px);line-height:1.02;letter-spacing:-.01em;text-shadow:0 3px 18px rgba(0,0,0,.4)}
+  .hero h1 b{color:#ffd98a}
+  .hero .lede{font-family:'Gowun Batang',serif;font-size:clamp(16px,3.4vw,21px);margin-top:14px;max-width:520px;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+  .hero .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 22px;font-weight:700;font-size:15.5px;cursor:pointer;border:none}
+  .btn-a{background:var(--accent);color:#fff;box-shadow:0 6px 20px rgba(197,83,47,.4)}.btn-a:hover{background:var(--accent-d)}
+  .btn-b{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}.btn-b:hover{background:rgba(255,255,255,.26)}
+
+  /* 공통 섹션 */
+  section{padding:62px 0}
+  .sec-head{text-align:center;margin-bottom:34px}
+  .sec-head .k{font-family:'Gowun Batang',serif;letter-spacing:.18em;color:var(--gold);font-size:13px;font-weight:700}
+  .sec-head h2{font-family:'Black Han Sans',sans-serif;font-size:clamp(26px,5.5vw,38px);color:var(--ink);margin-top:8px;letter-spacing:-.01em}
+  .sec-head p{color:var(--soft);margin-top:8px;font-size:15px}
+
+  /* 이야기 */
+  .story{background:var(--sea);color:#fff}
+  .story .wrap{max-width:760px;text-align:center}
+  .story .quote{font-family:'Black Han Sans',sans-serif;font-size:clamp(26px,6vw,44px);line-height:1.25;color:#ffd98a}
+  .story p{font-family:'Gowun Batang',serif;font-size:17px;line-height:1.95;margin-top:20px;color:#eaf3f2}
+  .story .link{display:inline-block;margin-top:22px;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:2px;font-weight:500;font-size:14.5px}
+
+  /* 대표 메뉴 카드 */
+  .signs{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .sign{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .sign .ph{aspect-ratio:4/3;background-size:cover;background-position:center}
+  .sign .b{padding:16px 18px 18px}
+  .sign .b h3{font-family:'Black Han Sans',sans-serif;font-size:21px;color:var(--sea)}
+  .sign .b .d{color:var(--soft);font-size:13.5px;margin-top:4px}
+  .sign .b .p{margin-top:10px;font-weight:700;color:var(--accent);font-size:15px}
+
+  /* 전체 메뉴 표 */
+  .menu{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+  .menu .grp{padding:20px 22px;border-bottom:1px solid var(--line2)}
+  .menu .grp:last-child{border-bottom:none}
+  .menu .gt{font-family:'Black Han Sans',sans-serif;font-size:18px;color:var(--sea);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .menu .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:7px 0;border-bottom:1px dashed var(--line2)}
+  .menu .row:last-child{border-bottom:none}
+  .menu .row .n{font-weight:500}.menu .row .n small{color:var(--muted);font-weight:400;font-size:12.5px;margin-left:4px}
+  .menu .row .v{font-weight:700;color:var(--ink);white-space:nowrap}
+  .menu .note{padding:14px 22px;background:#f6efe2;color:var(--soft);font-size:12.5px;line-height:1.7}
+  .menu .note b{color:var(--accent)}
+  .takeout{display:inline-block;margin:18px auto 0;background:#eaf3f1;color:var(--sea-d);font-weight:700;border-radius:999px;padding:8px 18px;font-size:14px}
+
+  /* 갤러리 */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .gal a{aspect-ratio:1;overflow:hidden;border-radius:12px;background:#eee}
+  .gal img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+  .gal a:hover img{transform:scale(1.06)}
+  .credit{text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
+
+  /* 예약 */
+  .resv{background:linear-gradient(180deg,#fff8ed,#fbf2e2)}
+  .resv .box{max-width:640px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px 22px}
+  .resv label{display:block;font-weight:700;font-size:13.5px;color:var(--soft);margin:13px 0 5px}
+  .resv input,.resv select,.resv textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:15px;background:#fff;color:var(--ink)}
+  .resv input:focus,.resv select:focus,.resv textarea:focus{outline:none;border-color:var(--sea)}
+  .resv .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .resv .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .resv .acts .btn{flex:1;justify-content:center;min-width:140px}
+  .resv .hint{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.6;text-align:center}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--sea);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;box-shadow:var(--shadow);z-index:120;display:none}
+  .toast.on{display:block}
+
+  /* 위치 */
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px;margin:0 auto}
+  .info .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+  .info .card h4{font-family:'Black Han Sans',sans-serif;color:var(--sea);font-size:17px;margin-bottom:8px}
+  .info .card p{color:var(--soft);font-size:14.5px}
+  .info .card a.b{display:inline-block;margin-top:12px;background:var(--sea);color:#fff;border-radius:999px;padding:9px 16px;font-weight:700;font-size:14px}
+  .info .card a.b:hover{background:var(--sea-d)}
+
+  footer{background:var(--sea-d);color:#cfe2e0;text-align:center;padding:34px 20px}
+  footer .fn{font-family:'Black Han Sans',sans-serif;color:#fff;font-size:20px;margin-bottom:6px}
+  footer a{color:#ffd98a}
+  footer .pol{font-size:12px;color:#9cc1bd;margin-top:12px;line-height:1.7}
+
+  /* QR 공유 FAB + 모달 */
+  .qrfab{position:fixed;right:18px;bottom:18px;z-index:90;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(150deg,var(--sea),var(--sea-d));color:#fff;box-shadow:0 10px 24px rgba(20,50,55,.4);display:flex;align-items:center;justify-content:center}
+  .qrfab:hover{transform:scale(1.06)}
+  .qrfab svg{width:25px;height:25px}
+  .ov{position:fixed;inset:0;z-index:100;background:rgba(20,30,30,.5);display:none;align-items:center;justify-content:center;padding:20px}
+  .ov.on{display:flex}
+  .qrcard{background:#fff;border-radius:20px;max-width:330px;width:100%;padding:24px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  .qrcard h3{font-family:'Black Han Sans',sans-serif;color:var(--sea);font-size:20px}
+  .qrcard p{color:var(--soft);font-size:13px;margin:4px 0 16px}
+  .qrcard img{width:210px;height:210px;margin:0 auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+  .qrcard .url{font-size:12px;color:var(--muted);word-break:break-all;margin:13px 0 14px}
+  .qrcard .row2{display:flex;gap:8px}
+  .qrcard .row2 button{flex:1;border-radius:11px;padding:11px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;border:none}
+  .qrcard .cp{background:var(--sea);color:#fff}.qrcard .cp:hover{background:var(--sea-d)}
+  .qrcard .cl{background:#eee;color:#555}
+
+  @media(max-width:680px){
+    .signs{grid-template-columns:1fr}
+    .info{grid-template-columns:1fr}
+    .resv .two{grid-template-columns:1fr}
+  }
+  @media print{
+    .top,.hero .cta,.qrfab,.ov,.resv .acts,.callbtn,.gal a:hover{display:none!important}
+    body{background:#fff}
+    .hero{min-height:auto;color:#000;background:none;padding-top:20px}
+    .hero h1,.hero .lede,.hero .eyebrow{color:#000;text-shadow:none}
+    section{padding:18px 0}
+    .menu,.sign,.info .card{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <span class="brand">감포 <b>생</b>아구찜</span>
+    <span class="sp"></span>
+    <a class="callbtn" href="tel:01091787772"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>전화 예약</a>
+  </div>
+</header>
+
+<section class="hero" style="padding:0">
+  <div class="h-in">
+    <div class="eyebrow">감포항 · 생물 손맛</div>
+    <h1>감포 <b>생</b>아구찜</h1>
+    <p class="lede">냉동 안 씁니다. 그날 들어온 <b>생물</b>로만 끓이는 시원한 국물 — 감포 바닷가 욕쟁이 손맛 그대로.</p>
+    <div class="cta">
+      <a class="btn btn-a" href="#resv">예약·주문 하기</a>
+      <a class="btn btn-b" href="tel:01091787772">☎ 010-9178-7772</a>
+    </div>
+  </div>
+</section>
+
+<!-- 이야기 -->
+<section class="story">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:18px"><span class="k" style="color:#ffd98a">OUR STORY</span></div>
+    <div class="quote">“그건 뭐한다꼬 문능교”</div>
+    <p>메뉴판에 ‘생’이라 큼지막하게 적어놨으니 물어볼 것도 없다는 사장님의 한마디.<br/>투박한 말투 뒤엔 음식에 대한 당당한 자부심이 있습니다. 정성껏 끓여 저렴하게 내는, 그 당당함의 손맛입니다.</p>
+    <a class="link serif" href="https://y-life.kr/column-ulsan-restaurant.html" target="_blank" rel="noopener">연소사의 칼럼 「그건 뭐한다꼬 문능교」 읽기 →</a>
+  </div>
+</section>
+
+<!-- 대표 메뉴 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="k">SIGNATURE</span><h2>대표 메뉴</h2><p>모두 생물 · 2인 이상부터 끓여 드립니다</p></div>
+    <div class="signs">
+      <div class="sign"><div class="ph" style="background-image:url('img/soup.jpg')"></div><div class="b"><h3>생아구탕</h3><div class="d">시원하고 깊은 국물, 살이 통통</div><div class="p">20,000원 <small style="color:var(--muted);font-weight:400">· 2인 이상</small></div></div></div>
+      <div class="sign"><div class="ph" style="background-image:url('img/table.jpg')"></div><div class="b"><h3>생아구찜</h3><div class="d">매콤 콩나물에 비벼 한 그릇 뚝딱</div><div class="p">소 40,000 · 중 50,000 · 대 60,000</div></div></div>
+      <div class="sign"><div class="ph" style="background-image:url('img/menu.jpg')"></div><div class="b"><h3>대구뽈찜</h3><div class="d">쫄깃한 대구뽈살의 진미</div><div class="p">소 35,000 · 중 45,000 · 대 55,000</div></div></div>
+      <div class="sign"><div class="ph" style="background-image:url('img/sumyuk.jpg')"></div><div class="b"><h3>아구수육</h3><div class="d">담백하게 즐기는 모임상</div><div class="p">소 80,000 · 중 100,000 · 대 120,000</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 전체 메뉴 -->
+<section style="background:#f7f1e7">
+  <div class="wrap">
+    <div class="sec-head"><span class="k">MENU</span><h2>전체 메뉴 · 가격</h2></div>
+    <div class="menu">
+      <div class="grp">
+        <div class="gt">🐟 찜 <small style="font-weight:400;color:var(--muted);font-size:12px">· 공기밥 별도</small></div>
+        <div class="row"><span class="n">생아구찜</span><span class="v">소 40,000 · 중 50,000 · 대 60,000</span></div>
+        <div class="row"><span class="n">대구뽈찜</span><span class="v">소 35,000 · 중 45,000 · 대 55,000</span></div>
+        <div class="row"><span class="n">고나+알탕 / 김치찜</span><span class="v">소 30,000 · 중 40,000 · 대 50,000</span></div>
+        <div class="row"><span class="n">아구수육</span><span class="v">소 80,000 · 중 100,000 · 대 120,000</span></div>
+        <div class="row"><span class="n">곤이 추가</span><span class="v">5,000</span></div>
+      </div>
+      <div class="grp">
+        <div class="gt">🍲 탕 <small style="font-weight:400;color:var(--muted);font-size:12px">· 2인 이상</small></div>
+        <div class="row"><span class="n">생아구탕</span><span class="v">20,000</span></div>
+        <div class="row"><span class="n">생대구탕 <small>+곤이</small></span><span class="v">20,000</span></div>
+        <div class="row"><span class="n">동태탕 <small>+곤이</small></span><span class="v">10,000</span></div>
+      </div>
+      <div class="grp">
+        <div class="gt">☀ 여름 별미 · 주류</div>
+        <div class="row"><span class="n">서리태 검은콩국수</span><span class="v">10,000</span></div>
+        <div class="row"><span class="n">소주 · 맥주</span><span class="v">각 5,000</span></div>
+        <div class="row"><span class="n">막걸리</span><span class="v">4,000</span></div>
+        <div class="row"><span class="n">음료수 · 공기밥</span><span class="v">2,000 · 1,000</span></div>
+      </div>
+      <div class="note"><b>모든 메뉴 포장 됩니다.</b> · 원산지: 생아구·생대구·돼지 앞다리살·쌀·김치·고춧가루(국내산), 대구뽈·생삼겹살(미국산), 동태(러시아산).</div>
+    </div>
+    <div style="text-align:center"><span class="takeout">📦 모든 메뉴 포장 가능</span></div>
+  </div>
+</section>
+
+<!-- 갤러리 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="k">GALLERY</span><h2>감포의 한 상</h2></div>
+    <div class="gal">
+      <a href="img/soup.jpg" target="_blank"><img src="img/soup.jpg" alt="생아구탕" loading="lazy"></a>
+      <a href="img/table.jpg" target="_blank"><img src="img/table.jpg" alt="한 상 차림" loading="lazy"></a>
+      <a href="img/store.jpg" target="_blank"><img src="img/store.jpg" alt="가게 외관" loading="lazy"></a>
+      <a href="img/harbor.jpg" target="_blank"><img src="img/harbor.jpg" alt="감포항" loading="lazy"></a>
+      <a href="img/menu.jpg" target="_blank"><img src="img/menu.jpg" alt="메뉴판" loading="lazy"></a>
+      <a href="img/owner.jpg" target="_blank"><img src="img/owner.jpg" alt="사장님" loading="lazy"></a>
+    </div>
+    <p class="credit">사진 · 연소사 — 자유롭게 가져가 쓰셔도 좋아요. 출처는 꼭 남겨주세요.</p>
+  </div>
+</section>
+
+<!-- 예약·주문 -->
+<section class="resv" id="resv">
+  <div class="wrap">
+    <div class="sec-head"><span class="k">RESERVATION</span><h2>예약 · 포장 주문</h2><p>아래를 채우고 ‘문자로 예약’ 또는 ‘전화’를 눌러 주세요</p></div>
+    <div class="box">
+      <div class="two">
+        <div><label>성함</label><input id="r_name" placeholder="홍길동"></div>
+        <div><label>연락처</label><input id="r_tel" inputmode="tel" placeholder="010-0000-0000"></div>
+      </div>
+      <div class="two">
+        <div><label>날짜</label><input id="r_date" type="date"></div>
+        <div><label>시간</label><input id="r_time" type="time"></div>
+      </div>
+      <div class="two">
+        <div><label>인원</label><input id="r_people" inputmode="numeric" placeholder="예: 4명"></div>
+        <div><label>방문 / 포장</label>
+          <select id="r_type"><option>매장 방문</option><option>포장</option></select>
+        </div>
+      </div>
+      <label>메뉴 · 요청사항</label>
+      <textarea id="r_memo" rows="3" placeholder="예: 생아구탕 중 1, 생아구찜 소 1 / 덜 맵게 / 도착 7시"></textarea>
+      <div class="acts">
+        <a class="btn btn-b" style="color:var(--sea);border-color:var(--sea)" href="tel:01091787772">☎ 전화로 예약</a>
+        <button class="btn btn-a" id="r_sms">✉ 문자로 예약 보내기</button>
+        <button class="btn btn-b" style="color:var(--soft);border-color:var(--line)" id="r_copy">메시지 복사</button>
+      </div>
+      <p class="hint">‘문자로 예약’을 누르면 사장님(010-9178-7772)께 보낼 문자가 자동으로 작성됩니다. 마지막에 <b>보내기</b>만 눌러 주세요. (실제 확정은 사장님 회신으로 이뤄집니다)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 위치·연락 -->
+<section style="background:#f7f1e7;padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head"><span class="k">VISIT</span><h2>오시는 길 · 연락</h2></div>
+    <div class="info">
+      <div class="card">
+        <h4>전화</h4>
+        <p>010-9178-7772<br/>예약·포장 모두 환영합니다.</p>
+        <a class="b" href="tel:01091787772">전화 걸기</a>
+      </div>
+      <div class="card">
+        <h4>위치</h4>
+        <p>경북 경주시 감포읍 · 감포항 인근<br/>바닷바람 맞으며 드세요.</p>
+        <a class="b" href="https://map.kakao.com/?q=감포 생아구찜" target="_blank" rel="noopener">지도에서 찾기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fn">감포 생아구찜</div>
+  <div>경주 감포항 · ☎ <a href="tel:01091787772">010-9178-7772</a> · 모든 메뉴 포장 가능</div>
+  <div class="pol">이 페이지는 <a href="https://y-life.kr" target="_blank" rel="noopener">연라이프</a>가 이웃 가게를 응원하며 만들었습니다 · 사진 · 연소사<br/>© 2026 감포 생아구찜</div>
+</footer>
+
+<!-- QR 공유 -->
+<button class="qrfab" id="qrFab" aria-label="QR·링크 공유">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v.01M17 21h.01M21 17v4h-4"/></svg>
+</button>
+<div class="ov" id="qrOv">
+  <div class="qrcard">
+    <h3>가게 소개 공유</h3>
+    <p>이 QR·링크를 보내면 가게 페이지가 바로 열려요</p>
+    <img id="qrImg" alt="QR 코드">
+    <div class="url" id="qrUrl"></div>
+    <div class="row2">
+      <button class="cp" id="qrCopy">링크 복사</button>
+      <button class="cl" id="qrClose">닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var TEL='010-9178-7772', TELN='01091787772';
+  function $(id){return document.getElementById(id);}
+  var toast=$('toast'), tT;
+  function showToast(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){toast.classList.remove('on');},1900);}
+
+  // 기본 날짜=오늘
+  try{ var d=new Date(); $('r_date').value=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }catch(e){}
+
+  function resvText(){
+    var v=function(id){return ($(id).value||'').trim();};
+    var L=[];
+    L.push('[감포 생아구찜 예약]');
+    if(v('r_name'))   L.push('성함: '+v('r_name'));
+    if(v('r_tel'))    L.push('연락처: '+v('r_tel'));
+    if(v('r_date'))   L.push('날짜: '+v('r_date'));
+    if(v('r_time'))   L.push('시간: '+v('r_time'));
+    if(v('r_people')) L.push('인원: '+v('r_people'));
+    L.push('구분: '+v('r_type'));
+    if(v('r_memo'))   L.push('요청: '+v('r_memo'));
+    return L.join('\n');
+  }
+  $('r_sms').onclick=function(){
+    var body=encodeURIComponent(resvText());
+    // iOS/Android 호환: ?body= 사용
+    window.location.href='sms:'+TELN+'?body='+body;
+    setTimeout(function(){ showToast('문자 앱이 열리면 보내기만 눌러주세요'); },300);
+  };
+  $('r_copy').onclick=function(){
+    var t=resvText();
+    if(navigator.clipboard){ navigator.clipboard.writeText(t).then(function(){showToast('예약 메시지를 복사했어요');}); }
+    else{ prompt('복사하세요', t); }
+  };
+
+  // QR 공유
+  var ov=$('qrOv');
+  function openQR(){
+    var url=location.href.split('#')[0];
+    $('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data='+encodeURIComponent(url);
+    $('qrUrl').textContent=url;
+    ov.classList.add('on');
+  }
+  $('qrFab').onclick=openQR;
+  $('qrClose').onclick=function(){ov.classList.remove('on');};
+  ov.onclick=function(e){ if(e.target===ov) ov.classList.remove('on'); };
+  $('qrCopy').onclick=function(){
+    var url=location.href.split('#')[0];
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){showToast('링크를 복사했어요');}); }
+    else{ prompt('복사하세요', url); }
+  };
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') ov.classList.remove('on'); });
+})();
+</script>
+</body>
+</html>
