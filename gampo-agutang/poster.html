@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- 감포 생아구찜 — 가게에 붙이는 A4 QR 포스터(인쇄용, 컬러/잉크절약 2모드) -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>감포 생아구찜 · QR 포스터 (인쇄용)</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{ --sea:#16454f; --sea2:#1f5d6b; --gold:#c08a3e; --accent:#c5532f; --ink:#23201b; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans KR',sans-serif;background:#e9e3d7;color:var(--ink);display:flex;flex-direction:column;align-items:center;padding:24px}
+  .bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
+  .bar button{border:none;border-radius:999px;padding:11px 20px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+  .bar .p1{background:var(--accent);color:#fff}.bar .p1:hover{background:#a8431f}
+  .bar .p2{background:#fff;color:var(--sea);border:1.5px solid var(--sea)}
+  .bar .hint{align-self:center;color:#6b6356;font-size:13px}
+
+  /* A4 시트 */
+  .sheet{width:210mm;min-height:297mm;background:#fffdf8;box-shadow:0 14px 50px rgba(0,0,0,.22);
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    padding:26mm 20mm;position:relative;overflow:hidden}
+  .sheet::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 0%,rgba(31,93,107,.07),transparent 38%),radial-gradient(circle at 90% 100%,rgba(192,138,62,.09),transparent 40%);}
+  .sheet>*{position:relative;z-index:1}
+  .eyebrow{font-family:'Gowun Batang',serif;letter-spacing:.32em;color:var(--gold);font-weight:700;font-size:15px}
+  h1{font-family:'Black Han Sans',sans-serif;font-size:62px;line-height:1.02;color:var(--sea);margin:10px 0 4px}
+  h1 b{color:var(--accent)}
+  .tagline{font-family:'Gowun Batang',serif;font-size:20px;color:#4a443a;margin-top:6px}
+  .foodband{width:100%;height:150px;border-radius:14px;margin:22px 0 8px;background:url('img/soup.jpg') center 60%/cover;box-shadow:0 8px 22px rgba(40,30,18,.18)}
+  .scan{font-family:'Black Han Sans',sans-serif;font-size:30px;color:var(--accent);margin:18px 0 6px}
+  .qrwrap{background:#fff;border:3px solid var(--sea);border-radius:20px;padding:18px;margin:6px 0 10px}
+  .qrwrap img{width:300px;height:300px;display:block}
+  .what{font-size:19px;font-weight:700;color:var(--sea2);margin-top:4px}
+  .url{font-family:'Gowun Batang',serif;font-size:15px;color:#7a7264;margin-top:6px;word-break:break-all}
+  .phone{margin-top:20px;font-family:'Black Han Sans',sans-serif;font-size:34px;color:var(--ink)}
+  .phone small{font-family:'Noto Sans KR';font-size:16px;color:#6b6356;font-weight:700;display:block;letter-spacing:.05em}
+  .takeout{margin-top:16px;display:inline-block;background:#eaf3f1;color:var(--sea);font-weight:900;border-radius:999px;padding:9px 22px;font-size:17px}
+  .foot{margin-top:auto;padding-top:18px;font-family:'Gowun Batang',serif;color:#9a9281;font-size:13px}
+
+  @page{ size:A4; margin:0; }
+  @media print{
+    body{background:#fff;padding:0}
+    .bar{display:none}
+    .sheet{box-shadow:none;width:210mm;min-height:297mm}
+    /* 잉크 절약(흑백) 모드 */
+    body.ink-save .sheet::before,body.ink-save .foodband{display:none}
+    body.ink-save .sheet{padding-top:34mm}
+    body.ink-save h1{color:#000}body.ink-save h1 b{color:#000}
+    body.ink-save .eyebrow,body.ink-save .scan,body.ink-save .what,body.ink-save .phone,body.ink-save .tagline,body.ink-save .url,body.ink-save .foot{color:#000}
+    body.ink-save .qrwrap{border-color:#000}
+    body.ink-save .qrwrap img{filter:grayscale(1) contrast(1.4)}
+    body.ink-save .takeout{background:#fff;border:1.5px solid #000;color:#000}
+  }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <button class="p1" id="printColor">🖨 컬러로 인쇄</button>
+    <button class="p2" id="printSave">🖨 잉크 절약(흑백) 인쇄</button>
+    <span class="hint">A4 한 장으로 인쇄됩니다 · 가게 유리문·벽에 붙여보세요</span>
+  </div>
+
+  <div class="sheet">
+    <div class="eyebrow">감포항 · 생물 손맛</div>
+    <h1>감포 <b>생</b>아구찜</h1>
+    <div class="tagline">냉동 안 씁니다 — 그날의 생물로만 끓입니다</div>
+    <div class="foodband"></div>
+
+    <div class="scan">📷 폰 카메라로 찍어보세요</div>
+    <div class="qrwrap"><img src="img/qr.png" alt="감포 생아구찜 QR" /></div>
+    <div class="what">메뉴 · 예약 · 포장 · 오시는 길</div>
+    <div class="url">y-life.kr/gampo-agutang</div>
+
+    <div class="phone">☎ 010-9178-7772<small>예약 · 포장 환영</small></div>
+    <div class="takeout">📦 모든 메뉴 포장 됩니다</div>
+
+    <div class="foot">경주 감포항 · 감포 생아구찜 · 사진 연소사</div>
+  </div>
+
+  <script>
+    document.getElementById('printColor').onclick=function(){ document.body.classList.remove('ink-save'); window.print(); };
+    document.getElementById('printSave').onclick=function(){
+      document.body.classList.add('ink-save'); window.print();
+      setTimeout(function(){ document.body.classList.remove('ink-save'); }, 500);
+    };
+  </script>
+</body>
+</html>
