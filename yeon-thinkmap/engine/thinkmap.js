@@ -603,6 +603,12 @@
 
     /* ── 상세 패널 ───────────────────────────────────────────── */
     openDetail(node) {
+      if (node.isGuide) {
+        this.closeDetail();
+        this.state.selected = node;
+        if (this.config.onNodeClick) this.config.onNodeClick(node);
+        return;
+      }
       this.state.selected = node;
       const cats = this.config.categories;
       const catInfo = cats[node.cat] || { color: '#888', label: node.cat };
@@ -677,6 +683,9 @@
       this.state.selected = null;
       this.$.detail.classList.remove('open');
       setTimeout(() => { if (!this.state.selected) this.$.detail.hidden = true; }, 320);
+      if (window.YEON_HIDE_GUIDE_POPUP) {
+        window.YEON_HIDE_GUIDE_POPUP();
+      }
     }
 
     /* ── 전체 기록 보기 ─────────────────────────────────────── */
@@ -1095,6 +1104,19 @@
       const focusNeighbors = focus ? this._neighborIds(focus.id) : null;
       const cats = this.config.categories;
 
+      // LOD (Level of Detail) 줌 배율 기반 알파값 계산 헬퍼
+      const getLodAlpha = (n) => {
+        const isF = focus && (n.id === focus.id || (focusNeighbors && focusNeighbors.has(n.id)));
+        if (isF) return 1.0;
+        const sizeVal = n.size ?? 1.0;
+        const thresholdScale = 1.1 - 0.5 * sizeVal;
+        const fadeRange = 0.25;
+        if (view.scale < thresholdScale) {
+          return Math.max(0, Math.min(1, (view.scale - (thresholdScale - fadeRange)) / fadeRange));
+        }
+        return 1.0;
+      };
+
       ctx.setTransform(view.scale * dpr, 0, 0, view.scale * dpr, view.ox * dpr, view.oy * dpr);
       const invS = 1 / view.scale;
 
@@ -1105,11 +1127,16 @@
         const nb = this.nodes.find(x => x.id === bId);
         if (!na || !nb) return;
 
+        const lodAlphaA = getLodAlpha(na);
+        const lodAlphaB = getLodAlpha(nb);
+        const edgeLodAlpha = Math.min(lodAlphaA, lodAlphaB);
+        if (edgeLodAlpha <= 0.01) return;
+
         const isFocused = focus && (aId === focus.id || bId === focus.id);
         const bothVisible = visibleIds.has(aId) && visibleIds.has(bId);
         const dimMul = focus ? (isFocused ? 1.4 : 0.15) : (bothVisible ? 1 : 0.15);
 
-        const pulse = (.12 + .08 * Math.sin(t * .02 + hashCode(aId) * .005)) * dimMul;
+        const pulse = (.12 + .08 * Math.sin(t * .02 + hashCode(aId) * .005)) * dimMul * edgeLodAlpha;
         const alpha = Math.min(1, pulse);
         const colA = (cats[na.cat] || {}).color || '#888';
         const colB = (cats[nb.cat] || {}).color || '#888';
@@ -1134,15 +1161,18 @@
       });
 
       this.nodes.forEach(n => {
+        const lodAlpha = getLodAlpha(n);
+        if (lodAlpha <= 0.01) return;
+
         const isVisible = visibleIds.has(n.id);
         const isFocused = focus && (n.id === focus.id || (focusNeighbors && focusNeighbors.has(n.id)));
         const isDimmed = focus ? !isFocused : !isVisible;
-        const baseAlpha = isDimmed ? 0.22 : 1;
+        const baseAlpha = (isDimmed ? 0.22 : 1) * lodAlpha;
         const col = (cats[n.cat] || {}).color || '#888';
 
         if (!isDimmed) {
           const glow = ctx.createRadialGradient(n._x, n._y, 0, n._x, n._y, n._radius * 2.2);
-          glow.addColorStop(0, col + '40');
+          glow.addColorStop(0, col + toHex(0.25 * lodAlpha));
           glow.addColorStop(1, col + '00');
           ctx.fillStyle = glow;
           ctx.beginPath(); ctx.arc(n._x, n._y, n._radius * 2.2, 0, Math.PI * 2); ctx.fill();
@@ -1152,7 +1182,7 @@
         ctx.fillStyle = col + 'cc';
         ctx.fill();
         ctx.beginPath(); ctx.arc(n._x, n._y, n._radius * .28, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,.55)';
+        ctx.fillStyle = 'rgba(255,255,255,' + (.55 * lodAlpha) + ')';
         ctx.fill();
         if (focus && n.id === focus.id) {
           ctx.beginPath();
@@ -1175,6 +1205,8 @@
           const isFocused = focus && (n.id === focus.id || (focusNeighbors && focusNeighbors.has(n.id)));
           const isDimmed = focus ? !isFocused : !visibleIds.has(n.id);
           if (isDimmed) return;
+          const lodAlpha = getLodAlpha(n);
+          if (lodAlpha <= 0.01) return;
           const lbl = (n.label || '').length > 14 ? n.label.slice(0, 13) + '…' : (n.label || '');
           if (!lbl) return;
           const s = this._worldToScreen(n._x, n._y);
@@ -1182,10 +1214,21 @@
           // 테마에 따라 라벨 색 — 낮: 짙은 잉크 / 밤: 종이톤 흰
           const __isDay = (document.documentElement.getAttribute('data-theme') === 'day');
           ctx.fillStyle = __isDay
-            ? 'rgba(31,42,42,' + Math.min(1, .98 * labelAlpha) + ')'
-            : 'rgba(240,237,226,' + (.92 * labelAlpha) + ')';
+            ? 'rgba(31,42,42,' + Math.min(1, .98 * labelAlpha * lodAlpha) + ')'
+            : 'rgba(240,237,226,' + (.92 * labelAlpha * lodAlpha) + ')';
           ctx.fillText(lbl, s.x, s.y + n._radius * view.scale + 6);
         });
+      }
+
+      // 가이드 노드가 선택된 경우 실시간으로 요약 팝업 위치 갱신
+      if (this.state.selected && this.state.selected.isGuide) {
+        if (window.YEON_UPDATE_GUIDE_POPUP) {
+          window.YEON_UPDATE_GUIDE_POPUP(this.state.selected);
+        }
+      } else {
+        if (window.YEON_HIDE_GUIDE_POPUP) {
+          window.YEON_HIDE_GUIDE_POPUP();
+        }
       }
     }
   }
