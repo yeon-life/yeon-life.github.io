@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>울산 명소 이미지 23장 — 연라이프 · 세계로 여행</title>
+<style>
+:root{--ink:#1D1D1B;--gold:#B8955A;--hanji:#F8F2EA;--card:#FDF9F4;--soft:#4A4540;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Serif KR',serif;background:var(--hanji);color:var(--ink);}
+header{background:var(--ink);color:#fff;padding:22px 20px;text-align:center;}
+header h1{font-family:'Nanum Myeongjo',serif;font-size:clamp(20px,4vw,28px);}
+header p{opacity:.8;font-size:13px;margin-top:6px;}
+.grid{max-width:1200px;margin:22px auto;padding:0 16px;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+figure{position:relative;background:var(--card);border:1px solid #EDE4D6;border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.08);}
+.rb{position:absolute;top:8px;left:8px;z-index:2;background:#2e7d4f;color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.ab{position:absolute;top:8px;left:8px;z-index:2;background:rgba(29,29,27,.66);color:#fff;font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px;}
+figure img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#ddd;}
+figcaption{padding:10px 12px;font-size:14px;font-weight:700;}
+figcaption small{display:block;font-weight:400;color:var(--soft);font-size:12px;margin-top:2px;}
+footer{text-align:center;padding:22px;font-size:12.5px;color:var(--soft);line-height:1.7;}
+footer b{color:var(--ink);}
+.filterbar{position:sticky;top:38px;z-index:55;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:var(--hanji);padding:12px 12px 8px;border-bottom:1px solid #EDE4D6;}
+.filterbar button{font-family:'Nanum Myeongjo',serif;font-size:13.5px;border:1px solid #E0D6C4;background:#fff;color:var(--soft);border-radius:999px;padding:7px 15px;cursor:pointer;transition:.15s;}
+.filterbar button:hover{border-color:var(--gold);color:var(--ink);}
+.filterbar button.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700;}
+.filterbar .cnt{font-size:11px;opacity:.6;margin-left:3px;}
+</style></head><body>
+<div style="position:sticky;top:0;z-index:60;display:flex;gap:8px;align-items:center;justify-content:center;background:#1D1D1B;color:#fff;padding:9px 12px;font-size:13px;flex-wrap:wrap;font-family:'Nanum Myeongjo',serif;">
+  <a href="../../ulsan.html" style="text-decoration:none;background:#B8955A;color:#1D1D1B;font-weight:700;padding:5px 14px;border-radius:999px;">← 울산 소개로 나가기</a>
+  <a href="../../index.html" style="color:#fff;text-decoration:none;opacity:.82;padding:5px 10px;">대한민국</a>
+</div>
+<header>
+  <h1>울산 명소 — 항목별로 보기</h1>
+  <p id="sub">연라이프 · 세계로 여행 · 강·바다·산·역사·마을·도시</p>
+</header>
+<div class="filterbar" id="fb"></div>
+<div class="grid" id="g"></div>
+<footer>
+  <b>📷 실사진</b> = 울산이 고향인 <b>연소사가 직접 촬영</b>한 사진입니다 (가장 정확).<br>
+  <b>AI</b> 표시 = 실사진이 아직 없는 명소를 AI로 정교하게 그린 보조 이미지로, 실제와 조금 다를 수 있어요.<br>
+  자유롭게 가져가 쓰셔도 좋아요 · 출처는 꼭 「연라이프 y-life.kr」<br>
+  © 2026 연라이프 · 기획 연소사
+</footer>
+<script>
+// [파일, 제목, 설명, 실사진여부, 카테고리]
+const items=[
+ ['taehwa-real-1','태화강 국가정원','연소사 직접 촬영 · 실사진',true,'river'],
+ ['taehwa-real-2','태화강 봄 둑길','연소사 직접 촬영 · 실사진',true,'river'],
+ ['taehwa','태화강 정원 전경','강·정원 조감(AI)',false,'river'],
+ ['taehwa-spring','태화강 봄꽃 들판','유채·봄꽃',false,'river'],
+ ['bamboo','십리대숲','대숲 산책로',false,'river'],
+ ['simni-night','십리대숲 은하수길','야경 빛길',false,'river'],
+ ['egret','태화강 백로','강가 습지',false,'river'],
+ ['simni-aerial','십리대밭 항공샷','태화강을 휘감는 대숲 · 추천',false,'river'],
+ ['simni-path','십리대숲 산책로','대숲 사이 햇살길',false,'river'],
+ ['simni-mist','십리대숲 새벽 안개','고요한 새벽 대숲',false,'river'],
+ ['simni-river','십리대숲과 태화강','대숲과 강·다리',false,'river'],
+ ['simni-night2','십리대숲 은하수길','야경 빛길',false,'river'],
+ ['daewangam','대왕암공원','출렁다리·등대',false,'sea'],
+ ['daewangam-sunrise','대왕암 일출','동해 해돋이',false,'sea'],
+ ['ganjeolgot','간절곶','한반도 첫 일출·등대',false,'sea'],
+ ['jujeon-pebble','주전 몽돌해변','검은 몽돌·바다',false,'sea'],
+ ['seuldo','슬도','바다소리길',false,'sea'],
+ ['whaleboat','고래바다여행선','고래 관광선',false,'sea'],
+ ['yeongnam-alps','영남알프스 억새','간월재 은빛 억새',false,'mountain'],
+ ['sinbulsan','신불산 능선','영남알프스 등산',false,'mountain'],
+ ['cablecar','영남알프스 케이블카','산악 케이블카',false,'mountain'],
+ ['bangudae2','반구대 암각화','유네스코·고래 암각화',false,'history'],
+ ['cheonjeonri','천전리 각석','선사 각석',false,'history'],
+ ['jangsaengpo','장생포 고래문화마을','항구·벽화',false,'village'],
+ ['jakcheonjeong-cherry','작천정 벚꽃','언양 벚꽃길',false,'village'],
+ ['onggi','외고산 옹기마을','전통 옹기',false,'village'],
+ ['ulsan-aerial','울산 전경','항공 파노라마',false,'city'],
+ ['grandpark','울산대공원','장미정원·호수',false,'city'],
+ ['ulsanbridge-night','울산대교 야경','현수교·도시 불빛',false,'city'],
+ ['industrial-night','산업단지 야경','석유화학단지',false,'city'],
+ ['daewangam-bridge','대왕암 출렁다리','붉은 다리·등대 · 추천',false,'sea'],
+ ['daewangam-pinetrail','대왕암 솔숲 산책로','해안 솔숲길',false,'sea'],
+ ['daewangam-sunrise2','대왕암 일출','동해 해돋이',false,'sea'],
+ ['ganwoljae-trail','간월재 억새 등반코스','억새 능선 오르는 길 · 추천',false,'mountain'],
+ ['ganwoljae-plateau','간월재 억새평원','은빛 억새 안부',false,'mountain'],
+ ['ganwoljae-panorama','간월재 정상 파노라마','능선 조망',false,'mountain'],
+];
+const CATS=[['all','전체'],['river','강·정원'],['sea','바다·해안'],['mountain','산·자연'],['history','역사·문화'],['village','마을·체험'],['city','도시·공원']];
+const g=document.getElementById('g'), fb=document.getElementById('fb'), sub=document.getElementById('sub');
+function count(c){return c==='all'?items.length:items.filter(i=>i[4]===c).length;}
+function render(cat){
+  g.innerHTML='';
+  items.filter(it=>cat==='all'||it[4]===cat).forEach(([f,t,d,real])=>{
+    const badge = real ? '<span class="rb">📷 실사진</span>' : '<span class="ab">AI</span>';
+    g.insertAdjacentHTML('beforeend',
+      `<figure>${badge}<img loading="lazy" src="${f}.webp" alt="${t}"><figcaption>${t}<small>${d}</small></figcaption></figure>`);
+  });
+  [...fb.children].forEach(b=>b.classList.toggle('on', b.dataset.c===cat));
+  const label=(CATS.find(c=>c[0]===cat)||['','전체'])[1];
+  sub.textContent=`연라이프 · 세계로 여행 · ${label} ${count(cat)}장`;
+  if(history.replaceState) history.replaceState(null,'', cat==='all'?location.pathname:location.pathname+'?cat='+cat);
+}
+CATS.forEach(([c,label])=>{
+  const b=document.createElement('button'); b.dataset.c=c;
+  b.innerHTML=`${label}<span class="cnt">${count(c)}</span>`;
+  b.onclick=()=>render(c); fb.appendChild(b);
+});
+const start=new URLSearchParams(location.search).get('cat');
+render(CATS.some(c=>c[0]===start)?start:'all');
+</script>
+</body></html>

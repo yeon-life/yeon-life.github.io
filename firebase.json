@@ -1,0 +1,26 @@
+{
+  "hosting": {
+    "public": ".",
+    "cleanUrls": false,
+    "trailingSlash": false,
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.bak*",
+      "vercel.json",
+      "api/**",
+      "**/*.md",
+      "**/*.bat",
+      "**/*.exe",
+      "**/*.sh",
+      "**/*.cmd",
+      "**/*.ps1",
+      "**/*.com",
+      "**/*.zip",
+      "**/*.tar.gz",
+      "**/*.py"
+    ]
+  }
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>울산의 맛 — 왔다면 이건 꼭 · 세계로 여행</title>
+<meta name="description" content="울산에 왔다면 꼭 맛봐야 할 향토음식 — 언양 불고기, 봉계 한우불고기, 장생포 고래고기. 검증된 정보로 짧게 소개합니다.">
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{--hanji:#F8F2EA;--hanji-dk:#EDE4D6;--hanji-lt:#FDF9F4;--ink:#1D1D1B;--ink-soft:#4A4540;
+  --gold:#B8955A;--sea:#3A6E7E;--reed:#7A9E8A;--dawn:#C9402B;--radius:14px;--shadow:0 6px 26px rgba(29,29,27,.1);
+  --myeong:'Nanum Myeongjo',serif;--serif:'Noto Serif KR',serif;--play:'Playfair Display',serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--serif);background:var(--hanji);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:2px;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--myeong);}
+.entry-bar a,.entry-bar .sep,.entry-bar .cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;}.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}.entry-bar .cur{background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;}
+.hero{text-align:center;padding:42px 0 14px;}
+.hero .eye{font-family:var(--play);font-style:italic;color:var(--gold);letter-spacing:.2em;font-size:14px;}
+.hero h1{font-family:var(--myeong);font-weight:800;font-size:clamp(24px,5vw,38px);margin-top:8px;}
+.hero p{color:var(--ink-soft);margin-top:10px;font-size:15px;max-width:560px;margin-left:auto;margin-right:auto;}
+.dish{background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin:18px 0;}
+.dish img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#ddd;}
+.dish-body{padding:18px 20px;}
+.dish-tag{font-family:var(--play);font-style:italic;color:var(--gold);font-size:12.5px;letter-spacing:.12em;}
+.dish h2{font-family:var(--myeong);font-size:22px;font-weight:800;margin:3px 0 8px;}
+.dish p{font-size:14.5px;color:var(--ink-soft);}
+.dish .pick{margin-top:12px;background:#fff;border:1px solid var(--hanji-dk);border-left:4px solid var(--gold);border-radius:10px;padding:11px 14px;font-size:14px;}
+.dish .pick b{color:var(--ink);}
+.dish .acts{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+.dish .acts a{display:inline-flex;align-items:center;gap:6px;font-family:var(--myeong);font-size:13.5px;font-weight:700;text-decoration:none;border-radius:999px;padding:9px 16px;}
+.acts .a-naver{background:#2db400;color:#fff;}
+.acts .a-map{background:var(--ink);color:#fff;}
+.imgcap{font-size:11px;color:var(--ink-soft);text-align:right;padding:4px 14px 0;}
+.imgcap .ai{background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 7px;font-size:10px;}
+/* 혜택 코너 */
+.benefit{background:linear-gradient(135deg,#2f5d62,#427a71);color:#fff;border-radius:var(--radius);padding:24px 22px;margin:26px 0;text-align:center;}
+.benefit h3{font-family:var(--myeong);font-size:20px;margin-bottom:8px;}
+.benefit .soon{display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:12px;margin-bottom:10px;}
+.benefit p{font-size:14px;opacity:.95;max-width:560px;margin:0 auto 14px;}
+.benefit a.cta{display:inline-block;background:var(--gold);color:#1D1D1B;text-decoration:none;font-family:var(--myeong);font-weight:700;border-radius:999px;padding:12px 26px;font-size:14.5px;}
+.note{background:#fff5f4;border-left:4px solid var(--dawn);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--ink-soft);margin:18px 0;line-height:1.7;}
+.note a{color:var(--sea);}
+.src{font-size:12px;color:var(--ink-soft);text-align:center;margin:14px 0;line-height:1.9;}
+.src a{color:var(--sea);}
+footer{margin-top:30px;background:var(--hanji-dk);padding:22px;text-align:center;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+footer a{color:var(--ink);}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--myeong);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button strong{font-size:13.5px;}.print-pop button small{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+@media print{.entry-bar,.print-fab,.print-pop,.acts,.benefit a.cta,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);}body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;}
+  @page{margin:10mm;}}
+</style>
+</head>
+<body>
+
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="index.html" class="eb-home">대한민국</a><span class="sep">›</span>
+  <a href="ulsan.html">울산</a><span class="sep">›</span>
+  <span class="cur">울산의 맛</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eye">TASTE OF ULSAN</div>
+    <h1>울산에 왔다면, 이건 꼭</h1>
+    <p>바다와 들이 함께 빚은 울산의 향토음식 셋. 검증된 정보로 짧게 소개합니다.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 언양 불고기 -->
+  <article class="dish">
+    <img loading="lazy" src="img/ulsan/food-eonyang.webp" alt="언양 불고기">
+    <div class="imgcap">언양 불고기<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">EONYANG BULGOGI</div>
+      <h2>언양 불고기</h2>
+      <p>얇게 썬 한우를 간장 양념에 가볍게 재워 <b>숯불 석쇠</b>에 구워 불향과 육향을 살린 울산 언양의 향토음식입니다. 1988년 향토음식으로 지정될 만큼 이름난 맛이에요.</p>
+      <div class="pick"><b>꼭 들러볼 곳</b> · 언양기와집불고기 — 언양불고기 대표 노포로 꾸준히 꼽힙니다.</div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=언양기와집불고기" target="_blank" rel="noopener">네이버에서 보기</a>
+        <a class="a-map" href="https://map.naver.com/p/search/언양기와집불고기" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 봉계 한우불고기 -->
+  <article class="dish">
+    <img loading="lazy" src="img/ulsan/food-hanwoo.webp" alt="봉계 한우불고기 상차림">
+    <div class="imgcap">봉계 한우불고기 상차림<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">BONGGYE HANWOO</div>
+      <h2>봉계 한우불고기</h2>
+      <p>언양과 함께 울산이 자랑하는 <b>한우불고기 특구</b>. 봉계리 한우불고기 거리에 전문점이 모여 있어, 불고기에 냉면·된장찌개로 마무리하면 든든합니다.</p>
+      <div class="pick"><b>이렇게</b> · 봉계 한우불고기 거리(특구)에서 마음에 드는 집을 고르세요. 현지 평점 앱으로 지금 인기 집을 확인하면 정확합니다.</div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=봉계 한우불고기" target="_blank" rel="noopener">네이버에서 보기</a>
+        <a class="a-map" href="https://map.naver.com/p/search/봉계 한우불고기" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 장생포 고래고기 -->
+  <article class="dish">
+    <img loading="lazy" src="img/ulsan/food-whale.webp" alt="장생포 고래고기 모둠">
+    <div class="imgcap">장생포 고래고기 모둠<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JANGSAENGPO</div>
+      <h2>장생포 고래고기</h2>
+      <p>울산에서만 제대로 맛보는 향토음식. 부위별로 <b>“열두 가지 맛”</b>이라 할 만큼 수육·육회·두루치기 등 다채롭습니다. 고래문화마을과 함께 즐기기 좋아요.</p>
+      <div class="pick"><b>꼭 들러볼 곳</b> · 고래고기 원조 할매집(장생포) — 오랜 전통의 전문점으로 여러 부위 모둠이 대표 메뉴입니다.</div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=장생포 고래고기 원조 할매집" target="_blank" rel="noopener">네이버에서 보기</a>
+        <a class="a-map" href="https://map.naver.com/p/search/장생포 고래고기" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 제휴 혜택 코너 (정직) -->
+  <section class="benefit no-print">
+    <span class="soon">준비 중</span>
+    <h3>연라이프 소개 혜택</h3>
+    <p>곧 제휴 맺은 가게에서 “연라이프 울산 소개 보고 왔어요” 하면 작은 혜택(서비스·소소한 할인 등)을 받을 수 있도록 가게들과 협의해 나가려 합니다. 아직 정식 제휴 전이라, 지금은 ‘소개’까지만 정직하게 드립니다.</p>
+    <a class="cta" href="#" onclick="event.preventDefault();openIntro();">우리도 소개해 주세요 →</a>
+  </section>
+
+  <div class="note">
+    ⚠ 가게 <b>영업시간·휴무·위치는 바뀔 수 있으니 방문 전 꼭 확인</b>하세요. 지금 시점의 인기 순위는
+    <a href="https://www.diningcode.com/list.dc?query=울산 맛집" target="_blank" rel="noopener">다이닝코드</a> ·
+    <a href="https://www.siksinhot.com" target="_blank" rel="noopener">식신</a> 같은 실시간 평점 앱이 가장 정확합니다.
+  </div>
+
+  <p class="src">
+    출처 ·
+    <a href="https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=1e1c8aa7-7c8f-4092-bfb3-915ec9ca3881" target="_blank" rel="noopener">대한민국 구석구석(한국관광공사) — 언양불고기</a> ·
+    <a href="https://ncms.nculture.org/food/story/706" target="_blank" rel="noopener">한국문화원연합회 — 장생포 고래고기</a>
+  </p>
+
+  <p class="no-print" style="text-align:center;margin:8px 0 28px;"><a href="ulsan.html" style="color:var(--sea);font-weight:700;">← 울산 소개로 돌아가기</a></p>
+</main>
+
+<footer>
+  울산의 맛 · 검증된 향토음식 정보 (가게 영업정보는 방문 전 확인) · 음식 이미지는 AI 그림입니다.<br>
+  © 2026 연라이프(y-life.kr) · 세계로 여행 · 기획 <a href="mailto:jinwooshon@gmail.com">연소사</a>
+</footer>
+
+<button class="print-fab no-print" aria-label="인쇄" onclick="document.getElementById('pp').classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="pp">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" onclick="yp(false)"><strong>① 보이는 그대로</strong><small>색·디자인 그대로</small></button>
+  <button type="button" onclick="yp(true)"><strong>② 종이 절약(2단·흑백)</strong><small>흑백·여백 최소</small></button>
+</div>
+<script>
+function yp(s){document.getElementById('pp').classList.remove('show');document.body.classList.toggle('print-save',!!s);setTimeout(()=>window.print(),60);}
+window.addEventListener('afterprint',()=>document.body.classList.remove('print-save'));
+document.addEventListener('click',e=>{var p=document.getElementById('pp');if(p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('.print-fab'))p.classList.remove('show');});
+</script>
+
+<!-- 우리도 소개해 주세요 안내창 -->
+<style>
+.imodal{position:fixed;inset:0;z-index:200;display:none;}
+.imodal.open{display:block;}
+.imodal-bd{position:absolute;inset:0;background:rgba(20,18,16,.55);}
+.imodal-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);max-height:90vh;overflow:auto;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:18px;box-shadow:0 22px 64px rgba(0,0,0,.42);padding:26px 22px 22px;text-align:center;}
+.imodal-x{position:absolute;right:12px;top:8px;background:none;border:0;font-size:26px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+.imodal h3{font-family:var(--myeong);font-size:20px;margin-bottom:8px;}
+.imodal>.imodal-panel>p{font-size:13.5px;color:var(--ink-soft);line-height:1.75;margin-bottom:16px;}
+.imodal .lead{font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:16px;}
+#introForm{display:flex;flex-direction:column;gap:9px;text-align:left;}
+#introForm input,#introForm textarea{width:100%;padding:11px 12px;border:1px solid var(--hanji-dk);border-radius:10px;font-family:var(--serif);font-size:14.5px;background:#fff;color:var(--ink);}
+#introForm textarea{resize:vertical;min-height:46px;}
+#introForm .hp{position:absolute;left:-9999px;width:1px;height:1px;}
+.im-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:12px;padding:14px;margin-top:6px;font-family:var(--myeong);font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;background:var(--ink);color:#fff;}
+.im-btn:disabled{opacity:.55;cursor:wait;}
+.imodal .im-note{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.6;}
+.imodal .im-note a{color:var(--sea);}
+#introDone{display:none;padding:12px 6px;}
+#introDone .ok{font-size:34px;}
+#introDone h4{font-family:var(--myeong);font-size:18px;margin:6px 0 4px;}
+#introDone p{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+</style>
+<div class="imodal" id="imodal" role="dialog" aria-modal="true" aria-label="우리도 소개해 주세요">
+  <div class="imodal-bd" onclick="closeIntro()"></div>
+  <div class="imodal-panel">
+    <button class="imodal-x" type="button" onclick="closeIntro()" aria-label="닫기">&times;</button>
+    <h3>우리도 소개해 주세요</h3>
+    <p class="lead">아래만 적어 보내주시면, 검토 후 <b>연라이프 울산 소개</b>에 올려드려요. 정식 제휴 전이라도 소개부터 도와드립니다.</p>
+    <form id="introForm" onsubmit="return submitIntro(event)">
+      <input name="가게이름" placeholder="가게·명소 이름" required maxlength="40">
+      <input name="연락처" placeholder="연락처 (전화 또는 카톡 ID)" required maxlength="40">
+      <input name="위치" placeholder="위치 (동·지역, 선택)" maxlength="50">
+      <textarea name="소개" placeholder="한 줄 소개 — 어떤 곳인가요? (선택)" rows="2" maxlength="120"></textarea>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" value="[울산-소개요청] 새 소개 신청이 들어왔어요">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="submit" class="im-btn" id="introSubmit">보내기 →</button>
+    </form>
+    <div id="introDone">
+      <div class="ok">✅</div>
+      <h4>보냈습니다!</h4>
+      <p>기획자 <b>연소사</b>가 확인해 며칠 내 연락드릴게요.<br>소개해 주셔서 고맙습니다.</p>
+    </div>
+    <p class="im-note">잘 안 되면 <a href="mailto:jinwooshon@gmail.com?subject=[울산-소개요청]">메일로 보내기</a> · 보내주신 내용은 연소사에게 전달됩니다.</p>
+  </div>
+</div>
+<script>
+function openIntro(){document.getElementById('imodal').classList.add('open');document.body.style.overflow='hidden';}
+function closeIntro(){document.getElementById('imodal').classList.remove('open');document.body.style.overflow='';}
+function submitIntro(e){
+  e.preventDefault();
+  var f=e.target, btn=document.getElementById('introSubmit');
+  if(f._honey && f._honey.value){return false;} /* 봇 차단 */
+  btn.disabled=true; btn.textContent='보내는 중…';
+  var data=new FormData(f);
+  fetch('https://formsubmit.co/ajax/40824f0998a7f9f3f94dc0f6d9bcaf0e',{method:'POST',headers:{'Accept':'application/json'},body:data})
+    .then(function(r){return r.json();})
+    .then(function(){ f.style.display='none'; document.getElementById('introDone').style.display='block'; })
+    .catch(function(){ alert('전송에 문제가 생겼어요. 잠시 후 다시 시도하시거나, 아래 ‘메일로 보내기’를 이용해 주세요 🙏'); btn.disabled=false; btn.textContent='보내기 →'; });
+  return false;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeIntro();});
+</script>
+</body>
+</html>

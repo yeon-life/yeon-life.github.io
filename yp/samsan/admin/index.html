@@ -474,6 +474,20 @@ a{text-decoration:none;color:inherit}
     }
   };
 
+  /* ─── 학생 상세 정보 업데이트 ─── */
+  window.__updateStudent = async (id, data) => {
+    try {
+      await updateDoc(doc(db, "academies", ACADEMY_ID, "students", id), {
+        ...data, updatedAt: serverTimestamp(), updatedBy: currentUser.uid
+      });
+      window.__showToast("학생 정보 저장 완료", 'success');
+      return true;
+    } catch(e) {
+      window.__showToast("저장 실패: " + e.message, 'error');
+      return false;
+    }
+  };
+
   /* ─── 학생 삭제 ─── */
   window.__deleteStudent = async (id) => {
     if (!confirm("이 학생 정보를 삭제할까요? 되돌릴 수 없습니다.")) return;
@@ -616,7 +630,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     </div>
     <div class="sidebar-branch">
       <div class="branch-dot"></div>
-      <div class="branch-text"><b>삼산점</b><span>samsan.y-life.kr</span></div>
+      <div class="branch-text"><b>삼산점</b><span>y-life.kr/yp/samsan</span></div>
     </div>
     <nav class="sidebar-menu">
       <button class="menu-item active" onclick="goto('dashboard',this)"><span class="menu-icon">📊</span>대시보드</button>
@@ -669,12 +683,12 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
             <div class="kpi-meta"><b id="kpiSignupPending">0건</b> 확인 대기 중</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-head"><span class="kpi-label">6월 10일 (수) 1차</span><div class="kpi-icon teal">📅</div></div>
+            <div class="kpi-head"><span class="kpi-label">6월 17일 (수) 1차</span><div class="kpi-icon teal">📅</div></div>
             <div class="kpi-value" id="kpiSession1">0<span class="unit">명</span></div>
             <div class="kpi-meta">참석 예정 / 19시 30분</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-head"><span class="kpi-label">6월 17일 (수) 2차</span><div class="kpi-icon teal">📅</div></div>
+            <div class="kpi-head"><span class="kpi-label">6월 24일 (수) 2차</span><div class="kpi-icon teal">📅</div></div>
             <div class="kpi-value" id="kpiSession2">0<span class="unit">명</span></div>
             <div class="kpi-meta">참석 예정 / 19시 30분</div>
           </div>
@@ -707,7 +721,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
       <!-- ─── 간담회 신청 ─── -->
       <section class="page" id="page-signups">
         <div class="page-head">
-          <div><h1 class="page-title">학부모 간담회 신청</h1><p class="page-sub">6월 10일 / 6월 17일 (수) 저녁 7시 30분 · 실시간 동기화</p></div>
+          <div><h1 class="page-title">학부모 간담회 신청</h1><p class="page-sub">6월 17일 / 6월 24일 (수) 저녁 7시 30분 · 실시간 동기화</p></div>
           <div class="page-actions">
             <button class="btn btn-ghost btn-sm" onclick="exportSignupsCSV()">📥 CSV 저장</button>
           </div>
@@ -721,11 +735,11 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
             <button class="filter-chip" onclick="setFilter(this,'cancelled')">❌ 취소 <span id="cCancelled">0</span></button>
             <span style="margin-left:auto"></span>
             <button class="filter-chip" onclick="setDateFilter(this,'all')" id="dateAll" style="background:var(--mist)">📅 모든 날짜</button>
-            <button class="filter-chip" onclick="setDateFilter(this,'2026-06-10')" style="background:var(--mist)">6/10</button>
             <button class="filter-chip" onclick="setDateFilter(this,'2026-06-17')" style="background:var(--mist)">6/17</button>
+            <button class="filter-chip" onclick="setDateFilter(this,'2026-06-24')" style="background:var(--mist)">6/24</button>
           </div>
           <div id="signupList">
-            <div class="empty"><div class="empty-icon">📩</div><div class="empty-title">신청 없음</div><div class="empty-text">홈페이지에서 신청이 들어오면 실시간으로 표시됩니다.<br>홈페이지: <a href="../" target="_blank" style="color:var(--accent);font-weight:600">samsan.y-life.kr</a></div></div>
+            <div class="empty"><div class="empty-icon">📩</div><div class="empty-title">신청 없음</div><div class="empty-text">홈페이지에서 신청이 들어오면 실시간으로 표시됩니다.<br>홈페이지: <a href="../" target="_blank" style="color:var(--accent);font-weight:600">y-life.kr/yp/samsan</a></div></div>
           </div>
         </div>
       </section>
@@ -914,7 +928,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div class="card-head"><h3 class="card-title">시스템 정보</h3></div>
           <ul style="font-size:13px;color:var(--t2);line-height:2.2;padding-left:18px">
             <li>Firestore: <code style="background:var(--mist);padding:1px 6px;border-radius:4px">academies/samsan/</code></li>
-            <li>홈페이지: <a href="../" target="_blank" style="color:var(--accent)">samsan.y-life.kr</a></li>
+            <li>홈페이지: <a href="../" target="_blank" style="color:var(--accent)">y-life.kr/yp/samsan</a></li>
             <li>AI Worker: <code style="background:var(--mist);padding:1px 6px;border-radius:4px">samsan-ai.jinwooshon.workers.dev</code></li>
             <li>간담회 실시간 동기화: 활성</li>
           </ul>
@@ -963,51 +977,65 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
   </div>
 </div>
 
-<!-- 상담 기록 모달 -->
-<div class="modal-overlay" id="counselModal">
+<!-- 학생 상세 관리 모달 -->
+<style>
+.sd-section-label{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.5px;margin:18px 0 8px;padding-bottom:6px;border-bottom:1.5px solid var(--line)}
+.sd-section-label:first-of-type{margin-top:4px}
+#studentDetailModal .modal{max-width:580px;max-height:92vh;overflow-y:auto}
+#studentDetailModal textarea.form-input{resize:vertical;font-family:inherit}
+</style>
+<div class="modal-overlay" id="studentDetailModal">
   <div class="modal">
-    <h2 class="modal-title">📞 상담 기록 추가</h2>
+    <input type="hidden" id="sdId">
+    <h2 class="modal-title">📋 학생 상세 관리 — <span id="sdTitleName"></span></h2>
+
+    <div class="sd-section-label">기본 정보</div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">학생 이름 *</label>
-        <input class="form-input" id="cStudentName" placeholder="홍길동">
-      </div>
-      <div class="form-group">
-        <label class="form-label">상담 유형</label>
-        <select class="form-input" id="cType">
-          <option value="regular">정기 상담</option>
-          <option value="urgent">긴급 상담</option>
-          <option value="parent">학부모 상담</option>
-        </select>
-      </div>
+      <div class="form-group"><label class="form-label">이름 *</label><input class="form-input" id="sdName"></div>
+      <div class="form-group"><label class="form-label">학년</label>
+        <select class="form-input" id="sdGrade"><option>초등</option><option>중1</option><option>중2</option><option>중3</option><option>고1</option><option>고2</option><option>고3</option></select></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">상담 날짜 *</label>
-        <input class="form-input" id="cDate" type="date">
-      </div>
-      <div class="form-group">
-        <label class="form-label">상담자</label>
-        <input class="form-input" id="cCounselor" placeholder="박미향">
-      </div>
+      <div class="form-group"><label class="form-label">학교</label><input class="form-input" id="sdSchool" placeholder="삼신초"></div>
+      <div class="form-group"><label class="form-label">반 / 과목</label><input class="form-input" id="sdClass" placeholder="문해력반"></div>
     </div>
-    <div class="form-group">
-      <label class="form-label">상담 내용 *</label>
-      <textarea class="form-input" id="cContent" rows="4" placeholder="상담 내용, 학생 상태, 학부모 요청사항 등을 기록하세요..."></textarea>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">학생 연락처</label><input class="form-input" id="sdPhone" type="tel"></div>
+      <div class="form-group"><label class="form-label">학부모 성함</label><input class="form-input" id="sdParent"></div>
     </div>
-    <div class="form-group">
-      <label class="form-label">다음 액션 (선택)</label>
-      <input class="form-input" id="cNextAction" placeholder="다음 주 재상담, 학부모 전화, 학습 계획 조정 등">
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">학부모 연락처</label><input class="form-input" id="sdParentPhone" type="tel"></div>
+      <div class="form-group"><label class="form-label">등록일</label><input class="form-input" id="sdEnrollDate" type="date"></div>
     </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">재원 상태</label>
+        <select class="form-input" id="sdStatus"><option value="active">재원</option><option value="paused">휴원</option><option value="quit">퇴원</option></select></div>
+      <div class="form-group"><label class="form-label">태그 (쉼표 구분)</label><input class="form-input" id="sdTags" placeholder="우수, 관리필요"></div>
+    </div>
+
+    <div class="sd-section-label">메모</div>
+    <div class="form-group"><textarea class="form-input" id="sdMemo" rows="2" placeholder="특이사항, 목표, 학부모 요청 등"></textarea></div>
+
+    <div class="sd-section-label">학습 진도 · 출결 기록</div>
+    <div id="sdLogs"></div>
+    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+      <input class="form-input" id="sdLogDate" type="date" style="flex:0 0 140px">
+      <select class="form-input" id="sdLogType" style="flex:0 0 92px"><option>출석</option><option>결석</option><option>진도</option><option>과제</option><option>성적</option></select>
+      <input class="form-input" id="sdLogNote" placeholder="내용 (예: 5단원 완료 / 90점)" style="flex:1;min-width:120px" onkeydown="if(event.key==='Enter')addStudentLog()">
+      <button class="btn btn-ghost btn-sm" onclick="addStudentLog()">+ 추가</button>
+    </div>
+
+    <div class="sd-section-label">연플래너 연동</div>
+    <div style="background:var(--mist);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--t3);line-height:1.75">
+      🔗 학생이 <b>연플래너 앱</b>을 사용하면 <b>5.2.5.5 복습 · 100일 습관 · 자기주도 학습 기록</b>이 이곳에 자동 표시됩니다. <span style="color:var(--accent);font-weight:600">(연동 준비 중)</span>
+    </div>
+
     <div class="form-actions">
-      <button class="btn btn-ghost" onclick="closeModal('counselModal')">취소</button>
-      <button class="btn btn-primary" onclick="saveCounsel()">저장하기</button>
+      <button class="btn btn-ghost" onclick="closeModal('studentDetailModal')">닫기</button>
+      <button class="btn btn-primary" onclick="saveStudentDetail()">💾 저장</button>
     </div>
   </div>
 </div>
-
-<div class="backdrop" id="backdrop" onclick="closeSidebar()"></div>
-<div class="toast" id="toast"></div>
 
 <script>
 const AI_WORKER = 'https://samsan-ai.jinwooshon.workers.dev';
@@ -1082,6 +1110,72 @@ async function saveStudent() {
   if (ok) closeModal('studentModal');
 }
 
+/* ─── 학생 상세 관리 ─── */
+let __sdLogs = [];
+function __setSel(id, val){ const el=document.getElementById(id); if(!el) return; for(const o of el.options){ if(o.value===val||o.text===val){ el.value=o.value; return; } } el.selectedIndex=0; }
+window.__openStudentDetail = function(id){
+  const s = (window.__allStudents||[]).find(x=>x.id===id);
+  if(!s){ window.__showToast('학생 정보를 찾을 수 없습니다','error'); return; }
+  document.getElementById('sdId').value = s.id;
+  document.getElementById('sdTitleName').textContent = s.name||'';
+  document.getElementById('sdName').value = s.name||'';
+  __setSel('sdGrade', s.grade);
+  document.getElementById('sdSchool').value = s.school||'';
+  document.getElementById('sdClass').value = s.classGroup||'';
+  document.getElementById('sdPhone').value = s.phone||'';
+  document.getElementById('sdParent').value = s.parent||'';
+  document.getElementById('sdParentPhone').value = s.parentPhone||'';
+  document.getElementById('sdEnrollDate').value = s.enrollDate||'';
+  document.getElementById('sdStatus').value = s.status||'active';
+  document.getElementById('sdTags').value = (s.tags||[]).join(', ');
+  document.getElementById('sdMemo').value = s.memo||'';
+  __sdLogs = Array.isArray(s.logs) ? s.logs.slice() : [];
+  renderSdLogs();
+  document.getElementById('sdLogDate').value = new Date().toISOString().slice(0,10);
+  openModal('studentDetailModal');
+};
+function renderSdLogs(){
+  const box = document.getElementById('sdLogs');
+  if(!__sdLogs.length){ box.innerHTML = '<div style="font-size:12px;color:var(--t3);padding:6px 0">아직 기록이 없습니다 — 아래에서 추가하세요</div>'; return; }
+  box.innerHTML = __sdLogs.map((l,i)=>({l,i})).reverse().map(({l,i})=>`<div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px">
+    <span style="color:var(--t3);flex:0 0 78px">${escapeHtml(l.date||'')}</span>
+    <span style="font-weight:700;color:var(--deep);flex:0 0 40px">${escapeHtml(l.type||'')}</span>
+    <span style="flex:1;color:var(--t1)">${escapeHtml(l.note||'')}</span>
+    <button onclick="removeSdLog(${i})" style="border:none;background:none;color:var(--rust);cursor:pointer;font-size:13px" title="삭제">✕</button>
+  </div>`).join('');
+}
+function addStudentLog(){
+  const date = document.getElementById('sdLogDate').value;
+  const type = document.getElementById('sdLogType').value;
+  const note = document.getElementById('sdLogNote').value.trim();
+  if(!note){ window.__showToast('내용을 입력하세요','error'); return; }
+  __sdLogs.push({ date, type, note });
+  document.getElementById('sdLogNote').value = '';
+  renderSdLogs();
+}
+function removeSdLog(i){ __sdLogs.splice(i,1); renderSdLogs(); }
+async function saveStudentDetail(){
+  const id = document.getElementById('sdId').value;
+  const name = document.getElementById('sdName').value.trim();
+  if(!name){ window.__showToast('이름을 입력하세요','error'); return; }
+  const tags = document.getElementById('sdTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const ok = await window.__updateStudent(id, {
+    name,
+    grade: document.getElementById('sdGrade').value,
+    school: document.getElementById('sdSchool').value.trim(),
+    classGroup: document.getElementById('sdClass').value.trim(),
+    phone: document.getElementById('sdPhone').value.trim(),
+    parent: document.getElementById('sdParent').value.trim(),
+    parentPhone: document.getElementById('sdParentPhone').value.trim(),
+    enrollDate: document.getElementById('sdEnrollDate').value,
+    status: document.getElementById('sdStatus').value,
+    tags,
+    memo: document.getElementById('sdMemo').value.trim(),
+    logs: __sdLogs
+  });
+  if(ok) closeModal('studentDetailModal');
+}
+
 /* ─── 학생 렌더링 ─── */
 window.__renderStudents = function(students) {
   const container = document.getElementById('studentList');
@@ -1104,19 +1198,25 @@ window.__renderStudents = function(students) {
     container.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">검색 결과 없음</div><div class="empty-text">검색어를 바꿔보세요</div></div></div>';
     return;
   }
+  const stBadge = (st) => {
+    const m = { active:['재원','#3d7a5c','rgba(61,122,92,0.12)'], paused:['휴원','#b07a30','rgba(195,141,86,0.15)'], quit:['퇴원','#9a4a3a','rgba(176,80,48,0.12)'] };
+    const v = m[st] || m.active;
+    return `<span style="font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:999px;background:${v[2]};color:${v[1]}">${v[0]}</span>`;
+  };
   container.innerHTML = `<div class="student-grid">${filtered.map(s => `
-    <div class="student-card">
+    <div class="student-card" style="cursor:pointer" onclick="window.__openStudentDetail('${s.id}')">
       <div class="student-card-head">
         <div class="s-avatar">${(s.name||'?').charAt(0)}</div>
-        <div><div class="s-name">${escapeHtml(s.name)}</div><div class="s-grade">${s.grade||''}</div></div>
+        <div style="flex:1"><div class="s-name">${escapeHtml(s.name)} ${stBadge(s.status)}</div><div class="s-grade">${s.grade||''}${s.school?' · '+escapeHtml(s.school):''}</div></div>
       </div>
       <div class="s-detail">
-        ${s.parent ? `👩 학부모: ${escapeHtml(s.parent)}<br>` : ''}
-        ${s.phone ? `📞 <a href="tel:${s.phone.replace(/[^0-9]/g,'')}" style="color:var(--deep)">${escapeHtml(s.phone)}</a><br>` : ''}
-        ${s.memo ? `📝 ${escapeHtml(s.memo)}` : ''}
+        ${s.parent ? `👩 학부모: ${escapeHtml(s.parent)}${s.parentPhone?' · '+escapeHtml(s.parentPhone):''}<br>` : ''}
+        ${s.phone ? `📞 ${escapeHtml(s.phone)}<br>` : ''}
+        ${(s.tags && s.tags.length) ? s.tags.map(t=>`<span style="display:inline-block;font-size:10.5px;background:var(--sage);color:var(--deep);padding:1px 8px;border-radius:999px;margin:2px 3px 0 0">#${escapeHtml(t)}</span>`).join('') : ''}
       </div>
-      <div class="s-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openCounselForm('${escapeHtml(s.name)}')">📞 상담 기록</button>
+      <div class="s-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-primary btn-sm" onclick="window.__openStudentDetail('${s.id}')">📋 상세 관리</button>
+        <button class="btn btn-ghost btn-sm" onclick="openCounselForm('${escapeHtml(s.name)}')">📞 상담</button>
         <button class="btn btn-rust btn-sm" onclick="window.__deleteStudent('${s.id}')">삭제</button>
       </div>
     </div>`).join('')}</div>`;
@@ -1213,12 +1313,12 @@ async function saveCounsel() {
 
 /* ─── 메시지 템플릿 ─── */
 const TEMPLATES = [
-  { label: '간담회 안내', text: '안녕하세요, 삼산 연아카데미 박미향 원장입니다 😊\n\n6월 학부모 간담회를 아래와 같이 안내드립니다.\n\n📅 1차: 6월 10일(수) 저녁 7시 30분\n📅 2차: 6월 17일(수) 저녁 7시 30분\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n참석을 원하시는 날짜로 홈페이지에서 사전 신청 부탁드립니다.\n👉 https://samsan.y-life.kr/간담회_안내장.html\n\n감사합니다 🙏' },
+  { label: '간담회 안내', text: '안녕하세요, 삼산 연아카데미 박미향 원장입니다 😊\n\n6월 학부모 간담회를 아래와 같이 안내드립니다.\n\n📅 1차: 6월 17일(수) 저녁 7시 30분\n📅 2차: 6월 24일(수) 저녁 7시 30분\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n참석을 원하시는 날짜로 홈페이지에서 사전 신청 부탁드립니다.\n👉 https://y-life.kr/yp/samsan/간담회_안내장.html\n\n감사합니다 🙏' },
   { label: '월 회비 안내', text: '안녕하세요, 삼산 연아카데미입니다.\n\n이달 수강료 납부 안내드립니다.\n\n납부 계좌: (계좌번호 입력)\n납부 기간: (날짜 입력)까지\n\n늘 함께해 주셔서 감사합니다 😊' },
   { label: '결석 안내 (학부모→아카데미)', text: '선생님 안녕하세요.\n[학생 이름] 학부모입니다.\n\n오늘 (이유)로 인해 수업에 결석하게 되었습니다.\n양해 부탁드립니다.\n\n감사합니다.' },
   { label: '수업 보충 안내', text: '안녕하세요, 삼산 연아카데미입니다.\n\n[학생 이름] 학생의 보충 수업 일정을 안내드립니다.\n📅 일시: (날짜 및 시간)\n📍 장소: 삼산 연아카데미 (울산 남구 월평로 232 1층)\n\n해당 일정 확인 후 회신 부탁드립니다 🙏' },
   { label: '학습 진도 공유', text: '안녕하세요 학부모님, 삼산 연아카데미 박미향 원장입니다.\n\n[학생 이름] 학생의 이번 달 학습 현황을 공유드립니다.\n\n✅ 진도: (과목/단원)\n💪 잘하고 있는 점: \n📌 개선이 필요한 부분: \n📋 이번 달 습관 점검: \n\n가정에서도 응원해 주세요 😊' },
-  { label: '신입생 모집 홍보', text: '🌟 삼산 연아카데미 신입생 모집 🌟\n초등, 공부하는 \'습관\'을 바꿉니다.\n\n✅ 박미향 원장 학습심리코칭\n✅ 자기주도 학습 습관 형성 (100일 프로그램)\n✅ 1:1 플래너 관리 · 문해력 수업\n✅ 초등 4학년 ~ 고등 2학년\n\n6월 학부모 간담회: 6/10·17(수) 저녁 7시 30분\n지금 바로 상담 신청하세요!\n📞 010-4136-5608\n🌐 samsan.y-life.kr' }
+  { label: '신입생 모집 홍보', text: '🌟 삼산 연아카데미 신입생 모집 🌟\n초등, 공부하는 \'습관\'을 바꿉니다.\n\n✅ 박미향 원장 학습심리코칭\n✅ 자기주도 학습 습관 형성 (100일 프로그램)\n✅ 1:1 플래너 관리 · 문해력 수업\n✅ 초등 4학년 ~ 고등 2학년\n\n6월 학부모 간담회: 6/17·24(수) 저녁 7시 30분\n지금 바로 상담 신청하세요!\n📞 010-4136-5608\n🌐 y-life.kr/yp/samsan' }
 ];
 
 function renderTemplates() {
@@ -1505,8 +1605,8 @@ window.__renderSignups = function(signups) {
   const confirmed = signups.filter(s => s.status === 'confirmed').length;
   const attended = signups.filter(s => s.status === 'attended').length;
   const cancelled = signups.filter(s => s.status === 'cancelled').length;
-  const sess1 = signups.filter(s=>s.sessionDate==='2026-06-10'&&s.status!=='cancelled').reduce((a,s)=>a+(s.count||1),0);
-  const sess2 = signups.filter(s=>s.sessionDate==='2026-06-17'&&s.status!=='cancelled').reduce((a,s)=>a+(s.count||1),0);
+  const sess1 = signups.filter(s=>s.sessionDate==='2026-06-17'&&s.status!=='cancelled').reduce((a,s)=>a+(s.count||1),0);
+  const sess2 = signups.filter(s=>s.sessionDate==='2026-06-24'&&s.status!=='cancelled').reduce((a,s)=>a+(s.count||1),0);
   document.getElementById('kpiSignupTotal').innerHTML = total + '<span class="unit">건</span>';
   document.getElementById('kpiSignupPending').textContent = pending + '건';
   document.getElementById('kpiSession1').innerHTML = sess1 + '<span class="unit">명</span>';
@@ -1534,8 +1634,8 @@ function renderList(container, items) {
   }
   container.innerHTML = '<div class="signup-list">' + items.map(s => {
     const status = s.status||'pending';
-    const dateLabel = s.sessionDate==='2026-06-10'?'6월 10일':s.sessionDate==='2026-06-17'?'6월 17일':(s.sessionDate||'미정');
-    const dayName = s.sessionDate==='2026-06-10'?'수 19:30':s.sessionDate==='2026-06-17'?'수 19:30':'';
+    const dateLabel = s.sessionDate==='2026-06-17'?'6월 17일':s.sessionDate==='2026-06-24'?'6월 24일':(s.sessionDate||'미정');
+    const dayName = s.sessionDate==='2026-06-17'?'수 19:30':s.sessionDate==='2026-06-24'?'수 19:30':'';
     const phoneClean = (s.phone||'').replace(/[^0-9]/g,'');
     return `<div class="signup-row ${status==='attended'||status==='cancelled'?'completed':''}">
       <div class="signup-date">${dateLabel}<small>${dayName}</small></div>
@@ -1747,4 +1847,10 @@ function formatCpActivity(r) {
   const d = r.data || {};
   switch(r.type) {
     case 'discussion_msg': return d.message || d.text || '(메시지 없음)';
-    case 'book_test_complete': return `책: ${d.bookTitle||'미정'} | 점수: ${d.score!=null?d.scor
+    case 'book_test_complete': return `책: ${d.bookTitle||'미정'} | 점수: ${d.score!=null?d.score:'-'}점`;
+    default: return r.type || '활동';
+  }
+}
+</script>
+</body>
+</html>

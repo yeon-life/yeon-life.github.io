@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<base href="/yp/samsan/">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="ko_KR">
@@ -956,8 +957,17 @@ footer strong{color:rgba(255,255,255,0.65)}
       photo.style.display = user.photoURL ? 'block' : 'none';
     }
     if (name) {
-      const roleName = { student:'학생', parent:'학부모', teacher:'선생님' }[profile?.role] || '';
+      const roleName = { student:'학생', parent:'학부모', teacher:'선생님', branch_admin:'원장', admin:'관리자', main_admin:'본원장' }[profile?.role] || '';
       name.textContent = (user.displayName || user.email.split('@')[0]) + (roleName ? ` (${roleName})` : '');
+    }
+    // 관리자(원장)면 "관리자 대시보드" 단축 표시 — 같은 로그인 세션으로 바로 진입
+    const adminLink = document.getElementById('menuAdminLink');
+    if (adminLink) {
+      const r = profile?.role;
+      const isAdmin = r === 'main_admin' || r === 'admin' || r === 'branch_admin';
+      adminLink.style.display = isAdmin ? 'flex' : 'none';
+      // 본원장은 통합 대시보드, 분점 원장은 삼산 관리자
+      adminLink.setAttribute('href', r === 'main_admin' ? '../admin/' : 'admin/');
     }
   }
   function updateNavForGuest() {
@@ -1154,6 +1164,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
           <div class="nav-user-info-name" id="menuUserName"></div>
           <div class="nav-user-info-role" id="menuUserRole"></div>
         </div>
+        <a class="opt-item" id="menuAdminLink" href="admin/" style="display:none;color:var(--accent2);font-weight:700"><svg class="ico"><use href="#i-settings"/></svg> 관리자 대시보드 →</a>
         <a class="opt-item" onclick="goMyPage()"><svg class="ico"><use href="#i-clipboard"/></svg> 내 정보</a>
         <a class="opt-item" onclick="doUserLogout()"><svg class="ico"><use href="#i-door"/></svg> 로그아웃</a>
       </div>
@@ -2188,6 +2199,63 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
 </section>
 
 <!-- ─────────────── 기타 사항 ─────────────── -->
+<!-- ─────────────── 학생 블로그 소개 ─────────────── -->
+<style>
+#student-blogs{background:var(--sage)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:18px;margin-top:8px}
+.blog-card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:transform .2s,box-shadow .2s,border-color .2s;text-decoration:none;color:inherit;min-height:180px}
+.blog-card.live{cursor:pointer}
+.blog-card.live:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(31,42,42,0.10);border-color:var(--accent)}
+.blog-card.soon{opacity:.72;border-style:dashed}
+.blog-av{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.blog-name{font-weight:800;font-size:16px;color:var(--ink);font-family:'Noto Serif KR',serif}
+.blog-intro{font-size:13px;color:var(--t2);line-height:1.7;flex:1}
+.blog-tags{display:flex;gap:6px;flex-wrap:wrap}
+.blog-tag{font-size:11px;font-weight:700;background:var(--sage);color:var(--deep);padding:2px 9px;border-radius:999px}
+.blog-cta{font-size:13px;font-weight:700;color:var(--accent)}
+</style>
+<section id="student-blogs">
+  <div class="container">
+    <span class="sec-badge teal fi">학생 블로그</span>
+    <h2 class="sec-title fi d1">우리 학생들의 블로그</h2>
+    <p class="sec-sub fi d2">학생들이 직접 쓰고 가꾸는 자기만의 공간 — 생각·글·기록이 자랍니다.</p>
+    <div class="fi d2 blog-grid" id="studentBlogGrid"></div>
+    <p class="fi d3" style="text-align:center;font-size:12px;color:var(--t3);margin-top:18px">※ 학생 블로그가 준비되면 이곳에 하나씩 소개됩니다.</p>
+  </div>
+</section>
+<script>
+/* 학생 블로그 목록 — 실제 블로그가 생기면 아래 배열에 추가하세요.
+   형식: { name:'김지수', emoji:'📚', intro:'책 읽고 느낀 점을 기록해요.', tags:['독서','에세이'], url:'https://블로그주소' } */
+const STUDENT_BLOGS = [
+  // 예) { name:'김OO', emoji:'📚', intro:'매일 읽은 책 한 줄 감상', tags:['독서'], url:'https://...' },
+];
+(function(){
+  const grid = document.getElementById('studentBlogGrid');
+  if(!grid) return;
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(STUDENT_BLOGS.length){
+    grid.innerHTML = STUDENT_BLOGS.map(b=>`
+      <a class="blog-card live" href="${esc(b.url)}" target="_blank" rel="noopener">
+        <div class="blog-av">${esc(b.emoji)||'✍️'}</div>
+        <div class="blog-name">${esc(b.name)}</div>
+        <div class="blog-intro">${esc(b.intro)}</div>
+        <div class="blog-tags">${(b.tags||[]).map(t=>`<span class="blog-tag">#${esc(t)}</span>`).join('')}</div>
+        <div class="blog-cta">블로그 방문하기 →</div>
+      </a>`).join('');
+  } else {
+    const demo=[['📚','독서 기록'],['🎨','그림·창작 일기'],['💭','오늘의 생각']];
+    grid.innerHTML = demo.map(d=>`
+      <div class="blog-card soon">
+        <div class="blog-av">${d[0]}</div>
+        <div class="blog-name">학생 블로그</div>
+        <div class="blog-intro">${d[1]} — 곧 학생이 직접 가꾼 블로그가 이 자리에 소개됩니다.</div>
+        <div class="blog-tags"><span class="blog-tag">준비 중</span></div>
+        <div class="blog-cta" style="color:var(--t3)">준비 중</div>
+      </div>`).join('');
+  }
+})();
+</script>
+
 <section id="info">
   <div class="container">
     <span class="sec-badge warm fi">기타 사항</span>
@@ -2394,28 +2462,35 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     <p class="sec-sub fi d2">작가이자 교육자인 박미향 원장이 직접 쓴 책들입니다.<br>글쓰기와 교육에 대한 박 원장의 생각이 담겨 있습니다.</p>
 
     <div class="fi d2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;max-width:900px;margin:0 auto 40px;">
-      <div style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--pine);">
+      <div class="book-card" onclick="openBookDetail('b1')" style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--pine);cursor:pointer;transition:transform .2s,box-shadow .2s;">
         <div style="font-size:36px;margin-bottom:14px;"><svg class="ico"><use href="#i-book"/></svg></div>
         <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">2023년 출간</div>
         <div style="font-weight:800;font-size:17px;color:var(--ink);font-family:'Noto Serif KR',serif;margin-bottom:12px;">「결혼하길 참 잘했다」</div>
         <div style="font-size:13px;color:var(--t2);line-height:1.8;">박미향 원장 첫 저서. 삶과 관계에 대한 따뜻한 시선이 담긴 에세이입니다.</div>
-        <div style="margin-top:14px;display:inline-block;background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">박미향 저</div>
+        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+          <span style="display:inline-block;background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">박미향 저</span>
+          <span style="font-size:12px;font-weight:700;color:var(--accent);">상세 보기 →</span>
+        </div>
       </div>
-      <div style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--accent);">
+      <div class="book-card" onclick="openBookDetail('b2')" style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--accent);cursor:pointer;transition:transform .2s,box-shadow .2s;">
         <div style="font-size:36px;margin-bottom:14px;"><svg class="ico"><use href="#i-book"/></svg></div>
         <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">2024년 출간</div>
         <div style="font-weight:800;font-size:17px;color:var(--ink);font-family:'Noto Serif KR',serif;margin-bottom:12px;">「이야기끓여드실래요?」</div>
         <div style="font-size:13px;color:var(--t2);line-height:1.8;">이야기 끓이는 주전자 대표로서 사람들의 이야기를 모으고 나누는 박 원장의 두 번째 저서입니다.</div>
-        <div style="margin-top:14px;display:inline-block;background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">박미향 저</div>
+        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+          <span style="display:inline-block;background:var(--peach);color:var(--rust);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">박미향 저</span>
+          <span style="font-size:12px;font-weight:700;color:var(--accent);">상세 보기 →</span>
+        </div>
       </div>
-      <div style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--deep);">
+      <div class="book-card" onclick="openBookDetail('b3')" style="background:var(--card);border-radius:16px;padding:28px 24px;border:1.5px solid var(--line);border-top:5px solid var(--deep);cursor:pointer;transition:transform .2s,box-shadow .2s;">
         <div style="font-size:36px;margin-bottom:14px;"><svg class="ico"><use href="#i-book"/></svg></div>
         <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">2026년 출간 · 최신작</div>
         <div style="font-weight:800;font-size:17px;color:var(--ink);font-family:'Noto Serif KR',serif;margin-bottom:12px;">「당신의 글쓰기가 돈이 된다」</div>
         <div style="font-size:13px;color:var(--t2);line-height:1.8;">윤창영 시인과 공저. 글쓰기가 어떻게 삶의 가치로 이어지는지 담은 책. 2026년 5월 10일 출판기념회 진행.</div>
-        <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap;">
+        <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
           <span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">박미향 · 윤창영 공저</span>
           <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;">2026 신간</span>
+          <span style="font-size:12px;font-weight:700;color:var(--accent);margin-left:auto;">상세 보기 →</span>
         </div>
       </div>
     </div>
@@ -2692,6 +2767,22 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible,input:focus-vis
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/>
   </svg>
 </a>
+
+<style>.book-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(31,42,42,0.12);border-color:var(--accent)!important}</style>
+
+<!-- ─────────────── 저서 상세 모달 ─────────────── -->
+<div class="modal-overlay" id="bookModal" onclick="closeBookIfOutside(event)">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-close" onclick="closeBookModal()">✕</button>
+    <div style="text-align:center;margin:8px 0 6px"><svg class="ico" style="width:46px;height:46px;color:var(--accent)"><use href="#i-book"/></svg></div>
+    <div id="bookYear" style="text-align:center;font-size:12px;color:var(--t3);margin-bottom:4px"></div>
+    <h3 id="bookTitle" style="text-align:center;font-family:'Noto Serif KR',serif"></h3>
+    <div id="bookTags" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0 16px"></div>
+    <p id="bookDesc" style="font-size:14px;color:var(--t1);line-height:1.9;text-align:center"></p>
+    <div id="bookExtra" style="background:var(--mist);border-radius:12px;padding:15px 16px;margin-top:16px;font-size:13px;color:var(--t2);line-height:1.85"></div>
+    <a class="modal-btn" href="tel:01041365608" style="margin-top:18px;text-decoration:none;text-align:center;display:block"><svg class="ico" style="width:16px;height:16px;vertical-align:-2px;margin-right:4px"><use href="#i-phone"/></svg> 구매·문의 (원장 직통 010-4136-5608)</a>
+  </div>
+</div>
 
 <!-- ─────────────── QR · 스마트폰 설치 모달 ─────────────── -->
 <div class="modal-overlay" id="qrModal" onclick="closeQrIfOutside(event)">
@@ -3043,6 +3134,30 @@ function switchClass(type) {
 function toggleOptions() {
   document.getElementById('optMenu').classList.toggle('open');
 }
+
+/* ── 박미향 원장 저서 상세 모달 ── */
+const BOOKS = {
+  b1: { year:'2023년 출간', title:'「결혼하길 참 잘했다」', tags:['박미향 저','에세이'],
+        desc:'박미향 원장의 첫 저서. 삶과 관계에 대한 따뜻한 시선이 담긴 에세이입니다.',
+        extra:'결혼과 가족, 일상의 관계 속에서 길어 올린 진솔한 이야기. 글쓰기를 통해 자기 삶을 돌아보는 박 원장의 출발점이 된 책입니다.' },
+  b2: { year:'2024년 출간', title:'「이야기끓여드실래요?」', tags:['박미향 저'],
+        desc:"'이야기 끓이는 주전자' 대표로서 사람들의 이야기를 모으고 나누는 박 원장의 두 번째 저서입니다.",
+        extra:'평범한 사람들의 이야기에 귀 기울이고, 그 이야기를 글로 끓여내는 과정을 담았습니다. 누구나 자기 이야기의 주인공이 될 수 있다는 메시지를 전합니다.' },
+  b3: { year:'2026년 출간 · 최신작', title:'「당신의 글쓰기가 돈이 된다」', tags:['박미향 · 윤창영 공저','2026 신간'],
+        desc:'윤창영 시인과 공저. 글쓰기가 어떻게 삶의 가치로 이어지는지 담은 책입니다.',
+        extra:'2026년 5월 10일 출판기념회를 성황리에 마쳤습니다. 글쓰기를 취미가 아닌 「가치와 수익」으로 잇는 실전 안내 — 연플래닝아카데미 글쓰기 수업의 바탕이 된 책입니다.' }
+};
+function openBookDetail(id){
+  const b = BOOKS[id]; if(!b) return;
+  document.getElementById('bookYear').textContent = b.year;
+  document.getElementById('bookTitle').textContent = b.title;
+  document.getElementById('bookTags').innerHTML = b.tags.map(t=>'<span style="background:var(--sage);color:var(--deep);font-size:11px;font-weight:700;padding:3px 11px;border-radius:999px">'+t+'</span>').join('');
+  document.getElementById('bookDesc').textContent = b.desc;
+  document.getElementById('bookExtra').textContent = b.extra;
+  document.getElementById('bookModal').classList.add('open');
+}
+function closeBookModal(){ document.getElementById('bookModal').classList.remove('open'); }
+function closeBookIfOutside(e){ if(e.target===document.getElementById('bookModal')) closeBookModal(); }
 
 /* ── QR · 스마트폰 설치 모달 ── */
 const QR_URL = 'https://y-life.kr/yp/samsan/';

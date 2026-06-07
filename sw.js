@@ -9,7 +9,7 @@
  *  · 외부 API (Gemini, Anthropic 등) → 캐시 안 함
  */
 
-const CACHE_NAME = 'yeon-life-v1';
+const CACHE_NAME = 'yeon-life-v2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',

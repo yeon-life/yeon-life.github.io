@@ -1,12 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>울산 — 인류 문명의 새벽을 품은 도시</title>
-<meta property="og:image" content="https://y-life.kr/assets/img/ulsan-warm.png">
-<meta name="twitter:image" content="https://y-life.kr/assets/img/ulsan-warm.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="울산 — 인류 문명의 새벽을 품은 도시, 대한민국의 따뜻한 미래를 시작하는 곳">
 <meta property="og:title" content="Ulsan — Where Humanity's Dawn Meets Korea's Warm Tomorrow">
 <meta property="og:description" content="반구대, 태화강, 영남알프스, 장생포 — 울산의 이야기">
@@ -90,10 +87,9 @@ section{padding:72px 0;}
 .hero-bg{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 60% 55% at 20% 70%, rgba(201,64,43,0.30) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 50% at 80% 25%, rgba(58,110,126,0.26) 0%, transparent 60%),
-    linear-gradient(rgba(26,38,38,0.52), rgba(26,38,38,0.68)),
-    url('assets/img/ulsan-warm.png') center/cover;
+    radial-gradient(ellipse 60% 55% at 20% 70%, rgba(201,64,43,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 50% at 80% 25%, rgba(58,110,126,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 65% at 55% 45%, rgba(184,149,90,0.13) 0%, transparent 65%);
   pointer-events:none;
 }
 /* SVG 암각화 일러스트 배경 */
@@ -111,12 +107,12 @@ section{padding:72px 0;}
 }
 .hero-title{
   font-family:var(--font-myeong);
-  font-size:clamp(32px,7vw,72px);font-weight:800;
-  color:var(--hanji);line-height:1.1;margin-bottom:16px;
+  font-size:clamp(23px,4.4vw,44px);font-weight:800;
+  color:var(--hanji);line-height:1.25;margin-bottom:16px;
   text-shadow:0 2px 24px rgba(0,0,0,0.4);
 }
 .hero-title .accent-gold{color:var(--gold-lt);}
-.hero-title .accent-sea{color:var(--sea-lt);}
+.hero-title .accent-sea{color:#b7e4f5;text-shadow:0 2px 10px rgba(0,0,0,.72),0 0 4px rgba(0,0,0,.88),0 1px 2px rgba(0,0,0,.9);}
 .hero-title-en{
   font-family:var(--font-play);font-size:clamp(13px,2vw,18px);
   color:rgba(248,242,234,0.55);margin-bottom:32px;
@@ -389,7 +385,10 @@ section{padding:72px 0;}
   border-radius:var(--radius);padding:28px;
   position:relative;
 }
-.people-card-icon{font-size:28px;margin-bottom:14px;display:block;}
+.people-card-icon{margin-bottom:16px;display:block;color:var(--gold);line-height:0;}
+.people-card-icon svg{width:48px;height:48px;}
+.tip-item{display:flex;gap:14px;border-radius:10px;margin-bottom:10px;}
+.tip-icon img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block;}
 .people-card-title{
   font-family:var(--font-myeong);font-size:16px;font-weight:700;margin-bottom:8px;
 }
@@ -660,23 +659,199 @@ section{padding:72px 0;}
   animation: fadeInPhone 0.4s ease;
 }
 </style>
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="연라이프 · 세계로 여행 · 대한민국 · 울산">
+<!-- ─── 정리 v1.0: 인쇄 2모드 · 모바일 메뉴 · 입구바 ─── -->
+<style id="cleanup-2026">
+/* 누락돼 있던 푸터 기본 CSS 복구 */
+.footer{background:var(--ink);color:rgba(248,242,234,.82);padding:54px 24px 26px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.5fr;gap:30px;}
+.footer-brand-title{font-family:var(--font-myeong,serif);font-size:22px;font-weight:800;color:var(--hanji);margin-bottom:12px;}
+.footer-brand-title span{color:var(--gold);}
+.footer-brand-desc{font-size:13px;line-height:1.8;color:rgba(248,242,234,.62);}
+.footer-col-title{font-family:var(--font-play,serif);font-size:12px;letter-spacing:.16em;color:var(--gold);margin-bottom:14px;}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin:7px 0;}
+.footer-links a{color:rgba(248,242,234,.78);text-decoration:none;font-size:13.5px;transition:.15s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-contact-form{display:flex;flex-direction:column;gap:8px;}
+.footer-input{background:rgba(255,255,255,.06);border:1px solid rgba(248,242,234,.18);border-radius:8px;padding:10px 12px;color:var(--hanji);font-size:13px;font-family:inherit;width:100%;}
+.footer-input::placeholder{color:rgba(248,242,234,.42);}
+.footer-submit{background:var(--gold);color:var(--ink);border:0;border-radius:8px;padding:11px;font-weight:700;cursor:pointer;font-family:var(--font-myeong,serif);font-size:14px;}
+.footer-submit:hover{filter:brightness(1.08);}
+.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:18px;border-top:1px solid rgba(248,242,234,.14);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(248,242,234,.55);}
+.footer-bottom a{color:rgba(248,242,234,.7);}
+/* 누락돼 있던 '미래' 섹션 CSS 복구 (가운데 정렬·여백·칩·CTA) */
+.future{padding:84px 0;text-align:center;}
+.future-eyebrow{font-family:var(--font-play,serif);font-style:italic;letter-spacing:.28em;color:var(--gold);font-size:13px;margin-bottom:18px;}
+.future-inner{max-width:760px;margin:0 auto;padding:0 24px;}
+.future-title{font-family:var(--font-myeong,serif);font-size:clamp(24px,4.6vw,40px);font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:12px;}
+.future-title .accent{color:var(--gold);}
+.future-title-en{font-family:var(--font-play,serif);font-style:italic;color:var(--ink-soft);font-size:clamp(13px,2vw,17px);margin-bottom:26px;}
+.future-body{font-size:15px;line-height:1.9;color:var(--ink-soft);max-width:640px;margin:0 auto 30px;}
+.future-values{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:34px;}
+.value-chip{font-family:var(--font-myeong,serif);font-size:13px;color:var(--ink);background:var(--hanji-dk);border:1px solid #e0d6c4;border-radius:999px;padding:7px 15px;}
+.future-cta{display:inline-block;background:var(--ink);color:var(--hanji);text-decoration:none;font-family:var(--font-myeong,serif);font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;transition:.2s;}
+.future-cta:hover{background:var(--gold);color:var(--ink);}
+/* 섹션 상단 사진 배너 */
+.sec-photo{margin:0 0 30px;}
+.sec-photo img{width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.14);display:block;background:#ddd;}
+.sec-photo figcaption{font-size:11.5px;color:var(--ink-soft);text-align:right;margin-top:7px;}
+.sec-photo figcaption .ai{background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
+.sec-photo figcaption .real{background:#2e7d4f;color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
+/* 3단 드릴다운 (대분류→소분류→사진) */
+.nav-links li.has-mega .mega{display:none !important;}
+.ndrill{position:fixed;inset:0;z-index:200;display:none;}
+.ndrill.open{display:block;}
+.ndrill-bd{position:absolute;inset:0;background:rgba(20,18,16,.55);}
+.ndrill-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,560px);max-height:84vh;overflow:auto;background:var(--hanji-lt);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);padding:18px;}
+.ndrill-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ndrill-back{background:var(--hanji-dk);border:0;border-radius:999px;padding:6px 13px;cursor:pointer;font-family:var(--font-myeong);font-size:13px;display:none;}
+.ndrill-title{font-family:var(--font-myeong);font-weight:800;font-size:18px;flex:1;color:var(--ink);}
+.ndrill-close{background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+.ndrill-crumb{font-size:12px;color:var(--ink-soft);margin-bottom:12px;min-height:15px;}
+.ndrill-list{display:grid;gap:8px;}
+.ndrill-item{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--hanji-dk);border-radius:12px;padding:14px 16px;cursor:pointer;font-family:var(--font-myeong);font-size:15px;color:var(--ink);transition:.15s;}
+.ndrill-item:hover{border-color:var(--gold);}
+.ndrill-item .cnt{font-size:12.5px;color:var(--ink-soft);}
+.ndrill-item.empty{opacity:.42;cursor:default;}
+.ndrill-item.empty:hover{border-color:var(--hanji-dk);}
+.ndrill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ndrill-ph{border:1px solid var(--hanji-dk);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:var(--ink);}
+.ndrill-ph img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#ddd;}
+.ndrill-ph span{display:block;padding:7px 9px;font-size:12.5px;font-weight:700;font-family:var(--font-myeong);}
+.ndrill-allbtn{display:block;text-align:center;margin-top:12px;background:var(--ink);color:#fff;border-radius:999px;padding:12px;text-decoration:none;font-family:var(--font-myeong);font-weight:700;font-size:14px;}
+
+/* ⓑ 히어로 = 연소사 실사진 (정확도가 생명 — 첫 화면이 진짜 사진) */
+.hero-bg{background:linear-gradient(180deg,rgba(18,18,16,.40),rgba(18,18,16,.74)),url('img/ulsan/taehwa-real-1.webp') center/cover no-repeat !important;opacity:1 !important;}
+.hero-realtag{display:inline-flex;align-items:center;gap:7px;margin-bottom:22px;font-family:var(--font-myeong,serif);font-weight:700;color:#fff;background:rgba(46,125,79,.92);border-radius:999px;padding:7px 16px;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.hero-realtag svg,.hero-credit svg{width:16px;height:16px;flex:none;}
+.hero-credit{position:absolute;left:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.92);font-size:12px;background:rgba(0,0,0,.4);border-radius:8px;padding:5px 11px;font-family:var(--font-myeong,serif);}
+@media print{.hero-bg{background:#1D1D1B !important;}}
+/* 다층 명소 메뉴 (메가) */
+.nav-links li.has-mega{position:relative;}
+.nav-links li.has-mega>.mega-toggle{cursor:pointer;}
+.mega{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:10px;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;display:none;grid-template-columns:repeat(3,minmax(140px,1fr));gap:12px 22px;width:min(92vw,620px);z-index:70;text-align:left;}
+.nav-links li.has-mega:hover .mega,.nav-links li.has-mega.open .mega{display:grid;}
+.mega .col h4{font-family:var(--font-myeong);font-size:13px;margin:0 0 6px;border-bottom:1px solid var(--hanji-dk);padding-bottom:4px;}
+.mega .col h4 a{color:var(--gold);text-decoration:none;font-weight:700;}
+.mega .col a{display:block;font-size:13px;color:var(--ink-soft);padding:3px 0;text-decoration:none;white-space:nowrap;}
+.mega .col a:hover{color:var(--gold);}
+@media (max-width:860px){
+  .nav-links li.has-mega .mega{position:static;transform:none;display:grid;width:auto;margin:0;padding:10px 16px;background:transparent;border:0;border-top:1px solid var(--hanji-dk);border-radius:0;box-shadow:none;grid-template-columns:1fr 1fr;}
+}
+
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:4px;align-items:center;justify-content:center;
+  background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--font-myeong,serif);}
+.entry-bar a,.entry-bar span.sep,.entry-bar span.cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;transition:.2s;}
+.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}
+.entry-bar .cur{opacity:1;background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;letter-spacing:.5px;}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-left:auto;}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;transition:.25s;}
+@media (max-width:860px){
+  .nav-toggle{display:block;}
+  .nav-inner .nav-lang{display:none;}
+  .nav-links{position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;
+    background:var(--hanji-lt,#fff);box-shadow:var(--shadow);max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  body.nav-open .nav-links{display:flex !important;max-height:75vh;}
+  .nav-links li{border-top:1px solid var(--hanji-dk);}
+  .nav-links a{display:block;padding:13px 20px;}
+}
+/* 좁은 폭 넘침 방지 — 인라인 그리드 1열 강제 */
+@media (max-width:900px){
+  .foreigners-inner{grid-template-columns:1fr !important;}
+  .phone-sim,.phone-sim-container{max-width:100% !important;}
+}
+.demo-badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.3px;
+  background:var(--dawn,#C9402B);color:#fff;border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:6px;}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;
+  background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-fab:hover{background:var(--gold);color:#1D1D1B;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);
+  border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--font-myeong,serif);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;color:var(--ink);padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;
+  background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button:hover{border-color:var(--gold);background:#fff;}
+.print-pop button strong{font-size:13.5px;color:var(--ink);}
+.print-pop button small{font-size:11px;color:var(--ink-soft,#666);margin-top:2px;}
+@media print{
+  .nav,.entry-bar,.print-fab,.print-pop,.nav-toggle,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);font-size:11px;line-height:1.45;}
+  body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;
+    text-shadow:none !important;border-color:#ccc !important;}
+  body.print-save .phone-mockup,body.print-save .footer-contact-form,
+  body.print-save .hero video,body.print-save .pass-card,body.print-save iframe{display:none !important;}
+  body.print-save section{break-inside:avoid;padding:6px 0 !important;}
+  body.print-save .container,body.print-save .wrap{column-count:2;column-gap:12mm;}
+  body.print-save img{max-width:100% !important;filter:grayscale(1) !important;}
+  @page{margin:10mm;}
+}
+</style>
 </head>
 <body>
 
 <!-- ─── 내비게이션 ─── -->
+<!-- ─── 경로(브레드크럼) 바 ─── -->
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="index.html" class="eb-home">대한민국</a>
+  <span class="sep">›</span>
+  <span class="cur">울산</span>
+</div>
+
+<!-- ─── 내비게이션 ─── -->
 <nav class="nav" role="navigation" aria-label="울산 홈페이지 내비게이션">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">울<span>산</span></a>
+    <a href="index.html" class="nav-logo" aria-label="소개 입구로">울<span>산</span></a>
     <ul class="nav-links">
-      <li><a href="#pillars">세 기둥</a></li>
-      <li><a href="#bangudae">반구대</a></li>
-      <li><a href="#nature">자연</a></li>
+      <li class="has-mega">
+        <a href="img/ulsan/갤러리.html" class="mega-toggle" onclick="event.preventDefault();ndOpen();">명소 둘러보기 ▾</a>
+        <div class="mega">
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=river">강·정원</a></h4>
+            <a href="#nature">태화강 국가정원</a>
+            <a href="img/ulsan/갤러리.html?cat=river">십리대숲</a>
+            <a href="img/ulsan/갤러리.html?cat=river">태화강 백로</a></div>
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=sea">바다·해안</a></h4>
+            <a href="img/ulsan/갤러리.html?cat=sea">대왕암공원</a>
+            <a href="img/ulsan/갤러리.html?cat=sea">간절곶</a>
+            <a href="img/ulsan/갤러리.html?cat=sea">주전 몽돌해변</a>
+            <a href="img/ulsan/갤러리.html?cat=sea">슬도</a></div>
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=mountain">산·자연</a></h4>
+            <a href="#hiking">영남알프스 억새</a>
+            <a href="img/ulsan/갤러리.html?cat=mountain">신불산</a>
+            <a href="영남알프스_등산지도.html">등산 지도 →</a></div>
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=history">역사·문화</a></h4>
+            <a href="#bangudae">반구대 암각화</a>
+            <a href="img/ulsan/갤러리.html?cat=history">천전리 각석</a></div>
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=village">마을·체험</a></h4>
+            <a href="#jangsepo">장생포 고래마을</a>
+            <a href="img/ulsan/갤러리.html?cat=village">작천정 벚꽃</a>
+            <a href="img/ulsan/갤러리.html?cat=village">외고산 옹기마을</a></div>
+          <div class="col"><h4><a href="img/ulsan/갤러리.html?cat=city">도시·공원</a></h4>
+            <a href="img/ulsan/갤러리.html?cat=city">울산 전경</a>
+            <a href="img/ulsan/갤러리.html?cat=city">울산대교 야경</a>
+            <a href="img/ulsan/갤러리.html?cat=city">울산대공원</a></div>
+        </div>
+      </li>
       <li><a href="#hiking">등산코스</a></li>
+      <li><a href="#food">먹거리</a></li>
       <li><a href="#people">사람</a></li>
       <li><a href="#visitor-concierge">홍보 & 패스</a></li>
-      <li><a href="#future">미래</a></li>
+      <li><a href="img/ulsan/갤러리.html">갤러리</a></li>
     </ul>
     <div class="nav-lang" aria-label="언어 전환">KO · EN</div>
+    <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"
+      onclick="document.body.classList.toggle('nav-open');this.setAttribute('aria-expanded',document.body.classList.contains('nav-open'));">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -727,6 +902,7 @@ section{padding:72px 0;}
       산과 바다와 사람이 함께 빚어온 도시의 이야기를 만납니다.
     </p>
   </div>
+  <div class="hero-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 8h3l1.2-1.8h7.6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.3"/></svg>태화강 국가정원 · 연소사 직접 촬영 · 2026</div>
 
   <div class="hero-scroll" aria-hidden="true">
     <span>아래로</span>
@@ -752,6 +928,7 @@ section{padding:72px 0;}
 <!-- ─── § 3 Three Pillars ─── -->
 <section class="pillars" id="pillars" role="region" aria-labelledby="pillars-heading">
   <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="img/ulsan/ulsan-aerial.webp" alt="울산 전경"><figcaption>울산 전경 · 태화강과 도시<span class="ai">AI 그림</span></figcaption></figure>
     <div class="section-header fade-in">
       <span class="s-num">THREE PILLARS</span>
       <h2 id="pillars-heading" class="s-title">울산을 이해하는 세 가지 열쇠</h2>
@@ -824,49 +1001,7 @@ section{padding:72px 0;}
         </div>
       </div>
       <div class="bangudae-visual slide-right" aria-label="반구대 암각화 SVG 일러스트">
-        <div class="bangudae-svg-wrap">
-          <svg viewBox="0 0 320 380" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="반구대 암각화 스타일 고래·사슴 일러스트">
-            <!-- 바위 배경 -->
-            <rect width="320" height="380" rx="12" fill="rgba(201,64,43,0.08)"/>
-            <!-- 균열 패턴 -->
-            <path d="M40 80 L120 200 L80 300" stroke="rgba(201,64,43,0.2)" stroke-width="1" fill="none"/>
-            <path d="M200 40 L280 150 L240 280" stroke="rgba(201,64,43,0.15)" stroke-width="1" fill="none"/>
-            <!-- 고래 1 (대형) -->
-            <ellipse cx="160" cy="130" rx="95" ry="38" fill="none" stroke="#D4B07A" stroke-width="2.5"/>
-            <path d="M255 130 Q290 108 278 142" fill="none" stroke="#D4B07A" stroke-width="2.5"/>
-            <ellipse cx="138" cy="124" rx="7" ry="6" fill="none" stroke="#D4B07A" stroke-width="2"/>
-            <path d="M140 158 Q162 175 188 163" fill="none" stroke="#D4B07A" stroke-width="2"/>
-            <!-- 고래 2 (중형) -->
-            <ellipse cx="100" cy="220" rx="58" ry="22" fill="none" stroke="#B8955A" stroke-width="2"/>
-            <path d="M158 220 Q178 208 172 230" fill="none" stroke="#B8955A" stroke-width="2"/>
-            <ellipse cx="86" cy="216" rx="5" ry="4" fill="none" stroke="#B8955A" stroke-width="1.5"/>
-            <!-- 고래 3 (소형) -->
-            <ellipse cx="230" cy="240" rx="42" ry="16" fill="none" stroke="#B8955A" stroke-width="1.8"/>
-            <path d="M272 240 Q285 232 280 248" fill="none" stroke="#B8955A" stroke-width="1.8"/>
-            <!-- 사슴 -->
-            <path d="M60 295 L55 340 M55 340 L46 365 M55 340 L64 365" fill="none" stroke="#D4B07A" stroke-width="2"/>
-            <circle cx="60" cy="290" r="9" fill="none" stroke="#D4B07A" stroke-width="2"/>
-            <path d="M54 282 L46 268 M66 282 L74 268 M46 268 L40 256 M74 268 L80 256" fill="none" stroke="#D4B07A" stroke-width="1.8"/>
-            <!-- 호랑이 -->
-            <path d="M240 310 Q270 302 268 322 Q266 342 240 338 Q220 340 218 318 Q216 300 240 310Z" fill="none" stroke="#B8955A" stroke-width="1.8"/>
-            <path d="M268 316 L280 312 M266 320 L278 318" fill="none" stroke="#B8955A" stroke-width="1.5"/>
-            <!-- 물고기 무리 -->
-            <ellipse cx="140" cy="300" rx="12" ry="5" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <path d="M128 300 L120 295 M128 300 L120 305" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <ellipse cx="170" cy="315" rx="9" ry="4" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <path d="M161 315 L154 311 M161 315 L154 319" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <ellipse cx="200" cy="300" rx="10" ry="4.5" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <path d="M190 300 L183 296 M190 300 L183 304" fill="none" stroke="#5A9EAF" stroke-width="1.5"/>
-            <!-- 사람들 -->
-            <circle cx="295" cy="180" r="7" fill="none" stroke="#D4B07A" stroke-width="1.8"/>
-            <path d="M295 187 L295 210 M295 210 L285 228 M295 210 L305 228 M288 196 L302 196" fill="none" stroke="#D4B07A" stroke-width="1.8"/>
-            <!-- 수평선 파도 -->
-            <path d="M20 365 Q80 357 140 365 Q200 373 260 365 Q300 360 320 365" fill="none" stroke="rgba(90,158,175,0.5)" stroke-width="1.5"/>
-            <!-- 라벨 -->
-            <text x="160" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="rgba(248,242,234,0.4)" letter-spacing="2">BANGUDAE · 반구대</text>
-            <text x="160" y="46" text-anchor="middle" font-family="Playfair Display,serif" font-size="9" fill="rgba(248,242,234,0.3)">c. 6,000 BCE · UNESCO World Heritage 2025</text>
-          </svg>
-        </div>
+        <img src="img/ulsan/bangudae2.webp" alt="반구대 암각화" style="width:100%;border-radius:12px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.22);"><div style="text-align:center;font-size:11px;color:rgba(248,242,234,.65);margin-top:8px;">반구대 암각화 <span style="background:rgba(0,0,0,.4);border-radius:999px;padding:1px 7px;">AI 그림</span></div>
       </div>
     </div>
   </div>
@@ -877,26 +1012,7 @@ section{padding:72px 0;}
   <div class="wrap">
     <div class="jangsepo-inner">
       <div class="jangsepo-visual slide-left" aria-label="장생포 고래 SVG 일러스트">
-        <svg viewBox="0 0 280 280" width="100%" max-width="280px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="장생포 고래 일러스트">
-          <!-- 바다 배경 -->
-          <rect width="280" height="280" rx="12" fill="rgba(255,255,255,0.06)"/>
-          <!-- 대형 향고래 -->
-          <ellipse cx="140" cy="155" rx="105" ry="48" fill="rgba(255,255,255,0.08)" stroke="rgba(248,242,234,0.6)" stroke-width="2.5"/>
-          <path d="M245 155 Q278 128 268 168" fill="rgba(255,255,255,0.06)" stroke="rgba(248,242,234,0.6)" stroke-width="2.5"/>
-          <ellipse cx="115" cy="147" rx="9" ry="8" fill="none" stroke="rgba(248,242,234,0.7)" stroke-width="2"/>
-          <!-- 분수 -->
-          <path d="M120 107 Q128 80 140 70 Q152 80 160 107" fill="none" stroke="rgba(208,232,238,0.7)" stroke-width="2"/>
-          <path d="M132 95 Q136 78 140 72" fill="none" stroke="rgba(208,232,238,0.5)" stroke-width="1.5"/>
-          <path d="M148 95 Q144 78 140 72" fill="none" stroke="rgba(208,232,238,0.5)" stroke-width="1.5"/>
-          <!-- 꼬리 -->
-          <path d="M35 155 Q15 140 10 130 M35 155 Q15 170 10 182" fill="none" stroke="rgba(248,242,234,0.6)" stroke-width="2.5"/>
-          <!-- 파도 -->
-          <path d="M20 215 Q70 202 120 215 Q170 228 220 215 Q255 208 278 215" fill="none" stroke="rgba(208,232,238,0.4)" stroke-width="1.5"/>
-          <path d="M20 235 Q70 225 120 235 Q170 245 220 235 Q255 228 278 235" fill="none" stroke="rgba(208,232,238,0.3)" stroke-width="1"/>
-          <!-- 고래 라벨 -->
-          <text x="140" y="258" text-anchor="middle" font-family="Playfair Display,serif" font-size="10" fill="rgba(208,232,238,0.6)" letter-spacing="2">Jangsepo · 장생포</text>
-          <text x="140" y="272" text-anchor="middle" font-family="Playfair Display,serif" font-size="9" fill="rgba(208,232,238,0.4)">Whale Culture Village</text>
-        </svg>
+        <img src="img/ulsan/jangsaengpo.webp" alt="장생포 고래문화마을" style="width:100%;border-radius:12px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.22);"><div style="text-align:center;font-size:11px;color:rgba(248,242,234,.65);margin-top:8px;">장생포 고래문화마을 <span style="background:rgba(0,0,0,.4);border-radius:999px;padding:1px 7px;">AI 그림</span></div>
       </div>
       <div class="jangsepo-text slide-right">
         <p class="jangsepo-eyebrow">JANGSEPO · WHALE CULTURE</p>
@@ -922,6 +1038,7 @@ section{padding:72px 0;}
 <!-- ─── § 6 자연 갤러리 ─── -->
 <section class="nature" id="nature" role="region" aria-labelledby="nature-heading">
   <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="img/ulsan/taehwa-real-1.webp" alt="태화강 국가정원"><figcaption>태화강 국가정원 · 연소사 직접 촬영<span class="real">📷 실사진</span></figcaption></figure>
     <div class="section-header fade-in">
       <span class="s-num">NATURE</span>
       <h2 id="nature-heading" class="s-title">산과 강과 바다가 하나인 도시</h2>
@@ -929,83 +1046,32 @@ section{padding:72px 0;}
     </div>
     <div class="nature-grid fade-in">
       <!-- 태화강 -->
-      <div class="nature-card" style="background:linear-gradient(135deg,#2A5F6E 0%,#4A8FA0 40%,#6AAFBF 100%);" role="img" aria-label="태화강 십리대밭">
+      <div class="nature-card" style="background-image:url('img/ulsan/taehwa-real-1.webp');background-size:cover;background-position:center;" role="img" aria-label="태화강 십리대밭">
         <div class="nature-card-overlay" aria-hidden="true"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;" aria-hidden="true">
-          <svg viewBox="0 0 260 140" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <!-- 대나무 실루엣 -->
-            <line x1="40" y1="140" x2="40" y2="20" stroke="rgba(248,242,234,0.2)" stroke-width="4.5" stroke-linecap="round"/>
-            <line x1="36" y1="70" x2="25" y2="58" stroke="rgba(248,242,234,0.2)" stroke-width="2"/>
-            <line x1="44" y1="90" x2="56" y2="78" stroke="rgba(248,242,234,0.2)" stroke-width="2"/>
-            <line x1="80" y1="140" x2="77" y2="10" stroke="rgba(248,242,234,0.18)" stroke-width="3.8" stroke-linecap="round"/>
-            <line x1="120" y1="140" x2="119" y2="30" stroke="rgba(248,242,234,0.15)" stroke-width="3" stroke-linecap="round"/>
-            <line x1="160" y1="140" x2="159" y2="15" stroke="rgba(248,242,234,0.18)" stroke-width="3.8"/>
-            <!-- 강물 반영 -->
-            <path d="M0 115 Q65 105 130 115 Q195 125 260 115" fill="none" stroke="rgba(248,242,234,0.3)" stroke-width="1.5"/>
-            <!-- 철새 -->
-            <path d="M180 50 Q187 46 194 50" fill="none" stroke="rgba(248,242,234,0.5)" stroke-width="1.2"/>
-            <path d="M210 38 Q218 34 226 38" fill="none" stroke="rgba(248,242,234,0.4)" stroke-width="1.2"/>
-          </svg>
-        </div>
         <div class="nature-card-info">
           <div class="nature-card-title">태화강 국가정원</div>
           <div class="nature-card-sub">Taehwa River Garden · 십리대숲 & 은하수길</div>
         </div>
       </div>
       <!-- 영남알프스 -->
-      <div class="nature-card" style="background:linear-gradient(135deg,#3A5A4A 0%,#5A7A6A 50%,#8AAA8A 100%);" role="img" aria-label="영남알프스">
+      <div class="nature-card" style="background-image:url('img/ulsan/ganwoljae-plateau.webp');background-size:cover;background-position:center;" role="img" aria-label="영남알프스">
         <div class="nature-card-overlay" aria-hidden="true"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;" aria-hidden="true">
-          <svg viewBox="0 0 260 140" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 140 L50 55 L90 90 L140 30 L190 80 L220 45 L260 140Z" fill="rgba(248,242,234,0.12)" stroke="rgba(248,242,234,0.3)" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M140 30 L130 45 L140 40 L150 45Z" fill="rgba(248,242,234,0.25)"/>
-            <path d="M0 115 Q65 105 130 115 Q195 125 260 115" fill="none" stroke="rgba(248,242,234,0.2)" stroke-width="1"/>
-          </svg>
-        </div>
         <div class="nature-card-info">
           <div class="nature-card-title">영남알프스</div>
           <div class="nature-card-sub">Yeongnam Alps · 영축산 & 신불산 억새 평원</div>
         </div>
       </div>
       <!-- 대왕암 & 울기등대 -->
-      <div class="nature-card" style="background:linear-gradient(135deg,#5A3E3E 0%,#8A6E6E 50%,#B8955A 100%);" role="img" aria-label="대왕암과 울기등대">
+      <div class="nature-card" style="background-image:url('img/ulsan/daewangam-bridge.webp');background-size:cover;background-position:center;" role="img" aria-label="대왕암과 울기등대">
         <div class="nature-card-overlay" aria-hidden="true"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;" aria-hidden="true">
-          <svg viewBox="0 0 260 140" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <!-- 파도와 붉은 바위 -->
-            <path d="M0 120 Q50 90 100 110 Q150 130 200 100 L260 120 L260 140 L0 140Z" fill="rgba(201,64,43,0.1)"/>
-            <path d="M30 130 L50 80 L70 100 L110 60 L140 100 L180 70 L210 130Z" fill="none" stroke="rgba(248,242,234,0.35)" stroke-width="1.8" stroke-linejoin="round"/>
-            <!-- 등대 -->
-            <rect x="190" y="30" width="16" height="55" fill="rgba(248,242,234,0.2)" rx="1"/>
-            <polygon points="185,85 211,85 205,30 191,30" fill="rgba(248,242,234,0.18)"/>
-            <circle cx="198" cy="25" r="5" fill="rgba(248,242,234,0.3)"/>
-            <!-- 등대 빛 -->
-            <polygon points="198,25 0,0 0,60" fill="rgba(248,242,234,0.06)"/>
-            <!-- 파도선 -->
-            <path d="M0 130 Q65 125 130 130 Q195 135 260 130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          </svg>
-        </div>
         <div class="nature-card-info">
           <div class="nature-card-title">대왕암과 울기등대</div>
           <div class="nature-card-sub">Daewangam Park · 15,000 해송 & 출렁다리</div>
         </div>
       </div>
       <!-- 간절곶 -->
-      <div class="nature-card" style="background:linear-gradient(135deg,#1A2A4A 0%,#2A4A6A 40%,#C97048 80%,#E09058 100%);" role="img" aria-label="간절곶 일출">
+      <div class="nature-card" style="background-image:url('img/ulsan/ganjeolgot.webp');background-size:cover;background-position:center;" role="img" aria-label="간절곶 일출">
         <div class="nature-card-overlay" aria-hidden="true"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;" aria-hidden="true">
-          <svg viewBox="0 0 260 140" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <!-- 일출 -->
-            <circle cx="130" cy="80" r="40" fill="rgba(230,130,60,0.35)" stroke="rgba(230,130,60,0.5)" stroke-width="2"/>
-            <circle cx="130" cy="80" r="25" fill="rgba(240,160,80,0.5)" stroke="rgba(240,160,80,0.6)" stroke-width="1.5"/>
-            <!-- 수평선 -->
-            <rect x="0" y="100" width="260" height="40" fill="rgba(26,42,74,0.5)"/>
-            <path d="M0 100 Q65 93 130 100 Q195 107 260 100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-            <!-- 등대 실루엣 -->
-            <rect x="120" y="55" width="20" height="45" fill="rgba(248,242,234,0.3)" rx="2"/>
-            <rect x="115" y="52" width="30" height="8" fill="rgba(248,242,234,0.4)" rx="1"/>
-          </svg>
-        </div>
         <div class="nature-card-info">
           <div class="nature-card-title">간절곶 일출</div>
           <div class="nature-card-sub">Ganjeolgot Cape · 동해안 가장 빠른 여명</div>
@@ -1065,6 +1131,7 @@ section{padding:72px 0;}
 <!-- ─── § 6-2 영남알프스 영축산 등산코스 ─── -->
 <section class="hiking" id="hiking" role="region" aria-labelledby="hiking-heading" style="background:var(--hanji-lt); border-top:1px solid var(--hanji-dk); padding:72px 0;">
   <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="img/ulsan/ganwoljae-trail.webp" alt="간월재 억새 등반코스"><figcaption>간월재 억새 등반코스 · 강력 추천<span class="ai">AI 그림</span></figcaption></figure>
     <div class="section-header fade-in" style="text-align:center; margin-bottom:52px;">
       <span class="s-num" style="font-family:var(--font-play); font-size:11px; color:var(--gold); letter-spacing:0.25em; display:block; margin-bottom:10px;">YEONGNAM ALPS · HIKING TRAILS</span>
       <h2 id="hiking-heading" class="s-title" style="font-family:var(--font-myeong); font-size:clamp(20px,3.5vw,28px); font-weight:700; margin-bottom:8px; line-height:1.3;">영남알프스 영축산 등산코스 추천</h2>
@@ -1130,6 +1197,7 @@ section{padding:72px 0;}
 <!-- ─── § 7 산업의 진심 ─── -->
 <section class="industry" id="industry" role="region" aria-labelledby="industry-heading">
   <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="img/ulsan/industrial-night.webp" alt="울산 산업단지 야경"><figcaption>울산 산업단지 야경<span class="ai">AI 그림</span></figcaption></figure>
     <div class="industry-inner">
       <div class="industry-text slide-left">
         <p class="industry-eyebrow">INDUSTRIAL HEART · HUMAN STORY</p>
@@ -1152,14 +1220,14 @@ section{padding:72px 0;}
       </div>
       <div class="industry-cards slide-right">
         <div class="industry-card">
-          <div class="industry-card-title">🏭 노동자의 도시</div>
+          <div class="industry-card-title">노동자의 도시</div>
           <div class="industry-card-body">
             1960~70년대 경제개발 시기, 전국 곳곳에서 울산으로 모여든 노동자들.
             그들의 희생과 성취가 오늘의 울산을 만들었습니다.
           </div>
         </div>
         <div class="industry-card">
-          <div class="industry-card-title">🌍 이주와 공존</div>
+          <div class="industry-card-title">이주와 공존</div>
           <div class="industry-card-body">
             현재 울산에는 30개국 이상의 외국인 노동자와 이주민이 함께 살고 있습니다.
             산업 도시가 다문화 공동체로 진화하는 현장입니다.
@@ -1197,6 +1265,7 @@ section{padding:72px 0;}
       <span class="s-num">FOOD · MARKET</span>
       <h2 id="food-heading" class="s-title">울산의 맛 — 땅과 바다가 빚은 이야기</h2>
       <p class="s-desc">The Flavors of Ulsan — Stories Made by Land and Sea</p>
+      <p style="text-align:center;margin-top:16px;"><a href="맛집.html" style="display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-family:var(--font-myeong);font-weight:700;border-radius:999px;padding:11px 26px;font-size:14px;">🍴 울산의 맛 — 꼭 가볼 맛집 소개 →</a></p>
     </div>
     <p style="text-align: center; font-size: 14.5px; color: var(--ink-soft); max-width: 600px; margin: -20px auto 40px; line-height: 1.7; font-family: var(--font-serif);" class="fade-in">
       울산 주민들이 대를 이어 찾아가는 8대 전설적인 노포 맛집을 소개합니다.<br>
@@ -1207,8 +1276,8 @@ section{padding:72px 0;}
       <!-- 1. 언양기와집불고기 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: var(--gold-pale); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🥩
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-eonyang.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">100년 한옥 노포</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1232,8 +1301,8 @@ section{padding:72px 0;}
       <!-- 2. 고래고기원조할매집 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: var(--sea-pale); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🐳
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-whale.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--sea); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">3대 80년 전통</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1257,8 +1326,8 @@ section{padding:72px 0;}
       <!-- 3. 정자대게 전문점 대게궁 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(201,64,43,0.1); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🦀
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-daege.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--dawn); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">동해안 오션뷰</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1282,8 +1351,8 @@ section{padding:72px 0;}
       <!-- 4. 하동식당 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(58,110,126,0.1); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🍲
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-gukbap.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--sea-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">50년 전통 돼지국밥</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1307,8 +1376,8 @@ section{padding:72px 0;}
       <!-- 5. 다운목살구이 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(201,64,43,0.06); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🐷
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-moksal.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--dawn-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">연탄 석쇠구이 성지</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1332,8 +1401,8 @@ section{padding:72px 0;}
       <!-- 6. 거부돌곱창 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(29,29,27,0.08); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🔥
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-gopchang.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--ink); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">현지인 줄서는 맛집</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1357,8 +1426,8 @@ section{padding:72px 0;}
       <!-- 7. 섬뜰 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(122,158,138,0.15); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🦪
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-jeonbok.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--reed); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">전복 영양 명가</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1382,8 +1451,8 @@ section{padding:72px 0;}
       <!-- 8. 영안반점 -->
       <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
         <div>
-          <div class="food-card-img" style="position: relative; height: 120px; background: rgba(184,149,90,0.12); display: flex; align-items: center; justify-content: center; font-size: 40px;">
-            🥢
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('img/ulsan/food-junghwa.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
             <span style="position: absolute; top: 12px; left: 12px; background: var(--gold-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">70년 화교 노포 중식</span>
           </div>
           <div class="food-card-body" style="padding: 20px;">
@@ -1418,7 +1487,7 @@ section{padding:72px 0;}
     </div>
     <div class="people-grid">
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">🌍</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg></span>
         <h3 class="people-card-title">30개국 이주민 공동체</h3>
         <p class="people-card-desc">
           산업 도시 울산에는 베트남, 인도네시아, 캄보디아 등 30개국 이상의
@@ -1426,7 +1495,7 @@ section{padding:72px 0;}
         </p>
       </div>
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">🏭</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 21V10l5 3V10l5 3V7l5-2v16z"/><path d="M3 21h18M7 17h2M11.5 17h2M16 17h2"/></svg></span>
         <h3 class="people-card-title">1960년대 이주 노동자</h3>
         <p class="people-card-desc">
           경제개발 시기 울산으로 온 젊은이들. 고향을 떠나 이곳에 뿌리 내리고,
@@ -1434,7 +1503,7 @@ section{padding:72px 0;}
         </p>
       </div>
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">🏺</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 4.1c.7-.5 1.7-.8 2.6-.8s1.9.3 2.6.8"/><path d="M7.8 6.9h8.4"/><path d="M9 7.2C6.5 8.5 4.8 11 4.8 13.8c0 3.4 3.2 5.7 7.2 5.7s7.2-2.3 7.2-5.7c0-2.8-1.7-5.3-4.2-6.6"/></svg></span>
         <h3 class="people-card-title">울주 옹기 장인</h3>
         <p class="people-card-desc">
           전통 옹기 제조의 고장 울주. 수백 년간 이어온 항아리 빚는 손기술이
@@ -1442,7 +1511,7 @@ section{padding:72px 0;}
         </p>
       </div>
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">📚</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 6c-1.6-1-4.2-1.6-6.2-1.6V18c2 0 4.6.6 6.2 1.6 1.6-1 4.2-1.6 6.2-1.6V4.4c-2 0-4.6.6-6.2 1.6z"/><path d="M12 6v13.6"/></svg></span>
         <h3 class="people-card-title">교육자와 공동체</h3>
         <p class="people-card-desc">
           자기주도학습, 전인 교육을 실천하는 선생님들.
@@ -1450,7 +1519,7 @@ section{padding:72px 0;}
         </p>
       </div>
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">⚓</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v13M8.5 9.5h7"/><path d="M5 13a7 7 0 0 0 14 0M5 13H3m16 0h2"/></svg></span>
         <h3 class="people-card-title">조선소 기술자</h3>
         <p class="people-card-desc">
           세계 최대 조선소가 있는 도시. 용접봉을 잡은 손, 도면을 그리는 손 —
@@ -1458,7 +1527,7 @@ section{padding:72px 0;}
         </p>
       </div>
       <div class="people-card fade-in">
-        <span class="people-card-icon" aria-hidden="true">🌺</span>
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6.8" r="2.4"/><circle cx="5.4" cy="8.8" r="1.9"/><circle cx="18.6" cy="8.8" r="1.9"/><path d="M8 19v-1.6a4 4 0 0 1 8 0V19"/><path d="M2.6 18.4v-.4a3 3 0 0 1 3.9-2.9M21.4 18.4v-.4a3 3 0 0 0-3.9-2.9"/></svg></span>
         <h3 class="people-card-title">다문화 여성 공동체</h3>
         <p class="people-card-desc">
           국제결혼으로 울산에 온 여성들이 만든 공동체.
@@ -1541,7 +1610,10 @@ section{padding:72px 0;}
   <div class="wrap">
     <div class="section-header fade-in">
       <span class="s-num">LOCAL CONCIERGE & CAMPAIGN</span>
-      <h2 id="concierge-heading" class="s-title">울산 포켓 콘시에르주 & 홍보 캠페인</h2>
+      <h2 id="concierge-heading" class="s-title">울산 포켓 콘시에르주 & 홍보 캠페인 <span class="demo-badge">체험 데모</span></h2>
+      <div style="background:#fff5f4;border:1px solid #e0b4ad;border-left:5px solid var(--dawn,#C9402B);border-radius:10px;padding:12px 16px;margin:6px auto 20px;max-width:680px;font-size:13px;color:#7a3a33;line-height:1.6;">
+        ⚠ 아래 ‘포켓 패스 · 예약 · 결제’ 화면은 <b>기획 데모(시안)</b>입니다. <b>실제 결제·예약은 이루어지지 않습니다.</b> 정식 기능은 서버 연동 후 제공됩니다.
+      </div>
       <p class="s-desc">디지털 자동화로 연결하는 로컬 관광 생태계와 우리가 몰랐던 울산의 이야기</p>
     </div>
     
@@ -1642,7 +1714,7 @@ section{padding:72px 0;}
             <!-- Tab Content: Booking -->
             <div class="phone-content" id="tab-booking">
               <p style="font-size: 11.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.5;">
-                원하는 로컬 체험이나 교통을 자동 예약 연계합니다. (수동 개입 없는 자동 수수료 모델)
+제휴를 맺은 가게에만 예약 요청을 보냅니다. <b>가게 사장님이 직접 확인·수락해야 예약이 확정</b>됩니다 (무인 자동 확정이 아닙니다).
               </p>
               <div style="display: flex; flex-direction: column; gap: 10px;" id="booking-form">
                 <div>
@@ -1660,7 +1732,7 @@ section{padding:72px 0;}
                     <input type="date" id="booking-date" value="2026-05-27" style="padding: 6px; border: 1px solid var(--hanji-dk); border-radius: 6px; font-family: var(--font-serif); font-size:11.5px; outline:none;">
                   </div>
                 </div>
-                <button class="pass-btn" id="btn-submit-booking">실시간 무인 예약 요청</button>
+                <button class="pass-btn" id="btn-submit-booking">예약 요청 보내기 (가게 확인 후 확정)</button>
               </div>
               
               <!-- Booking Status State -->
@@ -1678,7 +1750,7 @@ section{padding:72px 0;}
                   </span>
                 </div>
                 <div id="booking-webhook-report" style="display:none;" class="settlement-card">
-                  <strong style="color:var(--gold); display:block; margin-bottom:4px;">⚙️ 무인 백엔드 웹훅 동작 리포트:</strong>
+                  <strong style="color:var(--gold); display:block; margin-bottom:4px;">⚙️ 처리 리포트 (제휴 가게 확인형):</strong>
                   • 보증금 결제 완료 (Stripe 수수료 공제)<br>
                   • 카카오 알림톡 발송 완료 (비용: 8.5원)<br>
                   • 상점주 수락 모바일 웹훅 수신 완료<br>
@@ -1696,7 +1768,7 @@ section{padding:72px 0;}
         <div class="tip-list">
           <!-- 비밀 1 -->
           <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--dawn); background:#fff;">
-            <div class="tip-icon" style="font-size: 24px; margin-top: 2px;">🐋</div>
+            <div class="tip-icon" style="flex-shrink:0;"><img src="img/ulsan/bangudae2.webp" alt=""></div>
             <div class="tip-content">
               <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">1. 세계 최초의 고래 사냥 기록 (반구대 암각화)</div>
               <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
@@ -1707,7 +1779,7 @@ section{padding:72px 0;}
           
           <!-- 비밀 2 -->
           <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--gold); background:#fff;">
-            <div class="tip-icon" style="font-size: 24px; margin-top: 2px;">🔩</div>
+            <div class="tip-icon" style="flex-shrink:0;"><img src="img/ulsan/cheoljang.webp" alt=""></div>
             <div class="tip-content">
               <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">2. 2,000년 고대 철기 문명의 실리콘밸리 (달천철장)</div>
               <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
@@ -1718,7 +1790,7 @@ section{padding:72px 0;}
           
           <!-- 비밀 3 -->
           <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--sea); background:#fff;">
-            <div class="tip-icon" style="font-size: 24px; margin-top: 2px;">🎋</div>
+            <div class="tip-icon" style="flex-shrink:0;"><img src="img/ulsan/simni-aerial.webp" alt=""></div>
             <div class="tip-content">
               <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">3. 오염된 공업용수에서 생태 정원으로 (태화강의 기적)</div>
               <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
@@ -1729,7 +1801,7 @@ section{padding:72px 0;}
           
           <!-- 비밀 4 -->
           <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--gold-lt); background:#fff;">
-            <div class="tip-icon" style="font-size: 24px; margin-top: 2px;">🌉</div>
+            <div class="tip-icon" style="flex-shrink:0;"><img src="img/ulsan/daewangam-bridge.webp" alt=""></div>
             <div class="tip-content">
               <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">4. 15,000그루 해송과 303m 출렁다리 (대왕암공원)</div>
               <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
@@ -1740,7 +1812,7 @@ section{padding:72px 0;}
           
           <!-- 비밀 5 -->
           <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--reed); background:#fff;">
-            <div class="tip-icon" style="font-size: 24px; margin-top: 2px;">🍜</div>
+            <div class="tip-icon" style="flex-shrink:0;"><img src="img/ulsan/chwiseo.webp" alt=""></div>
             <div class="tip-content">
               <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">5. 해발 800m 낭떠러지 산장에서 먹던 라면의 추억 (취서산장)</div>
               <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
@@ -1810,11 +1882,11 @@ section{padding:72px 0;}
     <div>
       <div class="footer-col-title">INFORMATION</div>
       <ul class="footer-links">
-        <li><a href="#">울산광역시 공식 관광</a></li>
-        <li><a href="#">반구대 암각화 관리소</a></li>
-        <li><a href="#">태화강 국가정원</a></li>
-        <li><a href="#">울산문화재단</a></li>
-        <li><a href="#">교통·숙박 안내</a></li>
+        <li><a href="https://www.ulsan.go.kr/" target="_blank" rel="noopener">울산광역시 공식</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=반구대+암각화" target="_blank" rel="noopener">반구대 암각화</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=태화강+국가정원" target="_blank" rel="noopener">태화강 국가정원</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=울산문화재단" target="_blank" rel="noopener">울산문화재단</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=울산+여행+교통+숙박" target="_blank" rel="noopener">교통·숙박 안내</a></li>
       </ul>
     </div>
     <div>
@@ -1828,7 +1900,7 @@ section{padding:72px 0;}
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Ulsan City Introduction · 울산 소개 홈페이지 v1</span>
+    <span>© 2026 연라이프(y-life.kr) · 세계로 여행 · 대한민국 · 울산 v1.0 · 기획·운영 <a href="mailto:jinwooshon@gmail.com" style="color:inherit;">연소사</a> · <a href="index.html" style="color:inherit;">대한민국</a></span>
     <span>반구대 암각화 — 유네스코 세계문화유산 등재 2025.07.12</span>
   </div>
 </footer>
@@ -1864,9 +1936,16 @@ section{padding:72px 0;}
   }, {threshold: 0.4});
   sections.forEach(s => navObserver.observe(s));
 
-  // 문의 폼 (플레이스홀더)
+  // 문의 폼 — 메일 앱으로 실제 전송 (서버 없이 정직 처리)
   document.querySelector('.footer-submit').addEventListener('click', function(){
-    alert('문의 감사합니다! 빠른 시일 내에 연락드리겠습니다.\nThank you! We will get back to you soon.');
+    var ins = document.querySelectorAll('.footer-contact-form .footer-input');
+    var name = (ins[0]&&ins[0].value||'').trim();
+    var email = (ins[1]&&ins[1].value||'').trim();
+    var msg = (ins[2]&&ins[2].value||'').trim();
+    if(!msg){ alert('메시지를 입력해 주세요. / Please enter a message.'); return; }
+    var subject = encodeURIComponent('[울산 소개] 문의 — ' + (name||'익명'));
+    var body = encodeURIComponent('이름: '+name+'\n이메일: '+email+'\n\n'+msg);
+    window.location.href = 'mailto:jinwooshon@gmail.com?subject='+subject+'&body='+body;
   });
 })();
 
@@ -2049,7 +2128,86 @@ section{padding:72px 0;}
 })();
 </script>
 
-<script src="yeon-pwa.js" defer></script>
+<!-- ─── 인쇄 2모드 (① 보이는 그대로 · ② 종이 절약 2단) ─── -->
+<button class="print-fab no-print" aria-label="인쇄" title="인쇄"
+  onclick="var p=document.getElementById('printPop');p.classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="printPop" role="menu" aria-label="인쇄 방식 선택">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" role="menuitem" onclick="yeonPrint(false)">
+    <strong>① 보이는 그대로</strong><small>화면 디자인·색 그대로 인쇄</small></button>
+  <button type="button" role="menuitem" onclick="yeonPrint(true)">
+    <strong>② 종이 절약 (2단·흑백)</strong><small>2단·흑백·여백 최소·배경 제거</small></button>
+</div>
+<script>
+function yeonPrint(save){
+  document.getElementById('printPop').classList.remove('show');
+  document.body.classList.toggle('print-save', !!save);
+  setTimeout(function(){ window.print(); }, 60);
+}
+window.addEventListener('afterprint', function(){ document.body.classList.remove('print-save'); });
+document.addEventListener('click', function(e){
+  var pop=document.getElementById('printPop');
+  if(pop && pop.classList.contains('show') && !pop.contains(e.target) && !e.target.closest('.print-fab')){
+    pop.classList.remove('show');
+  }
+});
+</script>
+<!-- ─── 명소 3단 드릴다운 ─── -->
+<div class="ndrill" id="ndrill" role="dialog" aria-modal="true" aria-label="명소 둘러보기">
+  <div class="ndrill-bd" onclick="ndClose()"></div>
+  <div class="ndrill-panel">
+    <div class="ndrill-head">
+      <button class="ndrill-back" id="ndBack" onclick="ndUp()">← 뒤로</button>
+      <div class="ndrill-title" id="ndTitle">명소 둘러보기</div>
+      <button class="ndrill-close" onclick="ndClose()" aria-label="닫기">×</button>
+    </div>
+    <div class="ndrill-crumb" id="ndCrumb"></div>
+    <div id="ndBody"></div>
+  </div>
+</div>
+<script>
+const ND_TREE={
+ '자연':{
+   '강·정원':[['십리대밭 항공샷','simni-aerial',0],['십리대숲 산책로','simni-path',0],['십리대숲 새벽 안개','simni-mist',0],['십리대숲과 태화강','simni-river',0],['십리대숲 은하수길','simni-night2',0],['태화강 국가정원','taehwa-real-1',1],['십리대숲','bamboo',0],['태화강 백로','egret',0],['태화강 봄꽃','taehwa-spring',0]],
+   '바다·해안':[['대왕암 출렁다리','daewangam-bridge',0],['대왕암 솔숲길','daewangam-pinetrail',0],['대왕암 일출','daewangam-sunrise2',0],['대왕암공원','daewangam',0],['간절곶','ganjeolgot',0],['주전 몽돌해변','jujeon-pebble',0],['슬도','seuldo',0],['고래바다여행선','whaleboat',0]],
+   '산':[['간월재 억새 등반코스','ganwoljae-trail',0],['간월재 억새평원','ganwoljae-plateau',0],['간월재 정상 파노라마','ganwoljae-panorama',0],['영남알프스 억새','yeongnam-alps',0],['신불산','sinbulsan',0],['케이블카','cablecar',0]]
+ },
+ '역사·문화':{
+   '선사·유산':[['반구대 암각화','bangudae2',0],['천전리 각석','cheonjeonri',0]],
+   '마을·전통':[['장생포 고래마을','jangsaengpo',0],['외고산 옹기마을','onggi',0],['작천정 벚꽃','jakcheonjeong-cherry',0]]
+ },
+ '도시·체험':{
+   '도시·야경':[['울산 전경','ulsan-aerial',0],['울산대교 야경','ulsanbridge-night',0],['산업단지 야경','industrial-night',0]],
+   '공원':[['울산대공원','grandpark',0]],
+   '미식 (준비중)':[]
+ }
+};
+let ndPath=[];
+function ndCount(n){return Array.isArray(n)?n.length:Object.values(n).reduce((s,v)=>s+ndCount(v),0);}
+function ndOpen(){ndPath=[];ndRender();document.getElementById('ndrill').classList.add('open');document.body.style.overflow='hidden';}
+function ndClose(){document.getElementById('ndrill').classList.remove('open');document.body.style.overflow='';}
+function ndUp(){ndPath.pop();ndRender();}
+function ndGo(k){ndPath.push(k);ndRender();}
+function ndRender(){
+  const body=document.getElementById('ndBody'),back=document.getElementById('ndBack'),
+        title=document.getElementById('ndTitle'),crumb=document.getElementById('ndCrumb');
+  back.style.display=ndPath.length?'inline-block':'none';
+  crumb.textContent=ndPath.length?('명소 둘러보기 › '+ndPath.join(' › ')):'어떤 분류부터 볼까요';
+  title.textContent=ndPath.length?ndPath[ndPath.length-1]:'명소 둘러보기';
+  let node=ND_TREE; ndPath.forEach(k=>node=node[k]);
+  if(Array.isArray(node)){
+    if(!node.length){body.innerHTML='<p style="text-align:center;color:#999;padding:30px 0;">아직 등록된 명소가 없어요 (0)</p>';return;}
+    body.innerHTML='<div class="ndrill-grid">'+node.map(([n,f,real])=>
+      `<a class="ndrill-ph" href="img/ulsan/갤러리.html"><img loading="lazy" src="img/ulsan/${f}.webp" alt="${n}"><span>${n}${real?' 📷':''}</span></a>`).join('')
+      +'</div><a class="ndrill-allbtn" href="img/ulsan/갤러리.html">전체 갤러리에서 보기 →</a>';
+  } else {
+    body.innerHTML='<div class="ndrill-list">'+Object.keys(node).map(k=>{
+      const c=ndCount(node[k]),empty=c===0?' empty':'';
+      return `<div class="ndrill-item${empty}"${c?` onclick="ndGo('${k.replace(/'/g,"\\'")}')"`:''}><span>${k}</span><span class="cnt">(${c})</span></div>`;
+    }).join('')+'</div>';
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ndClose();});
+</script>
 </body>
 </html>
-
