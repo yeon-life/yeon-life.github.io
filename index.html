@@ -3750,6 +3750,71 @@
         goDetail(forum + ' 전체 보기', {forum});
       });
     });
+
+    // 로컬 스토리지에 저장된 사용자 글 불러와서 홈피에 동적 표시
+    (function loadCustomPosts(){
+      try {
+        // 1. 아곤란 (학생 질문)
+        const customQuestions = JSON.parse(localStorage.getItem('yl-custom-questions') || '[]');
+        const agonranList = document.querySelector('.plaza-col-agonran .pc-list');
+        if (agonranList && customQuestions.length > 0) {
+          [...customQuestions].reverse().forEach(q => {
+            const item = document.createElement('div');
+            item.className = 'pc-item custom-post';
+            const initChar = q.by ? q.by.trim().charAt(0) : '학';
+            item.innerHTML = `
+              <div class="pc-meta">
+                <span class="pc-now">지금</span>
+                <span class="who"><span class="dot">${initChar}</span>${q.by || '익명'}</span>
+                <span>·</span>
+                <span>${q.grade || '학생'}</span>
+              </div>
+              <h3 class="pc-title-text">${q.text}</h3>
+              <p class="pc-snip">방금 등록된 서툰 질문입니다. 함께 사색하고 나누어 보아요.</p>
+              <div class="pc-vote"><span class="depth">좋은 물음 ${q.votes || 0}</span><span class="cmt">댓글 ${q.comments || 0}</span></div>
+              <span class="ripple-anchor"></span>
+            `;
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => {
+              window.location.href = '아곤란_미리보기.html';
+            });
+            agonranList.insertBefore(item, agonranList.firstChild);
+          });
+        }
+
+        // 2. 아골라 (어른 토론)
+        const customOpinions = JSON.parse(localStorage.getItem('yl-custom-opinions') || '[]');
+        const agoraList = document.querySelector('.plaza-col-agora .pc-list');
+        if (agoraList && customOpinions.length > 0) {
+          [...customOpinions].reverse().forEach(op => {
+            const item = document.createElement('div');
+            item.className = 'pc-item custom-post';
+            const initChar = op.by ? op.by.trim().charAt(0) : '사';
+            const textSnippet = op.text.length > 80 ? op.text.slice(0, 80) + '...' : op.text;
+            const titleText = op.text.length > 30 ? op.text.slice(0, 30) + '...' : op.text;
+            item.innerHTML = `
+              <div class="pc-meta">
+                <span class="pc-now">지금</span>
+                <span class="who"><span class="dot">${initChar}</span>${op.by || '익명'}</span>
+                <span>·</span>
+                <span>${op.role || '사색가'}</span>
+              </div>
+              <h3 class="pc-title-text">${titleText}</h3>
+              <p class="pc-snip">${textSnippet}</p>
+              <div class="pc-vote"><span class="depth">좋은 물음 ${op.votes || 0}</span><span class="cmt">댓글 ${op.comments || 0}</span></div>
+              <span class="ripple-anchor"></span>
+            `;
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => {
+              window.location.href = '아골라_미리보기.html';
+            });
+            agoraList.insertBefore(item, agoraList.firstChild);
+          });
+        }
+      } catch(e) {
+        console.error('Failed to load custom posts:', e);
+      }
+    })();
   })();
 </script>
 

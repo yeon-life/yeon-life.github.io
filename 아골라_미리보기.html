@@ -245,7 +245,7 @@
         </section>
 
         <!-- 사상가 의견 피드 (Voice Cards) -->
-        <section class="max-w-4xl mx-auto w-full space-y-8 relative">
+        <section id="customOpinionsContainer" class="max-w-4xl mx-auto w-full space-y-8 relative">
             <div class="absolute left-6 top-0 bottom-0 w-[1px] bg-gold-thread/20 hidden md:block"></div>
             
             <div class="text-center md:text-left md:pl-16 mb-4">
@@ -593,18 +593,147 @@
                 });
             }
             
+            // 1. 커스텀 의견 렌더링 함수
+            const container = document.getElementById('customOpinionsContainer');
+            
+            function renderOpinionCard(op, prepend = true) {
+                if (!container) return;
+                const card = document.createElement('article');
+                card.className = 'relative pl-0 md:pl-16 group transition-all duration-300 custom-opinion-card';
+                
+                const initChar = op.by ? op.by.trim().charAt(0) : '사';
+                card.innerHTML = `
+                    <div class="hidden md:flex absolute left-0 top-3 w-12 h-12 rounded-full bg-ink-stone border-4 border-hanji-base items-center justify-center text-hanji-base z-10">
+                        <span class="font-serif text-sm font-semibold">${initChar}</span>
+                    </div>
+                    <div class="p-8 shadow-md border border-gold-thread/10 hover:border-gold-thread/30 transition-all duration-300 rounded-sm bg-white/70 backdrop-blur-md">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-serif text-base font-bold text-ink-stone">${op.by || '익명'}</h4>
+                                <p class="text-[11px] text-gold-thread font-medium mt-0.5">${op.role || '사색가'} · 방금 전</p>
+                            </div>
+                            <button class="material-symbols-outlined text-ink-stone/30 hover:text-ink-stone cursor-pointer">more_horiz</button>
+                        </div>
+                        <p class="text-sm text-ink-stone/80 leading-relaxed mb-6 ink-bleed">
+                            ${op.text}
+                        </p>
+                        <div class="flex items-center gap-6 border-t border-gold-thread/5 pt-4 text-xs">
+                            <button class="flex items-center gap-1 text-gold-thread hover:text-ink-stone font-semibold">
+                                <span class="w-1.5 h-1.5 bg-gold-thread rounded-full"></span> 좋은 물음 ${op.votes || 0}
+                            </button>
+                            <button class="text-ink-stone/50 hover:text-ink-stone">댓글 ${op.comments || 0}</button>
+                            <button class="text-ink-stone/50 hover:text-ink-stone">인용 0</button>
+                        </div>
+                    </div>
+                `;
+                
+                if (prepend) {
+                    const header = container.querySelector('.text-center.md\\:text-left');
+                    if (header) {
+                        header.insertAdjacentElement('afterend', card);
+                    } else {
+                        container.appendChild(card);
+                    }
+                } else {
+                    container.appendChild(card);
+                }
+            }
+
+            // 2. localStorage 데이터 로드 및 표시
+            function loadAndRenderOpinions() {
+                try {
+                    const customOpinions = JSON.parse(localStorage.getItem('yl-custom-opinions') || '[]');
+                    customOpinions.forEach(op => {
+                        renderOpinionCard(op, true);
+                    });
+                } catch(e) {
+                    console.error('Failed to load custom opinions:', e);
+                }
+            }
+
+            // 3. URL 파라미터 파싱 및 자동 저장 (마이크로부터)
+            function processUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                const draft = params.get('draft');
+                const by = params.get('by');
+                
+                if (draft) {
+                    const cleanDraft = draft.trim();
+                    const cleanBy = by ? by.trim() : '익명';
+                    
+                    try {
+                        const customOpinions = JSON.parse(localStorage.getItem('yl-custom-opinions') || '[]');
+                        const exists = customOpinions.some(op => op.text === cleanDraft && op.by === cleanBy);
+                        
+                        if (!exists) {
+                            const newOp = {
+                                text: cleanDraft,
+                                by: cleanBy,
+                                role: '사색가',
+                                votes: 0,
+                                comments: 0,
+                                timestamp: Date.now()
+                            };
+                            customOpinions.push(newOp);
+                            localStorage.setItem('yl-custom-opinions', JSON.stringify(customOpinions));
+                            
+                            renderOpinionCard(newOp, true);
+                            showToast('홈페이지에서 작성한 의견이 기록되었습니다!');
+                        }
+                    } catch(e) {
+                        console.error('Failed to save draft parameter:', e);
+                    }
+                    
+                    // URL 정리 (draft, by 파라미터 지우기)
+                    params.delete('draft');
+                    params.delete('by');
+                    const newSearch = params.toString();
+                    const newUrl = window.location.pathname + (newSearch ? '?' + newSearch : '') + window.location.hash;
+                    window.history.replaceState({}, document.title, newUrl);
+                }
+            }
+
+            // 초기 실행
+            loadAndRenderOpinions();
+            processUrlParams();
+            
             if (submitBtn) {
                 submitBtn.addEventListener('click', () => {
-                    const len = textarea ? textarea.value.trim().length : 0;
-                    if (len < 50) {
+                    const text = textarea ? textarea.value.trim() : '';
+                    if (text.length < 50) {
                         showToast('사유를 최소 50자 이상 성실히 기입해 주세요.');
                     } else {
-                        showToast('소중한 사유가 임시 기록되었습니다. (시안 작동)');
-                        if (textarea) {
-                            textarea.value = '';
-                            alertText.textContent = `현재 0자 (최소 50자의 사유가 필요합니다)`;
-                            alertText.classList.remove('text-pine-needle', 'font-bold');
-                            alertText.classList.add('text-ink-stone/40');
+                        let cur = null;
+                        try { cur = JSON.parse(localStorage.getItem('yl-current') || 'null'); } catch(e){}
+                        const writer = cur ? (cur.nick || cur.id) : '익명';
+                        
+                        const newOp = {
+                            text: text,
+                            by: writer,
+                            role: '사색가',
+                            votes: 0,
+                            comments: 0,
+                            timestamp: Date.now()
+                        };
+                        
+                        try {
+                            const customOpinions = JSON.parse(localStorage.getItem('yl-custom-opinions') || '[]');
+                            customOpinions.push(newOp);
+                            localStorage.setItem('yl-custom-opinions', JSON.stringify(customOpinions));
+                            
+                            renderOpinionCard(newOp, true);
+                            showToast('소중한 사유가 기록되었습니다!');
+                            
+                            if (textarea) {
+                                textarea.value = '';
+                                alertText.textContent = `현재 0자 (최소 50자의 사유가 필요합니다)`;
+                                alertText.classList.remove('text-pine-needle', 'font-bold');
+                                alertText.classList.add('text-ink-stone/40');
+                                textarea.style.height = 'auto';
+                            }
+                        } catch(e) {
+                            console.error('Failed to submit opinion:', e);
+                            showToast('의견 기록에 실패했습니다.');
                         }
                     }
                 });

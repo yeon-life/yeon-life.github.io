@@ -326,7 +326,7 @@
         </section>
 
         <!-- 학생 질문 리스트 스택 -->
-        <section class="max-w-3xl mx-auto w-full space-y-6">
+        <section id="customQuestionsContainer" class="max-w-3xl mx-auto w-full space-y-6">
             <div class="flex items-center gap-2.5 border-b border-sprout/20 pb-3">
                 <span class="material-symbols-outlined text-sprout" aria-hidden="true">forum</span>
                 <h3 class="font-serif text-base font-bold text-ink-stone">최신 올라온 질문</h3>
@@ -610,6 +610,104 @@
                     toast.classList.add('opacity-0', 'invisible');
                 }, 2000);
             }
+
+            // 1. 커스텀 질문 렌더링 함수
+            const container = document.getElementById('customQuestionsContainer');
+            
+            function renderQuestionCard(q, prepend = true) {
+                if (!container) return;
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-white/70 backdrop-blur-md border border-sprout/20 hover:border-sprout/40 rounded-sm transition-all duration-300 group flex items-start gap-4 custom-question-card';
+                
+                const initChar = q.by ? q.by.trim().charAt(0) : '학';
+                card.innerHTML = `
+                    <div class="flex flex-col items-center shrink-0">
+                        <div class="w-10 h-10 border border-sprout/20 flex items-center justify-center text-ink-stone font-bold text-xs rounded-sm bg-hanji-base">
+                            ${q.grade || '학생'}
+                        </div>
+                        <span class="text-[9px] text-ink-stone/50 font-medium italic mt-1">${q.by || '익명'}</span>
+                    </div>
+                    <div class="flex-grow pt-0.5">
+                        <p class="text-sm font-medium text-ink-stone leading-relaxed mb-3 group-hover:text-sprout transition-colors">
+                            "${q.text}"
+                        </p>
+                        <div class="flex items-center gap-3 text-[11px] text-ink-stone/40 font-medium">
+                            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sprout/50"></span> 좋은 물음 ${q.votes || 0}</span>
+                            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-ink-stone/10"></span> 댓글 ${q.comments || 0}</span>
+                        </div>
+                    </div>
+                `;
+                
+                if (prepend) {
+                    const header = container.firstElementChild;
+                    if (header) {
+                        header.insertAdjacentElement('afterend', card);
+                    } else {
+                        container.appendChild(card);
+                    }
+                } else {
+                    container.appendChild(card);
+                }
+            }
+
+            // 2. localStorage 데이터 로드 및 표시
+            function loadAndRenderQuestions() {
+                try {
+                    const customQuestions = JSON.parse(localStorage.getItem('yl-custom-questions') || '[]');
+                    // We render custom questions prepending them so that the newer ones remain at the top
+                    customQuestions.forEach(q => {
+                        renderQuestionCard(q, true);
+                    });
+                } catch(e) {
+                    console.error('Failed to load custom questions:', e);
+                }
+            }
+
+            // 3. URL 파라미터 파싱 및 자동 저장
+            function processUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                const draft = params.get('draft');
+                const by = params.get('by');
+                
+                if (draft) {
+                    const cleanDraft = draft.trim();
+                    const cleanBy = by ? by.trim() : '익명';
+                    
+                    try {
+                        const customQuestions = JSON.parse(localStorage.getItem('yl-custom-questions') || '[]');
+                        const exists = customQuestions.some(q => q.text === cleanDraft && q.by === cleanBy);
+                        
+                        if (!exists) {
+                            const newQ = {
+                                text: cleanDraft,
+                                by: cleanBy,
+                                grade: '학생',
+                                votes: 0,
+                                comments: 0,
+                                timestamp: Date.now()
+                            };
+                            customQuestions.push(newQ);
+                            localStorage.setItem('yl-custom-questions', JSON.stringify(customQuestions));
+                            
+                            renderQuestionCard(newQ, true);
+                            showToast('홈페이지에서 작성한 질문이 등록되었습니다!');
+                        }
+                    } catch(e) {
+                        console.error('Failed to save draft parameter:', e);
+                    }
+                    
+                    // URL 정리 (draft, by 파라미터 지우기)
+                    params.delete('draft');
+                    params.delete('by');
+                    const newSearch = params.toString();
+                    const newUrl = window.location.pathname + (newSearch ? '?' + newSearch : '') + window.location.hash;
+                    window.history.replaceState({}, document.title, newUrl);
+                }
+            }
+
+            // 초기 실행
+            loadAndRenderQuestions();
+            processUrlParams();
             
             if (submitBtn && input) {
                 submitBtn.addEventListener('click', () => {
@@ -617,8 +715,31 @@
                     if (!text) {
                         showToast('질문할 내용을 먼저 적어주세요.');
                     } else {
-                        showToast('서툰 질문이 임시 등록되었습니다. (시안 작동)');
-                        input.value = '';
+                        let cur = null;
+                        try { cur = JSON.parse(localStorage.getItem('yl-current') || 'null'); } catch(e){}
+                        const writer = cur ? (cur.nick || cur.id) : '익명';
+                        
+                        const newQ = {
+                            text: text,
+                            by: writer,
+                            grade: '학생',
+                            votes: 0,
+                            comments: 0,
+                            timestamp: Date.now()
+                        };
+                        
+                        try {
+                            const customQuestions = JSON.parse(localStorage.getItem('yl-custom-questions') || '[]');
+                            customQuestions.push(newQ);
+                            localStorage.setItem('yl-custom-questions', JSON.stringify(customQuestions));
+                            
+                            renderQuestionCard(newQ, true);
+                            showToast('질문이 등록되었습니다!');
+                            input.value = '';
+                        } catch(e) {
+                            console.error('Failed to submit question:', e);
+                            showToast('질문 등록에 실패했습니다.');
+                        }
                     }
                 });
             }
