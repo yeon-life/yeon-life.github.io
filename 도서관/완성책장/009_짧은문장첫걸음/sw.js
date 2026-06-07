@@ -3,9 +3,9 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/images/cover.png',
+  '/images/cover.webp',
   '/images/icon-192.png',
-  '/images/icon-512.png',
+  '/images/icon-512.webp',
   '/print/오므리_색칠.png',
   '/print/오므리_종이접기.png',
   '/print/오므리_종이인형.png'
