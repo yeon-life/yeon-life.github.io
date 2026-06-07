@@ -152,18 +152,26 @@ const total = (BOOK.pages||[]).length + 1;
 let idx = 0;
 
 /* 제네릭 장면 (실제 그림은 그림슬롯지시서 → Gemini 가 채움) */
-function scene(p){
+function scene(p, pageNum){
   const lab = (p && (edition==='en'?(p.label_en||p.label):p.label)) || '';
   // 오므리식 부드러운 수채 하늘·구름 배경 (실제 그림은 그림슬롯지시서→Gemini 가 채움)
   function cloud(x,y,s){ return `<g transform="translate(${x},${y}) scale(${s})" fill="#ffffff" opacity="0.92">
     <ellipse cx="0" cy="0" rx="26" ry="15"/><ellipse cx="-19" cy="6" rx="16" ry="11"/><ellipse cx="19" cy="6" rx="16" ry="11"/><ellipse cx="0" cy="9" rx="28" ry="9"/></g>`; }
-  return `<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  const placeholderSvg = `<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
     <rect width="200" height="160" fill="transparent"/>
     <circle cx="160" cy="30" r="30" fill="#fff6e2" opacity="0.7"/>
     <circle cx="160" cy="30" r="15" fill="#fdeec4" opacity="0.85"/>
     ${cloud(46,118,1.05)}${cloud(150,112,0.85)}${cloud(38,40,0.62)}
     <text x="100" y="84" text-anchor="middle" font-size="12.5" fill="#6f9bbb" font-weight="700" opacity="0.9">${lab}</text>
   </svg>`;
+  if(!pageNum) return placeholderSvg;
+  const padNum = String(pageNum).padStart(2, '0');
+  return `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative;">
+    <img src="images/p${padNum}.webp" 
+         onerror="if(this.getAttribute('data-tried-png')!=='true'){this.setAttribute('data-tried-png','true'); this.src='images/p${padNum}.png';}else{this.style.display='none'; this.nextElementSibling.style.display='block';}" 
+         style="display:block; width:100%; height:100%; object-fit:contain; border-radius:8px;" alt="${lab}">
+    <div class="placeholder-svg" style="display:none; width:100%; height:100%;">${placeholderSvg}</div>
+  </div>`;
 }
 
 /* 단어 도우미 */
@@ -222,7 +230,7 @@ const bookEl=document.getElementById('book');
 function buildBook(){ let leaves=[];
   for(let i=0;i<total;i++){ let front;
     if(i===0){ front=`<div class="face cover-face"><div><div class="ct">${M.title||''}</div><div class="cs">${M.sub||''}</div><div class="cmeta">${M.badge||''}</div></div></div>`; }
-    else { const p=BOOK.pages[i-1]; front=`<div class="face"><div class="page-pad"></div><div class="scene">${scene(p)}</div><div class="txt"><div class="label">${i} · ${L(p,'label')}</div><div class="line">${wrapWords(L(p,'line'))}</div></div><div class="pgno">${i} / ${total-1}</div></div>`; }
+    else { const p=BOOK.pages[i-1]; front=`<div class="face"><div class="page-pad"></div><div class="scene">${scene(p, i)}</div><div class="txt"><div class="label">${i} · ${L(p,'label')}</div><div class="line">${wrapWords(L(p,'line'))}</div></div><div class="pgno">${i} / ${total-1}</div></div>`; }
     leaves.push(`<div class="leaf" style="z-index:${total-i}" data-i="${i}">${front}<div class="face back"><div class="scene" style="background:linear-gradient(180deg,#f3ece0,#efe6d6)"></div></div></div>`); }
   bookEl.innerHTML=leaves.join(''); updateProg(); }
 function updateProg(){document.getElementById('progBar').style.width=(idx/(total-1)*100)+'%'; document.getElementById('prev').disabled=idx<=0; document.getElementById('next').disabled=idx>=total-1;}
@@ -232,7 +240,7 @@ function flipPrev(){if(idx<=0)return; idx--; const l=bookEl.querySelector(`.leaf
 /* 홈페이지 */
 function buildSite(){ const EN=edition==='en'; let s=`<div class="site-cover"><div style="font-size:13px;opacity:.9;letter-spacing:2px;">${M.badge||''}</div><h1>${M.title||''}</h1><p>${M.sub||''}</p></div>`;
   s+=`<div class="toc"><b>${EN?'Contents':'차례'}</b>`; BOOK.pages.forEach((p,i)=>s+=`<a href="#p${i}">${i+1}. ${L(p,'label')}</a>`); s+=`</div>`;
-  BOOK.pages.forEach((p,i)=>{ s+=`<div class="spread" id="p${i}"><div class="scene">${scene(p)}</div><div class="txt"><div class="label" style="color:var(--warm);font-weight:800;font-size:12px;">${i+1} · ${L(p,'label')}</div><div class="line" style="font-size:18px;line-height:1.8;white-space:pre-line;margin-top:6px;word-break:keep-all;">${wrapWords(L(p,'line'))}</div></div></div>`; });
+  BOOK.pages.forEach((p,i)=>{ s+=`<div class="spread" id="p${i}"><div class="scene">${scene(p, i + 1)}</div><div class="txt"><div class="label" style="color:var(--warm);font-weight:800;font-size:12px;">${i+1} · ${L(p,'label')}</div><div class="line" style="font-size:18px;line-height:1.8;white-space:pre-line;margin-top:6px;word-break:keep-all;">${wrapWords(L(p,'line'))}</div></div></div>`; });
   const gb=curActByGrade(); const gk=Object.keys(gb);
   s+=`<div class="activity"><h3>📝 ${EN?'Think Together':'함께 생각해 봐요'}</h3><div style="font-size:13.5px;color:#9a7b4a;margin-bottom:6px;">${EN?'Message':'핵심 메시지'} — <b>${curMessage()}</b></div>`;
   if(gk.length){ s+=`<div class="gtabs">${gk.map((g,i)=>`<button class="gbtn${i===0?' on':''}" onclick="showGrade('${g}')">${g}</button>`).join('')}</div><ul id="gradeList"></ul>`; }
