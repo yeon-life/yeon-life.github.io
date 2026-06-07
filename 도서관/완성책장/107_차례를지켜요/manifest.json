@@ -1,0 +1,12 @@
+{
+  "name": "차례를 지켜요",
+  "short_name": "차례를 지켜요",
+  "description": "내 차례를 기다리면 모두가 즐거워요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

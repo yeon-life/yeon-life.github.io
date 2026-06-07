@@ -1,0 +1,12 @@
+{
+  "name": "친구의 마음 듣기",
+  "short_name": "친구의 마음 듣기",
+  "description": "입보다 귀가 먼저 친구가 되어 주었어요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

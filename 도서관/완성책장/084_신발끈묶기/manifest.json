@@ -1,0 +1,12 @@
+{
+  "name": "신발 끈 묶기",
+  "short_name": "신발 끈 묶기",
+  "description": "두 귀를 모아 쏙, 오늘은 내가 묶어요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

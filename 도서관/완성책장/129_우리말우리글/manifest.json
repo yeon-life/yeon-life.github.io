@@ -1,0 +1,12 @@
+{
+  "name": "우리말 우리글",
+  "short_name": "우리말 우리글",
+  "description": "한글날, 글자가 들려준 따뜻한 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

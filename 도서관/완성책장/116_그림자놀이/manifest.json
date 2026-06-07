@@ -1,0 +1,12 @@
+{
+  "name": "그림자 놀이",
+  "short_name": "그림자 놀이",
+  "description": "빛을 막으면 생기는 까만 친구",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

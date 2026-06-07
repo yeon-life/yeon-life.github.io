@@ -1,0 +1,12 @@
+{
+  "name": "우리 동네 한 바퀴",
+  "short_name": "우리 동네 한 바퀴",
+  "description": "골목마다 정이 사는 우리 동네 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

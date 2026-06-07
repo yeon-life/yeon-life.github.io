@@ -252,12 +252,18 @@
     g.innerHTML=list.map((b,i)=>{
       const c=COVERS[(parseInt(b.num)||i)%COVERS.length];
       const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
+      const hasCover = b.status === '그림완성';
+      const coverUrl = hasCover ? b.url.replace('index.html', 'images/cover.png') : '';
+      const bgStyle = hasCover 
+        ? `background:url('${esc(coverUrl)}') center/cover no-repeat` 
+        : `background:linear-gradient(135deg,${c[0]},${c[1]})`;
+      const titleOverlay = hasCover ? '' : `<h3>${esc(b.title)}</h3>`;
       return `<a class="book" href="${esc(b.url)}">
-        <div class="cover" style="background:linear-gradient(135deg,${c[0]},${c[1]})">
+        <div class="cover" style="${bgStyle}">
           <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
           ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}
           <span class="ai-tag">AI 창작</span>
-          <h3>${esc(b.title)}</h3>${bi}
+          ${titleOverlay}${bi}
         </div>
         <div class="meta">
           <div class="t">${esc(b.title)}</div>

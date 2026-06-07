@@ -1,0 +1,12 @@
+{
+  "name": "무거울까 가벼울까?",
+  "short_name": "무거울까 가벼울까?",
+  "description": "손으로 들고 저울로 재며 무게를 알아가요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

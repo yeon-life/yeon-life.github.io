@@ -1,0 +1,12 @@
+{
+  "name": "할머니 댁에 가요",
+  "short_name": "할머니 댁에 가요",
+  "description": "기차 타고, 마음 타고, 할머니 품으로",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

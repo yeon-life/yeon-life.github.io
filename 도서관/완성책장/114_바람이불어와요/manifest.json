@@ -1,0 +1,12 @@
+{
+  "name": "바람이 불어와요",
+  "short_name": "바람이 불어와요",
+  "description": "보이지 않아도 만질 수 있는 공기 친구",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

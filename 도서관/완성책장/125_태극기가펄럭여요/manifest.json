@@ -1,0 +1,12 @@
+{
+  "name": "태극기가 펄럭여요",
+  "short_name": "태극기가 펄럭여요",
+  "description": "바람 속에서 들려주는 우리 깃발 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "둥둥 떠요, 가라앉아요",
+  "short_name": "둥둥 떠요, 가라앉아요",
+  "description": "물 위에 뜨는 것과 바닥으로 내려가는 것의 비밀",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

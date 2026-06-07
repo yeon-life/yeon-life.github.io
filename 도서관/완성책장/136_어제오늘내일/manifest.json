@@ -1,0 +1,12 @@
+{
+  "name": "어제·오늘·내일",
+  "short_name": "어제·오늘·내일",
+  "description": "손잡고 흘러가는 날들의 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

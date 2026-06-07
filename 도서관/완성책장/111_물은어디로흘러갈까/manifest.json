@@ -1,0 +1,12 @@
+{
+  "name": "물은 어디로 흘러갈까?",
+  "short_name": "물은 어디로 흘러갈까?",
+  "description": "한 방울이 떠나는 길을 따라가 봐요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "봄이 왔어요",
+  "short_name": "봄이 왔어요",
+  "description": "눈이 녹고, 싹이 트고, 봄이 살그머니 찾아와요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

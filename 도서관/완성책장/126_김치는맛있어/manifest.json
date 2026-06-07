@@ -1,0 +1,12 @@
+{
+  "name": "김치는 맛있어",
+  "short_name": "김치는 맛있어",
+  "description": "빨간 김치 속에 담긴 우리 집 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

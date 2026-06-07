@@ -1,0 +1,12 @@
+{
+  "name": "비 오는 날",
+  "short_name": "비 오는 날",
+  "description": "창밖에 비가 내리면, 누가 가장 신날까?",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

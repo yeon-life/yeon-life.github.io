@@ -1,0 +1,12 @@
+{
+  "name": "잠자기 전에는",
+  "short_name": "잠자기 전에는",
+  "description": "하루를 곱게 접어 두는 작은 시간",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

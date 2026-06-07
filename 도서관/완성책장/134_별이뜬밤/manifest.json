@@ -1,0 +1,12 @@
+{
+  "name": "별이 뜬 밤",
+  "short_name": "별이 뜬 밤",
+  "description": "해가 진 뒤, 별과 함께 잠드는 포근한 시간",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

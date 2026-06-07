@@ -1,0 +1,12 @@
+{
+  "name": "정월 대보름 달맞이",
+  "short_name": "정월 대보름 달맞이",
+  "description": "한 해 가장 큰 보름달에 소원을 거는 밤",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "아침이 밝았어요",
+  "short_name": "아침이 밝았어요",
+  "description": "해가 떠오르면 시작되는 나의 하루",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "시계는 똑딱똑딱",
+  "short_name": "시계는 똑딱똑딱",
+  "description": "아침부터 별밤까지, 시간과 손잡고 가는 하루",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

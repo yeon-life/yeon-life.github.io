@@ -1,0 +1,12 @@
+{
+  "name": "깨끗이 손을 씻어요",
+  "short_name": "깨끗이 손을 씻어요",
+  "description": "보이지 않아도, 비누 거품이 다 알아요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

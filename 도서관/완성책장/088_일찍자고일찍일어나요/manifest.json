@@ -1,0 +1,12 @@
+{
+  "name": "일찍 자고 일찍 일어나요",
+  "short_name": "일찍 자고 일찍 일어나",
+  "description": "밤에 폭 자면 아침이 반짝, 하루가 신나요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

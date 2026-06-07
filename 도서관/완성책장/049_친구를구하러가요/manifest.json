@@ -1,0 +1,12 @@
+{
+  "name": "친구를 구하러 가요",
+  "short_name": "친구를 구하러 가요",
+  "description": "다람쥐 토토의 모험",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "하루가 빙글빙글",
+  "short_name": "하루가 빙글빙글",
+  "description": "아침에서 밤까지, 다시 아침으로 도는 하루",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

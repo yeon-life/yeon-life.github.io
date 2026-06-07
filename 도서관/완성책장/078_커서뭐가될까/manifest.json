@@ -1,0 +1,12 @@
+{
+  "name": "커서 뭐가 될까?",
+  "short_name": "커서 뭐가 될까?",
+  "description": "내 안에 이미 작은 씨앗이 있어요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

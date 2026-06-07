@@ -1,0 +1,12 @@
+{
+  "name": "소리는 어떻게 들릴까?",
+  "short_name": "소리는 어떻게 들릴까?",
+  "description": "떨림이 귀까지 오는 신나는 여행",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

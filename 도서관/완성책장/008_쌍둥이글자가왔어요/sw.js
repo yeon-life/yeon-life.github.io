@@ -4,10 +4,10 @@ const ASSETS = [
   '/index.html',
   '/manifest.json',
   '/data.js',
-  '/images/cover.webp',
+  '/images/cover.png',
   '/images/icon-192.png',
-  '/images/icon-512.webp',
-  '/images/p01.webp'
+  '/images/icon-512.png',
+  '/images/p01.png'
 ];
 
 // 서비스워커 설치 시 자산 즉시 프리캐싱 및 강제 활성화

@@ -1,0 +1,12 @@
+{
+  "name": "가을 단풍잎",
+  "short_name": "가을 단풍잎",
+  "description": "빨갛게 물든 작은 잎의 한 계절 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

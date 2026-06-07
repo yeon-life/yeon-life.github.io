@@ -1,0 +1,23 @@
+{
+  "name": "무서워서 떨려요",
+  "short_name": "무서워서 떨려요",
+  "description": "내 안의 작은 떨림이를 만나 이름을 불러 주기까지",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

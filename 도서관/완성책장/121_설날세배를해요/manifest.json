@@ -1,0 +1,12 @@
+{
+  "name": "설날, 세배를 해요",
+  "short_name": "설날, 세배를 해요",
+  "description": "새해 첫날, 마음을 담아 큰절을 올려요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "우리는 달라도 친구",
+  "short_name": "우리는 달라도 친구",
+  "description": "서로 달라서, 더 재미있는 우리",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

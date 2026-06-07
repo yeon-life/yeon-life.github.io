@@ -1,0 +1,12 @@
+{
+  "name": "왜 그럴까? 궁금해!",
+  "short_name": "왜 그럴까? 궁금해!",
+  "description": "작은 물음표가 똑똑 두드리는 탐구의 첫걸음",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

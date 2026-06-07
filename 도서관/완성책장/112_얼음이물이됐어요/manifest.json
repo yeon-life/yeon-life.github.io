@@ -1,0 +1,12 @@
+{
+  "name": "얼음이 물이 됐어요",
+  "short_name": "얼음이 물이 됐어요",
+  "description": "꽁꽁 언 얼음이 따뜻한 곳에서 물로 변하는 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

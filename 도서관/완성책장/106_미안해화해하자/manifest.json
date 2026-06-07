@@ -1,0 +1,12 @@
+{
+  "name": "미안해, 화해하자",
+  "short_name": "미안해, 화해하자",
+  "description": "등을 돌렸던 두 마음이 다시 마주 보는 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

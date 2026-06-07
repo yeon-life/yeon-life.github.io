@@ -1,0 +1,12 @@
+{
+  "name": "곱게 한복을 입어요",
+  "short_name": "곱게 한복을 입어요",
+  "description": "설날 아침, 한 겹 한 겹 정성껏",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

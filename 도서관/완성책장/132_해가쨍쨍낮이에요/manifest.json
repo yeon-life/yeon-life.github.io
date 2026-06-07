@@ -1,0 +1,12 @@
+{
+  "name": "해가 쨍쨍 낮이에요",
+  "short_name": "해가 쨍쨍 낮이에요",
+  "description": "해가 가장 높이 뜬, 환하고 신나는 한낮 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

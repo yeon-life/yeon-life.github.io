@@ -1,0 +1,12 @@
+{
+  "name": "자석은 힘이 세",
+  "short_name": "자석은 힘이 세",
+  "description": "보이지 않는 손으로 끌어당기는 신기한 돌",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

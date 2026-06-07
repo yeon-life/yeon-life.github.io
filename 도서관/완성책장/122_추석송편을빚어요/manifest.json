@@ -1,0 +1,12 @@
+{
+  "name": "추석, 송편을 빚어요",
+  "short_name": "추석, 송편을 빚어요",
+  "description": "보름달 뜨는 날, 온 가족이 둘러앉아",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

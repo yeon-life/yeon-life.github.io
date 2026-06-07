@@ -1,0 +1,12 @@
+{
+  "name": "저녁노을이 물들어",
+  "short_name": "저녁노을이 물들어",
+  "description": "해가 지고 별이 뜨는, 하루의 끝 인사",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

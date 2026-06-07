@@ -15,7 +15,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요/index.html",
-   "artCount": 19,
+   "artCount": 46,
    "deployed": true
   },
   {
@@ -29,7 +29,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/001_ㄱㄴㄷ친구들이깨어났어요-샘플/index.html",
-   "artCount": 19,
+   "artCount": 42,
    "deployed": true
   },
   {
@@ -43,7 +43,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/002_ㅏㅑㅓㅕ노래하는모음/index.html",
-   "artCount": 18,
+   "artCount": 40,
    "deployed": true
   },
   {
@@ -57,7 +57,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/003_받침없는글자나라/index.html",
-   "artCount": 19,
+   "artCount": 44,
    "deployed": true
   },
   {
@@ -71,7 +71,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/004_받침이콩하고떨어졌어요/index.html",
-   "artCount": 18,
+   "artCount": 41,
    "deployed": true
   },
   {
@@ -85,7 +85,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/005_두글자단어만들기/index.html",
-   "artCount": 19,
+   "artCount": 42,
    "deployed": true
   },
   {
@@ -99,7 +99,7 @@
    "authorType": "AI",
    "status": "그림완성",
    "url": "완성책장/006_세글자단어친구들/index.html",
-   "artCount": 23,
+   "artCount": 43,
    "deployed": true
   },
   {
@@ -111,9 +111,9 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "그림작업중",
+   "status": "그림완성",
    "url": "완성책장/007_헷갈리는글자숨바꼭질/index.html",
-   "artCount": 6,
+   "artCount": 19,
    "deployed": true
   },
   {
@@ -125,9 +125,9 @@
    "category": "동화",
    "bilingual": false,
    "authorType": "AI",
-   "status": "그림작업중",
+   "status": "그림완성",
    "url": "완성책장/008_쌍둥이글자가왔어요/index.html",
-   "artCount": 1,
+   "artCount": 8,
    "deployed": true
   },
   {
@@ -141,7 +141,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/009_짧은문장첫걸음/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -155,7 +155,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/010_나도이제책을읽어요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -169,7 +169,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/011_하나둘셋숫자가보여요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -183,7 +183,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/012_0은아무것도없어요/index.html",
-   "artCount": 0,
+   "artCount": 3,
    "deployed": true
   },
   {
@@ -197,7 +197,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/013_10까지세어볼까/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -211,7 +211,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/014_누가더많을까/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -225,7 +225,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/015_모으면늘어나요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -239,7 +239,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/016_하나씩빼면줄어요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -253,7 +253,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/017_손가락더하기놀이/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -267,7 +267,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/018_사탕을나눠요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -281,7 +281,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/019_20까지숫자친구들/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -295,7 +295,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/020_나는계산박사/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": true
   },
   {
@@ -309,7 +309,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/021_처음가는학교두근두근/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -323,7 +323,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/022_내자리는어디일까/index.html",
-   "artCount": 0,
+   "artCount": 3,
    "deployed": false
   },
   {
@@ -351,7 +351,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/024_화장실다녀올게요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -365,7 +365,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/025_급식시간이좋아/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -379,7 +379,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/026_줄을서요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -393,7 +393,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/027_손을들고말해요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -407,7 +407,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/028_쉬는시간친구들/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -421,7 +421,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/029_청소도함께해요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -435,7 +435,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/030_학교가좋아졌어요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -449,7 +449,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/031_오늘은기분이좋아/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -463,7 +463,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/032_눈물이났어요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -477,7 +477,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/033_화가나부글부글/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -491,7 +491,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/034_무서워서떨려요/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -505,7 +505,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/035_부끄러워얼굴이빨개졌어/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -519,7 +519,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/036_심심해뭐하지/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {
@@ -533,7 +533,7 @@
    "authorType": "AI",
    "status": "글완성",
    "url": "완성책장/037_깜짝놀랐어/index.html",
-   "artCount": 0,
+   "artCount": 2,
    "deployed": false
   },
   {

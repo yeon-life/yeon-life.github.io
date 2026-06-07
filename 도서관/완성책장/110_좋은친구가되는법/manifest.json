@@ -1,0 +1,12 @@
+{
+  "name": "좋은 친구가 되는 법",
+  "short_name": "좋은 친구가 되는 법",
+  "description": "먼저 마음을 내밀면, 친구가 다가와요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

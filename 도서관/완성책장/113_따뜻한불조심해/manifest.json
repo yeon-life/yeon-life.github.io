@@ -1,0 +1,12 @@
+{
+  "name": "따뜻한 불, 조심해",
+  "short_name": "따뜻한 불, 조심해",
+  "description": "고마운 불과 무서운 불을 알아 가는 안전 이야기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

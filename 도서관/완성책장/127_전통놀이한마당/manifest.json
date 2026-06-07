@@ -1,0 +1,12 @@
+{
+  "name": "전통 놀이 한마당",
+  "short_name": "전통 놀이 한마당",
+  "description": "윷이 구르고 제기가 날면, 마당은 웃음 한마당",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

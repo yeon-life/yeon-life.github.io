@@ -1,0 +1,12 @@
+{
+  "name": "일주일 요일 친구들",
+  "short_name": "일주일 요일 친구들",
+  "description": "월화수목금토일, 일곱 친구가 차례로 찾아와요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}
