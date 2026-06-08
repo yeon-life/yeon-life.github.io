@@ -242,6 +242,172 @@
   @media print {
     .cartoon-box { display: none !important; }
   }
+
+  /* ===== 가로형 태블릿 및 PC 3패널 스플릿 레이아웃 ===== */
+  .main-layout {
+    display: block;
+  }
+  .left-panel {
+    display: none;
+  }
+  .right-panel {
+    display: none;
+  }
+  .center-panel {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      overflow: hidden !important;
+    }
+    .top {
+      position: relative !important;
+      z-index: 90;
+    }
+    .mast {
+      padding: 16px 20px 8px !important;
+      margin-bottom: 0 !important;
+    }
+    .mast h1 {
+      margin: 0 !important;
+      font-size: 28px !important;
+    }
+    .mast .seal, .mast .monthly, .mast .tag, .mast .issue {
+      display: inline-block !important;
+      margin: 2px 6px !important;
+      font-size: 13px !important;
+      vertical-align: middle;
+    }
+    .mast .seal { font-size: 16px; margin-right: 10px !important; }
+    .mast .tag { max-width: 480px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
+    .main-layout {
+      display: flex !important;
+      height: calc(100vh - 120px) !important;
+      overflow: hidden !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 20px 15px !important;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+    .left-panel {
+      display: flex !important;
+      flex-direction: column;
+      width: 250px;
+      min-width: 240px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 14px;
+      box-shadow: 0 4px 15px rgba(42,90,75,0.02);
+      overflow-y: auto;
+      height: 100%;
+    }
+    .center-panel {
+      flex: 1;
+      width: auto !important;
+      overflow-y: auto !important;
+      height: 100% !important;
+      padding: 0 4px 30px;
+      scroll-behavior: smooth;
+    }
+    .right-panel {
+      display: flex !important;
+      flex-direction: column;
+      width: 280px;
+      min-width: 260px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 14px;
+      box-shadow: 0 4px 15px rgba(42,90,75,0.02);
+      overflow-y: auto;
+      height: 100%;
+    }
+  }
+
+  /* 네비게이션 아이템 활성화 효과 */
+  .nav-item {
+    transition: all 0.25s;
+    border-radius: 12px;
+    padding: 2px;
+  }
+  .nav-item.active {
+    background: rgba(42,90,75,0.03);
+  }
+  .nav-item.active .nav-dot {
+    background: var(--accent) !important;
+    transform: scale(1.4);
+    box-shadow: 0 0 6px rgba(212,124,83,0.4);
+  }
+  .nav-item.active .nav-btn {
+    background: rgba(42,90,75,0.07) !important;
+    color: var(--deep) !important;
+  }
+  .nav-item.active .nav-summary {
+    max-height: 150px !important;
+    opacity: 1 !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* 낱말 카드 스타일 */
+  .vocab-card {
+    background: #fdfcf9;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+    transition: all 0.2s;
+  }
+  .vocab-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(90,156,159,0.08);
+  }
+  .vocab-word-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .vocab-word {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--deep);
+  }
+  .vocab-desc {
+    font-size: 12.5px;
+    color: #4a5454;
+    line-height: 1.5;
+    word-break: keep-all;
+    font-weight: 500;
+    margin: 0;
+  }
+  .tts-btn {
+    background: rgba(90,156,159,0.1);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    outline: none;
+  }
+  .tts-btn:hover {
+    background: var(--teal);
+    color: #fff;
+    transform: scale(1.1);
+  }
+
 </style>
 </head>
 
@@ -266,10 +432,26 @@
     <div class="issue">창간호 · 2026년 6월 &nbsp;<span class="badge-free">읽기 무료</span></div>
   </header>
 
-  <div class="wrap">
-    <section class="verify noprint" id="verify"></section>
-    <nav class="toc noprint" id="toc"></nav>
-    <main id="corners"></main>
+  <div class="main-layout wrap">
+    <!-- 왼쪽 패널: 과목 선택 및 한줄 요약 -->
+    <aside class="left-panel noprint" id="left-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📚 과목 둘러보기</div>
+      <div class="nav-list" id="nav-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+    </aside>
+    
+    <!-- 가운데 패널: 본문 기사 -->
+    <div class="center-panel">
+      <section class="verify noprint" id="verify"></section>
+      <nav class="toc noprint" id="toc"></nav>
+      <main id="corners"></main>
+    </div>
+    
+    <!-- 오른쪽 패널: 어려운 낱말 사전 -->
+    <aside class="right-panel noprint" id="right-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📖 어려운 낱말 사전</div>
+      <div id="vocab-content" style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:2px;"></div>
+      <div style="font-size:10.5px; color:var(--muted); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; line-height:1.4;">💡 스피커(🔊) 버튼을 누르면 이모지 요정이 단어의 뜻을 다정하게 읽어주어요!</div>
+    </aside>
   </div>
 
   <footer class="wrap">
@@ -978,6 +1160,245 @@
         });
       });
     }, 100);
+  </script>
+<script>
+  // ===== 태블릿/PC 스플릿 뷰 컨트롤러 스크립트 =====
+  var VOCAB_DATA = {
+  "science": [
+    {
+      "word": "터널 (Tunnel)",
+      "desc": "흙 속에 뚫린 둥글고 긴 길로, 식물 뿌리에 공기와 물을 전해주는 고마운 연결 통로예요."
+    },
+    {
+      "word": "배설물 (Excretions)",
+      "desc": "몸속에서 소화가 되고 남은 노폐물이 똥이나 오줌으로 나오는 것으로, 지렁이 배설물은 기름진 흙이 돼요."
+    },
+    {
+      "word": "분해 (Decomposition)",
+      "desc": "물질을 잘게 쪼개어 거름으로 만드는 것. 땅 위의 낙엽을 잘게 쪼개어 흙을 거름지게 만들어요."
+    }
+  ],
+  "math": [
+    {
+      "word": "모서리 (Edge)",
+      "desc": "도형에서 선과 선이 만나는 모퉁이나 선부분으로, 세모는 3개, 네모는 4개의 모서리가 있어요."
+    },
+    {
+      "word": "삼각형 (Triangle)",
+      "desc": "세 개의 선분과 세 개의 모서리를 가진 다각형으로, 찌그러지지 않는 가장 튼튼한 건축 뼈대예요."
+    },
+    {
+      "word": "평행사변형 (Parallelogram)",
+      "desc": "마주 보는 두 쌍의 변이 서로 평행(나란히 마주함)을 이루는 사각형 도형이에요."
+    }
+  ],
+  "hangeul": [
+    {
+      "word": "의성어 (Onomatopoeia)",
+      "desc": "자연의 소리나 사물의 소리를 흉내 내어 표현하는 예쁜 말이에요. (예: 졸졸졸, 우르릉)"
+    },
+    {
+      "word": "의태어 (Mimetic Word)",
+      "desc": "사람이나 사물의 모양, 뜀박질 등 움직임을 흉내 내어 표현하는 다정한 말이에요. (예: 깡충깡충, 반짝반짝)"
+    }
+  ],
+  "english": [
+    {
+      "word": "강세 (Stress)",
+      "desc": "영어 말소리를 낼 때 단어의 특정 음절을 다른 음절보다 더 힘주어 세고 길게 발음하는 영어 특유의 힘이에요."
+    },
+    {
+      "word": "조음 (Articulation)",
+      "desc": "입술, 이, 혀, 입천장 등의 발음 기관을 움직여서 우리 목소리를 자음이나 모음의 말소리로 바꾸는 활동이에요."
+    }
+  ],
+  "future": [
+    {
+      "word": "인공지능 (AI)",
+      "desc": "사람처럼 스스로 생각하고 공부하며 똑똑하게 일하는 기능을 갖춘 컴퓨터 프로그램이나 시스템이에요."
+    },
+    {
+      "word": "프롬프트 (Prompt)",
+      "desc": "인공지능 로봇 친구에게 원하는 일을 시키거나 대답을 유도하기 위해 컴퓨터 입력창에 건네는 대화문이에요."
+    },
+    {
+      "word": "개인정보 (Privacy)",
+      "desc": "나의 진짜 이름, 집 주소, 부모님 연락처처럼 나를 다른 사람과 구별할 수 있는 아주 소중한 비밀정보예요."
+    }
+  ],
+  "fairytale": [
+    {
+      "word": "밍밍하다 (Bland)",
+      "desc": "음식 맛이 싱겁고 아무런 특별한 맛이나 향이 느껴지지 않아 심심한 상태를 뜻하는 말이에요."
+    },
+    {
+      "word": "이타성 (Altruism)",
+      "desc": "나의 이익보다 남을 먼저 생각하고, 목마른 친구나 어려운 이웃을 따뜻하게 도와주려는 다정한 마음이에요."
+    }
+  ],
+  "parents": [
+    {
+      "word": "성취감 (Achievement)",
+      "desc": "내 힘으로 어떠한 목표를 끝까지 노력해서 이루어 냈을 때 내 마음속에서 차오르는 뿌듯한 감정이에요."
+    },
+    {
+      "word": "자율성 (Autonomy)",
+      "desc": "남이 억지로 시켜서 하는 것이 아니라, 내 스스로 필요성을 깨닫고 직접 결정하고 행동하는 멋진 힘이에요."
+    }
+  ]
+};
+  var activeNavKey = null;
+
+  // TTS 음성 출력 함수
+  function speakText(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ko-KR';
+      utterance.rate = 0.95; // 어린이를 위해 약간 천천히 읽기
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // 낱말 해설 출력
+  function renderVocabulary(key) {
+    var vocabContainer = document.getElementById('vocab-content');
+    if (!vocabContainer) return;
+    
+    var list = VOCAB_DATA[key] || [];
+    if (list.length === 0) {
+      vocabContainer.innerHTML = '<div style="font-size:13px; color:var(--muted); text-align:center; margin-top:40px; font-style:italic;">이 코너에는 어려운 낱말이 없어요!</div>';
+      return;
+    }
+    
+    vocabContainer.innerHTML = list.map(function(item) {
+      var speakStr = item.word.split(' (')[0] + '. ' + item.desc;
+      return '<div class="vocab-card">' +
+               '<div class="vocab-word-row">' +
+                 '<span class="vocab-word">' + esc(item.word) + '</span>' +
+                 '<button class="tts-btn" onclick="speakText(\'' + esc(speakStr).replace(/'/g, "\\'") + '\')" title="소리 듣기">🔊</button>' +
+               '</div>' +
+               '<p class="vocab-desc">' + esc(item.desc) + '</p>' +
+             '</div>';
+    }).join('');
+  }
+
+  // 네비게이션 아이템 활성화 하이라이트
+  function highlightNavItem(key) {
+    document.querySelectorAll('.nav-item').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    
+    var activeItem = document.getElementById('nav-item-' + key);
+    if (activeItem) {
+      activeItem.classList.add('active');
+      
+      // 스크롤 시 자동 스크롤
+      var leftPanel = document.getElementById('left-panel');
+      if (leftPanel) {
+        var itemRect = activeItem.getBoundingClientRect();
+        var panelRect = leftPanel.getBoundingClientRect();
+        if (itemRect.top < panelRect.top || itemRect.bottom > panelRect.bottom) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+  }
+
+  // 네비게이션 버튼 클릭 핸들러
+  function handleNavClick(key) {
+    if (activeNavKey !== key) {
+      activeNavKey = key;
+      highlightNavItem(key);
+      renderVocabulary(key);
+    } else {
+      // 이미 켜진 경우, 해당 위치로 스크롤
+      var target = document.getElementById('c-' + key);
+      var centerPanel = document.querySelector('.center-panel');
+      if (target && centerPanel) {
+        if (window.innerWidth >= 1024) {
+          var panelTop = centerPanel.getBoundingClientRect().top;
+          var targetTop = target.getBoundingClientRect().top;
+          centerPanel.scrollBy({
+            top: targetTop - panelTop - 10,
+            behavior: 'smooth'
+          });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  }
+
+  // 초기 로딩 후 스크립트 실행
+  window.addEventListener('DOMContentLoaded', function() {
+    // 1. 왼쪽 패널 네비게이션 동적 생성
+    var navList = document.getElementById('nav-list');
+    if (navList && DATA && DATA.corners) {
+      navList.innerHTML = DATA.corners.map(function(c) {
+        var name = c.title.split(' · ')[0] || c.title;
+        return '<div class="nav-item" id="nav-item-' + c.key + '" data-key="' + c.key + '">' +
+                 '<div class="nav-row" style="display:flex; align-items:center; gap:8px; width:100%;">' +
+                   '<span class="nav-dot" id="nav-dot-' + c.key + '" style="width:8px; height:8px; border-radius:50%; background:var(--line); transition:all .25s; flex-shrink:0;"></span>' +
+                   '<button class="nav-btn" id="nav-btn-' + c.key + '" onclick="handleNavClick(\'' + c.key + '\')" style="flex:1; text-align:left; background:none; border:none; padding:8px 12px; border-radius:10px; font-size:13.5px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:6px; outline:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc(name) + '</button>' +
+                 '</div>' +
+                 '<div class="nav-summary" id="nav-summary-' + c.key + '" style="max-height:0; opacity:0; overflow:hidden; transition:all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding-left:16px; font-size:11.5px; color:var(--pine); line-height:1.5; margin-top:0; margin-bottom:0;">' +
+                   esc(c.dek) +
+                 '</div>' +
+               '</div>';
+      }).join('');
+    }
+
+    // 2. 본문 스크롤 감지하여 왼쪽 패널과 오른쪽 낱말사전 연동
+    var centerPanel = document.querySelector('.center-panel');
+    if (centerPanel) {
+      var isScrolling = false;
+      centerPanel.addEventListener('scroll', function() {
+        if (window.innerWidth < 1024) return; // 모바일/세로 패드에선 감지 중지
+        
+        if (!isScrolling) {
+          window.requestAnimationFrame(function() {
+            var articles = document.querySelectorAll('.corner');
+            var activeKey = null;
+            var minDiff = Infinity;
+            var panelRect = centerPanel.getBoundingClientRect();
+            var panelTop = panelRect.top;
+            
+            articles.forEach(function(art) {
+              var rect = art.getBoundingClientRect();
+              
+              // 화면 중간 부근에 들어와 있거나 가장 가까운 아티클 판별
+              var diff = Math.abs(rect.top - panelTop - 20);
+              if (diff < minDiff) {
+                minDiff = diff;
+                activeKey = art.id.replace('c-', '');
+              }
+              
+              if (rect.top <= panelTop + 150 && rect.bottom >= panelTop + 150) {
+                activeKey = art.id.replace('c-', '');
+              }
+            });
+            
+            if (activeKey && activeNavKey !== activeKey) {
+              activeNavKey = activeKey;
+              highlightNavItem(activeKey);
+              renderVocabulary(activeKey);
+            }
+            isScrolling = false;
+          });
+          isScrolling = true;
+        }
+      });
+    }
+    
+    // 3. 첫 번째 아티클 기본 활성화
+    if (DATA && DATA.corners && DATA.corners[0]) {
+      var firstKey = DATA.corners[0].key;
+      activeNavKey = firstKey;
+      highlightNavItem(firstKey);
+      renderVocabulary(firstKey);
+    }
+  });
   </script>
 </body>
 </html>

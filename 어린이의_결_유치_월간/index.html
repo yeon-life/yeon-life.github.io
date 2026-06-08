@@ -1,275 +1,47 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="/어린이의_결_유치_월간/">
-<link rel="canonical" href="https://y-life.kr/어린이의_결_유치_월간/">
-<title>어린이의 결 (초등부) · 창간호 — y-life.kr</title>
-<meta name="description" content="살아있는 교과서 종합 잡지 — 어린이의 결 (초등부). 5~7세 유치부를 위한 일주일간의 흥미로운 학습 소식. 하루 한 편씩 과학, 수학, 국어, 영어, AI, 상상 동화, 공부 습관을 재미있게 배워요.">
-<meta property="og:title" content="어린이의 결 (초등부) · 창간호">
-<meta property="og:description" content="5~7세 유치부를 위한 일주일간의 살아있는 교과서 종합 잡지.">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<style>
-  :root{
-    /* YUV 3.2 어린이의 결 전용 유기적/따뜻한 색 토큰 */
-    --ink: #232b2b;
-    --deep: #2a5a4b; /* Forest Green (자연과 성장) */
-    --pine: #3b7a67;
-    --accent: #d47c53; /* Terracotta Orange (호기심과 놀이) */
-    --teal: #5a9c9f; /* Sky Blue/Teal (수학과 과학) */
-    --mist: #f5f0e6; /* 종이 느낌의 따뜻한 베이지 */
-    --card: #fffdf9;
-    --line: #e2dacd;
-    --muted: #6b777a;
-    --warm: #fbf9f4; /* 부드러운 배경 */
-    --paper: #f6f1e5;
-    --soft: #edf4f0; /* 산뜻한 녹색빛 바탕 */
-    --serif: "Noto Serif KR", serif;
-    --sans: "Pretendard", "Apple SD Gothic Neo", sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:var(--sans);background:linear-gradient(180deg,var(--warm),var(--paper));color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
-  a{color:inherit}
-  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
-  
-  /* 상단 네비바 */
-  .top{border-bottom:1px solid var(--line);background:var(--warm);position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-  .top .in{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px;font-size:13px;flex-wrap:wrap}
-  .brand a{font-family:var(--serif);font-weight:700;color:var(--ink);text-decoration:none}
-  .brand .y{color:var(--accent);font-weight:900}
-  .brand .bsep{margin:0 7px;color:var(--muted)}
-  .brand .bcur{font-family:var(--serif);font-weight:700;color:var(--deep)}
-  .ynav{display:flex;gap:3px;flex-wrap:wrap}
-  .ynav a{font-size:13px;color:var(--muted);padding:6px 11px;border-radius:999px;font-weight:600;text-decoration:none;transition:all .2s}
-  .ynav a:hover{background:rgba(42,90,75,.08);color:var(--deep)}
-
-  /* 마스트헤드 */
-  .mast{text-align:center;padding:50px 20px 30px;position:relative}
-  .mast .seal{font-family:var(--serif);font-size:32px;color:var(--accent);margin-bottom:6px;font-weight:900}
-  .mast h1{font-family:var(--serif);font-size:clamp(32px,7vw,56px);font-weight:900;letter-spacing:-.02em;color:var(--ink);margin:4px 0 2px}
-  .mast .monthly{display:inline-block;font-family:var(--serif);font-size:12px;font-weight:700;letter-spacing:.3em;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:4px 10px 4px 13px;margin:10px 0}
-  .mast .tag{color:var(--muted);font-size:15px;max-width:500px;margin:0 auto;line-height:1.6;font-family:var(--serif)}
-  .mast .issue{margin-top:14px;font-size:13px;color:var(--deep);font-weight:700}
-  .mast .badge-free{display:inline-block;background:var(--deep);color:#fff;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:800;letter-spacing:.02em;vertical-align:1px;margin-left:6px}
-
-  /* 비평가 검증 배너 */
-  .verify{max-width:820px;margin:14px auto 0;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px 22px;box-shadow:0 4px 15px rgba(42,90,75,.03)}
-  .verify .vt{font-size:12.5px;font-weight:800;color:var(--deep);letter-spacing:.03em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-  .verify .vt::before{content:"🌱";font-size:14px}
-  .verify ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink)}
-  .verify li{display:flex;align-items:center;gap:4px}
-  .verify li::before{content:"✓";color:var(--deep);font-weight:800}
-  .verify .word{margin-top:12px;font-style:italic;color:var(--muted);font-size:13.5px;border-top:1px dashed var(--line);padding-top:10px;line-height:1.6}
-
-  /* 목차 */
-  .toc{max-width:820px;margin:20px auto 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-  .toc a{font-size:13px;color:var(--deep);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 15px;text-decoration:none;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.02);transition:all .2s}
-  .toc a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
-
-  /* 잡지 코너(아티클) */
-  .corner{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:32px 32px 28px;margin:28px 0;box-shadow:0 8px 24px rgba(35,43,43,.03);scroll-margin-top:80px;transition:all .3s}
-  .corner:hover{box-shadow:0 12px 32px rgba(35,43,43,.06);transform:translateY(-2px)}
-  .kicker{display:inline-block;font-family:var(--serif);font-size:11px;font-weight:800;color:#fff;background:var(--deep);border-radius:999px;padding:4px 14px;letter-spacing:.05em;text-transform:uppercase}
-  .kicker.accent{background:var(--accent)}
-  .kicker.teal{background:var(--teal)}
-  .headline{font-family:var(--serif);font-size:clamp(22px,3.6vw,29px);font-weight:800;color:var(--ink);line-height:1.35;margin:16px 0 8px;word-break:keep-all}
-  .dek{color:var(--pine);font-size:15px;font-weight:600;margin-bottom:20px;word-break:keep-all}
-  
-  /* 삽화 영역 */
-  .figure{position:relative;width:100%;height:320px;border-radius:18px;margin:10px 0 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;overflow:hidden;background:linear-gradient(135deg,#fbf7ef,#e9f2ee);box-shadow:inset 0 0 40px rgba(0,0,0,.02)}
-  .figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
-  .figure:hover img{transform:scale(1.02)}
-  .figure span{font-size:13px;font-weight:700;color:var(--accent);z-index:2}
-  .figure small{font-size:11px;color:var(--muted);max-width:80%;line-height:1.5;z-index:2}
-
-  /* 본문 스타일링 */
-  .body{font-size:16px;color:#2c3535;line-height:1.85;word-break:keep-all}
-  .body h2{font-family:var(--serif);font-size:21px;color:var(--deep);margin:24px 0 10px;font-weight:800}
-  .body h3{font-family:var(--serif);font-size:18px;color:var(--ink);margin:20px 0 8px;font-weight:700}
-  .body p{margin:12px 0}
-  .body ul, .body ol{margin:12px 0 12px 24px}
-  .body li{margin:6px 0}
-  .body strong{color:var(--ink);font-weight:700}
-  .body blockquote{border-left:4px solid var(--accent);background:var(--mist);margin:16px 0;padding:12px 18px;border-radius:0 12px 12px 0;color:#3a4646;font-size:15px;line-height:1.7}
-  .body hr{border:none;border-top:1px dashed var(--line);margin:22px 0}
-  
-  /* 미래 한 스푼 (아이들을 위한 생각 확장 코너) */
-  .future{margin:22px 0 6px;background:linear-gradient(180deg,#fdfaf4,#f4f8f5);border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;position:relative}
-  .future b{display:block;font-family:var(--serif);color:var(--accent);font-size:14.5px;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-  .future b::before{content:"🥄"}
-  .future p{font-size:14.5px;color:#354242;margin:0;line-height:1.7}
-
-  /* 비평가 한 줄평 */
-  .verdict{margin:18px 0 6px;background:#eef4f2;border:1px dashed var(--deep);border-radius:16px;padding:16px 20px}
-  .verdict b{display:block;color:var(--deep);font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-  .verdict b::before{content:"👁"}
-  .verdict p{margin:0;font-size:14.5px;color:#2c3a3a;line-height:1.7}
-
-  /* 출처 링크와 QR */
-  .sources{margin-top:20px;border-top:1px solid var(--line);padding-top:16px}
-  .src-ttl{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:12px;letter-spacing:.05em;text-transform:uppercase}
-  .src-list{display:flex;flex-wrap:wrap;gap:20px}
-  .src{display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--mist);border:1px solid var(--line);border-radius:14px;padding:14px;width:180px;box-shadow:0 2px 8px rgba(0,0,0,.01)}
-  .src a{font-size:12.5px;color:var(--deep);text-decoration:none;font-weight:700;text-align:center;word-break:keep-all;line-height:1.4;min-height:2.6em;display:flex;align-items:center;justify-content:center;transition:color .2s}
-  .src a:hover{color:var(--accent)}
-  .qr{background:#fff;border-radius:8px;padding:10px;line-height:0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-  .qr img, .qr canvas{display:block}
-
-  /* 비평가 푸터 */
-  .critic-footer{margin-top:18px;font-size:11.5px;color:var(--muted);background:var(--soft);border-radius:12px;padding:10px 14px;line-height:1.6}
-
-  /* AI 생각 놀이터 스타일 */
-  .ai-chip-btn:hover {
-    border-color: var(--accent) !important;
-    color: var(--accent) !important;
-    background: var(--warm) !important;
-    transform: translateY(-1px);
-  }
-  .ai-send-btn:hover {
-    filter: brightness(1.08);
-  }
-
-  /* 페이지 푸터 */
-  footer{border-top:2px solid var(--ink);background:var(--warm);text-align:center;font-size:12px;color:var(--muted);padding:36px 20px 70px;line-height:1.9}
-  footer b{color:var(--deep)}
-  footer p{margin:4px 0}
-
-  /* 플로팅 인쇄 컨트롤러 */
-  .printbar{position:fixed;right:20px;bottom:20px;z-index:80;display:flex;flex-direction:column;gap:8px}
-  .printbar button{background:var(--deep);color:#fff;border:none;border-radius:999px;padding:12px 20px;font:600 13px/1 var(--sans);cursor:pointer;box-shadow:0 6px 20px rgba(42,90,75,.25);transition:all .2s;display:flex;align-items:center;gap:6px}
-  .printbar button.eco{background:var(--accent);box-shadow:0 6px 20px rgba(212,124,83,.25)}
-  .printbar button:hover{filter:brightness(1.08);transform:translateY(-1px)}
-  @media (max-width:520px){ .printbar{right:12px;bottom:12px} .printbar button{padding:10px 14px;font-size:12px} }
-
-  /* ===== 인쇄 스타일 ===== */
-  @media print{
-    .noprint{display:none!important}
-    body{background:#fff}
-    .top{position:static;border:none}
-    .corner{box-shadow:none;break-inside:avoid;border-color:#bbb;margin:12px 0;padding:16px;border-radius:0}
-    .figure{display:none}
-    a[href]{color:#000}
-    .qr{border:1px solid #ccc}
-  }
-
-  /* 절약형 친환경 인쇄 (2단 절약, 여백 최소화, 이미지와 QR 생략) */
-  body.eco-print{background:#fff}
-  @media print{
-    body.eco-print .figure, body.eco-print .qr, body.eco-print .printbar{display:none!important}
-    body.eco-print .verify, body.eco-print .toc, body.eco-print .top{display:none!important}
-    body.eco-print .mast{padding:10px 0}
-    body.eco-print *{color:#000!important;background:#fff!important;box-shadow:none!important;text-shadow:none!important}
-    body.eco-print .wrap{max-width:100%;padding:0 5mm}
-    body.eco-print .corner{border:1px solid #999;border-radius:0;padding:8px 10px;margin:6px 0;break-inside:avoid}
-    body.eco-print .body{column-count:2;column-gap:8mm;font-size:10.5px;line-height:1.55}
-    body.eco-print .headline{font-size:16px;margin:8px 0 4px}
-    body.eco-print .dek{font-size:11px;margin-bottom:8px}
-    body.eco-print .future, body.eco-print .verdict{border:1px solid #999;margin:8px 0;padding:8px}
-    @page{margin:10mm}
-  }
-
-  /* 8컷 만화 박스 및 카드 스타일 */
-  .cartoon-box {
-    margin: 28px 0;
-    padding: 22px;
-    background: #fcfbf7;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-  }
-  .cartoon-title {
-    font-family: var(--serif);
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--deep);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .cartoon-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-  .cartoon-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.01);
-    transition: all .2s;
-  }
-  .cartoon-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--accent);
-    box-shadow: 0 4px 10px rgba(212,124,83,.08);
-  }
-  .cartoon-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .cartoon-badge {
-    background: var(--soft);
-    color: var(--deep);
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 999px;
-  }
-  .cartoon-emoji {
-    font-size: 24px;
-    line-height: 1;
-  }
-  .cartoon-caption {
-    font-size: 12px;
-    color: #4a5454;
-    line-height: 1.5;
-    word-break: keep-all;
-    font-weight: 500;
-    margin: 0;
-  }
-  @media (max-width: 768px) {
-    .cartoon-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media print {
-    .cartoon-box { display: none !important; }
-  }
-</style>
-</head>
-
-<body>
-  <div class="top"><div class="in">
-    <div class="brand">
-      <a href="/index.html"><span class="y">緣</span> 연라이프</a>
-      <span class="bsep">›</span><span class="bcur">어린이의 결</span>
+<div class="main-layout wrap">
+    <!-- 왼쪽 패널: 과목 선택 및 한줄 요약 -->
+    <aside class="left-panel noprint" id="left-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📚 과목 둘러보기</div>
+      <div class="nav-list" id="nav-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+    </aside>
+    
+    <!-- 가운데 패널: 본문 기사 -->
+    <div class="center-panel">
+      <section class="verify noprint" id="verify"></section>
+      <nav class="toc noprint" id="toc"></nav>
+      <main id="corners"></main>
     </div>
-    <nav class="ynav">
-      <a href="/index.html">홈</a>
-      <a href="/도서관/">작은도서관</a>
-      <a href="/내친구인공지능_월간/index.html">인공지능의 결</a>
-    </nav>
-  </div></div>
-
-  <header class="mast">
-    <div class="seal">🌱</div>
-    <h1>어린이의 결 <span style="font-size:22px;font-weight:700;color:var(--deep);vertical-align:middle;margin-left:6px;border:1.5px solid var(--deep);padding:2px 10px;border-radius:999px;font-family:var(--sans)">초등부</span></h1>
-    <div class="monthly">살아있는 교과서 종합 잡지</div>
-    <div class="tag">어린이의 무한한 호기심을 열어주는 생각 발전소. 매일 한 장씩 펼치며 즐겁게 자라납니다.</div>
-    <div class="issue">창간호 · 2026년 6월 &nbsp;<span class="badge-free">읽기 무료</span></div>
-  </header>
-
-  <div class="wrap">
-    <section class="verify noprint" id="verify"></section>
-    <nav class="toc noprint" id="toc"></nav>
-    <main id="corners"></main>
+    
+    <!-- 오른쪽 패널: 어려운 낱말 사전 -->
+    <aside class="right-panel noprint" id="right-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📖 어려운 낱말 사전</div>
+      <div id="vocab-content" style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:2px;"></div>
+      <div style="font-size:10.5px; color:var(--muted); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; line-height:1.4;">💡 스피커(🔊) 버튼을 누르면 이모지 요정이 단어의 뜻을 다정하게 읽어주어요!</div>
+    </aside>
+  </div>
+    
+    <!-- 오른쪽 패널: 어려운 낱말 사전 -->
+    <aside class="right-panel noprint" id="right-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📖 어려운 낱말 사전</div>
+      <div id="vocab-content" style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:2px;"></div>
+      <div style="font-size:10.5px; color:var(--muted); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; line-height:1.4;">💡 스피커(🔊) 버튼을 누르면 이모지 요정이 단어의 뜻을 다정하게 읽어주어요!</div>
+    </aside>
+  </div>
+    
+    <!-- 오른쪽 패널: 어려운 낱말 사전 -->
+    <aside class="right-panel noprint" id="right-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📖 어려운 낱말 사전</div>
+      <div id="vocab-content" style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:2px;"></div>
+      <div style="font-size:10.5px; color:var(--muted); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; line-height:1.4;">💡 스피커(🔊) 버튼을 누르면 이모지 요정이 단어의 뜻을 다정하게 읽어주어요!</div>
+    </aside>
+  </div>
+    
+    <!-- 오른쪽 패널: 어려운 낱말 사전 -->
+    <aside class="right-panel noprint" id="right-panel">
+      <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📖 어려운 낱말 사전</div>
+      <div id="vocab-content" style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:2px;"></div>
+      <div style="font-size:10.5px; color:var(--muted); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; line-height:1.4;">💡 스피커(🔊) 버튼을 누르면 이모지 요정이 단어의 뜻을 다정하게 읽어주어요!</div>
+    </aside>
   </div>
 
   <footer class="wrap">
@@ -1084,6 +856,236 @@
         });
       });
     }, 100);
+  </script>
+
+
+
+<script>
+  // ===== 태블릿/PC 스플릿 뷰 컨트롤러 스크립트 =====
+  var VOCAB_DATA = {
+  "science": [
+    {
+      "word": "터널 (Tunnel)",
+      "desc": "흙 속에 지렁이가 기어가며 뚫은 작은 길이에요. 이 길로 맑은 공기와 물이 흘러가요."
+    },
+    {
+      "word": "영양분 (Nutrition)",
+      "desc": "꽃과 나무가 쑥쑥 자랄 수 있도록 도와주는 땅속의 맛있는 밥 같은 힘이에요."
+    }
+  ],
+  "math": [
+    {
+      "word": "둥글둥글 (Round)",
+      "desc": "뾰족한 모서리가 하나도 없고 예쁘게 생겨서 떼구루루 잘 굴러가는 동그라미 모양이에요."
+    },
+    {
+      "word": "차곡차곡 (Pile up)",
+      "desc": "장난감 블록을 아래에서부터 위로 비뚤어지지 않게 예쁘고 튼튼하게 쌓는 모양이에요."
+    }
+  ],
+  "hangeul": [
+    {
+      "word": "흉내 (Mimic)",
+      "desc": "토끼처럼 깡충깡충 뛰어보거나 시냇물처럼 졸졸졸 말해보는 재밌는 따라하기 놀이예요."
+    },
+    {
+      "word": "말놀이 (Word game)",
+      "desc": "예쁜 소리가 나는 우리말들을 입으로 조잘조잘 말하면서 재미를 느끼는 말하기 게임이에요."
+    }
+  ],
+  "english": [
+    {
+      "word": "원어민 (Native)",
+      "desc": "영어를 매일 쓰는 미국이나 영국의 친구들처럼, 태어날 때부터 영어를 말해온 사람들을 뜻해요."
+    },
+    {
+      "word": "울음소리 (Voice)",
+      "desc": "동물 친구들이 배가 고프거나 기분이 좋을 때 목소리를 내어 소리치는 말소리예요."
+    }
+  ],
+  "future": [
+    {
+      "word": "로봇 (Robot)",
+      "desc": "스스로 움직이고 머리에 신기한 컴퓨터 뇌를 넣어 만든 똑똑한 기계 친구예요."
+    },
+    {
+      "word": "비밀번호 (Secret)",
+      "desc": "가족들끼리만 꼭꼭 숨겨두고 지켜야 하는 아주 소중한 비밀 약속이에요."
+    }
+  ],
+  "fairytale": [
+    {
+      "word": "보슬보슬 (Drizzle)",
+      "desc": "비가 하늘에서 아기 새싹들을 향해 부드럽고 춤추듯 살포시 내리는 예쁜 비 모양이에요."
+    },
+    {
+      "word": "보배 (Treasure)",
+      "desc": "세상에서 가장 소중하고 가치 있어서 반짝반짝 빛나는 아주 귀한 보물을 뜻해요."
+    }
+  ],
+  "parents": [
+    {
+      "word": "보물상자 (Box)",
+      "desc": "내가 하루 동안 스스로 해낸 착하고 예쁜 일들을 가득 모아두는 상상 속의 예쁜 선물함이에요."
+    },
+    {
+      "word": "자존감 (Self-love)",
+      "desc": "\"나는 세상에 하나뿐인 제일 소중한 아이야!\" 하고 내 스스로를 사랑하는 튼튼한 마음이에요."
+    }
+  ]
+};
+  var activeNavKey = null;
+
+  // TTS 음성 출력 함수
+  function speakText(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ko-KR';
+      utterance.rate = 0.95; // 어린이를 위해 약간 천천히 읽기
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // 낱말 해설 출력
+  function renderVocabulary(key) {
+    var vocabContainer = document.getElementById('vocab-content');
+    if (!vocabContainer) return;
+    
+    var list = VOCAB_DATA[key] || [];
+    if (list.length === 0) {
+      vocabContainer.innerHTML = '<div style="font-size:13px; color:var(--muted); text-align:center; margin-top:40px; font-style:italic;">이 코너에는 어려운 낱말이 없어요!</div>';
+      return;
+    }
+    
+    vocabContainer.innerHTML = list.map(function(item) {
+      var speakStr = item.word.split(' (')[0] + '. ' + item.desc;
+      return '<div class="vocab-card">' +
+               '<div class="vocab-word-row">' +
+                 '<span class="vocab-word">' + esc(item.word) + '</span>' +
+                 '<button class="tts-btn" onclick="speakText(\'' + esc(speakStr).replace(/'/g, "\\'") + '\')" title="소리 듣기">🔊</button>' +
+               '</div>' +
+               '<p class="vocab-desc">' + esc(item.desc) + '</p>' +
+             '</div>';
+    }).join('');
+  }
+
+  // 네비게이션 아이템 활성화 하이라이트
+  function highlightNavItem(key) {
+    document.querySelectorAll('.nav-item').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    
+    var activeItem = document.getElementById('nav-item-' + key);
+    if (activeItem) {
+      activeItem.classList.add('active');
+      
+      // 스크롤 시 자동 스크롤
+      var leftPanel = document.getElementById('left-panel');
+      if (leftPanel) {
+        var itemRect = activeItem.getBoundingClientRect();
+        var panelRect = leftPanel.getBoundingClientRect();
+        if (itemRect.top < panelRect.top || itemRect.bottom > panelRect.bottom) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+  }
+
+  // 네비게이션 버튼 클릭 핸들러
+  function handleNavClick(key) {
+    if (activeNavKey !== key) {
+      activeNavKey = key;
+      highlightNavItem(key);
+      renderVocabulary(key);
+    } else {
+      // 이미 켜진 경우, 해당 위치로 스크롤
+      var target = document.getElementById('c-' + key);
+      var centerPanel = document.querySelector('.center-panel');
+      if (target && centerPanel) {
+        if (window.innerWidth >= 1024) {
+          var panelTop = centerPanel.getBoundingClientRect().top;
+          var targetTop = target.getBoundingClientRect().top;
+          centerPanel.scrollBy({
+            top: targetTop - panelTop - 10,
+            behavior: 'smooth'
+          });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  }
+
+  // 초기 로딩 후 스크립트 실행
+  window.addEventListener('DOMContentLoaded', function() {
+    // 1. 왼쪽 패널 네비게이션 동적 생성
+    var navList = document.getElementById('nav-list');
+    if (navList && DATA && DATA.corners) {
+      navList.innerHTML = DATA.corners.map(function(c) {
+        var name = c.title.split(' · ')[0] || c.title;
+        return '<div class="nav-item" id="nav-item-' + c.key + '" data-key="' + c.key + '">' +
+                 '<div class="nav-row" style="display:flex; align-items:center; gap:8px; width:100%;">' +
+                   '<span class="nav-dot" id="nav-dot-' + c.key + '" style="width:8px; height:8px; border-radius:50%; background:var(--line); transition:all .25s; flex-shrink:0;"></span>' +
+                   '<button class="nav-btn" id="nav-btn-' + c.key + '" onclick="handleNavClick(\'' + c.key + '\')" style="flex:1; text-align:left; background:none; border:none; padding:8px 12px; border-radius:10px; font-size:13.5px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:6px; outline:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc(name) + '</button>' +
+                 '</div>' +
+                 '<div class="nav-summary" id="nav-summary-' + c.key + '" style="max-height:0; opacity:0; overflow:hidden; transition:all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding-left:16px; font-size:11.5px; color:var(--pine); line-height:1.5; margin-top:0; margin-bottom:0;">' +
+                   esc(c.dek) +
+                 '</div>' +
+               '</div>';
+      }).join('');
+    }
+
+    // 2. 본문 스크롤 감지하여 왼쪽 패널과 오른쪽 낱말사전 연동
+    var centerPanel = document.querySelector('.center-panel');
+    if (centerPanel) {
+      var isScrolling = false;
+      centerPanel.addEventListener('scroll', function() {
+        if (window.innerWidth < 1024) return; // 모바일/세로 패드에선 감지 중지
+        
+        if (!isScrolling) {
+          window.requestAnimationFrame(function() {
+            var articles = document.querySelectorAll('.corner');
+            var activeKey = null;
+            var minDiff = Infinity;
+            var panelRect = centerPanel.getBoundingClientRect();
+            var panelTop = panelRect.top;
+            
+            articles.forEach(function(art) {
+              var rect = art.getBoundingClientRect();
+              
+              // 화면 중간 부근에 들어와 있거나 가장 가까운 아티클 판별
+              var diff = Math.abs(rect.top - panelTop - 20);
+              if (diff < minDiff) {
+                minDiff = diff;
+                activeKey = art.id.replace('c-', '');
+              }
+              
+              if (rect.top <= panelTop + 150 && rect.bottom >= panelTop + 150) {
+                activeKey = art.id.replace('c-', '');
+              }
+            });
+            
+            if (activeKey && activeNavKey !== activeKey) {
+              activeNavKey = activeKey;
+              highlightNavItem(activeKey);
+              renderVocabulary(activeKey);
+            }
+            isScrolling = false;
+          });
+          isScrolling = true;
+        }
+      });
+    }
+    
+    // 3. 첫 번째 아티클 기본 활성화
+    if (DATA && DATA.corners && DATA.corners[0]) {
+      var firstKey = DATA.corners[0].key;
+      activeNavKey = firstKey;
+      highlightNavItem(firstKey);
+      renderVocabulary(firstKey);
+    }
+  });
   </script>
 </body>
 </html>
