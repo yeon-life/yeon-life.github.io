@@ -1,0 +1,12 @@
+{
+  "name": "책장을 넘기면",
+  "short_name": "책장을 넘기면",
+  "description": "한 장만 넘기면 새로운 세상이 펼쳐져요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

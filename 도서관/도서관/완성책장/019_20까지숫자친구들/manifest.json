@@ -1,0 +1,23 @@
+{
+  "name": "20까지 숫자 친구들",
+  "short_name": "20까지 숫자 친구",
+  "description": "하나둘셋, 스물까지 손잡고 가는 길",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

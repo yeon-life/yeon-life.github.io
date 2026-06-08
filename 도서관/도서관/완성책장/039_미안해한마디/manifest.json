@@ -1,0 +1,12 @@
+{
+  "name": "미안해, 한마디",
+  "short_name": "미안해, 한마디",
+  "description": "가슴에 콕 박힌 가시를 살며시 빼는 말",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>울산 — 인류 문명의 새벽을 품은 도시</title>
+<meta name="description" content="울산 — 인류 문명의 새벽을 품은 도시, 대한민국의 따뜻한 미래를 시작하는 곳">
+<meta property="og:title" content="Ulsan — Where Humanity's Dawn Meets Korea's Warm Tomorrow">
+<meta property="og:description" content="반구대, 태화강, 영남알프스, 장생포 — 울산의 이야기">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─── CSS 변수 (한지·먹·금실 팔레트) ─── */
+:root {
+  --hanji:   #F8F2EA;
+  --hanji-dk:#EDE4D6;
+  --hanji-lt:#FDF9F4;
+  --ink:     #1D1D1B;
+  --ink-soft:#4A4540;
+  --ink-faint:#8A837A;
+  --gold:    #B8955A;
+  --gold-lt: #D4B07A;
+  --gold-pale:#F0E4C8;
+  --sea:     #3A6E7E;
+  --sea-lt:  #5A9EAF;
+  --sea-pale:#D0E8EE;
+  --reed:    #7A9E8A;
+  --reed-lt: #A8C4B4;
+  --dawn:    #C9402B;
+  --dawn-lt: #E06B52;
+
+  --font-myeong:'Nanum Myeongjo','Noto Serif KR',serif;
+  --font-serif:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  --font-play:'Playfair Display',Georgia,serif;
+  --radius:12px;
+  --shadow:0 4px 24px rgba(29,29,27,0.09);
+  --shadow-sm:0 2px 10px rgba(29,29,27,0.07);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-serif);background:var(--hanji);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;}
+
+/* ─── 공통 레이아웃 ─── */
+.wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+section{padding:72px 0;}
+
+/* ─── 내비게이션 ─── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(248,242,234,0.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hanji-dk);
+  padding:0 24px;
+}
+.nav-inner{
+  max-width:980px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-logo{
+  font-family:var(--font-myeong);
+  font-weight:800;font-size:17px;color:var(--ink);
+  text-decoration:none;letter-spacing:-0.02em;
+}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{
+  font-size:13px;color:var(--ink-soft);text-decoration:none;
+  letter-spacing:0.04em;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-lang{
+  font-size:11px;color:var(--ink-faint);
+  border:1px solid var(--hanji-dk);padding:3px 10px;border-radius:20px;cursor:pointer;
+}
+
+/* ─── § 1 히어로 ─── */
+.hero{
+  min-height:100svh;
+  background:var(--ink);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:80px 24px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 55% at 20% 70%, rgba(201,64,43,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 50% at 80% 25%, rgba(58,110,126,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 65% at 55% 45%, rgba(184,149,90,0.13) 0%, transparent 65%);
+  pointer-events:none;
+}
+/* SVG 암각화 일러스트 배경 */
+.hero-petroglyph{
+  position:absolute;inset:0;
+  opacity:0.06;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:2;}
+.hero-eyebrow{
+  font-family:var(--font-play);font-style:italic;
+  font-size:clamp(12px,1.8vw,14px);color:var(--gold-lt);
+  letter-spacing:0.3em;margin-bottom:28px;
+}
+.hero-title{
+  font-family:var(--font-myeong);
+  font-size:clamp(23px,4.4vw,44px);font-weight:800;
+  color:var(--hanji);line-height:1.25;margin-bottom:16px;
+  text-shadow:0 2px 24px rgba(0,0,0,0.4);
+}
+.hero-title .accent-gold{color:var(--gold-lt);}
+.hero-title .accent-sea{color:#b7e4f5;text-shadow:0 2px 10px rgba(0,0,0,.72),0 0 4px rgba(0,0,0,.88),0 1px 2px rgba(0,0,0,.9);}
+.hero-title-en{
+  font-family:var(--font-play);font-size:clamp(13px,2vw,18px);
+  color:rgba(248,242,234,0.55);margin-bottom:32px;
+  font-style:italic;letter-spacing:0.02em;
+}
+.hero-desc{
+  font-size:clamp(14px,2vw,17px);color:rgba(248,242,234,0.75);
+  max-width:600px;margin:0 auto 44px;line-height:1.85;
+}
+.hero-scroll{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  color:rgba(248,242,234,0.4);font-size:11px;letter-spacing:0.2em;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-scroll-line{
+  width:1px;height:40px;background:rgba(248,242,234,0.3);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:0.9}}
+
+/* ─── § 2 정체성 한 문장 ─── */
+.identity{
+  background:var(--ink);color:var(--hanji);
+  padding:80px 24px;text-align:center;
+}
+.identity-text{
+  font-family:var(--font-myeong);
+  font-size:clamp(18px,3.5vw,28px);
+  line-height:1.7;max-width:780px;margin:0 auto;
+  font-weight:400;
+}
+.identity-text em{
+  color:var(--gold-lt);font-style:normal;
+  border-bottom:1px solid rgba(212,176,122,0.5);
+  padding-bottom:2px;
+}
+.identity-en{
+  font-family:var(--font-play);font-style:italic;
+  font-size:clamp(13px,1.8vw,16px);color:rgba(248,242,234,0.5);
+  max-width:680px;margin:20px auto 0;line-height:1.8;
+}
+
+/* ─── § 3 Three Pillars ─── */
+.pillars{background:var(--hanji-lt);}
+.section-header{text-align:center;margin-bottom:52px;}
+.s-num{
+  font-family:var(--font-play);font-size:11px;color:var(--gold);
+  letter-spacing:0.25em;display:block;margin-bottom:10px;
+}
+.s-title{
+  font-family:var(--font-myeong);
+  font-size:clamp(20px,3.5vw,28px);font-weight:700;
+  margin-bottom:8px;line-height:1.3;
+}
+.s-desc{font-size:14px;color:var(--ink-soft);max-width:500px;margin:0 auto;}
+.pillars-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+.pillar-card{
+  background:var(--hanji);border:1px solid var(--hanji-dk);
+  border-radius:var(--radius);padding:36px 28px;
+  position:relative;overflow:hidden;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.pillar-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.pillar-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.pillar-card.p1::before{background:var(--dawn);}
+.pillar-card.p2::before{background:var(--sea);}
+.pillar-card.p3::before{background:var(--gold);}
+.pillar-num{
+  font-family:var(--font-play);font-size:44px;color:var(--hanji-dk);
+  font-weight:600;line-height:1;margin-bottom:16px;
+}
+.pillar-icon{font-size:32px;margin-bottom:14px;display:block;}
+.pillar-title{
+  font-family:var(--font-myeong);font-size:18px;font-weight:700;
+  margin-bottom:8px;
+}
+.pillar-title-en{
+  font-family:var(--font-play);font-size:12px;font-style:italic;
+  color:var(--ink-faint);margin-bottom:14px;letter-spacing:0.05em;
+}
+.pillar-body{font-size:14px;color:var(--ink-soft);line-height:1.85;}
+
+/* ─── § 4 반구대 ─── */
+.bangudae{background:var(--ink);color:var(--hanji);}
+.bangudae-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.bangudae-text{}
+.bangudae-eyebrow{
+  font-family:var(--font-play);font-style:italic;
+  font-size:12px;color:var(--dawn-lt);letter-spacing:0.2em;margin-bottom:18px;
+}
+.bangudae-title{
+  font-family:var(--font-myeong);font-size:clamp(22px,3.5vw,32px);
+  font-weight:800;line-height:1.25;margin-bottom:6px;
+  color:var(--hanji);
+}
+.bangudae-title-en{
+  font-family:var(--font-play);font-style:italic;
+  font-size:15px;color:var(--gold-lt);margin-bottom:20px;
+}
+.bangudae-body{font-size:15px;color:rgba(248,242,234,0.8);line-height:1.9;margin-bottom:24px;}
+.bangudae-facts{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
+.fact-chip{
+  border:1px solid rgba(201,64,43,0.5);
+  color:var(--dawn-lt);font-size:12px;letter-spacing:0.06em;
+  padding:5px 14px;border-radius:20px;font-family:var(--font-serif);
+}
+.fact-chip.gold{border-color:rgba(184,149,90,0.5);color:var(--gold-lt);}
+.bangudae-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,64,43,0.15);border:1px solid rgba(201,64,43,0.3);
+  border-radius:8px;padding:10px 16px;
+  font-size:13px;color:var(--dawn-lt);
+}
+.bangudae-badge strong{color:var(--hanji);font-weight:600;}
+.bangudae-visual{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(248,242,234,0.08);
+  border-radius:var(--radius);
+  min-height:380px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:40px;
+}
+.bangudae-svg-wrap{width:100%;max-width:320px;}
+
+/* ─── § 5 장생포 ─── */
+.jangsepo{background:var(--sea);}
+.jangsepo-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.jangsepo-visual{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:var(--radius);min-height:360px;
+  display:flex;align-items:center;justify-content:center;
+  padding:32px;
+}
+.jangsepo-text{color:var(--hanji);}
+.jangsepo-eyebrow{
+  font-family:var(--font-play);font-style:italic;
+  font-size:12px;color:rgba(208,232,238,0.8);letter-spacing:0.2em;margin-bottom:16px;
+}
+.jangsepo-title{
+  font-family:var(--font-myeong);font-size:clamp(20px,3vw,28px);
+  font-weight:800;line-height:1.3;margin-bottom:6px;
+  color:var(--hanji);
+}
+.jangsepo-title-en{
+  font-family:var(--font-play);font-style:italic;
+  font-size:14px;color:var(--sea-pale);margin-bottom:18px;
+}
+.jangsepo-body{font-size:15px;color:rgba(248,242,234,0.82);line-height:1.9;margin-bottom:24px;}
+.jangsepo-quote{
+  border-left:3px solid var(--gold-lt);
+  padding:14px 20px;
+  font-size:14px;color:rgba(248,242,234,0.75);
+  font-style:italic;font-family:var(--font-play);
+  margin-top:8px;
+}
+
+/* ─── § 6 자연 갤러리 ─── */
+.nature{background:var(--hanji);}
+.nature-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:auto;
+  gap:16px;
+}
+.nature-card{
+  border-radius:var(--radius);overflow:hidden;
+  position:relative;min-height:200px;
+  display:flex;align-items:flex-end;
+  transition:transform 0.25s;
+}
+.nature-card:hover{transform:scale(1.02);}
+.nature-card.large{grid-column:span 2;min-height:280px;}
+.nature-card-bg{
+  position:absolute;inset:0;
+}
+.nature-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(29,29,27,0.65) 0%, transparent 55%);
+}
+.nature-card-info{
+  position:relative;z-index:2;padding:20px 22px;color:var(--hanji);
+}
+.nature-card-title{
+  font-family:var(--font-myeong);font-size:17px;font-weight:700;margin-bottom:3px;
+}
+.nature-card-sub{font-size:12px;opacity:0.75;font-family:var(--font-play);font-style:italic;}
+
+/* SVG 자연 플레이스홀더 공통 */
+.svg-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ─── § 7 산업의 진심 ─── */
+.industry{background:var(--hanji-dk);}
+.industry-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;
+}
+.industry-text{}
+.industry-eyebrow{
+  font-family:var(--font-play);font-style:italic;
+  font-size:12px;color:var(--gold);letter-spacing:0.2em;margin-bottom:16px;
+}
+.industry-title{
+  font-family:var(--font-myeong);font-size:clamp(20px,3vw,26px);
+  font-weight:800;line-height:1.3;margin-bottom:8px;
+}
+.industry-title-en{
+  font-family:var(--font-play);font-style:italic;
+  font-size:14px;color:var(--ink-faint);margin-bottom:18px;
+}
+.industry-body{font-size:15px;color:var(--ink-soft);line-height:1.9;margin-bottom:20px;}
+.industry-cards{display:flex;flex-direction:column;gap:14px;}
+.industry-card{
+  background:var(--hanji);border:1px solid var(--hanji-dk);
+  border-radius:10px;padding:18px 20px;
+  border-left:3px solid var(--gold);
+}
+.industry-card-title{
+  font-family:var(--font-myeong);font-size:15px;font-weight:700;margin-bottom:5px;
+}
+.industry-card-body{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+
+/* ─── § 8 음식·시장 ─── */
+.food{background:var(--hanji-lt);}
+.food-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;
+  margin-top:40px;
+}
+.food-card{
+  background:var(--hanji);border:1px solid var(--hanji-dk);
+  border-radius:var(--radius);overflow:hidden;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.food-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.food-card-img{
+  height:160px;background:var(--hanji-dk);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.food-card-body{padding:18px 20px;}
+.food-card-title{
+  font-family:var(--font-myeong);font-size:16px;font-weight:700;margin-bottom:6px;
+}
+.food-card-en{
+  font-family:var(--font-play);font-size:12px;font-style:italic;
+  color:var(--ink-faint);margin-bottom:10px;
+}
+.food-card-desc{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+
+/* ─── § 9 울산의 사람 ─── */
+.people{background:var(--hanji);}
+.people-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
+  margin-top:40px;
+}
+.people-card{
+  background:var(--hanji-lt);border:1px solid var(--hanji-dk);
+  border-radius:var(--radius);padding:28px;
+  position:relative;
+}
+.people-card-icon{margin-bottom:16px;display:block;color:var(--gold);line-height:0;}
+.people-card-icon svg{width:48px;height:48px;}
+.tip-item{display:flex;gap:14px;border-radius:10px;margin-bottom:10px;}
+.tip-icon img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block;}
+.people-card-title{
+  font-family:var(--font-myeong);font-size:16px;font-weight:700;margin-bottom:8px;
+}
+.people-card-desc{font-size:14px;color:var(--ink-soft);line-height:1.8;}
+
+/* ─── § 10 시민 목소리 ─── */
+.voices{background:var(--ink);color:var(--hanji);}
+.voices-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;
+  margin-top:40px;
+}
+.voice-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(248,242,234,0.1);
+  border-radius:var(--radius);padding:26px;
+}
+.voice-quote{
+  font-size:14px;color:rgba(248,242,234,0.8);
+  line-height:1.85;margin-bottom:18px;
+  font-style:italic;
+}
+.voice-author{display:flex;align-items:center;gap:10px;}
+.voice-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(184,149,90,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.voice-name{font-size:13px;font-weight:600;color:var(--gold-lt);}
+.voice-role{font-size:11px;color:rgba(248,242,234,0.45);margin-top:1px;}
+
+/* ─── 반응형 ─── */
+@media(max-width:720px){
+  section{padding:52px 0;}
+  .nav-links{display:none;}
+  .bangudae-inner,
+  .jangsepo-inner,
+  .industry-inner,
+  .foreigners-inner{grid-template-columns:1fr;}
+  .nature-card.large{grid-column:span 1;}
+  .footer-inner{grid-template-columns:1fr;}
+  .footer-brand{grid-column:1;}
+  .hero-title{font-size:clamp(28px,9vw,48px);}
+  .future{padding:72px 24px;}
+}
+@media(max-width:480px){
+  .wrap{padding:0 20px;}
+  .nav{padding:0 20px;}
+  .hero{padding:60px 20px;}
+  .food-grid{grid-template-columns:1fr;}
+  .people-grid{grid-template-columns:1fr;}
+  .voices-grid{grid-template-columns:1fr;}
+}
+
+/* ─── 스마트폰 시뮬레이터 (수익화 시뮬레이션) ─── */
+.phone-sim-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+.phone-sim {
+  width: 380px;
+  height: 660px;
+  background: #1D1D1B;
+  border: 14px solid #2d2d2a;
+  border-radius: 44px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  font-family: var(--font-serif);
+  transition: transform 0.3s ease;
+}
+.phone-sim:hover {
+  transform: translateY(-5px);
+}
+.phone-bar {
+  height: 28px;
+  background: #1D1D1B;
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  font-family: var(--font-play);
+}
+.phone-screen {
+  flex: 1;
+  background: var(--hanji);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.phone-app-header {
+  font-family: var(--font-play);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hanji-dk);
+  letter-spacing: 1px;
+}
+.phone-tab-bar {
+  display: flex;
+  background: var(--hanji-dk);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  flex-shrink: 0;
+  padding: 2px;
+}
+.phone-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px;
+  font-size: 11px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-serif);
+  color: var(--ink-soft);
+  transition: all 0.25s ease;
+  outline: none;
+  border-radius: 8px;
+}
+.phone-tab.active {
+  background: var(--gold);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(184, 149, 90, 0.3);
+}
+.phone-content {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  animation: fadeInPhone 0.3s ease;
+}
+.phone-content.active {
+  display: flex;
+}
+@keyframes fadeInPhone {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* 패스 카드 */
+.pass-card {
+  background: #fff;
+  border: 1px solid var(--gold-lt);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pass-btn {
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(29, 29, 27, 0.15);
+}
+.pass-btn:hover {
+  background: var(--gold);
+  transform: translateY(-1px);
+}
+.pass-btn:active {
+  transform: translateY(1px);
+}
+/* 플래너 옵션 */
+.planner-option {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--hanji-dk);
+  box-shadow: var(--shadow-sm);
+  margin-top: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+.planner-option:hover {
+  background: var(--hanji-lt);
+  border-color: var(--gold-lt);
+  color: var(--ink);
+}
+.planner-option.active {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+  font-weight: 700;
+}
+/* 오디오 재생기 */
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 12px;
+  border: 1px solid var(--hanji-dk);
+  box-shadow: var(--shadow-sm);
+}
+.play-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--sea);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(58, 110, 126, 0.2);
+}
+.play-btn:hover {
+  background: var(--dawn);
+  transform: scale(1.05);
+}
+/* 로딩 스피너 */
+.spinner {
+  border: 3px solid rgba(184, 149, 90, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: var(--gold);
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* 웹훅 정산 리포트 */
+.settlement-card {
+  margin-top: 12px;
+  background: #fbfbf9;
+  border: 1px dashed var(--gold);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  animation: fadeInPhone 0.4s ease;
+}
+</style>
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="연라이프 · 세계로 여행 · 대한민국 · 울산">
+<!-- ─── 정리 v1.0: 인쇄 2모드 · 모바일 메뉴 · 입구바 ─── -->
+<style id="cleanup-2026">
+/* 누락돼 있던 푸터 기본 CSS 복구 */
+.footer{background:var(--ink);color:rgba(248,242,234,.82);padding:54px 24px 26px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.5fr;gap:30px;}
+.footer-brand-title{font-family:var(--font-myeong,serif);font-size:22px;font-weight:800;color:var(--hanji);margin-bottom:12px;}
+.footer-brand-title span{color:var(--gold);}
+.footer-brand-desc{font-size:13px;line-height:1.8;color:rgba(248,242,234,.62);}
+.footer-col-title{font-family:var(--font-play,serif);font-size:12px;letter-spacing:.16em;color:var(--gold);margin-bottom:14px;}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin:7px 0;}
+.footer-links a{color:rgba(248,242,234,.78);text-decoration:none;font-size:13.5px;transition:.15s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-contact-form{display:flex;flex-direction:column;gap:8px;}
+.footer-input{background:rgba(255,255,255,.06);border:1px solid rgba(248,242,234,.18);border-radius:8px;padding:10px 12px;color:var(--hanji);font-size:13px;font-family:inherit;width:100%;}
+.footer-input::placeholder{color:rgba(248,242,234,.42);}
+.footer-submit{background:var(--gold);color:var(--ink);border:0;border-radius:8px;padding:11px;font-weight:700;cursor:pointer;font-family:var(--font-myeong,serif);font-size:14px;}
+.footer-submit:hover{filter:brightness(1.08);}
+.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:18px;border-top:1px solid rgba(248,242,234,.14);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(248,242,234,.55);}
+.footer-bottom a{color:rgba(248,242,234,.7);}
+/* 누락돼 있던 '미래' 섹션 CSS 복구 (가운데 정렬·여백·칩·CTA) */
+.future{padding:84px 0;text-align:center;}
+.future-eyebrow{font-family:var(--font-play,serif);font-style:italic;letter-spacing:.28em;color:var(--gold);font-size:13px;margin-bottom:18px;}
+.future-inner{max-width:760px;margin:0 auto;padding:0 24px;}
+.future-title{font-family:var(--font-myeong,serif);font-size:clamp(24px,4.6vw,40px);font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:12px;}
+.future-title .accent{color:var(--gold);}
+.future-title-en{font-family:var(--font-play,serif);font-style:italic;color:var(--ink-soft);font-size:clamp(13px,2vw,17px);margin-bottom:26px;}
+.future-body{font-size:15px;line-height:1.9;color:var(--ink-soft);max-width:640px;margin:0 auto 30px;}
+.future-values{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:34px;}
+.value-chip{font-family:var(--font-myeong,serif);font-size:13px;color:var(--ink);background:var(--hanji-dk);border:1px solid #e0d6c4;border-radius:999px;padding:7px 15px;}
+.future-cta{display:inline-block;background:var(--ink);color:var(--hanji);text-decoration:none;font-family:var(--font-myeong,serif);font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;transition:.2s;}
+.future-cta:hover{background:var(--gold);color:var(--ink);}
+/* 섹션 상단 사진 배너 */
+.sec-photo{margin:0 0 30px;}
+.sec-photo img{width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.14);display:block;background:#ddd;}
+.sec-photo figcaption{font-size:11.5px;color:var(--ink-soft);text-align:right;margin-top:7px;}
+.sec-photo figcaption .ai{background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
+.sec-photo figcaption .real{background:#2e7d4f;color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
+/* 3단 드릴다운 (대분류→소분류→사진) */
+.ndrill{position:fixed;inset:0;z-index:200;display:none;}
+.ndrill.open{display:block;}
+.ndrill-bd{position:absolute;inset:0;background:rgba(20,18,16,.55);}
+.ndrill-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,560px);max-height:84vh;overflow:auto;background:var(--hanji-lt);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);padding:18px;}
+.ndrill-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ndrill-back{background:var(--hanji-dk);border:0;border-radius:999px;padding:6px 13px;cursor:pointer;font-family:var(--font-myeong);font-size:13px;display:none;}
+.ndrill-title{font-family:var(--font-myeong);font-weight:800;font-size:18px;flex:1;color:var(--ink);}
+.ndrill-close{background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+.ndrill-crumb{font-size:12px;color:var(--ink-soft);margin-bottom:12px;min-height:15px;}
+.ndrill-list{display:grid;gap:8px;}
+.ndrill-item{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--hanji-dk);border-radius:12px;padding:14px 16px;cursor:pointer;font-family:var(--font-myeong);font-size:15px;color:var(--ink);transition:.15s;}
+.ndrill-item:hover{border-color:var(--gold);}
+.ndrill-item .cnt{font-size:12.5px;color:var(--ink-soft);}
+.ndrill-item.empty{opacity:.42;cursor:default;}
+.ndrill-item.empty:hover{border-color:var(--hanji-dk);}
+.ndrill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ndrill-ph{border:1px solid var(--hanji-dk);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:var(--ink);}
+.ndrill-ph img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#ddd;}
+.ndrill-ph span{display:block;padding:7px 9px;font-size:12.5px;font-weight:700;font-family:var(--font-myeong);}
+.ndrill-allbtn{display:block;text-align:center;margin-top:12px;background:var(--ink);color:#fff;border-radius:999px;padding:12px;text-decoration:none;font-family:var(--font-myeong);font-weight:700;font-size:14px;}
+
+/* ⓑ 히어로 = 연소사 실사진 (정확도가 생명 — 첫 화면이 진짜 사진) */
+.hero-bg{background:linear-gradient(180deg,rgba(18,18,16,.40),rgba(18,18,16,.74)),url('../../img/ulsan/taehwa-real-1.webp') center/cover no-repeat !important;opacity:1 !important;}
+.hero-realtag{display:inline-flex;align-items:center;gap:7px;margin-bottom:22px;font-family:var(--font-myeong,serif);font-weight:700;color:#fff;background:rgba(46,125,79,.92);border-radius:999px;padding:7px 16px;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.hero-realtag svg,.hero-credit svg{width:16px;height:16px;flex:none;}
+.hero-credit{position:absolute;left:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.92);font-size:12px;background:rgba(0,0,0,.4);border-radius:8px;padding:5px 11px;font-family:var(--font-myeong,serif);}
+@media print{.hero-bg{background:#1D1D1B !important;}}
+/* 다층 명소 메뉴 (메가) */
+.nav-links li.has-mega{position:relative;}
+.nav-links li.has-mega>.mega-toggle{cursor:pointer;}
+.mega{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:10px;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;display:none;grid-template-columns:repeat(3,minmax(140px,1fr));gap:12px 22px;width:min(92vw,620px);z-index:70;text-align:left;}
+.nav-links li.has-mega:hover .mega,.nav-links li.has-mega.open .mega{display:grid;}
+.mega .col h4{font-family:var(--font-myeong);font-size:13px;margin:0 0 6px;border-bottom:1px solid var(--hanji-dk);padding-bottom:4px;}
+.mega .col h4 a{color:var(--gold);text-decoration:none;font-weight:700;}
+.mega .col a{display:block;font-size:13px;color:var(--ink-soft);padding:3px 0;text-decoration:none;white-space:nowrap;}
+.mega .col a:hover{color:var(--gold);}
+@media (max-width:860px){
+  .nav-links li.has-mega .mega{position:static;transform:none;display:none;width:auto;margin:0;padding:10px 16px;background:transparent;border:0;border-top:1px solid var(--hanji-dk);border-radius:0;box-shadow:none;grid-template-columns:1fr 1fr;}
+  .nav-links li.has-mega.open .mega{display:grid;}
+}
+
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:4px;align-items:center;justify-content:center;
+  background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--font-myeong,serif);}
+.entry-bar a,.entry-bar span.sep,.entry-bar span.cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;transition:.2s;}
+.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}
+.entry-bar .cur{opacity:1;background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;letter-spacing:.5px;}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-left:auto;}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;transition:.25s;}
+@media (max-width:860px){
+  .nav-toggle{display:block;}
+  .nav-inner .nav-lang{display:none;}
+  .nav-links{position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;
+    background:var(--hanji-lt,#fff);box-shadow:var(--shadow);max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  body.nav-open .nav-links{display:flex !important;max-height:75vh;}
+  .nav-links li{border-top:1px solid var(--hanji-dk);}
+  .nav-links a{display:block;padding:13px 20px;}
+}
+/* 좁은 폭 넘침 방지 — 인라인 그리드 1열 강제 */
+@media (max-width:900px){
+  .foreigners-inner{grid-template-columns:1fr !important;}
+  .phone-sim,.phone-sim-container{max-width:100% !important;}
+}
+.demo-badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.3px;
+  background:var(--dawn,#C9402B);color:#fff;border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:6px;}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;
+  background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-fab:hover{background:var(--gold);color:#1D1D1B;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);
+  border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--font-myeong,serif);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;color:var(--ink);padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;
+  background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button:hover{border-color:var(--gold);background:#fff;}
+.print-pop button strong{font-size:13.5px;color:var(--ink);}
+.print-pop button small{font-size:11px;color:var(--ink-soft,#666);margin-top:2px;}
+@media print{
+  .nav,.entry-bar,.print-fab,.print-pop,.nav-toggle,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);font-size:11px;line-height:1.45;}
+  body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;
+    text-shadow:none !important;border-color:#ccc !important;}
+  body.print-save .phone-mockup,body.print-save .footer-contact-form,
+  body.print-save .hero video,body.print-save .pass-card,body.print-save iframe{display:none !important;}
+  body.print-save section{break-inside:avoid;padding:6px 0 !important;}
+  body.print-save .container,body.print-save .wrap{column-count:2;column-gap:12mm;}
+  body.print-save img{max-width:100% !important;filter:grayscale(1) !important;}
+  @page{margin:10mm;}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── 내비게이션 ─── -->
+<!-- ─── 경로(브레드크럼) 바 ─── -->
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="../../index.html" class="eb-home">연라이프 홈</a>
+  <span class="sep">›</span>
+  <span class="cur">대한민국</span>
+  <span class="sep">›</span>
+  <span class="cur">울산</span>
+</div>
+
+<!-- ─── 내비게이션 ─── -->
+<nav class="nav" role="navigation" aria-label="울산 홈페이지 내비게이션">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-logo" aria-label="소개 입구로">울<span>산</span></a>
+    <ul class="nav-links">
+      <li class="has-mega">
+        <a href="../../img/ulsan/갤러리.html" class="mega-toggle" onclick="if(window.innerWidth > 860) { event.preventDefault(); ndOpen(); } else { event.preventDefault(); this.parentNode.classList.toggle('open'); }">명소 둘러보기 ▾</a>
+        <div class="mega">
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=river">강·정원</a></h4>
+            <a href="#nature">태화강 국가정원</a>
+            <a href="../../img/ulsan/갤러리.html?cat=river">십리대숲</a>
+            <a href="../../img/ulsan/갤러리.html?cat=river">태화강 백로</a></div>
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=sea">바다·해안</a></h4>
+            <a href="../../img/ulsan/갤러리.html?cat=sea">대왕암공원</a>
+            <a href="../../img/ulsan/갤러리.html?cat=sea">간절곶</a>
+            <a href="../../img/ulsan/갤러리.html?cat=sea">주전 몽돌해변</a>
+            <a href="../../img/ulsan/갤러리.html?cat=sea">슬도</a></div>
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=mountain">산·자연</a></h4>
+            <a href="#nature">영남알프스 억새</a>
+            <a href="../../img/ulsan/갤러리.html?cat=mountain">신불산</a>
+            <a href="hiking-map.html">등산 지도 →</a></div>
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=history">역사·문화</a></h4>
+            <a href="#bangudae">반구대 암각화</a>
+            <a href="../../img/ulsan/갤러리.html?cat=history">천전리 각석</a></div>
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=village">마을·체험</a></h4>
+            <a href="#jangsepo">장생포 고래마을</a>
+            <a href="../../img/ulsan/갤러리.html?cat=village">작천정 벚꽃</a>
+            <a href="../../img/ulsan/갤러리.html?cat=village">외고산 옹기마을</a></div>
+          <div class="col"><h4><a href="../../img/ulsan/갤러리.html?cat=city">도시·공원</a></h4>
+            <a href="../../img/ulsan/갤러리.html?cat=city">울산 전경</a>
+            <a href="../../img/ulsan/갤러리.html?cat=city">울산대교 야경</a>
+            <a href="../../img/ulsan/갤러리.html?cat=city">울산대공원</a></div>
+        </div>
+      </li>
+      <li><a href="#hiking">등산코스</a></li>
+      <li><a href="#food">먹거리</a></li>
+      <li><a href="#people">사람</a></li>
+      <li><a href="#visitor-concierge">홍보 & 패스</a></li>
+      <li><a href="../../img/ulsan/갤러리.html">갤러리</a></li>
+      <li><a href="../../index.html" style="color:var(--gold);font-weight:700">연라이프 홈</a></li>
+    </ul>
+    <div class="nav-lang" aria-label="언어 전환" style="display: flex; gap: 6px; font-size: 11.5px; border: 1px solid var(--hanji-dk); padding: 4px 12px; border-radius: 20px; font-family: var(--font-play);">
+      <span class="lang-btn active" data-lang="ko" style="cursor: pointer; font-weight: 700; color: var(--ink);">KO</span>
+      <span style="color: var(--ink-faint); opacity: 0.5;">|</span>
+      <span class="lang-btn" data-lang="en" style="cursor: pointer; font-weight: 500; color: var(--ink-faint);">EN</span>
+    </div>
+    <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"
+      onclick="document.body.classList.toggle('nav-open');this.setAttribute('aria-expanded',document.body.classList.contains('nav-open'));">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ─── § 1 히어로 ─── -->
+<section class="hero" role="banner" id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <!-- 암각화 SVG 배경 일러스트 -->
+  <div class="hero-petroglyph" aria-hidden="true">
+    <svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+      <!-- 고래 실루엣 반구대 스타일 -->
+      <ellipse cx="200" cy="200" rx="90" ry="40" fill="none" stroke="#F8F2EA" stroke-width="2.5"/>
+      <path d="M290 200 Q320 180 310 215" fill="none" stroke="#F8F2EA" stroke-width="2.5"/>
+      <ellipse cx="180" cy="195" rx="6" ry="5" fill="none" stroke="#F8F2EA" stroke-width="2"/>
+      <path d="M180 230 Q200 245 220 235" fill="none" stroke="#F8F2EA" stroke-width="2"/>
+      <!-- 사슴 -->
+      <path d="M420 160 L415 200 M415 200 L405 230 M415 200 L425 230" fill="none" stroke="#F8F2EA" stroke-width="2.5"/>
+      <circle cx="420" cy="155" r="8" fill="none" stroke="#F8F2EA" stroke-width="2.5"/>
+      <path d="M415 148 L408 138 M425 148 L432 138 M408 138 L402 130 M432 138 L438 130" fill="none" stroke="#F8F2EA" stroke-width="2"/>
+      <!-- 파도·수평선 -->
+      <path d="M50 300 Q150 285 250 300 Q350 315 450 300 Q550 285 650 300 Q750 315 800 300" fill="none" stroke="#F8F2EA" stroke-width="1.5" opacity="0.6"/>
+      <path d="M50 320 Q150 308 250 320 Q350 332 450 320 Q550 308 650 320 Q750 332 800 320" fill="none" stroke="#F8F2EA" stroke-width="1" opacity="0.4"/>
+      <!-- 태양·원형 -->
+      <circle cx="620" cy="120" r="35" fill="none" stroke="#F8F2EA" stroke-width="2"/>
+      <line x1="620" y1="75" x2="620" y2="65" stroke="#F8F2EA" stroke-width="1.5"/>
+      <line x1="655" y1="85" x2="663" y2="77" stroke="#F8F2EA" stroke-width="1.5"/>
+      <line x1="665" y1="120" x2="675" y2="120" stroke="#F8F2EA" stroke-width="1.5"/>
+      <!-- 작은 물고기들 -->
+      <ellipse cx="380" cy="340" rx="14" ry="6" fill="none" stroke="#F8F2EA" stroke-width="1.5"/>
+      <path d="M366 340 L355 333 M366 340 L355 347" fill="none" stroke="#F8F2EA" stroke-width="1.5"/>
+      <ellipse cx="450" cy="355" rx="10" ry="4.5" fill="none" stroke="#F8F2EA" stroke-width="1.5"/>
+      <path d="M440 355 L432 350 M440 355 L432 360" fill="none" stroke="#F8F2EA" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ulsan · Korea · 인류 문명의 새벽</div>
+    <h1 class="hero-title">
+      <span class="accent-gold">울산</span><br>
+      인류 문명의 새벽을 품은 도시<br>
+      <span class="accent-sea">대한민국의 따뜻한 미래</span>를 시작하는 곳
+    </h1>
+    <p class="hero-title-en">
+      Ulsan — Where Humanity's Dawn Meets Korea's Warm Tomorrow
+    </p>
+    <p class="hero-desc">
+      8,000년 전 인류의 기억이 새겨진 반구대에서, 태화강의 맑은 물결을 따라,
+      산과 바다와 사람이 함께 빚어온 도시의 이야기를 만납니다.
+    </p>
+  </div>
+  <div class="hero-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 8h3l1.2-1.8h7.6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.3"/></svg>태화강 국가정원 · 연소사 직접 촬영 · 2026</div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span>아래로</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ─── § 2 정체성 한 문장 ─── -->
+<section class="identity" role="region" aria-labelledby="identity-heading">
+  <div class="wrap">
+    <p id="identity-heading" class="identity-text fade-in">
+      울산은 <em>인류가 처음으로 바다를 기록한 도시</em>이자,
+      <em>대한민국 산업의 심장</em>이며,
+      자연과 사람이 함께 만들어가는 <em>따뜻한 공동체</em>입니다.
+    </p>
+    <p class="identity-en fade-in">
+      Ulsan is the city where humanity first recorded the sea — home to the world's oldest depiction of whaling,
+      the industrial heart of Korea, and a warm community where nature and people grow together.
+    </p>
+  </div>
+</section>
+
+<!-- ─── § 3 Three Pillars ─── -->
+<section class="pillars" id="pillars" role="region" aria-labelledby="pillars-heading">
+  <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/ulsan-aerial.webp" alt="울산 전경"><figcaption>울산 전경 · 태화강과 도시<span class="ai">AI 그림</span></figcaption></figure>
+    <div class="section-header fade-in">
+      <span class="s-num">THREE PILLARS</span>
+      <h2 id="pillars-heading" class="s-title">울산을 이해하는 세 가지 열쇠</h2>
+      <p class="s-desc">과거의 깊이, 현재의 결, 미래의 따뜻함 — 세 개의 기둥이 하나의 도시를 이룹니다.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card p1 fade-in">
+        <div class="pillar-icon" aria-hidden="true">🪨</div>
+        <div class="pillar-num" aria-hidden="true">01</div>
+        <h3 class="pillar-title">인류 문명의 새벽</h3>
+        <p class="pillar-title-en">Dawn of Human Civilization</p>
+        <p class="pillar-body">
+          반구대 암각화 — 8,000년 전 인류가 새긴 고래 사냥의 기록.
+          유네스코 세계문화유산(2025년 7월 12일 등재).
+          인류 최초의 포경 기록이 울산 땅에 새겨져 있습니다.
+        </p>
+      </div>
+      <div class="pillar-card p2 fade-in">
+        <div class="pillar-icon" aria-hidden="true">🌊</div>
+        <div class="pillar-num" aria-hidden="true">02</div>
+        <h3 class="pillar-title">자연·도시의 결</h3>
+        <p class="pillar-title-en">The Grain of Nature and City</p>
+        <p class="pillar-body">
+          태화강의 맑은 흐름, 영남알프스의 웅장한 산세, 간절곶의 첫 일출, 동해의 너른 바다.
+          산업 도시 안에서 자연이 살아 숨 쉬는 결이 울산의 품격입니다.
+        </p>
+      </div>
+      <div class="pillar-card p3 fade-in">
+        <div class="pillar-icon" aria-hidden="true">🌱</div>
+        <div class="pillar-num" aria-hidden="true">03</div>
+        <h3 class="pillar-title">사람·따뜻한 미래</h3>
+        <p class="pillar-title-en">People · Warm Tomorrow</p>
+        <p class="pillar-body">
+          노동과 이주, 다문화와 공존, 교육자와 장인.
+          울산의 진짜 힘은 여기 모인 사람들에게 있습니다.
+          그 사람들이 대한민국의 따뜻한 내일을 만들고 있습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 4 반구대 암각화 ─── -->
+<section class="bangudae" id="bangudae" role="region" aria-labelledby="bangudae-heading">
+  <div class="wrap">
+    <div class="bangudae-inner">
+      <div class="bangudae-text slide-left">
+        <p class="bangudae-eyebrow">BANGUDAE PETROGLYPH · UNESCO WORLD HERITAGE 2025</p>
+        <h2 id="bangudae-heading" class="bangudae-title">8,000년 전<br>인류의 첫 기록</h2>
+        <p class="bangudae-title-en">Humanity's First Record of the Sea, 6,000 BCE</p>
+        <p class="bangudae-body">
+          울산 울주군 대곡천변의 깎아지른 바위벽(너비 10m, 높이 3m)에는 신석기 시대 인류가 새긴 경이로운 해양 기록이 자리하고 있습니다. 
+          이곳에는 <strong>귀신고래, 혹등고래, 범고래, 향고래 등 11종의 고래</strong>와 고래가 새끼를 등에 업고 유영하는 모습, blowhole(숨구멍)에서 물을 뿜는 세밀한 생태 정보가 사실적으로 묘사되어 있습니다.
+        </p>
+        <p class="bangudae-body">
+          특히 고래 몸통에 선명하게 새겨진 <strong>작살(harpoon) 자국</strong>과 그물망, 그리고 여러 명의 사냥꾼이 탄 배의 형상은 <strong>인류 역사상 가장 오래된 포경(whale-hunting)의 증거</strong>입니다. 
+          이는 인류가 청동기나 철기 이전에 이미 고도화된 선박 제조 기술과 해양 수렵 능력을 갖추고 있었음을 보여주는 세계사적 보물입니다.
+        </p>
+        <p class="bangudae-body" style="color:var(--gold-lt); font-style:italic;">
+          * 보존의 위기: 하류의 사연댐으로 인해 1년 중 수개월은 대곡천 물속에 잠겨 서서히 마모되고 있습니다. 물속에서 피어나는 8,000년 전 인류의 기억을 온전히 마주하는 일은, 매 순간 깊은 경외감과 찰나의 아쉬움을 동시에 선사합니다.
+        </p>
+        <div class="bangudae-facts">
+          <span class="fact-chip">300여 점 문양</span>
+          <span class="fact-chip">11종 고래 묘사</span>
+          <span class="fact-chip">선사시대 선박 & 작살</span>
+          <span class="fact-chip gold">UNESCO 세계유산 2025</span>
+        </div>
+        <div class="bangudae-badge">
+          🏛 <span><strong>유네스코 세계문화유산</strong> — 2025년 7월 12일 공식 등재 완료</span>
+        </div>
+      </div>
+      <div class="bangudae-visual slide-right" aria-label="반구대 암각화 SVG 일러스트">
+        <img src="../../img/ulsan/bangudae2.webp" alt="반구대 암각화" style="width:100%;border-radius:12px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.22);"><div style="text-align:center;font-size:11px;color:rgba(248,242,234,.65);margin-top:8px;">반구대 암각화 <span style="background:rgba(0,0,0,.4);border-radius:999px;padding:1px 7px;">AI 그림</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 5 장생포 고래 ─── -->
+<section class="jangsepo" id="jangsepo" role="region" aria-labelledby="jangsepo-heading">
+  <div class="wrap">
+    <div class="jangsepo-inner">
+      <div class="jangsepo-visual slide-left" aria-label="장생포 고래 SVG 일러스트">
+        <img src="../../img/ulsan/jangsaengpo.webp" alt="장생포 고래문화마을" style="width:100%;border-radius:12px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.22);"><div style="text-align:center;font-size:11px;color:rgba(248,242,234,.65);margin-top:8px;">장생포 고래문화마을 <span style="background:rgba(0,0,0,.4);border-radius:999px;padding:1px 7px;">AI 그림</span></div>
+      </div>
+      <div class="jangsepo-text slide-right">
+        <p class="jangsepo-eyebrow">JANGSEPO · WHALE CULTURE</p>
+        <h2 id="jangsepo-heading" class="jangsepo-title">장생포 —<br>고래와 함께 살아온 마을</h2>
+        <p class="jangsepo-title-en">Jangsepo — A Village That Lived With Whales</p>
+        <p class="jangsepo-body">
+          한때 동양 최대의 고래잡이 항구였던 장생포. 1986년 포경 금지 이후에도
+          이 마을은 고래를 잊지 않았습니다. 고래 문화마을, 고래 박물관, 돌고래 생태 체험 —
+          금지와 보존의 역설 속에서 사람과 고래의 새로운 관계를 탐색하고 있습니다.
+        </p>
+        <p class="jangsepo-body">
+          반구대가 인류의 기억을 담은 돌이라면, 장생포는 그 기억이 삶으로 이어진 마을입니다.
+          고래의 몸통처럼 굵고 따뜻한 이야기들이 이 항구에 쌓여 있습니다.
+        </p>
+        <blockquote class="jangsepo-quote">
+          "If Bangudae is stone bearing humanity's memory, Jangsepo is the village where that memory lives on — in harbor smells, in elders' stories, in the sound of waves."
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 6 자연 갤러리 ─── -->
+<section class="nature" id="nature" role="region" aria-labelledby="nature-heading">
+  <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/taehwa-real-1.webp" alt="태화강 국가정원"><figcaption>태화강 국가정원 · 연소사 직접 촬영<span class="real">📷 실사진</span></figcaption></figure>
+    <div class="section-header fade-in">
+      <span class="s-num">NATURE</span>
+      <h2 id="nature-heading" class="s-title">산과 강과 바다가 하나인 도시</h2>
+      <p class="s-desc">A city where mountains, rivers, and sea meet as one</p>
+    </div>
+    <div class="nature-grid fade-in">
+      <!-- 태화강 -->
+      <div class="nature-card" style="background-image:url('../../img/ulsan/taehwa-real-1.webp');background-size:cover;background-position:center;" role="img" aria-label="태화강 십리대밭">
+        <div class="nature-card-overlay" aria-hidden="true"></div>
+        <div class="nature-card-info">
+          <div class="nature-card-title">태화강 국가정원</div>
+          <div class="nature-card-sub">Taehwa River Garden · 십리대숲 & 은하수길</div>
+        </div>
+      </div>
+      <!-- 영남알프스 -->
+      <div class="nature-card" style="background-image:url('../../img/ulsan/ganwoljae-plateau.webp');background-size:cover;background-position:center;" role="img" aria-label="영남알프스">
+        <div class="nature-card-overlay" aria-hidden="true"></div>
+        <div class="nature-card-info">
+          <div class="nature-card-title">영남알프스</div>
+          <div class="nature-card-sub">Yeongnam Alps · 영축산 & 신불산 억새 평원</div>
+        </div>
+      </div>
+      <!-- 대왕암 & 울기등대 -->
+      <div class="nature-card" style="background-image:url('../../img/ulsan/daewangam-bridge.webp');background-size:cover;background-position:center;" role="img" aria-label="대왕암과 울기등대">
+        <div class="nature-card-overlay" aria-hidden="true"></div>
+        <div class="nature-card-info">
+          <div class="nature-card-title">대왕암과 울기등대</div>
+          <div class="nature-card-sub">Daewangam Park · 15,000 해송 & 출렁다리</div>
+        </div>
+      </div>
+      <!-- 간절곶 -->
+      <div class="nature-card" style="background-image:url('../../img/ulsan/ganjeolgot.webp');background-size:cover;background-position:center;" role="img" aria-label="간절곶 일출">
+        <div class="nature-card-overlay" aria-hidden="true"></div>
+        <div class="nature-card-info">
+          <div class="nature-card-title">간절곶 일출</div>
+          <div class="nature-card-sub">Ganjeolgot Cape · 동해안 가장 빠른 여명</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세 자연 해설 블록 -->
+    <div class="nature-details-block" style="margin-top: 40px; display: grid; grid-template-columns: 1fr; gap: 24px;">
+      <!-- 태화강 국가정원 -->
+      <div class="nature-detail-item fade-in" style="background:#fff; border: 1px solid var(--hanji-dk); border-radius: var(--radius); padding: 32px; display: flex; gap: 24px; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 32px; background: var(--sea-pale); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink:0;">🎋</div>
+        <div>
+          <h3 style="font-family: var(--font-myeong); font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">태화강 국가정원 십리대숲 <span style="font-size: 13px; font-family: var(--font-play); color: var(--gold); font-style: italic; margin-left: 10px;">Taehwagang National Garden</span></h3>
+          <p style="font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 12px;">
+            울산의 중심을 흐르는 태화강 변을 따라 4km(십리)에 걸쳐 자생하는 대나무 숲길입니다. 1970년대 산업화 과정에서 무분별한 오염으로 생명을 잃었던 태화강이, 울산 시민들이 힘을 모아 하천을 복원해 내며 연어와 수달이 돌아오는 생태 1급수 강으로 완벽히 부활한 <strong>'태화강의 기적'</strong>을 온몸으로 보여주는 녹색 성지입니다.
+          </p>
+          <p style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; font-style: italic; background: var(--hanji-lt); padding: 14px 18px; border-radius: 8px; border-left: 3px solid var(--sea);">
+            🌌 <strong>은하수길 (Milky Way Trail):</strong> 해가 지고 밤이 찾아오면 대나무 숲길을 따라 형형색색의 오색 LED 조명이 밤하늘의 은하수처럼 대나무 기둥에 스며듭니다. 마치 우주의 은하수 속을 걷는 듯한 몽환적인 야간 명상 산책 코스로 유명합니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 대왕암공원과 울기등대 -->
+      <div class="nature-detail-item fade-in" style="background:#fff; border: 1px solid var(--hanji-dk); border-radius: var(--radius); padding: 32px; display: flex; gap: 24px; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 32px; background: rgba(201,64,43,0.1); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink:0;">🗼</div>
+        <div>
+          <h3 style="font-family: var(--font-myeong); font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">대왕암공원과 울기등대 <span style="font-size: 13px; font-family: var(--font-play); color: var(--gold); font-style: italic; margin-left: 10px;">Daewangam Park & Ulgi Lighthouse</span></h3>
+          <p style="font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 12px;">
+            1906년 동해안 최초로 세워져 거친 뱃길을 밝혀온 <strong>울기등대</strong>와 해안을 따라 거대한 붉은 바위가 바다를 향해 기어가듯 장엄하게 늘어선 <strong>대왕암</strong>이 만난 울산 동해안 최고의 절경입니다. 등대로 향하는 길은 수령 100년이 넘은 15,000그루의 울창한 해송(해변 소나무) 솔숲 터널로 덮여 있어 청량한 솔향을 가득 품고 있습니다.
+          </p>
+          <div style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; font-style: italic; background: var(--hanji-lt); padding: 14px 18px; border-radius: 8px; border-left: 3px solid var(--dawn); display: flex; flex-direction: column; gap: 6px;">
+            <span>🐉 <strong>호국의 전설:</strong> 신라 문무대왕의 왕비가 세상을 떠난 후 "나도 죽어서 용이 되어 동해 바다를 지키겠노라"라며 이 바위 아래 잠겼다는 애국심 깃든 설화가 깃들어 있습니다.</span>
+            <span>🌉 <strong>대왕암 출렁다리 (Suspension Bridge):</strong> 해안에서 바다 위로 직접 연결된 303m 길이의 공중 보행 출렁다리는 울산 동해의 짜릿한 바람과 탁 트인 수평선 경관을 발아래로 생생하게 즐길 수 있는 최고의 체험 시설입니다.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주전·강동 몽돌해변과 화암 주상절리 -->
+      <div class="nature-detail-item fade-in" style="background:#fff; border: 1px solid var(--hanji-dk); border-radius: var(--radius); padding: 32px; display: flex; gap: 24px; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 32px; background: rgba(58,110,126,0.1); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink:0;">🌊</div>
+        <div>
+          <h3 style="font-family: var(--font-myeong); font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">주전·강동 몽돌해변과 화암 주상절리 <span style="font-size: 13px; font-family: var(--font-play); color: var(--gold); font-style: italic; margin-left: 10px;">Jujeon & Gangdong Pebble Beach & Columnar Joint</span></h3>
+          <p style="font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 12px;">
+            울산 동해안을 따라 펼쳐진 까맣고 둥근 자갈밭으로 유명한 <strong>주전몽돌해변</strong>과 <strong>강동몽돌해변</strong>은 모래사장이 아닌 파도가 칠 때마다 '촤르르' 자갈 구르는 맑은 소리를 내는 신비로운 바닷가입니다. 주전 해변의 까만 조약돌과 정자항 주변 강동 해변의 탁 트인 파도가 어우러져 독특한 해안 절경을 선사합니다.
+          </p>
+          <div style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; font-style: italic; background: var(--hanji-lt); padding: 14px 18px; border-radius: 8px; border-left: 3px solid var(--sea); display: flex; flex-direction: column; gap: 6px;">
+            <span>🪨 <strong>강동 화암 주상절리 (Hwaam Columnar Joint):</strong> 강동 해변 남쪽 바닷가에는 약 2,000만 년 전 신생대 화산 활동으로 형성된 단면이 5각~6각형 모양인 기둥 모양의 주상절리가 누워 있는 형상(횡와 주상절리)으로 펼쳐져 있어, 동해안 지질 탐방의 최고의 명소로 꼽힙니다.</span>
+            <span>🦀 <strong>정자항과 정자대게 미식:</strong> 강동몽돌해변 인근의 정자항은 동해안의 대표적인 대게 산지로, 갓 잡아 올린 신선한 정자대게와 자연산 회를 즐길 수 있는 미식 여행지로 유명합니다.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 6-2 영남알프스 영축산 등산코스 ─── -->
+<section class="hiking" id="hiking" role="region" aria-labelledby="hiking-heading" style="background:var(--hanji-lt); border-top:1px solid var(--hanji-dk); padding:72px 0;">
+  <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/ganwoljae-trail.webp" alt="간월재 억새 등반코스"><figcaption>간월재 억새 등반코스 · 강력 추천<span class="ai">AI 그림</span></figcaption></figure>
+    <div class="section-header fade-in" style="text-align:center; margin-bottom:52px;">
+      <span class="s-num" style="font-family:var(--font-play); font-size:11px; color:var(--gold); letter-spacing:0.25em; display:block; margin-bottom:10px;">YEONGNAM ALPS · HIKING TRAILS</span>
+      <h2 id="hiking-heading" class="s-title" style="font-family:var(--font-myeong); font-size:clamp(20px,3.5vw,28px); font-weight:700; margin-bottom:8px; line-height:1.3;">영남알프스 영축산 등산코스 추천</h2>
+      <p class="s-desc" style="font-size:14px; color:var(--ink-soft); max-width:500px; margin:0 auto;">독수리의 날개깃을 닮은 바위 봉우리와 끝없는 억새의 바다</p>
+    </div>
+
+    <div style="margin-bottom:32px; background:#fff; border:1px solid var(--hanji-dk); border-radius:var(--radius); padding:28px; box-shadow:var(--shadow-sm);" class="fade-in">
+      <h3 style="font-family:var(--font-myeong); font-size:18px; font-weight:700; margin-bottom:8px; color:var(--ink);">영축산(鷲栖山 · 1,081m) — 억새와 암벽의 이중주</h3>
+      <p style="font-size:14.5px; color:var(--ink-soft); line-height:1.85;">
+        영남알프스의 남쪽 핵심 봉우리인 <strong>영축산(Yeongchusan)</strong>은 정상부의 거대한 바위 암벽이 마치 독수리가 날개를 펴고 내려앉는 형상(독수리 축 '鷲', 머무를 서 '栖')을 닮았다고 하여 이름 지어졌습니다. 
+        가을철이면 신불산과 영축산 사이의 평원에 끝없이 펼쳐지는 <strong>평원 억새(Silver Grass) 물결</strong>로 수많은 등산객들의 감탄을 자아내며, 웅장한 기암괴석의 암릉미와 평온한 억새밭이 이루는 대비가 경이로운 명산입니다.
+      </p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px;" class="fade-in">
+      <!-- 코스 A: 통도사-취서산장 옛 터 코스 -->
+      <div style="background:#fff; border:1px solid var(--hanji-dk); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow-sm); border-top:4px solid var(--gold); display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="font-size:11px; font-family:var(--font-play); color:var(--gold); font-weight:700; letter-spacing:1px; display:block; margin-bottom:6px;">COURSE A · THE RAMEN CABIN RUINS TRAIL</span>
+          <h3 style="font-family:var(--font-myeong); font-size:19px; font-weight:700; margin-bottom:12px; color:var(--ink);">통도사 지산 — 취서산장 옛 터 코스</h3>
+          <p style="font-size:14px; color:var(--ink-soft); line-height:1.8; margin-bottom:16px;">
+            지산마을에서 시작해 임도와 숲길을 따라 완만하게 오르다가, 과거 명물이었던 <strong>'취서산장 옛 터(2022년 철거)'</strong>를 거쳐 정상으로 향하는 코스입니다.
+          </p>
+          
+          <div style="background:var(--hanji-lt); padding:14px 18px; border-radius:8px; margin-bottom:16px; font-size:13px; color:var(--ink-soft); line-height:1.75;">
+            🍜 <strong>취서산장 옛 터와 억새의 추억 (Legacy of Chwiseo Cabin):</strong> <br>
+            과거 해발 800m 능선 절벽 끝 데크에서 영남알프스 산세를 내려다보며 먹던 컵라면으로 전설적 명소였으나, 현재는 자연 복원 조치로 자진 철거되어 터만 남아 있습니다. 비록 라면은 더 이상 먹을 수 없지만, 그 옛 터에서 내려다보는 시원한 울산 시내 조망과 산등성이에 깃든 낭만은 영남알프스를 오르는 등산객들에게 여전히 잊지 못할 쉼터가 되어 줍니다.
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:12px; font-weight:600; color:var(--ink-soft); margin-top:12px;">
+          <span style="background:var(--sea-pale); color:var(--sea); padding:4px 10px; border-radius:20px;">난이도: 보통 (Moderate)</span>
+          <span style="background:var(--hanji-dk); padding:4px 10px; border-radius:20px;">소요: 편도 2시간 30분</span>
+          <span style="background:var(--hanji-dk); padding:4px 10px; border-radius:20px;">거리: 왕복 약 8.5km</span>
+        </div>
+      </div>
+
+      <!-- 코스 B: 신불산-영축산 억새 종주 코스 -->
+      <div style="background:#fff; border:1px solid var(--hanji-dk); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow-sm); border-top:4px solid var(--sea); display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span style="font-size:11px; font-family:var(--font-play); color:var(--sea); font-weight:700; letter-spacing:1px; display:block; margin-bottom:6px;">COURSE B · THE SILVER GRASS RIDGE TRAVERSE</span>
+          <h3 style="font-family:var(--font-myeong); font-size:19px; font-weight:700; margin-bottom:12px; color:var(--ink);">신불산 — 영축산 연계 능선 종주</h3>
+          <p style="font-size:14px; color:var(--ink-soft); line-height:1.8; margin-bottom:16px;">
+            영남알프스 억새의 심장부인 <strong>간월재</strong>에서 출발해 신불산 정상을 거쳐 영축산까지 이어지는 장엄한 능선 종주 코스입니다.
+          </p>
+
+          <div style="background:var(--hanji-lt); padding:14px 18px; border-radius:8px; margin-bottom:16px; font-size:13px; color:var(--ink-soft); line-height:1.75;">
+            🌾 <strong>억새 평원 (Silver Grass Ocean):</strong> <br>
+            신불산과 영축산 사이의 약 4.5km 고고도 능선 길은 나무가 거의 없고 좌우로 시야가 탁 트인 거대한 억새밭입니다. 가을이 되면 은빛, 금빛 물결이 바람을 따라 춤을 추며, 마치 하늘 위의 초원을 걷는 듯한 압도적인 공간감을 선사합니다.
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:12px; font-weight:600; color:var(--ink-soft); margin-top:12px;">
+          <span style="background:rgba(201,64,43,0.1); color:var(--dawn); padding:4px 10px; border-radius:20px;">난이도: 높음 (Challenging)</span>
+          <span style="background:var(--hanji-dk); padding:4px 10px; border-radius:20px;">소요: 총 5~6시간</span>
+          <span style="background:var(--hanji-dk); padding:4px 10px; border-radius:20px;">거리: 총 약 12.5km</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 7 산업의 진심 ─── -->
+<section class="industry" id="industry" role="region" aria-labelledby="industry-heading">
+  <div class="wrap">
+    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/industrial-night.webp" alt="울산 산업단지 야경"><figcaption>울산 산업단지 야경<span class="ai">AI 그림</span></figcaption></figure>
+    <div class="industry-inner">
+      <div class="industry-text slide-left">
+        <p class="industry-eyebrow">INDUSTRIAL HEART · HUMAN STORY</p>
+        <h2 id="industry-heading" class="industry-title">산업의 진심 —<br>노동, 이주, 인간 이야기</h2>
+        <p class="industry-title-en">Industry's Sincerity — Labor, Migration, Human Stories</p>
+        <p class="industry-body">
+          울산은 대한민국 산업화의 상징입니다. 현대자동차, 현대중공업, SK에너지가 자라난 이 땅.
+          그러나 진짜 울산의 이야기는 공장 굴뚝 뒤에 있습니다.
+          전국 각지에서 일자리를 찾아 모여든 사람들, 그들이 쌓은 삶의 결,
+          그 결이 만들어낸 공동체의 온기 — 그것이 울산 산업의 진짜 심장입니다.
+        </p>
+        <p class="industry-body">
+          산업은 도시의 뼈대였지만, 그 뼈대를 살아 움직이게 한 것은
+          수십만 노동자의 땀과 이야기였습니다.
+          울산을 이해하려면 그 이야기를 먼저 들어야 합니다.
+        </p>
+        <p style="font-family:var(--font-play);font-style:italic;font-size:14px;color:var(--ink-faint);margin-top:12px;">
+          "Ulsan's industry shaped Korea's economy — but the real story is the millions who came seeking work and built a community from the inside out."
+        </p>
+      </div>
+      <div class="industry-cards slide-right">
+        <div class="industry-card">
+          <div class="industry-card-title">노동자의 도시</div>
+          <div class="industry-card-body">
+            1960~70년대 경제개발 시기, 전국 곳곳에서 울산으로 모여든 노동자들.
+            그들의 희생과 성취가 오늘의 울산을 만들었습니다.
+          </div>
+        </div>
+        <div class="industry-card">
+          <div class="industry-card-title">이주와 공존</div>
+          <div class="industry-card-body">
+            현재 울산에는 30개국 이상의 외국인 노동자와 이주민이 함께 살고 있습니다.
+            산업 도시가 다문화 공동체로 진화하는 현장입니다.
+          </div>
+        </div>
+        <div class="industry-card">
+          <div class="industry-card-title">🔩 철기의 요람, 달천철장</div>
+          <div class="industry-card-body">
+            삼한시대부터 철을 생산해온 울산 북구의 달천철장은 중국 역사서 『삼국지』에 왜(일본)가 철을 수입해 가 화폐처럼 썼다고 기록된 고대 철기 교역의 허브였습니다. 독특한 성분 분석(비소 함량)을 통해 고대 일본 무덤 유물의 철 원산지가 울산 달천임이 증명되었습니다. 현대 울산의 대형 조선소와 자동차 산업은 2,000년 철기 야철 유전자의 맥을 이어온 결과입니다.
+          </div>
+        </div>
+        <div class="industry-card">
+          <div class="industry-card-title">🔧 장인의 정신</div>
+          <div class="industry-card-body">
+            울주 옹기 장인, 조선소 용접공, 자동차 설계사 — 손으로 세상을 만들어온
+            울산 장인들의 진심이 이 도시의 정체성을 이룹니다.
+          </div>
+        </div>
+        <div class="industry-card">
+          <div class="industry-card-title">🌿 산업에서 생태로</div>
+          <div class="industry-card-body">
+            오염으로 물고기가 사라졌던 태화강이 연어가 돌아오는 강으로.
+            울산은 산업 도시에서 생태 도시로의 전환을 증명하고 있습니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 8 음식·시장 ─── -->
+<section class="food" id="food" role="region" aria-labelledby="food-heading">
+  <div class="wrap">
+    <div class="section-header fade-in">
+      <span class="s-num">FOOD · MARKET</span>
+      <h2 id="food-heading" class="s-title">울산의 맛 — 땅과 바다가 빚은 이야기</h2>
+      <p class="s-desc">The Flavors of Ulsan — Stories Made by Land and Sea</p>
+      <p style="text-align:center;margin-top:16px;"><a href="food.html" style="display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-family:var(--font-myeong);font-weight:700;border-radius:999px;padding:11px 26px;font-size:14px;">🍴 울산의 맛 — 꼭 가볼 맛집 소개 →</a></p>
+    </div>
+    <p style="text-align: center; font-size: 14.5px; color: var(--ink-soft); max-width: 600px; margin: -20px auto 40px; line-height: 1.7; font-family: var(--font-serif);" class="fade-in">
+      울산 주민들이 대를 이어 찾아가는 8대 전설적인 노포 맛집을 소개합니다.<br>
+      원하는 식당의 <strong>[AI 플래너 및 예약 연동]</strong> 버튼을 누르면 아래 포켓 콘시에르주 앱과 자동 연계됩니다.
+    </p>
+
+    <div class="food-grid">
+      <!-- 1. 언양기와집불고기 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-eonyang.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">100년 한옥 노포</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">언양기와집불고기</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Eonyang Giwahjib Bulgogi</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              최상급 한우 암소만을 다루는 울산 대표 불고기 노포입니다. 참숯 화로 위에서 얇게 저민 한우의 육즙을 머금게 바싹 구운 석쇠구이가 명물입니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--gold); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 울주군 언양읍 헌화로 86</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 언양불고기 (한우 석쇠구이)</span>
+              <span>💡 <strong>비결 팁:</strong> 테이블링 원격 대기 후 소나무 정원이 보이는 한옥 방을 요청하세요.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('giwah', '언양기와집불고기')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 2. 고래고기원조할매집 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-whale.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--sea); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">3대 80년 전통</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">고래고기원조할매집</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Wonjo Goraegogi Halmaejib</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              1945년 개업하여 대를 이어온 장생포의 역사적인 명가입니다. 최고급 밍크고래만을 고집하여 삶아낸 고소한 수육과 오복 등 12가지 독특한 풍미가 가득합니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--sea); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 남구 장생포고래로 135</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 고래 수육, 고래 모듬 수육</span>
+              <span>💡 <strong>비결 팁:</strong> 3대째 비법 소금에 찍어 미나리와 멸치 젓갈을 함께 드세요.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('halmae', '고래고기원조할매집')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 3. 정자대게 전문점 대게궁 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-daege.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--dawn); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">동해안 오션뷰</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">정자대게 대게궁</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Jeongja Port Daege-gung</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              정자항 바닷가 바로 앞에서 갓 쪄낸 박달대게를 풀코스로 즐기는 미식가들의 명소입니다. 다리 회, 버터구이, 게장비빔밥, 대게 라면까지 완벽합니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--dawn); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 북구 정자1길 17</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 정자대게 코스 요리, 대게 회</span>
+              <span>💡 <strong>비결 팁:</strong> 2층 통유리창 오션뷰 좌석은 네이버 예약을 통해 미리 선점하세요.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('daege', '정자대게 대게궁')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 4. 하동식당 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-gukbap.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--sea-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">50년 전통 돼지국밥</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">하동식당</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Hadong Gukbap Restaurant</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              50년 넘게 상북면을 지켜온 현지인 아침 해장의 성지입니다. 뚝배기에 밥을 토렴하여 썰어 넣은 내장과 머리고기가 묵직하고 깊은 장터의 맛을 냅니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--sea-lt); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 울주군 상북면 송락골길 1</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 섞어국밥 (내장+머리), 돼지국밥</span>
+              <span>💡 <strong>비결 팁:</strong> 밥과 국물이 어우러지는 토렴식 국밥으로, 맑고 고소한 국물이 일품입니다.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('hadong', '하동식당')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 5. 다운목살구이 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-moksal.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--dawn-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">연탄 석쇠구이 성지</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">다운목살구이</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Dawoon Pork neck Grill</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              현지 주민들이 꽁꽁 숨겨둔 돼지 목살 구이의 끝판왕입니다. 두툼한 목살을 초벌하여 연탄불에 구운 뒤 매콤달콤한 비법 양념에 볶아내는 두루치기가 압권입니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--dawn-lt); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 울주군 범서읍 범서로 98</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 목살 두루치기, 목살 소금구이</span>
+              <span>💡 <strong>비결 팁:</strong> 매콤한 두루치기에 공기밥을 볶아 깻잎에 싸 먹는 조합이 가장 사랑받습니다.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('dawoon', '다운목살구이')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 6. 거부돌곱창 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-gopchang.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--ink); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">현지인 줄서는 맛집</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">거부돌곱창</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Geobu Stone Plate Gopchang</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              불에 뜨겁게 달군 천연 돌판 위에 고소하게 구워내는 한우 곱창 전문점입니다. 지글지글 굽는 곱창의 꽉 찬 곱과 고소함이 소주 한 잔을 부르는 명물입니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--ink); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 남구 봉월로 8번길 5</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 돌곱창구이, 곱창전골, 돌판 볶음밥</span>
+              <span>💡 <strong>비결 팁:</strong> 구이를 맛있게 먹은 후 돌판에 바로 끓여내는 칼칼한 전골과 볶음밥이 필수 코스입니다.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('geobu', '거부돌곱창')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 7. 섬뜰 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-jeonbok.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--reed); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">전복 영양 명가</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">섬뜰</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Seomtteul Abalone Rice</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              동구 대왕암공원 인근의 전복요리 전문점입니다. 무쇠솥에 전복 내장과 쌀을 함께 넣어 지은 고소한 전복밥은 부모님을 모시고 가기 최고의 웰빙 보양식입니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--reed); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 동구 방어진순환도로 1167</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 전복밥, 전복 회무침, 전복죽</span>
+              <span>💡 <strong>비결 팁:</strong> 갓 지은 뜨거운 전복밥에 부추와 김가루, 특제 간장양념장을 넣어 슥슥 비벼 드세요.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('seomtteul', '섬뜰')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+      <!-- 8. 영안반점 -->
+      <div class="food-card fade-in" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <div class="food-card-img" style="position: relative; height: 120px; background-image:url('../../img/ulsan/food-junghwa.webp');background-size:cover;background-position:center; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+            
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--gold-lt); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.05em; font-family: var(--font-serif);">70년 화교 노포 중식</span>
+          </div>
+          <div class="food-card-body" style="padding: 20px;">
+            <h3 class="food-card-title" style="font-family: var(--font-myeong); font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">영안반점</h3>
+            <p class="food-card-en" style="font-family: var(--font-play); font-size: 11.5px; font-style: italic; color: var(--ink-faint); margin-bottom: 12px;">Yeongan Chinese Restaurant</p>
+            <p class="food-card-desc" style="font-size: 13px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px;">
+              울산 중구 성남동에서 대를 이어 자리를 지켜온 정통 화교 중식 노포입니다. 자극적이지 않고 맑고 투명한 소스를 부어내는 전통 바삭한 옛날 탕수육이 일품입니다.
+            </p>
+            <div style="background: var(--hanji-lt); padding: 12px 14px; border-radius: 8px; border-left: 2px solid var(--gold-lt); font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; display: flex; flex-direction: column; gap: 4px;">
+              <span>📍 <strong>주소:</strong> 중구 번영로 329</span>
+              <span>🍽️ <strong>대표 메뉴:</strong> 전통 탕수육, 유니짜장, 삼선간짜장</span>
+              <span>💡 <strong>비결 팁:</strong> 조미료 맛이 덜해 담백하고 깔끔하며 부드러운 고기가 돋보이는 탕수육과 간짜장을 권장합니다.</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <button class="pass-btn" onclick="addToPlanner('yeongan', '영안반점')" style="margin-top: 0; padding: 8px; font-size: 11.5px; background: var(--ink); color: #fff; width: 100%; border-radius: 6px; cursor: pointer;">AI 플래너 및 예약 연동</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 9 울산의 사람 ─── -->
+<section class="people" id="people" role="region" aria-labelledby="people-heading">
+  <div class="wrap">
+    <div class="section-header fade-in">
+      <span class="s-num">PEOPLE</span>
+      <h2 id="people-heading" class="s-title">울산의 사람 — 다문화·이주·교육자</h2>
+      <p class="s-desc">People of Ulsan — Multicultural Community, Migrants, Educators</p>
+    </div>
+    <div class="people-grid">
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg></span>
+        <h3 class="people-card-title">30개국 이주민 공동체</h3>
+        <p class="people-card-desc">
+          산업 도시 울산에는 베트남, 인도네시아, 캄보디아 등 30개국 이상의
+          외국인 이주민이 함께 살고 있습니다. 이들의 존재가 울산을 다채롭게 합니다.
+        </p>
+      </div>
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 21V10l5 3V10l5 3V7l5-2v16z"/><path d="M3 21h18M7 17h2M11.5 17h2M16 17h2"/></svg></span>
+        <h3 class="people-card-title">1960년대 이주 노동자</h3>
+        <p class="people-card-desc">
+          경제개발 시기 울산으로 온 젊은이들. 고향을 떠나 이곳에 뿌리 내리고,
+          자녀를 키우고, 이제는 할아버지·할머니가 된 그들이 울산의 첫 세대입니다.
+        </p>
+      </div>
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 4.1c.7-.5 1.7-.8 2.6-.8s1.9.3 2.6.8"/><path d="M7.8 6.9h8.4"/><path d="M9 7.2C6.5 8.5 4.8 11 4.8 13.8c0 3.4 3.2 5.7 7.2 5.7s7.2-2.3 7.2-5.7c0-2.8-1.7-5.3-4.2-6.6"/></svg></span>
+        <h3 class="people-card-title">울주 옹기 장인</h3>
+        <p class="people-card-desc">
+          전통 옹기 제조의 고장 울주. 수백 년간 이어온 항아리 빚는 손기술이
+          지금도 살아있습니다. 흙과 불과 시간이 빚어낸 울산의 장인 문화입니다.
+        </p>
+      </div>
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 6c-1.6-1-4.2-1.6-6.2-1.6V18c2 0 4.6.6 6.2 1.6 1.6-1 4.2-1.6 6.2-1.6V4.4c-2 0-4.6.6-6.2 1.6z"/><path d="M12 6v13.6"/></svg></span>
+        <h3 class="people-card-title">교육자와 공동체</h3>
+        <p class="people-card-desc">
+          자기주도학습, 전인 교육을 실천하는 선생님들.
+          아이들의 미래를 함께 고민하는 교육 공동체가 울산의 내일을 만들고 있습니다.
+        </p>
+      </div>
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v13M8.5 9.5h7"/><path d="M5 13a7 7 0 0 0 14 0M5 13H3m16 0h2"/></svg></span>
+        <h3 class="people-card-title">조선소 기술자</h3>
+        <p class="people-card-desc">
+          세계 최대 조선소가 있는 도시. 용접봉을 잡은 손, 도면을 그리는 손 —
+          그 손들이 세계 바다를 달리는 배를 만들어냈습니다.
+        </p>
+      </div>
+      <div class="people-card fade-in">
+        <span class="people-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6.8" r="2.4"/><circle cx="5.4" cy="8.8" r="1.9"/><circle cx="18.6" cy="8.8" r="1.9"/><path d="M8 19v-1.6a4 4 0 0 1 8 0V19"/><path d="M2.6 18.4v-.4a3 3 0 0 1 3.9-2.9M21.4 18.4v-.4a3 3 0 0 0-3.9-2.9"/></svg></span>
+        <h3 class="people-card-title">다문화 여성 공동체</h3>
+        <p class="people-card-desc">
+          국제결혼으로 울산에 온 여성들이 만든 공동체.
+          서로의 음식과 언어와 문화를 나누며 울산을 더 넓은 도시로 만들어가고 있습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 10 시민 목소리 ─── -->
+<section class="voices" id="voices" role="region" aria-labelledby="voices-heading">
+  <div class="wrap">
+    <div class="section-header fade-in" style="margin-bottom:0;">
+      <span class="s-num" style="color:var(--gold-lt);">CITIZEN VOICES</span>
+      <h2 id="voices-heading" class="s-title" style="color:var(--hanji);">울산 사람들의 목소리</h2>
+      <p class="s-desc" style="color:rgba(248,242,234,0.5);">Stories from people who call Ulsan home</p>
+    </div>
+    <div class="voices-grid">
+      <div class="voice-card fade-in">
+        <p class="voice-quote">
+          "반구대를 처음 봤을 때 그 바위가 그냥 돌이 아니라는 걸 느꼈어요.
+          8,000년 전 사람들이 이 자리에 서서 바다를 보고 있었던 거잖아요."
+        </p>
+        <div class="voice-author">
+          <div class="voice-avatar" aria-hidden="true">👩</div>
+          <div>
+            <div class="voice-name">울산 시민 인터뷰 예정</div>
+            <div class="voice-role">ulju-gun resident · teacher</div>
+          </div>
+        </div>
+      </div>
+      <div class="voice-card fade-in">
+        <p class="voice-quote">
+          "I came from Vietnam 15 years ago for work. Now Ulsan is home.
+          My children speak Korean, eat bulgogi, and know about Bangudae. This city gave us everything."
+        </p>
+        <div class="voice-author">
+          <div class="voice-author">
+            <div class="voice-avatar" aria-hidden="true">👨</div>
+            <div>
+              <div class="voice-name">Nguyen Van Thanh (인터뷰 예정)</div>
+              <div class="voice-role">Vietnamese migrant worker · 15 years in Ulsan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voice-card fade-in">
+        <p class="voice-quote">
+          "태화강에 연어가 돌아왔을 때 어른들이 눈물을 흘렸어요.
+          우리가 살아있는 동안 이걸 볼 수 있을 줄 몰랐다고."
+        </p>
+        <div class="voice-author">
+          <div class="voice-avatar" aria-hidden="true">👴</div>
+          <div>
+            <div class="voice-name">시민 목소리 (인터뷰 예정)</div>
+            <div class="voice-role">태화강 인근 거주 40년</div>
+          </div>
+        </div>
+      </div>
+      <div class="voice-card fade-in">
+        <p class="voice-quote">
+          "옹기를 빚을 때 흙이 말을 해요. 너무 빨리 돌리면 무너지고,
+          너무 느리면 형태가 없어지고. 울산이라는 도시도 그런 것 같아요."
+        </p>
+        <div class="voice-author">
+          <div class="voice-avatar" aria-hidden="true">👨‍🦳</div>
+          <div>
+            <div class="voice-name">울주 옹기 장인 (인터뷰 예정)</div>
+            <div class="voice-role">Onggi master · Ulju-gun</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 11 로컬 콘시에르주 & 캠페인 ─── -->
+<section class="foreigners" id="visitor-concierge" role="region" aria-labelledby="concierge-heading" style="background:var(--sea-pale);">
+  <div class="wrap">
+    <div class="section-header fade-in">
+      <span class="s-num">LOCAL CONCIERGE & CAMPAIGN</span>
+      <h2 id="concierge-heading" class="s-title">울산 포켓 콘시에르주 & 홍보 캠페인 <span class="demo-badge">체험 데모</span></h2>
+      <div style="background:#fff5f4;border:1px solid #e0b4ad;border-left:5px solid var(--dawn,#C9402B);border-radius:10px;padding:12px 16px;margin:6px auto 20px;max-width:680px;font-size:13px;color:#7a3a33;line-height:1.6;">
+        ⚠ 아래 ‘포켓 패스 · 예약 · 결제’ 화면은 <b>기획 데모(시안)</b>입니다. <b>실제 결제·예약은 이루어지지 않습니다.</b> 정식 기능은 서버 연동 후 제공됩니다.
+      </div>
+      <p class="s-desc">디지털 자동화로 연결하는 로컬 관광 생태계와 우리가 몰랐던 울산의 이야기</p>
+    </div>
+    
+    <div class="foreigners-inner" style="display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:start;">
+      <!-- 스마트폰 PWA 앱 시뮬레이터 (자동화 비즈니스 엔진) -->
+      <div class="phone-sim-container fade-in">
+        <div class="phone-sim">
+          <!-- StatusBar -->
+          <div class="phone-bar">
+            <span>05:04</span>
+            <span style="letter-spacing: 1px;">📶 🪫 100%</span>
+          </div>
+          
+          <!-- Phone Screen -->
+          <div class="phone-screen">
+            <div class="phone-app-header">ULSAN POCKET CONCIERGE</div>
+            
+            <!-- Tab Bar -->
+            <div class="phone-tab-bar">
+              <button class="phone-tab active" data-tab="planner">AI Planner</button>
+              <button class="phone-tab" data-tab="pass">Pocket Pass</button>
+              <button class="phone-tab" data-tab="booking">Booking</button>
+            </div>
+            
+            <!-- Tab Content: AI Planner -->
+            <div class="phone-content active" id="tab-planner">
+              <p style="font-size: 11.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.5; font-family: var(--font-serif);">
+                선호하는 테마를 선택하면 AI가 최적의 울산 당일치기 여행 코스를 설계합니다.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+                <button class="pass-btn planner-option" data-route="nature">🌿 자연·힐링 대자연 코스</button>
+                <button class="pass-btn planner-option" data-route="history">🪨 선사·철기 역사 코스</button>
+                <button class="pass-btn planner-option" data-route="culture">🍜 미식·문화 체험 코스</button>
+              </div>
+              <div id="planner-result" style="display: none; background: #fff; border: 1px solid var(--hanji-dk); border-radius: 8px; padding: 14px; font-size: 12px; line-height: 1.6; color: var(--ink); box-shadow: var(--shadow-sm);">
+                <strong style="color:var(--gold); display:flex; align-items:center; gap:6px; margin-bottom:6px;">✨ AI 추천 최적 동선:</strong>
+                <span id="route-text" style="font-family: var(--font-serif); white-space: pre-line; display:block;"></span>
+              </div>
+            </div>
+            
+            <!-- Tab Content: Pocket Pass -->
+            <div class="phone-content" id="tab-pass">
+              <div class="pass-card" id="pass-intro">
+                <span style="font-size: 32px; display: block; margin-bottom: 8px;">🎟️</span>
+                <h4 style="font-family: var(--font-myeong); font-size: 15px; font-weight: 700; margin-bottom: 6px;">울산 포켓 패스</h4>
+                <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 12px;">
+                  <strong>$4.99</strong> (약 6,500원) / 평생 소장<br><br>
+                  • GPS 연동 다국어 오디오 가이드<br>
+                  • 등산로용 오프라인 벡터 지도 팩<br>
+                  • 대기 없는 로컬 핫스팟 할인 혜택
+                </p>
+                <button class="pass-btn" id="btn-buy-pass">패스 구매하기</button>
+              </div>
+              
+              <!-- Mock Stripe Payment Sheet -->
+              <div id="payment-sheet" style="display: none; background: #fff; border: 1px solid var(--gold-lt); border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm);">
+                <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid var(--hanji-dk); padding-bottom: 6px; color: var(--ink); display:flex; justify-content:space-between; align-items:center;">
+                  <span>🔒 Stripe 안전 결제</span>
+                  <span style="font-size:9px; color:var(--ink-faint);">Yeon Life Inc.</span>
+                </h4>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; font-size: 11px;">
+                  <div>
+                    <label style="display:block; margin-bottom:2px; font-size:10px; color:var(--ink-soft);">카드 번호</label>
+                    <input type="text" value="4242 •••• •••• 4242" disabled style="width: 100%; padding: 6px 8px; border: 1px solid var(--hanji-dk); border-radius: 6px; background: #fbfbfb; font-family: monospace; font-size: 11px; outline:none;">
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div>
+                      <label style="display:block; margin-bottom:2px; font-size:10px; color:var(--ink-soft);">만료일</label>
+                      <input type="text" value="12/28" disabled style="width:100%; padding: 6px 8px; border: 1px solid var(--hanji-dk); border-radius: 6px; background: #fbfbfb; font-family: monospace; font-size: 11px; outline:none;">
+                    </div>
+                    <div>
+                      <label style="display:block; margin-bottom:2px; font-size:10px; color:var(--ink-soft);">CVC</label>
+                      <input type="text" value="424" disabled style="width:100%; padding: 6px 8px; border: 1px solid var(--hanji-dk); border-radius: 6px; background: #fbfbfb; font-family: monospace; font-size: 11px; outline:none;">
+                    </div>
+                  </div>
+                </div>
+                <button class="pass-btn" id="btn-submit-payment" style="background: #000; margin-top: 0; font-size:12px;">$4.99 결제 승인</button>
+              </div>
+              
+              <!-- Payment Success State -->
+              <div id="payment-success" style="display: none; text-align: center; background: #fff; border: 1px solid var(--reed-lt); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm);">
+                <div style="width: 44px; height: 44px; background: var(--reed); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 0 auto 12px;">✓</div>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">결제가 완료되었습니다!</h4>
+                <p style="font-size: 11px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 12px;">
+                  오디오 도슨트와 영축산 오프라인 벡터 지도가 즉시 활성화되었습니다.
+                </p>
+                <!-- Audio Guide Mock Player -->
+                <div class="audio-player">
+                  <button class="play-btn" id="btn-play-audio">▶</button>
+                  <div style="text-align: left; flex: 1;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--ink);">반구대 암각화 도슨트 (영어)</div>
+                    <div id="audio-progress" style="font-size: 9px; color: var(--ink-soft);">0:00 / 3:45 (Neolithic Whales)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Tab Content: Booking -->
+            <div class="phone-content" id="tab-booking">
+              <p style="font-size: 11.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.5;">
+제휴를 맺은 가게에만 예약 요청을 보냅니다. <b>가게 사장님이 직접 확인·수락해야 예약이 확정</b>됩니다 (무인 자동 확정이 아닙니다).
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 10px;" id="booking-form">
+                <div>
+                  <label style="display:block; margin-bottom:3px; font-size:11px; color:var(--ink-soft);">예약처 선택</label>
+                  <select id="booking-target" style="width: 100%; padding: 6px 8px; border: 1px solid var(--hanji-dk); border-radius: 6px; font-family: var(--font-serif); font-size:11.5px; outline:none; background:#fff;">
+                    <option value="bulgogi">🥩 언양기와집불고기 (식사)</option>
+                    <option value="taxi">🚕 영남알프스 기사 동반 택시 (교통)</option>
+                    <option value="onggi">🏺 외고산 옹기마을 황토 민박 (숙박)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="display:block; margin-bottom:3px; font-size:11px; color:var(--ink-soft);">인원 및 날짜</label>
+                  <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 8px;">
+                    <input type="number" id="booking-people" value="2" min="1" style="padding: 6px; border: 1px solid var(--hanji-dk); border-radius: 6px; text-align:center; font-size:11.5px; outline:none;">
+                    <input type="date" id="booking-date" value="2026-05-27" style="padding: 6px; border: 1px solid var(--hanji-dk); border-radius: 6px; font-family: var(--font-serif); font-size:11.5px; outline:none;">
+                  </div>
+                </div>
+                <button class="pass-btn" id="btn-submit-booking">예약 요청 보내기 (가게 확인 후 확정)</button>
+              </div>
+              
+              <!-- Booking Status State -->
+              <div id="booking-status" style="display: none; background: #fff; border: 1px solid var(--gold-lt); border-radius: 12px; padding: 14px; font-size: 11.5px; line-height: 1.6; box-shadow: var(--shadow-sm);">
+                <div id="booking-step1" style="color: var(--ink-soft);">
+                  <div class="spinner"></div> 알림톡을 가맹점 모바일에 전송 중...
+                </div>
+                <div id="booking-step2" style="display:none; color: var(--ink-soft); margin-top:8px;">
+                  <div class="spinner"></div> 상점 사장님 수락 대기 중...
+                </div>
+                <div id="booking-step3" style="display:none; color: var(--reed); font-weight:700; margin-top:8px;">
+                  🎉 예약이 확정되었습니다!<br>
+                  <span style="font-size:10px; font-weight:400; color:var(--ink-soft); display:block; margin-top:4px;">
+                    바우처가 손님 스마트폰(카카오톡)과 기사님께 자동 발송되었습니다.
+                  </span>
+                </div>
+                <div id="booking-webhook-report" style="display:none;" class="settlement-card">
+                  <strong style="color:var(--gold); display:block; margin-bottom:4px;">⚙️ 처리 리포트 (제휴 가게 확인형):</strong>
+                  • 보증금 결제 완료 (Stripe 수수료 공제)<br>
+                  • 카카오 알림톡 발송 완료 (비용: 8.5원)<br>
+                  • 상점주 수락 모바일 웹훅 수신 완료<br>
+                  • <span style="color:var(--dawn); font-weight:700;">중개 수수료 8% 정산 시스템 자동 적립!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 우리가 몰랐던 울산의 5가지 비밀 홍보 캠페인 -->
+      <div class="foreigners-tips fade-in">
+        <h3 class="foreigners-tips-title" style="font-family: var(--font-myeong); font-size: 22px; font-weight: 800; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 24px;">우리가 몰랐던 울산의 5가지 비밀</h3>
+        <div class="tip-list">
+          <!-- 비밀 1 -->
+          <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--dawn); background:#fff;">
+            <div class="tip-icon" style="flex-shrink:0;"><img src="../../img/ulsan/bangudae2.webp" alt=""></div>
+            <div class="tip-content">
+              <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">1. 세계 최초의 고래 사냥 기록 (반구대 암각화)</div>
+              <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
+                8,000년 전 신석기 인류가 돌벽에 새겨 넣은 300여 점의 문양 속에는 11종의 고래와 함께 몸통에 작살이 꽂힌 모습, 그물망, 그리고 배에 올라탄 사냥꾼들이 사실적으로 묘사되어 있습니다. 이는 청동기나 철기 이전에 인류가 완성된 포경 문명을 가졌음을 입증하는 인류 최초의 위대한 해양 역사 유산입니다.
+              </div>
+            </div>
+          </div>
+          
+          <!-- 비밀 2 -->
+          <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--gold); background:#fff;">
+            <div class="tip-icon" style="flex-shrink:0;"><img src="../../img/ulsan/cheoljang.webp" alt=""></div>
+            <div class="tip-content">
+              <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">2. 2,000년 고대 철기 문명의 실리콘밸리 (달천철장)</div>
+              <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
+                삼국지 위서 동이전에 한반도 남부에서 철이 다량 생산되어 왜(일본)가 수입하고 화폐처럼 사용했다고 전해지는 그 주요 제철 기지가 바로 울산 북구의 달천철장입니다. 독특한 성분 분석(비소 함량)을 통해 고대 일본 무덤 유물의 철 원산지가 울산 달천임이 고증되었습니다. 현대 울산의 자동차와 조선소 공업 신화는 2,000년 야철 유전자의 맥을 이은 결과입니다.
+              </div>
+            </div>
+          </div>
+          
+          <!-- 비밀 3 -->
+          <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--sea); background:#fff;">
+            <div class="tip-icon" style="flex-shrink:0;"><img src="../../img/ulsan/simni-aerial.webp" alt=""></div>
+            <div class="tip-content">
+              <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">3. 오염된 공업용수에서 생태 정원으로 (태화강의 기적)</div>
+              <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
+                1970년대 산업 개발 과정에서 폐수와 악취로 물고기가 떼죽음을 당하며 생명을 잃었던 태화강. 울산 시민들이 발 벗고 나서서 자발적 하천 살리기 운동을 펼쳤고, 그 결과 연어와 수달이 돌아오는 생태 1급수로 부활시켰습니다. 십리대숲과 야간 은하수길 조명은 이를 상징하는 대한민국 1호 국가정원이 되었습니다.
+              </div>
+            </div>
+          </div>
+          
+          <!-- 비밀 4 -->
+          <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--gold-lt); background:#fff;">
+            <div class="tip-icon" style="flex-shrink:0;"><img src="../../img/ulsan/daewangam-bridge.webp" alt=""></div>
+            <div class="tip-content">
+              <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">4. 15,000그루 해송과 303m 출렁다리 (대왕암공원)</div>
+              <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
+                신라 문무대왕의 왕비가 세상을 떠나서도 용이 되어 동해 바다를 지키겠다고 이 바위 아래 잠겼다는 애국 설화가 깃든 곳입니다. 수령 100년이 넘는 거대하고 울창한 해송 솔숲 터널과 바다 위를 시원하게 횡단하는 303m 출렁다리는 울산 해안에서 기막힌 스릴과 장엄한 동해 절경을 제공합니다.
+              </div>
+            </div>
+          </div>
+          
+          <!-- 비밀 5 -->
+          <div class="tip-item" style="align-items: flex-start; padding: 18px; border-left: 4px solid var(--reed); background:#fff;">
+            <div class="tip-icon" style="flex-shrink:0;"><img src="../../img/ulsan/chwiseo.webp" alt=""></div>
+            <div class="tip-content">
+              <div class="tip-title" style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">5. 해발 800m 낭떠러지 산장에서 먹던 라면의 추억 (취서산장)</div>
+              <div class="tip-body" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;">
+                영남알프스의 비경을 오르는 영축산 8부 능선에는 절벽 벼랑 위에 걸쳐져 등산객들에게 '절경 속 컵라면'으로 사랑받았던 명물 대피소 **'취서산장'**이 있었습니다. 비록 2022년 11월 자연 복원을 위해 자진 철거되어 지금은 추억 속으로 사라졌지만, 그 터에서 마주하는 웅장한 영남알프스의 바람과 억새 평원 조망은 여전히 오르는 이들에게 깊은 감동을 선사합니다.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 12 따뜻한 미래 ─── -->
+<section class="future" id="future" role="region" aria-labelledby="future-heading">
+  <p class="future-eyebrow">WARM TOMORROW · 따뜻한 미래</p>
+  <div class="future-inner">
+    <h2 id="future-heading" class="future-title fade-in">
+      울산이 꿈꾸는<br>
+      <span class="accent">따뜻한 미래</span>
+    </h2>
+    <p class="future-title-en fade-in">
+      The Warm Future Ulsan Is Building Together
+    </p>
+    <p class="future-body fade-in">
+      8,000년 전 인류가 이 땅에 새긴 기록처럼, 우리는 오늘도 무언가를 새깁니다.
+      태화강의 물고기처럼, 영남알프스의 사계절처럼, 장생포의 파도처럼 —
+      울산은 과거의 깊이로 미래를 상상하는 도시입니다.<br><br>
+      산업의 힘으로 세상을 바꿔온 이 도시가,
+      이제 사람의 힘으로 더 따뜻한 세상을 만들어가고 있습니다.
+      당신의 이야기도 울산의 이야기가 될 수 있습니다.
+    </p>
+    <div class="future-values fade-in" role="list">
+      <span class="value-chip" role="listitem">기억 · Memory</span>
+      <span class="value-chip" role="listitem">자연 · Nature</span>
+      <span class="value-chip" role="listitem">공동체 · Community</span>
+      <span class="value-chip" role="listitem">장인 · Craftsmanship</span>
+      <span class="value-chip" role="listitem">미래 · Future</span>
+      <span class="value-chip" role="listitem">따뜻함 · Warmth</span>
+    </div>
+    <a href="#footer" class="future-cta">울산과 연결하기</a>
+  </div>
+</section>
+
+<!-- ─── § 13 푸터·연락 ─── -->
+<footer class="footer" id="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-title">울<span>산</span> — Ulsan</div>
+      <p class="footer-brand-desc">
+        인류 문명의 새벽을 품은 도시, 대한민국의 따뜻한 미래를 시작하는 곳.<br>
+        The city where humanity's dawn meets Korea's warm tomorrow.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">EXPLORE</div>
+      <ul class="footer-links">
+        <li><a href="#bangudae">반구대 암각화</a></li>
+        <li><a href="#jangsepo">장생포 고래마을</a></li>
+        <li><a href="#nature">태화강·영남알프스</a></li>
+        <li><a href="#industry">산업의 역사</a></li>
+        <li><a href="#food">울산의 맛</a></li>
+        <li><a href="#visitor-concierge">홍보 & 패스</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">INFORMATION</div>
+      <ul class="footer-links">
+        <li><a href="https://www.ulsan.go.kr/" target="_blank" rel="noopener">울산광역시 공식</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=반구대+암각화" target="_blank" rel="noopener">반구대 암각화</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=태화강+국가정원" target="_blank" rel="noopener">태화강 국가정원</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=울산문화재단" target="_blank" rel="noopener">울산문화재단</a></li>
+        <li><a href="https://search.naver.com/search.naver?query=울산+여행+교통+숙박" target="_blank" rel="noopener">교통·숙박 안내</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">CONTACT · 연락</div>
+      <div class="footer-contact-form">
+        <input class="footer-input" type="text" placeholder="성함 / Name" aria-label="성함">
+        <input class="footer-input" type="email" placeholder="이메일 / Email" aria-label="이메일">
+        <textarea class="footer-input" rows="3" placeholder="울산에 대해 궁금한 것이 있으신가요? / Questions about Ulsan?" aria-label="메시지" style="resize:vertical;min-height:72px;"></textarea>
+        <button class="footer-submit" type="button" aria-label="보내기">보내기 · Send</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 연라이프(y-life.kr) · 세계로 여행 · 대한민국 · 울산 v1.0 · 기획·운영 <a href="mailto:jinwooshon@gmail.com" style="color:inherit;">연소사</a> · <a href="../../index.html" style="color:inherit;">대한민국</a></span>
+    <span>반구대 암각화 — 유네스코 세계문화유산 등재 2025.07.12</span>
+  </div>
+</footer>
+
+<!-- ─── 스크롤 애니메이션 JS ─── -->
+<script>
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+
+  document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => {
+    observer.observe(el);
+  });
+
+  // 네비게이션 활성 링크
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute('href') === '#'+id ? 'var(--gold)' : '';
+        });
+      }
+    });
+  }, {threshold: 0.4});
+  sections.forEach(s => navObserver.observe(s));
+
+  // 문의 폼 — 메일 앱으로 실제 전송 (서버 없이 정직 처리)
+  document.querySelector('.footer-submit').addEventListener('click', function(){
+    var ins = document.querySelectorAll('.footer-contact-form .footer-input');
+    var name = (ins[0]&&ins[0].value||'').trim();
+    var email = (ins[1]&&ins[1].value||'').trim();
+    var msg = (ins[2]&&ins[2].value||'').trim();
+    if(!msg){ alert('메시지를 입력해 주세요. / Please enter a message.'); return; }
+    var subject = encodeURIComponent('[울산 소개] 문의 — ' + (name||'익명'));
+    var body = encodeURIComponent('이름: '+name+'\n이메일: '+email+'\n\n'+msg);
+    window.location.href = 'mailto:jinwooshon@gmail.com?subject='+subject+'&body='+body;
+  });
+})();
+
+// 스마트폰 시뮬레이터 동작 로직
+(function(){
+  // 탭 전환 로직
+  const tabs = document.querySelectorAll('.phone-tab');
+  const contents = document.querySelectorAll('.phone-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      
+      tab.classList.add('active');
+      const targetId = 'tab-' + tab.getAttribute('data-tab');
+      document.getElementById(targetId).classList.add('active');
+    });
+  });
+  
+  // AI 플래너 동작
+  const plannerOptions = document.querySelectorAll('.planner-option');
+  const plannerResult = document.getElementById('planner-result');
+  const routeText = document.getElementById('route-text');
+  
+  const routes = {
+    nature: "🎋 태화강 국가정원 (십리대숲) ➔ 은하수길 야간 산책\n🌉 대왕암공원 & 303m 출렁다리 도보 비경 탐방\n⛰️ 영남알프스 영축산 등반 (영남알프스 영축산 옛 취서산장 터 조망)\n🌊 주전·강동 까만 몽돌해변 (정자대게 미식: 대게궁 코스 요리)",
+    history: "🪨 반구대 암각화 (8,000년 전 세계 최초 포경 유산)\n🏛️ 울주 천전리 각석 (청동기 & 신라 명문)\n🔩 달천철장 (2,000년 고대 철기 실리콘밸리)\n🏛️ 울산박물관 역사 실리콘 로드",
+    culture: "🥩 언양기와집불고기 (한우 암소 석쇠 구이 중식)\n🏺 외고산 옹기마을 (장인의 옹기 빚기 도예 체험)\n🐋 장생포 고래문화마을 (고래고기원조할매집 노포 미식)"
+  };
+  
+  plannerOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      plannerOptions.forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      
+      // 코스 보여주기
+      plannerResult.style.display = 'block';
+      const routeType = opt.getAttribute('data-route');
+      
+      // 타이핑 애니메이션 효과 모사
+      routeText.innerHTML = "<em>동선을 분석하고 일정을 계획하는 중...</em>";
+      setTimeout(() => {
+        routeText.textContent = routes[routeType];
+      }, 500);
+    });
+  });
+  
+  // 패스 결제 시뮬레이션
+  const btnBuyPass = document.getElementById('btn-buy-pass');
+  const passIntro = document.getElementById('pass-intro');
+  const paymentSheet = document.getElementById('payment-sheet');
+  const btnSubmitPayment = document.getElementById('btn-submit-payment');
+  const paymentSuccess = document.getElementById('payment-success');
+  
+  btnBuyPass.addEventListener('click', () => {
+    passIntro.style.display = 'none';
+    paymentSheet.style.display = 'block';
+  });
+  
+  btnSubmitPayment.addEventListener('click', () => {
+    btnSubmitPayment.innerHTML = "<div class='spinner'></div> 카드 승인 중...";
+    btnSubmitPayment.disabled = true;
+    
+    setTimeout(() => {
+      paymentSheet.style.display = 'none';
+      paymentSuccess.style.display = 'block';
+    }, 1500);
+  });
+  
+  // 오디오 플레이어 시뮬레이션
+  const btnPlayAudio = document.getElementById('btn-play-audio');
+  const audioProgress = document.getElementById('audio-progress');
+  let isPlaying = false;
+  let audioInterval = null;
+  let playTime = 0;
+  
+  btnPlayAudio.addEventListener('click', () => {
+    if(!isPlaying) {
+      isPlaying = true;
+      btnPlayAudio.textContent = "⏸";
+      audioInterval = setInterval(() => {
+        playTime++;
+        let min = Math.floor(playTime / 60);
+        let sec = playTime % 60;
+        let secStr = sec < 10 ? '0' + sec : sec;
+        audioProgress.textContent = `${min}:${secStr} / 3:45 (Neolithic Whales)`;
+        if(playTime >= 225) {
+          clearInterval(audioInterval);
+          isPlaying = false;
+          btnPlayAudio.textContent = "▶";
+          playTime = 0;
+        }
+      }, 1000);
+    } else {
+      isPlaying = false;
+      btnPlayAudio.textContent = "▶";
+      clearInterval(audioInterval);
+    }
+  });
+  
+  // 예약 시뮬레이션
+  const btnSubmitBooking = document.getElementById('btn-submit-booking');
+  const bookingForm = document.getElementById('booking-form');
+  const bookingStatus = document.getElementById('booking-status');
+  const bookingStep1 = document.getElementById('booking-step1');
+  const bookingStep2 = document.getElementById('booking-step2');
+  const bookingStep3 = document.getElementById('booking-step3');
+  const bookingWebhookReport = document.getElementById('booking-webhook-report');
+  
+  btnSubmitBooking.addEventListener('click', () => {
+    bookingForm.style.display = 'none';
+    bookingStatus.style.display = 'block';
+    
+    // 시뮬레이션 애니메이션 단계별 노출
+    setTimeout(() => {
+      bookingStep1.style.color = '#a8a8a8';
+      bookingStep2.style.display = 'block';
+      
+      setTimeout(() => {
+        bookingStep2.style.color = '#a8a8a8';
+        bookingStep3.style.display = 'block';
+        
+        setTimeout(() => {
+          bookingWebhookReport.style.display = 'block';
+        }, 1000);
+      }, 1500);
+    }, 1000);
+  });
+
+  // 맛집 연동 글로벌 함수
+  window.showFoodToast = function(msg) {
+    let toast = document.getElementById('food-toast');
+    if(!toast) {
+      toast = document.createElement('div');
+      toast.id = 'food-toast';
+      toast.style.cssText = 'position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#1D1D1B; color:#F8F2EA; padding:12px 24px; border-radius:30px; font-size:13px; z-index:9999; box-shadow:0 4px 20px rgba(0,0,0,0.25); font-family:var(--font-serif); pointer-events:none; transition:opacity 0.3s ease; opacity:0; letter-spacing:0.02em;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2500);
+  };
+
+  window.addToPlanner = function(targetVal, shopName) {
+    // 탭 전환
+    const tabs = document.querySelectorAll('.phone-tab');
+    const contents = document.querySelectorAll('.phone-content');
+    tabs.forEach(t => t.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    
+    const bookingTab = document.querySelector('.phone-tab[data-tab="booking"]');
+    if(bookingTab) bookingTab.classList.add('active');
+    const bookingContent = document.getElementById('tab-booking');
+    if(bookingContent) bookingContent.classList.add('active');
+    
+    // 예약처 셀렉트 갱신
+    const selectEl = document.getElementById('booking-target');
+    if(selectEl) {
+      if(targetVal === 'bulgogi') {
+        selectEl.value = 'bulgogi';
+      } else {
+        let opt = selectEl.querySelector(`option[value="${targetVal}"]`);
+        if(!opt) {
+          opt = document.createElement('option');
+          opt.value = targetVal;
+          selectEl.appendChild(opt);
+        }
+        opt.textContent = `🍴 ${shopName} (식사)`;
+        selectEl.value = targetVal;
+      }
+    }
+    
+    // 토스트 노출 & 스크롤 이동
+    window.showFoodToast(`✨ ${shopName}이(가) 모바일 예약 시스템에 연동되었습니다!`);
+    const target = document.getElementById('visitor-concierge');
+    const headerOffset = 70;
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  };
+})();
+</script>
+
+<!-- ─── 인쇄 2모드 (① 보이는 그대로 · ② 종이 절약 2단) ─── -->
+<button class="print-fab no-print" aria-label="인쇄" title="인쇄"
+  onclick="var p=document.getElementById('printPop');p.classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="printPop" role="menu" aria-label="인쇄 방식 선택">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" role="menuitem" onclick="yeonPrint(false)">
+    <strong>① 보이는 그대로</strong><small>화면 디자인·색 그대로 인쇄</small></button>
+  <button type="button" role="menuitem" onclick="yeonPrint(true)">
+    <strong>② 종이 절약 (2단·흑백)</strong><small>2단·흑백·여백 최소·배경 제거</small></button>
+</div>
+<script>
+function yeonPrint(save){
+  document.getElementById('printPop').classList.remove('show');
+  document.body.classList.toggle('print-save', !!save);
+  setTimeout(function(){ window.print(); }, 60);
+}
+window.addEventListener('afterprint', function(){ document.body.classList.remove('print-save'); });
+document.addEventListener('click', function(e){
+  var pop=document.getElementById('printPop');
+  if(pop && pop.classList.contains('show') && !pop.contains(e.target) && !e.target.closest('.print-fab')){
+    pop.classList.remove('show');
+  }
+});
+</script>
+<!-- ─── 명소 3단 드릴다운 ─── -->
+<div class="ndrill" id="ndrill" role="dialog" aria-modal="true" aria-label="명소 둘러보기">
+  <div class="ndrill-bd" onclick="ndClose()"></div>
+  <div class="ndrill-panel">
+    <div class="ndrill-head">
+      <button class="ndrill-back" id="ndBack" onclick="ndUp()">← 뒤로</button>
+      <div class="ndrill-title" id="ndTitle">명소 둘러보기</div>
+      <button class="ndrill-close" onclick="ndClose()" aria-label="닫기">×</button>
+    </div>
+    <div class="ndrill-crumb" id="ndCrumb"></div>
+    <div id="ndBody"></div>
+  </div>
+</div>
+<script>
+const ND_TREE={
+ '자연':{
+   '강·정원':[['십리대밭 항공샷','simni-aerial',0],['십리대숲 산책로','simni-path',0],['십리대숲 새벽 안개','simni-mist',0],['십리대숲과 태화강','simni-river',0],['십리대숲 은하수길','simni-night2',0],['태화강 국가정원','taehwa-real-1',1],['십리대숲','bamboo',0],['태화강 백로','egret',0],['태화강 봄꽃','taehwa-spring',0]],
+   '바다·해안':[['대왕암 출렁다리','daewangam-bridge',0],['대왕암 솔숲길','daewangam-pinetrail',0],['대왕암 일출','daewangam-sunrise2',0],['대왕암공원','daewangam',0],['간절곶','ganjeolgot',0],['주전 몽돌해변','jujeon-pebble',0],['슬도','seuldo',0],['고래바다여행선','whaleboat',0]],
+   '산':[['간월재 억새 등반코스','ganwoljae-trail',0],['간월재 억새평원','ganwoljae-plateau',0],['간월재 정상 파노라마','ganwoljae-panorama',0],['영남알프스 억새','yeongnam-alps',0],['신불산','sinbulsan',0],['케이블카','cablecar',0]]
+ },
+ '역사·문화':{
+   '선사·유산':[['반구대 암각화','bangudae2',0],['천전리 각석','cheonjeonri',0]],
+   '마을·전통':[['장생포 고래마을','jangsaengpo',0],['외고산 옹기마을','onggi',0],['작천정 벚꽃','jakcheonjeong-cherry',0]]
+ },
+ '도시·체험':{
+   '도시·야경':[['울산 전경','ulsan-aerial',0],['울산대교 야경','ulsanbridge-night',0],['산업단지 야경','industrial-night',0]],
+   '공원':[['울산대공원','grandpark',0]],
+   '미식 (준비중)':[]
+ }
+};
+let ndPath=[];
+function ndCount(n){return Array.isArray(n)?n.length:Object.values(n).reduce((s,v)=>s+ndCount(v),0);}
+function ndOpen(){ndPath=[];ndRender();document.getElementById('ndrill').classList.add('open');document.body.style.overflow='hidden';}
+function ndClose(){document.getElementById('ndrill').classList.remove('open');document.body.style.overflow='';}
+function ndUp(){ndPath.pop();ndRender();}
+function ndGo(k){ndPath.push(k);ndRender();}
+function ndRender(){
+  const body=document.getElementById('ndBody'),back=document.getElementById('ndBack'),
+        title=document.getElementById('ndTitle'),crumb=document.getElementById('ndCrumb');
+  back.style.display=ndPath.length?'inline-block':'none';
+  crumb.textContent=ndPath.length?('명소 둘러보기 › '+ndPath.join(' › ')):'어떤 분류부터 볼까요';
+  title.textContent=ndPath.length?ndPath[ndPath.length-1]:'명소 둘러보기';
+  let node=ND_TREE; ndPath.forEach(k=>node=node[k]);
+  if(Array.isArray(node)){
+    if(!node.length){body.innerHTML='<p style="text-align:center;color:#999;padding:30px 0;">아직 등록된 명소가 없어요 (0)</p>';return;}
+    body.innerHTML='<div class="ndrill-grid">'+node.map(([n,f,real])=>
+      `<a class="ndrill-ph" href="../../img/ulsan/갤러리.html"><img loading="lazy" src="../../img/ulsan/${f}.webp" alt="${n}"><span>${n}${real?' 📷':''}</span></a>`).join('')
+      +'</div><a class="ndrill-allbtn" href="../../img/ulsan/갤러리.html">전체 갤러리에서 보기 →</a>';
+  } else {
+    body.innerHTML='<div class="ndrill-list">'+Object.keys(node).map(k=>{
+      const c=ndCount(node[k]),empty=c===0?' empty':'';
+      return `<div class="ndrill-item${empty}"${c?` onclick="ndGo('${k.replace(/'/g,"\\'")}')"`:''}><span>${k}</span><span class="cnt">(${c})</span></div>`;
+    }).join('')+'</div>';
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ndClose();});
+</script>
+
+<!-- ─── 다국어 번역 스크립트 ─── -->
+<script>
+const TRANSLATIONS = {
+  ko: {
+    '.eb-home': '연라이프 홈',
+    '.nav-logo': '울<span>산</span>',
+    '.nav-links li:nth-child(2) a': '등산코스',
+    '.nav-links li:nth-child(3) a': '먹거리',
+    '.nav-links li:nth-child(4) a': '사람',
+    '.nav-links li:nth-child(5) a': '홍보 & 패스',
+    '.nav-links li:nth-child(6) a': '갤러리',
+    '.nav-links li:nth-child(7) a': '연라이프 홈',
+    '.mega-toggle': '명소 둘러보기 ▾',
+    '.mega .col:nth-child(1) h4 a': '강·정원',
+    '.mega .col:nth-child(1) a:nth-of-type(1)': '태화강 국가정원',
+    '.mega .col:nth-child(1) a:nth-of-type(2)': '십리대숲',
+    '.mega .col:nth-child(1) a:nth-of-type(3)': '태화강 백로',
+    '.mega .col:nth-child(2) h4 a': '바다·해안',
+    '.mega .col:nth-child(2) a:nth-of-type(1)': '대왕암공원',
+    '.mega .col:nth-child(2) a:nth-of-type(2)': '간절곶',
+    '.mega .col:nth-child(2) a:nth-of-type(3)': '주전 몽돌해변',
+    '.mega .col:nth-child(2) a:nth-of-type(4)': '슬도',
+    '.mega .col:nth-child(3) h4 a': '산·자연',
+    '.mega .col:nth-child(3) a:nth-of-type(1)': '영남알프스 억새',
+    '.mega .col:nth-child(3) a:nth-of-type(2)': '신불산',
+    '.mega .col:nth-child(3) a:nth-of-type(3)': '등산 지도 →',
+    '.mega .col:nth-child(4) h4 a': '역사·문화',
+    '.mega .col:nth-child(4) a:nth-of-type(1)': '반구대 암각화',
+    '.mega .col:nth-child(4) a:nth-of-type(2)': '천전리 각석',
+    '.mega .col:nth-child(5) h4 a': '마을·체험',
+    '.mega .col:nth-child(5) a:nth-of-type(1)': '장생포 고래마을',
+    '.mega .col:nth-child(5) a:nth-of-type(2)': '작천정 벚꽃',
+    '.mega .col:nth-child(5) a:nth-of-type(3)': '외고산 옹기마을',
+    '.mega .col:nth-child(6) h4 a': '도시·공원',
+    '.mega .col:nth-child(6) a:nth-of-type(1)': '울산 전경',
+    '.mega .col:nth-child(6) a:nth-of-type(2)': '울산대교 야경',
+    '.mega .col:nth-child(6) a:nth-of-type(3)': '울산대공원',
+    '.hero-eyebrow': 'Ulsan · Korea · 인류 문명의 새벽',
+    '.hero-title': '<span class="accent-gold">울산</span><br>인류 문명의 새벽을 품은 도시<br><span class="accent-sea">대한민국의 따뜻한 미래</span>를 시작하는 곳',
+    '.hero-desc': '8,000년 전 인류의 기억이 새겨진 반구대에서, 태화강의 맑은 물결을 따라, 산과 바다와 사람이 함께 빚어온 도시의 이야기를 만납니다.',
+    '.identity-text': '울산은 <em>인류가 처음으로 바다를 기록한 도시</em>이자, <em>대한민국 산업의 심장</em>이며, 자연과 사람이 함께 만들어가는 <em>따뜻한 공동체</em>입니다.',
+    '.pillars .s-title': '울산을 이해하는 세 가지 열쇠',
+    '.pillars .s-desc': '과거의 깊이, 현재의 결, 미래의 따뜻함 — 세 개의 기둥이 하나의 도시를 이룹니다.',
+    '.pillar-card.p1 .pillar-title': '인류 문명의 새벽',
+    '.pillar-card.p1 .pillar-body': '반구대 암각화 — 8,000년 전 인류가 새긴 고래 사냥의 기록. 유네스코 세계문화유산(2025년 7월 12일 등재). 인류 최초의 포경 기록이 울산 땅에 새겨져 있습니다.',
+    '.pillar-card.p2 .pillar-title': '자연·도시의 결',
+    '.pillar-card.p2 .pillar-body': '태화강의 맑은 흐름, 영남알프스의 웅장한 산세, 간절곶의 첫 일출, 동해의 너른 바다. 산업 도시 안에서 자연이 살아 숨 쉬는 결이 울산의 품격입니다.',
+    '.pillar-card.p3 .pillar-title': '사람·따뜻한 미래',
+    '.pillar-card.p3 .pillar-body': '노동과 이주, 다문화와 공존, 교육자와 장인. 울산의 진짜 힘은 여기 모인 사람들에게 있습니다. 그 사람들이 대한민국의 따뜻한 내일을 만들고 있습니다.',
+    '.bangudae-eyebrow': 'Dawn of Humanity · 선사의 기록',
+    '.bangudae-title': '대곡천 반구대 암각화',
+    '.bangudae-body': '대곡천 절벽에 새겨진 선사시대의 기록. 8,000년 전 인류 최초의 포경 기록과 다양한 동물 그림이 새겨진 인류 문화 유산입니다.',
+    '.jangsepo-eyebrow': 'Ocean & Whales · 바다의 품격',
+    '.jangsepo-title': '장생포 고래마을',
+    '.jangsepo-body': '장생포는 한국 포경 문화의 중심지이자, 고래와 사람이 공존하는 따뜻한 이야기를 담은 포구입니다. 옛 고래잡이 전성기의 활기와 고적한 매력이 살아있습니다.',
+    '.jangsepo-quote': '“태화강 맑은 물이 울산 앞바다 고래를 춤추게 하듯…” — 울산 시민',
+    '.nature .s-title': '자연의 숨결',
+    '.nature .s-desc': '태화강의 대숲부터 영남알프스 억새평원까지, 대자연의 사계를 품다.',
+    '.industry-eyebrow': 'Heart of Industry · 산업의 기적',
+    '.industry-title': '산업의 심장',
+    '.industry-body': '울산은 세계에서 가장 거대한 자동차 공장과 세계 1위의 조선소를 품은 대한민국 경제 발전의 불씨이자, 내일의 에너지를 잉태하는 미래 도시입니다.',
+    '.industry-card:nth-child(1) .industry-card-title': '세계적 조선 & 자동차 생산기지',
+    '.industry-card:nth-child(1) .industry-card-body': '동해안에 뻗어 있는 메مر드급 독(Dock)과 석쇠처럼 얽힌 완성차 수출 라인이 대한민국 산업의 도약을 증명합니다.',
+    '.industry-card:nth-child(2) .industry-card-title': '친환경 스마트 에너지 미래',
+    '.industry-card:nth-child(2) .industry-card-body': '수소 모빌리티, 부유식 해상 풍력 등 지구의 내일을 그리는 친환경 기술 혁신이 태동하고 있습니다.',
+    '.food .s-title': '울산의 미식',
+    '.food .s-desc': '바다의 깊은 맛과 육지의 넉넉함이 한 상에 차려집니다.',
+    '.food-card:nth-child(1) .food-card-title': '언양 석쇠 불고기',
+    '.food-card:nth-child(1) .food-card-desc': '한우 암소고기를 얇게 썰어 양념한 뒤 석쇠에 숯불로 구워내, 입안 가득 숯 향과 깊은 육즙을 머금는 명품 불고기입니다.',
+    '.food-card:nth-child(2) .food-card-title': '봉계 한우 숯불구이',
+    '.food-card:nth-child(2) .food-card-desc': '양념을 하지 않은 생고기 그대로 참숯에 구워 소금만 찍어 먹는 방식으로, 한우 본연의 고소하고 담백한 육질을 극대화합니다.',
+    '.food-card:nth-child(3) .food-card-title': '장생포 고래고기',
+    '.food-card:nth-child(3) .food-card-desc': '12가지가 넘는 독특한 부위별 맛과 질감을 가진 울산 고유의 향토 음식으로, 쫄깃하고 담백한 맛이 일품입니다.',
+    '.food-card:nth-child(4) .food-card-title': '정자 대게 & 몽돌 미식',
+    '.food-card:nth-child(4) .food-card-desc': '주전·강동 바다에서 건져 올린 살이 꽉 찬 대게와 참가자미, 신선한 정자 바다의 자연산 활어를 즐길 수 있는 미식 명소입니다.',
+    '.people .s-title': '울산의 사람',
+    '.people .s-desc': '사람이 역사가 되고, 이야기가 자라는 곳.',
+    '.people-card:nth-child(1) .people-card-title': '대대손손 옹기를 빚는 장인들',
+    '.people-card:nth-child(1) .people-card-desc': '외고산 옹기마을에서 수십 년간 흙을 만지고 불을 다스려 온 옹기 장인들은 살아있는 문화유산입니다.',
+    '.people-card:nth-child(2) .people-card-title': '산업 현장을 일궈낸 기술 명장들',
+    '.people-card:nth-child(2) .people-card-desc': '정밀 기계, 용접, 주조 등 평생 동안 대한민국 제조업의 뼈대를 깎아온 정년퇴직 명장들의 헌신입니다.',
+    '.people-card:nth-child(3) .people-card-title': '바다와 함께 살아가는 나잠 해녀들',
+    '.people-card:nth-child(3) .people-card-desc': '슬도와 주전 몽돌바다에서 차가운 동해 바다를 가르며 신선한 성게와 전복을 따는 억척스러운 해녀들의 삶입니다.',
+    '.voices .s-title': '시민의 목소리',
+    '.voices .s-desc': '이 도시를 살아가고 가꾸는 사람들의 이야기',
+    '.voice-card:nth-child(1) .voice-quote': '“세계적 공장들이 내뿜는 밤하늘의 불빛은 아름답지만, 그것을 뒤받쳐주는 것은 새벽을 여는 사람들의 땀방울입니다.”',
+    '.voice-card:nth-child(1) .voice-role': '조선소 35년 근무 명장',
+    '.voice-card:nth-child(2) .voice-quote': '“옹기는 숨을 쉰다지요. 울산이라는 도시도 그렇습니다. 기계 소리 바쁜 중에도 대숲 바람 소리가 숨통을 틔워줘요.”',
+    '.voice-card:nth-child(2) .voice-role': '외고산 옹기 이수자',
+    '.voice-card:nth-child(3) .voice-quote': '“매일 동해안에서 가장 먼저 해가 뜨는 간절곶 바다를 보며 물질을 나섭니다. 우리 바다는 언제나 정직하니까요.”',
+    '.voice-card:nth-child(3) .voice-role': '주전 해녀 (71세)',
+    '.future .future-eyebrow': 'CO-EXISTENCE · 공존과 내일',
+    '.future .future-title': '사람이 강이 되고<br>강이 바다가 되는 곳, <span class="accent">울산</span>',
+    '.future .future-title-en': 'Where People Flow Like Rivers into the Sea',
+    '.future .future-body': '가장 먼저 뜨는 해돋이의 희망처럼, 가장 뜨거운 땀방울의 약속처럼, 자연과 사람이 서로 스며들며 따뜻한 미래를 짓습니다.',
+    '.future .future-cta': '연라이프 생각의 지도 보기 →',
+    '#btn-buy-pass': '🎟️ 스페셜 패스 예약하기 (10,000원)',
+    '.phone-app-header': '📍 스페셜 패스 & 컨시어지',
+    '.phone-tab[data-tab="planner"]': '🗓️ AI 플래너',
+    '.phone-tab[data-tab="booking"]': '🎟️ 예약하기',
+    '.phone-tab[data-tab="audio"]': '🎧 도슨트'
+  },
+  en: {
+    '.eb-home': 'Yeonlife Home',
+    '.nav-logo': 'Ulsan',
+    '.nav-links li:nth-child(2) a': 'Hiking Trails',
+    '.nav-links li:nth-child(3) a': 'Local Food',
+    '.nav-links li:nth-child(4) a': 'Our People',
+    '.nav-links li:nth-child(5) a': 'Concierge & Pass',
+    '.nav-links li:nth-child(6) a': 'Gallery',
+    '.nav-links li:nth-child(7) a': 'Yeonlife Home',
+    '.mega-toggle': 'Explore Attractions ▾',
+    '.mega .col:nth-child(1) h4 a': 'Rivers & Gardens',
+    '.mega .col:nth-child(1) a:nth-of-type(1)': 'Taehwagang National Garden',
+    '.mega .col:nth-child(1) a:nth-of-type(2)': 'Simni Bamboo Grove',
+    '.mega .col:nth-child(1) a:nth-of-type(3)': 'Taehwagang Egrets',
+    '.mega .col:nth-child(2) h4 a': 'Seas & Coasts',
+    '.mega .col:nth-child(2) a:nth-of-type(1)': 'Daewangam Park',
+    '.mega .col:nth-child(2) a:nth-of-type(2)': 'Ganjeolgot Cape',
+    '.mega .col:nth-child(2) a:nth-of-type(3)': 'Jujeon Pebble Beach',
+    '.mega .col:nth-child(2) a:nth-of-type(4)': 'Seuldo Island',
+    '.mega .col:nth-child(3) h4 a': 'Mountains & Nature',
+    '.mega .col:nth-child(3) a:nth-of-type(1)': 'Yeongnam Alps Silver Grass',
+    '.mega .col:nth-child(3) a:nth-of-type(2)': 'Sinbulsan Mountain',
+    '.mega .col:nth-child(3) a:nth-of-type(3)': 'Hiking Map →',
+    '.mega .col:nth-child(4) h4 a': 'History & Culture',
+    '.mega .col:nth-child(4) a:nth-of-type(1)': 'Bangudae Petroglyphs',
+    '.mega .col:nth-child(4) a:nth-of-type(2)': 'Cheonjeon-ri Carvings',
+    '.mega .col:nth-child(5) h4 a': 'Villages & Experience',
+    '.mega .col:nth-child(5) a:nth-of-type(1)': 'Jangsaengpo Whale Village',
+    '.mega .col:nth-child(5) a:nth-of-type(2)': 'Jakcheonjeong Cherry Blossoms',
+    '.mega .col:nth-child(5) a:nth-of-type(3)': 'Oegosan Pottery Village',
+    '.mega .col:nth-child(6) h4 a': 'City & Parks',
+    '.mega .col:nth-child(6) a:nth-of-type(1)': 'Ulsan Aerial View',
+    '.mega .col:nth-child(6) a:nth-of-type(2)': 'Ulsan Bridge Night View',
+    '.mega .col:nth-child(6) a:nth-of-type(3)': 'Ulsan Grand Park',
+    '.hero-eyebrow': 'Ulsan · Korea · Dawn of Civilization',
+    '.hero-title': '<span class="accent-gold">Ulsan</span><br>Embracing the Dawn of Civilization<br>Starting <span class="accent-sea">Korea\'s Warm Tomorrow</span>',
+    '.hero-desc': 'From the 8,000-year history of Bangudae where humanity\'s earliest memories are carved, along the clean waves of Taehwagang River, explore the stories of Ulsan.',
+    '.identity-text': 'Ulsan is the city where <em>humanity first recorded the sea</em>, the <em>industrial heart of Korea</em>, and a <em>warm community</em> where nature and people grow together.',
+    '.pillars .s-title': 'Three Keys to Understand Ulsan',
+    '.pillars .s-desc': 'Depth of the past, texture of the present, warmth of the future — three pillars forming one city.',
+    '.pillar-card.p1 .pillar-title': 'Dawn of Humanity',
+    '.pillar-card.p1 .pillar-body': 'Bangudae Petroglyphs — 8,000-year-old records of whale hunting. Registered as a UNESCO World Heritage in July 2025. Humanity\'s first whaling archive is carved in this land.',
+    '.pillar-card.p2 .pillar-title': 'Nature & City Flow',
+    '.pillar-card.p2 .pillar-body': 'The clear currents of Taehwagang, grand peaks of Yeongnam Alps, earliest sunrise at Ganjeolgot, and the East Sea. Nature breathing in an industrial city is Ulsan\'s dignity.',
+    '.pillar-card.p3 .pillar-title': 'People & Warm Future',
+    '.pillar-card.p3 .pillar-body': 'Labor and migration, coexistence, educators, and masters. The real strength of Ulsan lies in its people building a warm tomorrow for Korea.',
+    '.bangudae-eyebrow': 'Prehistoric Records · Dawn of Humanity',
+    '.bangudae-title': 'Daegokcheon Bangudae Petroglyphs',
+    '.bangudae-body': 'A prehistoric archive carved into the cliffs of Daegokcheon. It is a world cultural heritage containing the earliest whaling records and drawings of animals from 8,000 years ago.',
+    '.jangsepo-eyebrow': 'Ocean & Whales · Maritime Heritage',
+    '.jangsepo-title': 'Jangsaengpo Whale Village',
+    '.jangsepo-body': 'Jangsaengpo is the hub of Korean whaling culture, portraying stories of harmony between whales and people. It retains the vibrant history of the whaling era and serene maritime charm.',
+    '.jangsepo-quote': '“Just as the clean water of Taehwagang makes the whales dance off the Ulsan coast…” — Ulsan Citizen',
+    '.nature .s-title': 'Breath of Nature',
+    '.nature .s-desc': 'From the bamboo forests of Taehwagang to the silver grass plains of Yeongnam Alps, embracing four seasons.',
+    '.industry-eyebrow': 'Heart of Industry · Economic Miracle',
+    '.industry-title': 'Heart of Industry',
+    '.industry-body': 'Ulsan is the spark of Korea\'s economic development, hosting the world\'s largest automobile plant and leading shipyards, transforming into a future city nurturing green energy.',
+    '.industry-card:nth-child(1) .industry-card-title': 'World-class Shipbuilding & Automotive Hub',
+    '.industry-card:nth-child(1) .industry-card-body': 'Mammoth docks stretching along the East Coast and automobile export terminals prove the grand leap of Korean manufacturing.',
+    '.industry-card:nth-child(2) .industry-card-title': 'Eco-friendly Smart Energy Future',
+    '.industry-card:nth-child(2) .industry-card-body': 'Eco-friendly technological innovations like hydrogen mobility and floating offshore wind power are taking flight.',
+    '.food .s-title': 'Taste of Ulsan',
+    '.food .s-desc': 'The deep flavors of the sea and the richness of the land served on one table.',
+    '.food-card:nth-child(1) .food-card-title': 'Eonyang Charbroiled Bulgogi',
+    '.food-card:nth-child(1) .food-card-desc': 'Premium beef marinated and grilled on charcoal grates, capturing a rich smoky aroma and tender juices.',
+    '.food-card:nth-child(2) .food-card-title': 'Bonggye Hanwoo Charcoal Grill',
+    '.food-card:nth-child(2) .food-card-desc': 'Fresh beef grilled unseasoned over charcoal, eaten with salt to maximize the natural, rich flavors of prime Korean beef.',
+    '.food-card:nth-child(3) .food-card-title': 'Jangsaengpo Whale Meat',
+    '.food-card:nth-child(3) .food-card-desc': 'A unique local delicacy featuring over 12 distinct cuts and textures, renowned for its savory and rich profile.',
+    '.food-card:nth-child(4) .food-card-title': 'Jeongja Crab & Maritime Delicacy',
+    '.food-card:nth-child(4) .food-card-desc': 'Fresh crabs caught off Jujeon coast, along with seasonal flatfish and raw sashimi, served fresh from the sea.',
+    '.people .s-title': 'Our People',
+    '.people .s-desc': 'Where people shape history and stories grow.',
+    '.people-card:nth-child(1) .people-card-title': 'Master Potters of Oegosan',
+    '.people-card:nth-child(1) .people-card-desc': 'For decades, master potters in Oegosan Onggi Village have refined clay and fire, standing as living cultural heritages.',
+    '.people-card:nth-child(2) .people-card-title': 'Master Industrial Technicians',
+    '.people-card:nth-child(2) .people-card-desc': 'The dedication of retired masters who spent their lives perfecting precision machinery, welding, and casting.',
+    '.people-card:nth-child(3) .people-card-title': 'Najam Divers Living with the Sea',
+    '.people-card:nth-child(3) .people-card-desc': 'The resilient divers diving off Seuldo coast to harvest fresh sea urchins and abalones in the cold East Sea.',
+    '.voices .s-title': 'Voices of Citizens',
+    '.voices .s-desc': 'Stories of those who live in and nurture this city.',
+    '.voice-card:nth-child(1) .voice-quote': '“The lights from the world\'s largest factories are beautiful, but what supports them is the sweat of the people who open the dawn.”',
+    '.voice-card:nth-child(1) .voice-role': 'Shipyard Master (35 Years of Service)',
+    '.voice-card:nth-child(2) .voice-quote': '“They say Onggi pots breathe. So does Ulsan. Even amidst busy machine sounds, the wind through the bamboo forest lets us breathe.”',
+    '.voice-card:nth-child(2) .voice-role': 'Oegosan Onggi Apprentice',
+    '.voice-card:nth-child(3) .voice-quote': '“Every day, I dive looking at the Ganjeolgot sea where the sun rises earliest in Korea. Our ocean is always honest.”',
+    '.voice-card:nth-child(3) .voice-role': 'Jujeon Haenyeo Diver (Age 71)',
+    '.future .future-eyebrow': 'CO-EXISTENCE · Coexistence & Tomorrow',
+    '.future .future-title': 'Where People Flow Like Rivers<br>Into the East Sea, <span class="accent">Ulsan</span>',
+    '.future .future-title-en': 'Where People Flow Like Rivers into the Sea',
+    '.future .future-body': 'Like the hope of the first sunrise and the promise of the hardest sweat, nature and people blend to shape a warm tomorrow.',
+    '.future .future-cta': 'Go to Yeonlife Thought Map →',
+    '#btn-buy-pass': '🎟️ Book Special Pass (10,000 KRW)',
+    '.phone-app-header': '📍 Special Pass & Concierge',
+    '.phone-tab[data-tab="planner"]': '🗓️ AI Planner',
+    '.phone-tab[data-tab="booking"]': '🎟️ Booking',
+    '.phone-tab[data-tab="audio"]': '🎧 Docent'
+  }
+};
+
+const langBtns = document.querySelectorAll('.nav-lang .lang-btn');
+langBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const selectedLang = btn.getAttribute('data-lang');
+    setLanguage(selectedLang);
+  });
+});
+
+function setLanguage(lang) {
+  localStorage.setItem('yeon-lang', lang);
+  langBtns.forEach(btn => {
+    const active = btn.getAttribute('data-lang') === lang;
+    btn.style.fontWeight = active ? '700' : '500';
+    btn.style.color = active ? 'var(--ink)' : 'var(--ink-faint)';
+  });
+  
+  // Update DOM
+  const dict = TRANSLATIONS[lang];
+  for (const selector in dict) {
+    const els = document.querySelectorAll(selector);
+    els.forEach(el => {
+      el.innerHTML = dict[selector];
+    });
+  }
+}
+
+// Initialize on load
+const savedLang = localStorage.getItem('yeon-lang') || 'ko';
+setLanguage(savedLang);
+</script>
+</body>
+</html>

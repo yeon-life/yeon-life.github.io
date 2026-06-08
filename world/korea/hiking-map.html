@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영남알프스 대표 등산 지도 — 울산 · 세계로 여행</title>
+<meta name="description" content="울산 영남알프스 대표 등산 코스 개념도 — 간월재 억새, 신불산, 영축산. 초급·중급·종주 3코스 소요시간 안내.">
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="../../manifest.json">
+<link rel="apple-touch-icon" href="../../icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--hanji:#F8F2EA;--hanji-dk:#EDE4D6;--hanji-lt:#FDF9F4;--ink:#1D1D1B;--ink-soft:#4A4540;
+  --gold:#B8955A;--sea:#3A6E7E;--reed:#7A9E8A;--dawn:#C9402B;--radius:14px;--shadow:0 6px 26px rgba(29,29,27,.10);
+  --myeong:'Nanum Myeongjo',serif;--serif:'Noto Serif KR',serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--serif);background:var(--hanji);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:2px;align-items:center;justify-content:center;
+  background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--myeong);}
+.entry-bar a,.entry-bar .sep,.entry-bar .cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;}.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}.entry-bar .cur{background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;}
+.hero{text-align:center;padding:40px 0 18px;}
+.hero .eye{font-family:var(--myeong);color:var(--gold);letter-spacing:3px;font-size:13px;}
+.hero h1{font-family:var(--myeong);font-weight:800;font-size:clamp(24px,5vw,38px);margin-top:8px;}
+.hero p{color:var(--ink-soft);margin-top:10px;font-size:15px;}
+.mapcard{background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:14px;margin:16px 0;overflow:hidden;}
+svg.map{width:100%;height:auto;display:block;border-radius:10px;background:linear-gradient(180deg,#eaf3f6 0%,#f3 efe6 60%,#f1efe6 100%);}
+.legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:14px 0 2px;font-size:13px;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.dot{width:13px;height:13px;border-radius:50%;display:inline-block;}
+.courses{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0;}
+@media(max-width:760px){.courses{grid-template-columns:1fr;}}
+.course{background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-top:6px solid var(--reed);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);}
+.course.mid{border-top-color:var(--gold);}.course.hard{border-top-color:var(--dawn);}
+.course .lv{font-size:12px;font-weight:700;color:#fff;background:var(--reed);border-radius:999px;padding:2px 10px;display:inline-block;}
+.course.mid .lv{background:var(--gold);}.course.hard .lv{background:var(--dawn);}
+.course h3{font-family:var(--myeong);font-size:19px;margin:10px 0 4px;}
+.course .meta{font-size:13px;color:var(--ink-soft);margin:8px 0;}
+.course .route{font-size:13px;line-height:1.6;background:#fff;border:1px solid var(--hanji-dk);border-radius:8px;padding:8px 10px;}
+.note{background:#fff5f4;border-left:4px solid var(--dawn);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--ink-soft);margin:18px 0;}
+footer{margin-top:30px;background:var(--hanji-dk);padding:22px;text-align:center;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+footer a{color:var(--ink);}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-fab:hover{background:var(--gold);color:#1D1D1B;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--myeong);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button:hover{border-color:var(--gold);background:#fff;}
+.print-pop button strong{font-size:13.5px;}.print-pop button small{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+@media print{
+  .entry-bar,.print-fab,.print-pop,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);font-size:11px;}
+  body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;border-color:#bbb !important;}
+  body.print-save .courses{grid-template-columns:1fr 1fr 1fr;gap:6mm;}
+  @page{margin:10mm;}
+}
+</style>
+</head>
+<body>
+
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="../../index.html" class="eb-home">연라이프 홈</a><span class="sep">›</span>
+  <span class="cur">대한민국</span><span class="sep">›</span>
+  <a href="ulsan.html">울산</a><span class="sep">›</span>
+  <span class="cur">영남알프스 등산지도</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eye">ULSAN · YEONGNAM ALPS</div>
+    <h1>영남알프스 대표 등산 지도</h1>
+    <p>은빛 억새의 바다 <b>간월재</b>를 중심으로 — 신불산·영축산·가지산을 잇는 울산의 대표 능선.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="mapcard">
+    <img class="map-img" src="../../img/ulsan/map-gouache.webp" alt="영남알프스 간월재 등반코스 일러스트 지도" loading="lazy" style="width:100%;display:block;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.1);">
+    <p style="text-align:center;font-size:12px;color:var(--ink-soft);margin-top:12px;">간월재 억새 등반코스 일러스트 그림 · 정확한 코스·소요시간·봉우리 높이는 아래 카드를 참고하세요 <span style="background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;">AI 일러스트</span></p>
+  </div>
+
+  <div class="courses">
+    <div class="course easy">
+      <span class="lv">초급 · 가족</span>
+      <h3>① 간월재 억새 코스</h3>
+      <div class="meta">왕복 약 9km · 약 2시간 30분 · 완만</div>
+      <div class="route">복합웰컴센터 → 임도(넓은 길) → <b>간월재 억새평원</b> → 되돌아오기.<br>케이블카로 더 편하게도 가능.</div>
+    </div>
+    <div class="course mid">
+      <span class="lv">중급</span>
+      <h3>② 신불산 정상 코스</h3>
+      <div class="meta">왕복 약 11km · 약 4시간 30분 · 보통</div>
+      <div class="route">복합웰컴센터 → 간월재 → <b>신불산 정상(1159)</b> → 신불재 → 하산.<br>억새+정상 조망을 한 번에.</div>
+    </div>
+    <div class="course hard">
+      <span class="lv">상급 · 종주</span>
+      <h3>③ 영남알프스 능선 종주</h3>
+      <div class="meta">약 15km · 약 7시간 · 체력 필요</div>
+      <div class="route">배내고개 → 간월산 → 간월재 → 신불산 → 신불재 → <b>영축산(1081)</b> → 하산.<br>능선 위 은빛 억새 장관.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    🧭 이 지도는 <b>방향·코스 개념 안내도</b>입니다(실측 GPS·등고선 지도 아님). 거리·시간은 일반인 기준 <b>대략값</b>이에요.
+    실제 산행 전에는 <a href="https://search.naver.com/search.naver?query=영남알프스+등산지도" target="_blank" rel="noopener">공식 등산지도</a>와
+    <a href="https://search.naver.com/search.naver?query=영남알프스+날씨" target="_blank" rel="noopener">기상</a>을 꼭 확인하세요. 억새 절정은 보통 <b>10월 중순~11월 초</b>.
+  </div>
+
+  <p class="no-print" style="text-align:center;margin:10px 0 30px;"><a href="ulsan.html" style="color:var(--sea);font-weight:700;">← 울산 소개로 돌아가기</a></p>
+</main>
+
+<footer>
+  이 개념도는 연라이프가 제작했습니다 · 자유롭게 가져가 쓰셔도 좋아요, 출처는 꼭 「연라이프 y-life.kr」<br>
+  © 2026 연라이프 · 세계로 여행 · 기획 <a href="mailto:jinwooshon@gmail.com">연소사</a> · <a href="ulsan.html">울산</a>
+</footer>
+
+<button class="print-fab no-print" aria-label="인쇄" title="인쇄" onclick="document.getElementById('pp').classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="pp" role="menu">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" onclick="yp(false)"><strong>① 보이는 그대로</strong><small>지도 색·디자인 그대로</small></button>
+  <button type="button" onclick="yp(true)"><strong>② 종이 절약(2단·흑백)</strong><small>흑백·여백 최소·배경 제거</small></button>
+</div>
+<script>
+function yp(s){document.getElementById('pp').classList.remove('show');document.body.classList.toggle('print-save',!!s);setTimeout(()=>window.print(),60);}
+window.addEventListener('afterprint',()=>document.body.classList.remove('print-save'));
+document.addEventListener('click',e=>{var p=document.getElementById('pp');if(p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('.print-fab'))p.classList.remove('show');});
+</script>
+</body>
+</html>

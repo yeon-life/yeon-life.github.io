@@ -1,0 +1,12 @@
+{
+  "name": "밥을 골고루 먹어요",
+  "short_name": "밥을 골고루 먹어요",
+  "description": "알록달록 한 입씩, 내 몸이 무지개가 돼요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

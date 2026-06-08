@@ -1,0 +1,23 @@
+{
+  "name": "줄을 서요",
+  "short_name": "줄을 서요",
+  "description": "한 줄로 서면 모두가 편안해요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

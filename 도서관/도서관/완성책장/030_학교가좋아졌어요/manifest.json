@@ -1,0 +1,23 @@
+{
+  "name": "학교가 좋아졌어요",
+  "short_name": "학교가 좋아졌어요",
+  "description": "낯설던 학교가 어느새 가장 가고 싶은 곳이 되기까지",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

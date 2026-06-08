@@ -1,8 +1,8 @@
 {
-  "version": "20260609.0105",
-  "ylv": "YLV-6",
-  "yuv": "YUV6",
+  "version": "20260609.0100",
+  "ylv": "YLV-5",
+  "yuv": "YUV4",
   "force": true,
-  "released_at": "2026-06-09T01:05:00+09:00",
-  "notes": "강동점 신규 홈페이지 배포 및 연동 완료"
+  "released_at": "2026-06-09T01:00:00+09:00",
+  "notes": "울산 페이지 경로 개편(/world/korea/ulsan.html) 및 14대 맛집 가이드 대폭 확장"
 }

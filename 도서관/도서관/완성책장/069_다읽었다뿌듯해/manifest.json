@@ -1,0 +1,12 @@
+{
+  "name": "다 읽었다, 뿌듯해",
+  "short_name": "다 읽었다, 뿌듯해",
+  "description": "한 장 한 장 넘기다 보니 마지막 쪽이었어요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

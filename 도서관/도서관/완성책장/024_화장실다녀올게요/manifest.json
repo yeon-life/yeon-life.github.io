@@ -1,0 +1,23 @@
+{
+  "name": "화장실 다녀올게요",
+  "short_name": "화장실 다녀올게요",
+  "description": "손을 번쩍 드는 그 한마디, 생각보다 어렵지 않아요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

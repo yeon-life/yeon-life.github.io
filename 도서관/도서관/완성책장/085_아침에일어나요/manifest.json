@@ -1,0 +1,12 @@
+{
+  "name": "아침에 일어나요",
+  "short_name": "아침에 일어나요",
+  "description": "눈을 뜨면, 오늘이 나를 기다려요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

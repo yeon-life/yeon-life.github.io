@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>울산 현장 사진 — 지금 이 순간 · 세계로 여행</title>
+<meta name="description" content="누구나 지금 이 순간의 울산을 직접 찍어 올리는 현장 사진 마당. 가장 최근 실사진이 맨 위에.">
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="../../manifest.json">
+<link rel="apple-touch-icon" href="../../icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--hanji:#F8F2EA;--hanji-dk:#EDE4D6;--hanji-lt:#FDF9F4;--ink:#1D1D1B;--ink-soft:#4A4540;
+  --gold:#B8955A;--sea:#3A6E7E;--reed:#7A9E8A;--dawn:#C9402B;--ok:#2e7d4f;--radius:14px;--shadow:0 6px 26px rgba(29,29,27,.10);
+  --myeong:'Nanum Myeongjo',serif;--serif:'Noto Serif KR',serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--serif);background:var(--hanji);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px;}
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:2px;align-items:center;justify-content:center;
+  background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--myeong);}
+.entry-bar a,.entry-bar .sep,.entry-bar .cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;}.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}.entry-bar .cur{background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;}
+.hero{text-align:center;padding:30px 0 8px;}
+.hero h1{font-family:var(--myeong);font-weight:800;font-size:clamp(23px,5vw,34px);}
+.hero p{color:var(--ink-soft);margin-top:8px;font-size:15px;}
+.demo{background:#fff5f4;border:1px solid #f0c9c3;border-left:5px solid var(--dawn);border-radius:10px;
+  padding:11px 15px;font-size:12.5px;color:var(--ink-soft);margin:14px 0;line-height:1.6;}
+.demo b{color:var(--dawn);}
+/* 업로드 카드 */
+.uploader{background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:14px 0 22px;}
+.uploader h2{font-family:var(--myeong);font-size:18px;margin-bottom:12px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.row>*{flex:1;min-width:140px;}
+label{font-size:12.5px;color:var(--ink-soft);display:block;margin-bottom:4px;}
+select,input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--hanji-dk);border-radius:10px;font-family:var(--serif);font-size:15px;background:#fff;}
+.shot{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;
+  padding:14px 16px;font-family:var(--myeong);font-weight:700;font-size:15px;cursor:pointer;}
+.btn-cam{background:var(--sea);color:#fff;flex:1;}
+.btn-file{background:var(--hanji-dk);color:var(--ink);flex:1;}
+.btn-go{background:var(--ink);color:#fff;width:100%;margin-top:6px;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.preview{margin-top:10px;display:none;}
+.preview img{width:100%;max-height:280px;object-fit:cover;border-radius:10px;border:1px solid var(--hanji-dk);}
+.preview .meta{font-size:12px;color:var(--ink-soft);margin-top:6px;}
+/* 보드 */
+.board-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:8px 0;}
+.board-head h2{font-family:var(--myeong);font-size:20px;}
+.count{font-size:13px;color:var(--ink-soft);}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+figure{position:relative;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+figure img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#ddd;}
+figure .rb{position:absolute;top:8px;left:8px;background:var(--ok);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px;}
+figure.latest .rb{background:var(--dawn);}
+figcaption{padding:10px 12px;font-size:13.5px;}
+figcaption .lm{font-weight:700;}
+figcaption small{display:block;color:var(--ink-soft);font-size:11.5px;margin-top:3px;}
+figcaption .by{color:var(--sea);}
+.fig-actions{display:flex;gap:6px;padding:0 10px 10px;}
+.fig-actions button{flex:1;font-size:11.5px;border:1px solid var(--hanji-dk);background:#fff;border-radius:8px;padding:6px;cursor:pointer;color:var(--ink-soft);}
+.empty{text-align:center;color:var(--ink-soft);padding:40px 10px;font-size:14px;}
+footer{margin-top:30px;background:var(--hanji-dk);padding:20px;text-align:center;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+footer a{color:var(--ink);}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--myeong);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button strong{font-size:13.5px;}.print-pop button small{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+@media print{.entry-bar,.uploader,.print-fab,.print-pop,.fig-actions,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);} body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;}
+  body.print-save .board{grid-template-columns:1fr 1fr;}@page{margin:10mm;}}
+</style>
+</head>
+<body>
+
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="../../index.html" class="eb-home">연라이프 홈</a><span class="sep">›</span>
+  <span class="cur">대한민국</span><span class="sep">›</span>
+  <a href="ulsan.html">울산</a><span class="sep">›</span>
+  <span class="cur">현장 사진</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>지금 이 순간의 울산 📷</h1>
+    <p>누구나 직접 현장에서 찍어 올려요. <b>가장 최근 실사진이 맨 위</b>에 떠서, 그 시각의 진짜 모습을 담습니다.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="demo no-print">
+    <b>데모 안내.</b> 지금은 올린 사진이 <b>이 기기(브라우저)에만</b> 저장됩니다. 새로고침해도 남지만, 아직 다른 사람과 공유되진 않아요.
+    <b>모두가 함께 보는 실서비스</b>는 서버(Firebase Storage) 연결이 필요합니다 — 남은 서버 작업으로 표시해 둡니다.
+    올리신 사진은 <b>본인 기기</b>에만 있고 외부로 전송되지 않습니다.
+  </div>
+
+  <section class="uploader no-print" aria-label="현장 사진 올리기">
+    <h2>현장 사진 올리기</h2>
+    <div class="row">
+      <div>
+        <label for="lm">어느 명소인가요?</label>
+        <select id="lm"></select>
+      </div>
+      <div>
+        <label for="nm">올린이 (선택)</label>
+        <input type="text" id="nm" placeholder="이름 또는 별명" maxlength="20">
+      </div>
+    </div>
+    <div>
+      <label for="cap">한 줄 (선택)</label>
+      <input type="text" id="cap" placeholder="예: 오늘 억새가 절정이에요" maxlength="50">
+    </div>
+    <div class="shot" style="margin-top:12px;">
+      <button class="btn btn-cam" id="btnCam">📷 카메라로 찍기</button>
+      <button class="btn btn-file" id="btnFile">🖼️ 사진 고르기</button>
+    </div>
+    <input type="file" id="camInput" accept="image/*" capture="environment" hidden>
+    <input type="file" id="fileInput" accept="image/*" hidden>
+    <div class="preview" id="preview">
+      <img id="pvImg" alt="미리보기">
+      <div class="meta" id="pvMeta"></div>
+      <button class="btn btn-go" id="btnGo">이 사진 올리기</button>
+    </div>
+  </section>
+
+  <div class="board-head">
+    <h2>현장 사진 마당</h2>
+    <span class="count" id="count">0장</span>
+  </div>
+  <div class="board" id="board"></div>
+  <div class="empty" id="empty">아직 올라온 현장 사진이 없어요. 첫 사진의 주인공이 되어 주세요! 📷</div>
+</main>
+
+<footer>
+  📷 현장 사진은 <b>올린 분이 직접 촬영한 실사진</b>입니다 · 부적절한 사진은 신고로 내려갑니다.<br>
+  자유롭게 가져가 쓰셔도 좋아요 · 출처는 꼭 「연라이프 y-life.kr」<br>
+  © 2026 연라이프 · 세계로 여행 · <a href="ulsan.html">울산</a> · 기획 <a href="mailto:jinwooshon@gmail.com">연소사</a>
+</footer>
+
+<button class="print-fab no-print" aria-label="인쇄" onclick="document.getElementById('pp').classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="pp">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" onclick="yp(false)"><strong>① 보이는 그대로</strong><small>색·디자인 그대로</small></button>
+  <button type="button" onclick="yp(true)"><strong>② 종이 절약(2단·흑백)</strong><small>흑백·여백 최소</small></button>
+</div>
+
+<script>
+// ── 명소 목록
+const LANDMARKS=['태화강 국가정원','십리대숲','대왕암공원','간절곶','주전 몽돌해변','슬도',
+ '영남알프스 간월재','신불산','반구대 암각화','천전리 각석','장생포 고래문화마을','작천정 벚꽃',
+ '외고산 옹기마을','울산대공원','울산대교','산업단지 야경','기타(직접 입력)'];
+const sel=document.getElementById('lm');
+LANDMARKS.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+
+const KEY='ulsan_field_photos';
+let pending=null; // {dataURL, time}
+
+// ── 사진 다운스케일 (용량 절약: 가로 1280px, jpeg 0.8)
+function downscale(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      let {width:w,height:h}=img; const max=1280;
+      if(w>max){ h=Math.round(h*max/w); w=max; }
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      res({dataURL:c.toDataURL('image/jpeg',0.8), time:file.lastModified||Date.now()});
+    };
+    img.onerror=rej; img.src=url;
+  });
+}
+function fmt(ts){
+  const d=new Date(ts);
+  const p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())} 촬영`;
+}
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(arr){
+  // 용량 보호: 최신 40장만 보관
+  arr=arr.slice(0,40);
+  try{ localStorage.setItem(KEY,JSON.stringify(arr)); }
+  catch(e){ alert('저장 공간이 가득 찼어요. 오래된 사진을 지우고 다시 시도해 주세요.'); }
+}
+
+// ── 입력 처리
+document.getElementById('btnCam').onclick=()=>document.getElementById('camInput').click();
+document.getElementById('btnFile').onclick=()=>document.getElementById('fileInput').click();
+async function onPick(e){
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  try{
+    pending=await downscale(f);
+    document.getElementById('pvImg').src=pending.dataURL;
+    document.getElementById('pvMeta').textContent=fmt(pending.time);
+    document.getElementById('preview').style.display='block';
+  }catch(err){ alert('사진을 읽지 못했어요. 다른 사진으로 시도해 주세요.'); }
+  e.target.value='';
+}
+document.getElementById('camInput').onchange=onPick;
+document.getElementById('fileInput').onchange=onPick;
+
+document.getElementById('btnGo').onclick=()=>{
+  if(!pending) return;
+  let lm=sel.value;
+  if(lm.startsWith('기타')){ lm=(prompt('명소 이름을 입력해 주세요')||'').trim()||'울산'; }
+  const item={id:Date.now()+'-'+Math.floor(performance.now()), lm,
+    name:(document.getElementById('nm').value||'').trim(),
+    cap:(document.getElementById('cap').value||'').trim(),
+    time:pending.time, uploaded:Date.now(), img:pending.dataURL};
+  const arr=load(); arr.unshift(item); arr.sort((a,b)=>b.time-a.time); save(arr);
+  pending=null; document.getElementById('preview').style.display='none';
+  document.getElementById('cap').value='';
+  render();
+  window.scrollTo({top:document.querySelector('.board-head').offsetTop-10,behavior:'smooth'});
+};
+
+// ── 렌더 (최신 촬영순)
+function render(){
+  const arr=load().sort((a,b)=>b.time-a.time);
+  const board=document.getElementById('board');
+  document.getElementById('count').textContent=arr.length+'장';
+  document.getElementById('empty').style.display=arr.length?'none':'block';
+  board.innerHTML='';
+  arr.forEach((it,i)=>{
+    const by=it.name?`<span class="by">📷 ${esc(it.name)}</span> · `:'';
+    const cap=it.cap?`<small>“${esc(it.cap)}”</small>`:'';
+    const latest=i===0?' latest':'';
+    const badge=i===0?'🔴 가장 최근':'📷 실사진';
+    board.insertAdjacentHTML('beforeend',
+     `<figure class="${latest}">
+        <span class="rb">${badge}</span>
+        <img loading="lazy" src="${it.img}" alt="${esc(it.lm)}">
+        <figcaption><span class="lm">${esc(it.lm)}</span>
+          <small>${by}${fmt(it.time)}</small>${cap}</figcaption>
+        <div class="fig-actions">
+          <button onclick="report('${it.id}')">🚩 신고</button>
+          <button onclick="del('${it.id}')">🗑 내 사진 삭제</button>
+        </div>
+      </figure>`);
+  });
+}
+function esc(s){return (s||'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+window.del=function(id){ if(!confirm('이 사진을 지울까요?'))return; save(load().filter(x=>x.id!==id)); render(); };
+window.report=function(id){ alert('신고가 접수되었습니다. 검토 후 부적절하면 내려갑니다.\\n(데모: 실제 신고는 서버 연결 후 운영자에게 전달됩니다.)'); };
+
+render();
+
+// 인쇄 2모드
+function yp(s){document.getElementById('pp').classList.remove('show');document.body.classList.toggle('print-save',!!s);setTimeout(()=>window.print(),60);}
+window.addEventListener('afterprint',()=>document.body.classList.remove('print-save'));
+document.addEventListener('click',e=>{var p=document.getElementById('pp');if(p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('.print-fab'))p.classList.remove('show');});
+</script>
+</body>
+</html>

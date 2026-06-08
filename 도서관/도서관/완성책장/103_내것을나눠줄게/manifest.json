@@ -1,0 +1,12 @@
+{
+  "name": "내 것을 나눠 줄게",
+  "short_name": "내 것을 나눠 줄게",
+  "description": "나눌수록 작아지지 않고, 마음이 더 환해져요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

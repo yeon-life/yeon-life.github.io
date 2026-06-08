@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>울산 미식 가이드 — 31대 로컬 맛집과 노포 총정리 · 세계로 여행</title>
+<meta name="description" content="공식 백년가게, 울산 12미, 현지인 검증 국밥 노포, 동해안 해녀 맛집 등 울산의 31대 맛집과 디저트, 스트리트 푸드 완벽 가이드.">
+<meta name="theme-color" content="#1D1D1B">
+<link rel="manifest" href="../../manifest.json">
+<link rel="apple-touch-icon" href="../../icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{--hanji:#F8F2EA;--hanji-dk:#EDE4D6;--hanji-lt:#FDF9F4;--ink:#1D1D1B;--ink-soft:#4A4540;
+  --gold:#B8955A;--sea:#3A6E7E;--reed:#7A9E8A;--dawn:#C9402B;--radius:14px;--shadow:0 6px 26px rgba(29,29,27,.1);
+  --myeong:'Nanum Myeongjo',serif;--serif:'Noto Serif KR',serif;--play:'Playfair Display',serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--serif);background:var(--hanji);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+.entry-bar{position:sticky;top:0;z-index:60;display:flex;gap:2px;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-size:12.5px;padding:7px 12px;flex-wrap:wrap;font-family:var(--myeong);}
+.entry-bar a,.entry-bar .sep,.entry-bar .cur{color:#fff;text-decoration:none;padding:3px 8px;border-radius:999px;white-space:nowrap;}
+.entry-bar a{opacity:.78;}.entry-bar a:hover{opacity:1;background:rgba(255,255,255,.12);}
+.entry-bar .sep{opacity:.4;padding:3px 2px;}.entry-bar .cur{background:var(--gold);color:#1D1D1B;font-weight:700;}
+.entry-bar .eb-home{font-weight:800;}
+.hero{text-align:center;padding:42px 0 14px;}
+.hero .eye{font-family:var(--play);font-style:italic;color:var(--gold);letter-spacing:.2em;font-size:14px;}
+.hero h1{font-family:var(--myeong);font-weight:800;font-size:clamp(24px,5vw,38px);margin-top:8px;}
+.hero p{color:var(--ink-soft);margin-top:10px;font-size:15px;max-width:620px;margin-left:auto;margin-right:auto;}
+
+/* 필터 탭 */
+.filter-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0 25px;
+  padding: 0 10px;
+}
+.filter-tab {
+  background: var(--hanji-lt);
+  border: 1px solid var(--hanji-dk);
+  color: var(--ink-soft);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-family: var(--myeong);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.filter-tab:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.filter-tab.active {
+  background: var(--gold);
+  color: #1D1D1B;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+.dish{background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin:24px 0;transition:transform 0.25s;}
+.dish:hover{transform:translateY(-2px);}
+.dish-img-wrap{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;background:#ddd;}
+.dish img{width:100%;height:100%;object-fit:cover;display:block;}
+.dish-img-placeholder {
+  width:100%;height:100%;
+  background: linear-gradient(135deg, var(--hanji-dk), var(--gold-pale, #f4e8d3));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: var(--myeong); color: var(--ink-soft);
+}
+.dish-img-placeholder span { font-size: 32px; margin-bottom: 6px; }
+.dish-img-placeholder strong { font-size: 16px; font-weight: 700; color: var(--ink); }
+
+.dish-tag-badge{position:absolute;top:14px;left:14px;color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.05em;font-family:var(--serif);z-index:2;}
+.tag-sig{background:var(--dawn);}
+.tag-com{background:var(--sea);}
+.tag-sea{background:var(--reed);}
+.tag-baek{background:var(--gold);}
+
+.dish-body{padding:20px 22px;}
+.dish-tag{font-family:var(--play);font-style:italic;color:var(--gold);font-size:12.5px;letter-spacing:.12em;}
+.dish h2{font-family:var(--myeong);font-size:23px;font-weight:800;margin:3px 0 8px;}
+.dish p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;}
+.dish .pick{margin-top:14px;background:#fff;border:1px solid var(--hanji-dk);border-left:4px solid var(--gold);border-radius:10px;padding:12px 16px;font-size:13.5px;line-height:1.65;}
+.dish .pick b{color:var(--ink);}
+.dish .acts{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+.dish .acts a{display:inline-flex;align-items:center;gap:6px;font-family:var(--myeong);font-size:13px;font-weight:700;text-decoration:none;border-radius:999px;padding:8px 16px;transition:opacity 0.2s;}
+.dish .acts a:hover{opacity:0.9;}
+.acts .a-naver{background:#2db400;color:#fff;}
+.acts .a-map{background:var(--ink);color:#fff;}
+.acts .a-link{background:var(--sea);color:#fff;}
+.imgcap{font-size:11px;color:var(--ink-soft);text-align:right;padding:4px 14px 0;}
+.imgcap .ai{background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 7px;font-size:10px;}
+.imgcap .real{background:var(--sea);color:#fff;border-radius:999px;padding:1px 7px;font-size:10px;}
+
+.benefit{background:linear-gradient(135deg,#2f5d62,#427a71);color:#fff;border-radius:var(--radius);padding:24px 22px;margin:26px 0;text-align:center;}
+.benefit h3{font-family:var(--myeong);font-size:20px;margin-bottom:8px;}
+.benefit .soon{display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:12px;margin-bottom:10px;}
+.benefit p{font-size:14px;opacity:.95;max-width:560px;margin:0 auto 14px;}
+.benefit a.cta{display:inline-block;background:var(--gold);color:#1D1D1B;text-decoration:none;font-family:var(--myeong);font-weight:700;border-radius:999px;padding:12px 26px;font-size:14.5px;}
+
+.note{background:#fff5f4;border-left:4px solid var(--dawn);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--ink-soft);margin:18px 0;line-height:1.7;}
+.note a{color:var(--sea);}
+.src{font-size:12px;color:var(--ink-soft);text-align:center;margin:14px 0;line-height:1.9;}
+.src a{color:var(--sea);}
+footer{margin-top:30px;background:var(--hanji-dk);padding:22px;text-align:center;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+footer a{color:var(--ink);}
+.print-fab{position:fixed;right:18px;bottom:18px;z-index:80;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;border:0;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.28);font-size:22px;}
+.print-pop{position:fixed;right:18px;bottom:80px;z-index:81;background:#fff;border:1px solid var(--hanji-dk);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.22);padding:10px;width:240px;display:none;font-family:var(--myeong);}
+.print-pop.show{display:block;}
+.print-pop b{display:block;font-size:13px;padding:4px 6px 8px;}
+.print-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;font-family:inherit;}
+.print-pop button strong{font-size:13.5px;}.print-pop button small{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+@media print{.entry-bar,.filter-tabs,.print-fab,.print-pop,.acts,.benefit a.cta,.no-print{display:none !important;}
+  body:not(.print-save){-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-save{filter:grayscale(1);}body.print-save *{background:transparent !important;box-shadow:none !important;color:#111 !important;}
+  @page{margin:10mm;}}
+</style>
+</head>
+<body>
+
+<div class="entry-bar" role="navigation" aria-label="경로">
+  <a href="../../index.html" class="eb-home">연라이프 홈</a><span class="sep">›</span>
+  <span class="cur">대한민국</span><span class="sep">›</span>
+  <a href="ulsan.html">울산</a><span class="sep">›</span>
+  <span class="cur">울산의 맛</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eye">THE FOOD DIRECTORY OF ULSAN</div>
+    <h1>울산 31대 노포 & 맛집 가이드</h1>
+    <p>울산의 12미(味)와 정부 공인 백년가게, 현지 근로자들의 땀방울이 서린 해장 명가부터 길거리 간식까지 울산 미식의 모든 것을 한자리에 모았습니다.</p>
+  </div>
+</header>
+
+<div class="filter-tabs">
+  <button class="filter-tab active" data-filter="all">전체보기</button>
+  <button class="filter-tab" data-filter="signature">시그니처 향토음식</button>
+  <button class="filter-tab" data-filter="comfort">서민 먹거리·분식</button>
+  <button class="filter-tab" data-filter="seafood">자연산 해산물</button>
+  <button class="filter-tab" data-filter="baeknyeon">대물림 백년노포</button>
+</div>
+
+<main class="wrap">
+
+  <!-- ==================== CATEGORY 1: SIGNATURE ==================== -->
+  
+  <!-- 1. 언양기와집불고기 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-eonyang.webp" alt="언양기와집불고기">
+    </div>
+    <div class="imgcap">언양기와집불고기 정원 전경<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">EONYANG BULGOGI NO.1</div>
+      <h2>언양기와집불고기</h2>
+      <p>울산 언양을 대표하는 100년 전통의 한옥 불고기 명가입니다. 최상급 한우 암소만을 엄선해 숯불 위 석쇠에서 겉바속촉으로 바싹 구워 낸 불고기는 육즙이 배어나오는 고소함이 일품입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 언양읍 헌화로 86<br>
+        🍽️ <b>대표 메뉴</b> · 언양불고기 (석쇠구이), 한우 육회<br>
+        💡 <b>비결 팁</b> · 현장 대기가 매우 길므로 원격 대기앱(테이블링)을 사전에 필히 가동하시고, 아름다운 안마당이 보이는 정원쪽 테이블을 요청하세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=언양기와집불고기" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/언양기와집불고기" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 2. 언양 진미불고기 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="언양 진미불고기">
+    </div>
+    <div class="imgcap">진미불고기 양념 한우 석쇠구이<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">EONYANG BULGOGI LEGEND</div>
+      <h2>언양 진미불고기</h2>
+      <p>50년 이상의 업력을 이어온 백종원의 3대천왕 방영 명가입니다. 양념을 강하게 하지 않고 은은하게 마늘 향을 입혀 낸 생고기를 숯불에 노릇하게 구워내 한우 특유의 풍미와 부드러운 육질이 돋보입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 삼남읍 중평로 33<br>
+        🍽️ <b>대표 메뉴</b> · 진미불고기, 한우 꽃등심, 낙엽살<br>
+        💡 <b>비결 팁</b> · 양념 불고기를 먹기 전 맛보기로 한우 생고기(진미살)를 먼저 구워 드신 후, 입가심으로 불고기를 얹어 밥과 찌개로 식사하시는 동선을 추천합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=언양+진미불고기" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/언양+진미불고기" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 3. 봉계유통식당 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="봉계유통식당">
+    </div>
+    <div class="imgcap">봉계 한우 숯불 소금구이<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">BONGGYE HANWOO NOPO</div>
+      <h2>봉계유통식당</h2>
+      <p>언양과 함께 양대 산맥인 <b>봉계 한우불고기 특구</b>의 최고 터줏대감입니다. 이곳은 고기를 갈아 양념하는 언양식과 달리, 최상급 한우 암소 갈비살과 살치살을 숯불에 구워 왕소금만 콕 찍어 먹는 고유의 방식을 고수합니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 두동면 두동로 1904-4<br>
+        🍽️ <b>대표 메뉴</b> · 한우 소금구이, 갈비살, 육회<br>
+        💡 <b>비결 팁</b> · 곁들여 먹는 신선한 미나리와 이 집만의 비법 된장찌개는 기름진 한우의 맛을 개운하게 잡아줍니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=봉계유통식당" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/봉계유통식당" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4. 고래고기원조할매집 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-whale.webp" alt="고래고기원조할매집">
+    </div>
+    <div class="imgcap">장생포 밍크고래 모둠 수육<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JANGSAENGPO WHALE MEAT LEGEND</div>
+      <h2>고래고기원조할매집</h2>
+      <p>1945년 개업하여 장생포 포경 전성기부터 대를 이어온 80년 전통의 터줏대감입니다. 국내산 밍크고래만을 들여와 정확한 온도로 삶아내어 잡내 없이 고소하고 진한 열두 가지 맛(수육, 우네, 오복 등)을 온전히 선사합니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 장생포고래로 135<br>
+        🍽️ <b>대표 메뉴</b> · 고래 수육, 고래 모듬, 고래 육회찌개<br>
+        💡 <b>비결 팁</b> · 고래 냄새가 낯설다면 양념이 가미된 고래찌개나 고래육회로 입문하는 것이 안전합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=고래고기원조할매집" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/고래고기원조할매집" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 5. 청해고래전문점 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-whale.webp" alt="청해고래전문점">
+    </div>
+    <div class="imgcap">부위별 고래고기 플레이트<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JANGSAENGPO PREMIUM WHALE</div>
+      <h2>청해고래전문점</h2>
+      <p>장생포에서 미식가들 사이에서 평점이 가장 높은 고래고기 매니아들의 성지입니다. 냄새를 완전히 잡아 담백하면서도 쫄깃함이 극대화된 밍크고래 수육과 고소한 우네(고래 배부위살) 부위가 시그니처입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 장생포고래로 113-1<br>
+        🍽️ <b>대표 메뉴</b> · 밍크고래 수육, 찌개, 두루치기<br>
+        💡 <b>비결 팁</b> · 기름진 우네는 고추와 멸치젓갈 소스에 푹 찍어 드시면 느끼함이 사라지고 숨겨진 단맛이 올라옵니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=장생포+청해고래전문점" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/장생포+청해고래전문점" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6. 정자대게 대게궁 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-daege.webp" alt="정자대게 대게궁">
+    </div>
+    <div class="imgcap">오션뷰 정자대게 찜 차림<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JEONGJA PORT CRAB MASTER</div>
+      <h2>정자대게 대게궁</h2>
+      <p>울산 정자항 바로 앞에서 자연산 박달대게 코스를 제공하는 동해안 대표 명소입니다. 갓 쪄낸 대게찜 외에도 다리회, 치즈구이, 내장비빔밥, 대게라면까지 푸짐하게 이어지는 명품 코스 구성을 즐길 수 있습니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 북구 정자1길 17<br>
+        🍽️ <b>대표 메뉴</b> · 정자대게 코스 요리, 대게 회, 게장 비빔밥<br>
+        💡 <b>비결 팁</b> · 바다전망이 탁 트인 2층 통유리 좌석은 네이버 예약을 이용해 미리 찜해 두시는 것이 필수입니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=정자대게+대게궁" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/정자대게+대게궁" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 7. 유정호선장집 -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-daege.webp" alt="유정호선장집">
+    </div>
+    <div class="imgcap">정자 박달대게 찜<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JEONGJA CAPTAIN'S SEAFOOD</div>
+      <h2>유정호선장집</h2>
+      <p>선주이자 선장님이 직접 운영하여 신뢰감을 주는 정자항의 또 다른 대게 명가입니다. 정직한 저울질과 수율 좋은 대게만을 선별해 찌기 때문에 현지 단골 비중이 가장 높은 정직한 대게 전문점입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 북구 정자1길 19<br>
+        🍽️ <b>대표 메뉴</b> · 대게 찜, 대게 치즈구이, 홍게라면<br>
+        💡 <b>비결 팁</b> · 선장이 운영하는 집답게, 서비스로 나오는 싱싱한 자연산 활어 곁들이 찬(스끼다시)의 퀄리티가 우수합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=유정호선장집" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/유정호선장집" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 8. 감포 생아구찜 (연라이프 제휴 입점점) -->
+  <article class="dish" data-tags="signature">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sig">시그니처 향토음식</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="감포 생아구찜">
+    </div>
+    <div class="imgcap">정자항 생아구탕 한 상<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JEONGJA LIVE MONKFISH</div>
+      <h2>감포 생아구찜 (가게 소개 단독 페이지 운영)</h2>
+      <p>냉동을 일절 쓰지 않고 매일 정자항 바다에서 들어온 싱싱한 <b>생물 생아구</b>로만 끓여내는 칼칼한 생아구탕과 아구찜 전문점입니다. 욕쟁이 할머니의 투박하지만 깊은 전라도 손맛 정취를 그대로 느낄 수 있습니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 북구 정자7길 28-1<br>
+        🍽️ <b>대표 메뉴</b> · 생아구탕 (맑은/얼큰), 생아구찜, 아구수육<br>
+        💡 <b>비결 팁</b> · 사장님이 한 땀 한 땀 끓여 내어 맑고 깨끗한 아구 지리탕은 울산 시내에서도 아침 해장하러 찾아오는 일품 해장국입니다.
+      </div>
+      <div class="acts">
+        <a class="a-link" href="../../gampo-agutang/index.html">가게 상세 소개 & 예약 페이지로 가기 →</a>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- ==================== CATEGORY 2: COMFORT ==================== -->
+
+  <!-- 9. 저수지휴게실 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·분식</span>
+      <img loading="lazy" src="../../img/ulsan/food-sujebi.png" alt="저수지휴게실 매운수제비">
+    </div>
+    <div class="imgcap">율리 저수지 매운수제비 실물 사진<span class="real">📷 실사진</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">YULRI SPICY SUJEBI MASTER</div>
+      <h2>저수지휴게실 (매운수제비)</h2>
+      <p>울산 율리 청량천과 저수지 옆에 위치하여 하루 종일 등산객과 미식가들로 대기줄이 끊이지 않는 울산의 레전드 맛집입니다. 매콤한 고추장 육수에 <b>산초와 제피</b>를 듬뿍 넣어 추어탕처럼 알싸하고 얼큰한 끝 맛이 중독적입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 청량읍 상보두현길 53<br>
+        🍽️ <b>대표 메뉴</b> · 매운수제비, 일반 수제비, 도토리묵<br>
+        💡 <b>비결 팁</b> · 기본 웨이팅 1시간 이상이며, 주문 후 손으로 뜯어 조리하므로 음식이 나오는 시간도 30분 이상 걸립니다. 도착 시 카운터에서 대기표를 먼저 확보하세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=저수지휴게실" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/저수지휴게실" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 10. 양지혜매운수제비 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·분식</span>
+      <img loading="lazy" src="../../img/ulsan/food-sujebi.png" alt="양지혜매운수제비">
+    </div>
+    <div class="imgcap">얼큰하고 걸쭉한 매운수제비<span class="real">📷 실사진</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">EONYANG SPICY SUJEBI</div>
+      <h2>양지혜매운수제비</h2>
+      <p>울주군 언양읍에서 제피가루를 넣은 알싸한 매운수제비로 로컬 주민들의 해장을 도맡아 온 숨은 명가입니다. 메뉴는 매운수제비와 들깨수제비 딱 두 가지만 고집하며 얇고 쫀득한 반죽 결이 일품입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 언양읍 언양로 620<br>
+        🍽️ <b>대표 메뉴</b> · 매운 수제비, 들깨 수제비, 손만두<br>
+        💡 <b>비결 팁</b> · 산초/제피 향이 저수지휴게실보다 조금 부드러워 향신료에 민감한 입문자들이 칼칼하게 즐기기에 최적화된 곳입니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=양지혜매운수제비" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/양지혜매운수제비" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 11. 하동식당 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-gukbap.webp" alt="하동식당 돼지국밥">
+    </div>
+    <div class="imgcap">하동식당 돼지국밥 한 뚝배기<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">BANGEONJIN PORK SOUP LEGEND</div>
+      <h2>하동식당</h2>
+      <p>동구 방어진 조선소 인근의 아침을 여는 50년 전통의 돼지국밥 노포입니다. 육수에 밥을 여러 번 토렴하여 밥알에 뽀얗고 고소한 국물이 흠뻑 스며있으며, 머리고기와 내장을 다져 넣은 섞어국밥의 깊이가 남다릅니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 동해안로 30-7<br>
+        🍽️ <b>대표 메뉴</b> · 섞어국밥 (내장+고기), 살코기국밥, 돼지수육<br>
+        💡 <b>비결 팁</b> · 국물이 맑고 담백한 편이라 기본으로 얹어져 나오는 양념장(다대기)과 후추를 먼저 잘 섞어 드신 뒤, 깍두기 국물을 부어 마무리하는 단골이 많습니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=방어진+하동식당" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/방어진+하동식당" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 12. 뚱이한우국밥 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-gukbap.webp" alt="뚱이한우국밥">
+    </div>
+    <div class="imgcap">진한 한우 해장국밥<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">3-HOUR SOUP LEGEND</div>
+      <h2>뚱이한우국밥</h2>
+      <p>울산 중구 병영사거리 인근의 기이한 노포입니다. <b>오전 8시부터 11시까지 단 3시간만 영업</b>하며 그날 준비한 한우국밥 양이 소진되면 가차 없이 문을 닫습니다. 저렴한 가격에 믿기 힘들 정도로 부드러운 한우고기가 가득 든 장터식 국밥의 보물입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 번영로 595<br>
+        🍽️ <b>대표 메뉴</b> · 한우국밥, 소고기 육전<br>
+        💡 <b>비결 팁</b> · 오전 10시가 넘어가면 재료가 거의 마감되어 헛걸음하기 십상이니, 이른 오전 8~9시 사이에 아침 해장으로 들르시는 일정을 추천합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=뚱이한우국밥" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/뚱이한우국밥" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 13. 신정시장 경주국밥 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-gukbap.webp" alt="경주국밥">
+    </div>
+    <div class="imgcap">정겨운 장터 돼지국밥 수육<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">SHINJEONG MARKET SOUP ALLEY</div>
+      <h2>신정시장 경주국밥</h2>
+      <p>울산 최대 전통시장인 신정시장 국밥골목 내에서 가장 오래된 명가 중 한 곳입니다. 돼지 머리고기를 푹 고아 낸 육수가 아주 녹진하고 구수하며, 국밥에 넣어주는 고기의 두께와 씹는 맛이 시장 인심 그대로 가득 차 있습니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 월평로 47번길 7 (신정시장 안)<br>
+        🍽️ <b>대표 메뉴</b> · 돼지국밥, 순대국밥, 머리고기 수육<br>
+        💡 <b>비결 팁</b> · 시장 특유의 정취를 느끼며 순대와 수육이 섞여 나오는 모둠 수육을 시키면 맑은 국물 국밥이 함께 서비스로 제공됩니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=신정시장+경주국밥" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/신정시장+경주국밥" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 14. 중앙전통시장 곰장어 골목 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-gomjangeo.png" alt="성남동 곰장어 골목">
+    </div>
+    <div class="imgcap">매콤달콤한 짚불 양념 곰장어 구이 실물<span class="real">📷 실사진</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">SEONGNAM OLD MARKET SPICY EEL</div>
+      <h2>중앙전통시장 곰장어 골목</h2>
+      <p>성남동 중앙시장 내 50년 넘는 역사를 지닌 곰장어 특화 골목입니다. 직화 연탄불 위에서 구워 불향이 가득 밴 담백한 소금구이와 칼칼하고 마약같은 매운 고추장 양념구이 두 갈래로 애주가들을 유혹합니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 성남동 중앙전통시장 곰장어 골목 일대<br>
+        🍽️ <b>대표 메뉴</b> · 양념 곰장어 구이, 소금 곰장어 구이, 돌판 볶음밥<br>
+        💡 <b>비결 팁</b> · 소금구이로 원조 고소함을 가볍게 확인한 뒤, 양념구이판으로 넘어가 매콤하게 야채와 즐기고 돌판 볶음밥으로 꼭 탄수화물을 마감하셔야 합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=성남동+중앙시장+곰장어" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/성남동+중앙시장+곰장어" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 15. 다운목살구이 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-moksal.webp" alt="다운목살구이">
+    </div>
+    <div class="imgcap">연탄불로 훈연하는 도톰한 목살구이<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">DAWOON PORK NECK SOUL</div>
+      <h2>다운목살구이</h2>
+      <p>현지 근로자들과 범서읍 주민들이 가장 사랑하는 단골 고깃집입니다. 연탄불에 초벌한 비계 섞인 목살 소금구이와 매콤달큰하게 대파와 버무려 볶아 나오는 목살 두루치기가 침샘을 폭발시킵니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 범서읍 범서로 98<br>
+        🍽️ <b>대표 메뉴</b> · 연탄 목살 소금구이, 목살 두루치기, 김치찌개<br>
+        💡 <b>비결 팁</b> · 고기를 다 구운 연탄불 판에 매콤한 두루치기와 김가루를 올려 볶아 먹는 김치볶음밥은 감동적인 풍미를 선사합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=다운목살구이" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/다운목살구이" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 16. 거부돌곱창 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·국밥</span>
+      <img loading="lazy" src="../../img/ulsan/food-gopchang.webp" alt="거부돌곱창">
+    </div>
+    <div class="imgcap">거부돌곱창 한우 곱창 돌판구이<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">ULSAN GOPCHANG LEGEND</div>
+      <h2>거부돌곱창</h2>
+      <p>공업탑 뒤편 삼산/신정동 직장인들이 퇴근길에 떼 지어 몰려드는 돌곱창 전문점입니다. 천연 돌판 위에서 바삭하게 굽는 한우곱창구이는 고소한 곱이 가득 차있어 울산 3대 곱창의 정석을 고스란히 보여줍니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 봉월로8번길 5<br>
+        🍽️ <b>대표 메뉴</b> · 돌곱창구이, 곱창전골, 볶음밥<br>
+        💡 <b>비결 팁</b> · 구이 기름을 머금은 돌판에 바로 부어 끓여내는 곱창전골은 소주 안주 및 칼칼한 입가심으로 최고의 맛을 선사합니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=거부돌곱창" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/거부돌곱창" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 17. 울산 원조 연필쫀드기 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <div class="dish-img-placeholder">
+        <span>🍿</span>
+        <strong>울산 원조 연필쫀드기</strong>
+      </div>
+    </div>
+    <div class="dish-body">
+      <div class="dish-tag">ULSAN UNIQUE STREET FOOD</div>
+      <h2>울산 원조 연필쫀드기 (성남동 본점)</h2>
+      <p>전국에서 오직 **울산 지역**에서만 볼 수 있는 독특한 로컬 소울 분식입니다. 우리가 아는 일반 쫀드기를 기름에 튀겨낸 뒤 라면 수프와 설탕을 적절히 배합해 만든 특제 가루를 범벅해서 봉지에 담아 먹는 중독성 끝판왕의 국민 간식입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 성남동 젊음의거리 인근 노점 및 매장<br>
+        🍽️ <b>대표 메뉴</b> · 튀김 쫀드기 (연필식), 라면 쫀드기<br>
+        💡 <b>비결 팁</b> · 갓 튀겨내 뜨거울 때 호호 불며 먹어야 쫄깃함과 단짠 수프의 매력이 배가됩니다. 시원한 탄산음료나 맥주 캔 하나를 들고 성남동 길거리를 거닐며 드셔보세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=울산+원조+쫀드기" target="_blank" rel="noopener">네이버 검색</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 18. 간절곶 해빵 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-com">서민 먹거리·분식</span>
+      <img loading="lazy" src="../../img/ulsan/ganjeolgot.webp" alt="간절곶 해빵">
+    </div>
+    <div class="imgcap">간절곶 등대 전경 (해빵 발상지)<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">GANJEOLGOT SUN BREAD</div>
+      <h2>간절곶 해빵</h2>
+      <p>동해안에서 가장 해가 빨리 뜨는 간절곶의 명물 수제 디저트 빵입니다. 부드럽고 촉촉한 카스테라 번 사이에 달콤한 수제 커스터드 팥 크림이 들어있고, 아래 바닥면은 바삭하고 고소한 소보로 크럼블로 마감해 한 빵에서 세 가지 식감을 냅니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 울주군 서생면 해맞이로 924<br>
+        🍽️ <b>대표 메뉴</b> · 간절곶 해빵 (팥/커스터드 소보로 번)<br>
+        💡 <b>비결 팁</b> · 간절곶 해변 산책로 관광을 마치고 가족·지인 선물용 세트로 대량 구입해 가기 매우 좋습니다. 차갑게 식혀 먹으면 안의 크림이 더욱 단단하고 맛있어집니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=간절곶+해빵" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/간절곶+해빵" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 19. 해월당 본점 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <div class="dish-img-placeholder">
+        <span>🍞</span>
+        <strong>해월당 베이커리 카페</strong>
+      </div>
+    </div>
+    <div class="dish-body">
+      <div class="dish-tag">ULSAN LARGEST BAKERY CAFE</div>
+      <h2>해월당 (일산 본점)</h2>
+      <p>울산 방어진과 일산해수욕장 바닷가를 장악한 울산 토종 초대형 베이커리 카페입니다. 유기농 밀가루와 직접 배양한 천연 발효종을 사용해 정성껏 구워내는 고로케와 쌀빵, 타르트가 수십 종 진열되어 빵순이들의 필수 방앗간으로 불립니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 일산진11길 11<br>
+        🍽️ <b>대표 메뉴</b> · 해월빵 (생크림단팥빵), 수제 고로케, 육쪽마늘빵<br>
+        💡 <b>비결 팁</b> · 일산해수욕장이 훤히 보이는 탁 트인 통유리창 자리를 잡고 커피 한 잔과 해월당 시그니처 크림빵을 곁들여 휴식을 즐기세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=해월당+본점" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/해월당+본점" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 20. 소문난 팥빙수 단팥죽 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <div class="dish-img-placeholder">
+        <span>🍧</span>
+        <strong>소문난 팥빙수 단팥죽</strong>
+      </div>
+    </div>
+    <div class="dish-body">
+      <div class="dish-tag">SEONGNAM MARKET REDBEAN SWEET</div>
+      <h2>소문난 팥빙수 단팥죽</h2>
+      <p>성남동 중앙시장 한편에서 30년 넘게 자리를 지켜온 작고 아담한 단팥 전통 디저트 쉼터입니다. 직접 가마솥에 정성껏 국산 팥을 쑤어 올리는 옛날식 가마솥 팥빙수와 쫀득한 인절미 떡을 고명으로 얹어주는 단팥죽이 향수를 불러일으킵니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 성남동 중앙시장 내 골목길<br>
+        🍽️ <b>대표 메뉴</b> · 옛날 팥빙수, 전통 단팥죽 (각 5,000원 선)<br>
+        💡 <b>비결 팁</b> · 계절 상관없이 여름엔 얼음 가득 팥빙수를, 추운 겨울엔 시나몬 가루를 톡톡 뿌려 숟가락으로 떠먹는 뜨끈한 단팥죽 한 그릇이 소소한 행복을 줍니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=성남동+소문난+단팥죽" target="_blank" rel="noopener">네이버 검색</a>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- ==================== CATEGORY 3: SEAFOOD ==================== -->
+
+  <!-- 21. 정자참가자미 -->
+  <article class="dish" data-tags="seafood baeknyeon">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/food-gajami.png" alt="정자참가자미">
+    </div>
+    <div class="imgcap">정자참가자미 세꼬시 활어회 실물<span class="real">📷 실사진</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">EAST SEA SOLE FISH BAEKNYEON</div>
+      <h2>정자참가자미</h2>
+      <p>울산 남구 삼산동 먹자거리에 위치한 중소벤처기업부 인증 **백년가게** 참가자미 전문 횟집입니다. 양식이 전혀 불가능한 동해 참가자미를 정교하게 뼈째 썰어낸(세꼬시) 회로, 고소하고 쫄깃하여 씹을수록 깊은 단맛이 올라옵니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 왕생로 160<br>
+        🍽️ <b>대표 메뉴</b> · 참가자미 세꼬시, 가자미 미역국, 뼈꼬시 물회<br>
+        💡 <b>비결 팁</b> · 세꼬시와 함께 내어주는 특제 쌈장 소스에 생고추와 와사비를 풀고, 곁들임 찬으로 나오는 가자미 미역국 국물로 뜨끈하게 식사를 채우세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=정자참가자미" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/정자참가자미" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 22. 섬뜰 -->
+  <article class="dish" data-tags="seafood">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/food-jeonbok.webp" alt="섬뜰 전복밥">
+    </div>
+    <div class="imgcap">정갈하게 비벼 먹는 가마솥 전복밥<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">DAEWANGAM ABALONE SPECIALTY</div>
+      <h2>섬뜰</h2>
+      <p>방어진 대왕암공원 산책로 입구의 전복 웰빙 맛집입니다. 무쇠 가마솥에 게우(전복 내장)와 전복 슬라이스를 얹어 지은 뽀얗고 고소한 전복밥 정식이 시그니처이며, 웰빙 건강 보양식으로 부모님을 모시고 가기 최적입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 방어진순환도로 1167<br>
+        🍽️ <b>대표 메뉴</b> · 전복밥, 전복 회무침, 전복 죽<br>
+        💡 <b>비결 팁</b> · 부추 무침과 김가루, 특제 양념간장을 전복밥에 슥슥 비벼 김에 싸 먹으면 게우 향이 입안 가득 채워집니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=방어진+섬뜰" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/방어진+섬뜰" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 23. 주전/강동 해녀포차 & 초장집 -->
+  <article class="dish" data-tags="seafood">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="주전 해녀 해산물">
+    </div>
+    <div class="imgcap">동해 해안가 해녀 수산물 모둠<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">JUJEON COAST HAENYEO OUTDOOR</div>
+      <h2>주전/강동 해녀포차 & 초장집</h2>
+      <p>주전 몽돌 해변가에서 실제 물질하시는 울산 해녀 할머니들이 물질해 올린 성게와 소라를 즉석에서 까서 파는 야외 포장마차 매장입니다. 파도 소리와 몽돌 구르는 소리를 들으며 맛보는 자연산 신선함이 극치입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 주전해안길 일대 (해녀나잠회 수산물 판매 센터 부근)<br>
+        🍽️ <b>대표 메뉴</b> · 해녀 수산물 모둠, 소라 회, 성게알 (시즌제), 해물 라면<br>
+        💡 <b>비결 팁</b> · 돌미역에 노란 성게알(우니)을 듬뿍 얹어 초장이나 와사비장에 찍어 먹으면 바다의 진득한 단맛이 온전히 혀끝에 머뭅니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=주전+해녀포차" target="_blank" rel="noopener">네이버 검색</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 24. 미포회관 (미포가자미찌개) -->
+  <article class="dish" data-tags="seafood">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/food-gajami.png" alt="미포회관 가자미찌개">
+    </div>
+    <div class="imgcap">매콤하고 칼칼한 가자미찌개<span class="real">📷 실사진</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">SHIPYARD WORKER'S DINER</div>
+      <h2>미포회관</h2>
+      <p>동구 미포조선과 현대중공업 조선소 조선공들이 퇴근 후나 점심때 들르는 레전드 밥집입니다. 무와 감자를 두툼하게 썰어 넣고 살아있는 신선한 가자미를 자작하고 칼칼하게 졸여 낸 가자미찌개는 묵직하고 시원해 밥도둑으로 불립니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 방어진순환도로 963<br>
+        🍽️ <b>대표 메뉴</b> · 가자미 찌개, 가자미 조림, 동태찌개<br>
+        💡 <b>비결 팁</b> · 조선소 근로자 대상 밥집이라 반찬 가짓수가 많고 간이 짭조름하게 배어 있습니다. 찌개 국물을 흰 쌀밥에 슥슥 비벼 드시는 것이 제일 맛있습니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=동구+미포회관+가자미" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/동구+미포회관" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 25. 슬도 지향맛집 -->
+  <article class="dish" data-tags="seafood">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/seuldo.webp" alt="슬도 지향맛집">
+    </div>
+    <div class="imgcap">동구 방어진 슬도 등대 전경<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">SEULDO ISLAND GAJAMI STEW</div>
+      <h2>지향맛집 (슬도 참가자미)</h2>
+      <p>방어진 동쪽 끝자락 등대섬인 슬도(Seuldo) 초입 포구에 숨겨진 현지인 아지트 밥집입니다. 칼칼하게 청양고추와 고춧가루를 팍팍 풀어 넣고 토막 낸 참가자미와 무를 조려 낸 매콤한 가자미찌개가 명물입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 성끝길 83 (슬도 활어센터 안편)<br>
+        🍽️ <b>대표 메뉴</b> · 가자미 찌개, 회덮밥, 가자미구이<br>
+        💡 <b>비결 팁</b> · 슬도 바람 소리와 파도를 산책하고 들르기 좋으며, 가자미알이 꽉 차는 겨울철에 방문하면 알탕 뺨치는 묵직하고 깊은 찌개 국물을 마주할 수 있습니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=슬도+지향맛집" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/슬도+지향맛집" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 26. 일산해수욕장 동진횟집 -->
+  <article class="dish" data-tags="seafood">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-sea">자연산 해산물</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="동진횟집">
+    </div>
+    <div class="imgcap">신선한 동해 활어회 곁들이찬<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">ILSAN BEACH FRESH RAW FISH</div>
+      <h2>동진횟집</h2>
+      <p>일산해수욕장 바닷가 방파제 근처에서 30년 넘게 영업해 온 신선한 로컬 횟집입니다. 관광지 초장집들과 달리 가성비가 매우 훌륭하며, 갓 잡아 썰어오는 광어, 우럭과 철철이 다른 제철 뼈째회(세꼬시) 물회가 유독 인기입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 동구 일산진11길 15<br>
+        🍽️ <b>대표 메뉴</b> · 제철 모듬회, 명품 물회, 우럭 매운탕<br>
+        💡 <b>비결 팁</b> · 시원하고 새콤달콤한 소스에 얼음을 띄워 주는 동진횟집의 물회는 여름철 입맛을 돋우는 데 최고의 명품 점심 식사가 됩니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=일산해수욕장+동진횟집" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/일산해수욕장+동진횟집" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 27. 삼산동 풍로옥 -->
+  <article class="dish" data-tags="comfort">
+    <div class="dish-img-wrap">
+      <div class="dish-img-placeholder">
+        <span>🍜</span>
+        <strong>평양냉면 풍로옥</strong>
+      </div>
+    </div>
+    <div class="dish-body">
+      <div class="dish-tag">ULSAN ONLY PYONGYANG COLD NOODLE</div>
+      <h2>풍로옥 (평양냉면)</h2>
+      <p>울산 삼산동 뒤편에 위치한, 울산 전체를 통틀어 사실상 유일하게 제대로 된 <b>평양냉면</b>을 자가제면하여 내는 냉면 성지입니다. 육향이 은은하고 맑게 퍼지는 차가운 육수에 메밀 함량 높은 툭툭 끊기는 면발의 완성도가 서울 유명 면옥 못지않습니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 돋질로 251번길 9<br>
+        🍽️ <b>대표 메뉴</b> · 평양냉면, 온면, 어복쟁반, 제육<br>
+        💡 <b>비결 팁</b> · 식초나 겨자를 치지 않고 면을 육수에 잘 풀어 대접째 들이켜 깊은 소고기 메밀 향을 느껴보신 뒤, 부드럽게 썬 돼지고기 수육(제육) 한 접시를 곁들이세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=울산+풍로옥" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/울산+풍로옥" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- ==================== CATEGORY 4: BAEKNYEON ==================== -->
+
+  <!-- 28. 고궁식당 -->
+  <article class="dish" data-tags="baeknyeon">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-baek">대물림 백년노포</span>
+      <img loading="lazy" src="../../img/ulsan/onggi.webp" alt="고궁식당 정식">
+    </div>
+    <div class="imgcap">정갈하게 내어오는 고궁 정식 상차림<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">GOGUNG KOREAN RESTAURANT</div>
+      <h2>고궁식당</h2>
+      <p>중구 성남동 한옥 보존구역 내에서 오랜 세월을 지켜온 울산 대표 한식 **백년가게**입니다. 고즈넉한 한옥집 안방에서 차려내오는 정갈하고 삼삼한 영양 한우 불고기 석쇠구이 정식과 토속적인 된장찌개, 전통 밑반찬들이 품격을 느끼게 합니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 성남동 한옥거리 안길<br>
+        🍽️ <b>대표 메뉴</b> · 고궁 석쇠불고기 정식, 한우 갈비찜, 비빔밥<br>
+        💡 <b>비결 팁</b> · 조미료를 최소화하여 담백합니다. 중정 소나무가 보이는 안뜰 독방은 사전 가족 예약 시 우선 배정됩니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=성남동+고궁식당" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/성남동+고궁식당" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 29. 영안반점 -->
+  <article class="dish" data-tags="baeknyeon">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-baek">대물림 백년노포</span>
+      <img loading="lazy" src="../../img/ulsan/food-junghwa.webp" alt="영안반점 탕수육">
+    </div>
+    <div class="imgcap">바삭하게 튀겨 낸 옛날식 전통 탕수육<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">YEONGAN CHINESE RESTAURANT</div>
+      <h2>영안반점</h2>
+      <p>울산 성남동 구도심을 70년 가까이 지켜온 정통 **화교 2대째** 운영 중식당이자 공식 백년가게입니다. 자극적인 양념 대신 맑고 투명한 옛날식 소스를 끼얹어 볶아내어, 고기 튀김 본연의 바삭함과 신선함을 살렸습니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 중구 번영로 329<br>
+        🍽️ <b>대표 메뉴</b> · 전통 탕수육, 유니짜장, 삼선간짜장<br>
+        💡 <b>비결 팁</b> · 소스가 부어져 나오지만 튀김옷의 바삭함이 식사 끝까지 유지됩니다. 불향이 강한 삼선간짜장에 군만두를 탕수육에 곁들이세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=울산+영안반점" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/울산+영안반점" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 30. 고궁삼계탕 -->
+  <article class="dish" data-tags="baeknyeon">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-baek">대물림 백년노포</span>
+      <img loading="lazy" src="../../img/ulsan/food-hanwoo.webp" alt="고궁삼계탕">
+    </div>
+    <div class="imgcap">삼산동 고궁삼계탕 차림<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">GOGUNG SAMGYETANG SOUP</div>
+      <h2>고궁삼계탕</h2>
+      <p>남구 삼산동 먹자거리에 위치한 30년 역사의 공식 **백년가게** 삼계탕 보양식 명소입니다. 영계를 인삼, 밤, 찹쌀과 함께 오랫동안 푹 고아내어 국물이 걸쭉하고 진한 것이 특색입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 돋질로 386-1<br>
+        🍽️ <b>대표 메뉴</b> · 한방 삼계탕, 옻 삼계탕, 전기구이 통닭<br>
+        💡 <b>비결 팁</b> · 식전 인삼주 1병이 서비스로 제공됩니다. 삼계탕 닭고기를 먼저 소금에 발라 드신 후 찹쌀죽 국물에 인삼주를 부어 향긋하게 들이키세요.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=고궁삼계탕" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/고궁삼계탕" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 31. 신정동 만리장성 -->
+  <article class="dish" data-tags="baeknyeon">
+    <div class="dish-img-wrap">
+      <span class="dish-tag-badge tag-baek">대물림 백년노포</span>
+      <img loading="lazy" src="../../img/ulsan/food-junghwa.webp" alt="만리장성 중식">
+    </div>
+    <div class="imgcap">정통 중화요리 코스 상차림<span class="ai">AI 그림</span></div>
+    <div class="dish-body">
+      <div class="dish-tag">OKDONG PREMIUM CHINESE BAEKNYEON</div>
+      <h2>만리장성 (옥동)</h2>
+      <p>남구 신정동/옥동 인근에서 35년 넘는 세월 동안 고풍스럽고 묵직하게 정통 중화 코스요리를 대접해 온 명문 **백년가게**입니다. 울산 고위층이나 주요 인사들의 모임 장소로 빈번히 활용되는 고급스러운 코스 요리와 딤섬이 강점입니다.</p>
+      <div class="pick">
+        📍 <b>주소</b> · 남구 문수로 435<br>
+        🍽️ <b>대표 메뉴</b> · 삼선간짜장, 전가복, 칠리새우, 런치 코스<br>
+        💡 <b>비결 팁</b> · 소규모 모임이나 가족 단위 식사 시 룸 좌석을 예약하면 격조 높고 조용한 분위기 속에서 정갈한 코스 요리를 즐길 수 있습니다.
+      </div>
+      <div class="acts">
+        <a class="a-naver" href="https://search.naver.com/search.naver?query=울산+만리장성" target="_blank" rel="noopener">네이버 검색</a>
+        <a class="a-map" href="https://map.naver.com/p/search/울산+만리장성" target="_blank" rel="noopener">지도·길찾기</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 제휴 혜택 코너 (정직) -->
+  <section class="benefit no-print">
+    <span class="soon">준비 중</span>
+    <h3>연라이프 소개 제휴 혜택</h3>
+    <p>곧 맛집들과 공식 제휴를 통해 “연라이프 울산 소개 보고 왔어요” 인증 시 서비스(음료 등)나 소소한 할인 혜택을 받으실 수 있도록 조율 중입니다. 지금은 어떠한 대가 없이 검증된 정보만 정직하게 알려드립니다.</p>
+    <a class="cta" href="#" onclick="event.preventDefault();openIntro();">가게 등록 및 제휴 신청 →</a>
+  </section>
+
+  <div class="note">
+    ⚠ 식당의 <b>영업시간·휴무일·가계부 정보는 변동될 수 있으니 방문 전 확인</b>이 안전합니다. 실시간 현지 웨이팅 및 생생한 현지 별점 순위는 
+    <a href="https://www.diningcode.com/list.dc?query=울산 맛집" target="_blank" rel="noopener">다이닝코드</a>와
+    <a href="https://www.siksinhot.com" target="_blank" rel="noopener">식신</a> 앱을 교차 확인하시면 가장 정확합니다.
+  </div>
+
+  <p class="no-print" style="text-align:center;margin:8px 0 28px;"><a href="ulsan.html" style="color:var(--sea);font-weight:700;">← 울산 소개로 돌아가기</a></p>
+</main>
+
+<footer>
+  울산 미식 가이드 · 31대 현지 노포 정보 (가게 상세 정보는 방문 전 재확인 요망) · 일부 가상 이미지는 AI 일러스트입니다.<br>
+  © 2026 연라이프(y-life.kr) · 세계로 여행 · 기획·운영 <a href="mailto:jinwooshon@gmail.com">연소사</a>
+</footer>
+
+<button class="print-fab no-print" aria-label="인쇄" onclick="document.getElementById('pp').classList.toggle('show');">🖨️</button>
+<div class="print-pop no-print" id="pp">
+  <b>인쇄 방식을 골라주세요</b>
+  <button type="button" onclick="yp(false)"><strong>① 보이는 그대로</strong><small>색·디자인 그대로</small></button>
+  <button type="button" onclick="yp(true)"><strong>② 종이 절약(2단·흑백)</strong><small>흑백·여백 최소</small></button>
+</div>
+
+<script>
+function yp(s){document.getElementById('pp').classList.remove('show');document.body.classList.toggle('print-save',!!s);setTimeout(()=>window.print(),60);}
+window.addEventListener('afterprint',()=>document.body.classList.remove('print-save'));
+document.addEventListener('click',e=>{var p=document.getElementById('pp');if(p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('.print-fab'))p.classList.remove('show');});
+</script>
+
+<!-- 우리도 소개해 주세요 안내창 -->
+<style>
+.imodal{position:fixed;inset:0;z-index:200;display:none;}
+.imodal.open{display:block;}
+.imodal-bd{position:absolute;inset:0;background:rgba(20,18,16,.55);}
+.imodal-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);max-height:90vh;overflow:auto;background:var(--hanji-lt);border:1px solid var(--hanji-dk);border-radius:18px;box-shadow:0 22px 64px rgba(0,0,0,.42);padding:26px 22px 22px;text-align:center;}
+.imodal-x{position:absolute;right:12px;top:8px;background:none;border:0;font-size:26px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+.imodal h3{font-family:var(--myeong);font-size:20px;margin-bottom:8px;}
+.imodal>.imodal-panel>p{font-size:13.5px;color:var(--ink-soft);line-height:1.75;margin-bottom:16px;}
+.imodal .lead{font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:16px;}
+#introForm{display:flex;flex-direction:column;gap:9px;text-align:left;}
+#introForm input,#introForm textarea{width:100%;padding:11px 12px;border:1px solid var(--hanji-dk);border-radius:10px;font-family:var(--serif);font-size:14.5px;background:#fff;color:var(--ink);}
+#introForm textarea{resize:vertical;min-height:46px;}
+#introForm .hp{position:absolute;left:-9999px;width:1px;height:1px;}
+.im-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:12px;padding:14px;margin-top:6px;font-family:var(--myeong);font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;background:var(--ink);color:#fff;}
+.im-btn:disabled{opacity:.55;cursor:wait;}
+.imodal .im-note{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.6;}
+.imodal .im-note a{color:var(--sea);}
+#introDone{display:none;padding:12px 6px;}
+#introDone .ok{font-size:34px;}
+#introDone h4{font-family:var(--myeong);font-size:18px;margin:6px 0 4px;}
+#introDone p{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+</style>
+<div class="imodal" id="imodal" role="dialog" aria-modal="true" aria-label="가게 제휴 신청">
+  <div class="imodal-bd" onclick="closeIntro()"></div>
+  <div class="imodal-panel">
+    <button class="imodal-x" type="button" onclick="closeIntro()" aria-label="닫기">&times;</button>
+    <h3>가게 제휴 및 추천 신청</h3>
+    <p class="lead">아래 양식을 입력해 주시면, 검토 후 연라이프 울산 미식 가이드에 등록해 드립니다.</p>
+    <form id="introForm" onsubmit="return submitIntro(event)">
+      <input name="가게이름" placeholder="가게 이름" required maxlength="40">
+      <input name="연락처" placeholder="연락처 (전화번호 또는 이메일)" required maxlength="40">
+      <input name="위치" placeholder="가게 위치 (예: 남구 삼산동)" maxlength="50">
+      <textarea name="소개" placeholder="대표 메뉴 및 가게 소개글 (선택)" rows="2" maxlength="120"></textarea>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" value="[울산-제휴신청] 새 맛집 신청이 들어왔어요">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="submit" class="im-btn" id="introSubmit">신청서 보내기 →</button>
+    </form>
+    <div id="introDone">
+      <div class="ok">✅</div>
+      <h4>신청이 완료되었습니다!</h4>
+      <p>기획자 <b>연소사</b>가 검토 후 영업일 기준 3일 내 연락드리겠습니다.<br>신청해주셔서 대단히 감사드립니다.</p>
+    </div>
+    <p class="im-note">잘 안 되면 <a href="mailto:jinwooshon@gmail.com?subject=[울산-제휴신청]">메일로 직접 보내기</a> · 전달된 정보는 안전하게 보관됩니다.</p>
+  </div>
+</div>
+
+<script>
+function openIntro(){document.getElementById('imodal').classList.add('open');document.body.style.overflow='hidden';}
+function closeIntro(){document.getElementById('imodal').classList.remove('open');document.body.style.overflow='';}
+function submitIntro(e){
+  e.preventDefault();
+  var f=e.target, btn=document.getElementById('introSubmit');
+  if(f._honey && f._honey.value){return false;}
+  btn.disabled=true; btn.textContent='전송 중…';
+  var data=new FormData(f);
+  fetch('https://formsubmit.co/ajax/40824f0998a7f9f3f94dc0f6d9bcaf0e',{method:'POST',headers:{'Accept':'application/json'},body:data})
+    .then(function(r){return r.json();})
+    .then(function(){ f.style.display='none'; document.getElementById('introDone').style.display='block'; })
+    .catch(function(){ alert('오류가 발생했습니다. 잠시 후 다시 시도해 주시거나 메일로 직접 전송해 주세요 🙏'); btn.disabled=false; btn.textContent='신청서 보내기 →'; });
+  return false;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeIntro();});
+
+// 필터링 스크립트
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.dish').forEach(dish => {
+      const tags = dish.dataset.tags.split(' ');
+      if (filter === 'all' || tags.includes(filter)) {
+        dish.style.display = 'block';
+      } else {
+        dish.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

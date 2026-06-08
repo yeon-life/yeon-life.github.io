@@ -1,0 +1,23 @@
+{
+  "name": "깜짝 놀랐어!",
+  "short_name": "깜짝 놀랐어!",
+  "description": "가슴이 콩 뛰는 그 순간, 반짝이가 찾아와요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

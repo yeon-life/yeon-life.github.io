@@ -1,0 +1,12 @@
+{
+  "name": "나만의 책을 만들어요",
+  "short_name": "나만의 책을 만들어요",
+  "description": "머릿속 이야기가 책이 되는 날",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

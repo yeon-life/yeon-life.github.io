@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>받침 없는 글자 나라 — 낱말이 떠다니는 책 (시범)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--pine:#2f5d62;--teal:#6eb5a6;--ink:#2a2e2c;--gold:#c38d56;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;font-family:"Noto Sans KR",sans-serif;color:var(--ink);overflow:hidden;
+    background:radial-gradient(ellipse at 50% 40%,#fbf7ef,#efe7d8);}
+  /* (1) 맨 밑 — 내용 그림 (주인공이 보이게 또렷이, 위/가운데) */
+  #bg{position:fixed;inset:0;background-size:cover;background-position:center 30%;opacity:.62;
+    filter:saturate(.96);transition:opacity .4s;z-index:0;}
+  #bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(to bottom, rgba(251,247,239,.10) 0%, rgba(251,247,239,.12) 50%, rgba(251,247,239,.55) 100%);}
+  #vignette{position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse at center,transparent 56%,rgba(60,42,18,.14) 100%);}
+  /* (2) 떠다니는 낱말 노드 (아주 연하게, 클릭한 만큼 생겨남) */
+  #nodes{position:fixed;inset:0;width:100%;height:100%;z-index:2;}
+  /* (3) 글 카드 — 아래쪽 (그림 주인공 안 가림) */
+  .stage{position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;z-index:3;
+    padding:56px 14px 88px;pointer-events:none;transition:align-items .35s;}
+  #card{pointer-events:auto;max-width:min(680px,94vw);width:100%;touch-action:none;cursor:grab;
+    background:rgba(255,255,255,.5);backdrop-filter:blur(13px) saturate(1.08);-webkit-backdrop-filter:blur(13px);
+    border:1px solid rgba(255,255,255,.6);border-radius:20px;box-shadow:0 8px 30px rgba(80,60,30,.16);
+    padding:clamp(16px,3.4vw,24px) clamp(18px,4vw,28px);text-align:center;}
+  #card:active{cursor:grabbing;}
+  #cardlabel{font-size:clamp(11px,2.8vw,13px);color:var(--gold);font-weight:700;letter-spacing:.04em;margin-bottom:9px;}
+  #line{font-family:"Noto Serif KR",serif;font-size:clamp(16px,4.6vw,24px);line-height:1.78;word-break:keep-all;color:#23312e;}
+  /* 본문 낱말 — 읽기 방해 없게 아주 은은한 표시만 */
+  .gw{cursor:pointer;border-bottom:1px dotted rgba(47,93,98,.32);}
+  .gw.met{border-bottom-color:transparent;color:#8a958f;}
+  .hint{margin-top:13px;font-size:clamp(10.5px,2.6vw,12px);color:#8a948f;font-family:"Noto Sans KR",sans-serif;}
+  /* 네비 */
+  #nav{position:fixed;bottom:0;left:0;right:0;z-index:4;display:flex;align-items:center;justify-content:space-between;padding:13px 16px;pointer-events:none;}
+  #nav button{pointer-events:auto;font-family:inherit;font-size:12px;font-weight:600;color:#fff;background:rgba(133,193,179,.82);
+    border:none;border-radius:999px;padding:6px 13px;cursor:pointer;box-shadow:0 2px 8px rgba(110,181,166,.28);}
+  #nav button:disabled{opacity:.3;}
+  #pageno{pointer-events:auto;font-size:13px;color:var(--pine);font-weight:700;background:rgba(255,255,255,.72);border-radius:999px;padding:7px 15px;backdrop-filter:blur(6px);}
+  /* 낱말 패널 (우측 슬라이드, 35% 흰 — 더 투명) */
+  #wp{position:fixed;top:0;right:0;height:100%;width:min(330px,88vw);z-index:9;box-sizing:border-box;
+    background:rgba(255,255,255,.35);backdrop-filter:blur(18px) saturate(1.08);-webkit-backdrop-filter:blur(18px);
+    border-left:1px solid rgba(255,255,255,.5);box-shadow:-8px 0 30px rgba(80,60,30,.16);
+    transform:translateX(102%);transition:transform .28s ease;padding:54px 24px 24px;overflow-y:auto;}
+  #wp.open{transform:translateX(0);}
+  #wp .x{position:absolute;top:14px;right:16px;border:0;background:transparent;font-size:24px;color:#7a7064;cursor:pointer;}
+  #wp .kik{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.04em;}
+  #wp .w{font-family:"Noto Serif KR",serif;font-size:34px;font-weight:700;color:var(--pine);margin:10px 0 4px;line-height:1.2;}
+  #wp .read{font-size:13px;color:#6b7268;margin-bottom:16px;}
+  #wp .pic{width:100%;aspect-ratio:4/3;border-radius:14px;margin:6px 0 16px;display:flex;align-items:center;justify-content:center;font-family:"Noto Serif KR",serif;font-size:46px;font-weight:700;}
+  #wp .mean{font-size:16px;line-height:1.75;color:#2c352f;background:rgba(255,255,255,.5);border-radius:12px;padding:12px 14px;}
+  #wp .btns{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
+  #wp .btns button{font-family:inherit;font-size:15px;font-weight:700;border-radius:12px;padding:13px;cursor:pointer;border:0;}
+  #wp .tts{background:rgba(255,255,255,.7);border:1.5px solid var(--teal)!important;color:var(--pine);}
+  #wp .save{background:var(--pine);color:#fff;}
+  /* 컨트롤 바 — 페이지 번호 위, 가로 한 줄. 아이콘은 모두 배경 없음·40% 검정 */
+  #ttsbar{position:fixed;bottom:56px;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:row;gap:3px;align-items:center;justify-content:center;
+    max-width:calc(100vw - 20px);
+    background:rgba(255,255,255,.5);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-radius:26px;padding:5px 12px;box-shadow:0 3px 14px rgba(80,60,30,.12);}
+  #ttsbar button{font:inherit;line-height:1;border:0;border-radius:50%;width:38px;height:38px;padding:0;background:transparent;color:rgba(0,0,0,.4);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}
+  #ttsbar button:hover{background:rgba(0,0,0,.06);}
+  #ttsbar button svg{width:21px;height:21px;display:block;}
+  #ttsbar #readall svg{width:23px;height:23px;}
+  #volsel{width:72px;height:14px;accent-color:rgba(0,0,0,.4);cursor:pointer;margin-right:3px;}
+  /* 메뉴판 — 성우·속도 + 목차·생각의 지도·독후 활동지 */
+  #menu{position:fixed;bottom:104px;left:50%;transform:translateX(-50%) translateY(8px);z-index:9;display:none;flex-direction:column;gap:5px;padding:12px;width:min(258px,90vw);
+    background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;box-shadow:0 10px 30px rgba(80,60,30,.2);opacity:0;transition:opacity .2s,transform .2s;}
+  #menu.open{display:flex;opacity:1;transform:translateX(-50%) translateY(0);}
+  #menu .mrow{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  #menu .mlbl{font-size:13px;color:#6b7270;font-weight:600;}
+  #menu select{font:inherit;font-size:13px;border:1px solid rgba(47,93,98,.25);border-radius:9px;padding:6px 8px;background:#fff;color:var(--pine);flex:1;}
+  #menu .mdiv{height:1px;background:rgba(47,93,98,.14);margin:4px 0;}
+  #menu button{display:flex;align-items:center;gap:10px;font-family:inherit;font-size:14px;font-weight:600;color:var(--pine);background:transparent;border:0;border-radius:10px;padding:10px;text-align:left;cursor:pointer;}
+  #menu button:hover{background:rgba(110,181,166,.14);}
+  #menu button svg{width:19px;height:19px;color:#6f9c92;flex:none;}
+  /* 전체 시트(목차/지도/활동지 내용) */
+  #sheet{position:fixed;inset:0;z-index:12;display:none;padding:64px 18px 28px;overflow-y:auto;
+    background:rgba(251,247,239,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+  #sheet.open{display:block;}
+  #sheet .sx{position:fixed;top:16px;right:18px;border:0;background:rgba(255,255,255,.75);width:40px;height:40px;
+    border-radius:50%;font-size:22px;color:#7a7064;cursor:pointer;box-shadow:0 2px 8px rgba(80,60,30,.12);}
+  #sheet .inner{max-width:620px;margin:0 auto;}
+  #sheet h2{font-family:"Noto Serif KR",serif;font-size:22px;color:var(--pine);margin-bottom:18px;text-align:center;}
+  .toc-item{display:flex;gap:12px;align-items:center;padding:13px 16px;margin-bottom:8px;border-radius:13px;cursor:pointer;
+    background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.7);}
+  .toc-item:hover{background:rgba(110,181,166,.16);}
+  .toc-item .pn{font-size:12px;font-weight:700;color:var(--gold);min-width:36px;}
+  .toc-item .pl{font-family:"Noto Serif KR",serif;font-size:15px;color:#23312e;}
+  .wordchips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;}
+  .wordchip{font-family:"Noto Serif KR",serif;font-size:16px;font-weight:700;color:var(--pine);
+    background:rgba(255,255,255,.72);border:1px solid var(--teal);border-radius:999px;padding:8px 16px;cursor:pointer;}
+  .sheet-empty{text-align:center;color:#8a948f;font-size:14px;padding:26px;line-height:1.7;}
+  .act-q{background:rgba(255,255,255,.62);border-radius:14px;padding:16px 18px;margin-bottom:13px;}
+  .act-q p{font-family:"Noto Serif KR",serif;font-size:15.5px;color:#23312e;margin-bottom:10px;}
+  .act-q textarea{width:100%;border:1px solid rgba(47,93,98,.22);border-radius:10px;padding:10px;font:inherit;
+    font-size:14px;resize:vertical;min-height:54px;background:rgba(255,255,255,.85);color:#23312e;}
+  #toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(20px);z-index:20;opacity:0;background:rgba(47,93,98,.95);color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;transition:.25s;pointer-events:none;}
+  #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+  <div id="bg"></div>
+  <div id="vignette"></div>
+  <canvas id="nodes"></canvas>
+  <div id="ttsbar">
+    <input type="range" id="volsel" min="0" max="1" step="0.05" value="1" title="소리 크기">
+    <button id="readall" title="전체 읽기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+    <button id="pausebtn" title="멈춤 / 이어듣기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14M15 5v14"/></svg></button>
+    <button id="stopbtn" title="중지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></svg></button>
+    <button id="menubtn" title="메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+  <div id="menu">
+    <div class="mrow"><span class="mlbl">성우</span><select id="voicesel" title="목소리"></select></div>
+    <div class="mrow"><span class="mlbl">속도</span><select id="ratesel" title="읽기 속도"><option value="0.85">천천히</option><option value="1" selected>보통</option><option value="1.15">빠르게</option></select></div>
+    <div class="mdiv"></div>
+    <button data-go="toc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h10M9 12h10M9 18h10"/><path d="M5 6h.01M5 12h.01M5 18h.01" stroke-width="2.6"/></svg><span>목차</span></button>
+    <button data-go="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="6" r="2"/><circle cx="16" cy="17.5" r="2"/><circle cx="7" cy="16" r="2"/><path d="M8.4 7.4l7-1M8.3 9.2l7 6.8M17.2 8l-1 7.6M8.7 15.2l5.6 1.5"/></svg><span>생각의 지도</span></button>
+    <button data-go="activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19h4L19.5 8.5a1.8 1.8 0 0 0-2.5-2.5L6.5 16.5z"/><path d="M14.5 6.5l3 3"/></svg><span>독후 활동지</span></button>
+  </div>
+  <div class="stage">
+    <div id="card">
+      <div id="cardlabel"></div>
+      <div id="line"></div>
+      <div class="hint">낯선 낱말을 누르면 아래 지도에 떠올라요. 떠오른 낱말을 누르면 뜻이 나와요.</div>
+    </div>
+  </div>
+  <div id="nav">
+    <button id="prev">◀ 이전</button>
+    <span id="pageno"></span>
+    <button id="next">다음 ▶</button>
+  </div>
+  <aside id="wp">
+    <button class="x" aria-label="닫기">×</button>
+    <div class="kik">낱말 풀이</div>
+    <div class="w" id="wpw"></div>
+    <div class="read" id="wpr"></div>
+    <div class="pic" id="wppic"></div>
+    <div class="mean" id="wpm"></div>
+    <div class="btns">
+      <button class="tts" id="wptts">🔊 읽어주기</button>
+      <button class="save" id="wpsave">⭐ 내 낱말에 담기</button>
+    </div>
+  </aside>
+  <div id="sheet"><button class="sx" aria-label="닫기">×</button><div class="inner" id="sheetin"></div></div>
+  <div id="toast"></div>
+
+<script src="data.js"></script>
+<script src="../../js/thoughtmap-ambient.js?v=5"></script>
+<script>
+  var PALETTE = ['#3aa0a8','#c05040','#c4923e','#4a9060','#6858c0'];
+  var pages = BOOK.pages, gloss = BOOK.gloss || {};
+  // 지금까지 읽은 책 기록 (책마다 공용으로 쌓임) — 생각의 지도에 다 나타남
+  var BOOK_TITLE = (BOOK.meta && BOOK.meta.title) || document.title;
+  var RB_KEY = 'yeon_read_books';
+  function readBooks(){ try{ return JSON.parse(localStorage.getItem(RB_KEY)||'[]'); }catch(e){ return []; } }
+  (function(){ var l=readBooks(); if(l.indexOf(BOOK_TITLE)<0){ l.push(BOOK_TITLE); try{ localStorage.setItem(RB_KEY, JSON.stringify(l)); }catch(e){} } })();
+  // 한 글자 어간('없','자','뜨'…)은 본문에서 엉뚱하게 잡히므로 제외 — 두 글자 이상 제대로 된 낱말만
+  var glossKeys = Object.keys(gloss).filter(function(k){return k.length>=2;}).sort(function(a,b){return b.length-a.length;});
+  var page = 0, tm = null, curWord = '', met = {};
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+  function pad(n){return n<10?'0'+n:''+n;}
+
+  // 본문의 '모든 한글 단어'를 클릭 가능하게 감싼다 (줄바꿈은 <br>)
+  function wrapWords(line){
+    return String(line||'').split(String.fromCharCode(10)).map(function(seg){
+      var out='', re=/[가-힣ㄱ-ㅎㅏ-ㅣ]+/g, last=0, m;
+      while((m=re.exec(seg))){
+        out += esc(seg.slice(last,m.index));
+        var w=m[0];
+        out += '<span class="gw'+(met[w]?' met':'')+'" data-w="'+esc(w)+'">'+esc(w)+'</span>';
+        last = m.index + w.length;
+      }
+      out += esc(seg.slice(last));
+      return out;
+    }).join('<br>');
+  }
+
+  // 그림을 분석해 '가장 빈(변화 적은) 가로 띠'로 카드를 옮김 (위/가운데/아래)
+  function placeCardByImage(src){
+    var img=new Image();
+    img.onload=function(){
+      try{
+        var S=36, c=document.createElement('canvas'); c.width=S; c.height=S;
+        var x=c.getContext('2d'); x.drawImage(img,0,0,S,S);
+        var d=x.getImageData(0,0,S,S).data;
+        function v(y0,y1){ var s=0,q=0,m=0; for(var y=y0;y<y1;y++)for(var p=0;p<S;p++){var i=(y*S+p)*4,l=0.3*d[i]+0.59*d[i+1]+0.11*d[i+2];s+=l;q+=l*l;m++;} var a=s/m; return q/m-a*a; }
+        var t=v(0,12), mid=v(12,24), b=v(24,36), mn=Math.min(t,mid,b);
+        document.querySelector('.stage').style.alignItems = (mn===b)?'flex-end':((mn===t)?'flex-start':'center');
+      }catch(e){ document.querySelector('.stage').style.alignItems='flex-end'; }
+    };
+    img.src=src;
+  }
+
+  function render(){
+    var p = pages[page];
+    if(typeof stopAll==='function') stopAll();
+    document.getElementById('bg').style.backgroundImage = "url('images/p"+pad(page+1)+".png')";
+    placeCardByImage('images/p'+pad(page+1)+'.png');
+    if(window.applyCardPos){ window.cardPos=null; window.applyCardPos(); }   // 페이지 넘기면 글자박스 위치 자동복귀
+    document.getElementById('cardlabel').textContent = p.label || '';
+    document.getElementById('line').innerHTML = wrapWords(p.line || '');
+    document.getElementById('pageno').textContent = (page+1)+' / '+pages.length;
+    document.getElementById('prev').disabled = page===0;
+    document.getElementById('next').disabled = page===pages.length-1;
+    // tm(떠다니는 지도)는 페이지 넘겨도 유지 — 클릭한 낱말이 계속 쌓임
+  }
+
+  // 단어를 누르면 = 노드 생성(아주 연하게 떠오름)
+  function metWord(w){
+    if(!met[w]){
+      met[w]=true;
+      tm.addNode({ label:w, desc:glossFor(w).mean||'', cat:PALETTE[Object.keys(met).length % PALETTE.length], weight:0.4 });
+    }
+    var els=document.querySelectorAll('#line .gw[data-w="'+CSS.escape(w)+'"]');
+    els.forEach(function(e){ e.classList.add('met'); });
+  }
+
+  // 풀이 찾기 — 정확히 있으면 그것, 없으면 단어에 포함된 가장 긴 사전 낱말
+  function glossFor(w){
+    if(gloss[w]) return gloss[w];
+    var best=null;
+    for(var k in gloss){ if(k.length>=2 && w.indexOf(k)>=0 && (!best || k.length>best.length)) best=k; }
+    return best ? gloss[best] : {};
+  }
+
+  // 단어 클릭/노드 클릭 = 뜻 패널 + 발음
+  function showWord(w){
+    if(!w) return;
+    curWord = w;
+    var g = glossFor(w);
+    var col = ['#3aa0a8','#c4923e','#4a9060','#6858c0'][w.length%4];
+    document.getElementById('wpw').textContent = w;
+    document.getElementById('wpr').textContent = (g.read && g.read!==w) ? ('읽기: '+g.read) : '소리 내어 읽어 볼까요?';
+    var pic = document.getElementById('wppic');
+    pic.style.background = 'linear-gradient(135deg,'+col+'3a,'+col+'12)';
+    pic.style.color = col; pic.style.fontSize = (w.length<=2?44:w.length<=3?34:26)+'px'; pic.textContent = w;
+    document.getElementById('wpm').textContent = g.mean || '아직 풀이가 없는 낱말이에요. 🔊 소리 내어 읽어 볼까요?';
+    document.getElementById('wp').classList.add('open');
+    if(typeof readWord==='function') readWord(w);   // 누르면 바로 발음
+  }
+  function closeWP(){ document.getElementById('wp').classList.remove('open'); }
+  function toast(t){ var el=document.getElementById('toast'); el.textContent=t; el.classList.add('on'); clearTimeout(el._t); el._t=setTimeout(function(){el.classList.remove('on');},1500); }
+
+  document.querySelector('#wp .x').onclick = closeWP;
+  // ===== 읽어주기 — 고급 음성(mp3) 우선, 없으면 브라우저 음성 폴백 =====
+  var AUDIO_BASE='audio/', manifest=null;
+  var curVoice=localStorage.getItem('yeon_tts_voice')||'sunhi';
+  var vol=parseFloat(localStorage.getItem('yeon_tts_vol')||'1');
+  var player=new Audio(); player.preload='none';
+  var voices=[];                       // 브라우저 음성(폴백용)
+  var reading=false, isPaused=false, mode='';   // mode: 'audio' | 'speech'
+  function rateVal(){ var v=parseFloat((document.getElementById('ratesel')||{}).value||'1'); return isNaN(v)?1:v; }
+  function hasAudio(){ return !!(manifest && manifest.voices && manifest.voices.indexOf(curVoice)>=0); }
+  var IC_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  var IC_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14M15 5v14"/></svg>';
+  function updateReadBtn(){ var b=document.getElementById('readall'); if(b){ b.innerHTML=IC_PLAY; b.style.opacity=reading?'.6':'1'; } }
+  function updatePauseBtn(){ var b=document.getElementById('pausebtn'); if(b){ b.innerHTML=IC_PAUSE; b.style.opacity=isPaused?'.5':'1'; } }
+
+  // 목소리 목록 — 매니페스트(고급 mp3) 우선, 없으면 브라우저 음성
+  function buildVoiceSel(){
+    var sel=document.getElementById('voicesel'); if(!sel) return;
+    if(manifest && manifest.voices && manifest.voices.length){
+      if(manifest.voices.indexOf(curVoice)<0) curVoice=manifest.voices[0];
+      sel.innerHTML=manifest.voices.map(function(v){ var lb=(manifest.labels&&manifest.labels[v])||v; return '<option value="'+v+'"'+(v===curVoice?' selected':'')+'>'+lb+'</option>'; }).join('');
+    } else { loadBrowserVoices(); }
+  }
+  function loadBrowserVoices(){
+    voices=(window.speechSynthesis?speechSynthesis.getVoices():[]).filter(function(v){return v.lang && v.lang.toLowerCase().indexOf('ko')===0;});
+    var sel=document.getElementById('voicesel'); if(!sel) return;
+    if(!voices.length){ sel.innerHTML='<option value="">기본 음성</option>'; return; }
+    if(!curVoice||manifest===null&&voices.map(function(v){return v.name;}).indexOf(curVoice)<0) curVoice=voices[0].name;
+    sel.innerHTML=voices.map(function(v){ var nm=v.name.replace('Microsoft ','').replace(/ ?- ?Korean.*/i,'').replace(/\(.*\)/,'').trim()||v.name; return '<option value="'+v.name.replace(/"/g,'')+'"'+(v.name===curVoice?' selected':'')+'>'+nm+'</option>'; }).join('');
+  }
+  fetch(AUDIO_BASE+'manifest.json').then(function(r){return r.ok?r.json():null;}).then(function(m){ manifest=m; buildVoiceSel(); }).catch(function(){ manifest=false; buildVoiceSel(); });
+  if(window.speechSynthesis) speechSynthesis.onvoiceschanged=function(){ if(!hasAudio()) loadBrowserVoices(); };
+
+  function stopAll(){ try{player.pause();}catch(e){} try{player.currentTime=0;}catch(e){} if(window.speechSynthesis)speechSynthesis.cancel(); reading=false; isPaused=false; mode=''; updateReadBtn(); updatePauseBtn(); }
+  function playAudio(src,after){ player.src=src; player.volume=vol; player.playbackRate=rateVal(); player.onended=function(){ if(after)after(); }; player.onerror=function(){ if(after)after(); }; var pr=player.play(); if(pr&&pr.catch)pr.catch(function(){}); }
+  function speakSpeech(t,after){ if(!t||!window.speechSynthesis) return; var u=new SpeechSynthesisUtterance(t); u.lang='ko-KR'; u.rate=rateVal()*0.85; u.volume=vol; if(!manifest){ var v=voices.find(function(x){return x.name===curVoice;}); if(v) u.voice=v; } u.onend=function(){ if(after)after(); }; u.onerror=function(){ if(after)after(); }; try{speechSynthesis.cancel();}catch(e){} setTimeout(function(){ try{speechSynthesis.speak(u);}catch(e){} },70); }
+
+  // 페이지 전체 읽기
+  function readPage(){
+    stopAll(); reading=true; mode=hasAudio()?'audio':'speech'; updateReadBtn(); updatePauseBtn();
+    if(mode==='audio'){ playAudio(AUDIO_BASE+curVoice+'/p'+pad(page+1)+'.mp3', function(){ reading=false; updateReadBtn(); }); }
+    else { var t=(pages[page].line||'').split(String.fromCharCode(10)).join('  '); speakSpeech(t,function(){ reading=false; updateReadBtn(); }); }
+  }
+  // 낱말 읽어주기
+  function readWord(w){
+    if(!w) return;
+    if(hasAudio() && manifest.words && manifest.words[w]){
+      stopAll(); mode='audio';
+      playAudio(AUDIO_BASE+curVoice+'/'+manifest.words[w]+'.mp3');
+      // mp3가 못 뜨면(차단·실패) 0.35초 뒤 브라우저 음성으로 보강
+      setTimeout(function(){ if(mode==='audio' && player.paused && player.currentTime===0){ speakSpeech((gloss[w]||{}).read||w); } },350);
+    } else { mode='speech'; speakSpeech((gloss[w]||{}).read||w); }
+  }
+
+  document.getElementById('readall').onclick=readPage;
+  document.getElementById('pausebtn').onclick=function(){
+    if(mode==='audio'){ if(isPaused){ var pr=player.play(); if(pr&&pr.catch)pr.catch(function(){}); isPaused=false; } else if(!player.paused){ player.pause(); isPaused=true; } }
+    else if(window.speechSynthesis){ if(isPaused){ speechSynthesis.resume(); isPaused=false; } else if(speechSynthesis.speaking){ speechSynthesis.pause(); isPaused=true; } }
+    updatePauseBtn();
+  };
+  document.getElementById('stopbtn').onclick=stopAll;
+  document.getElementById('wptts').onclick=function(){ readWord(curWord); };
+  document.getElementById('voicesel').onchange=function(){ curVoice=this.value; localStorage.setItem('yeon_tts_voice',curVoice); readWord(curWord||'글자'); };
+  document.getElementById('ratesel').onchange=function(){ localStorage.setItem('yeon_tts_rate',this.value); player.playbackRate=rateVal(); };
+  (function(){ var ve=document.getElementById('volsel'); if(!ve) return; ve.value=vol; ve.oninput=function(){ vol=parseFloat(this.value); player.volume=vol; localStorage.setItem('yeon_tts_vol',String(vol)); }; })();
+  document.getElementById('wpsave').onclick = function(){
+    try{ var key='yeon_my_words_003'; var list=JSON.parse(localStorage.getItem(key)||'[]');
+      if(list.indexOf(curWord)<0){ list.push(curWord); localStorage.setItem(key,JSON.stringify(list)); }
+      toast('"'+curWord+'" 내 낱말에 담았어요 ('+list.length+'개)');
+    }catch(e){}
+  };
+  // 본문 단어 클릭 → 노드 생성 + 뜻 패널 + 발음 (드래그 직후 클릭은 무시)
+  document.getElementById('card').addEventListener('click', function(e){
+    if(this._justDragged) return;
+    var s=e.target.closest('.gw'); if(!s) return;
+    var w=s.getAttribute('data-w'); metWord(w); showWord(w);
+  });
+  // 글자 박스를 끌어서 옮기기 (드래그) — 6px 이상 움직이면 드래그, 아니면 단어 클릭
+  (function(){
+    var card=document.getElementById('card'); var sx,sy,ox,oy,drag=false,moved=false;
+    window.cardPos=null;
+    window.applyCardPos=function(){ card.style.transform = window.cardPos ? ('translate('+window.cardPos.x+'px,'+window.cardPos.y+'px)') : ''; };
+    card.addEventListener('pointerdown',function(e){
+      if(e.target.closest('.gw')) return;   // 단어 위에서는 드래그 시작 안 함 → 단어 클릭(발음)이 정상 동작
+      drag=true; moved=false; sx=e.clientX; sy=e.clientY;
+      ox=window.cardPos?window.cardPos.x:0; oy=window.cardPos?window.cardPos.y:0;
+      try{card.setPointerCapture(e.pointerId);}catch(_){}
+    });
+    card.addEventListener('pointermove',function(e){
+      if(!drag) return; var dx=e.clientX-sx, dy=e.clientY-sy;
+      if(!moved && Math.abs(dx)+Math.abs(dy)>6) moved=true;
+      if(moved){ window.cardPos={x:ox+dx,y:oy+dy}; window.applyCardPos(); e.preventDefault(); }
+    });
+    function end(){ if(!drag) return; drag=false; if(moved){ card._justDragged=true; setTimeout(function(){card._justDragged=false;},60); } }
+    card.addEventListener('pointerup',end); card.addEventListener('pointercancel',end);
+  })();
+  // 패널 밖(페이지 공간) 클릭 → 닫기 (노드/본문낱말/글자박스는 예외)
+  document.addEventListener('click', function(e){
+    var wp=document.getElementById('wp');
+    if(!wp.classList.contains('open')) return;
+    if(wp.contains(e.target)) return;
+    if(document.getElementById('card').contains(e.target)) return;  // 글자박스 안(드래그·단어)
+    if(e.target.closest('.gw')) return;                       // 본문 낱말(노드 생성용)은 예외
+    if(e.target.id==='nodes' && tm._nodeAt){                   // 캔버스: 노드 맞췄으면 유지(다시 열림)
+      var r=e.target.getBoundingClientRect();
+      if(tm._nodeAt(e.clientX-r.left, e.clientY-r.top)) return;
+    }
+    closeWP();                                                 // 그 외 빈자리 → 패널 닫기
+  });
+  document.getElementById('prev').onclick=function(){ if(page>0){page--;closeWP();render();} };
+  document.getElementById('next').onclick=function(){ if(page<pages.length-1){page++;closeWP();render();} };
+
+  // 메뉴판(☰) — 성우·속도 + 목차/생각의 지도/독후 활동지
+  var sheet=document.getElementById('sheet'), sheetin=document.getElementById('sheetin'), mapTM=null;
+  var menuEl=document.getElementById('menu');
+  document.getElementById('menubtn').onclick=function(e){ e.stopPropagation(); menuEl.classList.toggle('open'); };
+  document.addEventListener('click',function(e){ if(menuEl.classList.contains('open') && !menuEl.contains(e.target) && !e.target.closest('#menubtn')) menuEl.classList.remove('open'); });
+  function killMap(){ if(mapTM && mapTM.destroy){ try{mapTM.destroy();}catch(e){} } mapTM=null; }
+  sheet.querySelector('.sx').onclick=function(){ sheet.classList.remove('open'); killMap(); };
+  function openSheet(html){ menuEl.classList.remove('open'); killMap(); sheetin.innerHTML=html; sheet.classList.add('open'); }
+  function buildTOC(){
+    var h='<h2>목차</h2>';
+    for(var i=0;i<pages.length;i++){ h+='<div class="toc-item" data-p="'+i+'"><span class="pn">'+(i+1)+'쪽</span><span class="pl">'+esc(pages[i].label||(pages[i].line||'').split(String.fromCharCode(10))[0])+'</span></div>'; }
+    openSheet(h);
+    sheetin.querySelectorAll('.toc-item').forEach(function(el){ el.onclick=function(){ page=parseInt(this.getAttribute('data-p'),10); closeWP(); render(); sheet.classList.remove('open'); }; });
+  }
+  function buildMap(){
+    var books=readBooks(), ws=Object.keys(met), h='<h2>내 생각의 지도</h2>';
+    if(!books.length && !ws.length){ openSheet(h+'<div class="sheet-empty">책을 읽고 낱말을 누르면<br>여기 지도에 모여요.</div>'); return; }
+    h+='<div style="font-size:13px;color:#7a8480;text-align:center;margin:-8px 0 12px">지금까지 읽은 책 '+books.length+'권 · 만난 낱말 '+ws.length+'개</div>';
+    h+='<canvas id="mapcanvas" style="display:block;width:100%;height:46vh"></canvas>';
+    if(books.length){ h+='<div style="font-size:14px;font-weight:700;color:#4a5852;margin:16px 0 9px">지난번 읽은 책</div><div class="wordchips">'+books.map(function(b){return '<span class="wordchip" style="color:#6858c0;border-color:#6858c0">'+esc(b)+'</span>';}).join('')+'</div>'; }
+    if(ws.length){ h+='<div style="font-size:14px;font-weight:700;color:#4a5852;margin:16px 0 9px">이번 책에서 만난 낱말</div><div class="wordchips" id="mapwords">'+ws.map(function(w){return '<span class="wordchip" data-w="'+esc(w)+'">'+esc(w)+'</span>';}).join('')+'</div>'; }
+    openSheet(h);
+    sheetin.querySelectorAll('#mapwords .wordchip').forEach(function(el){ el.onclick=function(){ sheet.classList.remove('open'); killMap(); showWord(this.getAttribute('data-w')); }; });
+    var nodes = books.map(function(b){ return { label:b, cat:'#6858c0', weight:0.95 }; })
+      .concat(ws.map(function(w,i){ return { label:w, desc:(gloss[w]||{}).mean||'', cat:PALETTE[i%PALETTE.length], weight:0.5+(i%3)*0.16 }; }));
+    setTimeout(function(){
+      var cv=document.getElementById('mapcanvas'); if(!cv) return;
+      mapTM = YeonThoughtMap.init(cv, {
+        theme:'밝게', opacity:1, labels:true, nodes:nodes, interactive:true,
+        onNodeClick:function(nd){ if(books.indexOf(nd.label)>=0) return; var lbl=nd.label; sheet.classList.remove('open'); setTimeout(killMap,30); showWord(lbl); }
+      });
+    },40);
+  }
+  function buildActivity(){
+    var saved=[]; try{ saved=JSON.parse(localStorage.getItem('yeon_my_words_003')||'[]'); }catch(e){}
+    var h='<h2>독후 활동지</h2>';
+    h+='<div class="act-q"><p>⭐ 내가 담은 낱말 ('+saved.length+'개)</p>';
+    h+= saved.length ? '<div class="wordchips">'+saved.map(function(w){return '<span class="wordchip">'+esc(w)+'</span>';}).join('')+'</div>' : '<div class="sheet-empty" style="padding:10px">낱말 풀이에서 ⭐로 담아 보세요.</div>';
+    h+='</div>';
+    var qs=['이 이야기를 한 줄로 말하면?','가장 마음에 든 장면은 무엇인가요?','새로 알게 된 낱말로 짧은 문장을 만들어 볼까요?'];
+    for(var i=0;i<qs.length;i++){ h+='<div class="act-q"><p>'+(i+1)+'. '+qs[i]+'</p><textarea data-k="act'+i+'"></textarea></div>'; }
+    openSheet(h);
+    sheetin.querySelectorAll('textarea').forEach(function(t){ var k='yeon_act_003_'+t.getAttribute('data-k'); t.value=localStorage.getItem(k)||''; t.oninput=function(){ try{localStorage.setItem(k,this.value);}catch(e){} }; });
+  }
+  document.querySelectorAll('#menu button[data-go]').forEach(function(b){ b.onclick=function(){ menuEl.classList.remove('open'); var g=b.getAttribute('data-go'); if(g==='toc')buildTOC(); else if(g==='map')buildMap(); else buildActivity(); }; });
+
+  // 떠다니는 지도 — 처음부터 은은한 '생각' 몇 개가 떠다니고(움직임이 보이게), 단어를 누르면 더 생겨남
+  var SEED_WORDS = ['글자','나라','마을','바다','나비','무지개','노래','친구'];
+  var seedNodes = SEED_WORDS.filter(function(w){return gloss[w];}).map(function(w,i){
+    met[w]=true; return { label:w, desc:(gloss[w]||{}).mean||'', cat:PALETTE[i%PALETTE.length], weight:0.45 };
+  });
+  tm = YeonThoughtMap.init(document.getElementById('nodes'), {
+    theme:'밝게', opacity:0.95, labels:true, nodes:seedNodes,
+    onNodeClick:function(nd){ showWord(nd.label); }
+  });
+  render();
+</script>
+</body>
+</html>

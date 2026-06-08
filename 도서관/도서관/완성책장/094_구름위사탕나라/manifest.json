@@ -1,0 +1,12 @@
+{
+  "name": "구름 위 사탕 나라",
+  "short_name": "구름 위 사탕 나라",
+  "description": "만약에, 하늘 위가 온통 달콤한 사탕이라면?",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

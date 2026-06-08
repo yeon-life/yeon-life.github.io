@@ -106,6 +106,36 @@
   .chat .ch-i button{border:none; background:var(--warm); color:#fff; border-radius:999px; padding:0 16px; font-weight:800; cursor:pointer;}
   .chat .note{font-size:11px; color:#9a7b4a; text-align:center; padding:4px 8px; background:#fff7ec;}
   @media(max-width:480px){.start h1{font-size:26px;} .txt .line{font-size:16px;}}
+
+  /* y-tts Player Enhancements */
+  .y-tts-reading {
+    background: rgba(245, 222, 179, 0.35) !important;
+    border-left: 4px solid var(--warm) !important;
+    padding-left: 8px !important;
+    transition: all 0.4s ease;
+  }
+  .tb-btn.tts-play {
+    background: var(--warm);
+    color: #fff;
+    border-color: var(--warm);
+  }
+  .tb-btn.tts-play:hover {
+    background: var(--warm2);
+  }
+  .tb-btn.tts-active {
+    background: var(--soft);
+    color: #fff;
+    border-color: var(--soft);
+  }
+  @keyframes y-tts-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  .tts-reading-status {
+    animation: y-tts-pulse 1.5s infinite ease-in-out;
+  }
+
 </style>
 </head>
 <body>
@@ -122,7 +152,14 @@
   </div>
 </div>
 <div class="topbar" id="topbar"><div class="t" id="tb-title"></div>
-  <div class="btns"><button class="tb-btn" id="tb-lang" onclick="toggleEdition()">🌐 English</button></div></div>
+  <div class="btns">
+    <button class="tb-btn tts-play-btn tts-play" id="tts-play" onclick="playBookTts()">🔊 구연동화</button>
+    <button class="tb-btn tts-pause-btn" id="tts-pause" onclick="pauseBookTts()" style="display:none;">⏸ 멈춤</button>
+    <button class="tb-btn tts-stop-btn" id="tts-stop" onclick="stopBookTts()" style="display:none;">⏹ 정지</button>
+    <button class="tb-btn tts-speed-btn" id="tts-speed" onclick="toggleTtsSpeed()">🐌 천천히</button>
+    <button class="tb-btn" id="tb-lang" onclick="toggleEdition()">🌐 English</button>
+  </div>
+</div>
 <div id="bookView"><div class="stage"><div class="book" id="book"></div></div>
   <div class="nav"><button id="prev" onclick="flipPrev()">‹</button><div class="prog"><i id="progBar"></i></div><button id="next" onclick="flipNext()">›</button></div>
   <div class="hint">버튼을 누르거나 책을 좌우로 넘겨 보세요 · ← → 키도 됩니다</div></div>
@@ -206,14 +243,351 @@ function hideSoft(){if(pinned)return; hideTimer=setTimeout(()=>tip.classList.rem
 tip.addEventListener('mouseenter',()=>clearTimeout(hideTimer)); tip.addEventListener('mouseleave',()=>{pinned=false; hideSoft();});
 function wordClick(el,e){e.stopPropagation(); pinned=true; showTip(el); speak(el.dataset.raw||el.dataset.w);}
 document.addEventListener('click',e=>{if(!e.target.closest('.w')&&!e.target.closest('#tip')){pinned=false; tip.classList.remove('show');}});
-function speak(t){try{if(!('speechSynthesis'in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang=edition==='en'?'en-US':'ko-KR'; u.rate=.9; speechSynthesis.speak(u);}catch(e){}}
-function toggleEdition(){ edition = edition==='en'?'ko':'en'; M=curMeta(); G=curGloss(); GKEYS=Object.keys(G).sort((a,b)=>b.length-a.length); idx=0;
-  const b=document.getElementById('tb-lang'); if(b) b.textContent = edition==='en'?'🌐 한국어':'🌐 English';
-  document.getElementById('st-title').textContent=M.title||''; document.getElementById('tb-title').textContent=M.title||''; document.getElementById('st-sub').textContent=M.sub||''; document.getElementById('st-badge').textContent=M.badge||''; document.title=M.title||'';
-  const g=curGrow(); document.getElementById('growBody').innerHTML = g?`<b>${g.theme||''}</b><br>${g.desc||''}<br><span style="color:#7b8686;">${g.grade||''}</span>`:'';
-  buildSite(); }
-function readPage(){ if(document.getElementById('bookView').classList.contains('show')){ const t=idx===0?(M.title+'. '+(M.sub||'')):L(BOOK.pages[idx-1],'line'); speak(t.replace(/\n/g,' ')); }
-  else { const cy=innerHeight/2; let best=null,bd=1e9; document.querySelectorAll('#siteView .spread').forEach((s,i)=>{const r=s.getBoundingClientRect(); const d=Math.abs((r.top+r.bottom)/2-cy); if(d<bd){bd=d;best=i;}}); if(best!=null)speak(L(BOOK.pages[best],'line').replace(/\n/g,' ')); }}
+/* ===== y-tts: 구연동화 책 읽어주기 엔진 (고품질 녹음 파일 전용) ===== */
+let audioManifest = null;
+fetch('audio/manifest.json')
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    audioManifest = data;
+    console.log('Audio manifest loaded successfully.');
+  })
+  .catch(function(err) {
+    console.warn('Audio manifest load failed:', err);
+  });
+
+var ttsState = {
+  active: false,
+  currentIndex: -1,
+  paused: false,
+  speed: 'slow', // 'slow' or 'normal'
+  audio: null // HTML5 Audio instance for page/word audio
+};
+
+var activeWordAudio = null;
+
+function speak(t) {
+  if (activeWordAudio) {
+    activeWordAudio.pause();
+    activeWordAudio = null;
+  }
+  
+  if (edition === 'ko' && audioManifest && audioManifest.words) {
+    var clean = t.replace(/[“”"‘’'.,!?…·~()\[\]{}]/g,'').trim();
+    var audioKey = null;
+    
+    if (audioManifest.words[clean]) {
+      audioKey = audioManifest.words[clean];
+    } else {
+      var keys = Object.keys(audioManifest.words);
+      keys.sort(function(a, b) { return b.length - a.length; });
+      for (var i = 0; i < keys.length; i++) {
+        if (clean.indexOf(keys[i]) >= 0 || keys[i].indexOf(clean) >= 0) {
+          audioKey = audioManifest.words[keys[i]];
+          break;
+        }
+      }
+    }
+    
+    if (audioKey) {
+      try {
+        var url = 'audio/sunhi/' + audioKey + '.mp3';
+        var audio = new Audio(url);
+        audio.playbackRate = ttsState.speed === 'slow' ? 0.75 : 1.0;
+        activeWordAudio = audio;
+        audio.play().catch(function(err) {
+          console.warn('Word audio play failed:', err);
+        });
+        return;
+      } catch (e) {
+        console.warn('Word audio initiation failed:', e);
+      }
+    }
+  }
+}
+
+window.toggleTtsSpeed = function() {
+  var btn = document.getElementById('tts-speed');
+  if (ttsState.speed === 'slow') {
+    ttsState.speed = 'normal';
+    if (btn) btn.textContent = '⚡ 보통';
+  } else {
+    ttsState.speed = 'slow';
+    if (btn) btn.textContent = '🐌 천천히';
+  }
+  
+  if (ttsState.active && !ttsState.paused && ttsState.audio) {
+    ttsState.audio.playbackRate = ttsState.speed === 'slow' ? 0.75 : 1.0;
+  }
+}
+
+window.playBookTts = function() {
+  if (edition !== 'ko') {
+    alert('영어 에디션은 구연동화 녹음이 준비되어 있지 않아요!');
+    return;
+  }
+
+  if (ttsState.paused && ttsState.active) {
+    ttsState.paused = false;
+    updateTtsControls('playing');
+    if (ttsState.audio) {
+      ttsState.audio.play().catch(function(e) {
+        console.error('Resume page audio failed:', e);
+      });
+    }
+    return;
+  }
+
+  if (ttsState.audio) {
+    ttsState.audio.pause();
+    ttsState.audio = null;
+  }
+  
+  ttsState.active = true;
+  ttsState.paused = false;
+  
+  var cy = innerHeight / 2;
+  var best = 0;
+  var bd = 1e9;
+  var spreads = document.querySelectorAll('#siteView .spread');
+  
+  spreads.forEach(function(s, i) {
+    var r = s.getBoundingClientRect();
+    var d = Math.abs((r.top + r.bottom) / 2 - cy);
+    if (d < bd) {
+      bd = d;
+      best = i;
+    }
+  });
+
+  ttsState.currentIndex = best;
+  updateTtsControls('playing');
+  playNextBookNode();
+}
+
+function playNextBookNode() {
+  if (!ttsState.active || ttsState.paused) return;
+
+  var spreads = document.querySelectorAll('#siteView .spread');
+  
+  spreads.forEach(function(s) {
+    s.classList.remove('y-tts-reading');
+  });
+
+  if (ttsState.currentIndex >= spreads.length) {
+    stopBookTts();
+    return;
+  }
+
+  var targetSpread = spreads[ttsState.currentIndex];
+  if (!targetSpread) {
+    stopBookTts();
+    return;
+  }
+
+  targetSpread.classList.add('y-tts-reading');
+  targetSpread.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  if (ttsState.audio) {
+    ttsState.audio.pause();
+    ttsState.audio = null;
+  }
+
+  if (edition === 'ko') {
+    var pageNum = ttsState.currentIndex + 1;
+    var padNum = String(pageNum).padStart(2, '0');
+    var audioUrl = 'audio/sunhi/p' + padNum + '.mp3';
+    
+    try {
+      var audio = new Audio(audioUrl);
+      audio.playbackRate = ttsState.speed === 'slow' ? 0.75 : 1.0;
+      
+      audio.onended = function() {
+        if (ttsState.active && !ttsState.paused) {
+          setTimeout(function() {
+            if (ttsState.active && !ttsState.paused) {
+              ttsState.currentIndex++;
+              playNextBookNode();
+            }
+          }, 1000);
+        }
+      };
+      
+      audio.onerror = function(e) {
+        console.warn('Page audio error:', e);
+        stopBookTts();
+      };
+      
+      ttsState.audio = audio;
+      audio.play().catch(function(err) {
+        console.warn('Page audio play failed:', err);
+        stopBookTts();
+      });
+    } catch (e) {
+      console.warn('Page audio creation failed:', e);
+      stopBookTts();
+    }
+  } else {
+    stopBookTts();
+  }
+}
+
+window.pauseBookTts = function() {
+  if (ttsState.active && ttsState.audio) {
+    ttsState.audio.pause();
+    ttsState.paused = true;
+    updateTtsControls('paused');
+  }
+}
+
+window.stopBookTts = function() {
+  if (ttsState.audio) {
+    ttsState.audio.pause();
+    ttsState.audio = null;
+  }
+  
+  var spreads = document.querySelectorAll('#siteView .spread');
+  spreads.forEach(function(s) {
+    s.classList.remove('y-tts-reading');
+  });
+
+  ttsState.active = false;
+  ttsState.paused = false;
+  ttsState.currentIndex = -1;
+  
+  updateTtsControls('stopped');
+}
+
+function updateTtsControls(state) {
+  var playBtn = document.getElementById('tts-play');
+  var pauseBtn = document.getElementById('tts-pause');
+  var stopBtn = document.getElementById('tts-stop');
+  
+  if (!playBtn) return;
+  
+  if (state === 'playing') {
+    playBtn.style.display = 'none';
+    pauseBtn.style.display = 'inline-block';
+    stopBtn.style.display = 'inline-block';
+    playBtn.classList.remove('tts-play');
+    playBtn.classList.add('tts-active');
+  } else if (state === 'paused') {
+    playBtn.style.display = 'inline-block';
+    playBtn.textContent = '▶ 이어듣기';
+    pauseBtn.style.display = 'none';
+    stopBtn.style.display = 'inline-block';
+  } else { // stopped
+    playBtn.style.display = 'inline-block';
+    playBtn.textContent = '🔊 구연동화';
+    pauseBtn.style.display = 'none';
+    stopBtn.style.display = 'none';
+    playBtn.classList.add('tts-play');
+    playBtn.classList.remove('tts-active');
+  }
+}
+
+function toggleEdition() {
+  edition = edition === 'en' ? 'ko' : 'en';
+  M = curMeta();
+  G = curGloss();
+  GKEYS = Object.keys(G).sort((a,b)=>b.length-a.length);
+  idx = 0;
+  
+  stopBookTts();
+  
+  const b = document.getElementById('tb-lang');
+  if (b) b.textContent = edition === 'en' ? '🌐 한국어' : '🌐 English';
+  
+  // Show or hide play buttons based on edition since we only have Korean recordings!
+  const playBtn = document.getElementById('tts-play');
+  const speedBtn = document.getElementById('tts-speed');
+  if (playBtn) playBtn.style.visibility = edition === 'en' ? 'hidden' : 'visible';
+  if (speedBtn) speedBtn.style.visibility = edition === 'en' ? 'hidden' : 'visible';
+
+  document.getElementById('st-title').textContent = M.title || '';
+  document.getElementById('tb-title').textContent = M.title || '';
+  document.getElementById('st-sub').textContent = M.sub || '';
+  document.getElementById('st-badge').textContent = M.badge || '';
+  document.title = M.title || '';
+  
+  const g = curGrow();
+  const gtheme = g.theme_en || g.theme || '';
+  const gdesc = g.desc_en || g.desc || '';
+  const ggrade = g.grade_en || g.grade || '';
+  document.getElementById('growBody').innerHTML = g ? `<b>${gtheme}</b><br>${gdesc}<br><span style="color:#7b8686;">${ggrade}</span>` : '';
+  
+  buildSite();
+}
+
+function readPage() {
+  if (document.getElementById('bookView').classList.contains('show')) {
+    if (idx > 0) {
+      if (edition === 'ko' && audioManifest) {
+        var pageNum = idx;
+        var padNum = String(pageNum).padStart(2, '0');
+        var audioUrl = 'audio/sunhi/p' + padNum + '.mp3';
+        
+        if (ttsState.audio) {
+          ttsState.audio.pause();
+          ttsState.audio = null;
+        }
+        if (activeWordAudio) {
+          activeWordAudio.pause();
+          activeWordAudio = null;
+        }
+        
+        try {
+          var audio = new Audio(audioUrl);
+          audio.playbackRate = ttsState.speed === 'slow' ? 0.75 : 1.0;
+          ttsState.audio = audio;
+          audio.play().catch(function(err) {
+            console.warn('Failed to play page audio:', err);
+          });
+        } catch (e) {
+          console.warn(e);
+        }
+      }
+    }
+  } else {
+    const cy = innerHeight / 2;
+    let best = null, bd = 1e9;
+    document.querySelectorAll('#siteView .spread').forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const d = Math.abs((r.top + r.bottom) / 2 - cy);
+      if (d < bd) {
+        bd = d;
+        best = i;
+      }
+    });
+    if (best != null) {
+      if (edition === 'ko' && audioManifest) {
+        var pageNum = best + 1;
+        var padNum = String(pageNum).padStart(2, '0');
+        var audioUrl = 'audio/sunhi/p' + padNum + '.mp3';
+        
+        if (ttsState.audio) {
+          ttsState.audio.pause();
+          ttsState.audio = null;
+        }
+        if (activeWordAudio) {
+          activeWordAudio.pause();
+          activeWordAudio = null;
+        }
+        
+        try {
+          var audio = new Audio(audioUrl);
+          audio.playbackRate = ttsState.speed === 'slow' ? 0.75 : 1.0;
+          ttsState.audio = audio;
+          audio.play().catch(function(err) {
+            console.warn('Failed to play page audio:', err);
+          });
+        } catch (e) {
+          console.warn(e);
+        }
+      }
+    }
+  }
+}
+
 
 /* 챗봇 (데모) */
 function toggleChat(){const c=document.getElementById('chat'); const open=c.classList.toggle('show'); if(open&&!c.dataset.init){addMsg('bot','안녕! 모르는 낱말이 있으면 책에서 눌러 보거나 여기에 적어 줘. 🙂'); c.dataset.init='1';}}

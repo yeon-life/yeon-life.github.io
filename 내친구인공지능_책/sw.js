@@ -3,7 +3,7 @@ const ASSETS = [
   'index.html',
   'style.css',
   'manifest.json',
-  'assets/cover.webp'
+  'assets/cover.png'
 ];
 
 self.addEventListener('install', (e) => {

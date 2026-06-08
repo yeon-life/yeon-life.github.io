@@ -1,0 +1,12 @@
+{
+  "name": "혼자 옷을 입어요",
+  "short_name": "혼자 옷을 입어요",
+  "description": "단추 하나하나, 나 혼자서도 할 수 있어요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

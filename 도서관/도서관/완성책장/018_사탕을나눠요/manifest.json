@@ -1,0 +1,23 @@
+{
+  "name": "사탕을 나눠요",
+  "short_name": "사탕을 나눠요",
+  "description": "하나씩 줄어들수록, 마음은 자꾸 커져요",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

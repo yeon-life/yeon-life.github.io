@@ -1,0 +1,12 @@
+{
+  "name": "애벌레가 나비가 됐어요",
+  "short_name": "애벌레가 나비가 됐어요",
+  "description": "작은 알에서 나풀나풀 나비까지, 한 살이 여행",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

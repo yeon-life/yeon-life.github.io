@@ -1,0 +1,12 @@
+{
+  "name": "내 마음을 말해요",
+  "short_name": "내 마음을 말해요",
+  "description": "가슴속 작은 친구들이 부르는 이름을 찾아서",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

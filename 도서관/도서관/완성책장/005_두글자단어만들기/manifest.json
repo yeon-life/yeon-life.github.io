@@ -1,0 +1,23 @@
+{
+  "name": "두 글자 단어 만들기",
+  "short_name": "두 글자 단어 만들",
+  "description": "글자 하나에 글자 하나를 더하면 새 친구가 태어나요",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

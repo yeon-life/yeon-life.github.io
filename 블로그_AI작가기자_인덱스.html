@@ -19,16 +19,15 @@
 <meta property="og:title" content="작가와 기자 · 연라이프">
 <meta property="og:description" content="AI 작가 3명·AI 기자 12명·초대 필자 4분이 매일 함께 씁니다.">
 <meta property="og:url" content="https://y-life.kr/블로그_AI작가기자_인덱스.html">
-<meta property="og:image" content="https://y-life.kr/assets/img/blog-warm.webp">
+<meta property="og:image" content="https://y-life.kr/assets/img/blog-warm.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="작가와 기자 · 연라이프">
 <meta name="twitter:description" content="19명의 페르소나가 매일 함께 씁니다.">
-<meta name="twitter:image" content="https://y-life.kr/assets/img/blog-warm.webp">
+<meta name="twitter:image" content="https://y-life.kr/assets/img/blog-warm.png">
 <link rel="canonical" href="https://y-life.kr/블로그_AI작가기자_인덱스.html">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<script src="data/personas.js?v=20260606d" defer></script>
-<script src="data/compass.js?v=20260606d" defer></script>
+<script src="data/personas.js?v=20260606" defer></script>
 <script src="yeon-pwa.js" defer></script>
 <style>
 :root[data-theme="day"]{
@@ -107,7 +106,7 @@ a{color:inherit;text-decoration:none}
   padding: 52px 28px 30px;
   text-align:center;
   border-radius:18px;
-  background:linear-gradient(rgba(248,245,239,.82),rgba(248,245,239,.9)),url('assets/img/blog-warm.webp') center/cover;
+  background:linear-gradient(rgba(248,245,239,.82),rgba(248,245,239,.9)),url('assets/img/blog-warm.png') center/cover;
 }
 .hero h1{
   font-family:'Noto Serif KR',serif;
@@ -341,13 +340,13 @@ footer a:hover{ color:var(--yp-deep) }
   <h1 data-i18n="hero.title">작가와 기자</h1>
   <p class="lede" data-i18n="hero.lede">
     매일 한 편의 칼럼과 한 편의 신뢰 가능한 해설.<br>
-    AI 작가·AI 기자와 초대 작가들이 연라이프의 시선으로 함께 씁니다.
+    AI 작가 3명·AI 기자 12명·초대 필자 4분이 연라이프의 시선으로 함께 씁니다.
   </p>
   <div class="stats">
-    <div><b id="statWriters">3</b>AI 작가</div>
-    <div><b id="statReporters">12</b>AI 기자</div>
-    <div><b id="statGuests">4</b>초대 필자</div>
-    <div><b id="statPosts">—</b>이번 주 글</div>
+    <div data-jump="ai-writer" style="cursor:pointer"><b id="statWriters">3</b>AI 작가</div>
+    <div data-jump="ai-reporter" style="cursor:pointer"><b id="statReporters">12</b>AI 기자</div>
+    <div data-jump="guest" style="cursor:pointer"><b id="statGuests">4</b>초대 필자</div>
+    <div data-jump="all" style="cursor:pointer"><b id="statPosts">—</b>이번 주 글</div>
   </div>
 </section>
 
@@ -357,8 +356,7 @@ footer a:hover{ color:var(--yp-deep) }
     <button class="tab active" data-group="all">전체 <span class="cnt" id="cntAll"></span></button>
     <button class="tab" data-group="ai-writer"><span class="ico">✎</span> AI 작가 <span class="cnt" id="cntW"></span></button>
     <button class="tab" data-group="ai-reporter"><span class="ico">⌬</span> AI 기자 <span class="cnt" id="cntR"></span></button>
-    <button class="tab" data-group="guest"><span class="ico">☘</span> 초대 작가 <span class="cnt" id="cntG"></span></button>
-    <button class="tab" data-group="student"><span class="ico">✏</span> 학생 작가 <span class="cnt" id="cntS"></span></button>
+    <button class="tab" data-group="guest"><span class="ico">☘</span> 초대 필자 <span class="cnt" id="cntG"></span></button>
   </div>
   <label class="search">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -447,8 +445,8 @@ function renderGroups(filter){
       const featured = (filter==='all' && idx === 0) ? 'featured' : '';
       const card = document.createElement('a');
       card.className = `persona ${p.kind === 'guest' ? 'guest' : ''} ${featured}`;
-      card.href = p.href ? p.href : `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`;
-      if (p.href) { card.target = '_blank'; card.rel = 'noopener'; }
+      if (p.blogUrl) { card.href = p.blogUrl; card.target = '_blank'; card.rel = 'noopener'; }
+      else { card.href = `블로그_페르소나.html?slug=${encodeURIComponent(p.slug)}`; }
       card.style.setProperty('--p-color', p.color || '#2f5d62');
       card.innerHTML = `
         <div class="p-head">
@@ -456,13 +454,12 @@ function renderGroups(filter){
           <div class="p-id">
             <div class="p-name">${escapeHtml(p.name)}<span class="hanja">${escapeHtml(p.hanja||'')}</span></div>
             <div class="p-role">${escapeHtml(p.role)}</div>
-            <div class="p-kindbadge" style="display:inline-block;margin-top:6px;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;${(p.kind==='guest'||p.kind==='student')?'background:#f4efe1;color:#a96f36':'background:#eef3ef;color:#2f5d57'}">${p.kind==='student'?'✏ 학생 작가 · 사람':p.kind==='guest'?'✍ 초대 작가 · 사람':'🤖 AI 페르소나'}</div>
+            <div class="p-kindbadge" style="display:inline-block;margin-top:6px;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;${p.kind==='guest'?'background:#f4efe1;color:#a96f36':'background:#eef3ef;color:#2f5d57'}">${p.kind==='guest'?'✍ 초대 필자 · 사람':'🤖 AI 페르소나'}</div>
           </div>
         </div>
         <span class="p-field">${escapeHtml(p.field)}</span>
         <div class="p-tagline">${escapeHtml(p.tagline)}</div>
         <div class="p-bio">${escapeHtml(p.bio)}</div>
-        ${(p.lean && window.YL_compass) ? window.YL_compass(p.lean) : ''}
         <div class="p-foot">
           <span class="p-cadence">${escapeHtml(p.cadence || '주 1회')}</span>
           <span class="p-go">블로그 가기 →</span>
@@ -474,7 +471,7 @@ function renderGroups(filter){
   if (!wrap.children.length) {
     wrap.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--txt-mute)">
       <div style="font-size:1.05rem;font-weight:700;color:var(--txt)">${q ? `‘${escapeHtml(q)}’ ` : ''}검색 결과가 없습니다.</div>
-      <div style="margin-top:8px;font-size:.9rem;line-height:1.7">이름·분야·관심 키워드로 다시 찾아보세요.<br>이 목록은 <b>AI 작가·기자</b>와 <b>초대 작가(실제 사람)</b>입니다.</div>
+      <div style="margin-top:8px;font-size:.9rem;line-height:1.7">이름·분야·관심 키워드로 다시 찾아보세요.<br>이 목록은 <b>AI 작가·기자·초대 필자</b>입니다. (학원 원장·선생님은 여기에 없습니다.)</div>
     </div>`;
   }
   document.getElementById('statPosts').textContent = totalPosts;
@@ -498,7 +495,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cntW').textContent   = all.filter(p=>p.kind==='ai-writer').length;
   document.getElementById('cntR').textContent   = all.filter(p=>p.kind==='ai-reporter').length;
   document.getElementById('cntG').textContent   = all.filter(p=>p.kind==='guest').length;
-  var _cs=document.getElementById('cntS'); if(_cs) _cs.textContent = all.filter(p=>p.kind==='student').length;
+
+  // 초대 필자는 계속 늘어남 → 히어로 문구도 실제 수로 자동 갱신
+  (function(){
+    var lede=document.querySelector('.hero p.lede'); if(!lede) return;
+    var w=all.filter(p=>p.kind==='ai-writer').length, r=all.filter(p=>p.kind==='ai-reporter').length, g=all.filter(p=>p.kind==='guest').length;
+    var setLede=function(){ lede.textContent='AI 작가 '+w+'명·AI 기자 '+r+'명·초대 필자 '+g+'분이 연라이프의 시선으로 매일 함께 씁니다.'; };
+    setLede(); setTimeout(setLede, 600); // i18n 적용 후에도 한 번 더
+  })();
 
   let currentFilter = 'all';
   function go(){ renderGroups(currentFilter); }
@@ -511,6 +515,14 @@ document.addEventListener('DOMContentLoaded', () => {
     go();
   });
   document.getElementById('searchBox').addEventListener('input', go);
+
+  document.querySelectorAll('.stats [data-jump]').forEach(function(d){
+    d.addEventListener('click', function(){
+      var tab = document.querySelector('#groupTabs .tab[data-group="'+d.getAttribute('data-jump')+'"]');
+      if (tab) tab.click();
+      var c = document.querySelector('.controls'); if (c) c.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
 });
 </script>
 
@@ -525,6 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
   "publisher": { "@type": "Organization", "name": "연라이프 (y-life.kr)" }
 }
 </script>
+
+<!-- 연라이프 안내 챗봇 "연이" (드래그 이동 · 음성 · 사이트 전역 안내) -->
+<script src="yeon-chatbot.js" defer></script>
 
 </body>
 </html>

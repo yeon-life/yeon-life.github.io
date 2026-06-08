@@ -1,0 +1,12 @@
+{
+  "name": "도서관에 갔어요",
+  "short_name": "도서관에 갔어요",
+  "description": "책들이 조용히 나를 기다리는 곳",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

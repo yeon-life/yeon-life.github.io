@@ -1,0 +1,12 @@
+{
+  "name": "같이 놀자",
+  "short_name": "같이 놀자",
+  "description": "용기 내어 건넨 한마디가 새 친구를 데려와요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

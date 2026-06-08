@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/도서관/"><!-- 상대경로(books.json·책링크)를 /도서관/ 기준으로 고정 — trailingSlash 리다이렉트로 깨지는 것 방지 -->
+<link rel="canonical" href="https://y-life.kr/도서관/">
+<title>연 작은도서관 — y-life.kr</title>
+<meta name="description" content="연 작은도서관 — 좋은 생각을 가진 이야기가 영구히 머무는 곳. AI와 사람이 함께 짓는 작은 도서관.">
+<meta property="og:title" content="연 작은도서관">
+<meta property="og:description" content="좋은 생각을 가진 이야기가 영구히 머무는 곳.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1f2a2a; --deep:#2f5d62; --pine:#427a71; --accent:#c38d56;
+    --mist:#f4f1eb; --card:#fffdf8; --line:#d7d1c5; --muted:#5e6a6e;
+    --warm:#f6f3ec; --paper:#f4f0e6;
+    --ai:#6a7fb0; --human:#b06a6a;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard","Apple SD Gothic Neo",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:linear-gradient(180deg,var(--warm),var(--paper));color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  /* 상단 */
+  .top{border-bottom:1px solid var(--line);background:var(--warm);position:sticky;top:0;z-index:50}
+  .top .in{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;font-size:13px;flex-wrap:wrap}
+  .brand a{font-family:var(--serif);font-weight:700;color:var(--ink);text-decoration:none}
+  .brand a:hover{color:var(--pine)}
+  .brand .y{color:var(--accent)}
+  .brand .bsep{margin:0 7px;color:var(--muted)}
+  .brand .bcur{font-family:var(--serif);font-weight:700;color:var(--deep)}
+  .ynav{display:flex;gap:3px;flex-wrap:wrap;align-items:center}
+  .ynav a{font-size:13px;color:var(--muted);padding:6px 11px;border-radius:999px;font-weight:600;text-decoration:none}
+  .ynav a:hover{background:rgba(47,93,98,.08);color:var(--deep)}
+  .ynav a.on{background:var(--deep);color:#fff}
+  .ynav a.homeb{color:var(--accent)}
+  /* ① 연라이프 전체 메뉴판 (햄버거 + 드로어) */
+  .ylmenu-btn{background:var(--deep);color:#fff;border:none;border-radius:9px;padding:9px 13px;font:600 14px/1 var(--sans);cursor:pointer;flex-shrink:0}
+  .ylmenu-btn:hover{background:var(--pine)}
+  .yl-drawer{position:fixed;inset:0;z-index:200;background:rgba(31,42,42,.45);display:none}
+  .yl-drawer.open{display:block}
+  .yl-drawer-in{position:absolute;top:0;left:0;bottom:0;width:min(370px,87vw);background:var(--card);box-shadow:4px 0 26px rgba(0,0,0,.2);overflow-y:auto;padding:18px 18px 48px;animation:slidein .25s ease}
+  @keyframes slidein{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+  .yl-dh{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:6px}
+  .yl-dh b{font-family:var(--serif);font-size:16px;color:var(--deep)}
+  .yl-dh button{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
+  .yl-drawer-in>a{display:flex;align-items:center;gap:12px;padding:14px 6px;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink);text-decoration:none}
+  .yl-drawer-in>a:hover{background:var(--mist)}
+  .yl-drawer-in>a .han{font-family:var(--serif);color:var(--accent);width:24px;text-align:center;flex-shrink:0;font-size:17px}
+  .yl-drawer-in>a small{color:var(--muted);font-size:11px;margin-left:auto}
+  /* ② 도서관 카테고리 보기 (큰 버튼 + 패널) */
+  .cat-cta{text-align:center;margin:20px 0 0}
+  .cat-big{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;border:none;border-radius:14px;padding:15px 30px;font:700 17px/1 var(--serif);cursor:pointer;box-shadow:0 6px 18px rgba(195,141,86,.32)}
+  .cat-big:hover{background:#a87b3e;transform:translateY(-1px)}
+  .cat-panel{max-width:760px;margin:14px auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px 20px;display:none}
+  .cat-panel.open{display:block}
+  .cat-panel h4{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.04em;margin:12px 0 8px}
+  .cat-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .cat-chips button{background:var(--mist);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s,color .12s}
+  .cat-chips button:hover{border-color:var(--accent);color:var(--accent)}
+  /* 펼침 메뉴판 (아코디언) */
+  .cat-acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+  .cat-acc+.cat-acc{margin-top:10px}
+  .cat-acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font:700 14.5px/1.2 var(--serif);color:var(--deep);background:var(--mist);user-select:none}
+  .cat-acc>summary::-webkit-details-marker{display:none}
+  .cat-acc>summary:hover{background:#efe9dd}
+  .cat-acc>summary .arw{display:inline-block;transition:transform .2s;color:var(--accent);margin-right:7px;font-size:13px}
+  .cat-acc[open]>summary .arw{transform:rotate(90deg)}
+  .cat-acc>summary .sub{font:600 11px/1.3 var(--sans);color:var(--muted);text-align:right;flex-shrink:0}
+  .cat-acc .body{padding:14px 16px 16px}
+  .cat-chips button .cnt{margin-left:7px;font-size:11px;color:var(--muted);font-weight:700}
+  .cat-chips button.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+  .cat-chips button.on .cnt{color:#d7e6e4}
+  .cat-chips button.zero{opacity:.42}
+  .cat-chips button.zero .cnt{color:var(--accent)}
+  .cat-reset{margin-top:14px;display:flex;justify-content:flex-end}
+  .cat-reset button{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
+  .cat-reset button:hover{border-color:var(--accent);color:var(--accent)}
+  /* 히어로 */
+  .hero{text-align:center;padding:42px 22px 30px;margin-top:10px;border-radius:18px;background:linear-gradient(rgba(246,243,236,.80),rgba(246,243,236,.9)),url('/assets/img/library-warm.webp') center/cover;box-shadow:0 8px 26px rgba(31,42,42,.06)}
+  .hero .seal{font-family:var(--serif);font-size:34px;color:var(--accent)}
+  .hero h1{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--ink);margin:6px 0 10px;letter-spacing:-.02em}
+  .hero p{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto}
+  /* 저자 투명성 배너 */
+  .authorbar{max-width:720px;margin:22px auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+  .authorbar .ttl{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em;margin-bottom:10px;text-align:center}
+  .ratio{height:16px;border-radius:999px;overflow:hidden;display:flex;border:1px solid var(--line)}
+  .ratio .ai{background:var(--ai)} .ratio .human{background:var(--human)}
+  .ratio-legend{display:flex;justify-content:center;gap:18px;margin-top:10px;font-size:12px;flex-wrap:wrap}
+  .ratio-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .ratio-note{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  /* 툴바 */
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin:26px 0 8px}
+  .search{flex:1;min-width:220px;max-width:420px;position:relative}
+  .search input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:999px;font-family:inherit;font-size:14px;background:var(--card);outline:none}
+  .search input:focus{border-color:var(--pine)}
+  .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit}
+  .chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+  .count{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 18px}
+  /* 책 그리드 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;padding-bottom:60px}
+  .book{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+  .book:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(31,42,42,.1)}
+  .cover{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;position:relative}
+  .cover h3{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;line-height:1.35;word-break:keep-all;text-shadow:0 1px 4px rgba(0,0,0,.18)}
+  .badge{position:absolute;top:8px;left:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;color:#fff}
+  .b-정식{background:var(--pine)} .b-준비본{background:var(--accent)} .b-초안{background:var(--muted)}
+  .ai-tag{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;padding:3px 7px;border-radius:999px;background:rgba(106,127,176,.92);color:#fff}
+  .meta{padding:10px 12px 14px}
+  .meta .t{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:3px;word-break:keep-all}
+  .meta .s{font-size:11.5px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .meta .g{font-size:10px;color:var(--accent);font-weight:700;margin-top:6px}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0}
+  
+  /* 시리즈 탭 바 스타일 */
+  .series-tabs-container {
+    margin: 24px 0 16px;
+    position: relative;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 4px;
+  }
+  .series-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none; /* 파이어폭스 */
+    padding: 2px 0;
+  }
+  .series-tabs::-webkit-scrollbar {
+    display: none; /* 크롬/사파리 */
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 18px;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .tab-btn:hover {
+    color: var(--deep);
+  }
+  .tab-btn.active {
+    color: var(--deep);
+    font-weight: 900;
+  }
+  .tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 99px;
+    animation: tabline 0.22s ease-out;
+  }
+  @keyframes tabline {
+    from { transform: scaleX(0.3); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+  .tab-btn .badge-cnt {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(195, 141, 86, 0.12);
+    padding: 2px 6px;
+    border-radius: 999px;
+    margin-left: 6px;
+    vertical-align: 1px;
+  }
+  .tab-btn.active .badge-cnt {
+    background: var(--accent);
+    color: #fff;
+  }
+  
+  /* 그리드 애니메이션 */
+  .grid.fade-active {
+    animation: gridFade 0.3s ease-out;
+  }
+  @keyframes gridFade {
+    from { opacity: 0.4; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  footer{border-top:2px solid var(--ink);background:var(--warm);text-align:center;font-size:12px;color:var(--muted);padding:24px 0}
+</style>
+</head>
+<body>
+  <div class="top"><div class="wrap in">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="ylMenuBtn" class="ylmenu-btn" aria-label="연라이프 전체 메뉴 열기">☰ 전체 메뉴</button>
+      <div class="brand">
+        <a href="/index.html" title="연라이프 홈으로"><span class="y">緣</span> 연라이프</a>
+        <span class="bsep">›</span><span class="bcur">연 작은도서관</span>
+      </div>
+    </div>
+    <nav class="ynav" aria-label="연라이프 메뉴">
+      <a href="/index.html#hwadu">화두</a>
+      <a href="/index.html#plaza">광장</a>
+      <a href="/index.html#world-now">세상</a>
+      <a href="/index.html">칼럼</a>
+      <a href="/도서관/" class="on">도서관</a>
+      <a href="/index.html" class="homeb">⌂ 홈</a>
+    </nav>
+  </div></div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="seal">蓮</div>
+      <h1>연 작은도서관</h1>
+      <p>좋은 생각을 가진 이야기가 영구히 머무는 곳.</p>
+      <p style="margin-top:8px;color:var(--accent);font-weight:600;font-size:14px">📖 글 검수를 마친 책들이 모였습니다. <b>그림까지 완성된 책</b>은 그렇게 표시되고, 나머지는 그림을 다듬는 중이에요. 모두 미리 읽어보실 수 있습니다.</p>
+
+      <div class="authorbar">
+        <div class="ttl">이 도서관의 글은 누가 썼나요 — 정직하게 보여 드립니다</div>
+        <div class="ratio" id="ratioBar"><div class="ai" style="width:100%"></div></div>
+        <div class="ratio-legend">
+          <span><i style="background:var(--ai)"></i><b id="aiPct">AI 창작 100%</b></span>
+          <span><i style="background:var(--human)"></i><b id="humanPct">사람 창작 0%</b></span>
+        </div>
+        <div class="ratio-note">지금은 AI가 지은 이야기로 시작합니다. 앞으로 사람 작가의 글이 더해지며, 각 책에 누가 썼는지 항상 표시됩니다.</div>
+      </div>
+    </section>
+
+    <!-- 시리즈 탭 바 추가 -->
+    <div class="series-tabs-container">
+      <div class="series-tabs" id="seriesTabs"></div>
+    </div>
+
+    <div class="cat-cta">
+      <button id="catBtn" class="cat-big">📚 카테고리 펼쳐 보기</button>
+    </div>
+    <div id="catPanel" class="cat-panel">
+      <details class="cat-acc" open>
+        <summary><span><span class="arw">▸</span>주제로 찾기</span><span class="sub">관심 주제를 누르면 바로 검색돼요</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-q="친구">우정·친구</button>
+          <button data-q="마음">마음·감정</button>
+          <button data-q="모험">모험·여행</button>
+          <button data-q="글자">한글·글자</button>
+          <button data-q="숫자">숫자·셈</button>
+          <button data-q="가족">가족</button>
+          <button data-q="용기">용기·도전</button>
+          <button data-q="만약">상상·만약에</button>
+          <button data-q="하루">하루·시간</button>
+          <button data-q="구름">자연·날씨</button>
+          <button data-q="다람쥐">동물 친구</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>인기 시리즈·주인공</span><span class="sub">같은 친구가 나오는 이야기</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-q="토토">토토 이야기</button>
+          <button data-q="오므리">오므리</button>
+          <button data-q="다람쥐">다람쥐 친구들</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>학년별</span><span class="sub">읽기 수준에 맞춰 — 0권은 곧 채워져요</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-g="초1·2">초등 1·2학년</button>
+          <button data-g="초3·4">초등 3·4학년</button>
+          <button data-g="초5·6">초등 5·6학년</button>
+          <button data-g="중등">중학</button>
+          <button data-g="고등">고등</button>
+        </div></div>
+      </details>
+      <details class="cat-acc">
+        <summary><span><span class="arw">▸</span>완성 상태</span><span class="sub">그림까지 · 작업 중 · 글만</span></summary>
+        <div class="body"><div class="cat-chips">
+          <button data-st="all">전체</button>
+          <button data-st="done">그림까지 완성</button>
+          <button data-st="wip">그림 작업 중</button>
+          <button data-st="text">글 검수 완료</button>
+        </div></div>
+      </details>
+      <div class="cat-reset"><button id="catReset">↺ 필터 초기화</button></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search"><input id="q" type="search" placeholder="관심 있는 주제·제목으로 찾아보세요 (예: 우정, 시간, 용기)"></div>
+      <div class="filters" id="filters">
+        <button class="chip active" data-f="all">전체</button>
+        <button class="chip" data-f="done">그림까지 완성</button>
+        <button class="chip" data-f="wip">그림 작업 중</button>
+        <button class="chip" data-f="text">글 검수 완료</button>
+      </div>
+    </div>
+    <div class="count" id="count">불러오는 중…</div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="yl-drawer" id="ylDrawer">
+    <div class="yl-drawer-in">
+      <div class="yl-dh"><b>緣 연라이프 — 전체 메뉴판</b><button id="ylClose" aria-label="닫기">✕</button></div>
+      <a href="/index.html"><span class="han">家</span> 연라이프 홈 <small>첫 화면</small></a>
+      <a href="/index.html#hwadu"><span class="han">話</span> 이 주의 화두</a>
+      <a href="/index.html#plaza"><span class="han">廣</span> 광장 — 아골라·아곤란</a>
+      <a href="/index.html#world-now"><span class="han">世</span> 세상 — 오늘·시사·세계</a>
+      <a href="/index.html"><span class="han">柱</span> 칼럼 — 네 사람의 시선</a>
+      <a href="/도서관/"><span class="han">蓮</span> 연 작은도서관 <small>지금 여기</small></a>
+      <a href="/index.html"><span class="han">圖</span> 생각의 지도</a>
+      <a href="/index.html"><span class="han">記</span> 시민 저널 · 블로그</a>
+      <a href="/index.html"><span class="han">緣</span> 인연의 다리 — 생태계</a>
+    </div>
+  </div>
+
+  <footer><div class="wrap">© 2026 연 작은도서관 · y-life.kr — 이름·인기가 아니라, 좋은 생각이 가장 높은 자리에.</div></footer>
+
+<script>
+  const COVERS=[['#2f5d62','#427a71'],['#c38d56','#a87b3e'],['#5a6e8c','#7c8db0'],['#7a6a4a','#a08a62'],['#4a6b5e','#6b8c7e']];
+  let ALL=[], state={f:'all',q:''};
+  const $=s=>document.querySelector(s);
+  function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  // 시리즈 탭 정의 및 번호 범위
+  const SERIES_TABS = [
+    { key: "all", title: "전체" },
+    { key: "HG", title: "한글 깨우기", range: [1, 10] },
+    { key: "NU", title: "숫자·셈", range: [11, 20] },
+    { key: "SC", title: "학교생활", range: [21, 30] },
+    { key: "EM", title: "감정·마음", range: [31, 40] },
+    { key: "AD", title: "모험·이야기", range: [41, 50] },
+    { key: "NA", title: "자연·계절", range: [51, 60] },
+    { key: "BK", title: "책·읽기", range: [61, 70] },
+    { key: "ME", title: "나·자존감", range: [71, 80] },
+    { key: "HB", title: "생활습관", range: [81, 90] },
+    { key: "IM", title: "상상·만약에", range: [91, 100] },
+    { key: "FR", title: "친구·관계", range: [101, 110] },
+    { key: "SI", title: "과학·탐구", range: [111, 120] },
+    { key: "KO", title: "우리문화·전통", range: [121, 130] },
+    { key: "TM", title: "시간·하루", range: [131, 140] },
+    { key: "grade_3", title: "초3 책풀", grade: "초3" },
+    { key: "grade_4", title: "초4 책풀", grade: "초4" },
+    { key: "grade_5", title: "초5 책풀", grade: "초5" },
+    { key: "grade_6", title: "초6 책풀", grade: "초6" }
+  ];
+
+  let currentTab = "all";
+
+  function getBookHtml(b, i){
+    const c=COVERS[(parseInt(b.num)||i)%COVERS.length];
+    const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
+    const hasCover = b.status === '그림완성';
+    const coverUrl = hasCover ? b.url.replace('index.html', 'images/cover.png') : '';
+    const bgStyle = hasCover 
+      ? `background:url('${esc(coverUrl)}') center/cover no-repeat` 
+      : `background:linear-gradient(135deg,${c[0]},${c[1]})`;
+    const titleOverlay = hasCover ? '' : `<h3>${esc(b.title)}</h3>`;
+    return `<a class="book" href="${esc(b.url)}">
+      <div class="cover" style="${bgStyle}">
+        <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
+        ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}
+        <span class="ai-tag">AI 창작</span>
+        ${titleOverlay}${bi}
+      </div>
+      <div class="meta">
+        <div class="t">${esc(b.title)}</div>
+        <div class="s">${esc(b.sub||'')}</div>
+        <div class="g">${esc(b.grade||'')}</div>
+      </div></a>`;
+  }
+
+  function renderTabs(){
+    const container = $('#seriesTabs');
+    if(!container) return;
+    
+    container.innerHTML = SERIES_TABS.map(tab => {
+      let count = 0;
+      if(tab.key === "all"){
+        count = ALL.length;
+      } else if(tab.grade) {
+        count = ALL.filter(b => b.grade === tab.grade).length;
+      } else {
+        const start = tab.range[0];
+        const end = tab.range[1];
+        count = ALL.filter(b => {
+          const numInt = parseInt(b.num);
+          return !isNaN(numInt) && numInt >= start && numInt <= end;
+        }).length;
+      }
+      
+      const isActive = currentTab === tab.key ? "active" : "";
+      return `<button class="tab-btn ${isActive}" onclick="switchSeriesTab('${tab.key}')">${esc(tab.title)}<span class="badge-cnt">${count}</span></button>`;
+    }).join('');
+  }
+
+  window.switchSeriesTab = function(key){
+    currentTab = key;
+    
+    // 탭을 눌러 이동하면 검색어 및 필터 초기화
+    $('#q').value = '';
+    state.q = '';
+    
+    document.querySelectorAll('#filters .chip').forEach(c => c.classList.remove('active'));
+    const allChip = document.querySelector('#filters .chip[data-f="all"]');
+    if(allChip) allChip.classList.add('active');
+    state.f = 'all';
+    
+    renderTabs();
+    
+    // 그리드 페이드인 모션 실행
+    const g = $('#grid');
+    g.classList.remove('fade-active');
+    void g.offsetWidth;
+    g.classList.add('fade-active');
+    
+    render();
+  }
+
+  function render(){
+    const g=$('#grid'); const q=state.q.trim();
+    const STMAP={done:'그림완성',wip:'그림작업중',text:'글완성'};
+    
+    let list = ALL.filter(b => {
+      // 1. 탭 필터링
+      if(currentTab !== "all"){
+        const tab = SERIES_TABS.find(t => t.key === currentTab);
+        if(tab){
+          if(tab.grade){
+            if(b.grade !== tab.grade) return false;
+          } else if(tab.range) {
+            const numInt = parseInt(b.num);
+            if(isNaN(numInt) || numInt < tab.range[0] || numInt > tab.range[1]) return false;
+          }
+        }
+      }
+      
+      // 2. 검색어 필터링
+      if(q){
+        const h=(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase();
+        if(!h.includes(q.toLowerCase())) return false;
+      }
+      
+      // 3. 상태 필터링
+      if(state.f!=='all' && b.status!==STMAP[state.f]) return false;
+      
+      return true;
+    });
+    
+    $('#count').textContent = `${list.length}권 표시 · 전체 ${ALL.length}권`;
+    
+    if(!list.length){
+      g.innerHTML='<div class="empty">찾는 조건의 책이 아직 없어요. 다른 낱말로 찾아보거나, 곧 채워질 책을 기다려 주세요.</div>';
+      return;
+    }
+    
+    g.style.display = 'grid'; // 그리드 형태 상시 유지
+    g.innerHTML = list.map((b,i)=>getBookHtml(b, i)).join('');
+  }
+  function setRatio(){
+    const ai=ALL.filter(b=>b.authorType==='AI').length, total=ALL.length||1;
+    const aiPct=Math.round(ai/total*100), hPct=100-aiPct;
+    $('#ratioBar').innerHTML=`<div class="ai" style="width:${aiPct}%"></div><div class="human" style="width:${hPct}%"></div>`;
+    $('#aiPct').textContent=`AI 창작 ${aiPct}%`; $('#humanPct').textContent=`사람 창작 ${hPct}%`;
+  }
+  // 카테고리 칩별 실제 권수 계산 (0권 칩은 흐리게)
+  function catCount(btn){
+    if(btn.dataset.st){const st=btn.dataset.st;
+      if(st==='all')return ALL.length;
+      const m={done:'그림완성',wip:'그림작업중',text:'글완성'};
+      return ALL.filter(b=>b.status===m[st]).length;}
+    const v=(btn.dataset.q||btn.dataset.g||'').toLowerCase();
+    if(!v)return ALL.length;
+    return ALL.filter(b=>(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase().includes(v)).length;
+  }
+  function updateCatCounts(){
+    document.querySelectorAll('#catPanel .cat-chips button').forEach(b=>{
+      const n=catCount(b);
+      let c=b.querySelector('.cnt'); if(!c){c=document.createElement('span');c.className='cnt';b.appendChild(c);}
+      c.textContent=n;
+      b.classList.toggle('zero', n===0);
+    });
+  }
+  Promise.all([
+    fetch('books.json?v='+Date.now()).then(r=>r.json()),
+    fetch('search-index.json?v='+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))
+  ]).then(([d,si])=>{
+    const txt={}; (si.items||[]).forEach(i=>{txt[i.slug]=i.text||'';});
+    ALL=(d.books||[]).map(b=>Object.assign({},b,{text:txt[b.folder]||''}))
+      .sort((a,b)=>(({'그림완성':0,'그림작업중':1,'글완성':2})[a.status]??3)-(({'그림완성':0,'그림작업중':1,'글완성':2})[b.status]??3) || (parseInt(a.num)||0)-(parseInt(b.num)||0));
+    setRatio(); renderTabs(); render(); updateCatCounts();
+  }).catch(e=>{$('#count').textContent='목록을 불러오지 못했습니다.';});
+  $('#q').addEventListener('input',e=>{state.q=e.target.value;render()});
+  $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));b.classList.add('active');state.f=b.dataset.f;render();});
+</script>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var dr=$('#ylDrawer');
+  $('#ylMenuBtn').addEventListener('click',function(){dr.classList.add('open')});
+  $('#ylClose').addEventListener('click',function(){dr.classList.remove('open')});
+  dr.addEventListener('click',function(e){if(e.target===dr)dr.classList.remove('open')});
+  var cb=$('#catBtn'), cp=$('#catPanel'), q=$('#q');
+  cb.addEventListener('click',function(){cp.classList.toggle('open');if(cp.classList.contains('open'))cp.scrollIntoView({behavior:'smooth',block:'nearest'})});
+  function clearOn(){cp.querySelectorAll('.cat-chips button.on').forEach(function(x){x.classList.remove('on')})}
+  function markOn(b){clearOn();b.classList.add('on')}
+  function toResults(){setTimeout(function(){q.scrollIntoView({behavior:'smooth',block:'center'})},60)}
+  function setSearch(v){q.value=v;q.dispatchEvent(new Event('input'));toResults()}
+  cp.querySelectorAll('[data-g]').forEach(function(b){b.addEventListener('click',function(){markOn(b);setSearch(b.dataset.g)})});
+  cp.querySelectorAll('[data-q]').forEach(function(b){b.addEventListener('click',function(){markOn(b);setSearch(b.dataset.q)})});
+  cp.querySelectorAll('[data-st]').forEach(function(b){b.addEventListener('click',function(){
+    markOn(b);
+    var f=document.querySelector('#filters .chip[data-f="'+b.dataset.st+'"]'); if(f)f.click();
+    toResults();
+  })});
+  var rs=$('#catReset'); if(rs)rs.addEventListener('click',function(){
+    clearOn(); q.value=''; q.dispatchEvent(new Event('input'));
+    var allf=document.querySelector('#filters .chip[data-f="all"]'); if(allf)allf.click();
+  });
+})();
+</script>
+</body>
+</html>

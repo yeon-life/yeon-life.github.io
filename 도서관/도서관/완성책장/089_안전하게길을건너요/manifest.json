@@ -1,0 +1,12 @@
+{
+  "name": "안전하게 길을 건너요",
+  "short_name": "안전하게 길을 건너요",
+  "description": "내 발걸음은 내가 지켜요",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

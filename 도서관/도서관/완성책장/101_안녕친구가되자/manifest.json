@@ -1,0 +1,12 @@
+{
+  "name": "안녕, 친구가 되자",
+  "short_name": "안녕, 친구가 되자",
+  "description": "처음 만난 우리, 손 내밀면 친구",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

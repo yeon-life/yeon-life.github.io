@@ -1,0 +1,12 @@
+{
+  "name": "고마운 마음",
+  "short_name": "고마운 마음",
+  "description": "가슴속 반짝이는 고마미를 만나는 하루",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": []
+}

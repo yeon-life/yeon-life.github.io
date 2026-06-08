@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "assets/cover.webp",
+      "src": "assets/cover.png",
       "sizes": "512x512",
       "type": "image/png"
     }

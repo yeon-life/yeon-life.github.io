@@ -1,0 +1,23 @@
+{
+  "name": "헷갈리는 글자 숨바꼭질",
+  "short_name": "헷갈리는 글자 숨바",
+  "description": "꼭 닮은 글자들이 숨어 있어요",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eaf4fb",
+  "theme_color": "#5b8fb0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
