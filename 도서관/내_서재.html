@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store"><title>연 작은도서관 — 내 서재</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{--pine:#2f5d62;--teal:#6eb5a6;--gold:#c38d56;--cream:#fbf7ef;--paper:#efe7d8;--muted:#6a7676;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Pretendard",sans-serif;color:#2a2e2c;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#fdf8ef,#eee2d0);overflow-x:hidden;}
+#bgmap{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.7;}
+.top{position:relative;z-index:2;text-align:center;padding:40px 18px 8px;}
+.top .yeon{font-family:"Noto Serif KR",serif;font-size:44px;color:var(--pine);line-height:1;}
+.top h1{font-family:"Noto Serif KR",serif;font-size:clamp(22px,5vw,30px);color:var(--pine);margin-top:6px;}
+.top p{color:var(--muted);font-size:14px;margin-top:8px;}
+.top .links{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.top .links a{display:inline-flex;align-items:center;gap:6px;color:var(--pine);text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid rgba(110,181,166,.5);border-radius:999px;padding:7px 15px;background:rgba(255,255,255,.6);}
+.top .links a svg{width:16px;height:16px;}
+.wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:24px 18px 70px;}
+.sec{margin-top:30px;}
+.sec h2{font-family:"Noto Serif KR",serif;font-size:18px;color:#4a5852;display:flex;align-items:center;gap:9px;margin-bottom:14px;}
+.sec h2 .ic{width:20px;height:20px;color:var(--teal);}
+.sec h2 b{color:var(--pine);}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+.bk{position:relative;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px rgba(80,60,30,.12);transition:transform .15s,box-shadow .15s;}
+.bk:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(80,60,30,.2);}
+.bk a.cl{display:block;text-decoration:none;color:inherit;}
+.bk img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#f3ecdf;}
+.bk .t{font-family:"Noto Serif KR",serif;font-weight:700;font-size:14px;color:#23312e;padding:11px 12px 3px;line-height:1.3;}
+.bk .m{font-size:11.5px;color:#8a8576;padding:0 12px 12px;line-height:1.45;}
+.bk .rm{position:absolute;top:8px;right:8px;border:0;cursor:pointer;background:rgba(255,255,255,.92);color:#b05a4a;font:inherit;font-size:11.5px;font-weight:700;border-radius:999px;padding:5px 10px;box-shadow:0 2px 8px rgba(80,60,30,.18);}
+.empty{color:#a99f8c;font-size:14px;padding:18px 4px;line-height:1.7;}
+.empty a{color:var(--pine);font-weight:700;}
+footer{position:relative;z-index:2;text-align:center;color:var(--muted);font-size:12.5px;padding:18px;}
+</style></head><body>
+<canvas id="bgmap" aria-hidden="true"></canvas>
+<div class="top">
+  <div class="yeon">緣</div><h1>내 서재</h1>
+  <p>내가 담은 책은 무슨 일이 있어도 여기 안전하게 보관돼요.</p>
+  <div class="links">
+    <a href="도서관_분위기.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>도서관으로</a>
+    <a href="완성책장/_책장.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>도서관에서 더 담기</a>
+  </div>
+</div>
+<div class="wrap" id="wrap"></div>
+<footer>연 작은도서관 · 緣</footer>
+<script src="js/내서재_담기.js"></script>
+<script src="js/thoughtmap-ambient.js?v=5"></script>
+<script>
+var ALL = [{"title": "ㄱㄴㄷ 친구들이 깨어났어요", "memo": "잠자던 자음들이 눈을 뜨고 이름을 찾아가는 이야기", "folder": "001_ㄱㄴㄷ친구들이깨어났어요"}, {"title": "ㅏㅑㅓㅕ 노래하는 모음", "memo": "입을 벌리면 소리가 노래가 돼요", "folder": "002_ㅏㅑㅓㅕ노래하는모음"}, {"title": "받침 없는 글자 나라", "memo": "발 없는 글자들이 사는 동글동글한 마을", "folder": "003_받침없는글자나라"}, {"title": "받침이 콩 하고 떨어졌어요", "memo": "글자 아래 살며시 앉는 작은 친구 이야기", "folder": "004_받침이콩하고떨어졌어요"}, {"title": "두 글자 단어 만들기", "memo": "글자 하나에 글자 하나를 더하면 새 친구가 태어나요", "folder": "005_두글자단어만들기"}, {"title": "세 글자 단어 친구들", "memo": "글자 셋이 모이면 이름이 생겨요", "folder": "006_세글자단어친구들"}, {"title": "헷갈리는 글자 숨바꼭질", "memo": "꼭 닮은 글자들이 숨어 있어요", "folder": "007_헷갈리는글자숨바꼭질"}, {"title": "쌍둥이 글자가 왔어요", "memo": "꼭 닮은 짝꿍 글자, ㄲ ㄸ ㅃ ㅆ ㅉ 이야기", "folder": "008_쌍둥이글자가왔어요"}, {"title": "짧은 문장 첫걸음", "memo": "낱말 둘이 손잡으면 이야기가 시작돼요", "folder": "009_짧은문장첫걸음"}, {"title": "나도 이제 책을 읽어요", "memo": "낱말이 모여 문장이 되는 날", "folder": "010_나도이제책을읽어요"}, {"title": "하나 둘 셋, 숫자가 보여요", "memo": "세어 보면 세상이 환하게 보여요", "folder": "011_하나둘셋숫자가보여요"}, {"title": "0은 아무것도 없어요", "memo": "비어 있어도 자기 자리가 있는 동그란 친구 이야기", "folder": "012_0은아무것도없어요"}, {"title": "10까지 세어 볼까?", "memo": "숫자 친구들이 하나둘 모이는 작은 마을 이야기", "folder": "013_10까지세어볼까"}, {"title": "누가 더 많을까?", "memo": "한 줄로 서면 보여요, 누가 더 많은지", "folder": "014_누가더많을까"}, {"title": "모으면 늘어나요", "memo": "하나에 하나를 더하면 새 친구가 생겨요", "folder": "015_모으면늘어나요"}, {"title": "하나씩 빼면 줄어요", "memo": "꼬마 숫자 다섯이 떠나며 배우는 뺄셈 이야기", "folder": "016_하나씩빼면줄어요"}, {"title": "손가락 더하기 놀이", "memo": "열 손가락이 모이면 무슨 일이 생길까?", "folder": "017_손가락더하기놀이"}, {"title": "사탕을 나눠요", "memo": "하나씩 줄어들수록, 마음은 자꾸 커져요", "folder": "018_사탕을나눠요"}, {"title": "20까지 숫자 친구들", "memo": "하나둘셋, 스물까지 손잡고 가는 길", "folder": "019_20까지숫자친구들"}, {"title": "나는 계산 박사", "memo": "더하고 빼며 풀어가는 숲속 하루", "folder": "020_나는계산박사"}, {"title": "처음 가는 학교, 두근두근", "memo": "낯선 첫 아침이 가장 즐거운 하루가 되기까지", "folder": "021_처음가는학교두근두근"}, {"title": "내 자리는 어디일까?", "memo": "교실 어딘가에 나를 기다리는 자리가 있어요", "folder": "022_내자리는어디일까"}, {"title": "화장실 다녀올게요", "memo": "손을 번쩍 드는 그 한마디, 생각보다 어렵지 않아요", "folder": "024_화장실다녀올게요"}, {"title": "급식 시간이 좋아", "memo": "낯선 식판 앞에서, 용기 한 숟가락", "folder": "025_급식시간이좋아"}, {"title": "줄을 서요", "memo": "한 줄로 서면 모두가 편안해요", "folder": "026_줄을서요"}, {"title": "손을 들고 말해요", "memo": "하고 싶은 말은 손을 들고, 차례가 오면 또박또박", "folder": "027_손을들고말해요"}, {"title": "쉬는 시간 친구들", "memo": "종이 울리면, 우리 마음도 열려요", "folder": "028_쉬는시간친구들"}, {"title": "청소도 함께해요", "memo": "혼자 하면 무거운 빗자루, 함께 들면 가벼워요", "folder": "029_청소도함께해요"}, {"title": "학교가 좋아졌어요", "memo": "낯설던 학교가 어느새 가장 가고 싶은 곳이 되기까지", "folder": "030_학교가좋아졌어요"}, {"title": "오늘은 기분이 좋아", "memo": "마음속에서 통통 튀는 작은 기쁨 이야기", "folder": "031_오늘은기분이좋아"}, {"title": "눈물이 났어요", "memo": "슬픔이 찾아와도 괜찮아, 함께 있어 줄게", "folder": "032_눈물이났어요"}, {"title": "화가 나, 부글부글", "memo": "마음속 작은 부글이를 가만히 바라보면", "folder": "033_화가나부글부글"}, {"title": "무서워서 떨려요", "memo": "내 안의 작은 떨림이를 만나 이름을 불러 주기까지", "folder": "034_무서워서떨려요"}, {"title": "부끄러워 얼굴이 빨개졌어", "memo": "볼이 발그레, 그건 마음이 보내는 신호래요", "folder": "035_부끄러워얼굴이빨개졌어"}, {"title": "심심해, 뭐 하지?", "memo": "잿빛 구름 심심이와 보낸 느릿한 하루", "folder": "036_심심해뭐하지"}, {"title": "깜짝 놀랐어!", "memo": "가슴이 콩 뛰는 그 순간, 반짝이가 찾아와요", "folder": "037_깜짝놀랐어"}, {"title": "시간을 모으는 소년", "memo": "하루 24시간, 그릇에 담기다", "folder": "202_시간을모으는소년"}, {"title": "거울 친구", "memo": "나를 보는 그 자리에서 변화가 시작된다", "folder": "203_거울친구"}, {"title": "도서관의 비밀 문", "memo": "한 시간의 깊은 발견", "folder": "204_도서관의비밀문"}, {"title": "아빠의 작은 가방", "memo": "그 안에 담긴 다섯 가지", "folder": "205_아빠의작은가방"}, {"title": "떠나는 새와 남는 새", "memo": "두 새의 마지막 밤", "folder": "206_떠나는새와남는새"}, {"title": "시간이 멈춘 교실", "memo": "멈춘 그 순간에 본 것들", "folder": "302_시간이멈춘교실"}, {"title": "다섯 명의 발명가", "memo": "다섯이 하나로", "folder": "303_다섯명의발명가"}, {"title": "잃어버린 단어 사전", "memo": "공간이 가르쳐 준 9개 단어", "folder": "304_잃어버린단어사전"}, {"title": "옆 반 친구의 비밀", "memo": "두 사람 사이의 한 노트", "folder": "305_옆반친구의비밀"}, {"title": "첫 모험가의 일기", "memo": "짧은 22개의 챕터", "folder": "306_첫모험가의일기"}, {"title": "거짓말 탐지기", "memo": "한 점심시간의 깊은 농도", "folder": "402_거짓말탐지기"}, {"title": "다섯 번째 계절", "memo": "마음 안에 머무는 시간", "folder": "403_다섯번째계절"}, {"title": "친구가 이사 갔다", "memo": "일기와 편지로 잇는 사이", "folder": "404_친구가이사갔다"}, {"title": "학급 신문 만들기", "memo": "24개의 짧은 장면", "folder": "405_학급신문만들기"}, {"title": "동물원의 늙은 사자", "memo": "한 마주침의 시간", "folder": "406_동물원의늙은사자"}, {"title": "사춘기 일기장", "memo": "흔들리는 나를 가만히 안아 주는 밤", "folder": "502_사춘기일기장"}, {"title": "친구의 비밀을 알았다", "memo": "누군가의 무게를 함께 들기로 한 날", "folder": "503_친구의비밀을알았다"}, {"title": "연아카데미 가는 길", "memo": "내가 걸어서 닿는 길", "folder": "504_연아카데미가는길"}, {"title": "부모님과의 다툼", "memo": "같은 밤, 두 마음", "folder": "505_부모님과의다툼"}, {"title": "인공지능 친구", "memo": "편리한 친구와 따뜻한 친구 사이", "folder": "506_인공지능친구"}];
+function getList(k){ try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];} }
+var read = getList('yeon_read_books'), now = getList('yeon_reading_books');
+var I_PLAY='<path d="M8 5.5v13l11-6.5z"/>', I_CHECK='<path d="M20 6L9 17l-5-5"/>', I_SHELF='<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>';
+function card(b, removable){ var f=encodeURI('완성책장/'+b.folder);
+  return '<div class="bk"><a class="cl" href="'+f+'/시범_낱말지도.html"><img src="'+f+'/images/cover.png" alt="" loading="lazy" onerror="this.style.opacity=.3"></a>'
+   +'<div class="t">'+b.title+'</div>'+(b.memo?'<div class="m">'+b.memo+'</div>':'')
+   +(removable?'<button class="rm" data-folder="'+encodeURIComponent(b.folder)+'">빼기</button>':'')+'</div>'; }
+function sec(icon,label,list,removable,emptyHtml){
+  return '<div class="sec"><h2><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+icon+'</svg>'+label+' <b>'+list.length+'</b></h2>'
+   +(list.length?'<div class="grid">'+list.map(function(b){return card(b,removable);}).join('')+'</div>':'<div class="empty">'+emptyHtml+'</div>')+'</div>';
+}
+function draw(){
+  var saved = YeonShelf.list();
+  var nowBooks = ALL.filter(function(b){return now.indexOf(b.title)>=0;});
+  var readBooks = ALL.filter(function(b){return read.indexOf(b.title)>=0;});
+  var html='';
+  html+=sec(I_SHELF,'담아둔 책', saved, true, '아직 담은 책이 없어요. <a href="완성책장/_책장.html">도서관에서 책을 담아</a> 보세요.');
+  html+=sec(I_PLAY,'지금 읽는 중', nowBooks, false, '읽는 중인 책이 여기에 표시돼요.');
+  if(readBooks.length) html+=sec(I_CHECK,'다 읽은 책', readBooks, false, '');
+  document.getElementById('wrap').innerHTML=html;
+}
+draw();
+document.getElementById('wrap').addEventListener('click', function(e){
+  var btn=e.target.closest('.rm'); if(!btn) return;
+  YeonShelf.remove(decodeURIComponent(btn.getAttribute('data-folder'))); draw();
+});
+if(window.YeonThoughtMap){
+  YeonThoughtMap.init(document.getElementById('bgmap'), { theme:'밝게', opacity:0.45, labels:true, interactive:false,
+    nodes: ALL.slice(0,14).map(function(b,i){ return {label:b.title.length>6?b.title.slice(0,6):b.title, cat:['#3aa0a8','#c4923e','#4a9060','#6858c0','#c05040'][i%5], weight:0.4+(i%3)*0.12}; }) });
+}
+</script></body></html>

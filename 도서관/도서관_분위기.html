@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연 작은도서관 — 도서관 분위기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{--pine:#2f5d62;--teal:#6eb5a6;--mint:#e9f5f2;--gold:#c38d56;--cream:#fbf7ef;--paper:#efe7d8;--ink:#2a2e2c;--muted:#6a7676;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Pretendard",sans-serif;color:var(--ink);background:var(--cream);overflow-x:hidden;}
+  .progress{position:fixed;left:0;top:0;height:3px;background:var(--gold);width:0;z-index:50;transition:width .15s linear;}
+  /* ── 히어로 (켄번즈 + 따뜻한 파스텔 veil + 생각의 지도) ── */
+  .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .hero .bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,#fdf8ef,#efe7d8 70%,#e7dcc8);}
+  .hero .bg img{width:100%;height:100%;object-fit:cover;opacity:.5;animation:kb 14s ease-out forwards;}
+  @keyframes kb{from{transform:scale(1.03)}to{transform:scale(1.12)}}
+  .hero .veil{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(251,247,239,.62),rgba(239,231,216,.84));}
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+  .hero .inner{position:relative;z-index:2;text-align:center;padding:0 7%;animation:rise 1.4s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .hero .yeon{font-family:"Noto Serif KR",serif;font-size:clamp(58px,12vw,138px);font-weight:700;color:var(--pine);line-height:1;}
+  .hero .name{font-family:"Noto Serif KR",serif;font-size:clamp(22px,4.4vw,42px);font-weight:700;letter-spacing:.08em;margin-top:.12em;color:#2a2a2a;}
+  .hero .tag{margin-top:.7em;font-size:clamp(14px,2.5vw,22px);color:#5e6a6e;line-height:1.6;}
+  .hero .cta{display:inline-flex;align-items:center;gap:9px;margin-top:34px;background:var(--pine);color:#fff;
+    text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 8px 22px rgba(47,93,98,.28);transition:transform .15s,box-shadow .15s;}
+  .hero .cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(47,93,98,.34);}
+  .hero .cta svg{width:19px;height:19px;}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;color:var(--pine);opacity:.7;animation:bob 2.4s ease-in-out infinite;}
+  .scrollcue svg{width:26px;height:26px;}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+  /* ── 아래 섹션: 오늘의 책 ── */
+  .shelf{max-width:1080px;margin:0 auto;padding:72px 20px 40px;}
+  .shelf h2{font-family:"Noto Serif KR",serif;font-size:clamp(22px,4vw,30px);color:var(--pine);text-align:center;}
+  .shelf p.lead{text-align:center;color:var(--muted);margin-top:10px;font-size:15px;line-height:1.7;}
+  .grid{margin-top:34px;display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+  .bk{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px rgba(80,60,30,.12);text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s;}
+  .bk:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(80,60,30,.2);}
+  .bk img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#f3ecdf;}
+  .bk .t{font-family:"Noto Serif KR",serif;font-weight:700;font-size:13.5px;padding:10px 12px 12px;line-height:1.3;}
+  .more{text-align:center;margin:38px 0 70px;}
+  .more a{display:inline-flex;align-items:center;gap:8px;color:var(--pine);font-weight:700;text-decoration:none;border:1.5px solid var(--teal);border-radius:999px;padding:12px 24px;background:rgba(110,181,166,.08);}
+  .more a svg{width:18px;height:18px;}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;border-top:1px solid var(--paper);}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+
+<section class="hero">
+  <div class="bg"><img src="_입구_소개/images/03.png" alt="" onerror="this.style.display='none'"></div>
+  <div class="veil"></div>
+  <canvas id="ambient-map" aria-hidden="true"></canvas>
+  <div class="inner">
+    <div class="yeon">緣</div>
+    <div class="name">연 작은도서관</div>
+    <div class="tag">작은 빛 하나가, 세상을 잇습니다.<br>오늘의 책이 당신을 기다려요.</div>
+    <a class="cta" href="내_서재.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      내 서재 들어가기
+    </a>
+  </div>
+  <a class="scrollcue" href="#today" aria-label="아래로">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
+</section>
+
+<section class="shelf" id="today">
+  <h2>오늘 펼쳐 보는 책</h2>
+  <p class="lead">따뜻한 그림과 함께, 한 장 한 장 소리 내어 읽어요.<br>마음에 드는 책을 눌러 「내 서재」에 담아 보세요.</p>
+  <div class="grid" id="grid"></div>
+  <div class="more">
+    <a href="내_서재.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      내 서재에서 모두 보기
+    </a>
+  </div>
+</section>
+
+<footer>연 작은도서관 · 緣 — 좋은 생각을 가진 글이 가장 높은 자리에</footer>
+
+<script src="js/thoughtmap-ambient.js?v=5"></script>
+<script>
+  // 오늘의 책 — 표지 완성된 대표 책 몇 권 (있는 것만 표시)
+  var FEATURED=[
+    ['001_ㄱㄴㄷ친구들이깨어났어요','ㄱㄴㄷ 친구들이 깨어났어요'],
+    ['003_받침없는글자나라','받침 없는 글자 나라'],
+    ['010_나도이제책을읽어요','나도 이제 책을 읽어요'],
+    ['011_하나둘셋숫자가보여요','하나 둘 셋, 숫자가 보여요'],
+    ['021_처음가는학교두근두근','처음 가는 학교, 두근두근'],
+    ['031_오늘은기분이좋아','오늘은 기분이 좋아']
+  ];
+  document.getElementById('grid').innerHTML = FEATURED.map(function(b){
+    var f=encodeURI('완성책장/'+b[0]);
+    return '<a class="bk" href="'+f+'/시범_낱말지도.html"><img src="'+f+'/images/cover.png" alt="" loading="lazy" onerror="this.style.opacity=.3"><div class="t">'+b[1]+'</div></a>';
+  }).join('');
+  // 생각의 지도 — 은은한 배경
+  if(window.YeonThoughtMap){
+    YeonThoughtMap.init(document.getElementById('ambient-map'), { theme:'밝게', opacity:0.5, labels:true, interactive:false, nodes:[
+      {label:'읽기',cat:'#3aa0a8',weight:.7},{label:'생각',cat:'#6858c0',weight:.6},{label:'이야기',cat:'#c4923e',weight:.65},
+      {label:'낱말',cat:'#4a9060',weight:.55},{label:'마음',cat:'#c05040',weight:.6},{label:'함께',cat:'#3aa0a8',weight:.5},
+      {label:'빛',cat:'#c4923e',weight:.5},{label:'이음',cat:'#6858c0',weight:.55}
+    ]});
+  }
+  // 진행바
+  addEventListener('scroll',function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);document.getElementById('prog').style.width=(p*100)+'%';});
+</script>
+</body>
+</html>

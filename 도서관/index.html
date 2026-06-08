@@ -114,6 +114,83 @@
   .meta .s{font-size:11.5px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .meta .g{font-size:10px;color:var(--accent);font-weight:700;margin-top:6px}
   .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0}
+  
+  /* 시리즈 탭 바 스타일 */
+  .series-tabs-container {
+    margin: 24px 0 16px;
+    position: relative;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 4px;
+  }
+  .series-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none; /* 파이어폭스 */
+    padding: 2px 0;
+  }
+  .series-tabs::-webkit-scrollbar {
+    display: none; /* 크롬/사파리 */
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 18px;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .tab-btn:hover {
+    color: var(--deep);
+  }
+  .tab-btn.active {
+    color: var(--deep);
+    font-weight: 900;
+  }
+  .tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 99px;
+    animation: tabline 0.22s ease-out;
+  }
+  @keyframes tabline {
+    from { transform: scaleX(0.3); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+  .tab-btn .badge-cnt {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(195, 141, 86, 0.12);
+    padding: 2px 6px;
+    border-radius: 999px;
+    margin-left: 6px;
+    vertical-align: 1px;
+  }
+  .tab-btn.active .badge-cnt {
+    background: var(--accent);
+    color: #fff;
+  }
+  
+  /* 그리드 애니메이션 */
+  .grid.fade-active {
+    animation: gridFade 0.3s ease-out;
+  }
+  @keyframes gridFade {
+    from { opacity: 0.4; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   footer{border-top:2px solid var(--ink);background:var(--warm);text-align:center;font-size:12px;color:var(--muted);padding:24px 0}
 </style>
 </head>
@@ -153,6 +230,11 @@
         <div class="ratio-note">지금은 AI가 지은 이야기로 시작합니다. 앞으로 사람 작가의 글이 더해지며, 각 책에 누가 썼는지 항상 표시됩니다.</div>
       </div>
     </section>
+
+    <!-- 시리즈 탭 바 추가 -->
+    <div class="series-tabs-container">
+      <div class="series-tabs" id="seriesTabs"></div>
+    </div>
 
     <div class="cat-cta">
       <button id="catBtn" class="cat-big">📚 카테고리 펼쳐 보기</button>
@@ -239,38 +321,140 @@
   let ALL=[], state={f:'all',q:''};
   const $=s=>document.querySelector(s);
   function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  // 시리즈 탭 정의 및 번호 범위
+  const SERIES_TABS = [
+    { key: "all", title: "전체" },
+    { key: "HG", title: "한글 깨우기", range: [1, 10] },
+    { key: "NU", title: "숫자·셈", range: [11, 20] },
+    { key: "SC", title: "학교생활", range: [21, 30] },
+    { key: "EM", title: "감정·마음", range: [31, 40] },
+    { key: "AD", title: "모험·이야기", range: [41, 50] },
+    { key: "NA", title: "자연·계절", range: [51, 60] },
+    { key: "BK", title: "책·읽기", range: [61, 70] },
+    { key: "ME", title: "나·자존감", range: [71, 80] },
+    { key: "HB", title: "생활습관", range: [81, 90] },
+    { key: "IM", title: "상상·만약에", range: [91, 100] },
+    { key: "FR", title: "친구·관계", range: [101, 110] },
+    { key: "SI", title: "과학·탐구", range: [111, 120] },
+    { key: "KO", title: "우리문화·전통", range: [121, 130] },
+    { key: "TM", title: "시간·하루", range: [131, 140] },
+    { key: "grade_3", title: "초3 책풀", grade: "초3" },
+    { key: "grade_4", title: "초4 책풀", grade: "초4" },
+    { key: "grade_5", title: "초5 책풀", grade: "초5" },
+    { key: "grade_6", title: "초6 책풀", grade: "초6" }
+  ];
+
+  let currentTab = "all";
+
+  function getBookHtml(b, i){
+    const c=COVERS[(parseInt(b.num)||i)%COVERS.length];
+    const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
+    const hasCover = b.status === '그림완성';
+    const coverUrl = hasCover ? b.url.replace('index.html', 'images/cover.png') : '';
+    const bgStyle = hasCover 
+      ? `background:url('${esc(coverUrl)}') center/cover no-repeat` 
+      : `background:linear-gradient(135deg,${c[0]},${c[1]})`;
+    const titleOverlay = hasCover ? '' : `<h3>${esc(b.title)}</h3>`;
+    return `<a class="book" href="${esc(b.url)}">
+      <div class="cover" style="${bgStyle}">
+        <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
+        ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}
+        <span class="ai-tag">AI 창작</span>
+        ${titleOverlay}${bi}
+      </div>
+      <div class="meta">
+        <div class="t">${esc(b.title)}</div>
+        <div class="s">${esc(b.sub||'')}</div>
+        <div class="g">${esc(b.grade||'')}</div>
+      </div></a>`;
+  }
+
+  function renderTabs(){
+    const container = $('#seriesTabs');
+    if(!container) return;
+    
+    container.innerHTML = SERIES_TABS.map(tab => {
+      let count = 0;
+      if(tab.key === "all"){
+        count = ALL.length;
+      } else if(tab.grade) {
+        count = ALL.filter(b => b.grade === tab.grade).length;
+      } else {
+        const start = tab.range[0];
+        const end = tab.range[1];
+        count = ALL.filter(b => {
+          const numInt = parseInt(b.num);
+          return !isNaN(numInt) && numInt >= start && numInt <= end;
+        }).length;
+      }
+      
+      const isActive = currentTab === tab.key ? "active" : "";
+      return `<button class="tab-btn ${isActive}" onclick="switchSeriesTab('${tab.key}')">${esc(tab.title)}<span class="badge-cnt">${count}</span></button>`;
+    }).join('');
+  }
+
+  window.switchSeriesTab = function(key){
+    currentTab = key;
+    
+    // 탭을 눌러 이동하면 검색어 및 필터 초기화
+    $('#q').value = '';
+    state.q = '';
+    
+    document.querySelectorAll('#filters .chip').forEach(c => c.classList.remove('active'));
+    const allChip = document.querySelector('#filters .chip[data-f="all"]');
+    if(allChip) allChip.classList.add('active');
+    state.f = 'all';
+    
+    renderTabs();
+    
+    // 그리드 페이드인 모션 실행
+    const g = $('#grid');
+    g.classList.remove('fade-active');
+    void g.offsetWidth;
+    g.classList.add('fade-active');
+    
+    render();
+  }
+
   function render(){
     const g=$('#grid'); const q=state.q.trim();
     const STMAP={done:'그림완성',wip:'그림작업중',text:'글완성'};
-    let list=ALL.filter(b=>{
+    
+    let list = ALL.filter(b => {
+      // 1. 탭 필터링
+      if(currentTab !== "all"){
+        const tab = SERIES_TABS.find(t => t.key === currentTab);
+        if(tab){
+          if(tab.grade){
+            if(b.grade !== tab.grade) return false;
+          } else if(tab.range) {
+            const numInt = parseInt(b.num);
+            if(isNaN(numInt) || numInt < tab.range[0] || numInt > tab.range[1]) return false;
+          }
+        }
+      }
+      
+      // 2. 검색어 필터링
+      if(q){
+        const h=(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase();
+        if(!h.includes(q.toLowerCase())) return false;
+      }
+      
+      // 3. 상태 필터링
       if(state.f!=='all' && b.status!==STMAP[state.f]) return false;
-      if(q){const h=(b.title+' '+(b.sub||'')+' '+(b.grade||'')+' '+(b.text||'')).toLowerCase(); if(!h.includes(q.toLowerCase())) return false;}
+      
       return true;
     });
+    
     $('#count').textContent = `${list.length}권 표시 · 전체 ${ALL.length}권`;
-    if(!list.length){g.innerHTML='<div class="empty">찾는 조건의 책이 아직 없어요. 다른 낱말로 찾아보거나, 곧 채워질 책을 기다려 주세요.</div>';return;}
-    g.innerHTML=list.map((b,i)=>{
-      const c=COVERS[(parseInt(b.num)||i)%COVERS.length];
-      const bi = b.bilingual ? '<span class="ai-tag" style="background:rgba(67,122,113,.95);right:auto;left:8px;top:auto;bottom:8px">한·영</span>' : '';
-      const hasCover = b.status === '그림완성';
-      const coverUrl = hasCover ? b.url.replace('index.html', 'images/cover.png') : '';
-      const bgStyle = hasCover 
-        ? `background:url('${esc(coverUrl)}') center/cover no-repeat` 
-        : `background:linear-gradient(135deg,${c[0]},${c[1]})`;
-      const titleOverlay = hasCover ? '' : `<h3>${esc(b.title)}</h3>`;
-      return `<a class="book" href="${esc(b.url)}">
-        <div class="cover" style="${bgStyle}">
-          <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
-          ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}
-          <span class="ai-tag">AI 창작</span>
-          ${titleOverlay}${bi}
-        </div>
-        <div class="meta">
-          <div class="t">${esc(b.title)}</div>
-          <div class="s">${esc(b.sub||'')}</div>
-          <div class="g">${esc(b.grade||'')}</div>
-        </div></a>`;
-    }).join('');
+    
+    if(!list.length){
+      g.innerHTML='<div class="empty">찾는 조건의 책이 아직 없어요. 다른 낱말로 찾아보거나, 곧 채워질 책을 기다려 주세요.</div>';
+      return;
+    }
+    
+    g.style.display = 'grid'; // 그리드 형태 상시 유지
+    g.innerHTML = list.map((b,i)=>getBookHtml(b, i)).join('');
   }
   function setRatio(){
     const ai=ALL.filter(b=>b.authorType==='AI').length, total=ALL.length||1;
@@ -303,7 +487,7 @@
     const txt={}; (si.items||[]).forEach(i=>{txt[i.slug]=i.text||'';});
     ALL=(d.books||[]).map(b=>Object.assign({},b,{text:txt[b.folder]||''}))
       .sort((a,b)=>(({'그림완성':0,'그림작업중':1,'글완성':2})[a.status]??3)-(({'그림완성':0,'그림작업중':1,'글완성':2})[b.status]??3) || (parseInt(a.num)||0)-(parseInt(b.num)||0));
-    setRatio(); render(); updateCatCounts();
+    setRatio(); renderTabs(); render(); updateCatCounts();
   }).catch(e=>{$('#count').textContent='목록을 불러오지 못했습니다.';});
   $('#q').addEventListener('input',e=>{state.q=e.target.value;render()});
   $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
