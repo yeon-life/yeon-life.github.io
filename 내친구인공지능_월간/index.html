@@ -147,6 +147,223 @@
     .iv-feats li{text-align:left}
   }
   @media print{ .introvid{display:none} }
+
+  /* 제작 참여 에이전트 및 검수 체인 스타일 */
+  .agent-info-btn{
+    background:rgba(47,93,98,.06);
+    color:var(--deep);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:11.5px;
+    font-weight:700;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    transition:all .2s ease;
+  }
+  .agent-info-btn:hover{
+    background:var(--deep);
+    color:#fff;
+    border-color:var(--deep);
+    box-shadow:0 3px 10px rgba(47,93,98,.15);
+    transform:translateY(-1px);
+  }
+  .agent-info-btn:active{
+    transform:translateY(0);
+  }
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(31,42,42,0.45);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+    padding:20px;
+  }
+  .modal-overlay.active{
+    opacity:1;
+    pointer-events:all;
+  }
+  .modal-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    max-width:580px;
+    width:100%;
+    max-height:85vh;
+    overflow-y:auto;
+    box-shadow:0 20px 40px rgba(31,42,42,0.18);
+    transform:scale(0.95);
+    transition:transform 0.25s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-overlay.active .modal-card{
+    transform:scale(1);
+  }
+  .modal-header{
+    padding:20px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    background:var(--card);
+    z-index:2;
+  }
+  .modal-title{
+    font-family:var(--serif);
+    font-size:17px;
+    font-weight:800;
+    color:var(--deep);
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .modal-close{
+    background:transparent;
+    border:none;
+    font-size:24px;
+    color:var(--muted);
+    cursor:pointer;
+    padding:4px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    transition:color 0.2s;
+    line-height:1;
+  }
+  .modal-close:hover{
+    color:var(--accent);
+  }
+  .modal-body{
+    padding:24px;
+    font-size:14px;
+    line-height:1.75;
+    color:var(--ink);
+  }
+  .sect-title{
+    font-family:var(--serif);
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 14px;
+    padding-bottom:6px;
+    border-bottom:2px solid var(--accent);
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .agent-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:28px;
+  }
+  @media(max-width:520px){
+    .agent-grid{ grid-template-columns:1fr; }
+  }
+  .agent-item{
+    background:var(--mist);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    transition:all 0.2s ease;
+  }
+  .agent-item:hover{
+    border-color:var(--deep);
+    background:#fff;
+    box-shadow:0 4px 12px rgba(47,93,98,0.05);
+  }
+  .agent-role{
+    font-size:10.5px;
+    font-weight:800;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:3px;
+    letter-spacing:0.02em;
+  }
+  .agent-name{
+    font-weight:800;
+    color:var(--deep);
+    font-size:13.5px;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .agent-name span{
+    font-size:11px;
+    font-weight:normal;
+    color:var(--muted);
+  }
+  .agent-desc{
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.55;
+  }
+  .chain-list{
+    position:relative;
+    padding-left:20px;
+  }
+  .chain-list::before{
+    content:'';
+    position:absolute;
+    left:6px;
+    top:8px;
+    bottom:8px;
+    width:2px;
+    background:var(--line);
+  }
+  .chain-step{
+    position:relative;
+    margin-bottom:18px;
+  }
+  .chain-step:last-child{
+    margin-bottom:0;
+  }
+  .chain-step::before{
+    content:'';
+    position:absolute;
+    left:-20px;
+    top:6px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--card);
+    border:2.5px solid var(--accent);
+    z-index:2;
+  }
+  .chain-step.completed::before{
+    background:var(--accent);
+  }
+  .chain-step.final::before{
+    border-color:var(--deep);
+    background:var(--deep);
+  }
+  .chain-title{
+    font-weight:700;
+    font-size:13px;
+    color:var(--deep);
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .chain-desc{
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.6;
+  }
 </style>
 </head>
 <body>
@@ -220,7 +437,10 @@
     var reads = DATA.corners.map(function(c){return c.critique.readability||0}).filter(Boolean);
     var avg = reads.length? (reads.reduce(function(a,b){return a+b},0)/reads.length).toFixed(1):'-';
     document.getElementById('verify').innerHTML =
-      '<div class="vt">🧊 편집부 비평가단 검증 — 창간호</div>'+
+      '<div class="verify-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px; border-bottom:1px solid rgba(47,93,98,0.1); padding-bottom:8px;">'+
+      '  <div class="vt" style="margin-bottom:0">🧊 편집부 비평가단 검증 — 창간호</div>'+
+      '  <button class="agent-info-btn" onclick="openAgentModal()">🤖 제작 참여 AI &amp; 검수 체인</button>'+
+      '</div>'+
       '<ul>'+
       '<li>사실 검증: 8개 코너 전수 검토 · 거짓 <b>'+totalCorr+'건 정정 반영</b> 후 통과</li>'+
       '<li>원문 링크: 전수 접속 검사 · 죽은 링크 <b>'+deadTotal+'개 자동 제외</b></li>'+
@@ -258,6 +478,73 @@
     document.querySelectorAll('.qr').forEach(function(el){
       try{ new QRCode(el,{text:el.getAttribute('data-url'),width:80,height:80,colorDark:'#2f5d62',colorLight:'#fffdf8',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
     });
+
+    // 에이전트 모달 함수
+    window.openAgentModal = function() {
+      document.getElementById('agent-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeAgentModal = function() {
+      document.getElementById('agent-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    };
   </script>
+
+  <!-- 제작 참여 에이전트 & 검수 체인 모달 -->
+  <div class="modal-overlay" id="agent-modal" onclick="if(event.target===this) closeAgentModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🤖</span> 제작 참여 AI 에이전트 &amp; 검수 체인
+        </div>
+        <button class="modal-close" onclick="closeAgentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="sect-title">💻 참여 AI 에이전트 &amp; 엔진</div>
+        <div class="agent-grid">
+          <div class="agent-item">
+            <div class="agent-role">기획 및 본문 집필</div>
+            <div class="agent-name">Claude 3 Opus <span>(v4.8)</span></div>
+            <div class="agent-desc">창간호 기사들의 핵심 기획안 구성 및 본문 초안을 고풍스럽고 깊이 있게 작성했습니다.</div>
+          </div>
+          <div class="agent-item">
+            <div class="agent-role">3D Clay 일러스트</div>
+            <div class="agent-name">나노바나나2 <span>(Imagen 3)</span></div>
+            <div class="agent-desc">글의 핵심 비유와 색감(피치·민트)에 맞춰 3D 클레이 질감의 맞춤형 일러스트를 설계했습니다.</div>
+          </div>
+          <div class="agent-item">
+            <div class="agent-role">사실·논리 비평</div>
+            <div class="agent-name">Grok <span>(xAI)</span> &amp; AI 비평가단</div>
+            <div class="agent-desc">환각 현상(거짓 정보) 정밀 검사, 1차 출처 검증, 편향적 비교 구도 자동 필터링을 수행했습니다.</div>
+          </div>
+          <div class="agent-item">
+            <div class="agent-role">사용자 경험 설계</div>
+            <div class="agent-name">Antigravity <span>(메인 비서)</span></div>
+            <div class="agent-desc">UI/UX 설계, 반응형 레이아웃 및 30초 세로형 핵심 요약 영상 제작과 시스템 연동을 조율했습니다.</div>
+          </div>
+        </div>
+
+        <div class="sect-title">🧊 단계별 비평 &amp; 검수 리포트</div>
+        <div class="chain-list">
+          <div class="chain-step completed">
+            <div class="chain-title">1단계: 초고 생성 및 일러스트 기획</div>
+            <div class="chain-desc"><strong>Claude 3 Opus 4.8</strong>이 기획 사양서에 부합하는 초안을 작성하고, 나노바나나2가 각 코너에 딱 맞는 3D 이미지 기획안을 처리했습니다.</div>
+          </div>
+          <div class="chain-step completed">
+            <div class="chain-title">2단계: AI 비평가단 3단계 자율 검수</div>
+            <div class="chain-desc">
+              - <strong>인문 비평</strong>: AI 특유의 훈계조(adult-like) 말투 교정 및 가독성 호흡 조절.<br>
+              - <strong>사실 비평</strong>: 출처 누락 검출, 거짓(환각) <b>거짓 진술 정정 반영</b>.<br>
+              - <strong>중립 비평</strong>: 'A가 아니라 B' 같은 배타적 비교 프레임 배제.
+            </div>
+          </div>
+          <div class="chain-step final">
+            <div class="chain-title">3단계: 편집인 최종 감수 및 게시 승인</div>
+            <div class="chain-desc">인간 편집장인 <strong>연소사 (이진우)</strong>가 AI 비평 리포트를 바탕으로 사실 관계를 최종 확인한 후, 수동 발행을 승인하여 정식 출간되었습니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
