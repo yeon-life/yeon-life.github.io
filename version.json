@@ -1,8 +1,8 @@
 {
-  "version": "20260609.0030",
+  "version": "20260609.0045",
   "ylv": "YLV-6",
   "yuv": "YUV6",
   "force": true,
-  "released_at": "2026-06-09T00:30:00+09:00",
-  "notes": "연마을 도메인 경로 korea/ulsan/ 변경 및 삼산분원 pages.dev 다이렉트 링크 적용"
+  "released_at": "2026-06-09T00:45:00+09:00",
+  "notes": "시청분원 홈페이지 신규 배포 및 yeon.ai.kr 도메인 제거 완료"
 }
