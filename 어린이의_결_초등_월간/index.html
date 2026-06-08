@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base href="/어린이의_결_초등_월간/">
+<script>if(location.protocol==='file:'){document.querySelector('base').href='./';}</script>
 <link rel="canonical" href="https://y-life.kr/어린이의_결_초등_월간/">
 <title>어린이의 결 (초등부) · 창간호 — y-life.kr</title>
 <meta name="description" content="살아있는 교과서 종합 잡지 — 어린이의 결 (초등부). 초등학생을 위한 일주일간의 흥미로운 학습 소식. 하루 한 편씩 과학, 수학, 국어, 영어, AI, 상상 동화, 공부 습관을 재미있게 배워요.">
@@ -408,14 +409,110 @@
     transform: scale(1.1);
   }
 
+
+  /* 대시보드 스타일 */
+  .grade-btn {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+  }
+  .grade-btn:hover {
+    border-color: var(--deep);
+    color: var(--deep);
+    transform: translateY(-1px);
+  }
+  .grade-btn.active {
+    background: var(--deep);
+    border-color: var(--deep);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(42,90,75,0.2);
+  }
+  
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .challenge-card {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+  }
+  .challenge-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(212,124,83,0.08);
+  }
+  .challenge-day {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.03em;
+  }
+  .challenge-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .challenge-done-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #edf4f0;
+    color: var(--deep);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .challenge-todo-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--warm);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .hidden {
+    display: none !important;
+  }
+
 </style>
+<script src="js/grade_data.js"></script>
 </head>
 
 <body>
   <div class="top"><div class="in">
-    <div class="brand">
-      <a href="/index.html"><span class="y">緣</span> 연라이프</a>
+    <div class="brand" style="display:flex; align-items:center; gap:8px;">
+      <a href="/index.html" style="text-decoration:none;"><span class="y">緣</span> 연라이프</a>
       <span class="bsep">›</span><span class="bcur">어린이의 결</span>
+      <button id="back-to-dashboard-btn" onclick="showDashboard()" style="display:none; background:var(--deep); color:#fff; border:none; border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all .2s; outline:none; font-family:var(--sans)">◀ 대시보드</button>
     </div>
     <nav class="ynav">
       <a href="/index.html">홈</a>
@@ -432,7 +529,30 @@
     <div class="issue">창간호 · 2026년 6월 &nbsp;<span class="badge-free">읽기 무료</span></div>
   </header>
 
-  <div class="main-layout wrap">
+  
+  <div id="dashboard-view" class="wrap" style="padding: 20px 20px 40px; font-family: var(--sans);">
+    <!-- Dashboard header -->
+    <div style="text-align: center; margin-bottom: 30px; margin-top: 20px;">
+      <div style="font-size: 28px; margin-bottom: 6px;">🧸</div>
+      <h2 style="font-family: var(--serif); font-size: 26px; color: var(--deep); font-weight: 900; margin-bottom: 6px;">매일 등원 챌린지 대시보드</h2>
+      <p style="font-size: 13.5px; color: var(--muted);">학년을 선택하고 오늘의 매일 학습 챌린지를 시작해 보세요!</p>
+    </div>
+
+    <!-- Grade selector buttons -->
+    <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 30px;">
+      <button onclick="selectGrade(1)" class="grade-btn" id="grade-btn-1">1학년</button>
+      <button onclick="selectGrade(2)" class="grade-btn" id="grade-btn-2">2학년</button>
+      <button onclick="selectGrade(3)" class="grade-btn" id="grade-btn-3">3학년</button>
+      <button onclick="selectGrade(4)" class="grade-btn" id="grade-btn-4">4학년</button>
+      <button onclick="selectGrade(5)" class="grade-btn" id="grade-btn-5">5학년</button>
+      <button onclick="selectGrade(6)" class="grade-btn" id="grade-btn-6">6학년</button>
+    </div>
+
+    <!-- Daily challenge cards grid -->
+    <div id="challenge-grid" class="challenge-grid"></div>
+  </div>
+
+  <div class="main-layout wrap hidden">
     <!-- 왼쪽 패널: 과목 선택 및 한줄 요약 -->
     <aside class="left-panel noprint" id="left-panel">
       <div style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px; display:flex; align-items:center; gap:6px;">📚 과목 둘러보기</div>
@@ -847,168 +967,403 @@
   </script>
 
   <script>
-    var DATA = JSON.parse(document.getElementById('issue-data').textContent);
+
+    // ===== 매일 등원 챌린지 플랫폼 컨트롤러 =====
+    var VOCAB_DATA = {};
+    var activeNavKey = null;
+    var currentGrade = localStorage.getItem('yl-grade') || '1';
+    var selectedDayKey = null;
+    var currentGradeData = null;
+
     function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])})}
     function md(t){ try{ return (window.marked.parse?window.marked.parse(t):window.marked(t)); }catch(e){ return '<p>'+esc(t)+'</p>'; } }
 
-    // 비평가 검증 배너 작성
-    var totalCorr = DATA.corners.reduce(function(a,c){return a+(c.corrected||0)},0);
-    var deadTotal = DATA.corners.reduce(function(a,c){return a+((c.critique.dead_links||[]).length)},0);
-    var reads = DATA.corners.map(function(c){return c.critique.readability||0}).filter(Boolean);
-    var avg = reads.length? (reads.reduce(function(a,b){return a+b},0)/reads.length).toFixed(1):'-';
-    
-    document.getElementById('verify').innerHTML =
-      '<div class="vt">편집부 및 어린이 비평가단 공동 검증 완료 — 어린이의 결 창간호</div>'+
-      '<ul>'+
-      '<li>사실 검증: 7개 요일 코너 전수 검토 · 오류 <b>'+totalCorr+'건 발견 및 정정</b> 통과</li>'+
-      '<li>교육 효과: 초등 과학·수학·국어·영어 교육 과정 연계 <b>100% 검증</b></li>'+
-      '<li>아동 가독성: 아동 인지 발달 눈높이 기준 가독성 평균 <b>'+avg+'/5</b></li>'+
-      '</ul>'+
-      '<div class="word">어린이 비평위원 한 줄평 — "지렁이 똥 이야기랑 이지 피지 레몬 스퀴지 영어 소리놀이가 진짜 신나고 재미있었어요! 매일 밤 자기 전에 엄마랑 아빠랑 하나씩 소리 내어 읽기 딱 좋아요."</div>';
+    // TTS 음성 출력 함수
+    window.speakText = function(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        utterance.rate = 0.95; // 어린이를 위해 약간 천천히 읽기
+        window.speechSynthesis.speak(utterance);
+      }
+    }
 
-    // 목차 생성
-    document.getElementById('toc').innerHTML = DATA.corners.map(function(c,i){
-      var name = c.title.split(' · ')[0] || c.title;
-      return '<a href="#c-'+c.key+'">'+esc(name)+'</a>';
-    }).join('');
-
-    // 코너 렌더링
-    var host = document.getElementById('corners');
-    DATA.corners.forEach(function(c,idx){
-      var crit=c.critique;
-      var factLabel = (c.corrected>0) ? ('사실검증 정정 '+c.corrected+'건 반영') : '사실검증 완료';
-      var srcHtml = (c.sources||[]).map(function(s,i){
-        return '<div class="src"><a href="'+s.url+'" target="_blank" rel="noopener">'+esc(s.name)+' ↗</a><div class="qr" data-url="'+esc(s.url)+'"></div></div>';
+    // 낱말 해설 출력
+    function renderVocabulary(key) {
+      var vocabContainer = document.getElementById('vocab-content');
+      if (!vocabContainer) return;
+      
+      var list = VOCAB_DATA[key] || [];
+      if (list.length === 0) {
+        vocabContainer.innerHTML = '<div style="font-size:13px; color:var(--muted); text-align:center; margin-top:40px; font-style:italic;">이 코너에는 어려운 낱말이 없어요!</div>';
+        return;
+      }
+      
+      vocabContainer.innerHTML = list.map(function(item) {
+        var speakStr = item.word.split(' (')[0] + '. ' + item.desc;
+        return '<div class="vocab-card">' +
+                 '<div class="vocab-word-row">' +
+                   '<span class="vocab-word">' + esc(item.word) + '</span>' +
+                   '<button class="tts-btn" onclick="speakText(\'' + esc(speakStr).replace(/'/g, "\\'") + '\')" title="소리 듣기">🔊</button>' +
+                 '</div>' +
+                 '<p class="vocab-desc">' + esc(item.desc) + '</p>' +
+               '</div>';
       }).join('');
-      
-      var themeClass = '';
-      if(c.key === 'math') themeClass = 'teal';
-      else if(c.key === 'hangeul') themeClass = 'accent';
-      else if(c.key === 'english') themeClass = 'teal';
-      else if(c.key === 'future') themeClass = '';
-      else if(c.key === 'fairytale') themeClass = 'accent';
-      else if(c.key === 'parents') themeClass = '';
+    }
 
-      var art=document.createElement('article');
-      art.className='corner'; art.id='c-'+c.key;
+    // 네비게이션 아이템 활성화 하이라이트
+    function highlightNavItem(key) {
+      document.querySelectorAll('.nav-item').forEach(function(el) {
+        el.classList.remove('active');
+      });
       
-      var cartoonHtml = '';
-      if(c.cartoonCuts && c.cartoonCuts.length > 0) {
-        var cutsList = c.cartoonCuts.map(function(cut){
-          return '<div class="cartoon-card">' +
-                   '<div class="cartoon-header">' +
-                     '<span class="cartoon-badge">' + cut.cut + '컷</span>' +
-                     '<span class="cartoon-emoji">' + esc(cut.emoji) + '</span>' +
-                   '</div>' +
-                   '<p class="cartoon-caption">' + esc(cut.caption) + '</p>' +
-                 '</div>';
-        }).join('');
-        cartoonHtml = '<div class="cartoon-box">' +
-                        '<div class="cartoon-title">🎬 8컷 만화로 요약해 보기!</div>' +
-                        '<div class="cartoon-grid">' + cutsList + '</div>' +
-                      '</div>';
+      var activeItem = document.getElementById('nav-item-' + key);
+      if (activeItem) {
+        activeItem.classList.add('active');
+        
+        // 스크롤 시 자동 스크롤
+        var leftPanel = document.getElementById('left-panel');
+        if (leftPanel) {
+          var itemRect = activeItem.getBoundingClientRect();
+          var panelRect = leftPanel.getBoundingClientRect();
+          if (itemRect.top < panelRect.top || itemRect.bottom > panelRect.bottom) {
+            activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+      }
+    }
+
+    // 네비게이션 버튼 클릭 핸들러
+    window.handleNavClick = function(key) {
+      if (activeNavKey !== key) {
+        activeNavKey = key;
+        highlightNavItem(key);
+        renderVocabulary(key);
+      } else {
+        var target = document.getElementById('c-' + key);
+        var centerPanel = document.querySelector('.center-panel');
+        if (target && centerPanel) {
+          if (window.innerWidth >= 1024) {
+            var panelTop = centerPanel.getBoundingClientRect().top;
+            var targetTop = target.getBoundingClientRect().top;
+            centerPanel.scrollBy({
+              top: targetTop - panelTop - 10,
+              behavior: 'smooth'
+            });
+          } else {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+    }
+
+    // 학년 선택 기능
+    window.selectGrade = function(grade) {
+      currentGrade = String(grade);
+      localStorage.setItem('yl-grade', currentGrade);
+      renderDashboard();
+    }
+
+    // 대시보드 렌더링
+    function renderDashboard() {
+      var grid = document.getElementById('challenge-grid');
+      if (!grid) return;
+
+      var gradeInfo = GRADE_DATA[currentGrade];
+      if (!gradeInfo) return;
+
+      // 학년 버튼 활성화
+      document.querySelectorAll('.grade-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      var activeBtn = document.getElementById('grade-btn-' + currentGrade);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // 챌린지 카드 목록 생성
+      grid.innerHTML = gradeInfo.corners.map(function(c, idx) {
+        var isDone = false;
+        try {
+          var logs = JSON.parse(localStorage.getItem('yl-activities') || '[]');
+          isDone = logs.some(function(log) {
+            return log.type === 'seed_answer' && 
+                   log.detail.indexOf('코너: ' + c.key) === 0 &&
+                   log.detail.indexOf('학년: ' + currentGrade) >= 0;
+          });
+        } catch(e){}
+
+        var badgeHtml = isDone ? 
+          '<span class="challenge-done-badge">✅ 완료</span>' : 
+          '<span class="challenge-todo-badge">진행 중</span>';
+
+        var dayName = c.title.split(': ')[0] || ('Day ' + (idx + 1));
+        var subjectName = c.title.split(': ')[1] || c.title;
+
+        return '<div class="challenge-card" onclick="startChallenge(\'' + c.key + '\')">' +
+                 badgeHtml +
+                 '<div class="challenge-day">' + esc(dayName) + '</div>' +
+                 '<div class="challenge-title" style="font-family:var(--serif); font-size:15px; font-weight:800; color:var(--deep); margin-top:4px;">' + esc(subjectName) + '</div>' +
+                 '<div style="font-size:12.5px; color:#4a5454; line-height:1.4; margin-top:2px;">' + esc(c.headline) + '</div>' +
+               '</div>';
+      }).join('');
+    }
+
+    // 챌린지 시작 (본문 로드)
+    window.startChallenge = function(key) {
+      selectedDayKey = key;
+      
+      document.getElementById('dashboard-view').classList.add('hidden');
+      document.querySelector('.main-layout').classList.remove('hidden');
+      document.getElementById('back-to-dashboard-btn').style.display = 'inline-block';
+      
+      document.querySelector('.mast h1').innerHTML = '어린이의 결<span style="font-size:22px;font-weight:700;color:var(--deep);vertical-align:middle;margin-left:6px;border:1.5px solid var(--deep);padding:2px 10px;border-radius:999px;font-family:var(--sans)">초등 ' + currentGrade + '학년</span>';
+      
+      if (window.innerWidth >= 1024) {
+        document.querySelector('.mast').style.display = 'none';
       }
 
-      art.innerHTML =
-        '<span class="kicker '+themeClass+'">'+esc(c.title)+'</span>'+
-        '<h2 class="headline">'+esc(c.headline)+'</h2>'+
-        '<p class="dek">'+esc(c.dek)+'</p>'+
-        '<div class="figure"><img src="img/corner-'+c.key+'.webp" alt="'+esc(c.title)+' 일러스트" loading="lazy"></div>'+
-        '<div class="body">'+md(c.body_md)+'</div>'+
-        cartoonHtml +
-        (c.future_note? '<div class="future"><b>숟가락 생각 더하기</b><p>'+esc(c.future_note)+'</p></div>':'')+
+      loadGradeContent(currentGrade, key);
+    }
+
+    // 대시보드로 돌아가기
+    window.showDashboard = function() {
+      document.getElementById('dashboard-view').classList.remove('hidden');
+      document.querySelector('.main-layout').classList.add('hidden');
+      document.getElementById('back-to-dashboard-btn').style.display = 'none';
+      document.querySelector('.mast').style.display = 'block';
+      document.querySelector('.mast h1').innerHTML = '어린이의 결<span style="font-size:22px;font-weight:700;color:var(--deep);vertical-align:middle;margin-left:6px;border:1.5px solid var(--deep);padding:2px 10px;border-radius:999px;font-family:var(--sans)">초등부</span>';
+      
+      renderDashboard();
+    }
+
+    // 동적 학년 콘텐츠 주입
+    function loadGradeContent(grade, focusKey) {
+      currentGradeData = GRADE_DATA[grade];
+      if (!currentGradeData) return;
+
+      // 1. 검증 배너 렌더링
+      var totalCorr = currentGradeData.corners.reduce(function(a,c){return a+(c.corrected||0)},0);
+      var reads = currentGradeData.corners.map(function(c){return c.critique.readability||0}).filter(Boolean);
+      var avg = reads.length? (reads.reduce(function(a,b){return a+b},0)/reads.length).toFixed(1):'-';
+      
+      document.getElementById('verify').innerHTML =
+        '<div class="vt">편집부 및 어린이 비평가단 공동 검증 완료 — ' + currentGradeData.issue + '</div>'+
+        '<ul>'+
+        '<li>사실 검증: 7개 요일 코너 전수 검토 · 오류 <b>'+totalCorr+'건 발견 및 정정</b> 통과</li>'+
+        '<li>교육 효과: 초등 과정 연계 <b>100% 검증 완료</b></li>'+
+        '<li>아동 가독성: 아동 인지 발달 눈높이 기준 가독성 평균 <b>'+avg+'/5</b></li>'+
+        '</ul>'+
+        '<div class="word">어린이 비평위원 한 줄평 — "지렁이 똥 이야기랑 이지 피지 레몬 스퀴지 영어 소리놀이가 진짜 신나고 재미있었어요! 매일 밤 자기 전에 엄마랑 아빠랑 하나씩 소리 내어 읽기 딱 좋아요."</div>';
+
+      // 2. 상단 TOC 렌더링
+      document.getElementById('toc').innerHTML = currentGradeData.corners.map(function(c,i){
+        var name = c.title.split(' · ')[0] || c.title.split(': ')[1] || c.title;
+        return '<a href="javascript:handleNavClick(\''+c.key+'\')">'+esc(name)+'</a>';
+      }).join('');
+
+      // 3. 왼쪽 네비게이션 생성
+      var navList = document.getElementById('nav-list');
+      if (navList) {
+        navList.innerHTML = currentGradeData.corners.map(function(c) {
+          var name = c.title.split(' · ')[0] || c.title.split(': ')[1] || c.title;
+          return '<div class="nav-item" id="nav-item-' + c.key + '" data-key="' + c.key + '">' +
+                   '<div class="nav-row" style="display:flex; align-items:center; gap:8px; width:100%;">' +
+                     '<span class="nav-dot" id="nav-dot-' + c.key + '" style="width:8px; height:8px; border-radius:50%; background:var(--line); transition:all .25s; flex-shrink:0;"></span>' +
+                     '<button class="nav-btn" id="nav-btn-' + c.key + '" onclick="handleNavClick(\'' + c.key + '\')" style="flex:1; text-align:left; background:none; border:none; padding:8px 12px; border-radius:10px; font-size:13.5px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:6px; outline:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc(name) + '</button>' +
+                   '</div>' +
+                   '<div class="nav-summary" id="nav-summary-' + c.key + '" style="max-height:0; opacity:0; overflow:hidden; transition:all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding-left:16px; font-size:11.5px; color:var(--pine); line-height:1.5; margin-top:0; margin-bottom:0;">' +
+                     esc(c.dek) +
+                   '</div>' +
+                 '</div>';
+        }).join('');
+      }
+
+      // 4. VOCAB_DATA 업데이트
+      VOCAB_DATA = {};
+      currentGradeData.corners.forEach(function(c) {
+        VOCAB_DATA[c.key] = c.vocabulary || [];
+      });
+
+      // 5. 중앙 본문 기사 생성
+      var host = document.getElementById('corners');
+      host.innerHTML = '';
+      currentGradeData.corners.forEach(function(c, idx) {
+        var crit = c.critique || {links_ok: 0, links_checked: 0};
+        var factLabel = (c.corrected>0) ? ('사실검증 정정 '+c.corrected+'건 반영') : '사실검증 완료';
+        var srcHtml = (c.sources||[]).map(function(s,i){
+          return '<div class="src"><a href="'+s.url+'" target="_blank" rel="noopener">'+esc(s.name)+' ↗</a><div class="qr" data-url="'+esc(s.url)+'"></div></div>';
+        }).join('');
         
-        // 생각의 씨앗 렌더링
-        (c.thoughtQuestions? 
-          '<div class="thought-seeds" style="margin:20px 0;background:#fdfdf6;border:1.5px dashed var(--teal);border-radius:18px;padding:18px 22px">'+
-            '<b style="color:var(--teal);font-size:14.5px;display:flex;align-items:center;gap:6px;margin-bottom:12px">🌱 생각의 씨앗 (스스로 질문하며 생각하기)</b>'+
-            c.thoughtQuestions.map(function(q, qidx){ 
-              return '<div style="margin:12px 0 16px">' +
-                       '<p style="font-size:14px;color:#2c3a3a;line-height:1.6;font-weight:600;margin-bottom:6px">Q. ' + esc(q) + '</p>' +
-                       '<textarea class="thought-input" data-key="' + c.key + '" data-qidx="' + qidx + '" placeholder="나의 생각을 여기에 기록해 보아요... (입력하면 자동으로 기록돼요)" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;outline:none;background:#fff;resize:vertical;font-family:var(--sans);line-height:1.6"></textarea>' +
-                     '</div>'; 
-            }).join('')+
-          '</div>' : '')+
+        var themeClass = '';
+        if(c.key === 'math') themeClass = 'teal';
+        else if(c.key === 'hangeul') themeClass = 'accent';
+        else if(c.key === 'english') themeClass = 'teal';
+        else if(c.key === 'future') themeClass = '';
+        else if(c.key === 'fairytale') themeClass = 'accent';
+        else if(c.key === 'parents') themeClass = '';
 
-        (c.app_verdict? '<div class="verdict"><b>비평가 해설 및 지도 팁</b><p>'+esc(c.app_verdict)+'</p></div>':'')+
+        var art = document.createElement('article');
+        art.className = 'corner'; art.id = 'c-' + c.key;
         
-        // AI 생각 놀이터
-        '<div class="ai-playground noprint" style="margin-top:24px;border:1.5px solid var(--line);border-radius:18px;background:var(--warm);padding:20px;box-shadow:inset 0 0 10px rgba(0,0,0,.02)">'+
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'+
-            '<span style="font-size:20px">🤖</span>'+
-            '<span style="font-family:var(--serif);font-size:16px;font-weight:800;color:var(--deep)">'+(esc(c.title.split(' · ')[0] || c.title))+'의 AI 생각 놀이터</span>'+
-            '<span style="font-size:11px;background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px;font-weight:700">인공지능 활용</span>'+
-          '</div>'+
-          '<div style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px;background:rgba(255,255,255,.5);padding:10px;border-radius:10px;border:1px dashed var(--line)">'+
-            '🔑 <strong>역할:</strong> '+esc(c.aiRole)+' &nbsp;|&nbsp; 🔑 <strong>규칙:</strong> 3줄 이내로 대답하기'+
-          '</div>'+
-          '<div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:6px">💡 질문 골라보기 (클릭하면 바로 대화해요)</div>'+
-          '<div class="ai-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">'+
-            (c.aiSuggestions||[]).map(function(s) {
-              return '<button class="ai-chip-btn" data-key="'+c.key+'" style="background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;color:var(--deep);font-weight:600;cursor:pointer;transition:all .15s;outline:none">'+esc(s)+'</button>';
-            }).join('')+
-          '</div>'+
-          '<div style="display:flex;gap:8px;margin-bottom:14px">'+
-            '<input type="text" class="ai-input" data-key="'+c.key+'" placeholder="AI 친구에게 더 궁금한 것을 직접 물어보세요! (안전 규칙: 비밀정보 적지 않기)" style="flex:1;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13.5px;outline:none;background:#fff">'+
-            '<button class="ai-send-btn" data-key="'+c.key+'" style="background:var(--deep);color:#fff;border:none;border-radius:12px;padding:0 18px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s">AI에 물어보기</button>'+
-          '</div>'+
-          '<div class="ai-response-box" data-key="'+c.key+'" style="display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:60px;font-size:14px;color:var(--ink);line-height:1.6;position:relative">'+
-          '</div>'+
-        '</div>'+
+        var cartoonHtml = '';
+        if(c.cartoonCuts && c.cartoonCuts.length > 0) {
+          var cutsList = c.cartoonCuts.map(function(cut){
+            return '<div class="cartoon-card">' +
+                     '<div class="cartoon-header">' +
+                       '<span class="cartoon-badge">' + cut.cut + '컷</span>' +
+                       '<span class="cartoon-emoji">' + esc(cut.emoji) + '</span>' +
+                     '</div>' +
+                     '<p class="cartoon-caption">' + esc(cut.caption) + '</p>' +
+                   '</div>';
+          }).join('');
+          cartoonHtml = '<div class="cartoon-box">' +
+                          '<div class="cartoon-title">🎬 8컷 만화로 요약해 보기!</div>' +
+                          '<div class="cartoon-grid">' + cutsList + '</div>' +
+                        '</div>';
+        }
 
-        (srcHtml? '<div class="sources"><div class="src-ttl">원문 및 추천 배움처 — QR로 바로 가기</div><div class="src-list">'+srcHtml+'</div></div>':'')+
-        '<div class="critic-footer">🧊 교과 연계 검증 · '+factLabel+' · 배움처 링크 '+crit.links_ok+'/'+crit.links_checked+' 확인'+((crit.dead_links||[]).length? ' (죽은 링크 '+crit.dead_links.length+'개 제외)':'')+' · 아동 가독성 '+(crit.readability||'-')+'/5</div>';
-      host.appendChild(art);
-    });
+        art.innerHTML =
+          '<span class="kicker '+themeClass+'">'+esc(c.title)+'</span>'+
+          '<h2 class="headline">'+esc(c.headline)+'</h2>'+
+          '<p class="dek">'+esc(c.dek)+'</p>'+
+          '<div class="figure"><img src="img/corner-'+c.key+'.webp" alt="'+esc(c.title)+' 일러스트" loading="lazy"></div>'+
+          '<div class="body">'+md(c.body_md)+'</div>'+
+          cartoonHtml +
+          (c.future_note? '<div class="future"><b>숟가락 생각 더하기</b><p>'+esc(c.future_note)+'</p></div>':'')+
+          
+          // 생각의 씨앗 렌더링
+          (c.thoughtQuestions? 
+            '<div class="thought-seeds" style="margin:20px 0;background:#fdfdf6;border:1.5px dashed var(--teal);border-radius:18px;padding:18px 22px">'+
+              '<b style="color:var(--teal);font-size:14.5px;display:flex;align-items:center;gap:6px;margin-bottom:12px">🌱 생각의 씨앗 (스스로 질문하며 생각하기)</b>'+
+              c.thoughtQuestions.map(function(q, qidx){ 
+                return '<div style="margin:12px 0 16px">' +
+                         '<p style="font-size:14px;color:#2c3a3a;line-height:1.6;font-weight:600;margin-bottom:6px">Q. ' + esc(q) + '</p>' +
+                         '<textarea class="thought-input" data-key="' + c.key + '" data-qidx="' + qidx + '" placeholder="나의 생각을 여기에 기록해 보아요... (입력하면 자동으로 기록돼요)" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;outline:none;background:#fff;resize:vertical;font-family:var(--sans);line-height:1.6"></textarea>' +
+                       '</div>'; 
+              }).join('')+
+            '</div>' : '')+
 
-    // QR 코드 생성
-    document.querySelectorAll('.qr').forEach(function(el){
-      try{ new QRCode(el,{text:el.getAttribute('data-url'),width:80,height:80,colorDark:'#2a5a4b',colorLight:'#fffdf9',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
-    });
+          (c.app_verdict? '<div class="verdict"><b>비평가 해설 및 지도 팁</b><p>'+esc(c.app_verdict)+'</p></div>':'')+
+          
+          // AI 생각 놀이터
+          '<div class="ai-playground noprint" style="margin-top:24px;border:1.5px solid var(--line);border-radius:18px;background:var(--warm);padding:20px;box-shadow:inset 0 0 10px rgba(0,0,0,.02)">'+
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'+
+              '<span style="font-size:20px">🤖</span>'+
+              '<span style="font-family:var(--serif);font-size:16px;font-weight:800;color:var(--deep)">'+(esc(c.title.split(' · ')[0] || c.title))+'의 AI 생각 놀이터</span>'+
+              '<span style="font-size:11px;background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px;font-weight:700">인공지능 활용</span>'+
+            '</div>'+
+            '<div style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px;background:rgba(255,255,255,.5);padding:10px;border-radius:10px;border:1px dashed var(--line)">'+
+              '🔑 <strong>역할:</strong> '+esc(c.aiRole)+' &nbsp;|&nbsp; 🔑 <strong>규칙:</strong> 3줄 이내로 대답하기'+
+            '</div>'+
+            '<div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:6px">💡 질문 골라보기 (클릭하면 바로 대화해요)</div>'+
+            '<div class="ai-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">'+
+              (c.aiSuggestions||[]).map(function(s) {
+                return '<button class="ai-chip-btn" data-key="'+c.key+'" style="background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;color:var(--deep);font-weight:600;cursor:pointer;transition:all .15s;outline:none">'+esc(s)+'</button>';
+              }).join('')+
+            '</div>'+
+            '<div style="display:flex;gap:8px;margin-bottom:14px">'+
+              '<input type="text" class="ai-input" data-key="'+c.key+'" placeholder="AI 친구에게 더 궁금한 것을 직접 물어보세요! (안전 규칙: 비밀정보 적지 않기)" style="flex:1;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13.5px;outline:none;background:#fff">'+
+              '<button class="ai-send-btn" data-key="'+c.key+'" style="background:var(--deep);color:#fff;border:none;border-radius:12px;padding:0 18px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s">AI에 물어보기</button>'+
+            '</div>'+
+            '<div class="ai-response-box" data-key="'+c.key+'" style="display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:60px;font-size:14px;color:var(--ink);line-height:1.6;position:relative">'+
+            '</div>'+
+          '</div>'+
+   
+          (srcHtml? '<div class="sources"><div class="src-ttl">원문 및 추천 배움처 — QR로 바로 가기</div><div class="src-list">'+srcHtml+'</div></div>':'')+
+          '<div class="critic-footer">🧊 교과 연계 검증 · '+factLabel+' · 배움처 링크 '+crit.links_ok+'/'+crit.links_checked+' 확인'+((crit.dead_links||[]).length? ' (죽은 링크 '+crit.dead_links.length+'개 제외)':'')+' · 아동 가독성 '+(crit.readability||'-')+'/5</div>';
+        
+        host.appendChild(art);
+      });
 
-    // AI 생각 놀이터 이벤트 바인딩
-    document.querySelectorAll('.ai-chip-btn').forEach(function(btn) {
-      btn.onclick = function() {
-        var key = btn.getAttribute('data-key');
-        var question = btn.textContent;
-        var input = document.querySelector('.ai-input[data-key="'+key+'"]');
-        input.value = question;
-        sendCornerAi(key, question);
-      };
-    });
+      // 6. AI 생각 놀이터 이벤트 바인딩
+      document.querySelectorAll('.ai-chip-btn').forEach(function(btn) {
+        btn.onclick = function() {
+          var key = btn.getAttribute('data-key');
+          var question = btn.textContent;
+          var input = document.querySelector('.ai-input[data-key="'+key+'"]');
+          input.value = question;
+          sendCornerAi(key, question);
+        };
+      });
 
-    document.querySelectorAll('.ai-send-btn').forEach(function(btn) {
-      btn.onclick = function() {
-        var key = btn.getAttribute('data-key');
-        var input = document.querySelector('.ai-input[data-key="'+key+'"]');
-        var question = (input.value || '').trim();
-        if (!question) return;
-        sendCornerAi(key, question);
-      };
-    });
-
-    document.querySelectorAll('.ai-input').forEach(function(input) {
-      input.onkeydown = function(e) {
-        if (e.key === 'Enter') {
-          var key = input.getAttribute('data-key');
+      document.querySelectorAll('.ai-send-btn').forEach(function(btn) {
+        btn.onclick = function() {
+          var key = btn.getAttribute('data-key');
+          var input = document.querySelector('.ai-input[data-key="'+key+'"]');
           var question = (input.value || '').trim();
           if (!question) return;
           sendCornerAi(key, question);
-        }
-      };
-    });
+        };
+      });
 
+      document.querySelectorAll('.ai-input').forEach(function(input) {
+        input.onkeydown = function(e) {
+          if (e.key === 'Enter') {
+            var key = input.getAttribute('data-key');
+            var question = (input.value || '').trim();
+            if (!question) return;
+            sendCornerAi(key, question);
+          }
+        };
+      });
+
+      // 7. QR 코드 생성
+      document.querySelectorAll('.qr').forEach(function(el){
+        try{ new QRCode(el,{text:el.getAttribute('data-url'),width:80,height:80,colorDark:'#2a5a4b',colorLight:'#fffdf9',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+      });
+
+      // 8. 생각의 씨앗 실시간 저장 바인딩
+      document.querySelectorAll('.thought-input').forEach(function(textarea){
+        var key = textarea.getAttribute('data-key');
+        var qidx = textarea.getAttribute('data-qidx');
+        
+        try {
+          var logs = JSON.parse(localStorage.getItem('yl-activities') || '[]');
+          var lastAns = '';
+          for (var i = logs.length - 1; i >= 0; i--) {
+            if (logs[i].type === 'seed_answer' && 
+                logs[i].detail.indexOf('코너: ' + key) === 0 &&
+                logs[i].detail.indexOf('문항: ' + qidx) >= 0 &&
+                logs[i].detail.indexOf('학년: ' + grade) >= 0) {
+              var parts = logs[i].detail.split('\n답변: "');
+              if (parts.length > 1) {
+                lastAns = parts[1].substring(0, parts[1].length - 1);
+                break;
+              }
+            }
+          }
+          if (lastAns) {
+            textarea.value = lastAns;
+          }
+        } catch(e){}
+
+        textarea.addEventListener('change', function(){
+          var val = (textarea.value || '').trim();
+          if(!val) return;
+          var corner = currentGradeData.corners.find(function(c){return c.key === key});
+          var cornerTitle = corner ? (corner.title.split(' · ')[0] || corner.title) : key;
+          var qText = corner ? corner.thoughtQuestions[qidx] : '';
+          
+          logActivity('seed_answer', cornerTitle + ' 생각의 씨앗 답변', '코너: ' + key + ' | 문항: ' + qidx + ' | 학년: ' + grade + '\n질문: "' + qText + '"\n답변: "' + val + '"');
+        });
+      });
+
+      // 9. 포커스 요일로 이동
+      activeNavKey = null;
+      handleNavClick(focusKey);
+    }
+
+    // AI 통신 발송 함수
     function sendCornerAi(key, question) {
-      var corner = DATA.corners.find(function(c){return c.key === key});
+      var corner = currentGradeData.corners.find(function(c){return c.key === key});
       if (!corner) return;
 
-      logActivity('ai_ask', (corner.title.split(' · ')[0] || corner.title) + ' AI 질문', '질문: "' + question + '"');
+      logActivity('ai_ask', (corner.title.split(' · ')[0] || corner.title) + ' AI 질문', '질문: "' + question + '" | 학년: ' + currentGrade);
 
       var resBox = document.querySelector('.ai-response-box[data-key="'+key+'"]');
       resBox.style.display = 'block';
       resBox.innerHTML = '<div style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">🤖 <i>AI 친구가 열심히 생각하고 있어요...</i></div>';
 
-      // 마법 열쇠 조합 프롬프트
       var prompt = '[역할] ' + corner.aiRole + '\n' +
                    '[규칙] 어린이가 이해하기 쉬운 비유와 쉬운 낱말을 사용하여 다정하고 공손하게(해요체) 3줄 이내로 답변해줘.\n' +
                    '[질문] ' + question;
@@ -1026,7 +1381,7 @@
             '<div style="background:#fdf6ee;padding:10px 12px;border-radius:12px;border-right:3.5px solid var(--accent);margin-bottom:12px;word-break:keep-all">'+esc(question)+'</div>' +
             '<div style="font-size:12.5px;color:var(--deep);font-weight:700;margin-bottom:4px">🤖 AI 친구의 답변:</div>' +
             '<div style="background:#edf4f0;padding:12px 14px;border-radius:12px;border-left:3.5px solid var(--deep);word-break:keep-all;line-height:1.6">'+esc(res.text).replace(/\n/g, '<br>')+'</div>';
-          logActivity('ai_response', (corner.title.split(' · ')[0] || corner.title) + ' AI 답변 수신', '답변: "' + res.text.replace(/\n/g, ' ') + '"');
+          logActivity('ai_response', (corner.title.split(' · ')[0] || corner.title) + ' AI 답변 수신', '답변: "' + res.text.replace(/\n/g, ' ') + '" | 학년: ' + currentGrade);
         } else {
           resBox.innerHTML = '<div style="color:var(--accent)">⚠️ AI 답변을 받아오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>';
         }
@@ -1037,7 +1392,7 @@
           '<div style="color:var(--muted);font-size:13.5px;line-height:1.6">' +
           '⚠️ <strong>AI 생각 발전소가 아직 쉬고 있어요!</strong><br>' +
           '연라이프 서버와 인터넷 연결이 완료된 후에 진짜 AI 친구와 실시간 대화를 나눌 수 있답니다.<br>' +
-          '대신 오늘 배운 마법 열쇠 질문을 머릿속으로 그려 보거나 엄마, 아빠와 함께 답해 보는 것은 어떨까요?' +
+          '대신 오늘 배운 마법 질문을 머릿속으로 그려 보거나 엄마, 아빠와 함께 답해 보는 것은 어떨까요?' +
           '</div>';
       });
     }
@@ -1060,12 +1415,12 @@
             '<input type="text" id="guest-name-input" placeholder="내 이름이나 귀여운 별명" style="flex:1;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px;outline:none;background:#fff">' +
             '<button onclick="saveGuestSession()" style="background:var(--deep);color:#fff;border:none;border-radius:10px;padding:0 20px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s">확인</button>' +
           '</div>';
-        var verifyBanner = document.getElementById('verify');
-        if (verifyBanner) {
-          verifyBanner.parentNode.insertBefore(welcomeBox, verifyBanner.nextSibling);
+        var grid = document.getElementById('challenge-grid');
+        if (grid) {
+          grid.parentNode.insertBefore(welcomeBox, grid);
         }
       } else {
-        logActivity('read_start', '잡지 펼치기', current.nick + ' 어린이가 초등부 잡지를 읽기 시작했습니다.');
+        logActivity('read_start', '잡지 펼치기', current.nick + ' 어린이가 초등부 대시보드에 등원했습니다.');
       }
     }
 
@@ -1099,7 +1454,7 @@
         userId: id,
         userNick: nick,
         timestamp: Date.now(),
-        type: type, // 'read_start', 'view_corner', 'ai_ask', 'seed_answer'
+        type: type,
         title: title,
         detail: detail,
         magazine: '초등부'
@@ -1108,297 +1463,62 @@
       try {
         var logs = JSON.parse(localStorage.getItem('yl-activities') || '[]');
         logs.push(activity);
-        if (logs.length > 100) logs.shift();
+        if (logs.length > 500) logs.shift();
         localStorage.setItem('yl-activities', JSON.stringify(logs));
+        
+        // 실시간 진도 상태 대시보드 갱신을 위해 트리거
+        if (type === 'seed_answer') {
+          renderDashboard();
+        }
       } catch(e){}
     }
 
     // 초기 바인딩 및 세션 체크
-    setTimeout(function() {
+    window.addEventListener('DOMContentLoaded', function() {
       checkUserSession();
+      renderDashboard();
       
-      // 목차 클릭 이벤트 가로채기
-      document.querySelectorAll('#toc a').forEach(function(link){
-        link.addEventListener('click', function(){
-          var name = link.textContent;
-          logActivity('view_corner', name + ' 읽기', name + ' 코너로 이동하여 읽기 시작했습니다.');
-        });
-      });
-
-      // 생각의 씨앗 답변 실시간 저장
-      document.querySelectorAll('.thought-input').forEach(function(textarea){
-        // 기존 저장된 답변 불러와서 세팅하기
-        var key = textarea.getAttribute('data-key');
-        var qidx = textarea.getAttribute('data-qidx');
-        try {
-          var logs = JSON.parse(localStorage.getItem('yl-activities') || '[]');
-          var lastAns = '';
-          for (var i = logs.length - 1; i >= 0; i--) {
-            if (logs[i].type === 'seed_answer' && logs[i].detail.indexOf('코너: ' + key + ' | 문항: ' + qidx) === 0) {
-              var parts = logs[i].detail.split('\n답변: "');
-              if (parts.length > 1) {
-                lastAns = parts[1].substring(0, parts[1].length - 1);
-                break;
-              }
-            }
-          }
-          if (lastAns) {
-            textarea.value = lastAns;
-          }
-        } catch(e){}
-
-        textarea.addEventListener('change', function(){
-          var val = (textarea.value || '').trim();
-          if(!val) return;
-          var key = textarea.getAttribute('data-key');
-          var qidx = textarea.getAttribute('data-qidx');
-          var corner = DATA.corners.find(function(c){return c.key === key});
-          var cornerTitle = corner ? (corner.title.split(' · ')[0] || corner.title) : key;
-          var qText = corner ? corner.thoughtQuestions[qidx] : '';
-          
-          logActivity('seed_answer', cornerTitle + ' 생각의 씨앗 답변', '코너: ' + key + ' | 문항: ' + qidx + '\n질문: "' + qText + '"\n답변: "' + val + '"');
-        });
-      });
-    }, 100);
-  </script>
-<script>
-  // ===== 태블릿/PC 스플릿 뷰 컨트롤러 스크립트 =====
-  var VOCAB_DATA = {
-  "science": [
-    {
-      "word": "터널 (Tunnel)",
-      "desc": "흙 속에 뚫린 둥글고 긴 길로, 식물 뿌리에 공기와 물을 전해주는 고마운 연결 통로예요."
-    },
-    {
-      "word": "배설물 (Excretions)",
-      "desc": "몸속에서 소화가 되고 남은 노폐물이 똥이나 오줌으로 나오는 것으로, 지렁이 배설물은 기름진 흙이 돼요."
-    },
-    {
-      "word": "분해 (Decomposition)",
-      "desc": "물질을 잘게 쪼개어 거름으로 만드는 것. 땅 위의 낙엽을 잘게 쪼개어 흙을 거름지게 만들어요."
-    }
-  ],
-  "math": [
-    {
-      "word": "모서리 (Edge)",
-      "desc": "도형에서 선과 선이 만나는 모퉁이나 선부분으로, 세모는 3개, 네모는 4개의 모서리가 있어요."
-    },
-    {
-      "word": "삼각형 (Triangle)",
-      "desc": "세 개의 선분과 세 개의 모서리를 가진 다각형으로, 찌그러지지 않는 가장 튼튼한 건축 뼈대예요."
-    },
-    {
-      "word": "평행사변형 (Parallelogram)",
-      "desc": "마주 보는 두 쌍의 변이 서로 평행(나란히 마주함)을 이루는 사각형 도형이에요."
-    }
-  ],
-  "hangeul": [
-    {
-      "word": "의성어 (Onomatopoeia)",
-      "desc": "자연의 소리나 사물의 소리를 흉내 내어 표현하는 예쁜 말이에요. (예: 졸졸졸, 우르릉)"
-    },
-    {
-      "word": "의태어 (Mimetic Word)",
-      "desc": "사람이나 사물의 모양, 뜀박질 등 움직임을 흉내 내어 표현하는 다정한 말이에요. (예: 깡충깡충, 반짝반짝)"
-    }
-  ],
-  "english": [
-    {
-      "word": "강세 (Stress)",
-      "desc": "영어 말소리를 낼 때 단어의 특정 음절을 다른 음절보다 더 힘주어 세고 길게 발음하는 영어 특유의 힘이에요."
-    },
-    {
-      "word": "조음 (Articulation)",
-      "desc": "입술, 이, 혀, 입천장 등의 발음 기관을 움직여서 우리 목소리를 자음이나 모음의 말소리로 바꾸는 활동이에요."
-    }
-  ],
-  "future": [
-    {
-      "word": "인공지능 (AI)",
-      "desc": "사람처럼 스스로 생각하고 공부하며 똑똑하게 일하는 기능을 갖춘 컴퓨터 프로그램이나 시스템이에요."
-    },
-    {
-      "word": "프롬프트 (Prompt)",
-      "desc": "인공지능 로봇 친구에게 원하는 일을 시키거나 대답을 유도하기 위해 컴퓨터 입력창에 건네는 대화문이에요."
-    },
-    {
-      "word": "개인정보 (Privacy)",
-      "desc": "나의 진짜 이름, 집 주소, 부모님 연락처처럼 나를 다른 사람과 구별할 수 있는 아주 소중한 비밀정보예요."
-    }
-  ],
-  "fairytale": [
-    {
-      "word": "밍밍하다 (Bland)",
-      "desc": "음식 맛이 싱겁고 아무런 특별한 맛이나 향이 느껴지지 않아 심심한 상태를 뜻하는 말이에요."
-    },
-    {
-      "word": "이타성 (Altruism)",
-      "desc": "나의 이익보다 남을 먼저 생각하고, 목마른 친구나 어려운 이웃을 따뜻하게 도와주려는 다정한 마음이에요."
-    }
-  ],
-  "parents": [
-    {
-      "word": "성취감 (Achievement)",
-      "desc": "내 힘으로 어떠한 목표를 끝까지 노력해서 이루어 냈을 때 내 마음속에서 차오르는 뿌듯한 감정이에요."
-    },
-    {
-      "word": "자율성 (Autonomy)",
-      "desc": "남이 억지로 시켜서 하는 것이 아니라, 내 스스로 필요성을 깨닫고 직접 결정하고 행동하는 멋진 힘이에요."
-    }
-  ]
-};
-  var activeNavKey = null;
-
-  // TTS 음성 출력 함수
-  function speakText(text) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      var utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ko-KR';
-      utterance.rate = 0.95; // 어린이를 위해 약간 천천히 읽기
-      window.speechSynthesis.speak(utterance);
-    }
-  }
-
-  // 낱말 해설 출력
-  function renderVocabulary(key) {
-    var vocabContainer = document.getElementById('vocab-content');
-    if (!vocabContainer) return;
-    
-    var list = VOCAB_DATA[key] || [];
-    if (list.length === 0) {
-      vocabContainer.innerHTML = '<div style="font-size:13px; color:var(--muted); text-align:center; margin-top:40px; font-style:italic;">이 코너에는 어려운 낱말이 없어요!</div>';
-      return;
-    }
-    
-    vocabContainer.innerHTML = list.map(function(item) {
-      var speakStr = item.word.split(' (')[0] + '. ' + item.desc;
-      return '<div class="vocab-card">' +
-               '<div class="vocab-word-row">' +
-                 '<span class="vocab-word">' + esc(item.word) + '</span>' +
-                 '<button class="tts-btn" onclick="speakText(\'' + esc(speakStr).replace(/'/g, "\\'") + '\')" title="소리 듣기">🔊</button>' +
-               '</div>' +
-               '<p class="vocab-desc">' + esc(item.desc) + '</p>' +
-             '</div>';
-    }).join('');
-  }
-
-  // 네비게이션 아이템 활성화 하이라이트
-  function highlightNavItem(key) {
-    document.querySelectorAll('.nav-item').forEach(function(el) {
-      el.classList.remove('active');
-    });
-    
-    var activeItem = document.getElementById('nav-item-' + key);
-    if (activeItem) {
-      activeItem.classList.add('active');
-      
-      // 스크롤 시 자동 스크롤
-      var leftPanel = document.getElementById('left-panel');
-      if (leftPanel) {
-        var itemRect = activeItem.getBoundingClientRect();
-        var panelRect = leftPanel.getBoundingClientRect();
-        if (itemRect.top < panelRect.top || itemRect.bottom > panelRect.bottom) {
-          activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }
-    }
-  }
-
-  // 네비게이션 버튼 클릭 핸들러
-  function handleNavClick(key) {
-    if (activeNavKey !== key) {
-      activeNavKey = key;
-      highlightNavItem(key);
-      renderVocabulary(key);
-    } else {
-      // 이미 켜진 경우, 해당 위치로 스크롤
-      var target = document.getElementById('c-' + key);
+      // 본문 스크롤 감지하여 왼쪽 패널과 오른쪽 낱말사전 연동
       var centerPanel = document.querySelector('.center-panel');
-      if (target && centerPanel) {
-        if (window.innerWidth >= 1024) {
-          var panelTop = centerPanel.getBoundingClientRect().top;
-          var targetTop = target.getBoundingClientRect().top;
-          centerPanel.scrollBy({
-            top: targetTop - panelTop - 10,
-            behavior: 'smooth'
-          });
-        } else {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }
-  }
-
-  // 초기 로딩 후 스크립트 실행
-  window.addEventListener('DOMContentLoaded', function() {
-    // 1. 왼쪽 패널 네비게이션 동적 생성
-    var navList = document.getElementById('nav-list');
-    if (navList && DATA && DATA.corners) {
-      navList.innerHTML = DATA.corners.map(function(c) {
-        var name = c.title.split(' · ')[0] || c.title;
-        return '<div class="nav-item" id="nav-item-' + c.key + '" data-key="' + c.key + '">' +
-                 '<div class="nav-row" style="display:flex; align-items:center; gap:8px; width:100%;">' +
-                   '<span class="nav-dot" id="nav-dot-' + c.key + '" style="width:8px; height:8px; border-radius:50%; background:var(--line); transition:all .25s; flex-shrink:0;"></span>' +
-                   '<button class="nav-btn" id="nav-btn-' + c.key + '" onclick="handleNavClick(\'' + c.key + '\')" style="flex:1; text-align:left; background:none; border:none; padding:8px 12px; border-radius:10px; font-size:13.5px; font-weight:700; color:var(--muted); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:6px; outline:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + esc(name) + '</button>' +
-                 '</div>' +
-                 '<div class="nav-summary" id="nav-summary-' + c.key + '" style="max-height:0; opacity:0; overflow:hidden; transition:all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding-left:16px; font-size:11.5px; color:var(--pine); line-height:1.5; margin-top:0; margin-bottom:0;">' +
-                   esc(c.dek) +
-                 '</div>' +
-               '</div>';
-      }).join('');
-    }
-
-    // 2. 본문 스크롤 감지하여 왼쪽 패널과 오른쪽 낱말사전 연동
-    var centerPanel = document.querySelector('.center-panel');
-    if (centerPanel) {
-      var isScrolling = false;
-      centerPanel.addEventListener('scroll', function() {
-        if (window.innerWidth < 1024) return; // 모바일/세로 패드에선 감지 중지
-        
-        if (!isScrolling) {
-          window.requestAnimationFrame(function() {
-            var articles = document.querySelectorAll('.corner');
-            var activeKey = null;
-            var minDiff = Infinity;
-            var panelRect = centerPanel.getBoundingClientRect();
-            var panelTop = panelRect.top;
-            
-            articles.forEach(function(art) {
-              var rect = art.getBoundingClientRect();
+      if (centerPanel) {
+        var isScrolling = false;
+        centerPanel.addEventListener('scroll', function() {
+          if (window.innerWidth < 1024 || !currentGradeData) return;
+          
+          if (!isScrolling) {
+            window.requestAnimationFrame(function() {
+              var articles = document.querySelectorAll('.corner');
+              var activeKey = null;
+              var minDiff = Infinity;
+              var panelRect = centerPanel.getBoundingClientRect();
+              var panelTop = panelRect.top;
               
-              // 화면 중간 부근에 들어와 있거나 가장 가까운 아티클 판별
-              var diff = Math.abs(rect.top - panelTop - 20);
-              if (diff < minDiff) {
-                minDiff = diff;
-                activeKey = art.id.replace('c-', '');
-              }
+              articles.forEach(function(art) {
+                var rect = art.getBoundingClientRect();
+                var diff = Math.abs(rect.top - panelTop - 20);
+                if (diff < minDiff) {
+                  minDiff = diff;
+                  activeKey = art.id.replace('c-', '');
+                }
+                
+                if (rect.top <= panelTop + 150 && rect.bottom >= panelTop + 150) {
+                  activeKey = art.id.replace('c-', '');
+                }
+              });
               
-              if (rect.top <= panelTop + 150 && rect.bottom >= panelTop + 150) {
-                activeKey = art.id.replace('c-', '');
+              if (activeKey && activeNavKey !== activeKey) {
+                activeNavKey = activeKey;
+                highlightNavItem(activeKey);
+                renderVocabulary(activeKey);
               }
+              isScrolling = false;
             });
-            
-            if (activeKey && activeNavKey !== activeKey) {
-              activeNavKey = activeKey;
-              highlightNavItem(activeKey);
-              renderVocabulary(activeKey);
-            }
-            isScrolling = false;
-          });
-          isScrolling = true;
-        }
-      });
-    }
-    
-    // 3. 첫 번째 아티클 기본 활성화
-    if (DATA && DATA.corners && DATA.corners[0]) {
-      var firstKey = DATA.corners[0].key;
-      activeNavKey = firstKey;
-      highlightNavItem(firstKey);
-      renderVocabulary(firstKey);
-    }
-  });
+            isScrolling = true;
+          }
+        });
+      }
+    });
+  
   </script>
 </body>
 </html>
