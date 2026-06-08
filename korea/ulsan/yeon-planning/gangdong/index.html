@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연플래닝 · 20년 자기주도 학습이 AI를 만나다</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+:root {
+  --yp-ink: #1f2a2a; --yp-deep: #2f5d62; --yp-pine: #427a71; --yp-accent: #c38d56;
+  --yp-sage: #dfe8de; --yp-mist: #f4f1eb; --yp-sand: #e7d9bf; --yp-peach: #f3e7dd;
+  --yp-line: #d7d1c5; --yp-card: #fffdf8; --yp-white: #fff;
+  --yp-text-primary: #1f2a2a; --yp-text-secondary: #536060; --yp-text-muted: #6a7676;
+
+  --teal-main: #2E7D7A; --teal-deep: #1f5e5b; --teal-darker: #144241;
+  --orange: #FFAB6B; --orange-dim: #e08a4a; --orange-soft: #ffd4b0;
+  --cream: #F5EDE4; --cream-deep: #ebdfcd;
+
+  --font-title: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --font-body: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body); color: var(--yp-text-primary);
+  background: var(--yp-white); line-height: 1.6; overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ============ Platform Bar ============ */
+.platform-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 110;
+  background: #1f2a2a; color: rgba(255,255,255,0.7); font-size: 12px;
+  padding: 0 5%; display: flex; align-items: center; gap: 6px;
+  letter-spacing: 0.3px; font-family: var(--font-body);
+}
+.platform-bar a { color: rgba(255,255,255,0.7); transition: color .2s; }
+.platform-bar a:hover { color: #fff; }
+.platform-bar .sep { opacity: 0.35; }
+.platform-bar .current { color: var(--yp-accent); font-weight: 700; }
+
+/* ============ Top Bar ============ */
+.topbar {
+  position: fixed; top: 28px; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.06); transition: all .3s ease;
+}
+.topbar-inner {
+  max-width: 1320px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px;
+}
+.brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-title);
+  font-weight: 900; font-size: 22px; color: var(--teal-deep); letter-spacing: -0.02em; }
+.brand-mark {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-main), var(--orange));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: var(--font-title); font-weight: 900; font-size: 18px;
+  box-shadow: 0 4px 14px rgba(46,125,122,0.28);
+}
+.brand-sub { font-family: var(--font-body); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--yp-text-muted); margin-left: 4px; text-transform: uppercase; }
+.nav { display: flex; align-items: center; gap: 2px; }
+.nav a {
+  padding: 10px 14px; font-size: 14px; font-weight: 600;
+  color: var(--yp-text-primary); border-radius: 10px; transition: all .2s ease;
+}
+.nav a:hover { background: var(--yp-mist); color: var(--teal-deep); }
+.nav-cta {
+  background: var(--orange) !important; color: white !important;
+  padding: 11px 20px !important; margin-left: 10px;
+  box-shadow: 0 6px 18px rgba(255,171,107,0.4);
+}
+.nav-cta:hover { background: var(--orange-dim) !important; transform: translateY(-1px); }
+.mobile-toggle { display: none; }
+@media (max-width: 1080px) {
+  .nav a { padding: 9px 11px; font-size: 13.5px; }
+}
+@media (max-width: 920px) {
+  .platform-bar { display: none !important; }
+  .topbar { top: 0 !important; }
+  .nav { display: none; }
+  .mobile-toggle {
+    display: flex; width: 42px; height: 42px; align-items: center; justify-content: center;
+    border: 1px solid var(--yp-line); border-radius: 10px; background: white; cursor: pointer;
+  }
+  .mobile-toggle svg { width: 22px; height: 22px; }
+  .brand-sub { display: none; }
+}
+
+/* ============ Common ============ */
+section { padding: 120px 28px; position: relative; }
+.section-inner { max-width: 1320px; margin: 0 auto; }
+.eyebrow {
+  display: inline-block; font-size: 12.5px; font-weight: 800;
+  color: var(--teal-deep); letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.eyebrow::before { content: '— '; color: var(--orange); font-weight: 900; }
+.section-title {
+  font-family: var(--font-title); font-weight: 900;
+  font-size: clamp(32px, 4.5vw, 52px); line-height: 1.18;
+  letter-spacing: -0.03em; color: var(--yp-ink);
+  margin-bottom: 22px; max-width: 920px;
+}
+.section-lead {
+  font-size: 18px; line-height: 1.75; color: var(--yp-text-secondary);
+  max-width: 760px; margin-bottom: 60px;
+}
+.section-title .accent { color: var(--teal-deep); }
+.section-title .underline {
+  background: linear-gradient(transparent 70%, rgba(255,171,107,0.45) 70%); padding: 0 4px;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 17px 28px; border-radius: 14px;
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  cursor: pointer; border: none; transition: all .25s ease;
+  letter-spacing: -0.01em;
+}
+.btn-primary {
+  background: var(--orange); color: white;
+  box-shadow: 0 10px 28px rgba(255,171,107,0.4);
+}
+.btn-primary:hover { background: var(--orange-dim); transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255,171,107,0.5); }
+.btn-secondary { background: white; color: var(--teal-deep); border: 1.5px solid var(--teal-deep); }
+.btn-secondary:hover { background: var(--teal-deep); color: white; }
+.btn-dark { background: var(--teal-deep); color: white; }
+.btn-dark:hover { background: var(--teal-main); transform: translateY(-2px); }
+.btn svg { width: 18px; height: 18px; }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (max-width: 768px) {
+  section { padding: 80px 20px; }
+  .section-lead { font-size: 16px; margin-bottom: 40px; }
+}
+
+/* ============ HERO ============ */
+.hero {
+  position: relative; min-height: 100vh; padding: 140px 28px 80px;
+  display: flex; align-items: center;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,171,107,0.13), transparent 45%),
+    radial-gradient(circle at 15% 80%, rgba(46,125,122,0.10), transparent 45%),
+    linear-gradient(180deg, #fbf7f1 0%, #f5ede4 100%);
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(46,125,122,0.08) 1px, transparent 0);
+  background-size: 32px 32px; opacity: 0.5; pointer-events: none;
+}
+.hero-inner {
+  max-width: 1320px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center;
+  position: relative; z-index: 1;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 18px; background: rgba(46,125,122,0.10);
+  border-radius: 999px; color: var(--teal-deep);
+  font-size: 13px; font-weight: 700; margin-bottom: 28px;
+}
+.hero-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.hero h1 {
+  font-family: var(--font-title); font-weight: 900;
+  font-size: clamp(40px, 6vw, 70px); line-height: 1.1;
+  letter-spacing: -0.035em; color: var(--yp-ink); margin-bottom: 24px;
+}
+.hero h1 .accent { color: var(--teal-deep); }
+.hero h1 .underline { background: linear-gradient(transparent 70%, rgba(255,171,107,0.45) 70%); padding: 0 4px; }
+.hero .lead {
+  font-size: 18px; line-height: 1.75; color: var(--yp-text-secondary);
+  max-width: 540px; margin-bottom: 36px;
+}
+.hero-meta {
+  display: flex; gap: 32px; margin-bottom: 40px;
+  padding: 24px 28px; background: rgba(255,255,255,0.7);
+  border-radius: 18px; border: 1px solid rgba(46,125,122,0.12); backdrop-filter: blur(10px);
+}
+.meta-item .num {
+  font-family: var(--font-title); font-weight: 900;
+  font-size: 32px; color: var(--teal-deep); line-height: 1; letter-spacing: -0.03em;
+}
+.meta-item .num small { font-size: 18px; }
+.meta-item .lab { font-size: 12.5px; color: var(--yp-text-muted); font-weight: 600; margin-top: 6px; }
+.cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Hero Visual */
+.hero-visual { position: relative; aspect-ratio: 4/5; max-width: 540px; justify-self: end; }
+.hero-img {
+  position: absolute; inset: 0; border-radius: 28px; overflow: hidden;
+  background: linear-gradient(135deg, rgba(46,125,122,0.18), rgba(255,171,107,0.18)), linear-gradient(180deg, #d9e5e2 0%, #ecd6c0 100%);
+  box-shadow: 0 30px 80px rgba(46,125,122,0.2);
+}
+.hero-illust { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-badge-float {
+  position: absolute; bottom: 28px; left: 28px;
+  background: white; border-radius: 16px; padding: 16px 20px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18); z-index: 2;
+}
+.hero-badge-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal-main), var(--teal-deep));
+  display: flex; align-items: center; justify-content: center; color: white;
+}
+.hero-badge-icon svg { width: 24px; height: 24px; }
+.hero-badge-text { font-size: 13px; color: var(--yp-text-muted); font-weight: 600; }
+.hero-badge-text strong { display: block; font-size: 15px; color: var(--yp-ink); font-weight: 800; margin-bottom: 2px; }
+.hero-chip-top {
+  position: absolute; top: 28px; right: -10px;
+  background: var(--orange); color: white;
+  padding: 12px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 800;
+  box-shadow: 0 12px 30px rgba(255,171,107,0.4);
+  display: flex; align-items: center; gap: 8px; z-index: 2;
+}
+.hero-chip-top::before { content: '✦'; }
+@media (max-width: 980px) {
+  .hero { padding: 120px 20px 60px; min-height: auto; }
+  .hero-inner { grid-template-columns: 1fr; gap: 50px; }
+  .hero-visual { max-width: 420px; justify-self: center; aspect-ratio: 5/6; }
+  .hero-meta { padding: 20px; gap: 20px; flex-wrap: wrap; }
+  .meta-item .num { font-size: 28px; }
+}
+@media (max-width: 560px) {
+  .cta-group { flex-direction: column; align-items: stretch; }
+  .btn { justify-content: center; padding: 16px 22px; }
+  .hero-chip-top { right: 10px; font-size: 11px; padding: 10px 14px; }
+}
+
+/* ============ Manifesto Strip (Marquee) ============ */
+.manifesto-strip {
+  padding: 22px 0; background: var(--teal-darker); color: white;
+  overflow: hidden; white-space: nowrap; position: relative;
+}
+.manifesto-strip-track {
+  display: inline-flex; gap: 60px; padding-left: 60px;
+  animation: scrollX 40s linear infinite;
+  font-family: var(--font-title); font-size: 22px; font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.manifesto-strip-track span:nth-child(even) { color: var(--orange); }
+.manifesto-strip-track .dot { color: rgba(255,255,255,0.3); margin: 0 -30px; }
+@keyframes scrollX {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============ Philosophy (Culture of Character) ============ */
+.philosophy { background: var(--yp-white); }
+.philo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 40px; }
+.philo-card {
+  background: var(--yp-mist); border-radius: 20px;
+  padding: 32px 24px; transition: all .3s ease;
+  border: 1px solid transparent;
+  display: flex; flex-direction: column; gap: 18px; min-height: 240px;
+}
+.philo-card:hover { background: white; border-color: rgba(46,125,122,0.15); transform: translateY(-6px); box-shadow: 0 24px 50px rgba(0,0,0,0.08); }
+.philo-num { font-family: var(--font-title); font-weight: 900; font-size: 28px; color: var(--orange); line-height: 1; }
+.philo-card h3 { font-family: var(--font-title); font-weight: 800; font-size: 18px; color: var(--yp-ink); line-height: 1.35; letter-spacing: -0.02em; }
+.philo-card p { font-size: 14px; line-height: 1.65; color: var(--yp-text-secondary); margin-top: auto; }
+.philo-emphasis {
+  margin-top: 60px; padding: 50px 56px;
+  background: linear-gradient(135deg, var(--teal-deep), var(--teal-main));
+  border-radius: 28px; color: white; position: relative; overflow: hidden;
+}
+.philo-emphasis::before {
+  content: '"'; position: absolute; top: -40px; left: 28px;
+  font-family: var(--font-title); font-size: 220px;
+  color: rgba(255,171,107,0.25); font-weight: 900; line-height: 1;
+}
+.philo-emphasis-content { position: relative; z-index: 1; max-width: 900px; }
+.philo-emphasis h3 { font-family: var(--font-title); font-weight: 800; font-size: clamp(22px, 2.8vw, 30px); line-height: 1.5; letter-spacing: -0.02em; margin-bottom: 16px; }
+.philo-emphasis p { font-size: 16px; opacity: 0.88; line-height: 1.7; }
+@media (max-width: 1024px) { .philo-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .philo-grid { grid-template-columns: 1fr; } .philo-emphasis { padding: 36px 28px; } }
+
+/* ============ 5.2.5.5 학습법 ============ */
+.fivefive { background: linear-gradient(180deg, var(--yp-mist) 0%, #ece4d4 100%); }
+.fivefive-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.fivefive-visual {
+  position: relative; aspect-ratio: 1/1; max-width: 520px;
+}
+.fivefive-circle {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: white; box-shadow: 0 30px 80px rgba(46,125,122,0.15);
+}
+.fivefive-ring {
+  position: absolute; border-radius: 50%; border: 2px dashed rgba(46,125,122,0.25);
+}
+.fivefive-ring.r1 { inset: 12%; }
+.fivefive-ring.r2 { inset: 26%; }
+.fivefive-ring.r3 { inset: 40%; }
+.fivefive-center {
+  position: absolute; inset: 38%;
+  border-radius: 50%; background: linear-gradient(135deg, var(--teal-deep), var(--teal-main));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: white; font-family: var(--font-title); font-weight: 900;
+  box-shadow: 0 14px 30px rgba(46,125,122,0.35);
+}
+.fivefive-center .big { font-size: clamp(20px, 3.5vw, 36px); line-height: 1; }
+.fivefive-center .sub { font-size: 11px; font-family: var(--font-body); font-weight: 700; margin-top: 4px; opacity: 0.85; }
+.fivefive-dot {
+  position: absolute; width: clamp(60px, 9vw, 84px); height: clamp(60px, 9vw, 84px);
+  border-radius: 50%; background: white;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+  font-family: var(--font-title); font-weight: 900;
+}
+.fivefive-dot .t { font-size: clamp(15px, 2.2vw, 22px); color: var(--teal-deep); line-height: 1; }
+.fivefive-dot .l { font-size: 10px; color: var(--yp-text-muted); margin-top: 4px; font-family: var(--font-body); font-weight: 700; }
+.fivefive-dot.d1 { top: 0%; left: 50%; transform: translate(-50%, 0); background: var(--orange); }
+.fivefive-dot.d1 .t, .fivefive-dot.d1 .l { color: white; }
+.fivefive-dot.d2 { top: 50%; right: 0; transform: translate(0, -50%); }
+.fivefive-dot.d3 { bottom: 0; left: 50%; transform: translate(-50%, 0); }
+.fivefive-dot.d4 { top: 50%; left: 0; transform: translate(0, -50%); }
+
+.fivefive-steps { display: flex; flex-direction: column; gap: 18px; margin-top: 40px; }
+.fivefive-step {
+  display: flex; gap: 22px; padding: 22px 26px;
+  background: white; border-radius: 18px; border: 1px solid rgba(46,125,122,0.10);
+}
+.fivefive-step-num {
+  flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dim));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: var(--font-title); font-weight: 900; font-size: 22px;
+  box-shadow: 0 8px 18px rgba(255,171,107,0.4);
+}
+.fivefive-step:nth-child(2) .fivefive-step-num,
+.fivefive-step:nth-child(3) .fivefive-step-num,
+.fivefive-step:nth-child(4) .fivefive-step-num {
+  background: linear-gradient(135deg, var(--teal-main), var(--teal-deep));
+  box-shadow: 0 8px 18px rgba(46,125,122,0.35);
+}
+.fivefive-step h4 { font-family: var(--font-title); font-weight: 800; font-size: 18px; margin-bottom: 6px; letter-spacing: -0.01em; }
+.fivefive-step p { font-size: 14.5px; color: var(--yp-text-secondary); line-height: 1.6; }
+@media (max-width: 980px) {
+  .fivefive-inner { grid-template-columns: 1fr; gap: 50px; }
+  .fivefive-visual { max-width: 380px; margin: 0 auto; }
+}
+
+/* ============ Hari Sambun (배려·배움·놀기) ============ */
+.harisb { background: var(--yp-white); }
+.hari-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.hari-card {
+  position: relative; border-radius: 28px; overflow: hidden;
+  padding: 40px 36px; min-height: 360px;
+  display: flex; flex-direction: column; gap: 18px;
+  color: white; transition: all .3s ease;
+}
+.hari-card.bd { background: linear-gradient(160deg, #c38d56, #a06f3d); }
+.hari-card.bm { background: linear-gradient(160deg, var(--teal-main), var(--teal-deep)); }
+.hari-card.nl { background: linear-gradient(160deg, #e08a4a, #c66a26); }
+.hari-card::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 90% 10%, rgba(255,255,255,0.18), transparent 40%);
+}
+.hari-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.15); }
+.hari-icon {
+  position: relative; z-index: 1; width: 64px; height: 64px;
+  background: rgba(255,255,255,0.18); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hari-icon svg { width: 32px; height: 32px; }
+.hari-card h3 { position: relative; z-index: 1; font-family: var(--font-title); font-weight: 900; font-size: 32px; letter-spacing: -0.03em; }
+.hari-card h3 small { display: block; font-family: var(--font-body); font-size: 13px; font-weight: 600; opacity: 0.8; margin-top: 4px; letter-spacing: 0; }
+.hari-card p { position: relative; z-index: 1; font-size: 15px; line-height: 1.7; opacity: 0.95; margin-top: auto; }
+@media (max-width: 900px) { .hari-grid { grid-template-columns: 1fr; } }
+
+/* ============ Habits (100일 · 감사일기 · 의식적 몰입) ============ */
+.habits {
+  background: linear-gradient(180deg, var(--yp-mist) 0%, var(--cream) 100%);
+}
+.habits-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;
+}
+.habit-100 {
+  background: white; border-radius: 24px; padding: 40px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+}
+.habit-100 h3 { font-family: var(--font-title); font-weight: 900; font-size: 26px; margin-bottom: 8px; letter-spacing: -0.02em; }
+.habit-100 .desc { color: var(--yp-text-secondary); font-size: 14px; margin-bottom: 28px; }
+.habit-dots {
+  display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px;
+  margin-bottom: 24px;
+}
+.habit-dots .d {
+  aspect-ratio: 1; border-radius: 50%; background: var(--yp-line);
+  transition: all .25s ease;
+}
+.habit-dots .d.on { background: var(--teal-main); transform: scale(1.05); }
+.habit-dots .d.fire { background: var(--orange); transform: scale(1.1); box-shadow: 0 4px 10px rgba(255,171,107,0.5); }
+.habit-progress {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 20px; background: var(--yp-mist); border-radius: 14px;
+  font-size: 13px; color: var(--yp-text-muted); font-weight: 600;
+}
+.habit-progress strong {
+  font-family: var(--font-title); font-size: 24px;
+  color: var(--teal-deep); font-weight: 900; letter-spacing: -0.02em;
+}
+
+.habit-features { display: flex; flex-direction: column; gap: 18px; }
+.habit-feat {
+  background: white; border-radius: 18px; padding: 26px 28px;
+  display: flex; gap: 20px; border: 1px solid rgba(46,125,122,0.10);
+  transition: all .25s ease;
+}
+.habit-feat:hover { transform: translateX(6px); box-shadow: 0 14px 30px rgba(0,0,0,0.06); }
+.habit-feat-icon {
+  flex-shrink: 0; width: 56px; height: 56px; border-radius: 14px;
+  background: var(--yp-mist); color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+}
+.habit-feat-icon svg { width: 28px; height: 28px; }
+.habit-feat h4 { font-family: var(--font-title); font-weight: 800; font-size: 19px; margin-bottom: 6px; letter-spacing: -0.02em; }
+.habit-feat p { font-size: 14px; line-height: 1.65; color: var(--yp-text-secondary); }
+@media (max-width: 980px) {
+  .habits-grid { grid-template-columns: 1fr; gap: 40px; }
+  .habit-100 { padding: 30px 26px; }
+}
+
+/* ============ Coaching (학습코칭 = 머리 + 마음) ============ */
+.coaching {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,171,107,0.10), transparent 50%),
+    linear-gradient(135deg, var(--teal-deep) 0%, var(--teal-darker) 100%);
+  color: white; position: relative; overflow: hidden;
+}
+.coaching::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+.coaching .section-inner { position: relative; z-index: 1; }
+.coaching .eyebrow { color: var(--orange); }
+.coaching .eyebrow::before { color: white; }
+.coaching .section-title { color: white; }
+.coaching .section-lead { color: rgba(255,255,255,0.85); }
+.coaching-equation {
+  display: grid; grid-template-columns: 1fr 64px 1fr 64px 1fr; gap: 24px;
+  align-items: center; margin-top: 60px;
+}
+.coach-block {
+  text-align: center; padding: 50px 32px;
+  background: rgba(255,255,255,0.08); border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+}
+.coach-block .icon {
+  width: 84px; height: 84px; margin: 0 auto 20px;
+  border-radius: 50%; background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.coach-block .icon svg { width: 42px; height: 42px; color: white; }
+.coach-block.head .icon { background: rgba(255,171,107,0.25); }
+.coach-block.head .icon svg { color: var(--orange); }
+.coach-block.heart .icon { background: rgba(255,171,107,0.25); }
+.coach-block.heart .icon svg { color: var(--orange); }
+.coach-block h4 { font-family: var(--font-title); font-weight: 900; font-size: 30px; margin-bottom: 8px; letter-spacing: -0.02em; }
+.coach-block h4 small { display: block; font-family: var(--font-body); font-size: 12.5px; font-weight: 600; opacity: 0.7; margin-top: 4px; letter-spacing: 0.05em; }
+.coach-block p { font-size: 14px; line-height: 1.65; opacity: 0.85; }
+.coach-block.result {
+  background: linear-gradient(160deg, var(--orange), var(--orange-dim));
+  border-color: var(--orange);
+}
+.coach-sign { text-align: center; font-family: var(--font-title); font-weight: 900; font-size: 50px; color: var(--orange); opacity: 0.7; }
+@media (max-width: 980px) {
+  .coaching-equation { grid-template-columns: 1fr; gap: 16px; }
+  .coach-sign { font-size: 36px; transform: rotate(90deg); }
+}
+
+/* ============ Support ============ */
+.support { background: linear-gradient(180deg, var(--cream) 0%, #faf4eb 100%); }
+.support-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center; }
+.support-cards { display: flex; flex-direction: column; gap: 20px; }
+.support-card {
+  background: white; border-radius: 20px;
+  padding: 28px 30px; display: flex; gap: 22px;
+  border: 1px solid rgba(46,125,122,0.10); transition: all .3s ease;
+}
+.support-card:hover { transform: translateX(6px); box-shadow: 0 18px 40px rgba(0,0,0,0.08); }
+.support-icon {
+  flex-shrink: 0; width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--teal-main), var(--teal-deep));
+  display: flex; align-items: center; justify-content: center; color: white;
+}
+.support-icon svg { width: 28px; height: 28px; }
+.support-card h4 { font-family: var(--font-title); font-weight: 800; font-size: 19px; color: var(--yp-ink); margin-bottom: 8px; letter-spacing: -0.02em; }
+.support-card p { font-size: 14.5px; line-height: 1.65; color: var(--yp-text-secondary); }
+.support-card .tag {
+  display: inline-block; margin-top: 10px;
+  padding: 4px 10px; background: rgba(255,171,107,0.18);
+  color: #b56c30; font-size: 11.5px; font-weight: 700;
+  border-radius: 999px; letter-spacing: -0.01em;
+}
+@media (max-width: 980px) { .support-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ============ Programs ============ */
+.programs { background: var(--yp-white); }
+.prog-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 60px; gap: 40px; flex-wrap: wrap;
+}
+.prog-head .text { max-width: 700px; }
+.prog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.prog-card {
+  position: relative; padding: 36px 32px;
+  border-radius: 22px; transition: all .3s ease;
+  display: flex; flex-direction: column; gap: 18px;
+  min-height: 320px; overflow: hidden;
+}
+.prog-card.green { background: linear-gradient(160deg, #e7f0ee, #d4e3df); }
+.prog-card.sand { background: linear-gradient(160deg, #f5ebda, #ecdcc0); }
+.prog-card.peach { background: linear-gradient(160deg, #f7e3d3, #efd0b8); }
+.prog-card.sage { background: linear-gradient(160deg, #e6ecdb, #d4dec0); }
+.prog-card.mist { background: linear-gradient(160deg, #ecedea, #dadcd5); }
+.prog-card.featured { background: linear-gradient(160deg, var(--teal-deep), var(--teal-main)); color: white; }
+.prog-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+.prog-icon-wrap {
+  width: 60px; height: 60px; border-radius: 16px;
+  background: white; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+.prog-card.featured .prog-icon-wrap { background: rgba(255,255,255,0.18); }
+.prog-icon-wrap svg { width: 30px; height: 30px; color: var(--teal-deep); }
+.prog-card.featured .prog-icon-wrap svg { color: var(--orange); }
+.prog-name { font-family: var(--font-title); font-weight: 900; font-size: 26px; letter-spacing: -0.03em; line-height: 1.15; }
+.prog-name small { display: block; font-family: var(--font-body); font-weight: 600; font-size: 13px; color: var(--yp-text-muted); margin-top: 4px; letter-spacing: 0; }
+.prog-card.featured .prog-name small { color: rgba(255,255,255,0.7); }
+.prog-desc { font-size: 14.5px; line-height: 1.65; color: var(--yp-text-secondary); margin-top: auto; }
+.prog-card.featured .prog-desc { color: rgba(255,255,255,0.88); }
+.prog-badge {
+  position: absolute; top: 24px; right: 24px;
+  background: var(--orange); color: white;
+  font-size: 11px; font-weight: 800; padding: 6px 12px;
+  border-radius: 999px; letter-spacing: -0.01em;
+}
+.prog-badge.recommend { background: white; color: var(--teal-deep); }
+@media (max-width: 1024px) { .prog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .prog-grid { grid-template-columns: 1fr; } }
+
+/* ============ App Preview (연플래너 앱) ============ */
+.app-section { background: linear-gradient(180deg, var(--yp-mist) 0%, #ece4d4 100%); position: relative; overflow: hidden; }
+.app-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center; }
+.app-features { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+.app-feat {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 0; border-bottom: 1px solid rgba(46,125,122,0.12);
+}
+.app-feat:last-child { border-bottom: none; }
+.app-feat-icon {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+  background: var(--teal-deep); color: white;
+  display: flex; align-items: center; justify-content: center;
+}
+.app-feat-icon svg { width: 22px; height: 22px; }
+.app-feat-text strong { display: block; font-family: var(--font-title); font-weight: 800; font-size: 17px; color: var(--yp-ink); margin-bottom: 4px; letter-spacing: -0.01em; }
+.app-feat-text p { font-size: 14px; color: var(--yp-text-secondary); line-height: 1.6; }
+.app-feat-text strong .badge {
+  font-family: var(--font-body); font-size: 10.5px; font-weight: 800; padding: 2px 8px;
+  background: var(--orange); color: white; border-radius: 999px; margin-left: 8px; vertical-align: middle;
+}
+
+.app-phones {
+  position: relative; display: flex; justify-content: center;
+  aspect-ratio: 3/4; max-width: 540px; margin: 0 auto;
+}
+.phone {
+  position: absolute; width: 240px; height: 480px;
+  border-radius: 36px; background: #1f2a2a;
+  padding: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+  transition: transform .3s ease;
+}
+.phone-screen {
+  width: 100%; height: 100%; border-radius: 26px; overflow: hidden;
+  background: var(--cream); position: relative;
+}
+.phone.p1 { transform: rotate(-8deg) translateX(-110px) translateY(-10px); z-index: 2; }
+.phone.p2 { transform: rotate(0deg) translateY(0); z-index: 3; }
+.phone.p3 { transform: rotate(8deg) translateX(110px) translateY(-10px); z-index: 1; }
+.phone:hover { transform: rotate(0) translate(0) scale(1.04); z-index: 5; }
+
+/* Phone screen contents */
+.ps-header {
+  padding: 20px 16px 12px; background: linear-gradient(135deg, var(--teal-deep), var(--teal-main));
+  color: white;
+}
+.ps-header .h1 { font-family: var(--font-title); font-weight: 900; font-size: 15px; }
+.ps-header .h2 { font-size: 11px; opacity: 0.8; margin-top: 3px; }
+.ps-body { padding: 14px; }
+.ps-card {
+  background: white; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
+  font-size: 11px; box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+.ps-card .label { font-size: 9px; color: var(--yp-text-muted); font-weight: 700; }
+.ps-card .val { font-family: var(--font-title); font-size: 14px; font-weight: 800; color: var(--teal-deep); margin-top: 2px; }
+.ps-row { display: flex; gap: 6px; }
+.ps-row .ps-card { flex: 1; }
+.ps-pill {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  background: var(--orange); color: white; font-size: 9px; font-weight: 800; margin: 2px;
+}
+.ps-pill.t { background: var(--yp-mist); color: var(--teal-deep); }
+.ps-dot-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; padding: 8px; }
+.ps-dot-grid div { aspect-ratio: 1; background: var(--yp-line); border-radius: 50%; }
+.ps-dot-grid div.on { background: var(--teal-main); }
+.ps-dot-grid div.fire { background: var(--orange); }
+
+@media (max-width: 980px) {
+  .app-inner { grid-template-columns: 1fr; gap: 50px; }
+  .app-phones { transform: scale(0.85); }
+}
+@media (max-width: 480px) {
+  .app-phones { transform: scale(0.7); }
+  .phone.p1, .phone.p3 { display: none; }
+  .phone.p2 { position: relative; transform: none; }
+}
+
+/* ============ Counsel Card (스무고개 상담카드) ============ */
+.counsel { background: var(--yp-white); }
+.counsel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.counsel-cards-stack {
+  position: relative; aspect-ratio: 4/5; max-width: 500px; margin: 0 auto;
+}
+.counsel-card-mock {
+  position: absolute; border-radius: 22px; padding: 32px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+  transition: transform .3s ease;
+}
+.counsel-card-mock.c1 {
+  inset: 0 8% 8% 0; background: linear-gradient(160deg, var(--orange), var(--orange-dim));
+  color: white; transform: rotate(-6deg);
+}
+.counsel-card-mock.c2 {
+  inset: 8% 0 0 8%; background: white; transform: rotate(4deg);
+  border: 1px solid var(--yp-line);
+}
+.counsel-card-mock .q-num {
+  font-family: var(--font-title); font-weight: 900; font-size: 14px;
+  opacity: 0.7; margin-bottom: 18px;
+}
+.counsel-card-mock .q-text {
+  font-family: var(--font-title); font-weight: 800; font-size: 24px;
+  line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 28px;
+}
+.counsel-card-mock.c2 .q-text { color: var(--yp-ink); }
+.counsel-card-mock .q-opt {
+  background: rgba(255,255,255,0.2); padding: 10px 14px;
+  border-radius: 10px; font-size: 12px; margin-bottom: 6px; font-weight: 600;
+}
+.counsel-card-mock.c2 .q-opt { background: var(--yp-mist); color: var(--teal-deep); }
+@media (max-width: 980px) { .counsel-inner { grid-template-columns: 1fr; gap: 60px; } }
+
+/* ============ Space & Journey ============ */
+.space { background: var(--yp-mist); }
+.timeline {
+  display: flex; gap: 0; margin: 60px 0; align-items: stretch;
+  position: relative; overflow-x: auto; padding-bottom: 10px;
+}
+.timeline::-webkit-scrollbar { height: 4px; }
+.timeline::-webkit-scrollbar-thumb { background: var(--yp-line); border-radius: 4px; }
+.tl-step { flex: 1; min-width: 160px; padding: 0 16px 24px; position: relative; text-align: center; }
+.tl-step::before { content: ''; position: absolute; top: 14px; left: 0; right: 0; height: 2px; background: var(--yp-line); z-index: 0; }
+.tl-step:first-child::before { left: 50%; }
+.tl-step:last-child::before { right: 50%; }
+.tl-dot { width: 30px; height: 30px; border-radius: 50%; background: white; border: 3px solid var(--teal-deep); margin: 0 auto 18px; position: relative; z-index: 1; }
+.tl-step.active .tl-dot { background: var(--orange); border-color: var(--orange); }
+.tl-year { font-family: var(--font-title); font-weight: 900; font-size: 22px; color: var(--teal-deep); letter-spacing: -0.02em; margin-bottom: 8px; }
+.tl-text { font-size: 13px; line-height: 1.55; color: var(--yp-text-secondary); }
+.space-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+.space-card { position: relative; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.10); }
+.space-card .img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.space-card:nth-child(1) .img { background: linear-gradient(135deg, #2f5d62 0%, #427a71 50%, #6ea597 100%); }
+.space-card:nth-child(2) .img { background: linear-gradient(135deg, #c38d56 0%, #d9a777 50%, #e7c19a 100%); }
+.space-card .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.6) 100%); padding: 36px; display: flex; flex-direction: column; justify-content: flex-end; color: white; }
+.space-card h4 { font-family: var(--font-title); font-weight: 900; font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+.space-card p { font-size: 14px; opacity: 0.9; }
+.space-card .tag { position: absolute; top: 28px; left: 28px; background: rgba(255,255,255,0.95); color: var(--teal-deep); padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: -0.01em; }
+@media (max-width: 768px) { .space-grid { grid-template-columns: 1fr; } }
+
+/* ============ Audience: 학생필독 / 학부모 ============ */
+.audience { background: linear-gradient(180deg, var(--yp-white) 0%, var(--cream) 100%); }
+.aud-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.aud-card {
+  position: relative; overflow: hidden;
+  border-radius: 28px; padding: 50px 44px; min-height: 380px;
+  display: flex; flex-direction: column; gap: 18px;
+  transition: all .3s ease;
+}
+.aud-card.student { background: linear-gradient(160deg, var(--teal-deep), #1f4448); color: white; }
+.aud-card.parent { background: linear-gradient(160deg, #faf2e6, #f0e2cb); color: var(--yp-ink); }
+.aud-card:hover { transform: translateY(-6px); box-shadow: 0 30px 70px rgba(0,0,0,0.15); }
+.aud-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 800; letter-spacing: -0.01em;
+  width: fit-content;
+}
+.aud-card.student .aud-eyebrow { background: rgba(255,171,107,0.25); color: var(--orange); }
+.aud-card.parent .aud-eyebrow { background: rgba(46,125,122,0.15); color: var(--teal-deep); }
+.aud-card h3 { font-family: var(--font-title); font-weight: 900; font-size: clamp(28px, 3vw, 36px); line-height: 1.2; letter-spacing: -0.03em; }
+.aud-card p { font-size: 15px; line-height: 1.7; opacity: 0.92; }
+.aud-card.parent p { opacity: 1; color: var(--yp-text-secondary); }
+.aud-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.aud-list li {
+  display: flex; align-items: center; gap: 10px;
+  list-style: none; font-size: 14px; padding: 8px 0;
+}
+.aud-list li::before { content: '✦'; color: var(--orange); font-weight: 900; }
+.aud-card .btn { margin-top: auto; align-self: flex-start; }
+@media (max-width: 768px) { .aud-grid { grid-template-columns: 1fr; } .aud-card { padding: 36px 28px; } }
+
+/* ============ Stories ============ */
+.stories { background: var(--yp-white); }
+.stories-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 24px; margin-top: 30px; }
+.story-card { background: var(--yp-mist); border-radius: 24px; padding: 36px 32px; display: flex; flex-direction: column; gap: 20px; transition: all .3s ease; }
+.story-card.feature { background: linear-gradient(160deg, var(--teal-deep), #1f4f54); color: white; }
+.story-card:hover { transform: translateY(-6px); }
+.story-quote { font-family: var(--font-title); font-weight: 700; font-size: 22px; line-height: 1.5; letter-spacing: -0.02em; color: var(--yp-ink); }
+.story-card.feature .story-quote { color: white; font-size: 26px; }
+.story-body { font-size: 14.5px; line-height: 1.7; color: var(--yp-text-secondary); margin-top: auto; }
+.story-card.feature .story-body { color: rgba(255,255,255,0.88); }
+.story-author { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 20px; border-top: 1px solid rgba(46,125,122,0.15); }
+.story-card.feature .story-author { border-top-color: rgba(255,255,255,0.18); }
+.story-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), #ffc59a); display: flex; align-items: center; justify-content: center; color: white; font-family: var(--font-title); font-weight: 900; font-size: 16px; }
+.story-meta strong { display: block; font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
+.story-meta span { font-size: 12px; color: var(--yp-text-muted); }
+.story-card.feature .story-meta span { color: rgba(255,255,255,0.7); }
+.stat-strip { margin-top: 60px; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--yp-mist); border-radius: 22px; padding: 36px; }
+.stat { text-align: center; padding: 0 16px; border-right: 1px solid var(--yp-line); }
+.stat:last-child { border-right: none; }
+.stat .n { font-family: var(--font-title); font-weight: 900; font-size: clamp(36px, 4vw, 52px); color: var(--teal-deep); letter-spacing: -0.03em; line-height: 1; }
+.stat .n span { color: var(--orange); }
+.stat .l { font-size: 13px; color: var(--yp-text-muted); margin-top: 10px; font-weight: 600; }
+@media (max-width: 1024px) {
+  .stories-grid { grid-template-columns: 1fr 1fr; }
+  .story-card.feature { grid-column: 1 / -1; }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .stat { border-right: none; border-bottom: 1px solid var(--yp-line); padding-bottom: 24px; }
+  .stat:nth-last-child(-n+2) { border-bottom: none; padding-bottom: 0; }
+}
+@media (max-width: 560px) { .stories-grid { grid-template-columns: 1fr; } }
+
+/* ============ Where Next ============ */
+.where-next {
+  background:
+    radial-gradient(circle at 80% 30%, rgba(255,171,107,0.18), transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(46,125,122,0.16), transparent 50%),
+    linear-gradient(135deg, #1a3a3d 0%, #0f2528 100%);
+  color: white; position: relative; overflow: hidden;
+}
+.where-next::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+.where-next-inner { position: relative; z-index: 1; text-align: center; max-width: 920px; margin: 0 auto; }
+.where-next .eyebrow { color: var(--orange); }
+.where-next .eyebrow::before { color: white; }
+.where-next .section-title { color: white; margin: 0 auto 28px; }
+.where-next .section-lead { color: rgba(255,255,255,0.85); margin: 0 auto 50px; }
+.where-next .cta-group { justify-content: center; }
+.where-next .btn-secondary { background: transparent; color: white; border-color: rgba(255,255,255,0.3); }
+.where-next .btn-secondary:hover { background: white; color: var(--teal-deep); }
+.where-next-extra {
+  margin-top: 60px; padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex; justify-content: center; gap: 60px;
+  flex-wrap: wrap; font-size: 14px; color: rgba(255,255,255,0.75);
+}
+.where-next-extra div { display: flex; align-items: center; gap: 10px; }
+.where-next-extra svg { width: 18px; height: 18px; color: var(--orange); }
+
+/* ============ Footer ============ */
+footer { background: #0a1c1f; color: rgba(255,255,255,0.7); padding: 70px 28px 30px; }
+.footer-inner { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 50px; }
+.foot-brand { font-family: var(--font-title); font-weight: 900; font-size: 22px; color: white; margin-bottom: 16px; letter-spacing: -0.02em; }
+.foot-tag { font-size: 14px; line-height: 1.7; max-width: 320px; }
+.foot-col h5 { color: white; font-size: 14px; font-weight: 800; margin-bottom: 18px; letter-spacing: -0.01em; }
+.foot-col a { display: block; font-size: 13.5px; padding: 6px 0; transition: color .2s ease; }
+.foot-col a:hover { color: var(--orange); }
+.foot-bottom { max-width: 1320px; margin: 50px auto 0; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 18px; font-size: 12.5px; color: rgba(255,255,255,0.5); }
+@media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; } }
+@media (max-width: 480px) { .footer-inner { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ==== PLATFORM BAR ==== -->
+<div class="platform-bar">
+  <a href="https://y-life.kr">y-life.kr</a>
+  <span class="sep">›</span>
+  <a href="../../../">연마을</a>
+  <span class="sep">›</span>
+  <a href="../../">울산</a>
+  <span class="sep">›</span>
+  <a href="../">연플래닝</a>
+  <span class="sep">›</span>
+  <span class="current">강동점</span>
+</div>
+
+<!-- ==== TOP NAV ==== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand">
+      <span class="brand-mark">연</span>
+      <span>연플래닝<span class="brand-sub">Since 2008</span></span>
+    </a>
+    <nav class="nav">
+      <a href="#philosophy">철학</a>
+      <a href="#fivefive">5.2.5.5</a>
+      <a href="#harisb">하루 3분할</a>
+      <a href="#coaching">학습코칭</a>
+      <a href="#programs">AI 프로그램</a>
+      <a href="#app">연플래너 앱</a>
+      <a href="#audience">학생·학부모</a>
+      <a href="#cta" class="nav-cta">무료 상담</a>
+    </nav>
+    <button class="mobile-toggle" aria-label="메뉴 열기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- ==== HERO ==== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        2008년부터 이어진 자기주도학습 · 20년의 연(緣)
+      </div>
+      <h1>
+        AI 시대,<br>
+        거부할 수 없는 <span class="underline">교육의 길</span>을<br>
+        <span class="accent">연플래닝이 만듭니다.</span>
+      </h1>
+      <p class="lead">
+        스스로 생각하고, 스스로 묻고, 스스로 답을 찾는 아이.
+        20년 자기주도 학습의 깊이에 6명의 AI 선생님과 연플래너 앱을 더했습니다.
+        머리(학습)와 마음(코칭)을 함께 키우는, 진짜 공부가 시작됩니다.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-item"><div class="num">20<small>년</small></div><div class="lab">변치 않은 철학</div></div>
+        <div class="meta-item"><div class="num">6<small>명</small></div><div class="lab">AI 전담 과외선생님</div></div>
+        <div class="meta-item"><div class="num">24<small>시간</small></div><div class="lab">언제든 함께하는 학습</div></div>
+      </div>
+      <div class="cta-group">
+        <a href="#cta" class="btn btn-primary">
+          무료 상담 신청하기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#programs" class="btn btn-secondary">AI 수업 직접 체험하기</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-img">
+        <svg class="hero-illust" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#bcd4d0"/><stop offset="100%" stop-color="#e6c9a8"/>
+            </linearGradient>
+            <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2f5d62"/><stop offset="100%" stop-color="#1f4448"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="500" fill="url(#skyGrad)"/>
+          <rect x="240" y="60" width="120" height="160" rx="8" fill="#f5e9d8" opacity="0.5"/>
+          <line x1="300" y1="60" x2="300" y2="220" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+          <line x1="240" y1="140" x2="360" y2="140" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+          <ellipse cx="60" cy="240" rx="28" ry="14" fill="#8a6b48"/>
+          <path d="M 60 240 Q 40 200 50 170 Q 56 195 62 220 Z" fill="#5a8a6e"/>
+          <path d="M 60 240 Q 80 195 75 165 Q 68 195 64 220 Z" fill="#427a71"/>
+          <path d="M 60 240 Q 50 210 55 180 Q 60 205 62 225 Z" fill="#6aa090"/>
+          <rect x="0" y="380" width="400" height="120" fill="#c38d56"/>
+          <rect x="0" y="376" width="400" height="8" fill="#8a5d2d"/>
+          <path d="M 80 400 L 200 392 L 200 440 L 80 448 Z" fill="#faf4eb"/>
+          <path d="M 200 392 L 320 400 L 320 448 L 200 440 Z" fill="#fbf6ee"/>
+          <line x1="200" y1="392" x2="200" y2="440" stroke="#c4b89e" stroke-width="1"/>
+          <line x1="100" y1="410" x2="190" y2="404" stroke="#d4cdb9" stroke-width="1"/>
+          <line x1="100" y1="420" x2="190" y2="414" stroke="#d4cdb9" stroke-width="1"/>
+          <line x1="100" y1="430" x2="190" y2="424" stroke="#d4cdb9" stroke-width="1"/>
+          <line x1="210" y1="404" x2="305" y2="410" stroke="#d4cdb9" stroke-width="1"/>
+          <line x1="210" y1="414" x2="305" y2="420" stroke="#d4cdb9" stroke-width="1"/>
+          <line x1="210" y1="424" x2="305" y2="430" stroke="#d4cdb9" stroke-width="1"/>
+          <g transform="translate(220, 240) rotate(-8)">
+            <rect x="0" y="0" width="130" height="170" rx="10" fill="#1f2a2a"/>
+            <rect x="6" y="6" width="118" height="158" rx="6" fill="url(#screenGrad)"/>
+            <rect x="14" y="20" width="70" height="22" rx="11" fill="#ffab6b"/>
+            <text x="49" y="35" fill="white" font-family="sans-serif" font-size="10" text-anchor="middle" font-weight="700">AI 풀이</text>
+            <rect x="46" y="50" width="70" height="22" rx="11" fill="rgba(255,255,255,0.18)"/>
+            <text x="81" y="65" fill="white" font-family="sans-serif" font-size="9" text-anchor="middle">왜 그렇게...</text>
+            <rect x="14" y="80" width="90" height="22" rx="11" fill="#ffab6b" opacity="0.85"/>
+            <text x="59" y="95" fill="white" font-family="sans-serif" font-size="9" text-anchor="middle" font-weight="700">3가지 방법</text>
+            <rect x="20" y="118" width="90" height="38" rx="8" fill="rgba(255,255,255,0.12)"/>
+            <circle cx="35" cy="137" r="4" fill="#ffab6b"/>
+            <rect x="46" y="130" width="55" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+            <rect x="46" y="138" width="40" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+          </g>
+          <g transform="translate(70, 200)">
+            <path d="M 30 180 Q 30 130 60 130 Q 90 130 90 180 L 90 220 L 30 220 Z" fill="#427a71"/>
+            <circle cx="60" cy="105" r="32" fill="#e8c4a0"/>
+            <path d="M 30 95 Q 28 70 60 65 Q 92 70 90 95 L 88 105 Q 80 80 60 78 Q 40 80 32 105 Z" fill="#2a2a2a"/>
+            <path d="M 32 175 Q 20 180 18 200 L 30 210 L 36 195 Z" fill="#e8c4a0"/>
+            <path d="M 88 175 Q 110 175 130 195 L 122 210 L 110 200 Z" fill="#e8c4a0"/>
+          </g>
+          <circle cx="80" cy="100" r="6" fill="#ffab6b" opacity="0.9"/>
+          <circle cx="98" cy="80" r="4" fill="#ffab6b" opacity="0.7"/>
+          <circle cx="112" cy="65" r="10" fill="#ffab6b" opacity="0.85"/>
+          <text x="112" y="70" fill="white" font-family="sans-serif" font-size="11" font-weight="900" text-anchor="middle">!</text>
+        </svg>
+      </div>
+      <div class="hero-chip-top">AI와 함께 노는 수업</div>
+      <div class="hero-badge-float">
+        <div class="hero-badge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div class="hero-badge-text">
+          <strong>연플래너 앱</strong>
+          개발 완료 · 24시간 AI 과외
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== Manifesto strip ==== -->
+<div class="manifesto-strip">
+  <div class="manifesto-strip-track">
+    <span>자기주도</span><span class="dot">●</span>
+    <span>의식적 몰입</span><span class="dot">●</span>
+    <span>5.2.5.5 복습</span><span class="dot">●</span>
+    <span>배려·배움·놀기</span><span class="dot">●</span>
+    <span>100일 습관</span><span class="dot">●</span>
+    <span>감사일기</span><span class="dot">●</span>
+    <span>AI와 함께 노는 수업</span><span class="dot">●</span>
+    <span>자기주도</span><span class="dot">●</span>
+    <span>의식적 몰입</span><span class="dot">●</span>
+    <span>5.2.5.5 복습</span><span class="dot">●</span>
+    <span>배려·배움·놀기</span><span class="dot">●</span>
+    <span>100일 습관</span><span class="dot">●</span>
+    <span>감사일기</span><span class="dot">●</span>
+    <span>AI와 함께 노는 수업</span><span class="dot">●</span>
+  </div>
+</div>
+
+<!-- ==== PHILOSOPHY ==== -->
+<section class="philosophy" id="philosophy">
+  <div class="section-inner">
+    <div class="eyebrow reveal">A Culture of Character · 20년 변치 않은 철학</div>
+    <h2 class="section-title reveal">
+      20년 동안 우리는<br><span class="accent">단 한 가지</span>를 지켜왔습니다.
+    </h2>
+    <p class="section-lead reveal">
+      좋은 학원은 많지만, <strong>20년 동안 같은 철학을 지킨 학원</strong>은 드뭅니다.
+      연플래닝은 시대가 바뀌어도 한결같이 "스스로 생각하고, 스스로 배우는 아이"를 길러왔습니다.
+      그리고 이제 그 철학 위에 AI를 더합니다.
+    </p>
+
+    <div class="philo-grid">
+      <div class="philo-card reveal"><div class="philo-num">01</div><h3>학교에서<br>끝내는 공부</h3><p>학교 수업을 학교 안에서 완성합니다. 집에 와서 다시 시작하지 않아도 되는 학습의 흐름.</p></div>
+      <div class="philo-card reveal"><div class="philo-num">02</div><h3>주도적<br>읽기 공부</h3><p>독서가 모든 공부의 뿌리입니다. <strong>책풀</strong>로 깊이 있는 읽기를 일상으로 만듭니다.</p></div>
+      <div class="philo-card reveal"><div class="philo-num">03</div><h3>연플래너로<br>나를 기록한다</h3><p>오늘의 나를 적고, 어제의 나와 만납니다. 변화는 기록에서 시작됩니다.</p></div>
+      <div class="philo-card reveal"><div class="philo-num">04</div><h3>연칼럼으로<br>생각의 깊이</h3><p>읽고 쓰면서 자기 생각을 다듬어 갑니다. 깊은 사유를 가진 사람으로 자라납니다.</p></div>
+      <div class="philo-card reveal"><div class="philo-num">05</div><h3>AI와 함께<br>노는 수업</h3><p>AI를 도구로 부리는 진짜 힘. 시키는 대로 푸는 것이 아닌, 함께 탐구합니다.</p></div>
+    </div>
+
+    <div class="philo-emphasis reveal">
+      <div class="philo-emphasis-content">
+        <h3>
+          AI는 이미 우리 아이의 선생님입니다.<br>
+          거부할 수 없는 시대에 — 제대로 준비된 아이와 그렇지 않은 아이의 차이는,
+          <span style="color: var(--orange)">3년 뒤 결정적으로 나타납니다.</span>
+        </h3>
+        <p>
+          연플래닝은 이미 20년 전부터, AI 시대에 필요한 진짜 능력 —
+          <strong style="color: var(--orange);">스스로 묻고 답을 찾는 힘</strong>을 길러왔습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 5.2.5.5 ==== -->
+<section class="fivefive" id="fivefive">
+  <div class="section-inner">
+    <div class="fivefive-inner">
+      <div>
+        <div class="eyebrow reveal">The 5·2·5·5 Method · 연플래닝 핵심 복습법</div>
+        <h2 class="section-title reveal">
+          공부한 것이<br>
+          <span class="accent">잊혀지지 않게</span>,<br>
+          <span class="underline">5분 · 2분 · 5시간 · 5일</span>.
+        </h2>
+        <p class="section-lead reveal" style="margin-bottom: 0;">
+          망각곡선을 이기는 가장 작은 노력. 같은 내용을 네 번 만나는 동안
+          학생의 뇌 속에 단단한 지식의 길이 만들어집니다.
+          <strong>연플래너 앱이 자동으로 추적·알림</strong>해드립니다.
+        </p>
+        <div class="fivefive-steps">
+          <div class="fivefive-step reveal">
+            <div class="fivefive-step-num">5'</div>
+            <div><h4>수업 직후 5분 복습</h4><p>방금 배운 것을 곧바로 한 번 더. 머릿속이 가장 신선할 때 정리합니다.</p></div>
+          </div>
+          <div class="fivefive-step reveal">
+            <div class="fivefive-step-num">2'</div>
+            <div><h4>학습 직후 2분 복습</h4><p>자습·문제풀이 후 짧게 2분. 핵심 한 줄로 요약해봅니다.</p></div>
+          </div>
+          <div class="fivefive-step reveal">
+            <div class="fivefive-step-num">5h</div>
+            <div><h4>5시간 뒤 복습</h4><p>잠들기 전 그 날의 내용을 다시 한 번 — 장기기억으로 옮기는 결정적 시간.</p></div>
+          </div>
+          <div class="fivefive-step reveal">
+            <div class="fivefive-step-num">5d</div>
+            <div><h4>5일 뒤 복습</h4><p>일주일 후 다시 만나면, 완전히 내 것이 됩니다. AI가 빠짐없이 챙겨드립니다.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fivefive-visual reveal">
+        <div class="fivefive-circle"></div>
+        <div class="fivefive-ring r1"></div>
+        <div class="fivefive-ring r2"></div>
+        <div class="fivefive-ring r3"></div>
+        <div class="fivefive-center">
+          <div class="big">5.2.5.5</div>
+          <div class="sub">복습법</div>
+        </div>
+        <div class="fivefive-dot d1"><div class="t">5분</div><div class="l">수업 직후</div></div>
+        <div class="fivefive-dot d2"><div class="t">2분</div><div class="l">학습 직후</div></div>
+        <div class="fivefive-dot d3"><div class="t">5시간</div><div class="l">잠들기 전</div></div>
+        <div class="fivefive-dot d4"><div class="t">5일</div><div class="l">한 주 후</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 하루 3분할 (배려·배움·놀기) ==== -->
+<section class="harisb" id="harisb">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Three Pillars of A Day · 하루를 사는 방식</div>
+    <h2 class="section-title reveal">
+      <span class="accent">배려 · 배움 · 놀기</span> —<br>
+      하루의 균형이 사람을 만듭니다.
+    </h2>
+    <p class="section-lead reveal">
+      공부만 잘하는 아이가 아니라, 잘 살아가는 아이로. 연플래닝은 하루를 세 가지로 나눕니다.
+      셋이 골고루 채워질 때, 진짜 행복한 학습이 시작됩니다.
+    </p>
+
+    <div class="hari-grid">
+      <div class="hari-card bd reveal">
+        <div class="hari-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>배려<small>다른 사람을 위한 시간</small></h3>
+        <p>가족, 친구, 그리고 처음 만나는 사람에게도. 작은 친절 한 번이
+        나의 하루를 단단하게 만듭니다. 공부는 결국 사람을 위한 것입니다.</p>
+      </div>
+      <div class="hari-card bm reveal">
+        <div class="hari-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 6.253v13M12 6.253a4 4 0 1 1 8 0M12 6.253a4 4 0 1 0-8 0M4 6.253v13a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-13"/>
+          </svg>
+        </div>
+        <h3>배움<small>오늘 더 자라는 시간</small></h3>
+        <p>학교 수업, 자기주도 학습, 책 읽기, AI 선생님과의 탐구. 어제의 나보다
+        한 뼘 더 자라는 시간. 5.2.5.5로 잊지 않고, 100일 습관으로 단단히.</p>
+      </div>
+      <div class="hari-card nl reveal">
+        <div class="hari-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <h3>놀기<small>온전히 나를 위한 시간</small></h3>
+        <p>쉬는 것도, 노는 것도 공부의 일부입니다. 충분히 쉰 사람만이 다시 깊게 몰입할 수 있습니다.
+        잘 노는 아이가 잘 자랍니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 습관 (100일 · 감사일기 · 의식적 몰입) ==== -->
+<section class="habits">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Daily Rituals · 매일 작은 한 가지</div>
+    <h2 class="section-title reveal">
+      100일 동안 계속하면,<br>
+      <span class="accent">그게 내가 됩니다.</span>
+    </h2>
+    <p class="section-lead reveal">
+      의식적 몰입, 100일 습관 트래커, 매일의 감사일기 — 연플래너 안에는
+      평생을 단단히 받쳐줄 세 가지 작은 의식이 들어있습니다.
+    </p>
+
+    <div class="habits-grid">
+      <div class="habit-100 reveal">
+        <h3>100일 습관 트래커</h3>
+        <p class="desc">오늘은 67일째. 점이 하나씩 차오를수록 — 그게 바로 나입니다.</p>
+        <div class="habit-dots">
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+          <div class="d on"></div><div class="d fire"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+        </div>
+        <div class="habit-progress">
+          <span>지금 진행률</span>
+          <strong>67 / 100 일</strong>
+        </div>
+      </div>
+
+      <div class="habit-features">
+        <div class="habit-feat reveal">
+          <div class="habit-feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div class="habit-feat-text">
+            <strong>의식적 몰입</strong>
+            <p>오래 앉아있는 것이 아니라, 진짜로 집중하는 시간을 만듭니다. 아침 명상, 손글씨, 저녁 정리 —
+            의식적으로 들어가고, 의식적으로 나옵니다.</p>
+          </div>
+        </div>
+        <div class="habit-feat reveal">
+          <div class="habit-feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <div class="habit-feat-text">
+            <strong>감사일기</strong>
+            <p>매일 감사한 일 한 가지를 적습니다. 작은 감사가 모이면 학생의 마음이 단단해지고,
+            세상을 보는 눈이 따뜻해집니다.</p>
+          </div>
+        </div>
+        <div class="habit-feat reveal">
+          <div class="habit-feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <div class="habit-feat-text">
+            <strong>연그림도구</strong>
+            <p>오늘의 그림, 손필기, 사진 메모 — 연플래너 안에서 그림이 필요한 모든 순간을 위해
+            준비된 학생만의 화이트보드.</p>
+          </div>
+        </div>
+        <div class="habit-feat reveal">
+          <div class="habit-feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="habit-feat-text">
+            <strong>오늘의 제목</strong>
+            <p>하루를 한 문장으로 표현합니다. 학생이 자기 하루를 어떻게 바라보는지 — 글로 적는 순간
+            하루가 다르게 보입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 학습코칭 = 머리 + 마음 ==== -->
+<section class="coaching" id="coaching">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Learning Coaching · 학습코칭의 정의</div>
+    <h2 class="section-title reveal">
+      좋은 학습은,<br>
+      <span style="color: var(--orange)">머리와 마음을 함께</span> 키우는 일입니다.
+    </h2>
+    <p class="section-lead reveal">
+      연플래닝의 "학습코칭"은 단순히 가르치는 것이 아닙니다.
+      <strong style="color: var(--orange)">학습(머리)</strong>과
+      <strong style="color: var(--orange)">코칭(마음·정서)</strong>이 합쳐질 때,
+      비로소 학생은 스스로 일어섭니다.
+    </p>
+
+    <div class="coaching-equation">
+      <div class="coach-block head reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2z"/>
+            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2z"/>
+          </svg>
+        </div>
+        <h4>학습<small>HEAD · 머리</small></h4>
+        <p>20년의 자기주도 학습 노하우, 5.2.5.5 복습법, 6명의 AI 선생님과 함께하는 1:1 수업.</p>
+      </div>
+      <div class="coach-sign">+</div>
+      <div class="coach-block heart reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h4>코칭<small>HEART · 마음</small></h4>
+        <p>스무고개 상담카드로 만나는 첫 인사, 감사일기, 100일 습관 — 정서까지 함께 보살피는 시스템.</p>
+      </div>
+      <div class="coach-sign">=</div>
+      <div class="coach-block result reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 10 12 6.16-1.26 10-6.45 10-12V7l-10-5z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h4>스스로 일어서는 아이<small>SELF-DRIVEN STUDENT</small></h4>
+        <p>"마음을 읽는 AI, 실력을 키우는 코칭." 정서 기반 맞춤 설계로 학생이 스스로 자랍니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SUPPORT ==== -->
+<section class="support" id="support">
+  <div class="section-inner">
+    <div class="support-grid">
+      <div>
+        <div class="eyebrow reveal">Support That Elevates Your Journey</div>
+        <h2 class="section-title reveal">
+          한 명의 학생을 위한<br>
+          <span class="accent">맞춤형 지원 시스템.</span>
+        </h2>
+        <p class="section-lead reveal" style="margin-bottom: 30px;">
+          모든 학생은 다릅니다. 그래서 모든 학생에게 맞는 지원이 필요합니다.
+          소규모 클래스, 전담 코치, 24시간 AI 과외 — 연플래닝은 한 명의 아이를 위해
+          세 겹의 안전망을 준비합니다.
+        </p>
+        <a href="#cta" class="btn btn-dark reveal">
+          더 자세히 알아보기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="support-cards">
+        <div class="support-card reveal">
+          <div class="support-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <h4>소규모 클래스 + 전담 코치</h4>
+            <p>한 반에 소수정예. 선생님이 학생 한 명의 이름, 성격, 학습 곡선을 정확히 압니다.
+            연플래닝의 학생은 절대 "여러 학생 중 한 명"이 아닙니다.</p>
+            <span class="tag">Advisory 시스템</span>
+          </div>
+        </div>
+        <div class="support-card reveal">
+          <div class="support-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <div>
+            <h4>연플래너 앱 — 24시간 함께하는 AI 과외</h4>
+            <p>모든 학습 자료를 한 곳에. 학생이 모르는 순간에 즉시 AI가 등장합니다.
+            잠들기 전 마지막 한 문제까지 함께합니다.</p>
+            <span class="tag">개발 완료 · 베타 운영중</span>
+          </div>
+        </div>
+        <div class="support-card reveal">
+          <div class="support-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 10 12 6.16-1.26 10-6.45 10-12V7l-10-5z"/><path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Discovery Project — 학생 주도 탐구</h4>
+            <p>학생이 직접 주제를 선택해 AI와 함께 깊이 파고드는 프로젝트 학습.
+            점수가 아닌 "내 호기심"을 키우는 시간입니다.</p>
+            <span class="tag">자기주도 심화과정</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== PROGRAMS (6 AI) ==== -->
+<section class="programs" id="programs">
+  <div class="section-inner">
+    <div class="prog-head">
+      <div class="text">
+        <div class="eyebrow reveal">Our Programs · 6명의 AI 선생님 + 연플래너 앱</div>
+        <h2 class="section-title reveal">
+          AI 선생님과 함께,<br>
+          <span class="accent">24시간 1:1 과외.</span>
+        </h2>
+        <p class="section-lead reveal" style="margin-bottom: 0;">
+          영풀, 수풀, 국풀, 논풀, 과풀, 책풀 — 과목별로 특화된 AI 선생님이 학생과 1:1로 대화합니다.
+          모르는 게 있어도 부끄럽지 않습니다. 같은 질문을 100번 해도 화내지 않습니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="prog-grid">
+      <div class="prog-card green reveal">
+        <div class="prog-badge">AI 과외</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div><div class="prog-name">영풀<small>English · AI 영어 과외</small></div></div>
+        <p class="prog-desc">문법·독해·작문까지. 학생의 실수 패턴을 기억하고 맞춤 피드백을 줍니다.</p>
+      </div>
+      <div class="prog-card sand reveal">
+        <div class="prog-badge">AI 과외</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></div>
+        <div><div class="prog-name">수풀<small>Math · AI 수학 과외</small></div></div>
+        <p class="prog-desc">한 문제 = 3가지 풀이법. 학생이 못 푸는 것이 아니라, 자기 방식을 찾는 과정입니다.</p>
+      </div>
+      <div class="prog-card peach reveal">
+        <div class="prog-badge">AI 과외</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
+        <div><div class="prog-name">국풀 · 논풀<small>Korean · 국어 · 논술 AI</small></div></div>
+        <p class="prog-desc">글을 읽고, 쓰고, 토론합니다. AI가 학생의 글에 정성스럽게 빨간펜을 들어드립니다.</p>
+      </div>
+      <div class="prog-card sage reveal">
+        <div class="prog-badge">AI 과외</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.31 8l5.74 9.94"/><path d="M9.69 8h11.48"/><path d="M7.38 12l5.74-9.94"/><path d="M9.69 16L3.95 6.06"/><path d="M14.31 16H2.83"/><path d="M16.62 12l-5.74 9.94"/></svg></div>
+        <div><div class="prog-name">과풀<small>Science · 과학 AI</small></div></div>
+        <p class="prog-desc">개념을 설명하고, 실험을 함께 상상합니다. 외우는 과학이 아닌 이해하는 과학.</p>
+      </div>
+      <div class="prog-card featured reveal">
+        <div class="prog-badge recommend">⭐ 핵심 추천</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg></div>
+        <div><div class="prog-name">책풀<small>Reading · 독서 습관 AI</small></div></div>
+        <p class="prog-desc">소크라테스식 질문으로 학생의 생각을 끌어내는 AI 독서 코치.
+        모든 공부의 뿌리는 책 읽기입니다. <strong>yaa.y-life.kr에서 만나보세요.</strong></p>
+      </div>
+      <div class="prog-card mist reveal">
+        <div class="prog-badge">통합 앱</div>
+        <div class="prog-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="9" y2="9"/><line x1="3" y1="14" x2="9" y2="14"/></svg></div>
+        <div><div class="prog-name">연플래너 앱<small>YeonPlanner · 통합 학습 플래너</small></div></div>
+        <p class="prog-desc">모든 자료 + 6명의 AI 선생님 + 5.2.5.5 복습 자동 추적.
+        하루를 기록하면 학습이 살아납니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 연플래너 앱 미리보기 ==== -->
+<section class="app-section" id="app">
+  <div class="section-inner">
+    <div class="app-inner">
+      <div>
+        <div class="eyebrow reveal">YeonPlanner App · 연플래너 앱</div>
+        <h2 class="section-title reveal">
+          종이 플래너의 깊이에,<br>
+          <span class="accent">AI의 손길</span>을 더했습니다.
+        </h2>
+        <p class="section-lead reveal" style="margin-bottom: 0;">
+          연플래닝이 15년 동안 다듬어 온 종이 플래너의 구조를 그대로 디지털에 담았습니다.
+          여기에 AI를 더해, 학생 한 명을 위한 24시간 학습 파트너로 완성했습니다.
+        </p>
+
+        <div class="app-features">
+          <div class="app-feat reveal">
+            <div class="app-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="app-feat-text"><strong>오늘의 제목 + 배려·배움·놀기 카드</strong>
+              <p>하루를 한 문장으로 적고, 세 가지 영역을 균형있게 채웁니다.</p></div>
+          </div>
+          <div class="app-feat reveal">
+            <div class="app-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="app-feat-text"><strong>5.2.5.5 복습 자동 추적</strong>
+              <p>학생이 잊지 않게 AI가 정확한 시점에 알림. 복습 없는 공부는 없습니다.</p></div>
+          </div>
+          <div class="app-feat reveal">
+            <div class="app-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+            <div class="app-feat-text"><strong>100일 습관 + 감사일기 + 명상 체크<span class="badge">매일</span></strong>
+              <p>아침·손글씨·저녁 명상까지. 매일의 작은 의식이 학생을 단단하게 만듭니다.</p></div>
+          </div>
+          <div class="app-feat reveal">
+            <div class="app-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+            <div class="app-feat-text"><strong>연그림도구 — 화이트보드 그림 모듈<span class="badge">독립</span></strong>
+              <p>오늘의 그림, 손필기, 마인드맵, 사진 메모 등 그림이 필요한 모든 곳에.
+              브러시·도형·텍스트·레이어까지 갖춘 완전한 그림 도구.</p></div>
+          </div>
+          <div class="app-feat reveal">
+            <div class="app-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div class="app-feat-text"><strong>6명 AI 선생님 + Gemini 이미지 생성</strong>
+              <p>영풀·수풀·국풀·논풀·과풀·책풀이 통합 연동. 일기 그림·마인드맵 시각화·인포그래픽도 한 번에.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-phones reveal">
+        <!-- Phone 1: Home -->
+        <div class="phone p1">
+          <div class="phone-screen">
+            <div class="ps-header">
+              <div class="h1">📒 오늘의 연플래너</div>
+              <div class="h2">2026.5.14 · D+67</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-card">
+                <div class="label">오늘의 제목</div>
+                <div class="val">조용히 깊게.</div>
+              </div>
+              <div class="ps-row">
+                <div class="ps-card"><div class="label">배려</div><div class="val" style="font-size:18px">3</div></div>
+                <div class="ps-card"><div class="label">배움</div><div class="val" style="font-size:18px">5</div></div>
+                <div class="ps-card"><div class="label">놀기</div><div class="val" style="font-size:18px">2</div></div>
+              </div>
+              <div class="ps-card">
+                <div class="label">5.2.5.5 복습</div>
+                <span class="ps-pill">5분 ✓</span>
+                <span class="ps-pill">2분 ✓</span>
+                <span class="ps-pill t">5시간</span>
+                <span class="ps-pill t">5일</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Phone 2: 100일 트래커 -->
+        <div class="phone p2">
+          <div class="phone-screen">
+            <div class="ps-header" style="background: linear-gradient(135deg, #c66a26, #FFAB6B);">
+              <div class="h1">🔥 100일 습관</div>
+              <div class="h2">67일째 · 33일 남음</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-dot-grid" style="grid-template-columns: repeat(10, 1fr); padding: 0;">
+                <!-- 67 on, 1 fire, rest empty -->
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+                <div class="on"></div><div class="fire"></div>
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
+              <div class="ps-card" style="margin-top: 14px;">
+                <div class="label">감사일기</div>
+                <div style="font-size: 10px; margin-top: 4px;">선생님이 따뜻한 칭찬을 해주셨다. 마음이 ☀️</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Phone 3: AI Chat -->
+        <div class="phone p3">
+          <div class="phone-screen">
+            <div class="ps-header" style="background: linear-gradient(135deg, #1f5e5b, #2E7D7A);">
+              <div class="h1">🤖 수풀 · AI 과외</div>
+              <div class="h2">중2 수학 · 1단원</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-card" style="background: #2E7D7A; color: white;">
+                <div style="font-size: 10px;">이 문제 모르겠어요</div>
+              </div>
+              <div class="ps-card" style="background: var(--cream);">
+                <div class="label">📘 풀이 1 · 인수분해 활용</div>
+                <div style="font-size: 10px; margin-top: 4px; line-height: 1.5;">먼저 공통인수로 묶어볼게요...</div>
+              </div>
+              <div class="ps-card" style="background: var(--cream);">
+                <div class="label">📗 풀이 2 · 그래프 해석</div>
+                <div style="font-size: 10px; margin-top: 4px; line-height: 1.5;">y축과 만나는 점부터 보면...</div>
+              </div>
+              <div class="ps-card" style="background: var(--cream);">
+                <div class="label">📕 풀이 3 · 대입법</div>
+                <div style="font-size: 10px; margin-top: 4px; line-height: 1.5;">x = 0을 넣으면...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 스무고개 상담카드 ==== -->
+<section class="counsel">
+  <div class="section-inner">
+    <div class="counsel-inner">
+      <div class="counsel-cards-stack reveal">
+        <div class="counsel-card-mock c1">
+          <div class="q-num">QUESTION 7 / 20</div>
+          <div class="q-text">"내가 가장 잘하는 공부 시간은 언제일까?"</div>
+          <div class="q-opt">🌅 아침에 머리가 가장 맑아요</div>
+          <div class="q-opt">📚 오후에 집중이 잘 돼요</div>
+          <div class="q-opt">🌙 밤늦게 조용할 때가 좋아요</div>
+        </div>
+        <div class="counsel-card-mock c2">
+          <div class="q-num" style="color: var(--teal-deep);">RESULT</div>
+          <div class="q-text">너는 <span style="color: var(--orange);">"몰입형 야행성"</span>이구나!</div>
+          <div class="q-opt">🌙 밤에 더 깊게 집중하는 타입</div>
+          <div class="q-opt">📖 책 한 권을 끝까지 읽는 힘이 있음</div>
+          <div class="q-opt">💪 자기주도 학습이 잘 맞음</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow reveal">First Meeting · 스무고개 상담카드</div>
+        <h2 class="section-title reveal">
+          처음 만나는 순간,<br>
+          <span class="accent">너를 먼저 듣겠습니다.</span>
+        </h2>
+        <p class="section-lead reveal" style="margin-bottom: 30px;">
+          신입생을 만나면 우리는 시험부터 보지 않습니다.
+          <strong>스무 가지 질문을 통해 학생의 마음, 학습 성향, 흥미</strong>를 먼저 듣습니다.
+          그래서 연플래닝의 학습코칭은 첫 시간부터 "너에게 딱 맞는 방식"으로 시작됩니다.
+        </p>
+        <p class="section-lead reveal">
+          ✦ 20문항 · 게임형 진단<br>
+          ✦ 4가지 결과 유형으로 학생 이해<br>
+          ✦ 결과는 학부모님과 함께 공유<br>
+          ✦ 무료 상담 신청 시 직접 체험 가능
+        </p>
+        <a href="#cta" class="btn btn-primary reveal" style="margin-top: 16px;">
+          상담카드 체험 신청
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SPACE & JOURNEY ==== -->
+<section class="space" id="space">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Our Space & Journey · 울산에서 만나는 집중 공간</div>
+    <h2 class="section-title reveal">
+      2008년부터 지금까지,<br>
+      <span class="accent">한 번도 멈추지 않았습니다.</span>
+    </h2>
+    <p class="section-lead reveal">
+      울산에서 시작해 지금도 울산에서. 본점 연플래닝, 그리고 연 AI 학습코칭 아카데미(삼산점).
+      AI 시대에 맞춰 공간도, 도구도 새로워졌지만 변하지 않은 한 가지는 — 학생을 보는 우리의 시선입니다.
+    </p>
+
+    <div class="timeline reveal">
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-year">2008</div><div class="tl-text">연플래닝 본점 개원<br>울산에서 첫 자기주도 학습</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-year">2015</div><div class="tl-text">종이 연플래너 정착<br>5.2.5.5 복습법 체계화</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-text">스무고개 상담카드<br>학생 중심 진단 시스템</div></div>
+      <div class="tl-step active"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-text">수풀AI 베타 출시<br>AI 과외 시대 개막</div></div>
+      <div class="tl-step active"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-text"><strong>연플래너 앱 정식</strong><br>6명 AI 선생님 통합</div></div>
+    </div>
+
+    <div class="space-grid">
+      <div class="space-card reveal">
+        <span class="tag">본점</span>
+        <div class="img">
+          <svg width="100%" height="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect x="0" y="0" width="400" height="300" fill="#2f5d62"/>
+            <g fill="#f5e9d8" opacity="0.75">
+              <rect x="50" y="60" width="40" height="50" rx="4"/><rect x="120" y="60" width="40" height="50" rx="4"/>
+              <rect x="190" y="60" width="40" height="50" rx="4"/><rect x="260" y="60" width="40" height="50" rx="4"/>
+              <rect x="50" y="130" width="40" height="50" rx="4"/><rect x="120" y="130" width="40" height="50" rx="4"/>
+              <rect x="190" y="130" width="40" height="50" rx="4"/><rect x="260" y="130" width="40" height="50" rx="4"/>
+            </g>
+            <g fill="#ffab6b" opacity="0.95">
+              <rect x="120" y="60" width="40" height="50" rx="4"/>
+              <rect x="260" y="130" width="40" height="50" rx="4"/>
+              <rect x="50" y="130" width="40" height="50" rx="4"/>
+            </g>
+            <ellipse cx="350" cy="220" rx="30" ry="50" fill="#427a71"/>
+            <rect x="346" y="240" width="8" height="40" fill="#5a3d20"/>
+            <rect x="0" y="240" width="400" height="60" fill="#1a3a3d"/>
+          </svg>
+        </div>
+        <div class="overlay">
+          <h4>연플래닝 본점</h4>
+          <p>20년 자기주도 학습의 본가. yeon.ulsan.kr</p>
+        </div>
+      </div>
+      <div class="space-card reveal">
+        <span class="tag">분점 · 삼산</span>
+        <div class="img">
+          <svg width="100%" height="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect x="0" y="0" width="400" height="300" fill="#c38d56"/>
+            <rect x="80" y="40" width="240" height="200" fill="#a06f3d"/>
+            <g fill="#fff" opacity="0.85">
+              <rect x="100" y="60" width="30" height="40"/><rect x="145" y="60" width="30" height="40"/><rect x="190" y="60" width="30" height="40"/><rect x="235" y="60" width="30" height="40"/><rect x="280" y="60" width="30" height="40"/>
+              <rect x="100" y="115" width="30" height="40"/><rect x="145" y="115" width="30" height="40"/><rect x="190" y="115" width="30" height="40"/><rect x="235" y="115" width="30" height="40"/><rect x="280" y="115" width="30" height="40"/>
+              <rect x="100" y="170" width="30" height="40"/><rect x="145" y="170" width="30" height="40"/><rect x="190" y="170" width="30" height="40"/><rect x="235" y="170" width="30" height="40"/><rect x="280" y="170" width="30" height="40"/>
+            </g>
+            <g fill="#2f5d62"><rect x="145" y="115" width="30" height="40"/><rect x="235" y="170" width="30" height="40"/></g>
+            <rect x="0" y="240" width="400" height="60" fill="#8a5d2d"/>
+            <circle cx="60" cy="80" r="26" fill="rgba(255,255,255,0.92)"/>
+            <text x="60" y="87" fill="#2f5d62" font-family="serif" font-size="18" text-anchor="middle" font-weight="900">연AI</text>
+          </svg>
+        </div>
+        <div class="overlay">
+          <h4>연 AI 학습코칭 아카데미</h4>
+          <p>삼산점. AI 시대를 위해 새롭게 설계된 미래형 학습 공간.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 학생 / 학부모 ==== -->
+<section class="audience" id="audience">
+  <div class="section-inner">
+    <div class="eyebrow reveal">For Students & Parents · 학생필독 · 학부모 안내</div>
+    <h2 class="section-title reveal">
+      학생에게는 약속을,<br>
+      <span class="accent">학부모님께는 확신을</span> 드립니다.
+    </h2>
+
+    <div class="aud-grid">
+      <div class="aud-card student reveal">
+        <div class="aud-eyebrow">📚 학생필독</div>
+        <h3>"너의 속도로,<br>너의 방법으로."</h3>
+        <ul class="aud-list">
+          <li>매일 한 줄 — 오늘의 제목 쓰기</li>
+          <li>5.2.5.5 복습 — 잊지 않게 챙겨드림</li>
+          <li>100일 습관 — 작은 약속이 큰 변화로</li>
+          <li>AI 선생님과 친구처럼 대화</li>
+          <li>모르는 것은 부끄럽지 않다</li>
+        </ul>
+        <a href="#cta" class="btn btn-primary">학생 가이드 받기</a>
+      </div>
+      <div class="aud-card parent reveal">
+        <div class="aud-eyebrow">👨‍👩‍👧 학부모 안내</div>
+        <h3>"우리 아이가 스스로<br>공부하기 시작했어요."</h3>
+        <ul class="aud-list">
+          <li>주기적 학습 보고서 카카오톡 발송</li>
+          <li>스무고개 상담카드 결과 공유</li>
+          <li>학부모 간담회 정기 운영</li>
+          <li>연플래너 앱으로 자녀 학습 한눈에</li>
+          <li>학습코칭 = 머리 + 마음 정서 케어</li>
+        </ul>
+        <a href="#cta" class="btn btn-dark">학부모 상담 신청</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== STORIES ==== -->
+<section class="stories" id="stories">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Student Stories & Impact · 실제로 달라진 우리 학생들</div>
+    <h2 class="section-title reveal">
+      성적이 오른 학생보다,<br>
+      <span class="accent">스스로 공부하는 학생을</span> 만듭니다.
+    </h2>
+
+    <div class="stories-grid">
+      <div class="story-card feature reveal">
+        <div class="story-quote">
+          "처음엔 플래너 쓰기가 귀찮았어요. 그런데 100일 지나니까,
+          제가 어제보다 1cm 자란 게 보이더라구요."
+        </div>
+        <p class="story-body">
+          중2 때 처음 연플래닝에 왔을 때 시키는 공부만 했어요. 그런데 5.2.5.5 복습법으로
+          하루를 정리하기 시작하면서, 처음으로 "내가 공부하고 있다"는 느낌이 들었어요.
+          이제는 학교 시험 전에도 별로 떨리지 않아요. AI 책풀 선생님이랑 책 이야기하는 게
+          제일 좋은 시간이에요.
+        </p>
+        <div class="story-author">
+          <div class="story-avatar">서</div>
+          <div class="story-meta">
+            <strong>서○○ 학생</strong>
+            <span>현재 중3 · 연플래닝 본점 · 2년차</span>
+          </div>
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-quote">"수풀AI가 한 문제 3가지로 풀어주니까, 아이가 이해한 척이 아니라 진짜 이해를 해요."</div>
+        <p class="story-body">전에는 학원에서 푼 문제를 집에 와서 다시 못 풀었어요. 지금은 AI 선생님께 다시 물어보고, 자기 방식으로 정리해요.</p>
+        <div class="story-author">
+          <div class="story-avatar">학</div>
+          <div class="story-meta"><strong>학부모 · 박○○님</strong><span>중1 학부모</span></div>
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-quote">"AI한테 물어보는 게 부끄럽지 않아서 좋아요. 100번 물어봐도 화 안 내요."</div>
+        <p class="story-body">영어 단어를 모르는 게 부끄러웠는데, 영풀 선생님은 친절하게 다시 알려주세요. 이제 모르는 게 있어도 무섭지 않아요.</p>
+        <div class="story-author">
+          <div class="story-avatar">김</div>
+          <div class="story-meta"><strong>김○○ 학생</strong><span>초6 · 삼산 분점</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-strip reveal">
+      <div class="stat"><div class="n">20<span>년</span></div><div class="l">자기주도 학습 외길</div></div>
+      <div class="stat"><div class="n">5.2.5<span>.5</span></div><div class="l">공식 복습 체계</div></div>
+      <div class="stat"><div class="n">6<span>개</span></div><div class="l">전과목 AI 선생님</div></div>
+      <div class="stat"><div class="n">100<span>일</span></div><div class="l">습관이 사람을 만든다</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== WHERE NEXT ==== -->
+<section class="where-next" id="cta">
+  <div class="section-inner where-next-inner">
+    <div class="eyebrow reveal">Where Next?</div>
+    <h2 class="section-title reveal">
+      AI 시대, 우리 아이의 길을<br>
+      <span style="color: var(--orange)">지금 발견하세요.</span>
+    </h2>
+    <p class="section-lead reveal">
+      AI는 더 이상 미래가 아닙니다. 우리 아이는 이미 AI 시대에 살고 있습니다.<br>
+      준비된 아이로 키울 것인가, 끌려가는 아이로 둘 것인가 — 선택은 지금입니다.
+    </p>
+    <div class="cta-group reveal">
+      <a href="tel:052-xxx-xxxx" class="btn btn-primary">
+        무료 상담 신청하기
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+      <a href="#programs" class="btn btn-secondary">AI 수업 직접 체험</a>
+    </div>
+
+    <div class="where-next-extra">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>울산 본점 · 삼산 분점</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>평일 10:00 - 22:00 상담</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>무료 진단 · 부담 없는 상담</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== FOOTER ==== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="foot-brand">연플래닝 · Since 2008</div>
+      <p class="foot-tag">
+        20년간 한결같이 자기주도 학습을 가르쳐 온 울산의 연(緣). AI 시대에도 변치 않을
+        교육 철학과 — 시대에 맞춰 진화한 도구로 학생을 만납니다.<br><br>
+        "마음을 읽는 AI, 실력을 키우는 코칭."
+      </p>
+    </div>
+    <div class="foot-col">
+      <h5>연플래닝</h5>
+      <a href="#philosophy">교육 철학</a>
+      <a href="#fivefive">5.2.5.5 학습법</a>
+      <a href="#harisb">하루 3분할</a>
+      <a href="#coaching">학습코칭</a>
+      <a href="#space">학원 소개</a>
+    </div>
+    <div class="foot-col">
+      <h5>AI 프로그램</h5>
+      <a href="#programs">영풀 · 영어</a>
+      <a href="#programs">수풀 · 수학</a>
+      <a href="#programs">국풀 · 논풀</a>
+      <a href="#programs">책풀 · 독서</a>
+      <a href="#app">연플래너 앱</a>
+    </div>
+    <div class="foot-col">
+      <h5>연락처</h5>
+      <a href="#">📍 울산 본점</a>
+      <a href="#">📍 울산 삼산 분점</a>
+      <a href="tel:052-xxx-xxxx">☎ 052-XXX-XXXX</a>
+      <a href="#audience">학생필독 · 학부모</a>
+      <a href="#cta">무료 상담 신청</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span id="copyrightBtn" onclick="secretClick()" style="cursor:default; user-select:none;">© 2026 연플래닝 · YEON Planning. All rights reserved.</span>
+    <span>대표 이진우(연소사) · 울산광역시</span>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.10 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+const bar = document.querySelector('.topbar');
+window.addEventListener('scroll', () => {
+  bar.style.boxShadow = window.scrollY > 20 ? '0 6px 24px rgba(0,0,0,0.08)' : 'none';
+});
+
+const toggle = document.querySelector('.mobile-toggle');
+const nav = document.querySelector('.nav');
+toggle?.addEventListener('click', () => {
+  if (nav.style.display === 'flex') { nav.style.cssText = ''; }
+  else { nav.style.cssText = 'display:flex; position:fixed; top:72px; left:0; right:0; flex-direction:column; background:white; padding:20px; gap:4px; border-bottom:1px solid var(--yp-line); box-shadow:0 12px 30px rgba(0,0,0,0.08);'; }
+});
+
+/* ── 비밀문 (저작권 텍스트 5회 클릭) ── */
+var _sc = 0, _st;
+function secretClick(){
+  _sc++;
+  clearTimeout(_st);
+  if(_sc >= 5){
+    _sc = 0;
+    window.location.href = '/korea/ulsan/yeon-planning/admin/index.html';
+  } else {
+    _st = setTimeout(function(){ _sc = 0; }, 2000);
+  }
+}
+</script>
+</body>
+</html>
