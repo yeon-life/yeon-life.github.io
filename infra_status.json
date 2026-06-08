@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-06-08 10:50:06",
+  "timestamp_epoch": 1780883406,
+  "local_repo": {
+    "path": "C:\\Users\\jinwo\\OneDrive\\문서\\Claude\\Projects\\연라이프 홈페이지 제작\\yeon-life.github.io",
+    "total_size_bytes": 1222548243,
+    "total_size_formatted": "1165.91 MB",
+    "total_files": 46313
+  },
+  "firebase_deploy": {
+    "deploy_size_bytes": 1220745263,
+    "deploy_size_formatted": "1164.19 MB",
+    "deploy_files": 45973,
+    "history_limit": 2,
+    "estimated_storage_bytes": 2441490526,
+    "estimated_storage_formatted": "2328.39 MB",
+    "storage_limit_bytes": 10737418240,
+    "storage_usage_percent": 22.73815242573619
+  },
+  "dns": {
+    "domain": "y-life.kr",
+    "nameservers": [
+      "yew.ns.cloudflare.com",
+      "zara.ns.cloudflare.com"
+    ],
+    "is_cloudflare_ns": true,
+    "ip_resolved": true,
+    "gabia_status": "OK"
+  },
+  "websites": {
+    "cloudflare_pages": {
+      "url": "https://yeon-life.pages.dev",
+      "status_code": 200,
+      "latency": "185ms",
+      "error": null
+    },
+    "custom_domain": {
+      "url": "https://y-life.kr",
+      "status_code": 200,
+      "latency": "82ms",
+      "error": null
+    }
+  },
+  "large_files": [
+    {
+      "path": "내친구인공지능_월간/video/backup/promo_vertical.mp4",
+      "size": 16894075,
+      "formatted_size": "16.11 MB"
+    },
+    {
+      "path": "도서관/완성책장/001_ㄱㄴㄷ친구들이깨어났어요/images/_hf_cover_v2.png",
+      "size": 9442323,
+      "formatted_size": "9.00 MB"
+    },
+    {
+      "path": "도서관/완성책장/001_ㄱㄴㄷ친구들이깨어났어요/images/_hf_cover.png",
+      "size": 7797635,
+      "formatted_size": "7.44 MB"
+    },
+    {
+      "path": "내친구인공지능_월간/video/promo_vertical.mp4",
+      "size": 6339189,
+      "formatted_size": "6.05 MB"
+    },
+    {
+      "path": "도서관/완성책장/019_20까지숫자친구들/images/cover_그림.png",
+      "size": 5912156,
+      "formatted_size": "5.64 MB"
+    },
+    {
+      "path": "도서관/완성책장/001_ㄱㄴㄷ친구들이깨어났어요/images/cover_그림.png",
+      "size": 5727549,
+      "formatted_size": "5.46 MB"
+    },
+    {
+      "path": "도서관/완성책장/007_헷갈리는글자숨바꼭질/images/cover_그림.png",
+      "size": 5634467,
+      "formatted_size": "5.37 MB"
+    },
+    {
+      "path": "도서관/완성책장/013_10까지세어볼까/images/cover_그림.png",
+      "size": 5530791,
+      "formatted_size": "5.27 MB"
+    },
+    {
+      "path": "도서관/완성책장/015_모으면늘어나요/images/cover_그림.png",
+      "size": 5447290,
+      "formatted_size": "5.19 MB"
+    },
+    {
+      "path": "도서관/완성책장/021_처음가는학교두근두근/images/cover_그림.png",
+      "size": 5349984,
+      "formatted_size": "5.10 MB"
+    }
+  ]
+}

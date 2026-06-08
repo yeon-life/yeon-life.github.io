@@ -1529,7 +1529,8 @@
           <a class="sub-item" href="https://yeon-math.web.app" target="_blank" rel="noopener"><div class="sub-icon">數</div><div class="sub-text"><div class="sub-name">수학의 결</div><div class="sub-desc">학년별 진도 · DeepSeek 검산</div></div></a>
           <a class="sub-item" href="https://yeon-hangeul.web.app" target="_blank" rel="noopener"><div class="sub-icon">한</div><div class="sub-text"><div class="sub-name">한글의 결</div><div class="sub-desc">한글에는 결이 있다 · 국문·English</div></div></a>
           <a class="sub-item" href="/내친구인공지능_월간/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 월간지 · 무료로 읽기</div></div></a>
-          <a class="sub-item" href="/어린이의_결_월간/index.html"><div class="sub-icon">兒</div><div class="sub-text"><div class="sub-name">어린이의 결</div><div class="sub-desc">유치·초등부 종합 잡지 · 하루 한 장</div></div></a>
+          <a class="sub-item" href="/어린이의_결_유치_월간/index.html"><div class="sub-icon">🧸</div><div class="sub-text"><div class="sub-name">어린이의 결 (유치부)</div><div class="sub-desc">5~7세 놀이·소리 중심 생활도서관</div></div></a>
+          <a class="sub-item" href="/어린이의_결_초등_월간/index.html"><div class="sub-icon">🎒</div><div class="sub-text"><div class="sub-name">어린이의 결 (초등부)</div><div class="sub-desc">초등학생을 위한 호기심 생활도서관</div></div></a>
           <a class="sub-item" href="#magazines"><div class="sub-icon">刊</div><div class="sub-text"><div class="sub-name">결 시리즈 전체 보기</div><div class="sub-desc">살아있는 교과서 한자리에</div></div></a>
           <a class="sub-item" href="/구독.html"><div class="sub-icon">緣</div><div class="sub-text"><div class="sub-name">구독하기 · 월 3,000원부터</div><div class="sub-desc">단계별 요금제 · 전체 열람</div></div></a>
         </div>
@@ -2057,16 +2058,45 @@
         <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
       </a>
 
-      <!-- 어린이의 결 -->
-      <a href="/어린이의_결_월간/index.html" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(168,124,83,.52),rgba(212,124,83,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(212,124,83,.14)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#fbf9f4;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#fbf9f4" stroke-width="2" stroke-linecap="round"><path d="M12 28 C15 24 25 24 28 28"/><circle cx="20" cy="14" r="5"/><path d="M6 30 C12 20 28 20 34 30"/></svg>
-          어린이 · 어린이의 결
+      <!-- 어린이의 결 (유치부 & 초등부 인터랙티브 캐러셀) -->
+      <div style="display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(168,124,83,.52),rgba(212,124,83,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:22px;box-shadow:0 12px 32px rgba(212,124,83,.14);min-height:340px;">
+        <div class="carousel-tabs" style="display:flex; gap:8px; margin-bottom:14px;">
+          <button id="tab-kid" onclick="switchSlide(0)" style="flex:1; border:none; border-radius:12px; padding:8px 12px; font-family:'Noto Serif KR',serif; font-size:13px; font-weight:700; background:#fffdf8; color:#b2633e; cursor:pointer; transition:all .2s; outline:none;">유치부 🧸</button>
+          <button id="tab-elem" onclick="switchSlide(1)" style="flex:1; border:none; border-radius:12px; padding:8px 12px; font-family:'Noto Serif KR',serif; font-size:13px; font-weight:700; background:rgba(255,255,255,.2); color:#fff; cursor:pointer; transition:all .2s; outline:none;">초등부 🎒</button>
         </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">어린이의 결</h3>
-        <p style="font-size:13.5px;color:#fdfaf4;line-height:1.7;flex:1">유치부와 초등부 어린이 종합 잡지. 하루 한 장씩 스스로 알아가고 자라나는 살아있는 교과서.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#b2633e;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">어린이의 결 펼치기 →</span></div>
-      </a>
+        <div class="carousel-viewport" style="overflow:hidden; width:100%; flex:1; position:relative;">
+          <div class="carousel-track" id="magazine-track" data-active="0" style="display:flex; width:200%; transition:transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform:translateX(0);">
+            <!-- Slide 1: 유치부 -->
+            <a href="/어린이의_결_유치_월간/index.html" style="width:50%; display:flex; flex-direction:column; text-decoration:none; color:#fff; padding-right:8px; box-sizing:border-box;">
+              <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#fbf9f4;font-weight:700">
+                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#fbf9f4" stroke-width="2" stroke-linecap="round"><path d="M12 28 C15 24 25 24 28 28"/><circle cx="20" cy="14" r="5"/><path d="M6 30 C12 20 28 20 34 30"/></svg>
+                어린이의 결 · 유치부 🧸
+              </div>
+              <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">어린이의 결 (유치부)</h3>
+              <p style="font-size:13px;color:#fdfaf4;line-height:1.7;flex:1">5~7세 어린이를 위한 생활 학습지. 예쁜 소리와 의성어/의태어 중심 말놀이, 재미있는 8컷 만화 요약 탑재!</p>
+              <div style="margin-top:12px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#b2633e;font-family:'Noto Serif KR',serif;font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px">유치부 잡지 보기 🧸</span></div>
+            </a>
+            <!-- Slide 2: 초등부 -->
+            <a href="/어린이의_결_초등_월간/index.html" style="width:50%; display:flex; flex-direction:column; text-decoration:none; color:#fff; padding-left:8px; box-sizing:border-box;">
+              <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#fbf9f4;font-weight:700">
+                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#fbf9f4" stroke-width="2" stroke-linecap="round"><path d="M12 28 C15 24 25 24 28 28"/><circle cx="20" cy="14" r="5"/><path d="M6 30 C12 20 28 20 34 30"/></svg>
+                어린이의 결 · 초등부 🎒
+              </div>
+              <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">어린이의 결 (초등부)</h3>
+              <p style="font-size:13px;color:#fdfaf4;line-height:1.7;flex:1">초등학생을 위한 호기심 잡지. 교과 연계 기사와 스스로 생각하는 힘을 기르는 '생각의 씨앗', 실시간 AI 생각 놀이터!</p>
+              <div style="margin-top:12px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#b2633e;font-family:'Noto Serif KR',serif;font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px">초등부 잡지 보기 🎒</span></div>
+            </a>
+          </div>
+        </div>
+        <div class="carousel-controls" style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.2);">
+          <button onclick="prevSlide()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:16px; outline:none; display:flex; align-items:center; justify-content:center; opacity:0.8; transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">◀</button>
+          <div style="display:flex; gap:6px;">
+            <span id="dot-0" style="width:8px; height:8px; border-radius:50%; background:#fff; cursor:pointer; transition:all .2s;" onclick="switchSlide(0)"></span>
+            <span id="dot-1" style="width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:all .2s;" onclick="switchSlide(1)"></span>
+          </div>
+          <button onclick="nextSlide()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:16px; outline:none; display:flex; align-items:center; justify-content:center; opacity:0.8; transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">▶</button>
+        </div>
+      </div>
 
     </div>
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px">
@@ -3828,6 +3858,47 @@
       }
     })();
   })();
+</script>
+
+
+<!-- 어린이의 결 캐러셀 스크립트 -->
+<script>
+  function switchSlide(idx) {
+    var track = document.getElementById('magazine-track');
+    var tabKid = document.getElementById('tab-kid');
+    var tabElem = document.getElementById('tab-elem');
+    var dot0 = document.getElementById('dot-0');
+    var dot1 = document.getElementById('dot-1');
+    if (!track) return;
+    if (idx === 0) {
+      track.style.transform = 'translateX(0)';
+      if(tabKid) { tabKid.style.background = '#fffdf8'; tabKid.style.color = '#b2633e'; }
+      if(tabElem) { tabElem.style.background = 'rgba(255,255,255,.2)'; tabElem.style.color = '#fff'; }
+      if(dot0) dot0.style.background = '#fff';
+      if(dot1) dot1.style.background = 'rgba(255,255,255,0.4)';
+    } else {
+      track.style.transform = 'translateX(-50%)';
+      if(tabKid) { tabKid.style.background = 'rgba(255,255,255,.2)'; tabKid.style.color = '#fff'; }
+      if(tabElem) { tabElem.style.background = '#fffdf8'; tabElem.style.color = '#b2633e'; }
+      if(dot0) dot0.style.background = 'rgba(255,255,255,0.4)';
+      if(dot1) dot1.style.background = '#fff';
+    }
+    track.setAttribute('data-active', idx);
+  }
+  function prevSlide() {
+    var track = document.getElementById('magazine-track');
+    if (!track) return;
+    var activeIdx = parseInt(track.getAttribute('data-active') || '0');
+    var nextIdx = activeIdx === 0 ? 1 : 0;
+    switchSlide(nextIdx);
+  }
+  function nextSlide() {
+    var track = document.getElementById('magazine-track');
+    if (!track) return;
+    var activeIdx = parseInt(track.getAttribute('data-active') || '0');
+    var nextIdx = activeIdx === 1 ? 0 : 1;
+    switchSlide(nextIdx);
+  }
 </script>
 
 </body>
