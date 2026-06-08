@@ -24,7 +24,7 @@ EXCLUDE_DIRS = {
     ".git", "node_modules", ".vercel", "_samsan_backup_deleted", "내친구인공지능_책",
     "yeon-ai-kr", "yeon-ai-kr-new", "yeon-ai-kr-v3", "yeon-ai-kr-v4", "_백업",
     "y-life_v6_2026-05-18", "리디자인_2026-05-16", "리디자인_2026-05-16_전체",
-    "연라이프_캔바_디자인_의뢰", "울산소개_v1_20260521"
+    "연라이프_캔바_디자인_의뢰", "울산소개_v1_20260521", "korea"
 }
 EXCLUDE_FILES = {
     "index_backup_before_length_fix.html", 

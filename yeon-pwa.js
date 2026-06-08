@@ -606,7 +606,7 @@
           <div class="mega-col-2-pane" data-pane="bridge">
             <div class="col-2-title">인연의 다리</div>
             <div class="sub-list">
-              <a class="sub-item" href="https://yeon.ai.kr" target="_blank" rel="noopener"><div class="sub-icon">村</div><div class="sub-text"><div class="sub-name">연마을 yeon.ai.kr</div><div class="sub-desc">지금 운영 중인 마을 ↗</div></div></a>
+              <a class="sub-item" href="/korea/ulsan/" target="_blank" rel="noopener"><div class="sub-icon">村</div><div class="sub-text"><div class="sub-name">연마을 (울산)</div><div class="sub-desc">울산 소식 마당</div></div></a>
               <a class="sub-item" href="https://yeon.ai.kr/supul" target="_blank" rel="noopener"><div class="sub-icon">學</div><div class="sub-text"><div class="sub-name">수풀AI · 영풀</div><div class="sub-desc">완전학습 교육 AI ↗</div></div></a>
               <a class="sub-item" href="/builder.html"><div class="sub-icon">作</div><div class="sub-text"><div class="sub-name">사이트 빌더</div><div class="sub-desc">코딩 없이 만드는 페이지</div></div></a>
               <a class="sub-item" href="/challenge-diagnosis.html"><div class="sub-icon">📋</div><div class="sub-text"><div class="sub-name">지원사업 자가진단</div><div class="sub-desc">정부 및 울산시 맞춤형 지원 매칭</div></div></a>
@@ -747,37 +747,14 @@
     window.addEventListener('resize', apply);
   }
 
-  // 상단 내비(홈 옆)에 '차림표'와 같은 기능의 메뉴 아이콘 자동 삽입 — 모든 페이지 공통, 가드와 무관하게 항상 실행
-  function injectNavMenuIcon() {
-    try {
-      var navC = document.querySelector('.nav-center');
-      if (!navC) return; // 내비가 없는 페이지는 플로팅 '차림표' 버튼을 그대로 둠(메뉴 접근 보장)
-      if (!navC.querySelector('.nav-menu-ico')) {
-        var nb = document.createElement('button');
-        nb.type = 'button'; nb.className = 'nav-menu-ico'; nb.setAttribute('aria-label', '차림표 메뉴');
-        nb.innerHTML = '<svg viewBox="0 0 24 16" width="20" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="3" x2="22" y2="3"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="13" x2="22" y2="13"/></svg>';
-        nb.style.cssText = 'background:none;border:0;padding:6px 8px;margin-right:4px;color:inherit;cursor:pointer;display:inline-flex;align-items:center;vertical-align:middle;opacity:.78;transition:opacity .18s';
-        nb.onmouseenter = function(){ nb.style.opacity = '1'; };
-        nb.onmouseleave = function(){ nb.style.opacity = '.78'; };
-        nb.onclick = function(){ var t = document.getElementById('yeon-floating-menu-trigger') || document.getElementById('menuTrigger'); if (t) t.click(); };
-        navC.insertBefore(nb, navC.firstChild);
-      }
-      // 내비에 메뉴 아이콘이 있으니, 떠다니는 초록 '차림표' 버튼은 숨김(아이콘으로 대체 — 동작은 유지)
-      var ft = document.getElementById('yeon-floating-menu-trigger') || document.getElementById('menuTrigger');
-      if (ft) ft.style.display = 'none';
-    } catch(e) {}
-  }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       injectShareWidget();
       injectMegaMenu();
-      injectNavMenuIcon();
     });
   } else {
     injectShareWidget();
     injectMegaMenu();
-    injectNavMenuIcon();
   }
 
   // 글로벌로 노출 (다른 스크립트에서 사용 가능)
