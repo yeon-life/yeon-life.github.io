@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>영풀 초4 — 문장 패턴과 질문</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --color-success:#6B8F71;
+  --color-error:#8F6B6B;
+  --touch-min:58px;
+  --card-radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);color:var(--color-text);
+  font-size:18px;line-height:1.55;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;overflow-x:hidden;
+}
+.wrap{max-width:480px;margin:0 auto;padding:18px 16px 90px;}
+@media(min-width:768px){.wrap{max-width:720px;padding:28px 24px 100px;}}
+
+.app-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 4px 18px;position:sticky;top:0;background:var(--color-bg);z-index:50;}
+.back{background:var(--color-surface);border:none;width:48px;height:48px;border-radius:14px;font-size:22px;cursor:pointer;color:var(--color-primary);}
+.back:active{transform:scale(0.94);}
+.title{flex:1;text-align:center;font-size:17px;font-weight:700;}
+.title small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;margin-top:2px;}
+.stickers{display:flex;align-items:center;gap:4px;background:var(--color-surface);padding:6px 10px;border-radius:20px;font-size:13px;font-weight:700;color:var(--color-primary);}
+
+.progress{background:var(--color-surface);height:10px;border-radius:10px;overflow:hidden;margin-bottom:20px;}
+.progress .bar{background:var(--color-primary);height:100%;width:0;transition:width .4s ease;}
+
+.section-title{font-size:14px;font-weight:700;color:var(--color-text-light);margin:22px 4px 12px;display:flex;align-items:center;gap:8px;}
+.section-title .num{background:var(--color-primary);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;}
+
+/* 패턴 카드 */
+.pattern-card{
+  background:#fff;border-radius:var(--card-radius);
+  padding:20px 18px;margin-bottom:14px;
+  box-shadow:0 3px 12px rgba(90,122,130,0.1);
+}
+.pattern-card .tag{display:inline-block;background:var(--color-surface);color:var(--color-primary);font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;margin-bottom:10px;}
+.pattern-card .q{font-size:20px;font-weight:800;color:var(--color-primary);line-height:1.5;}
+.pattern-card .q .hl{background:rgba(90,122,130,0.18);padding:0 4px;border-radius:4px;cursor:pointer;}
+.pattern-card .q .hl:active{background:rgba(90,122,130,0.35);}
+.pattern-card .q-ko{font-size:13px;color:var(--color-text-light);margin-top:4px;}
+.pattern-card .divider{height:1px;background:var(--color-surface);margin:12px 0;}
+.pattern-card .a{font-size:18px;font-weight:600;color:var(--color-text);line-height:1.5;}
+.pattern-card .a-label{font-size:11px;color:var(--color-text-light);font-weight:700;margin-right:6px;}
+.pattern-card .a-ko{font-size:13px;color:var(--color-text-light);margin-top:4px;}
+.pattern-card .tools{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.mini-btn{
+  background:var(--color-surface);color:var(--color-primary);
+  border:none;border-radius:12px;
+  padding:10px 14px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;gap:6px;min-height:44px;
+}
+.mini-btn:active{transform:scale(0.94);}
+.mini-btn.playing{background:var(--color-primary);color:#fff;}
+
+/* 문장 배열 퀴즈 */
+.arrange-card{
+  background:#fff;border-radius:var(--card-radius);
+  padding:22px 18px;margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(90,122,130,0.1);
+}
+.arrange-card .lbl{font-size:13px;color:var(--color-text-light);margin-bottom:6px;}
+.arrange-card .ko{font-size:16px;font-weight:700;color:var(--color-text);margin-bottom:14px;}
+.arrange-slot{
+  min-height:56px;
+  background:var(--color-bg);
+  border:2px dashed var(--color-muted);
+  border-radius:12px;
+  padding:10px;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin-bottom:14px;
+}
+.arrange-slot.ok{border-color:var(--color-success);background:#E4F0E6;}
+.arrange-slot.bad{border-color:var(--color-error);background:#F0E4E4;animation:shake .4s;}
+.chip{
+  background:var(--color-primary);color:#fff;
+  border:none;border-radius:10px;
+  padding:10px 14px;font-size:16px;font-weight:700;
+  cursor:pointer;font-family:inherit;min-height:44px;
+  transition:all .15s ease;
+}
+.chip:active{transform:scale(0.94);}
+.chip.used{opacity:0.35;pointer-events:none;}
+.chip-pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.arrange-card .tools{display:flex;gap:8px;}
+.arrange-card .tools button{flex:1;min-height:44px;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+/* 단어 호버 팁 (뜻 표시 + 클릭 소리) */
+.word-tip{position:relative;}
+.word-tip:not(.locked)::after{
+  content:attr(data-tip);
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;
+  transform:translateX(-50%) scale(0);
+  background:var(--color-text);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:500;
+  white-space:nowrap;
+  pointer-events:none;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  transition:transform .15s ease;
+  transform-origin:bottom center;
+  z-index:20;
+}
+.word-tip:not(.locked):hover::after{transform:translateX(-50%) scale(1);}
+.word-tip:not(.locked)::before{
+  content:'';
+  position:absolute;
+  bottom:calc(100% + 2px);
+  left:50%;
+  transform:translateX(-50%) scale(0);
+  border:6px solid transparent;
+  border-top-color:var(--color-text);
+  pointer-events:none;
+  transition:transform .15s ease;
+  z-index:20;
+}
+.word-tip:not(.locked):hover::before{transform:translateX(-50%) scale(1);}
+.word-tip.unlocked-hint{animation:hintPulse 1.2s ease 2;}
+@keyframes hintPulse{0%,100%{box-shadow:0 0 0 0 rgba(143,107,107,0);}50%{box-shadow:0 0 0 5px rgba(143,107,107,0.35);}}
+
+/* 스티커 팝업 */
+.sticker-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:200;}
+.sticker-overlay.show{display:flex;}
+.sticker-pop{background:#fff;border-radius:24px;padding:30px 26px;text-align:center;max-width:300px;animation:popIn .45s ease;}
+@keyframes popIn{0%{transform:scale(0.3) rotate(-8deg);opacity:0;}60%{transform:scale(1.1) rotate(4deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+.sticker-pop .big{font-size:80px;margin-bottom:6px;}
+.sticker-pop h3{font-size:20px;color:var(--color-primary);margin-bottom:4px;}
+.sticker-pop p{font-size:13px;color:var(--color-text-light);margin-bottom:16px;}
+.sticker-pop button{background:var(--color-primary);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;}
+
+.done-banner{background:linear-gradient(145deg,#C4E0C8 0%,var(--color-surface) 100%);border-radius:var(--card-radius);padding:22px;text-align:center;margin-top:20px;display:none;}
+.done-banner.show{display:block;}
+.done-banner .big{font-size:48px;margin-bottom:6px;}
+.done-banner h3{font-size:18px;color:var(--color-primary);margin-bottom:4px;}
+.done-banner p{font-size:13px;color:var(--color-text-light);}
+
+.foot-nav{position:fixed;bottom:0;left:0;right:0;background:var(--color-bg);padding:12px 16px 18px;border-top:1px solid var(--color-surface);display:flex;gap:10px;max-width:720px;margin:0 auto;}
+.foot-btn{flex:1;padding:16px;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;min-height:var(--touch-min);}
+.foot-btn.primary{background:var(--color-primary);color:#fff;}
+.foot-btn.ghost{background:var(--color-surface);color:var(--color-primary);}
+.foot-btn:active{transform:scale(0.96);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app-bar">
+    <button class="back" onclick="location.href='index.html'" aria-label="돌아가기">←</button>
+    <div class="title">초등 4학년<small>문장 패턴과 질문</small></div>
+    <div class="stickers">⭐ <span id="stickerCount">0</span></div>
+  </div>
+
+  <div class="progress"><div class="bar" id="progressBar"></div></div>
+
+  <!-- 1. 질문-답 패턴 -->
+  <div class="section-title"><span class="num">1</span> 질문하고 답하기</div>
+  <div id="patternList"></div>
+
+  <!-- 2. 단어 순서 맞추기 -->
+  <div class="section-title"><span class="num">2</span> 단어를 눌러 문장을 만들어요</div>
+  <div class="arrange-card" id="arrangeCard">
+    <div class="lbl">이 뜻이 되도록 단어를 순서대로 눌러요</div>
+    <div class="ko" id="arrangeKo">-</div>
+    <div class="arrange-slot" id="arrangeSlot"></div>
+    <div class="chip-pool" id="chipPool"></div>
+    <div class="tools">
+      <button class="foot-btn ghost" onclick="clearArrange()">지우기</button>
+      <button class="foot-btn primary" onclick="checkArrange()">정답 확인</button>
+    </div>
+  </div>
+
+  <div class="done-banner" id="doneBanner">
+    <div class="big">🎉</div>
+    <h3>오늘 수업 완료!</h3>
+    <p>스티커 <span id="doneCount">0</span>개 획득. 질문과 답을 익혔어요!</p>
+  </div>
+
+</div>
+
+<div class="foot-nav">
+  <button class="foot-btn ghost" onclick="resetLesson()">🔄 처음부터</button>
+  <button class="foot-btn primary" onclick="nextArrange()">다음 문제 →</button>
+</div>
+
+<div class="sticker-overlay" id="stickerOverlay">
+  <div class="sticker-pop">
+    <div class="big" id="popEmoji">⭐</div>
+    <h3 id="popTitle">잘했어요!</h3>
+    <p id="popSub">스티커 1개 획득</p>
+    <button onclick="closePop()">계속하기</button>
+  </div>
+</div>
+
+<script>
+// ========== 데이터 ==========
+// 초4: 기본 질문 패턴 (What is ~, How are ~, Where is ~)
+const PATTERNS = [
+  {
+    tag:'What',
+    qEn:'<span class="hl">What</span> is this?', qSpeak:'What is this?', qKo:'이것은 무엇인가요?',
+    aEn:'It is a book.', aKo:'그것은 책이에요.'
+  },
+  {
+    tag:'What',
+    qEn:'<span class="hl">What</span> is your name?', qSpeak:'What is your name?', qKo:'당신의 이름은 무엇인가요?',
+    aEn:'My name is Jiho.', aKo:'제 이름은 지호예요.'
+  },
+  {
+    tag:'How',
+    qEn:'<span class="hl">How</span> are you?', qSpeak:'How are you?', qKo:'기분이 어때요?',
+    aEn:'I am fine, thank you.', aKo:'좋아요, 고마워요.'
+  },
+  {
+    tag:'Where',
+    qEn:'<span class="hl">Where</span> is my bag?', qSpeak:'Where is my bag?', qKo:'내 가방은 어디에 있나요?',
+    aEn:'It is on the desk.', aKo:'책상 위에 있어요.'
+  },
+  {
+    tag:'Who',
+    qEn:'<span class="hl">Who</span> is she?', qSpeak:'Who is she?', qKo:'그녀는 누구인가요?',
+    aEn:'She is my sister.', aKo:'그녀는 내 여동생이에요.'
+  }
+];
+
+// 배열 퀴즈: 쪼개놓은 단어 → 맞는 순서로
+const ARRANGE = [
+  {ko:'이것은 무엇인가요?', words:['What','is','this','?'], speak:'What is this?'},
+  {ko:'당신의 이름은 무엇인가요?', words:['What','is','your','name','?'], speak:'What is your name?'},
+  {ko:'기분이 어때요?', words:['How','are','you','?'], speak:'How are you?'},
+  {ko:'그녀는 누구인가요?', words:['Who','is','she','?'], speak:'Who is she?'},
+  {ko:'내 가방은 어디에 있나요?', words:['Where','is','my','bag','?'], speak:'Where is my bag?'}
+];
+
+// 단어 뜻 사전 (호버 팁·클릭 소리용)
+const WORD_DICT = {
+  'What':'무엇', 'How':'어떻게', 'Where':'어디', 'Who':'누구', 'When':'언제', 'Why':'왜',
+  'is':'~이다', 'are':'~이다(복수)', 'am':'~이다(나)',
+  'this':'이것', 'that':'저것', 'you':'너', 'your':'너의', 'my':'나의', 'she':'그녀', 'he':'그',
+  'name':'이름', 'bag':'가방', 'book':'책', 'desk':'책상',
+  '?':'물음표'
+};
+let _arrangeUnlocked = false; // 틀린 뒤 true로 전환
+
+// ========== 상태 ==========
+const STATE_KEY = 'yeon_low_g4_state';
+let state = loadState();
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(STATE_KEY)) || { stickers:0, donePatterns:[], arrangeIdx:0 }; }
+  catch { return { stickers:0, donePatterns:[], arrangeIdx:0 }; }
+}
+function saveState(){ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+
+// ========== TTS ==========
+function speak(text, btn, rate){
+  if (!('speechSynthesis' in window)) return;
+  try { window.speechSynthesis.cancel(); } catch {}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate = rate || 0.85; u.pitch = 1.05;
+  if (btn) btn.classList.add('playing');
+  u.onend = () => { if (btn) btn.classList.remove('playing'); };
+  u.onerror = () => { if (btn) btn.classList.remove('playing'); };
+  window.speechSynthesis.speak(u);
+}
+
+// ========== 패턴 카드 ==========
+function renderPatterns(){
+  const box = document.getElementById('patternList');
+  box.innerHTML = PATTERNS.map((p,i) => {
+    // .hl 단어에 word-tip 적용 (항상 활성 — 학습용)
+    const qEnTipped = p.qEn.replace(/<span class="hl">(\w+)<\/span>/g, (m, w) => {
+      const tip = (WORD_DICT[w] || WORD_DICT[w.toLowerCase()] || '').replace(/"/g,'&quot;');
+      return '<span class="hl word-tip" data-tip="'+tip+'" onclick="speak(\''+w+'\')">'+w+'</span>';
+    });
+    return '<div class="pattern-card">' +
+      '<span class="tag">'+p.tag+' 패턴</span>' +
+      '<div class="q">'+qEnTipped+'</div>' +
+      '<div class="q-ko">'+p.qKo+'</div>' +
+      '<div class="divider"></div>' +
+      '<div class="a"><span class="a-label">A.</span>'+p.aEn+'</div>' +
+      '<div class="a-ko">'+p.aKo+'</div>' +
+      '<div class="tools">' +
+        '<button class="mini-btn" onclick="speakPattern('+i+',\'q\',this)">🔊 질문</button>' +
+        '<button class="mini-btn" onclick="speakPattern('+i+',\'a\',this)">🔊 답</button>' +
+        '<button class="mini-btn" onclick="speakPattern('+i+',\'slow\',this)">🐢 천천히</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function speakPattern(i, kind, btn){
+  const p = PATTERNS[i];
+  let text, rate;
+  if (kind === 'q'){ text = p.qSpeak; rate = 0.85; }
+  else if (kind === 'a'){ text = p.aEn; rate = 0.85; }
+  else { text = p.qSpeak + ' ' + p.aEn; rate = 0.55; }
+  speak(text, btn, rate);
+  if (!state.donePatterns.includes(i)){
+    state.donePatterns.push(i);
+    addSticker();
+    saveState();
+    updateProgress();
+  }
+}
+
+// ========== 단어 배열 ==========
+let _pool = [];   // 남은 단어 인덱스
+let _slot = [];   // 슬롯에 넣은 단어 인덱스
+function renderArrange(){
+  const idx = state.arrangeIdx % ARRANGE.length;
+  const a = ARRANGE[idx];
+  document.getElementById('arrangeKo').textContent = a.ko;
+  _pool = a.words.map((w,i) => ({w,i})).sort(() => Math.random() - 0.5);
+  _slot = [];
+  _arrangeUnlocked = false; // 새 문제는 잠금 상태
+  paintArrange();
+  const slot = document.getElementById('arrangeSlot');
+  slot.classList.remove('ok','bad');
+}
+function chipTip(w){
+  return (WORD_DICT[w] || WORD_DICT[w.toLowerCase()] || '').replace(/"/g,'&quot;');
+}
+function paintArrange(){
+  const lockCls = _arrangeUnlocked ? '' : 'locked';
+  const pool = document.getElementById('chipPool');
+  pool.innerHTML = _pool.map((c,idx) => {
+    const used = _slot.some(s => s.i === c.i);
+    const tip = chipTip(c.w);
+    return '<button class="chip word-tip '+lockCls+' '+(used?'used':'')+'" data-tip="'+tip+'" onclick="pickChip('+idx+')">'+c.w+'</button>';
+  }).join('');
+  const slot = document.getElementById('arrangeSlot');
+  slot.innerHTML = _slot.length === 0
+    ? '<span style="color:var(--color-muted);font-size:13px;">여기에 단어가 들어와요</span>'
+    : _slot.map((s,idx) => {
+        const tip = chipTip(s.w);
+        return '<button class="chip word-tip '+lockCls+'" data-tip="'+tip+'" onclick="removeChip('+idx+')">'+s.w+'</button>';
+      }).join('');
+}
+function pickChip(idx){
+  const item = _pool[idx];
+  if (_slot.some(s => s.i === item.i)) return;
+  // 잠금 해제된 상태(틀린 뒤)에는 클릭 = 소리 재생
+  if (_arrangeUnlocked) speak(item.w);
+  _slot.push(item);
+  paintArrange();
+}
+function removeChip(idx){
+  _slot.splice(idx, 1);
+  paintArrange();
+}
+function clearArrange(){
+  _slot = [];
+  // '지우기'는 문제 리셋이므로 다시 잠금
+  _arrangeUnlocked = false;
+  paintArrange();
+  document.getElementById('arrangeSlot').classList.remove('ok','bad');
+}
+function checkArrange(){
+  const idx = state.arrangeIdx % ARRANGE.length;
+  const a = ARRANGE[idx];
+  const made = _slot.map(s => s.w).join(' ').replace(/\s+\?/,'?').trim();
+  const correct = a.words.join(' ').replace(/\s+\?/,'?').trim();
+  const slot = document.getElementById('arrangeSlot');
+  if (made === correct){
+    slot.classList.add('ok');
+    speak(a.speak);
+    addSticker();
+    setTimeout(() => { state.arrangeIdx++; saveState(); nextArrange(); }, 1600);
+  } else {
+    slot.classList.add('bad');
+    // 틀리면 칩 잠금 해제 → 호버 뜻, 클릭 소리
+    _arrangeUnlocked = true;
+    paintArrange();
+    // 힌트 펄스 잠깐 표시
+    document.querySelectorAll('.chip.word-tip').forEach(b => b.classList.add('unlocked-hint'));
+    setTimeout(() => {
+      document.querySelectorAll('.chip.word-tip').forEach(b => b.classList.remove('unlocked-hint'));
+    }, 2400);
+    setTimeout(() => slot.classList.remove('bad'), 700);
+  }
+}
+function nextArrange(){
+  renderArrange();
+  updateProgress();
+  if (state.arrangeIdx >= ARRANGE.length){
+    document.getElementById('doneBanner').classList.add('show');
+    document.getElementById('doneCount').textContent = state.stickers;
+  }
+}
+
+// ========== 공통 ==========
+function addSticker(){
+  state.stickers++;
+  document.getElementById('stickerCount').textContent = state.stickers;
+  showPop('⭐','잘했어요!','스티커 '+state.stickers+'개');
+  saveState();
+}
+function showPop(e,t,s){
+  document.getElementById('popEmoji').textContent = e;
+  document.getElementById('popTitle').textContent = t;
+  document.getElementById('popSub').textContent = s;
+  document.getElementById('stickerOverlay').classList.add('show');
+  setTimeout(closePop, 1300);
+}
+function closePop(){ document.getElementById('stickerOverlay').classList.remove('show'); }
+
+function updateProgress(){
+  const total = PATTERNS.length + ARRANGE.length;
+  const done = state.donePatterns.length + state.arrangeIdx;
+  document.getElementById('progressBar').style.width = Math.min(100, Math.round(done/total*100)) + '%';
+}
+
+function resetLesson(){
+  if (!confirm('처음부터 다시 할까요? 스티커는 유지돼요.')) return;
+  state.donePatterns = []; state.arrangeIdx = 0;
+  saveState();
+  renderPatterns(); renderArrange(); updateProgress();
+  document.getElementById('doneBanner').classList.remove('show');
+}
+
+// 초기화
+renderPatterns();
+renderArrange();
+document.getElementById('stickerCount').textContent = state.stickers;
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "영풀 — 막힌 영어를 풀다",
+  "short_name": "영풀",
+  "description": "오답과 약점을 AI가 기록·분석해 1:1 맞춤 완전학습으로 이끄는 영어 학습 도우미.",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F0F4F5",
+  "theme_color": "#5A7A82",
+  "lang": "ko",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

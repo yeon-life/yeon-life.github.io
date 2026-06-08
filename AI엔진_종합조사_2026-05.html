@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 AI 엔진 종합 조사 — 2026년 5월</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1040px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:56px 0 40px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:16px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);margin:56px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-56px;top:0;font-family:var(--serif);font-size:24px;font-weight:300;color:var(--amber)}
+
+  h3{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin:28px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:14px;font-size:14px;line-height:1.85}
+  ul,ol{margin:8px 0 14px 24px;font-size:14px;line-height:1.85}
+  li{margin-bottom:5px}
+
+  /* TL;DR 박스 */
+  .tldr{background:var(--ink);color:var(--warm);padding:36px;border-radius:6px;margin:32px 0 48px}
+  .tldr .tag{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .tldr h3{font-family:var(--serif);font-size:24px;color:var(--warm);margin:0 0 14px;letter-spacing:-.015em}
+  .tldr p{font-size:14px;color:rgba(244,240,230,.85);line-height:1.85;margin-bottom:10px}
+  .tldr strong{color:var(--amber);font-weight:700}
+
+  /* 테이블 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+  td.good{color:var(--green);font-weight:600}
+  td.warn{color:var(--amber);font-weight:600}
+  td.bad{color:var(--red);font-weight:600}
+  td.best{background:#FFF5E6;font-weight:700;color:var(--ink)}
+  .star{color:var(--amber);font-size:14px}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .danger{background:rgba(168,80,72,.08);border-left:3px solid var(--red);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .danger strong{color:var(--red);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  /* 아키텍처 다이어그램 */
+  .arch{background:var(--surface);border:1px solid var(--line);padding:28px;border-radius:6px;margin:20px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;color:var(--ink);white-space:pre;overflow-x:auto}
+
+  /* 모델 카드 */
+  .model-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 24px;margin:14px 0}
+  .model-name{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .model-name .n{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink)}
+  .model-name .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:999px}
+  .tag-best{background:var(--amber);color:white}
+  .tag-good{background:rgba(42,83,88,.15);color:var(--teal)}
+  .tag-meh{background:var(--line);color:var(--muted)}
+  .model-pros, .model-cons{font-size:13px;line-height:1.7;margin:6px 0}
+  .model-pros strong{color:var(--green)}
+  .model-cons strong{color:var(--red)}
+
+  /* 코드 */
+  .code{background:var(--ink);color:#e8e4d9;padding:14px 18px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.7;margin:12px 0;overflow-x:auto;white-space:pre-wrap}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--surface);padding:2px 6px;border-radius:3px;border:1px solid var(--line);color:var(--ink)}
+
+  /* 체크리스트 */
+  .checklist{list-style:none;margin-left:0;padding-left:0}
+  .checklist li{padding-left:24px;position:relative;margin-bottom:8px}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:16px;color:var(--teal)}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:30px}
+    h2 .num{position:static;display:block;margin-bottom:6px}
+    table{font-size:11px}
+    th,td{padding:6px 8px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>AI 엔진 종합 조사 · 2026.05.15.</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · AI Engine Research Report · v1.0</div>
+    <h1>연라이프 챗봇·모더레이션 엔진 — <em>2026년 5월</em> 종합 조사</h1>
+    <p class="lede">
+      "Gemma 4가 좋을까, 더 나은 게 있을까?"라는 질문에서 시작했습니다.
+      현 시점의 모든 무료 LLM 옵션 — 클라우드 API와 자체 호스팅 모델 — 을 한국어 성능, 무료 한도,
+      운영 부담 기준으로 비교했고, 연라이프의 실제 상황에 맞는 한 가지 길을 추천합니다.
+    </p>
+  </header>
+
+  <!-- ========== TL;DR ========== -->
+  <div class="tldr">
+    <div class="tag">한 페이지 결론 · TL;DR</div>
+    <h3>Gemini 2.5 Flash (메인) + Upstage Solar Pro (모더레이션 보조)</h3>
+    <p><strong>왜 이 조합인가</strong> — 둘 다 무료 티어로 시작 가능, 둘 다 한국어 1등급, 본인 컴퓨터를 켤 필요 없음(둘 다 API). Gemini는 이미 키가 있어 즉시 확장 가능, Solar Pro는 한국 회사(업스테이지)가 만든 한국어 모더레이션 특화 모델로 연라이프의 마을 정서와 잘 맞음.</p>
+    <p><strong>왜 Gemma 4가 아닌가</strong> — Gemma 4도 훌륭하지만 자체 호스팅이 필수(API 무료 제공 X). 본인 컴퓨터가 24시간 켜져 있어야 하고, 트래픽 늘면 GPU도 필요. 연라이프 규모에서는 과한 부담.</p>
+    <p><strong>언제 자체 호스팅으로 갈까</strong> — 마을 회원 1만 명 넘었을 때, 또는 "구글·미국 회사에 데이터 안 주고 싶다"는 결정이 섰을 때. 그때는 <strong>EXAONE 4.5 또는 Gemma 4 E4B</strong>를 클라우드 GPU에 올리는 방향.</p>
+  </div>
+
+  <!-- ========== 1. 핵심 질문 ========== -->
+  <h2><span class="num">01</span>핵심 질문 — 컴퓨터를 켜야 하나</h2>
+
+  <p>가장 먼저 정리할 질문입니다. 운영 방식에 따라 모든 선택지가 갈리기 때문입니다.</p>
+
+  <table>
+    <thead>
+      <tr><th>방식</th><th>본인 컴퓨터 필요?</th><th>비용</th><th>셋업 난이도</th><th>추천 대상</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>클라우드 API</strong><br>(Gemini, Groq, Solar 등)</td>
+        <td class="center good">아니오</td>
+        <td class="center good">무료 티어 충분</td>
+        <td class="center good">매우 쉬움</td>
+        <td>연라이프 같은 작은~중간 사이트</td>
+      </tr>
+      <tr>
+        <td><strong>로컬 자체 호스팅</strong><br>(Gemma 4, Qwen 등)</td>
+        <td class="center bad">예 — 24시간</td>
+        <td class="center warn">전기료 + 컴퓨터</td>
+        <td class="center warn">중간</td>
+        <td>기술 좋아하는 분, 데이터 주권 중요</td>
+      </tr>
+      <tr>
+        <td><strong>클라우드 자체 호스팅</strong><br>(VPS / GPU 서버)</td>
+        <td class="center good">아니오</td>
+        <td class="center bad">월 $50~300</td>
+        <td class="center warn">중간~높음</td>
+        <td>큰 트래픽, 기업 운영</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>결론</strong>
+    연라이프의 현재 상황에서는 <strong>클라우드 API</strong>가 거의 확실한 답입니다. 컴퓨터 안 켜고, 무료로, 빠르게 시작할 수 있어요. 나중에 트래픽이 커지면 그때 다른 방식으로 옮기면 됩니다.
+  </div>
+
+  <!-- ========== 2. 두 가지 용도 ========== -->
+  <h2><span class="num">02</span>연라이프 AI의 두 가지 용도</h2>
+
+  <h3>용도 A — 모더레이션 (품격 검사)</h3>
+  <p>회원이 글을 올리면 → AI가 즉시 채점 → 일정 점수 이하면 자동 숨김. 운영 원칙은 이미 사이트에 적혀 있습니다.</p>
+  <ul>
+    <li>장난성 글</li>
+    <li>도배 / 의미 없는 문자 반복</li>
+    <li>욕설·비방</li>
+    <li>광장의 톤과 어울리지 않는 자극적 표현</li>
+  </ul>
+  <p>이건 본질적으로 <strong>분류 작업(classification)</strong>입니다. 큰 모델 안 써도 되고, 응답 속도가 중요합니다.</p>
+
+  <h3>용도 B — Q&A 챗봇</h3>
+  <p>방문자가 사이트에 대해 묻는 모든 것에 답해야 합니다.</p>
+  <ul>
+    <li>"화두는 어떻게 제안하나요?"</li>
+    <li>"아골라랑 아곤란이 뭐가 달라요?"</li>
+    <li>"내 블로그 시작하는 방법?"</li>
+    <li>"6단계 검증이 뭔가요?"</li>
+  </ul>
+  <p>이건 <strong>RAG (검색 증강 생성)</strong> 작업입니다. AI에게 사이트 콘텐츠를 참조시켜 답하게 합니다. 약간의 추론 능력과 한국어 자연스러움이 중요합니다.</p>
+
+  <!-- ========== 3. 무료 API 전수조사 ========== -->
+  <h2><span class="num">03</span>2026년 5월 무료 API 전수조사</h2>
+
+  <p>현재 신용카드 없이 즉시 쓸 수 있는 무료 LLM API들입니다.</p>
+
+  <table>
+    <thead>
+      <tr><th>제공사</th><th>모델</th><th>무료 한도 / 일</th><th>한국어</th><th>속도</th><th>특징</th></tr>
+    </thead>
+    <tbody>
+      <tr class="best">
+        <td><strong>Google Gemini</strong></td>
+        <td>Gemini 2.5 Flash</td>
+        <td class="good">1,500 회</td>
+        <td><span class="star">★★★★★</span></td>
+        <td class="good">빠름</td>
+        <td>이미 연라이프에 통합. 멀티모달.</td>
+      </tr>
+      <tr>
+        <td><strong>Groq</strong></td>
+        <td>Llama 3.3 70B</td>
+        <td class="good">14,400 회</td>
+        <td><span class="star">★★★★</span></td>
+        <td class="good">매우 빠름 (315 토큰/초)</td>
+        <td>역대 가장 빠른 추론. 폴백용 최적.</td>
+      </tr>
+      <tr>
+        <td><strong>Cerebras</strong></td>
+        <td>Llama 3.3 70B</td>
+        <td class="good">1M 토큰</td>
+        <td><span class="star">★★★★</span></td>
+        <td class="good">매우 빠름</td>
+        <td>토큰 기준 가장 관대한 무료 티어.</td>
+      </tr>
+      <tr>
+        <td><strong>Upstage Solar</strong></td>
+        <td>Solar Pro</td>
+        <td class="warn">변동 (개발자 키)</td>
+        <td><span class="star">★★★★★</span></td>
+        <td class="good">빠름</td>
+        <td>한국 회사. <strong>모더레이션 특화 기능.</strong></td>
+      </tr>
+      <tr>
+        <td><strong>OpenRouter</strong></td>
+        <td>다수 무료 모델</td>
+        <td class="warn">모델별 상이</td>
+        <td><span class="star">★★★</span></td>
+        <td class="warn">중간</td>
+        <td>모델 50종 라우팅. 백업용.</td>
+      </tr>
+      <tr>
+        <td><strong>SambaNova</strong></td>
+        <td>Llama 4</td>
+        <td class="warn">제한적</td>
+        <td><span class="star">★★★</span></td>
+        <td class="good">빠름</td>
+        <td>새로 등장. 한국어는 아직.</td>
+      </tr>
+      <tr>
+        <td><strong>OpenAI</strong></td>
+        <td>GPT-4o, GPT-5</td>
+        <td class="bad">신용카드 필수</td>
+        <td>—</td>
+        <td>—</td>
+        <td>2026년부터 무료 티어 없어짐.</td>
+      </tr>
+      <tr>
+        <td><strong>Anthropic Claude</strong></td>
+        <td>Claude 4.5</td>
+        <td class="bad">웹에서만 무료, API X</td>
+        <td>—</td>
+        <td>—</td>
+        <td>API는 신용카드 필요.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>다섯 개 무료 API를 쌓으면</strong>
+    Gemini + Groq + Cerebras + Solar + OpenRouter를 모두 쓰면 하루 5,000회 이상의 무료 호출이 가능합니다. 한 곳이 한도 차도 다른 곳으로 폴백할 수 있습니다.
+  </div>
+
+  <!-- ========== 4. 한국어 특화 모델 ========== -->
+  <h2><span class="num">04</span>한국 회사가 만든 한국어 특화 모델</h2>
+
+  <p>2025년 한국 과학기술정보통신부가 2,400억 원을 투입해 5개 컨소시엄에 "주권 LLM" 개발을 지원했습니다. 그 결과 강력한 한국어 모델들이 2026년에 쏟아져 나왔습니다.</p>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">EXAONE 4.5 (LG AI Research)</span>
+      <span class="tag tag-best">한국어 1등급</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — K-EXAONE 236B MoE (23B 활성). 한국 문화·역사 맥락을 직접 학습. 안전성·신뢰성 평가에서 매우 높은 점수. 멀티모달(이미지+텍스트). 무료 가중치 공개.</p>
+    <p class="model-cons"><strong>단점</strong> — 자체 호스팅 필요(API 없음). 대형이라 GPU 비싸게 필요. 상업용 라이선스 별도.</p>
+    <p style="font-size:12px;color:var(--muted)">연라이프 사용 시점: 트래픽 큰 후, 자체 GPU 서버 갖춘 후.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Solar Pro (Upstage)</span>
+      <span class="tag tag-best">★ 연라이프 추천</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — <strong>한국어 UGC(사용자 생성 콘텐츠) 모더레이션이 공식 설계 용도</strong>. 한국 회사. API 제공. 가격 합리적. 챗봇/번역도 같이 됨. 다국어 소셜 미디어 플랫폼 모더레이션 사례 다수.</p>
+    <p class="model-cons"><strong>단점</strong> — 무료 한도는 Gemini보다 작음. 추론 능력은 Gemini Pro에 약간 못 미침.</p>
+    <p style="font-size:12px;color:var(--muted)">연라이프 사용 시점: <strong>지금 당장 — 모더레이션 전용</strong>.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Motif (Motif Technologies)</span>
+      <span class="tag tag-good">한국어 강자</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 102B 파라미터. KMMLU 벤치마크에서 64.74로 GPT-4 능가. Hugging Face에서 무료 다운로드. 한국 스타트업이 만든 한국어 우선 모델.</p>
+    <p class="model-cons"><strong>단점</strong> — 자체 호스팅만 가능(API 없음). 102B는 GPU 비싸게 필요. 상업화 진행 중이라 API는 향후 제공 가능성.</p>
+    <p style="font-size:12px;color:var(--muted)">연라이프 사용 시점: 한국어 정밀도가 정말 중요해질 때.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">HyperClova X (Naver)</span>
+      <span class="tag tag-good">한국어 강자</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 한국어 사용량·자연스러움 최상위. Naver가 운영. 한국 사용자에 최적화.</p>
+    <p class="model-cons"><strong>단점</strong> — 가중치 공개 안 함(자체 호스팅 불가). API는 유료(무료 티어 제한적). 일반 개발자 접근 어려움.</p>
+    <p style="font-size:12px;color:var(--muted)">연라이프 사용 시점: Naver 클라우드 협업 가능할 때.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">AX (SK Telecom)</span>
+      <span class="tag tag-meh">한국어 성장 중</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — SKT의 통신 데이터·고객 응대 학습. 한국 비즈니스 용어 강함.</p>
+    <p class="model-cons"><strong>단점</strong> — 일반 개발자 접근 제한적. 외부 API 제공 미흡.</p>
+  </div>
+
+  <!-- ========== 5. 오픈 가중치 모델 ========== -->
+  <h2><span class="num">05</span>오픈 가중치 모델 (자체 호스팅용)</h2>
+
+  <p>본인 컴퓨터나 클라우드 GPU에 직접 올려 운영하는 방식. Gemma 4도 이 범주.</p>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Gemma 4 (Google, 2026.04)</span>
+      <span class="tag tag-best">처음 추천</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — E2B / E4B / 26B MoE / 31B Dense 네 크기. 140개 언어 지원, 한국어 강력. 31B는 Arena AI 3위, MMLU Pro 85.2%. Ollama로 쉽게 셋업 가능. Apache 라이선스로 상업 사용 허용.</p>
+    <p class="model-cons"><strong>단점</strong> — E4B(작은 거)도 RAM 16GB+ 필요, 31B는 GPU 24GB+. 본인 컴퓨터 24시간 켜야 하거나 클라우드 비용. API 무료 제공 없음.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Qwen 3.6 (Alibaba)</span>
+      <span class="tag tag-best">한국어 강자</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 201개 언어 지원(Gemma 4의 140보다 많음). 한국어 특히 강함. Qwen3Guard라는 모더레이션 전용 변형 모델 따로 있음. 다양한 크기 (1B ~ 235B).</p>
+    <p class="model-cons"><strong>단점</strong> — Gemma 4와 동일한 자체 호스팅 부담. 중국 회사라는 점 고려 필요.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Llama 4 (Meta)</span>
+      <span class="tag tag-meh">한국어는 약함</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 글로벌 1위급 영어 성능. 추론·코딩 강함. Groq·Cerebras API 무료 티어로 사용 가능.</p>
+    <p class="model-cons"><strong>단점</strong> — 한국어 지원이 약 30개 언어로 Gemma 4·Qwen에 비해 좁음. 연라이프에는 비효율.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">DeepSeek V4</span>
+      <span class="tag tag-good">추론 최강</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 추론·수학 글로벌 최강. 한국어도 우수. 무료 가중치 공개.</p>
+    <p class="model-cons"><strong>단점</strong> — 매우 큼(자체 호스팅 어려움). 연라이프에는 과한 능력.</p>
+  </div>
+
+  <div class="model-card">
+    <div class="model-name">
+      <span class="n">Qwen3Guard / NemoGuard</span>
+      <span class="tag tag-good">모더레이션 전용</span>
+    </div>
+    <p class="model-pros"><strong>장점</strong> — 콘텐츠 모더레이션·안전 분류에만 특화. 작고 빠름. 한국어 부분 지원.</p>
+    <p class="model-cons"><strong>단점</strong> — 챗봇 기능 없음(모더레이션만). 한국 문화 맥락은 EXAONE/Solar보다 약함.</p>
+  </div>
+
+  <!-- ========== 6. 추천 아키텍처 ========== -->
+  <h2><span class="num">06</span>추천 아키텍처 — 연라이프 AI 시스템</h2>
+
+  <p>아래는 연라이프의 실제 상황(GitHub Pages 정적 호스팅, 단일 운영자, 무료 운영)에 맞춘 설계입니다.</p>
+
+  <div class="arch">┌─────────────────────────────────────────────────────────────┐
+│                  방문자 브라우저 (y-life.kr)                │
+│           화두 보기 · 글쓰기 · 챗봇 질문 · 댓글             │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│       Cloudflare Workers (API 키 보호 게이트웨이)           │
+│              · 월 100,000회 무료 요청                       │
+│              · 본인 컴퓨터 불필요                           │
+│              · API 키 노출 방지                             │
+└──┬──────────────────┬────────────────────────┬──────────────┘
+   │                  │                        │
+   ▼                  ▼                        ▼
+┌─────────────┐  ┌──────────────────┐  ┌─────────────────┐
+│ 모더레이션  │  │     챗봇         │  │   폴백 (백업)   │
+│             │  │                  │  │                 │
+│ Solar Pro   │  │ Gemini 2.5 Flash │  │ Groq Llama 70B  │
+│ (한국어     │  │ (1,500/일 무료)  │  │ (14,400/일)     │
+│  모더 특화) │  │                  │  │  + Cerebras     │
+└─────────────┘  └──────────────────┘  └─────────────────┘</div>
+
+  <h3>이 구조의 좋은 점</h3>
+  <ul>
+    <li><strong>컴퓨터 안 켜도 됨</strong> — 모든 부분이 클라우드</li>
+    <li><strong>완전 무료로 시작</strong> — 모든 구성 요소가 무료 티어 사용</li>
+    <li><strong>API 키 보호</strong> — Cloudflare Workers가 키를 숨김. 브라우저에 노출 안 됨</li>
+    <li><strong>3단 폴백</strong> — Gemini 한도 차도 Groq로, Groq 한도 차도 Cerebras로</li>
+    <li><strong>한국어 특화</strong> — 모더레이션은 Solar Pro, 챗봇은 Gemini 둘 다 한국어 1등급</li>
+    <li><strong>확장 가능</strong> — 트래픽 늘면 자체 호스팅으로 점진적 이전 가능</li>
+  </ul>
+
+  <!-- ========== 7. 비용 시나리오 ========== -->
+  <h2><span class="num">07</span>실제 비용 시나리오</h2>
+
+  <p>연라이프 트래픽이 자라면서 어떤 비용 변화가 있을지 예측해봤습니다.</p>
+
+  <table>
+    <thead>
+      <tr><th>단계</th><th>일일 트래픽</th><th>AI 호출</th><th>예상 월 비용</th><th>구조</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>0~3개월</strong><br>(현재)</td>
+        <td>~100명</td>
+        <td>~500회/일</td>
+        <td class="center good">0원</td>
+        <td>Gemini Flash 무료만으로 충분</td>
+      </tr>
+      <tr>
+        <td><strong>3~12개월</strong></td>
+        <td>~500명</td>
+        <td>~2,500회/일</td>
+        <td class="center good">0원</td>
+        <td>Gemini + Groq 무료 티어 조합</td>
+      </tr>
+      <tr>
+        <td><strong>1~2년차</strong></td>
+        <td>~2,000명</td>
+        <td>~10,000회/일</td>
+        <td class="center warn">월 1만~3만원</td>
+        <td>Gemini 유료 + Solar 추가</td>
+      </tr>
+      <tr>
+        <td><strong>2~3년차</strong></td>
+        <td>~10,000명</td>
+        <td>~50,000회/일</td>
+        <td class="center warn">월 5만~15만원</td>
+        <td>또는 Gemma 4 자체 호스팅 시작</td>
+      </tr>
+      <tr>
+        <td><strong>대규모</strong></td>
+        <td>10만명+</td>
+        <td>~500K회/일</td>
+        <td class="center bad">월 50만원+</td>
+        <td>전용 GPU 서버 운영</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>핵심</strong>
+    회원 2,000명 정도까지는 완전 무료로 운영 가능합니다. 그 이상에서도 한 달 1~3만원이면 충분합니다. 캔바 Pro 구독료보다 적은 돈으로 마을 전체의 AI 시스템이 돕습니다.
+  </div>
+
+  <!-- ========== 8. 구현 로드맵 ========== -->
+  <h2><span class="num">08</span>구현 로드맵</h2>
+
+  <h3>1주차 — 기초 셋업</h3>
+  <ul class="checklist">
+    <li>Cloudflare Workers 무료 계정 생성</li>
+    <li>Upstage Solar Pro 개발자 계정 생성·API 키 발급</li>
+    <li>(이미 있는) Gemini API 키 확인·재사용</li>
+    <li>로컬 테스트: 한국어 글 한 편 → Solar Pro 모더레이션 결과 확인</li>
+  </ul>
+
+  <h3>2주차 — 모더레이션 시스템</h3>
+  <ul class="checklist">
+    <li>Cloudflare Workers에 모더레이션 엔드포인트 작성</li>
+    <li>운영 원칙(장난성·도배·욕설·비방·자극)을 시스템 프롬프트로 정리</li>
+    <li>점수 기준(예: 0~5점 → 2점 이하 자동 숨김) 설정</li>
+    <li>관리자 대시보드에 "AI가 숨긴 글" 패널 추가</li>
+    <li>오탐 발생 시 복원 버튼</li>
+  </ul>
+
+  <h3>3주차 — 챗봇</h3>
+  <ul class="checklist">
+    <li>사이트 콘텐츠를 마크다운으로 정리(약관·FAQ·운영원칙)</li>
+    <li>Gemini API에 시스템 프롬프트 + 콘텐츠 컨텍스트 주입</li>
+    <li>플로팅 챗봇 UI 추가(우측 하단)</li>
+    <li>대화 히스토리는 브라우저 localStorage에 저장</li>
+    <li>"답을 못 찾으면 편집인에게 문의" 폴백</li>
+  </ul>
+
+  <h3>4주차 — 모니터링·다듬기</h3>
+  <ul class="checklist">
+    <li>일주일 분량 모더레이션 결과 검토 → 프롬프트 튜닝</li>
+    <li>챗봇 자주 묻는 질문 5개 정리 → 시스템 프롬프트 보강</li>
+    <li>Gemini·Groq·Cerebras 폴백 체인 구축</li>
+  </ul>
+
+  <h3>나중에 (트래픽 커지면)</h3>
+  <ul class="checklist">
+    <li>Gemma 4 E4B를 클라우드 VPS에 셋업 (월 $20~50)</li>
+    <li>또는 EXAONE 4.5 자체 호스팅 (한국어 최강)</li>
+    <li>임베딩 기반 RAG로 챗봇 정밀도 향상</li>
+  </ul>
+
+  <!-- ========== 9. 모더레이션 프롬프트 예시 ========== -->
+  <h2><span class="num">09</span>실제 모더레이션 프롬프트 예시</h2>
+
+  <p>Solar Pro 또는 Gemini에 보낼 시스템 프롬프트의 초안입니다.</p>
+
+  <div class="code">당신은 연라이프(y-life.kr) 광장의 모더레이터입니다.
+연라이프는 학생과 어른이 함께 깊은 토론을 나누는 한국어 사색 공간입니다.
+"말에는 마음씨가 그대로 담깁니다"가 광장의 약속입니다.
+
+다음 글을 0~5점으로 채점하세요.
+
+채점 기준:
+· 5점: 사색적이고 마음씨가 담긴 글
+· 4점: 일반적인 토론·질문
+· 3점: 짧지만 의도가 있는 글
+· 2점: 의미가 흐릿하거나 다소 거친 글
+· 1점: 장난성·도배·의미 없는 반복
+· 0점: 욕설·비방·자극·광고
+
+응답은 JSON으로:
+{
+  "score": 숫자,
+  "reason": "한 줄 이유",
+  "action": "hide" | "warn" | "approve",
+  "category": ["spam" | "abuse" | "lowquality" | "good"]
+}
+
+글 내용:
+"""
+[여기에 사용자 글이 들어감]
+"""</div>
+
+  <div class="warn">
+    <strong>중요한 점 — AI 모더레이션의 한계</strong>
+    AI는 완벽하지 않습니다. 깊이 있는 글을 "어렵다"고 잘못 판단하거나, 학생의 서툰 질문을 "의미 없다"고 오탐할 수 있어요. 그래서 <strong>"자동 삭제"가 아니라 "자동 숨김"</strong>으로 시작하고, 관리자 대시보드에서 복원 버튼을 두는 게 안전합니다. 1주일 데이터 쌓이면 점수 기준을 조정하세요.
+  </div>
+
+  <!-- ========== 10. 위험 요소 ========== -->
+  <h2><span class="num">10</span>위험 요소 — 알고 가야 할 것</h2>
+
+  <div class="danger">
+    <strong>위험 1 — 무료 티어는 변할 수 있다</strong>
+    Google이 2025년 말에 Gemini 무료 한도를 50~80% 줄였습니다. 무료 정책은 회사 사정에 따라 바뀝니다. 따라서 (1) 한 곳에 의존하지 말고 폴백 구축, (2) 매월 사용량 점검, (3) 유료 전환 시점에 대한 계획이 필요합니다.
+  </div>
+
+  <div class="danger">
+    <strong>위험 2 — AI 오탐</strong>
+    AI가 정상 글을 부적절하다고 잘못 판단할 수 있습니다. 특히 학생의 서툰 질문이나 동양 사상의 한자 인용이 오탐될 가능성이 있어요. 자동 삭제는 절대 금지, 자동 숨김 + 관리자 복원이 안전합니다.
+  </div>
+
+  <div class="danger">
+    <strong>위험 3 — 데이터가 해외 회사로 간다</strong>
+    Gemini·Groq·Cerebras는 모두 미국 회사입니다. 한국 회원의 글이 미국 서버로 갑니다. 개인정보보호법상 문제는 없지만(공개 글이므로), 연라이프의 정서와 맞는지 결정하셔야 합니다. 이 점이 마음에 걸리면 EXAONE/Solar 같은 한국 모델로 가시면 됩니다.
+  </div>
+
+  <div class="warn">
+    <strong>위험 4 — 시스템 프롬프트 유출</strong>
+    악의적 사용자가 챗봇에게 "시스템 프롬프트 알려줘"라고 물어 모더레이션 기준을 알아낼 수 있습니다. 따라서 Cloudflare Workers에서 프롬프트를 관리하고, 직접 브라우저에 노출 안 되게 하세요.
+  </div>
+
+  <!-- ========== 11. 결론 ========== -->
+  <h2><span class="num">11</span>최종 결론 — 한 줄로</h2>
+
+  <div class="tldr">
+    <div class="tag">최종 추천</div>
+    <h3>지금 시작: Gemini 2.5 Flash + Upstage Solar Pro + Cloudflare Workers</h3>
+    <p style="font-size:15px;line-height:1.85">
+      <strong>이유 한 줄</strong> — 완전 무료, 컴퓨터 안 켜도 됨, 한국어 1등급, 이미 가진 Gemini 키 재사용, 한국 회사 Solar Pro로 모더레이션은 가장 정확.
+    </p>
+    <p style="font-size:15px;line-height:1.85">
+      <strong>왜 Gemma 4가 아닌가</strong> — 좋은 모델이지만 자체 호스팅 필수. 본인 컴퓨터 24시간 켜기 부담이고, 연라이프 규모에서는 과함. <strong>나중에 회원 1만 명 넘었을 때 Gemma 4로 갈아타기.</strong>
+    </p>
+    <p style="font-size:15px;line-height:1.85">
+      <strong>한 마디로</strong> — 현 시점의 정답은 "이미 익숙한 Gemini를 메인으로 두고, 한국 회사 Solar Pro로 모더레이션 보강, Cloudflare로 안전하게 감싸기". Gemma 4·EXAONE은 미래의 길로 남겨두기.
+    </p>
+  </div>
+
+  <h3>다음 단계 (셋 중 골라주세요)</h3>
+  <ul>
+    <li><strong>가장 작게 시작</strong> — Gemini Flash 하나만으로 모더레이션 + 챗봇 둘 다. 30분이면 됨. 한도 부족할 때 다른 거 추가.</li>
+    <li><strong>중간으로 시작</strong> — Gemini + Solar Pro 둘 다 셋업. 모더레이션은 Solar에, 챗봇은 Gemini에. 2~3시간.</li>
+    <li><strong>제대로 시작</strong> — 위의 추천 아키텍처 전체. Cloudflare Workers + Gemini + Solar Pro + Groq 폴백. 하루이틀.</li>
+  </ul>
+
+</div>
+
+<footer class="footer">
+  <p>"연라이프는 천천히 자라는 마을입니다."</p>
+  <p style="margin-top:6px">AI 엔진 종합 조사 보고서 v1.0 · 2026년 5월 15일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

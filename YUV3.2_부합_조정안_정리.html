@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YUV 3.2 부합 조정안 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+    --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+    --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+    --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+    --soft:#3a4848; --muted:#6a7878; --red:#a85048; --green:#5a8a72; --amber:#c38d56;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--yp-mist);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--yp-deep);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--yp-line);font-size:12px;color:var(--muted);background:var(--yp-mist)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+
+  .head{padding:48px 0 32px;border-bottom:2px solid var(--yp-ink)}
+  .meta{font-size:12px;color:var(--yp-accent);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--yp-accent);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--yp-ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--yp-deep)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--yp-ink);margin:44px 0 16px;border-bottom:1px solid var(--yp-ink);padding-bottom:10px;letter-spacing:-.015em}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--yp-ink);margin:24px 0 10px}
+  h4{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--yp-deep);margin:14px 0 6px}
+  p{margin-bottom:10px;font-size:14px}
+
+  /* 한 줄 요약 */
+  .summary{background:var(--yp-ink);color:var(--yp-mist);padding:28px 32px;border-radius:8px;margin:24px 0}
+  .summary .tag{font-size:11px;color:var(--yp-accent);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .summary h3{font-family:var(--serif);font-size:20px;color:var(--yp-mist);margin:0 0 12px;border:none;padding:0}
+  .summary p{font-size:14px;color:rgba(244,241,235,.88);line-height:1.85;margin-bottom:8px}
+  .summary strong{color:var(--yp-accent)}
+
+  /* 차이점 카드 */
+  .diff-card{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:8px;padding:24px 28px;margin:18px 0;position:relative}
+  .diff-num{position:absolute;top:18px;right:24px;font-family:var(--serif);font-size:48px;font-weight:900;color:var(--yp-line);letter-spacing:-.04em;line-height:1}
+  .diff-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--yp-accent);font-weight:700;margin-bottom:6px}
+  .diff-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--yp-ink);margin-bottom:6px;padding-right:60px;letter-spacing:-.01em}
+  .diff-spec{font-size:12px;color:var(--muted);margin-bottom:14px;font-style:italic}
+  .diff-spec::before{content:"YUV ";font-weight:700;color:var(--yp-deep);font-style:normal}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  .compare-box{padding:14px 16px;border-radius:6px;font-size:13px;line-height:1.7}
+  .compare-cur{background:#FFF5F5;border-left:3px solid var(--red)}
+  .compare-yuv{background:var(--yp-sage);border-left:3px solid var(--green)}
+  .compare-box .lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+  .compare-cur .lbl{color:var(--red)}
+  .compare-yuv .lbl{color:var(--green)}
+  .compare-box strong{color:var(--yp-ink);display:block;font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:3px}
+
+  .action{background:var(--yp-mist);border:1px solid var(--yp-line);border-radius:4px;padding:14px 16px;margin-top:14px;font-size:13px;line-height:1.75}
+  .action-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--yp-accent);margin-bottom:6px}
+  .action ul{margin-left:18px;margin-top:4px}
+  .action ul li{margin-bottom:3px}
+
+  .meta-line{display:flex;gap:12px;font-size:11px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
+  .meta-pill{padding:3px 10px;background:var(--yp-mist);border-radius:999px;font-weight:600}
+  .meta-pill strong{color:var(--yp-ink)}
+
+  /* 매핑 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--yp-card);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--yp-line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--yp-ink);color:var(--yp-mist);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+
+  /* 영향받는 자료 */
+  .impact{background:var(--yp-peach);border-radius:6px;padding:14px 18px;margin:14px 0;font-size:13px;line-height:1.75}
+  .impact h4{margin-top:0;color:var(--yp-ink)}
+  .impact ul{margin-left:20px;margin-top:6px}
+  .impact ul li{margin-bottom:3px}
+
+  /* 우선순위 표 */
+  .priority-row{display:grid;grid-template-columns:60px 1fr auto auto;gap:14px;align-items:center;padding:14px;background:var(--yp-card);border:1px solid var(--yp-line);border-radius:6px;margin-bottom:8px;font-size:13px}
+  .priority-num{font-family:var(--serif);font-size:28px;font-weight:900;color:var(--yp-accent);text-align:center;line-height:1}
+  .priority-name{font-family:var(--serif);font-weight:700;color:var(--yp-ink);font-size:14px}
+  .priority-sub{font-size:11px;color:var(--muted);margin-top:2px}
+  .priority-effort{font-size:11px;padding:3px 8px;border-radius:3px;font-weight:600}
+  .effort-low{background:#E6F4EA;color:var(--green)}
+  .effort-mid{background:#FFF5E1;color:var(--amber)}
+  .effort-high{background:#FFE5E5;color:var(--red)}
+  .priority-when{font-size:11px;color:var(--muted);font-style:italic}
+
+  /* 박스들 */
+  .note{background:rgba(47,93,98,.08);border-left:3px solid var(--yp-deep);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--yp-deep);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(195,141,86,.1);border-left:3px solid var(--yp-accent);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--yp-accent);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--yp-line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:26px}
+    .compare{grid-template-columns:1fr}
+    .diff-num{font-size:32px}
+    .priority-row{grid-template-columns:40px 1fr}
+    .priority-effort,.priority-when{grid-column:span 2}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>YUV 3.2 부합 조정안</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · YUV 3.2 부합성 검토 · 2026.05.16.</div>
+    <h1>YUV 3.2 — <em>5가지 차이점</em>과 조정안</h1>
+    <p class="lede">
+      연 통합 규격(YUV 3.2)을 받아 우리가 만든 자료를 점검한 결과, 5가지 큰 차이점이 있습니다.
+      대부분은 부합하지만 핵심 결정에서 일부 조정이 필요합니다.
+      각 항목마다 현재 상태 · YUV 요구 · 구체 조정안 · 영향받는 자료를 정리했습니다.
+    </p>
+  </header>
+
+  <!-- ========== 요약 ========== -->
+  <div class="summary">
+    <div class="tag">한 페이지 요약</div>
+    <h3>큰 방향은 맞지만, 5개 핵심 결정에서 조정 필요</h3>
+    <p><strong>① 호스팅</strong> — GitHub Pages는 YUV 명시 제외, Cloudflare Pages로 전환 필수</p>
+    <p><strong>② 챗봇 엔진</strong> — Claude Haiku → Gemma 4 26B (YUV 3.2에서 어제 결정됨)</p>
+    <p><strong>③ 색 토큰</strong> — 새벽의 신뢰 → `--yp-*` 공식 토큰으로 통일</p>
+    <p><strong>④ 인증·DB</strong> — 자체 인증·Cloudflare D1 → y_accounts SSO·Firebase</p>
+    <p><strong>⑤ 자동 업데이트 시스템</strong> — 우리 설계에 빠짐, 추가 필요</p>
+    <p style="margin-top:14px;font-size:13px;color:rgba(244,241,235,.7)"><strong>+ 애매한 부분</strong> — 학원 중심 4계층 권한 vs 연라이프 마을 구조 매핑 필요</p>
+  </div>
+
+  <!-- ========== 차이점 1: 호스팅 ========== -->
+  <div class="diff-card">
+    <div class="diff-num">01</div>
+    <div class="diff-tag">최우선 · 위험도 높음</div>
+    <h3 class="diff-title">호스팅 플랫폼</h3>
+    <div class="diff-spec">§19-1 · 권장 스택 (YUV 3.1 변경 — Cloudflare 중심)</div>
+
+    <div class="compare">
+      <div class="compare-box compare-cur">
+        <div class="lbl">현재 상태</div>
+        <strong>GitHub Pages</strong>
+        운영 중인 yeon-life/yeon-life.github.io 저장소. 정적 HTML/JS.
+      </div>
+      <div class="compare-box compare-yuv">
+        <div class="lbl">YUV 3.2 요구</div>
+        <strong>Cloudflare Pages + Workers + Firebase</strong>
+        GitHub Pages는 명시 제외 ("백엔드 불가, §7-0 보안 표준 미준수")
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-label">조정안</div>
+      <strong>Cloudflare Pages로 마이그레이션 (예상 1~2주)</strong>
+      <ul>
+        <li>1단계 — 동일 도메인(y-life.kr) Cloudflare DNS 연결 (30분)</li>
+        <li>2단계 — Cloudflare Pages에 GitHub 저장소 연결, 자동 빌드 (1시간)</li>
+        <li>3단계 — 콘텐츠는 그대로, 호스팅 주체만 GitHub Pages → Cloudflare Pages로 전환</li>
+        <li>4단계 — DNS 적용 후 24~48시간 양 호스팅 병행 → 확인 후 GitHub Pages 비활성</li>
+        <li>5단계 — Cloudflare Workers에 서버 함수(`/api/*`) 배포 시작 → §19 Thin Client 시작</li>
+      </ul>
+      <p style="margin-top:8px;color:var(--muted);font-style:italic">덤 — Cloudflare로 가면 DDoS 방어·CDN·SSL이 자동으로 따라오므로 보안 가이드의 1순위 항목이 한 번에 해결됩니다.</p>
+    </div>
+
+    <div class="impact">
+      <h4>영향받는 자료</h4>
+      <ul>
+        <li><code>단계1_점진적도입_가이드.html</code> — 호스팅 전제 갱신 필요</li>
+        <li><code>단계4_메가메뉴_통합가이드.html</code> — 배포 흐름 갱신</li>
+        <li><code>최종추천셋_품질우선_합리적비용.html</code> — 인프라 섹션 갱신</li>
+        <li>리디자인 단일 파일 — 백엔드 호출 URL 패턴 점검</li>
+      </ul>
+    </div>
+
+    <div class="meta-line">
+      <span class="meta-pill">난이도 <strong>중간</strong></span>
+      <span class="meta-pill">작업 시간 <strong>1~2주</strong></span>
+      <span class="meta-pill">비용 <strong>여전히 무료</strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 차이점 2: 챗봇 엔진 ========== -->
+  <div class="diff-card">
+    <div class="diff-num">02</div>
+    <div class="diff-tag">최우선 · 정책 결정</div>
+    <h3 class="diff-title">AI 챗봇 기본 엔진</h3>
+    <div class="diff-spec">§5-1 · LLM 선택 매트릭스 (YUV 3.2 — 2026-05-15 결정, 어제!)</div>
+
+    <div class="compare">
+      <div class="compare-box compare-cur">
+        <div class="lbl">우리 추천 (어제 결정한 것)</div>
+        <strong>Claude Haiku 4.5</strong>
+        한국어 톤 1등급, 월 비용 1만원 이내, 똑똑한 라우팅
+      </div>
+      <div class="compare-box compare-yuv">
+        <div class="lbl">YUV 3.2 기본 엔진</div>
+        <strong>Gemma 4 26B</strong>
+        오픈 모델, Gemini와 같은 키로 호출, 비용 효율 (Gemini Pro의 1/3~1/2)
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-label">조정안</div>
+      <strong>YUV 표준 따라 Gemma 4 26B를 기본 엔진으로 전환</strong>
+      <ul>
+        <li>이유 — 연 프로젝트 전체가 같은 엔진을 써야 톤이 통일됨 (연플래너·수풀AI·연라이프 모두)</li>
+        <li>한국어 톤 차이는 시스템 프롬프트 정성껏 다듬으면 보완 가능</li>
+        <li>학습 풀이·정밀 분석은 Claude Sonnet (YUV 매트릭스 그대로)</li>
+        <li>키는 Gemini와 같은 Google AI Studio 키 — 별도 발급 불필요</li>
+        <li>비용 시뮬레이션 재작성 필요</li>
+      </ul>
+    </div>
+
+    <div class="impact">
+      <h4>영향받는 자료</h4>
+      <ul>
+        <li><code>AI엔진_종합조사_2026-05.html</code> — 추천 모델 변경</li>
+        <li><code>AI비용_시뮬레이션_3안비교.html</code> — Gemma 4 26B 기준 재계산</li>
+        <li><code>AI도입_4주_로드맵.html</code> — 챗봇 셋업 부분 갱신</li>
+        <li><code>최종추천셋_품질우선_합리적비용.html</code> — 라우팅 표 갱신</li>
+        <li><code>AI비용패널_관리자대시보드_시안.html</code> — 모델명 갱신</li>
+      </ul>
+    </div>
+
+    <div class="meta-line">
+      <span class="meta-pill">난이도 <strong>낮음</strong> (셋업)</span>
+      <span class="meta-pill">정책 결정 <strong>필요</strong></span>
+      <span class="meta-pill">비용 <strong>비슷~약간 저렴</strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 차이점 3: 색 토큰 ========== -->
+  <div class="diff-card">
+    <div class="diff-num">03</div>
+    <div class="diff-tag">중간 우선 · 시각</div>
+    <h3 class="diff-title">색 토큰 — 미세하게 다름</h3>
+    <div class="diff-spec">§9 · 디자인 시스템 (yeon-design 통합)</div>
+
+    <table>
+      <thead>
+        <tr><th>역할</th><th>우리 (새벽의 신뢰)</th><th>YUV 표준 (`--yp-*`)</th><th>차이</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>본문 먹빛</td><td>#1A2326</td><td>#1F2A2A</td><td>아주 미세</td></tr>
+        <tr><td>메인 딥 틸</td><td>#2A5358</td><td>#2F5D62</td><td>약간 더 진함</td></tr>
+        <tr><td>중간 틸</td><td>#4A6878</td><td>#427A71 (pine)</td><td>YUV는 더 초록기</td></tr>
+        <tr><td>액센트 호박</td><td>#A87B3E</td><td>#C38D56 (accent)</td><td>YUV가 더 따뜻함</td></tr>
+        <tr><td>기본 배경</td><td>#F4F0E6</td><td>#F4F1EB (mist)</td><td>거의 같음</td></tr>
+        <tr><td>표면(카드)</td><td>#FBFAF5</td><td>#FFFDF8 (card)</td><td>YUV가 더 밝음</td></tr>
+      </tbody>
+    </table>
+
+    <div class="action">
+      <div class="action-label">조정안</div>
+      <strong>YUV `--yp-*` 토큰으로 통일</strong>
+      <ul>
+        <li>모든 우리 자료의 색 변수를 `--yp-ink`·`--yp-deep`·`--yp-accent` 등으로 교체</li>
+        <li>"새벽의 신뢰"라는 이름은 유지 — 연라이프의 톤·정서 표현으로 (브랜드명)</li>
+        <li>외부 리디자인(YLHome.jsx 등)에도 토큰명 일괄 치환 필요</li>
+        <li>실제 시각 차이는 아주 미세함 — 한 번 작업으로 모두 갱신 가능</li>
+      </ul>
+    </div>
+
+    <div class="impact">
+      <h4>영향받는 자료 (거의 모든 HTML 시안)</h4>
+      <ul>
+        <li>모든 시안 HTML (v1~v4) — 색 변수 정의 갱신</li>
+        <li>블로그 템플릿 10종 — 같은 변수 사용 중</li>
+        <li>리디자인 단일 파일 — JSX 토큰명 정리</li>
+        <li>디자인시스템_새벽의신뢰.html — 토큰 표 갱신</li>
+        <li>관리자 대시보드·비용 패널 시안</li>
+      </ul>
+    </div>
+
+    <div class="meta-line">
+      <span class="meta-pill">난이도 <strong>낮음</strong></span>
+      <span class="meta-pill">작업 시간 <strong>반나절</strong></span>
+      <span class="meta-pill">자동화 가능 <strong>find &amp; replace</strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 차이점 4: SSO + DB ========== -->
+  <div class="diff-card">
+    <div class="diff-num">04</div>
+    <div class="diff-tag">고우선 · 구조 변경</div>
+    <h3 class="diff-title">통합 계정(SSO) + 데이터베이스</h3>
+    <div class="diff-spec">§3 · y-프로젝트 통합 계정 · §10 · Firestore</div>
+
+    <div class="compare">
+      <div class="compare-box compare-cur">
+        <div class="lbl">우리 설계</div>
+        <strong>자체 인증 + Cloudflare D1</strong>
+        연라이프 단독 회원·SQLite. 다른 앱과 분리.
+      </div>
+      <div class="compare-box compare-yuv">
+        <div class="lbl">YUV 3.2 요구</div>
+        <strong>y_accounts SSO + Firebase Firestore</strong>
+        한 번 가입 = 연플래너·수풀AI·연라이프 모두 자동 로그인.<br>
+        평문 비번 X, 변경 이력 불변 로그.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-label">조정안</div>
+      <strong>인증·DB 구조를 YUV 통합 스택으로 전환</strong>
+      <ul>
+        <li>인증 — Firebase Auth + `y_accounts` 통합 계정</li>
+        <li>주 DB — Firebase Firestore (실시간 동기화·SSO·다중 앱 통합)</li>
+        <li>캐시·집계 — Cloudflare D1 또는 KV (속도용 보조)</li>
+        <li>비밀번호 — bcrypt/argon2 해시만, 평문 절대 X</li>
+        <li>모든 변경 이력 → `y_account_changes` 불변 로그</li>
+        <li>관리자 권한 분리 — 서버 관리자(연소사) / 마을지기 / 일반 주민</li>
+      </ul>
+      <p style="margin-top:8px;color:var(--muted)">덤 — Firebase로 가면 푸시 알림(FCM)도 같이 쓸 수 있어서 챗봇 응답·새 댓글 알림 등이 더 자연스러워집니다.</p>
+    </div>
+
+    <div class="impact">
+      <h4>영향받는 자료</h4>
+      <ul>
+        <li><code>최종추천셋_품질우선_합리적비용.html</code> — DB 부품 카드 갱신</li>
+        <li><code>개인_생각의지도_스크랩시스템_설계.html</code> — 데이터 구조 Firestore로</li>
+        <li><code>3단폴더_바로가기_설계.html</code> — 같은 갱신</li>
+        <li><code>내보내기시스템_4가지형식_설계.html</code> — Firestore 기반 export</li>
+        <li><code>보안대책_종합가이드.html</code> — 비번 해시·변경 이력 부분 강화</li>
+      </ul>
+    </div>
+
+    <div class="meta-line">
+      <span class="meta-pill">난이도 <strong>높음</strong></span>
+      <span class="meta-pill">작업 시간 <strong>2~3주</strong></span>
+      <span class="meta-pill">비용 영향 <strong>월 0~5달러</strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 차이점 5: 자동 업데이트 시스템 ========== -->
+  <div class="diff-card">
+    <div class="diff-num">05</div>
+    <div class="diff-tag">신규 추가</div>
+    <h3 class="diff-title">자동 업데이트 시스템 — 빠뜨림</h3>
+    <div class="diff-spec">§18 · 자동 업데이트 시스템 (YUV3 신규)</div>
+
+    <div class="compare">
+      <div class="compare-box compare-cur">
+        <div class="lbl">우리 설계</div>
+        <strong>(없음)</strong>
+        Service Worker · 버전 폴링 · idle 자동 리로드 미고려
+      </div>
+      <div class="compare-box compare-yuv">
+        <div class="lbl">YUV 3.2 요구</div>
+        <strong>3겹 자동 업데이트</strong>
+        Service Worker + 5분 폴링 + idle 자동 리로드. 사용자는 "새로고침" 누를 일 없음.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-label">조정안</div>
+      <strong>4주 로드맵에 5주차 추가 (§18 그대로 적용)</strong>
+      <ul>
+        <li>Service Worker로 PWA화 — 백그라운드 자동 갱신</li>
+        <li>`version.json` 5분 폴링 → 새 버전 감지</li>
+        <li>idle 조건 (입력 중 X, 30초 무활동, 챗봇 응답 X) 만족 시에만 리로드</li>
+        <li>"새 버전 적용됐어요 ✨" 토스트 3초 후 사라짐</li>
+        <li>강제 업데이트(`force: true`)는 보안 패치용</li>
+      </ul>
+    </div>
+
+    <div class="impact">
+      <h4>영향받는 자료</h4>
+      <ul>
+        <li><code>AI도입_4주_로드맵.html</code> — 5주차 신설</li>
+        <li>새 파일 — Service Worker 셋업 가이드</li>
+      </ul>
+    </div>
+
+    <div class="meta-line">
+      <span class="meta-pill">난이도 <strong>중간</strong></span>
+      <span class="meta-pill">작업 시간 <strong>3~5일</strong></span>
+      <span class="meta-pill">YUV §15 체크리스트 <strong>필수</strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 애매한 부분 ========== -->
+  <h2>애매한 부분 — 연라이프 특수성</h2>
+
+  <p>YUV는 학원·교육 앱 중심으로 만든 규격이라 연라이프(마을형 광장)에 그대로 적용 못 할 부분이 있어요. 합의가 필요한 항목들입니다.</p>
+
+  <div class="warn">
+    <strong>핵심 문제 — 연라이프는 학원이 아니다</strong>
+    YUV §2의 4계층 권한(서버 관리자 / 학원 관리자 / 선생님 / 학생)은 연라이프(일반 마을 주민 기반 광장)에 그대로 안 맞습니다. 어떤 매핑을 쓸지 결정 필요.
+  </div>
+
+  <h3>제안 — 연라이프 맥락 매핑</h3>
+
+  <table>
+    <thead>
+      <tr><th>YUV 4계층</th><th>연라이프 매핑 (제안)</th><th>인증 방식</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>서버 관리자</strong></td>
+        <td><strong>연소사</strong> (그대로)</td>
+        <td>6자리 코드</td>
+      </tr>
+      <tr>
+        <td><strong>학원(지점) 관리자</strong></td>
+        <td><strong>마을지기</strong> — 선임 활동가, 모더 권한</td>
+        <td>6자리 코드</td>
+      </tr>
+      <tr>
+        <td><strong>선생님</strong></td>
+        <td><strong>글지기</strong> — 시민기자·작가·블로거 등 인증 활동 주민</td>
+        <td>6자리 코드</td>
+      </tr>
+      <tr>
+        <td><strong>학생</strong></td>
+        <td><strong>일반 주민</strong> — 일반 가입 회원</td>
+        <td>이메일·비번 (YUV 학생 ≠ 연라이프 일반 회원)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>이 결정의 의미</strong>
+    "학생 = 6자리 코드" 규약은 연라이프 일반 회원에는 적용하지 않음. 다만 만약 청소년 회원이 학교·학원 단위로 가입하는 흐름이 생긴다면 (연플래너와 연결) 그 흐름은 YUV 학생 표준 그대로 적용. <strong>두 가지 가입 흐름 공존</strong>.
+  </div>
+
+  <h3>그 밖에 합의가 필요한 부분</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>학생 본인 확인 10일 유예 (§4-4)</strong> — 연라이프 일반 회원에는 적용 X. 청소년 가입 흐름에만.</li>
+    <li><strong>학원명 표기 (§8)</strong> — 연라이프는 "y-life.kr / 연마을" — YUV의 "연플래닝·삼산 분점"과 다른 맥락</li>
+    <li><strong>시스템 프롬프트 (§5-3)</strong> — "연플래닝 아카데미"는 학원 챗봇용. 연라이프는 "연라이프 마을의 안내자" 등 별도 헤더 필요</li>
+    <li><strong>카톡 공유 (§12) — 학부모 소통</strong> — 연라이프에는 "마을 공유"로 변환</li>
+  </ul>
+
+  <!-- ========== 우선순위 ========== -->
+  <h2>실행 우선순위 — 결정 후 진행</h2>
+
+  <p>5가지 차이점과 애매한 부분의 우선순위를 정리합니다. 위에서 아래로.</p>
+
+  <div class="priority-row">
+    <div class="priority-num">1</div>
+    <div>
+      <div class="priority-name">맥락 매핑 결정</div>
+      <div class="priority-sub">"학원→마을, 학생→일반 주민" 매핑 합의가 모든 후속 작업의 토대</div>
+    </div>
+    <div class="priority-effort effort-low">반나절</div>
+    <div class="priority-when">먼저</div>
+  </div>
+
+  <div class="priority-row">
+    <div class="priority-num">2</div>
+    <div>
+      <div class="priority-name">색 토큰 통일</div>
+      <div class="priority-sub">find &amp; replace로 모든 자료 일괄 갱신 — 시각 효과 큼</div>
+    </div>
+    <div class="priority-effort effort-low">반나절</div>
+    <div class="priority-when">바로</div>
+  </div>
+
+  <div class="priority-row">
+    <div class="priority-num">3</div>
+    <div>
+      <div class="priority-name">챗봇 엔진 전환 (Claude Haiku → Gemma 4 26B)</div>
+      <div class="priority-sub">관련 자료(로드맵·비용표·시뮬레이션) 5개 갱신</div>
+    </div>
+    <div class="priority-effort effort-mid">1일</div>
+    <div class="priority-when">디자인 직후</div>
+  </div>
+
+  <div class="priority-row">
+    <div class="priority-num">4</div>
+    <div>
+      <div class="priority-name">자동 업데이트 시스템 추가</div>
+      <div class="priority-sub">로드맵 5주차에 신설, Service Worker 가이드 작성</div>
+    </div>
+    <div class="priority-effort effort-mid">2~3일</div>
+    <div class="priority-when">로드맵 갱신 시</div>
+  </div>
+
+  <div class="priority-row">
+    <div class="priority-num">5</div>
+    <div>
+      <div class="priority-name">호스팅 전환 (GitHub Pages → Cloudflare Pages)</div>
+      <div class="priority-sub">DNS·빌드 셋업, 양 호스팅 병행, 검증</div>
+    </div>
+    <div class="priority-effort effort-high">1~2주</div>
+    <div class="priority-when">디자인 마무리 후 첫 작업</div>
+  </div>
+
+  <div class="priority-row">
+    <div class="priority-num">6</div>
+    <div>
+      <div class="priority-name">SSO + Firebase 전환</div>
+      <div class="priority-sub">가장 큰 구조 변경. 인증·DB 통째 재설계</div>
+    </div>
+    <div class="priority-effort effort-high">2~3주</div>
+    <div class="priority-when">호스팅 안정화 후</div>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <div class="summary" style="margin-top:48px">
+    <div class="tag">결론</div>
+    <h3>큰 방향은 맞다. 5가지 핵심을 YUV에 맞추면 연 프로젝트 전체와 한 가족.</h3>
+    <p>지금까지 만든 자료들이 무용지물이 되는 건 아닙니다. 광장 중심 사고·새벽의 신뢰 결·스크랩 별자리 지도·3단 폴더·내보내기 — 모두 YUV 위에 그대로 얹을 수 있는 결정들이에요.</p>
+    <p><strong>다만 5가지 핵심 결정을 YUV 기준으로 갱신해야 진짜 "연 프로젝트의 한 가족"이 됩니다.</strong> 학원 중심 항목은 매핑 합의로 정리.</p>
+    <p style="margin-top:14px"><strong>다음 단계 제안</strong> — 위 우선순위 1번(맥락 매핑 결정)부터 합의하면 그 다음 작업이 자동으로 풀립니다.</p>
+  </div>
+
+  <h3 style="margin-top:32px">검토 사항 목록 갱신</h3>
+  <p>이 문서가 추가되면서 검토 사항이 다음과 같이 정돈됩니다.</p>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>디자인 적용 (진행 중)</li>
+    <li><strong>YUV 3.2 부합 — 5가지 차이점 + 매핑 합의 ← 이번 추가</strong></li>
+    <li>AI 챗봇·모더레이션 (Gemma 4 26B 기준으로 재작성)</li>
+    <li>자동 뉴스 수집 (1주)</li>
+    <li>보안 강화 + 호스팅 전환 + SSO (통합 작업)</li>
+    <li>개인 생각의 지도 + 스마트 폴더 + 바로가기 + 내보내기 (9주)</li>
+    <li>자동 업데이트 시스템 (3~5일 신규)</li>
+  </ol>
+
+</div>
+
+<footer class="footer">
+  <p>"연 프로젝트 한 가족 안에서, 연라이프만의 결."</p>
+  <p style="margin-top:6px">YUV 3.2 부합 조정안 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

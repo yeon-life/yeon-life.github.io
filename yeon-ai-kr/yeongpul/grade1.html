@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>영풀 초등 1학년 — 지구본 영어</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-accent:#8F856B;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --touch-min:64px;
+  --card-radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:19px;
+  line-height:1.55;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  overflow-x:hidden;
+}
+.wrap{max-width:480px;margin:0 auto;padding:18px 16px 40px;min-height:100vh;position:relative;}
+@media(min-width:768px){.wrap{max-width:640px;padding:30px 24px;}}
+
+/* 상단바 */
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo .mark{width:40px;height:40px;border-radius:11px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+.logo .nm{font-size:14px;font-weight:700;}
+.logo .nm small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;}
+.home{color:var(--color-text-light);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:10px;}
+.home:active{background:var(--color-surface);}
+
+/* 지구본 히어로 */
+.globe-stage{
+  position:relative;
+  height:200px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+.globe{
+  width:160px;height:160px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #B8D4DA, #5A7A82 70%, #2C3E42);
+  position:relative;
+  box-shadow:
+    inset -18px -18px 40px rgba(0,0,0,0.35),
+    inset 14px 14px 30px rgba(255,255,255,0.18),
+    0 12px 28px rgba(90,122,130,0.4);
+  overflow:hidden;
+  animation:spin 18s linear infinite;
+}
+.globe::before,.globe::after{
+  content:"";position:absolute;border-radius:50%;
+  background:#8F856B;opacity:0.55;
+}
+.globe::before{
+  width:46px;height:30px;top:36px;left:38px;
+  border-radius:60% 40% 50% 50% / 60% 50% 50% 40%;
+  box-shadow:
+    34px 12px 0 -4px #8F856B,
+    16px 56px 0 -2px #8F856B,
+    62px 50px 0 -6px #8F856B,
+    -8px 78px 0 -4px #8F856B;
+}
+.globe::after{
+  width:24px;height:18px;top:90px;left:24px;
+  border-radius:50%;
+  box-shadow:
+    72px -28px 0 -2px #8F856B,
+    96px 14px 0 -4px #8F856B,
+    -4px -42px 0 -8px #8F856B;
+}
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+.globe-glow{
+  position:absolute;inset:-22px;border-radius:50%;
+  background:radial-gradient(circle, rgba(184,212,218,0.5), transparent 70%);
+  filter:blur(8px);
+  pointer-events:none;
+}
+
+.hello{
+  text-align:center;
+  font-size:22px;font-weight:800;
+  letter-spacing:-0.4px;
+  margin-bottom:6px;
+}
+.hello-sub{
+  text-align:center;
+  font-size:13px;color:var(--color-text-light);
+  margin-bottom:18px;
+}
+
+/* 요일 선택 */
+.days{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:8px;margin-bottom:18px;
+}
+.day-btn{
+  background:#fff;
+  border:2px solid var(--color-surface);
+  border-radius:14px;
+  padding:12px 6px;
+  font-family:inherit;font-size:13px;font-weight:700;
+  color:var(--color-primary);
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.day-btn .num{font-size:18px;font-weight:800;}
+.day-btn .lbl{font-size:10px;color:var(--color-text-light);}
+.day-btn.active{
+  background:var(--color-primary);color:#fff;border-color:var(--color-primary);
+}
+.day-btn.active .lbl{color:#D4E0E3;}
+.day-btn.done{border-color:#8F856B;}
+.day-btn.done::after{content:"⭐";position:absolute;}
+
+/* 학습 카드 */
+.lesson-card{
+  background:#fff;
+  border-radius:var(--card-radius);
+  padding:24px 20px;
+  box-shadow:0 4px 16px rgba(90,122,130,0.12);
+  margin-bottom:16px;
+  text-align:center;
+}
+.lesson-title{
+  font-size:14px;color:var(--color-text-light);
+  margin-bottom:6px;font-weight:600;
+}
+.lesson-emoji{font-size:64px;margin:8px 0 12px;line-height:1;}
+.lesson-en{
+  font-size:34px;font-weight:800;
+  color:var(--color-primary);
+  letter-spacing:0.5px;
+  margin-bottom:6px;
+}
+.lesson-ko{
+  font-size:18px;color:var(--color-text);
+  margin-bottom:18px;
+}
+
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn{
+  font-family:inherit;font-size:15px;font-weight:700;
+  padding:14px 22px;border-radius:14px;
+  border:none;cursor:pointer;
+  min-height:var(--touch-min);min-width:130px;
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:active{transform:scale(0.96);}
+.btn-primary{background:var(--color-primary);color:#fff;}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(90,122,130,0.3);}
+.btn-secondary{background:var(--color-surface);color:var(--color-primary);}
+
+/* 진도/스티커 */
+.progress{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border-radius:14px;
+  padding:14px 18px;
+  box-shadow:0 2px 8px rgba(90,122,130,0.1);
+  margin-bottom:16px;
+}
+.progress .label{font-size:13px;color:var(--color-text-light);}
+.progress .stars{font-size:18px;letter-spacing:2px;}
+
+.dot-row{display:flex;gap:6px;justify-content:center;margin-top:14px;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--color-surface);}
+.dot.active{background:var(--color-primary);}
+.dot.done{background:#8F856B;}
+
+/* 회원 프롬프트 모달 (플래너 복습) */
+.modal-mask{
+  position:fixed;inset:0;
+  background:rgba(44,62,66,0.55);
+  display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;
+}
+.modal-mask.show{display:flex;}
+.modal-card{
+  background:#fff;border-radius:20px;
+  padding:28px 24px 24px;
+  max-width:380px;width:100%;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  text-align:center;
+}
+.modal-card .ico{font-size:48px;margin-bottom:8px;}
+.modal-card h2{font-size:19px;font-weight:800;margin-bottom:8px;color:var(--color-primary);}
+.modal-card p{font-size:14px;color:var(--color-text-light);margin-bottom:18px;line-height:1.6;}
+.modal-card .row{display:flex;gap:10px;flex-direction:column;}
+.modal-card .row .btn{width:100%;}
+
+.note{margin-top:18px;background:var(--color-surface);border-radius:14px;padding:14px 16px;font-size:12px;color:var(--color-text);line-height:1.7;}
+.note b{color:var(--color-primary);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="logo">
+      <div class="mark">영풀</div>
+      <div class="nm">초등 1학년<small>지구본 영어</small></div>
+    </div>
+    <a class="home" href="study-hub.html">← 허브</a>
+  </div>
+
+  <div class="globe-stage">
+    <div class="globe-glow"></div>
+    <div class="globe" aria-hidden="true"></div>
+  </div>
+
+  <div class="hello">Hello, World! 👋</div>
+  <div class="hello-sub">지구 어디에서나 통하는 영어를 시작해요</div>
+
+  <div class="progress">
+    <span class="label">오늘의 별</span>
+    <span class="stars" id="stars">⭐⭐⭐</span>
+  </div>
+
+  <div class="days" id="days"></div>
+
+  <div class="lesson-card" id="lessonCard">
+    <div class="lesson-title" id="lTitle">Day 1 · 인사하기</div>
+    <div class="lesson-emoji" id="lEmoji">👋</div>
+    <div class="lesson-en" id="lEn">Hello</div>
+    <div class="lesson-ko" id="lKo">안녕</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="speak()">🔊 들어보기</button>
+      <button class="btn btn-primary" onclick="nextWord()">다음 ▶</button>
+    </div>
+    <div class="dot-row" id="dotRow"></div>
+  </div>
+
+  <div class="note">
+    🌍 <b>지구본이 천천히 돌아요.</b> 영어는 전 세계 친구들과 만나는 길이에요.<br>
+    ⭐ 하루 한 Day씩 5일을 마치면 별 5개를 모을 수 있어요.<br>
+    👨‍👩‍👧 옆에 부모님이나 선생님과 함께하면 더 재미있어요.
+  </div>
+
+</div>
+
+<!-- 플래너 복습 연동 모달 -->
+<div class="modal-mask" id="reviewModal">
+  <div class="modal-card">
+    <div class="ico">🗂️</div>
+    <h2>오늘 배운 내용을<br>플래너에 복습 자료로 올릴까요?</h2>
+    <p>플래너는 며칠 뒤 알맞은 시점에 복습을 알려드려요. 그러면 잊어버리지 않아요.</p>
+    <div class="row">
+      <button class="btn btn-primary" onclick="addToPlanner()">네, 복습 자료로 올리기</button>
+      <button class="btn btn-secondary" onclick="closeReview()">다음에 할게요</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// === 1주일 학습 데이터 ===
+const LESSONS = [
+  {
+    day:1, title:"Day 1 · 인사하기", emoji:"👋",
+    words:[
+      {en:"Hello", ko:"안녕", emoji:"👋"},
+      {en:"Hi", ko:"안녕 (친구에게)", emoji:"😊"},
+      {en:"Bye", ko:"잘 가", emoji:"👋"},
+      {en:"Thank you", ko:"고마워요", emoji:"🙏"},
+      {en:"Sorry", ko:"미안해요", emoji:"😔"}
+    ]
+  },
+  {
+    day:2, title:"Day 2 · 숫자 1–10", emoji:"🔢",
+    words:[
+      {en:"one", ko:"하나 1", emoji:"1️⃣"},
+      {en:"two", ko:"둘 2", emoji:"2️⃣"},
+      {en:"three", ko:"셋 3", emoji:"3️⃣"},
+      {en:"four", ko:"넷 4", emoji:"4️⃣"},
+      {en:"five", ko:"다섯 5", emoji:"5️⃣"},
+      {en:"ten", ko:"열 10", emoji:"🔟"}
+    ]
+  },
+  {
+    day:3, title:"Day 3 · 색깔", emoji:"🎨",
+    words:[
+      {en:"red", ko:"빨강", emoji:"🔴"},
+      {en:"blue", ko:"파랑", emoji:"🔵"},
+      {en:"yellow", ko:"노랑", emoji:"🟡"},
+      {en:"green", ko:"초록", emoji:"🟢"},
+      {en:"white", ko:"하양", emoji:"⚪"},
+      {en:"black", ko:"검정", emoji:"⚫"}
+    ]
+  },
+  {
+    day:4, title:"Day 4 · 동물 친구", emoji:"🐾",
+    words:[
+      {en:"dog", ko:"개", emoji:"🐶"},
+      {en:"cat", ko:"고양이", emoji:"🐱"},
+      {en:"bird", ko:"새", emoji:"🐦"},
+      {en:"fish", ko:"물고기", emoji:"🐟"},
+      {en:"rabbit", ko:"토끼", emoji:"🐰"}
+    ]
+  },
+  {
+    day:5, title:"Day 5 · 맛있는 음식", emoji:"🍎",
+    words:[
+      {en:"apple", ko:"사과", emoji:"🍎"},
+      {en:"bread", ko:"빵", emoji:"🍞"},
+      {en:"milk", ko:"우유", emoji:"🥛"},
+      {en:"water", ko:"물", emoji:"💧"},
+      {en:"rice", ko:"밥", emoji:"🍚"}
+    ]
+  }
+];
+
+// === 상태 ===
+const STORE_KEY = "yeon_g1_state";
+let state = loadState();
+
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+    return {
+      currentDay: s.currentDay || 1,
+      currentIdx: s.currentIdx || 0,
+      doneDays: s.doneDays || [],
+      stars: s.stars || 0
+    };
+  }catch(e){
+    return {currentDay:1, currentIdx:0, doneDays:[], stars:0};
+  }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+// === 렌더 ===
+function renderDays(){
+  const wrap = document.getElementById("days");
+  wrap.innerHTML = "";
+  LESSONS.forEach(l=>{
+    const btn = document.createElement("button");
+    btn.className = "day-btn";
+    if(l.day === state.currentDay) btn.classList.add("active");
+    if(state.doneDays.includes(l.day)) btn.classList.add("done");
+    btn.innerHTML = `<span class="num">${l.day}</span><span class="lbl">Day</span>`;
+    btn.onclick = ()=>selectDay(l.day);
+    wrap.appendChild(btn);
+  });
+}
+
+function selectDay(day){
+  state.currentDay = day;
+  state.currentIdx = 0;
+  saveState();
+  renderAll();
+}
+
+function renderLesson(){
+  const lesson = LESSONS.find(l=>l.day===state.currentDay) || LESSONS[0];
+  const word = lesson.words[state.currentIdx] || lesson.words[0];
+  document.getElementById("lTitle").textContent = lesson.title;
+  document.getElementById("lEmoji").textContent = word.emoji;
+  document.getElementById("lEn").textContent = word.en;
+  document.getElementById("lKo").textContent = word.ko;
+
+  const dotRow = document.getElementById("dotRow");
+  dotRow.innerHTML = "";
+  lesson.words.forEach((_,i)=>{
+    const d = document.createElement("div");
+    d.className = "dot";
+    if(i === state.currentIdx) d.classList.add("active");
+    if(i < state.currentIdx) d.classList.add("done");
+    dotRow.appendChild(d);
+  });
+}
+
+function renderStars(){
+  const total = Math.min(state.stars, 5);
+  const empty = 5 - total;
+  document.getElementById("stars").textContent = "⭐".repeat(total) + "·".repeat(empty);
+}
+
+function renderAll(){
+  renderDays();
+  renderLesson();
+  renderStars();
+}
+
+// === 액션 ===
+function speak(){
+  const en = document.getElementById("lEn").textContent;
+  if("speechSynthesis" in window){
+    const u = new SpeechSynthesisUtterance(en);
+    u.lang = "en-US";
+    u.rate = 0.85;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+}
+
+function nextWord(){
+  const lesson = LESSONS.find(l=>l.day===state.currentDay) || LESSONS[0];
+  if(state.currentIdx < lesson.words.length - 1){
+    state.currentIdx++;
+    saveState();
+    renderLesson();
+  }else{
+    // Day 완료
+    if(!state.doneDays.includes(state.currentDay)){
+      state.doneDays.push(state.currentDay);
+      state.stars = Math.min((state.stars||0) + 1, 5);
+    }
+    state.currentIdx = 0;
+    saveState();
+    renderAll();
+    showReviewPrompt();
+  }
+}
+
+// === 플래너 복습 연동 ===
+function showReviewPrompt(){
+  document.getElementById("reviewModal").classList.add("show");
+}
+function closeReview(){
+  document.getElementById("reviewModal").classList.remove("show");
+}
+function addToPlanner(){
+  // 회원 여부 확인 (localStorage 세션 키 추정)
+  let isMember = false;
+  try{
+    const session = JSON.parse(localStorage.getItem("yeon_session") || "null");
+    isMember = !!(session && session.userId);
+  }catch(e){}
+
+  const lesson = LESSONS.find(l=>l.day===state.currentDay) || LESSONS[0];
+  const review = {
+    source: "grade1",
+    day: lesson.day,
+    title: lesson.title,
+    words: lesson.words.map(w=>w.en + " · " + w.ko),
+    addedAt: new Date().toISOString(),
+    nextReviewAt: new Date(Date.now() + 1*24*60*60*1000).toISOString()
+  };
+
+  if(isMember){
+    try{
+      const list = JSON.parse(localStorage.getItem("yeon_planner_reviews") || "[]");
+      list.push(review);
+      localStorage.setItem("yeon_planner_reviews", JSON.stringify(list));
+      alert("✅ 플래너에 복습 자료로 올렸어요! 내일 다시 만나요.");
+      closeReview();
+    }catch(e){
+      alert("저장에 실패했어요. 다시 시도해주세요.");
+    }
+  }else{
+    closeReview();
+    if(confirm("📒 플래너 기능은 회원 전용이에요.\n지금 회원 가입하면 복습을 자동으로 관리해드려요.\n\n가입 페이지로 이동할까요?")){
+      location.href = "app.html";
+    }
+  }
+}
+
+// 시작
+renderAll();
+</script>
+</body>
+</html>

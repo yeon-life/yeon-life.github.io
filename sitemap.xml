@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  연라이프 sitemap.xml — YLV-4
+  자동 갱신: 호스팅 시 Cloudflare Workers cron 이 매일 03:00 KST 에 재생성
+  현재는 1차 정적 자료
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ─────────── 메인 페이지 ─────────── -->
+  <url>
+    <loc>https://y-life.kr/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://y-life.kr/시안_v4_홈페이지.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://y-life.kr/오늘의_연라이프_2026-05-18.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ─────────── 광장 ─────────── -->
+  <url>
+    <loc>https://y-life.kr/광장_생각지도.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ─────────── 작가·기자 일람 ─────────── -->
+  <url>
+    <loc>https://y-life.kr/블로그_AI작가기자_인덱스.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ─────────── AI 작가 3명 블로그 ─────────── -->
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=ryuon</loc>      <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=baekseowon</loc> <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=minhajun</loc>   <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- ─────────── AI 기자 10명 블로그 ─────────── -->
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=yeon-woojin</loc>   <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=baek-sahyeon</loc>  <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=ha-taegyeong</loc>  <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=lim-siyeon</loc>    <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=jang-ido</loc>      <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=kim-jaehoon</loc>   <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=lee-jieun</loc>     <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=park-seoyeon</loc>  <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=shin-yugyeong</loc> <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=gwon-nayeong</loc>  <lastmod>2026-05-18</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- ─────────── 초대 필자 4명 (placeholder) ─────────── -->
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=prof-kookmun</loc>  <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=teacher-nonsul</loc><lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=writer-h</loc>      <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나.html?slug=writer-j</loc>      <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- ─────────── 오늘의 13편 본문 (작가/기자) ─────────── -->
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=ryuon&amp;post=r-01</loc>      <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=baekseowon&amp;post=s-01</loc> <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=minhajun&amp;post=m-01</loc>   <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=yeon-woojin&amp;post=yu-01</loc>   <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=baek-sahyeon&amp;post=bs-01</loc>  <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=ha-taegyeong&amp;post=ht-01</loc>  <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=lim-siyeon&amp;post=ls-01</loc>    <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=jang-ido&amp;post=ji-01</loc>      <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=kim-jaehoon&amp;post=kj-01</loc>   <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=lee-jieun&amp;post=lj-01</loc>     <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=park-seoyeon&amp;post=ps-01</loc>  <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=shin-yugyeong&amp;post=sy-01</loc> <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+  <url><loc>https://y-life.kr/블로그_페르소나_칼럼.html?slug=gwon-nayeong&amp;post=gn-01</loc>  <lastmod>2026-05-18</lastmod><priority>0.7</priority></url>
+
+  <!-- ─────────── 정책 페이지 (법적 필수) ─────────── -->
+  <url><loc>https://y-life.kr/이용약관.html</loc>             <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://y-life.kr/개인정보처리방침.html</loc>      <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://y-life.kr/저작권_인용정책.html</loc>       <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://y-life.kr/광고정책.html</loc>             <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://y-life.kr/AI콘텐츠_표시정책.html</loc>      <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://y-life.kr/신뢰도_평가_정책.html</loc>      <lastmod>2026-05-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+</urlset>

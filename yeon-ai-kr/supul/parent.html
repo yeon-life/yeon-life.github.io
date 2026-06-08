@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연 영어 학습 — 학부모님께 드리는 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root {
+  --color-bg: #F0F4F5;
+  --color-surface: #D4E0E3;
+  --color-primary: #5A7A82;
+  --color-primary-dark: #3E5A62;
+  --color-muted: #A8B5B8;
+  --color-text: #2C3E42;
+  --color-text-light: #6B8A90;
+  --color-accent: #7A6A52;
+  --color-success: #6B8F71;
+  --color-warning: #8F856B;
+  --color-error: #8F6B6B;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:15px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:720px; margin:0 auto; padding:20px 16px 80px; }
+
+/* 헤더 */
+.hero {
+  background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-primary-dark) 100%);
+  color:#fff;
+  border-radius:16px;
+  padding:32px 24px;
+  margin-bottom:24px;
+  text-align:center;
+}
+.hero-badge {
+  display:inline-block;
+  background:rgba(255,255,255,0.18);
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.5px;
+  margin-bottom:14px;
+}
+.hero h1 { font-size:26px; font-weight:700; margin-bottom:10px; line-height:1.3; }
+.hero p { font-size:15px; opacity:0.95; }
+
+/* 카드 */
+.section { margin-bottom:20px; }
+.section-title {
+  font-size:14px;
+  font-weight:600;
+  color:var(--color-primary);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  margin-bottom:10px;
+  padding-left:4px;
+}
+.card {
+  background:#fff;
+  border:1.5px solid var(--color-surface);
+  border-radius:14px;
+  padding:22px 20px;
+  margin-bottom:12px;
+  box-shadow:0 1px 4px rgba(44,62,66,0.04);
+}
+.card h2 { font-size:19px; margin-bottom:12px; color:var(--color-text); line-height:1.4; }
+.card h3 { font-size:16px; margin:14px 0 6px; color:var(--color-primary-dark); }
+.card p { color:var(--color-text-light); margin-bottom:10px; }
+.card p strong { color:var(--color-text); font-weight:600; }
+
+/* 비교 박스 */
+.compare {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:14px 0;
+}
+.compare-col {
+  padding:14px 12px;
+  border-radius:10px;
+  font-size:13px;
+}
+.compare-col.left {
+  background:#F5F0E8;
+  border:1.5px solid #E0D4C0;
+  color:#7A6A52;
+}
+.compare-col.right {
+  background:rgba(90,122,130,0.08);
+  border:1.5px solid var(--color-primary);
+  color:var(--color-primary-dark);
+}
+.compare-col .ttl {
+  font-weight:700;
+  margin-bottom:8px;
+  padding-bottom:6px;
+  border-bottom:1px solid currentColor;
+  opacity:0.85;
+}
+.compare-col ul { list-style:none; }
+.compare-col li {
+  padding:4px 0 4px 16px;
+  position:relative;
+  line-height:1.5;
+}
+.compare-col li::before {
+  content:'';
+  position:absolute;
+  left:2px;
+  top:11px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+  opacity:0.5;
+}
+
+/* 가격 카드 */
+.price-card {
+  background:linear-gradient(180deg,#fff 0%,var(--color-bg) 100%);
+  border:2px solid var(--color-primary);
+  border-radius:16px;
+  padding:24px 20px;
+  text-align:center;
+}
+.price-range {
+  font-size:14px;
+  color:var(--color-text-light);
+  margin-bottom:8px;
+}
+.price-main {
+  font-size:34px;
+  font-weight:800;
+  color:var(--color-primary);
+  margin:6px 0;
+  line-height:1.2;
+}
+.price-main .tilde { font-size:20px; color:var(--color-muted); margin:0 6px; }
+.price-main .won { font-size:18px; font-weight:500; color:var(--color-text-light); margin-left:2px; }
+.price-note {
+  font-size:13px;
+  color:var(--color-text-light);
+  margin-top:8px;
+  line-height:1.5;
+}
+.price-meta {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.price-meta .chip {
+  background:var(--color-surface);
+  color:var(--color-primary-dark);
+  padding:6px 12px;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:500;
+}
+
+/* 왜 유동 가격? */
+.reasoning {
+  background:rgba(107,143,113,0.08);
+  border-left:4px solid var(--color-success);
+  padding:14px 16px;
+  border-radius:8px;
+  margin:14px 0;
+  font-size:14px;
+  color:var(--color-text);
+  line-height:1.6;
+}
+
+/* 결제 안내 */
+.pay-method {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid var(--color-surface);
+}
+.pay-method:last-child { border-bottom:none; }
+.pay-method .icon {
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:var(--color-surface);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--color-primary);
+  flex-shrink:0;
+}
+.pay-method .body { flex:1; }
+.pay-method h4 { font-size:15px; margin-bottom:4px; }
+.pay-method p { font-size:13px; color:var(--color-text-light); margin-bottom:2px; }
+.pay-method .tag {
+  display:inline-block;
+  background:var(--color-success);
+  color:#fff;
+  padding:2px 8px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:500;
+  margin-left:4px;
+}
+
+.deposit-info {
+  background:var(--color-bg);
+  border:1.5px dashed var(--color-muted);
+  border-radius:10px;
+  padding:14px 16px;
+  margin-top:12px;
+  font-size:14px;
+}
+.deposit-info .row {
+  display:flex;
+  justify-content:space-between;
+  padding:4px 0;
+}
+.deposit-info .row .k { color:var(--color-text-light); }
+.deposit-info .row .v { font-weight:600; color:var(--color-text); }
+
+/* FAQ */
+.faq details {
+  background:#fff;
+  border:1.5px solid var(--color-surface);
+  border-radius:10px;
+  padding:14px 16px;
+  margin-bottom:8px;
+}
+.faq details[open] { border-color:var(--color-primary); }
+.faq summary {
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  color:var(--color-text);
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.faq summary::-webkit-details-marker { display:none; }
+.faq summary::after {
+  content:'+';
+  font-size:20px;
+  color:var(--color-primary);
+  transition:transform 0.2s;
+}
+.faq details[open] summary::after { content:'−'; }
+.faq details p {
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--color-surface);
+  color:var(--color-text-light);
+  font-size:13px;
+  line-height:1.7;
+}
+
+/* 버튼 */
+.cta {
+  position:sticky;
+  bottom:16px;
+  margin-top:20px;
+  z-index:10;
+}
+.btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:16px 20px;
+  border:none;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:inherit;
+  transition:all 0.2s;
+  box-shadow:0 4px 12px rgba(44,62,66,0.12);
+}
+.btn-primary { background:var(--color-primary); color:#fff; }
+.btn-primary:hover { background:var(--color-primary-dark); }
+
+.footer {
+  text-align:center;
+  font-size:12px;
+  color:var(--color-muted);
+  padding:24px 16px 0;
+}
+
+/* 하이라이트 단락 */
+.highlight {
+  background:linear-gradient(transparent 60%,rgba(90,122,130,0.18) 60%);
+  padding:0 2px;
+  font-weight:600;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== 히어로 ===== -->
+  <div class="hero">
+    <div class="hero-badge">학부모님께 드리는 안내</div>
+    <h1>아이의 영어, 데이터로 키웁니다</h1>
+    <p>연 영어 학습 — 개인 맞춤 누적 분석 기반 학습 앱</p>
+  </div>
+
+  <!-- ===== 무엇을 하는 앱인가 ===== -->
+  <div class="section">
+    <div class="section-title">01 · 무엇을 하는 앱인가요</div>
+    <div class="card">
+      <h2>아이의 약점만 골라 반복 훈련합니다</h2>
+      <p>
+        일반적인 문제집은 모든 학생에게 똑같은 문제를 줍니다.
+        연 영어 학습은 <strong>아이가 풀었던 모든 문제, 틀린 유형, 놓치는 단어 패턴을 전부 기록</strong>해,
+        가장 약한 부분만 선별해 다시 훈련시킵니다.
+      </p>
+      <p>
+        또한 담당 선생님이 아이의 학습 로그를 직접 확인하고,
+        <strong>주기적으로 직접 코멘트와 학습 방향</strong>을 보내드립니다.
+        AI가 문제를 출제하고, 사람이 방향을 잡는 하이브리드 구조입니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== 대면 수업과의 차이 ===== -->
+  <div class="section">
+    <div class="section-title">02 · 대면 수업과 무엇이 다른가요</div>
+    <div class="card">
+      <h2>시간 · 공간에 묶이지 않는 개인 학습</h2>
+      <p>
+        아이가 하루에 단 15분만 투자해도, 그 15분 동안의 풀이 데이터가 전부 누적됩니다.
+        이동 시간, 대기 시간이 없기 때문에 순수 학습 시간이 오프라인 대비 훨씬 깁니다.
+      </p>
+
+      <div class="compare">
+        <div class="compare-col left">
+          <div class="ttl">기존 대면 수업</div>
+          <ul>
+            <li>주 2~3회 왕복 이동 필요</li>
+            <li>그룹 진도에 맞춰 수업</li>
+            <li>결석 시 보충 어려움</li>
+            <li>아이의 약점 누적 기록 없음</li>
+            <li>월 20~80만원 고정비</li>
+          </ul>
+        </div>
+        <div class="compare-col right">
+          <div class="ttl">연 영어 학습</div>
+          <ul>
+            <li>집/이동 중 어디서나 학습</li>
+            <li>아이 수준에 맞춘 1:1 출제</li>
+            <li>원하는 시간에 원하는 만큼</li>
+            <li>모든 풀이 데이터 자동 저장</li>
+            <li>월 2~10만원 사용량제</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--color-text-light);margin-top:14px;">
+        ※ 아이가 앱에만 의존하지 않도록, 프린트 출력 복습지를 함께 제공합니다.
+        종이에 직접 쓰는 학습도 병행할 수 있습니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== 이용료 안내 ===== -->
+  <div class="section">
+    <div class="section-title">03 · 이용료 안내</div>
+    <div class="card">
+      <h2>쓴 만큼만 내시면 됩니다</h2>
+
+      <div class="price-card">
+        <div class="price-range">월 이용료 범위</div>
+        <div class="price-main">
+          <span id="priceMin">2만원</span>
+          <span class="tilde">~</span>
+          <span id="priceMax">10만원</span>
+        </div>
+        <div class="price-note">
+          아이가 실제 공부한 양에 따라 변동됩니다.<br>
+          <strong>최대 10만원 이상은 절대 청구되지 않습니다.</strong>
+        </div>
+        <div class="price-meta">
+          <span class="chip">기본 포함: <span id="baseSessions">30</span>회</span>
+          <span class="chip">초과 단가: <span id="perOver">1,500</span>원/회</span>
+          <span class="chip">상한 고정</span>
+        </div>
+      </div>
+
+      <div class="reasoning">
+        <strong>왜 유동 가격인가요?</strong><br>
+        고정 요금제는 공부를 덜 한 달에도 똑같이 냅니다.
+        많이 공부했다는 건 곧 <strong>아이가 그만큼 성장했다는 증거</strong>입니다.
+        대신 아무리 많이 써도 10만원을 넘기지 않도록 상한을 두어,
+        예상치 못한 지출을 막습니다.
+      </div>
+
+      <h3>이달 예상 이용료</h3>
+      <p style="font-size:14px;">
+        학생이 지금까지 기록한 학습 세션을 바탕으로 계산한 이달 예상액입니다.
+        실제 청구액은 월말에 최종 확정됩니다.
+      </p>
+      <div class="deposit-info" id="estimateBox">
+        <div class="row"><span class="k">이번달 사용 세션</span><span class="v" id="estSessions">-</span></div>
+        <div class="row"><span class="k">예상 이용료</span><span class="v" id="estAmount">-</span></div>
+        <div class="row"><span class="k">남은 한도</span><span class="v" id="estRemain">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 결제 방법 ===== -->
+  <div class="section">
+    <div class="section-title">04 · 결제 방법</div>
+    <div class="card">
+      <h2>반드시 학부모님 명의로 결제해 주세요</h2>
+      <p style="color:var(--color-error);font-size:13px;">
+        ※ 전산 기록과 영수증 발행을 위해 <span class="highlight">학부모님 본인 명의의 계좌 또는 카카오페이</span>를 권장드립니다.
+        현금 직접 납부나 제3자 명의 이체는 기록 확인이 어려워 가급적 피해 주세요.
+      </p>
+
+      <div class="pay-method">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <div class="body">
+          <h4>계좌이체 <span class="tag">권장</span></h4>
+          <p>학부모님 명의 은행 계좌에서 직접 이체</p>
+          <p>전산 기록이 가장 명확합니다</p>
+        </div>
+      </div>
+
+      <div class="pay-method">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="body">
+          <h4>카카오페이 송금 <span class="tag">권장</span></h4>
+          <p>학부모님 카카오페이에서 송금</p>
+          <p>모바일에서 가장 편리합니다</p>
+        </div>
+      </div>
+
+      <div class="deposit-info" id="depositInfo">
+        <div class="row"><span class="k">입금 은행</span><span class="v" id="depBank">운영자에게 문의</span></div>
+        <div class="row"><span class="k">계좌번호</span><span class="v" id="depAccount">-</span></div>
+        <div class="row"><span class="k">예금주</span><span class="v" id="depHolder">-</span></div>
+        <div class="row" id="depKakaoRow" style="display:none;"><span class="k">카카오페이</span><span class="v"><a id="depKakao" href="#" style="color:var(--color-primary);">송금 바로가기</a></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FAQ ===== -->
+  <div class="section">
+    <div class="section-title">05 · 자주 묻는 질문</div>
+    <div class="card faq">
+
+      <details>
+        <summary>아이가 앱으로 공부를 제대로 할까요?</summary>
+        <p>
+          처음 한 달은 무료로 체험해 보실 수 있습니다.
+          이 기간 동안 아이가 꾸준히 사용하는지, 학습 로그가 쌓이는지 직접 확인하신 뒤 정식 가입 여부를 결정하시면 됩니다.
+          담당 선생님이 학습 진행 상황을 주기적으로 알려드립니다.
+        </p>
+      </details>
+
+      <details>
+        <summary>AI가 답을 그냥 알려주지 않나요?</summary>
+        <p>
+          정답을 바로 공개하지 않고, <strong>힌트를 단계적으로 주는 방식</strong>을 씁니다.
+          학생이 스스로 풀어보도록 유도하고, 끝까지 못 풀 때만 해설을 보여줍니다.
+          또한 부정 사용이 감지되면 경고 후 차단되는 시스템이 있습니다.
+        </p>
+      </details>
+
+      <details>
+        <summary>학교 진도와 맞지 않으면 어떡하죠?</summary>
+        <p>
+          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+          학교 진도에 맞춘 문장과 어휘가 우선 출제됩니다.
+          또한 아이가 학습 중 모르는 단어는 즉시 단어 학습장으로 옮겨지고,
+          학생 본인의 일기에서 발췌한 예문으로 복습합니다.
+        </p>
+      </details>
+
+      <details>
+        <summary>이용료가 갑자기 10만원이 나오면 어쩌죠?</summary>
+        <p>
+          <strong>10만원이 상한선</strong>입니다. 아무리 많이 써도 이 금액을 넘지 않습니다.
+          또한 월 중반에 예상 이용료가 급격히 오르면 학부모님께 미리 알림이 전송됩니다.
+          이 페이지 상단의 "이달 예상 이용료" 항목에서 실시간으로 확인할 수 있습니다.
+        </p>
+      </details>
+
+      <details>
+        <summary>환불이나 일시 정지는 어떻게 하나요?</summary>
+        <p>
+          월 단위로 사용량이 계산되므로, 사용하지 않은 달은 최소 기본료(2만원)만 청구됩니다.
+          완전 정지를 원하시면 담당 선생님께 연락해 주세요.
+        </p>
+      </details>
+
+      <details>
+        <summary>아이의 개인정보는 안전한가요?</summary>
+        <p>
+          아이의 학습 데이터는 학부모님과 담당 선생님만 접근할 수 있도록 관리됩니다.
+          외부 광고나 제3자에게 데이터가 제공되지 않습니다.
+        </p>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta">
+    <button class="btn btn-primary" onclick="confirmPayment()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      내용을 확인했습니다 · 결제 안내받기
+    </button>
+  </div>
+
+  <div class="footer">
+    © 연 영어 학습 · 문의는 자녀 담당 선생님께 연락 부탁드립니다
+  </div>
+</div>
+
+<script>
+(function(){
+  var CFG = window.YEON_CONFIG || {};
+  var P = CFG.PRICING || { MIN:20000, MAX:100000, BASE_SESSIONS:30, PER_SESSION_OVER:1500 };
+
+  // 숫자 포맷
+  function fmt(n){ return n.toLocaleString('ko-KR'); }
+  function won(n){ return fmt(n) + '원'; }
+
+  // 가격 범위 표시
+  document.getElementById('priceMin').textContent = (P.MIN/10000) + '만원';
+  document.getElementById('priceMax').textContent = (P.MAX/10000) + '만원';
+  document.getElementById('baseSessions').textContent = P.BASE_SESSIONS;
+  document.getElementById('perOver').textContent = fmt(P.PER_SESSION_OVER);
+
+  // 이달 사용량 추정 — URL 파라미터 ?s=사용세션수 로 전달
+  // (실제 운영에선 Apps Script 에서 학생별 집계값을 조회해 주입)
+  var qs = new URLSearchParams(window.location.search);
+  var sessions = parseInt(qs.get('s') || '0', 10);
+  if (!sessions){
+    try {
+      var usage = JSON.parse(localStorage.getItem('yeon_session_log')||'[]');
+      sessions = usage.length;
+    } catch(e){ sessions = 0; }
+  }
+
+  function estimate(s){
+    if (s <= P.BASE_SESSIONS) return P.MIN;
+    var over = (s - P.BASE_SESSIONS) * P.PER_SESSION_OVER;
+    return Math.min(P.MIN + over, P.MAX);
+  }
+  var estAmt = estimate(sessions);
+  document.getElementById('estSessions').textContent = sessions + '회';
+  document.getElementById('estAmount').textContent = won(estAmt);
+  document.getElementById('estRemain').textContent = won(P.MAX - estAmt);
+
+  // 입금 정보
+  var D = P.DEPOSIT_INFO || {};
+  if (D.BANK_NAME) document.getElementById('depBank').textContent = D.BANK_NAME;
+  if (D.ACCOUNT_NUMBER) document.getElementById('depAccount').textContent = D.ACCOUNT_NUMBER;
+  if (D.ACCOUNT_HOLDER) document.getElementById('depHolder').textContent = D.ACCOUNT_HOLDER;
+  if (D.KAKAOPAY_LINK){
+    document.getElementById('depKakaoRow').style.display = 'flex';
+    document.getElementById('depKakao').href = D.KAKAOPAY_LINK;
+  }
+
+  // CTA — 결제 안내받기
+  window.confirmPayment = function(){
+    var msg = '내용을 확인하셨다면 자녀의 담당 선생님께 확인 메시지를 보내 주세요.\n\n'
+            + '예상 이용료: ' + won(estAmt) + '\n'
+            + '입금 후 아이 이름을 함께 남겨 주시면 빠르게 확인됩니다.';
+    alert(msg);
+  };
+})();
+</script>
+</body>
+</html>

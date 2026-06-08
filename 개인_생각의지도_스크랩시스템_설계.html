@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>개인 생각의 지도 — 스크랩 시스템 설계</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72; --purple:#6858c0;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:56px 0 36px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.15;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:48px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-56px;top:0;font-family:var(--serif);font-size:24px;font-weight:300;color:var(--amber)}
+  h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);margin:28px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* Vision 박스 */
+  .vision{background:linear-gradient(135deg,var(--ink) 0%,#0c1820 100%);color:var(--warm);padding:40px;border-radius:8px;margin:32px 0;position:relative;overflow:hidden}
+  .vision::before{content:"";position:absolute;top:20px;right:30px;width:80px;height:80px;border:1px solid var(--amber);border-radius:50%;opacity:.3}
+  .vision::after{content:"";position:absolute;top:60px;right:60px;width:20px;height:20px;background:var(--amber);border-radius:50%;opacity:.5}
+  .vision .tag{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .vision h3{font-family:var(--serif);font-size:26px;color:var(--warm);margin:0 0 14px;border:none;padding:0;line-height:1.3;max-width:580px}
+  .vision p{font-size:15px;color:rgba(244,240,230,.85);line-height:1.85;margin-bottom:12px;max-width:600px}
+  .vision strong{color:var(--amber)}
+
+  /* 스크랩 흐름 다이어그램 */
+  .flow{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:32px;margin:24px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;color:var(--ink);overflow-x:auto;white-space:pre}
+
+  /* 스크랩 가능 자리 카드 */
+  .scrap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0}
+  .scrap-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 22px;position:relative}
+  .scrap-where{display:inline-block;font-size:10px;padding:3px 10px;border-radius:999px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+  .where-news{background:#FFE5E5;color:var(--red)}
+  .where-plaza{background:rgba(42,83,88,.12);color:var(--teal)}
+  .where-chatbot{background:#E8F5E9;color:var(--green)}
+  .where-blog{background:rgba(168,123,62,.15);color:var(--amber)}
+  .where-self{background:rgba(104,88,192,.12);color:var(--purple)}
+  .scrap-card h4{font-family:var(--serif);font-size:16px;color:var(--ink);font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+  .scrap-card p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+  .scrap-card .example{font-size:12px;color:var(--soft);background:var(--warm);padding:8px 12px;border-radius:4px;border-left:2px solid var(--line);font-style:italic;margin-top:8px}
+
+  /* 데이터 구조 */
+  .schema{background:var(--ink);color:#e8e4d9;padding:20px 24px;border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;margin:14px 0;overflow-x:auto;white-space:pre}
+  .schema .c{color:#7a8a8e}
+  .schema .k{color:#e4c89a}
+  .schema .s{color:#a8b8bc}
+  .schema .v{color:#c4e4d8}
+
+  /* UI 미리보기 — 별자리 카드 */
+  .map-preview{background:linear-gradient(135deg,#0c1820,#0f1e28);color:#e8e4d9;border-radius:12px;padding:36px;margin:14px 0;position:relative;min-height:280px;overflow:hidden}
+  .map-preview .star{position:absolute;border-radius:50%;animation:pulse 3s ease-in-out infinite}
+  .map-preview .star1{top:20%;left:25%;width:14px;height:14px;background:#3aa0a8;box-shadow:0 0 20px #3aa0a8}
+  .map-preview .star2{top:55%;left:18%;width:11px;height:11px;background:#e0aa50;box-shadow:0 0 15px #e0aa50;animation-delay:.5s}
+  .map-preview .star3{top:35%;left:48%;width:16px;height:16px;background:#5ab070;box-shadow:0 0 24px #5ab070;animation-delay:1s}
+  .map-preview .star4{top:70%;left:55%;width:10px;height:10px;background:#e06050;box-shadow:0 0 12px #e06050;animation-delay:1.5s}
+  .map-preview .star5{top:25%;left:75%;width:13px;height:13px;background:#8878e0;box-shadow:0 0 18px #8878e0;animation-delay:2s}
+  .map-preview .star6{top:60%;left:78%;width:12px;height:12px;background:#3aa0a8;box-shadow:0 0 16px #3aa0a8;animation-delay:2.5s}
+  .map-preview svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  @keyframes pulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+  .map-preview .title{position:absolute;top:24px;left:32px;font-family:var(--serif);font-size:18px;font-weight:700;color:#e8e4d9}
+  .map-preview .subtitle{position:absolute;top:50px;left:32px;font-size:12px;color:rgba(220,240,250,.5)}
+  .map-preview .legend{position:absolute;bottom:24px;left:32px;font-size:11px;color:rgba(220,240,250,.7)}
+  .map-preview .legend .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+
+  /* 스크랩 버튼 시안 */
+  .button-mockup{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:24px;margin:14px 0}
+  .button-mockup .demo{display:flex;align-items:center;gap:10px;font-size:14px;padding:10px 14px;background:var(--warm);border-radius:6px;border:1px solid var(--line);margin-bottom:10px;color:var(--ink)}
+  .scrap-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:transparent;border:1px solid var(--amber);color:var(--amber);border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+  .scrap-btn:hover{background:var(--amber);color:white}
+  .scrap-btn.active{background:var(--amber);color:white}
+  .scrap-btn::before{content:"+";font-size:14px;font-weight:900;margin-right:2px}
+  .scrap-btn.active::before{content:"✓"}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+
+  /* 체크리스트 */
+  .checklist{list-style:none;margin-left:0;padding-left:0}
+  .checklist li{padding-left:24px;position:relative;margin-bottom:8px;font-size:14px;line-height:1.8}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:16px;color:var(--teal)}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:30px}
+    h2 .num{position:static;display:block;margin-bottom:6px}
+    .scrap-grid{grid-template-columns:1fr}
+    .flow,.schema{font-size:10px;padding:18px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>개인 생각의 지도 · 스크랩 시스템 설계</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Personal Mind Map Design · 2026.05.16.</div>
+    <h1>각자의 우주에 별이 모이는 곳 — <em>개인 생각의 지도</em></h1>
+    <p class="lede">
+      방문자가 마을을 거닐다 마음에 닿는 것을 즉시 스크랩하고,
+      그것들이 자기 우주에서 별처럼 연결되어 사유의 지형이 되는 시스템.
+      뉴스든, 광장의 글이든, 챗봇과 나눈 한 마디든 — 무엇이든 스크랩되고 연결됩니다.
+    </p>
+  </header>
+
+  <!-- ========== Vision ========== -->
+  <div class="vision">
+    <div class="tag">설계 철학</div>
+    <h3>"읽기"를 "쌓기"로, "쌓기"를 "사유"로</h3>
+    <p>SNS는 손가락이 다음 글로 흘려보내는 도구입니다. 연라이프는 반대 방향을 봅니다.</p>
+    <p>마음에 닿은 한 줄을 멈춰 세워 자기 우주에 별로 놓아두고, 시간이 지나면서 그 별들이 별자리가 되어 자기 사유의 지형을 만듭니다. <strong>각 주민이 1년이 지난 후, 자신만의 작은 도서관 — 별자리 같은 생각의 지도 — 를 갖게 됩니다.</strong></p>
+    <p>이것은 연라이프 약속의 가장 깊은 실현입니다 — "여기서 쓴 모든 것은 당신의 자산입니다."</p>
+  </div>
+
+  <!-- ========== 1. 어디서 스크랩하나 ========== -->
+  <h2><span class="num">01</span>어디서 스크랩할 수 있나 — 다섯 자리</h2>
+
+  <p>마을의 모든 자리에서 스크랩 버튼이 자연스럽게 나타납니다.</p>
+
+  <div class="scrap-grid">
+
+    <div class="scrap-card">
+      <span class="scrap-where where-news">소식·뉴스</span>
+      <h4>뉴스 기사를 스크랩</h4>
+      <p>7개 카테고리에서 마음에 닿은 기사. 한 줄 요약·원문 링크가 자동으로 함께 저장됩니다.</p>
+      <p class="example">"태화강 봄철 수질 시민과학자 측정" — 5월 13일 우리동네</p>
+    </div>
+
+    <div class="scrap-card">
+      <span class="scrap-where where-plaza">광장</span>
+      <h4>광장 글·댓글을 스크랩</h4>
+      <p>아골라·아곤란의 글 전체나 마음에 닿는 한 문단·한 댓글만 골라서.</p>
+      <p class="example">"멈춤이 자유라는 말이 한참 머물게 합니다." — 박주민의 댓글</p>
+    </div>
+
+    <div class="scrap-card">
+      <span class="scrap-where where-chatbot">챗봇 대화</span>
+      <h4>緣 도우미와의 대화를 스크랩</h4>
+      <p>챗봇이 답한 좋은 한 마디나 대화 한 토막을 그대로.</p>
+      <p class="example">"좋은 물음은 답을 찾는 게 아니라 나를 바꾸는 일입니다."</p>
+    </div>
+
+    <div class="scrap-card">
+      <span class="scrap-where where-blog">블로그</span>
+      <h4>주민 블로그 글을 스크랩</h4>
+      <p>다른 주민의 블로그 글·인용구·사진까지. 작가에게 자동으로 "스크랩됐어요" 알림 발송(선택).</p>
+      <p class="example">"맹자의 不忍人之心과 거울 뉴런" — 최영재의 서고 No.011</p>
+    </div>
+
+    <div class="scrap-card">
+      <span class="scrap-where where-self">내 메모</span>
+      <h4>내 머릿속 한 줄을 스크랩</h4>
+      <p>어디서 가져온 게 아니라 내가 생각한 한 줄도 별이 됩니다. 매일 한 줄씩 쌓으면 1년 후 366개의 별.</p>
+      <p class="example">"오늘 학생의 질문이 내 답변보다 깊었다."</p>
+    </div>
+
+  </div>
+
+  <!-- ========== 2. 스크랩 흐름 ========== -->
+  <h2><span class="num">02</span>스크랩 한 번의 흐름</h2>
+
+  <div class="flow">사용자가 글을 읽다 마음에 닿는 한 문단 발견
+                       ↓
+        문단을 마우스로 선택 (또는 모바일은 길게 누름)
+                       ↓
+        떠오르는 작은 버튼: "+ 스크랩"  (호박색 알약)
+                       ↓
+        클릭하면 즉시 별이 됨 (애니메이션 0.3초)
+                       ↓
+        선택: 한 줄 노트 추가? · 태그 붙이기? · 그냥 저장?
+                       ↓
+        내 생각의 지도에 별로 추가됨
+                       ↓
+        AI가 자동으로 "관련 있는 다른 스크랩" 제안
+                       ↓
+        선택: 별 사이 선 연결 · 다음에 → "전체 보기 →"</div>
+
+  <div class="button-mockup">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px"><strong>스크랩 버튼의 두 상태</strong></p>
+    <div class="demo">
+      <span style="flex:1;font-family:var(--serif)">"...의식과 행위 사이 0.3초의 간극이..."</span>
+      <button class="scrap-btn">스크랩</button>
+    </div>
+    <div class="demo">
+      <span style="flex:1;font-family:var(--serif)">"...의식과 행위 사이 0.3초의 간극이..."</span>
+      <button class="scrap-btn active">스크랩됨</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px;font-style:italic">평소엔 거의 안 보이게, 마우스를 갖다 대면 부드럽게 떠오릅니다.</p>
+  </div>
+
+  <!-- ========== 3. 별자리 페이지 ========== -->
+  <h2><span class="num">03</span>내 생각의 지도 — 별자리 페이지</h2>
+
+  <p>스크랩한 모든 것이 한 페이지에 별로 떠 있는 자기만의 우주. 이미 광장 생각의 지도와 같은 시각 언어를 씁니다.</p>
+
+  <div class="map-preview">
+    <div class="title">임선생의 생각의 지도</div>
+    <div class="subtitle">23개의 별, 14개의 연결 · 2026년 5월</div>
+    <svg viewBox="0 0 600 280">
+      <line x1="170" y1="80" x2="290" y2="115" stroke="rgba(220,240,250,.2)" stroke-width="1"/>
+      <line x1="290" y1="115" x2="450" y2="90" stroke="rgba(220,240,250,.2)" stroke-width="1"/>
+      <line x1="130" y1="170" x2="290" y2="115" stroke="rgba(220,240,250,.15)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="330" y1="200" x2="465" y2="175" stroke="rgba(220,240,250,.2)" stroke-width="1"/>
+      <line x1="170" y1="80" x2="130" y2="170" stroke="rgba(220,240,250,.15)" stroke-width="1" stroke-dasharray="3,3"/>
+    </svg>
+    <div class="star star1"></div>
+    <div class="star star2"></div>
+    <div class="star star3"></div>
+    <div class="star star4"></div>
+    <div class="star star5"></div>
+    <div class="star star6"></div>
+    <div class="legend">
+      <span><span class="dot" style="background:#3aa0a8"></span>광장 글</span> &nbsp;
+      <span><span class="dot" style="background:#e0aa50"></span>뉴스</span> &nbsp;
+      <span><span class="dot" style="background:#5ab070"></span>챗봇</span> &nbsp;
+      <span><span class="dot" style="background:#e06050"></span>블로그</span> &nbsp;
+      <span><span class="dot" style="background:#8878e0"></span>내 메모</span>
+    </div>
+  </div>
+
+  <h3>별의 모양과 색</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>크기</strong> — 자주 다시 읽는 별일수록 커짐 (마음의 무게)</li>
+    <li><strong>색</strong> — 스크랩 출처에 따라 (광장=틸, 뉴스=호박, 챗봇=초록, 블로그=빨강, 내 메모=보라)</li>
+    <li><strong>연결선</strong>
+      <ul style="margin-top:4px">
+        <li>실선 — 내가 직접 연결한 별 사이</li>
+        <li>점선 — AI가 "이 둘이 비슷합니다" 제안한 별 사이 (수락하면 실선으로)</li>
+      </ul>
+    </li>
+    <li><strong>위치</strong> — 시간순/주제별/자유 배치 중 선택. 본인이 직접 끌어다 놓을 수도</li>
+  </ul>
+
+  <h3>지도와 함께 가능한 것</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>검색</strong> — 키워드로 별 찾기</li>
+    <li><strong>필터</strong> — "뉴스만", "최근 1주", "태그=교실" 등</li>
+    <li><strong>타임라인 모드</strong> — 별들을 날짜순으로 다시 배치</li>
+    <li><strong>주제별 모드</strong> — AI가 태그/내용으로 자동 군집</li>
+    <li><strong>여행 모드</strong> — 별을 하나씩 클릭하며 다시 읽기 (자기 사유의 산책)</li>
+  </ul>
+
+  <!-- ========== 4. 데이터 구조 ========== -->
+  <h2><span class="num">04</span>데이터 구조</h2>
+
+  <p>Cloudflare D1 (무료 5GB) 에 저장. 회원당 평균 1년에 ~500개 스크랩 가정, 1만 회원까지 충분.</p>
+
+  <div class="schema"><span class="c">// Cloudflare D1 — scraps 테이블</span>
+<span class="k">CREATE TABLE</span> scraps (
+  id <span class="k">TEXT PRIMARY KEY</span>,                <span class="c">-- UUID</span>
+  user_id <span class="k">TEXT NOT NULL</span>,             <span class="c">-- 회원 ID</span>
+  type <span class="k">TEXT NOT NULL</span>,                <span class="c">-- 'news'|'plaza'|'chatbot'|'blog'|'self'</span>
+
+  <span class="c">-- 원본 정보</span>
+  source_url <span class="k">TEXT</span>,                   <span class="c">-- 원문 링크 (있으면)</span>
+  source_title <span class="k">TEXT</span>,                 <span class="c">-- 원본 제목</span>
+  source_author <span class="k">TEXT</span>,                <span class="c">-- 원본 글쓴이</span>
+  source_date <span class="k">DATETIME</span>,              <span class="c">-- 원본 작성일</span>
+
+  <span class="c">-- 스크랩 내용</span>
+  content <span class="k">TEXT NOT NULL</span>,             <span class="c">-- 실제 스크랩한 텍스트</span>
+  my_note <span class="k">TEXT</span>,                      <span class="c">-- 내가 쓴 한 줄 메모</span>
+  tags <span class="k">TEXT</span>,                         <span class="c">-- JSON 배열: ["철학","교실"]</span>
+
+  <span class="c">-- 지도 위치</span>
+  x <span class="k">REAL</span>, y <span class="k">REAL</span>,                          <span class="c">-- 별의 위치 (자동/수동)</span>
+  size <span class="k">REAL DEFAULT</span> <span class="v">1</span>,                    <span class="c">-- 별 크기 (다시 읽을수록 커짐)</span>
+
+  <span class="c">-- 메타</span>
+  created_at <span class="k">DATETIME DEFAULT CURRENT_TIMESTAMP</span>,
+  last_visited_at <span class="k">DATETIME</span>,
+  visit_count <span class="k">INTEGER DEFAULT</span> <span class="v">0</span>
+);
+
+<span class="c">// 별 사이 연결</span>
+<span class="k">CREATE TABLE</span> connections (
+  id <span class="k">TEXT PRIMARY KEY</span>,
+  user_id <span class="k">TEXT NOT NULL</span>,
+  scrap_a <span class="k">TEXT NOT NULL</span>,
+  scrap_b <span class="k">TEXT NOT NULL</span>,
+  kind <span class="k">TEXT</span>,                          <span class="c">-- 'manual'|'ai_suggested'</span>
+  note <span class="k">TEXT</span>,                          <span class="c">-- 왜 연결되어 있는가</span>
+  created_at <span class="k">DATETIME DEFAULT CURRENT_TIMESTAMP</span>
+);
+
+<span class="c">// 인덱스 (속도)</span>
+<span class="k">CREATE INDEX</span> idx_scraps_user <span class="k">ON</span> scraps(user_id, created_at);
+<span class="k">CREATE INDEX</span> idx_conn_user <span class="k">ON</span> connections(user_id);</div>
+
+  <!-- ========== 5. AI 보조 ========== -->
+  <h2><span class="num">05</span>AI가 도와주는 일</h2>
+
+  <p>AI는 명령자가 아닌 도우미입니다. 늘 제안만, 결정은 본인이.</p>
+
+  <table>
+    <thead><tr><th>AI가 도와주는 일</th><th>어떻게 작동</th><th>사용 모델</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>자동 태그 제안</strong></td>
+        <td>스크랩 내용 보고 적절한 태그 3~5개 제안. 수락/거절 본인이.</td>
+        <td>Gemini Flash (무료)</td>
+      </tr>
+      <tr>
+        <td><strong>연결 제안</strong></td>
+        <td>새 스크랩이 기존 별 중 어느 것과 비슷한지 임베딩 비교. "이 둘이 닮았어요" 제안.</td>
+        <td>Gemini 임베딩 (무료)</td>
+      </tr>
+      <tr>
+        <td><strong>주제별 군집</strong></td>
+        <td>20개 이상 별 모이면 "이 별들은 '자유의지'에 관한 것 같습니다" 같은 군집 제안.</td>
+        <td>Gemini Flash (무료)</td>
+      </tr>
+      <tr>
+        <td><strong>월간 요약</strong></td>
+        <td>매월 1일 "지난 한 달간 당신이 자주 머문 주제는..." 같은 자기 사유 요약.</td>
+        <td>Claude Haiku</td>
+      </tr>
+      <tr>
+        <td><strong>여행 추천</strong></td>
+        <td>"오늘 별 하나만 다시 읽고 싶다면..." 매일 한 별 추천 (시간이 지난 옛 별 위주).</td>
+        <td>Gemini Flash (무료)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 6. 내보내기 ========== -->
+  <h2><span class="num">06</span>내보내기 — "내 자서전"으로 가는 길</h2>
+
+  <p>연라이프 로드맵에 있는 <strong>자서전 공방 (2027 예정)</strong>의 기반이 바로 이 스크랩북입니다. 1년치 별을 모아 한 권의 책으로 묶을 수 있어요.</p>
+
+  <h3>네 가지 내보내기 형식</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>📄 PDF</strong> — 시간순/주제순 깔끔한 책 형태. 인쇄도 가능</li>
+    <li><strong>📝 마크다운</strong> — 다른 노트 도구(Obsidian·Notion 등)로 옮기기 좋음</li>
+    <li><strong>🌐 정적 HTML</strong> — 본인 도메인에 올려서 자기 별자리 영원히 보관</li>
+    <li><strong>🖼️ 별자리 이미지</strong> — 지도를 그대로 PNG로 — 인쇄해서 책상 위에</li>
+  </ul>
+
+  <h3>2027 자서전 공방 연결</h3>
+  <p>1~2년치 스크랩이 쌓이면 자서전 공방에서 그 별들을 토대로 자전적 글쓰기를 도와줍니다. AI가 별 사이의 패턴을 보고 "당신은 이런 시기에 이런 주제에 자주 머물렀어요"를 알려주고, 그 패턴을 기반으로 한 챕터 한 챕터 함께 써 나가는 도구.</p>
+
+  <div class="note">
+    <strong>"기록하지 않은 생각은 정말 내 생각이라고 할 수 있을까?"</strong>
+    이게 우리가 만든 화두 중 하나였습니다. 이 시스템은 그 화두에 대한 연라이프의 답이 됩니다 — 기록할 수 있는 자리를 마을이 마련합니다.
+  </div>
+
+  <!-- ========== 7. 개인정보·신뢰 ========== -->
+  <h2><span class="num">07</span>개인정보와 신뢰 — 약속</h2>
+
+  <ul class="checklist">
+    <li><strong>전적으로 비공개</strong> — 본인 외 누구도 다른 사람의 지도를 볼 수 없음 (운영자도 X)</li>
+    <li><strong>선택적 공개</strong> — 본인이 원하면 "별 하나"만 공개해서 광장에서 나누기 가능</li>
+    <li><strong>탈퇴 시 완전 삭제</strong> — 회원 탈퇴 시 모든 스크랩 영구 삭제</li>
+    <li><strong>다운로드 권리</strong> — 언제든 본인 데이터 전체를 ZIP으로 받을 수 있음</li>
+    <li><strong>AI 처리 투명성</strong> — 어떤 AI가 무엇을 처리하는지 설정에서 확인 가능, 끄기 옵션</li>
+    <li><strong>저작권</strong> — 다른 주민의 글 스크랩 시, 원작자에게 자동 알림(선택). 외부 뉴스는 링크·요약만</li>
+  </ul>
+
+  <!-- ========== 8. UI 추가 사항 ========== -->
+  <h2><span class="num">08</span>UI에 추가될 곳들</h2>
+
+  <h3>스크랩 버튼이 나타나는 자리</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>뉴스 카드</strong> — 카드 우측 상단에 "+ 스크랩" 작은 알약 버튼</li>
+    <li><strong>광장 글 상세 페이지</strong> — 문단 선택 시 떠오르는 툴팁 ("+ 스크랩")</li>
+    <li><strong>댓글</strong> — 댓글 우측에 작은 스크랩 아이콘</li>
+    <li><strong>챗봇 응답</strong> — 챗봇 답변 끝에 "이 답 스크랩하기" 링크</li>
+    <li><strong>블로그 글</strong> — 글 옆에 떠 있는 사이드 버튼</li>
+  </ul>
+
+  <h3>새로 만들 페이지 / 패널</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>내 생각의 지도</strong> 페이지 — 별자리 시각화 + 검색·필터 (광장 생각의 지도와 같은 시각 언어)</li>
+    <li><strong>스크랩북 리스트 뷰</strong> — 카드 형태 목록 (지도가 부담스러운 사람 위해)</li>
+    <li><strong>별 상세 모달</strong> — 별 클릭 시 펼쳐지는 카드 (내용·노트·태그·연결·편집)</li>
+    <li><strong>스크랩 패널 (우측)</strong> — 이미 외부 디자인에 들어 있음 (YLScrapbook.jsx) — 이걸 확장</li>
+  </ul>
+
+  <h3>마스트헤드 / 메뉴 추가</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>마스트헤드 우측: "내 생각의 지도" 작은 별 아이콘 (✦)</li>
+    <li>차림표(메가 메뉴): 블로그 카테고리 안에 "내 생각의 지도" 추가</li>
+    <li>모바일: 하단 탭바에 "지도" 탭 (있으면)</li>
+  </ul>
+
+  <!-- ========== 9. 구현 단계 ========== -->
+  <h2><span class="num">09</span>구현 — 어떤 순서로</h2>
+
+  <h3>1단계 — 기본 스크랩 (2주)</h3>
+  <ul class="checklist">
+    <li>D1 테이블 생성 (scraps, connections)</li>
+    <li>스크랩 버튼 디자인 (호박색 알약, 부드러운 등장 애니메이션)</li>
+    <li>5개 자리에 스크랩 버튼 추가 (뉴스·광장·댓글·챗봇·블로그)</li>
+    <li>리스트 뷰 우선 (지도는 다음 단계) — 외부 디자인의 YLScrapbook.jsx 활용</li>
+    <li>한 줄 노트·태그 추가 가능</li>
+  </ul>
+
+  <h3>2단계 — 별자리 지도 (3주)</h3>
+  <ul class="checklist">
+    <li>D3.js 또는 vis-network로 별자리 시각화</li>
+    <li>광장_생각지도.html과 같은 시각 언어 (어두운 우주 톤)</li>
+    <li>줌·드래그·검색·필터</li>
+    <li>별 클릭 → 상세 모달</li>
+  </ul>
+
+  <h3>3단계 — AI 보조 (2주)</h3>
+  <ul class="checklist">
+    <li>자동 태그 제안 (Gemini)</li>
+    <li>임베딩 기반 연결 제안</li>
+    <li>주제별 군집 (별 20개 넘으면)</li>
+  </ul>
+
+  <h3>4단계 — 내보내기·자서전 연결 (2주)</h3>
+  <ul class="checklist">
+    <li>PDF·마크다운·HTML·이미지 내보내기</li>
+    <li>월간 요약 자동 메일 발송</li>
+    <li>자서전 공방 시안(2027 예정과 연결)</li>
+  </ul>
+
+  <h3>총 9주 — 디자인 적용 후 약 두 달</h3>
+  <p>지금 정해둔 4주 AI 로드맵에 이어서 추가 5주 분량. 즉 디자인 후 3개월 전후에 완성.</p>
+
+  <!-- ========== 10. 비용 ========== -->
+  <h2><span class="num">10</span>비용 — 거의 무료</h2>
+
+  <table>
+    <thead><tr><th>구성 요소</th><th>월 비용</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>Cloudflare D1 저장</td><td>0원</td><td>5GB 무료, 회원 1만 명까지 충분</td></tr>
+      <tr><td>자동 태그·연결 제안 (Gemini)</td><td>0원</td><td>무료 한도 내</td></tr>
+      <tr><td>임베딩 (글 유사도 비교)</td><td>0원</td><td>Gemini 임베딩 무료</td></tr>
+      <tr><td>월간 요약 (Claude Haiku)</td><td>~1,000원</td><td>회원 500명 × 월 1회</td></tr>
+      <tr><td>PDF 내보내기</td><td>0원</td><td>브라우저 자체 처리</td></tr>
+      <tr><td colspan="3" style="background:var(--cool);font-weight:700">총: 월 약 1,000원 추가 (이미 운영 중인 시스템에 얹는 것)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 마무리 ========== -->
+  <div class="vision" style="margin-top:56px">
+    <div class="tag">한 줄로</div>
+    <h3>"각자의 우주에 별이 모이는 곳" — 이게 연라이프의 깊이가 됩니다.</h3>
+    <p>이 기능 하나가 추가되면, 연라이프는 더 이상 "토론 사이트"가 아니라 <strong>"사유의 도구"</strong>가 됩니다.</p>
+    <p>SNS와 결정적으로 다른 자리 — 빨리 흘려보내는 곳이 아니라 천천히 모이는 곳.</p>
+    <p>1년 후 주민이 자기 별자리를 펼쳐 봤을 때 — "이게 나구나" 하고 마음이 깊어지는 자리.</p>
+  </div>
+
+  <h3 style="margin-top:48px">검토 사항 목록에 추가</h3>
+  <p>이번 항목은 디자인 적용 + AI 도입 + 자동 뉴스 시스템이 끝난 후, <strong>5번째 큰 작업</strong>으로 추가됩니다.</p>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>디자인 적용 (진행 중)</li>
+    <li>AI 챗봇·모더레이션 (4주)</li>
+    <li>자동 뉴스 수집 (1주)</li>
+    <li>보안 강화 (1주)</li>
+    <li><strong>개인 생각의 지도 (9주) — 이번 항목</strong></li>
+  </ol>
+
+</div>
+
+<footer class="footer">
+  <p>"각자의 우주에 별이 모이는 곳."</p>
+  <p style="margin-top:6px">개인 생각의 지도 설계 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

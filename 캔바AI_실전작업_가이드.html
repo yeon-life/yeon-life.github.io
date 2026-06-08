@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캔바 AI 실전 작업 가이드 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .top .in{max-width:960px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:64px 0 40px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:46px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.15;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:16px;color:var(--muted);max-width:720px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);margin:56px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em}
+  h2 .step{font-size:13px;color:var(--amber);letter-spacing:.1em;margin-right:12px;font-weight:700;text-transform:uppercase}
+  h3{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin:28px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:14px;font-size:15px;line-height:1.85}
+
+  ul,ol{margin:10px 0 14px 22px;font-size:15px;line-height:1.85}
+  li{margin-bottom:6px}
+
+  /* 프롬프트 박스 */
+  .prompt{background:var(--ink);color:#e8e4d9;padding:18px 22px;border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7;margin:14px 0;position:relative;border:1px solid #3a4348}
+  .prompt::before{content:"📋 프롬프트 — 캔바 Magic에 그대로 붙여 넣으세요";display:block;font-family:var(--sans);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(168,123,62,.3)}
+  .prompt.en::before{content:"📋 영어 프롬프트 — Canva is best in English"}
+
+  /* 단계 박스 */
+  .step-box{background:var(--surface);border-left:3px solid var(--teal);padding:18px 22px;margin:14px 0;border-radius:0 4px 4px 0}
+  .step-box .num{font-family:var(--serif);font-size:13px;color:var(--teal);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .step-box ol{margin-left:18px;font-size:14px;line-height:1.85}
+
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .danger{background:rgba(168,80,72,.08);border-left:3px solid var(--red);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .danger strong{color:var(--red);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.hex{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--teal)}
+  td.swatch{padding:14px;width:60px}
+  td.swatch div{width:100%;height:30px;border-radius:3px}
+
+  code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--surface);padding:2px 7px;border-radius:3px;border:1px solid var(--line);color:var(--ink)}
+
+  /* 체크리스트 */
+  .checklist{list-style:none;margin-left:0;padding-left:0}
+  .checklist li{padding-left:28px;position:relative;margin-bottom:10px}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:18px;color:var(--teal)}
+
+  /* 단계 표시 */
+  .big-num{font-family:var(--serif);font-size:72px;font-weight:900;color:var(--line);line-height:1;letter-spacing:-.04em;margin-top:48px;margin-bottom:-20px}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:640px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:32px}
+    .prompt{font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr 홈으로</a><span>캔바 AI 작업 가이드</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Canva AI Magic Studio · 실전 가이드</div>
+    <h1>캔바 AI로 직접 만드는 <em>연라이프</em></h1>
+    <p class="lede">
+      준비된 의뢰서와 시안을 그대로 캔바 AI에 연결해 작업하는 실전 가이드입니다.
+      Brand Kit 설정 → 페이지별 프롬프트 → 마무리 정리까지 한 번에 따라갈 수 있도록 정리했습니다.
+      처음 캔바를 다루셔도 충분합니다.
+    </p>
+  </header>
+
+  <!-- ========== 준비 ========== -->
+  <div class="big-num">00</div>
+  <h2><span class="step">준비</span>시작 전 알아둘 것</h2>
+
+  <h3>캔바 AI는 어떤 것인가</h3>
+  <p>캔바에는 여러 AI 기능이 있는데, 우리에게 필요한 건 세 가지입니다.</p>
+  <ul>
+    <li><strong>Magic Design</strong> — 프롬프트(글)로 디자인을 만들어주는 기능</li>
+    <li><strong>Magic Switch</strong> — 데스크탑 디자인을 모바일 사이즈로 자동 변환</li>
+    <li><strong>Brand Kit</strong> — 우리만의 색·폰트·로고를 저장해서 모든 디자인에 일관 적용</li>
+  </ul>
+
+  <div class="warn">
+    <strong>⚠ 캔바 Pro가 필요합니다</strong>
+    Magic Design을 충분히 쓰려면 캔바 Pro 구독이 필요합니다 (월 11,900원, 1개월 무료 체험 있음). 무료 버전은 횟수 제한 있음.
+  </div>
+
+  <h3>예상 소요 시간</h3>
+  <ul>
+    <li>준비 (Brand Kit 셋업): <strong>1시간</strong></li>
+    <li>메인 홈페이지: <strong>2~3시간</strong></li>
+    <li>광장 상세 페이지: <strong>1~2시간</strong></li>
+    <li>블로그 템플릿 10종: <strong>5~8시간</strong> (한 번에 다 안 만들어도 됩니다)</li>
+    <li>모바일 변환: <strong>1~2시간</strong></li>
+    <li>마무리·내보내기: <strong>1시간</strong></li>
+  </ul>
+  <p>전체 <strong>15~25시간</strong>. 며칠로 나눠서 하시면 부담 없어요.</p>
+
+  <!-- ========== 1단계: Brand Kit ========== -->
+  <div class="big-num">01</div>
+  <h2><span class="step">1단계</span>Brand Kit 셋업 (가장 먼저!)</h2>
+
+  <p>Brand Kit에 우리 색·폰트·로고를 한 번 등록해두면, 이후 모든 디자인에 "Brand 적용" 버튼 하나로 자동으로 입혀집니다. 이게 안 되어 있으면 디자인마다 색을 일일이 입력해야 해요.</p>
+
+  <div class="step-box">
+    <div class="num">실행 순서</div>
+    <ol>
+      <li>캔바 로그인 → 좌측 메뉴 <strong>"Brand"</strong> 클릭</li>
+      <li>"+ Brand kit 추가" → 이름 "연라이프 y-life.kr"</li>
+      <li><strong>Brand Colors</strong> 섹션에서 아래 표의 12색을 하나씩 추가</li>
+      <li><strong>Brand Fonts</strong>에서 폰트 추가</li>
+      <li><strong>Brand Logos</strong>에 緣 텍스트 로고 (직접 만들거나 SVG로 업로드)</li>
+    </ol>
+  </div>
+
+  <h3>① 색 12종 입력</h3>
+  <table>
+    <thead><tr><th>이름</th><th>HEX</th><th>역할</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>먹빛</td><td class="hex">#1A2326</td><td>본문 텍스트</td><td class="swatch"><div style="background:#1A2326"></div></td></tr>
+      <tr><td>새벽 딥 틸</td><td class="hex">#2A5358</td><td>1차 강조</td><td class="swatch"><div style="background:#2A5358"></div></td></tr>
+      <tr><td>잿빛 푸름</td><td class="hex">#4A6878</td><td>2차 강조</td><td class="swatch"><div style="background:#4A6878"></div></td></tr>
+      <tr><td>절제된 호박</td><td class="hex">#A87B3E</td><td>액센트</td><td class="swatch"><div style="background:#A87B3E"></div></td></tr>
+      <tr><td>아이보리</td><td class="hex">#F4F0E6</td><td>기본 배경</td><td class="swatch"><div style="background:#F4F0E6;border:1px solid #d8d3c7"></div></td></tr>
+      <tr><td>따뜻한 종이</td><td class="hex">#F6F3EC</td><td>윗부분</td><td class="swatch"><div style="background:#F6F3EC;border:1px solid #d8d3c7"></div></td></tr>
+      <tr><td>차분한 종이</td><td class="hex">#EEE9DC</td><td>아랫부분</td><td class="swatch"><div style="background:#EEE9DC;border:1px solid #d8d3c7"></div></td></tr>
+      <tr><td>표면</td><td class="hex">#FBFAF5</td><td>카드</td><td class="swatch"><div style="background:#FBFAF5;border:1px solid #d8d3c7"></div></td></tr>
+      <tr><td>라인</td><td class="hex">#D8D3C7</td><td>구분선</td><td class="swatch"><div style="background:#D8D3C7"></div></td></tr>
+      <tr><td>흐린 라인</td><td class="hex">#E8E4D9</td><td>점선</td><td class="swatch"><div style="background:#E8E4D9"></div></td></tr>
+      <tr><td>본문 보조</td><td class="hex">#5E6A6E</td><td>부제</td><td class="swatch"><div style="background:#5E6A6E"></div></td></tr>
+      <tr><td>흐린 텍스트</td><td class="hex">#8A9398</td><td>메타</td><td class="swatch"><div style="background:#8A9398"></div></td></tr>
+    </tbody>
+  </table>
+
+  <h3>② 폰트 등록</h3>
+  <p>캔바에서 다음 폰트를 검색해 Brand Fonts에 추가하세요.</p>
+  <ul>
+    <li><strong>제목용</strong>: <code>Noto Serif KR</code> (캔바에 기본 제공)</li>
+    <li><strong>본문용</strong>: <code>Pretendard</code> (없으면 <code>Noto Sans KR</code> 또는 <code>맑은 고딕</code>으로 대체)</li>
+  </ul>
+
+  <div class="note">
+    <strong>폰트가 안 보일 때</strong>
+    캔바에서 한국어 폰트 검색은 영어로 하셔야 결과가 잘 나옵니다. "Noto Serif", "Noto Sans"로 검색해보세요. Pretendard는 캔바에 없을 수 있어 그때는 Noto Sans KR로.
+  </div>
+
+  <!-- ========== 2단계: 메인 홈페이지 ========== -->
+  <div class="big-num">02</div>
+  <h2><span class="step">2단계</span>메인 홈페이지 만들기</h2>
+
+  <div class="step-box">
+    <div class="num">실행 순서</div>
+    <ol>
+      <li>캔바 홈에서 <strong>"맞춤형 크기"</strong> → <strong>1440 × 4800px</strong> (긴 세로 페이지)</li>
+      <li>새 디자인 열린 후 <strong>왼쪽 사이드바에서 "Magic Design"</strong> 클릭</li>
+      <li>아래 프롬프트를 복사해 붙여넣기</li>
+      <li>몇 개 시안이 나오면 가장 가까운 걸 고른 후 직접 다듬기</li>
+    </ol>
+  </div>
+
+  <h4>홈페이지 — Magic Design 프롬프트</h4>
+  <div class="prompt">A long-scrolling editorial homepage for "y-life.kr" — a Korean philosophical discussion platform. Aesthetic: "early morning trust" — quiet, contemplative, like a newspaper delivered at 6am. Color palette: warm ivory background (#F4F0E6), deep ink black text (#1A2326), deep teal accents (#2A5358), restrained amber highlights (#A87B3E). Typography: Noto Serif KR for headlines, Pretendard for body. Layout: top thin meta bar (date, my-blog pill) → tall masthead with large serif "緣 y-life.kr" brand → hero section with one giant philosophical quote ("This Week's Question") on the left and small editorial column on the right → BIG central "광장 (Plaza)" section with 3 columns (Agora, Agonran, Insights) — this is the heart of the page → smaller supporting sections below for columnists, news, citizen journalism. Warm, slow, sophisticated. Korean newspaper meets quiet literary journal. No bright colors. No stock photos of smiling people.</div>
+
+  <div class="warn">
+    <strong>왜 영어 프롬프트인가</strong>
+    캔바 Magic Design은 영어 프롬프트에서 결과가 훨씬 좋습니다. 한국어로 넣으면 결과가 어색할 때가 많아요. 결과물의 텍스트만 한국어로 바꿔주시면 됩니다.
+  </div>
+
+  <h3>참고할 자료 — 캔바에 같이 띄우기</h3>
+  <p>Magic Design은 텍스트만으로는 우리 시안의 디테일을 완벽히 못 살립니다. 다음 파일을 옆 모니터(또는 다른 탭)에 띄워두고 따라 그리세요.</p>
+  <ul>
+    <li><strong>시안_v4_홈페이지.html</strong> — 가장 중요. 브라우저로 열어서 캔바 옆에 놓고 따라 만드세요.</li>
+    <li><strong>디자인시스템_새벽의신뢰.html</strong> — 색·폰트 위계 시각화</li>
+  </ul>
+
+  <h3>직접 다듬는 부분 — Magic이 못하는 것</h3>
+  <ul>
+    <li>화두 인용문 (Noto Serif KR 46px 정도, 깊은 먹빛, italic 강조 일부)</li>
+    <li>"廣場 광장" 가운데 정렬 한자 로고 부분</li>
+    <li>3열 광장 그리드의 비율 (1:1:1, 페이지의 거의 절반 차지)</li>
+    <li>"지금 깊어지는 중" 배지 (호박색, 작은 점 깜빡임 — 정지 이미지로는 점만)</li>
+  </ul>
+
+  <!-- ========== 3단계: 광장 상세 ========== -->
+  <div class="big-num">03</div>
+  <h2><span class="step">3단계</span>광장 글 상세 페이지</h2>
+
+  <p>참조 파일: <code>단계2_광장글_상세페이지.html</code></p>
+
+  <div class="step-box">
+    <div class="num">실행 순서</div>
+    <ol>
+      <li>새 디자인 → 맞춤 크기 <strong>1440 × 3600px</strong></li>
+      <li>Magic Design에 아래 프롬프트 입력</li>
+      <li>본문은 더미 텍스트로 → 마지막에 실제 글 내용으로 교체</li>
+    </ol>
+  </div>
+
+  <h4>광장 상세 — 프롬프트</h4>
+  <div class="prompt">Long-form editorial article page for a Korean philosophical discussion forum. Layout: thin breadcrumb on top → small meta line (category, time, badge "지금 깊어지는 중" in muted amber) → very large serif headline (Noto Serif KR, deep ink) → italic deck/subtitle → author byline card with circular avatar → article body with drop-cap first letter, generous 1.95 line-height, blockquote with teal italic text → at the end, a "좋은 물음" (Good Question) vote box in cream surface → comment section with threaded replies. Right sidebar (320px wide): black "이번 주 화두" card in deep ink, related posts list, author mini-card with link to their blog. Same warm ivory background, "newspaper at dawn" feel. Body text 17px, line-height 1.85.</div>
+
+  <!-- ========== 4단계: 블로그 ========== -->
+  <div class="big-num">04</div>
+  <h2><span class="step">4단계</span>블로그 템플릿 10종</h2>
+
+  <p>한 번에 10종을 다 만들지 마세요. 가장 많이 쓸 결 3~4개부터 만들고, 나머지는 천천히. 캔바에서는 <strong>"이 디자인 복사 → 변형"</strong> 방식이 효율적입니다.</p>
+
+  <h4>블로그 — 공통 베이스 프롬프트</h4>
+  <div class="prompt">Personal blog page on Korean philosophical community platform. Default page width 1080px. Section order: cover image strip → profile (circular photo, name, handle, italic bio, stats row) → horizontal tab nav (소개·글·광장·가게) → main content. Same color palette: warm ivory background, deep ink text, teal accents, amber for time markers only. Tone: calm, literary, like a quiet newspaper columnist's page. No commercial vibes. Default sections: intro, recent posts, plaza activity (auto-pulled), optional shop card.</div>
+
+  <h3>각 결마다 추가할 한 줄</h3>
+  <p>위 공통 베이스를 만든 후, 각 결마다 아래 한 줄을 추가하거나 변형:</p>
+
+  <h4>No.01 정직 (Editorial Quiet) — 기본형</h4>
+  <div class="prompt">Style: classic newspaper editorial. Clean grid, dashed dividers, serif headlines.</div>
+
+  <h4>No.02 여백 (Open White)</h4>
+  <div class="prompt">Style: ultra-minimal, almost pure white background, centered alignment, very narrow content column (max 680px), tiny meta text, lots of breathing room.</div>
+
+  <h4>No.03 노트 (Notebook)</h4>
+  <div class="prompt">Style: ruled notebook paper background (subtle horizontal lines every 32px in cream), red vertical margin line on the left, handwritten font for headlines (Nanum Pen Script), warm cream paper tone (#F7F1DE).</div>
+
+  <h4>No.04 카드 (Stacked Cards)</h4>
+  <div class="prompt">Style: photo-driven 3-column card grid for posts, each card has a colored gradient placeholder image, category tag, title, snippet, footer meta. Pinterest-like browsing.</div>
+
+  <h4>No.05 장서 (Bookshelf)</h4>
+  <div class="prompt">Style: dark left sidebar (280px wide, deep ink background, cream text) showing category list like book spines, right side cream background with article list showing book numbers (012, 011, 010...) like library catalog.</div>
+
+  <h4>No.06 편지 (Letter)</h4>
+  <div class="prompt">Style: envelope/letter aesthetic, postage stamp graphic in top right (red border, 林 character inside), typewriter monospace font for body, handwritten signature, dashed border dividers. Warm aged paper (#FAF6E9).</div>
+
+  <h4>No.07 잡지 (Magazine)</h4>
+  <div class="prompt">Style: magazine masthead with "Issue 12" label, giant bold serif headline (60-70px), 2-column body layout with drop cap, sidebar list of "in this issue" headlines, magazine indicia footer.</div>
+
+  <h4>No.08 풍경 (Horizontal Scroll)</h4>
+  <div class="prompt">Style: horizontal scrolling panels in main area (5 panels, 340px wide each, 480px tall), one panel "active" in deep ink with cream text, others in cream surface. Series-based content.</div>
+
+  <h4>No.09 묵화 (Ink Brush)</h4>
+  <div class="prompt">Style: large hanja (Chinese characters) as visual anchor, vertical thin red seal stamp graphic, ink-wash gradients in background, classical East Asian book aesthetic. Cream-yellow paper (#F7F3E7).</div>
+
+  <h4>No.10 풀잎 (Botanical)</h4>
+  <div class="prompt">Style: greenish ivory background (#EEF2E8), small floating leaf characters as decoration, rounded sans-serif font (Gowun Dodum), green accents instead of teal, friendly cards with rounded corners (16px). Student/nature theme.</div>
+
+  <!-- ========== 5단계: 모바일 ========== -->
+  <div class="big-num">05</div>
+  <h2><span class="step">5단계</span>모바일 변환</h2>
+
+  <p>데스크탑 디자인이 완성된 후 모바일로 옮기는 가장 빠른 길은 <strong>Magic Switch</strong>입니다.</p>
+
+  <div class="step-box">
+    <div class="num">실행 순서</div>
+    <ol>
+      <li>완성된 메인 홈페이지 디자인 열기</li>
+      <li>상단 우측 <strong>"Resize & Magic Switch"</strong> 클릭 (Pro 전용)</li>
+      <li>"Mobile" 또는 "Instagram Story" 사이즈 선택 (375 × 8000px 정도)</li>
+      <li>자동 변환 후 직접 다듬기 — 3열 → 1열로 합쳐졌는지, 광장 섹션이 가장 잘 보이는지</li>
+    </ol>
+  </div>
+
+  <h3>모바일에서 직접 다듬을 부분</h3>
+  <ul>
+    <li>3열 그리드 → 1열로 (자동 합쳐지긴 함)</li>
+    <li>마스트헤드의 슬로건 줄(tagline) 숨김 — 너무 좁아짐</li>
+    <li>차림표 버튼은 그대로 우측</li>
+    <li>광장 헤더 "廣場 광장" 크기 약간 줄임 (44px → 28px)</li>
+    <li>본문 글자 17px 그대로 유지</li>
+  </ul>
+
+  <p>참조 파일: <code>시안_v4_모바일.html</code> — 폰 프레임 4개로 정답 보여드림</p>
+
+  <!-- ========== 6단계: 컴포넌트 ========== -->
+  <div class="big-num">06</div>
+  <h2><span class="step">6단계</span>컴포넌트 시트 — 한 페이지에 모음</h2>
+
+  <p>버튼·카드·배지·아바타를 한 페이지에 모은 "컴포넌트 시트"가 있으면 나중에 새 페이지를 만들 때 복사해 쓰기 좋습니다. 마지막으로 만드세요.</p>
+
+  <h4>컴포넌트 시트 — 프롬프트</h4>
+  <div class="prompt">A component library sheet for a Korean philosophical platform. Single 1440 × 2400px canvas, light warm ivory background, divided into sections: Buttons (primary deep teal, secondary amber outline, ghost), Cards (post card, blog card, news card), Badges ("지금 깊어지는 중" amber, "깊어짐" teal, verification badges ✓/◑/◯), Avatars (circular with hanja initial 林/朴/崔/玄), Form elements (input, textarea, dropdown), Typography scale (H1 to small meta). Each labeled with usage notes. Same calm "newspaper at dawn" aesthetic.</div>
+
+  <!-- ========== 7단계: 마무리 ========== -->
+  <div class="big-num">07</div>
+  <h2><span class="step">7단계</span>마무리 — 내보내기·공유</h2>
+
+  <h3>일관성 체크</h3>
+  <ul class="checklist">
+    <li>모든 페이지가 같은 색을 쓰고 있나? (Brand Kit 적용 일관)</li>
+    <li>모든 페이지의 폰트가 일치하나? (Noto Serif KR + Pretendard)</li>
+    <li>화두 인용은 항상 italic + 딥 틸?</li>
+    <li>호박색은 정말 강조 자리에만 쓰였나?</li>
+    <li>"광장이 페이지 중심" 원칙이 지켜졌나?</li>
+    <li>모바일 버전에서도 깨지지 않나?</li>
+  </ul>
+
+  <h3>내보내기</h3>
+  <ol>
+    <li><strong>PNG (2x)</strong> — 각 페이지 별도 (개발자가 참고용으로 씀)</li>
+    <li><strong>PDF 합본</strong> — 모든 페이지를 한 파일로 (포트폴리오용)</li>
+    <li><strong>공유 링크</strong> — 캔바에서 "공유 → 보기 전용 링크" 생성</li>
+  </ol>
+
+  <!-- ========== 트러블슈팅 ========== -->
+  <div class="big-num">08</div>
+  <h2><span class="step">트러블슈팅</span>자주 막힐 부분</h2>
+
+  <h3>Magic Design 결과가 영 다르게 나와요</h3>
+  <p>프롬프트가 너무 길거나 짧을 때 흔히 일어납니다. 우리 프롬프트는 의도적으로 길게 썼는데, 그래도 안 되면:</p>
+  <ul>
+    <li>프롬프트를 두 줄 정도로 핵심만 압축해서 다시 시도</li>
+    <li>"start with a similar template" 옵션을 켜고 비슷한 캔바 템플릿에서 시작</li>
+    <li>"Editorial newspaper website" 같은 키워드를 더 강조</li>
+  </ul>
+
+  <h3>한국어가 폰트에 따라 깨져요</h3>
+  <ul>
+    <li>Noto Serif KR이 없으면 → Noto Sans KR로 대체</li>
+    <li>Pretendard가 없으면 → Noto Sans KR Light 또는 맑은 고딕</li>
+    <li>모든 텍스트 박스를 선택 후 일괄로 폰트 적용</li>
+  </ul>
+
+  <h3>색이 의도한 것보다 어두워 보여요</h3>
+  <p>캔바 미리보기는 모니터에 따라 다르게 보입니다. 실제 색은 HEX 코드 기준입니다. 의심스러우면 Brand Kit의 정확한 HEX 코드를 다시 확인하세요.</p>
+
+  <h3>한자(緣·廣場 등)가 안 보여요</h3>
+  <ul>
+    <li>Noto Serif KR이나 맑은 고딕은 기본 한자 지원</li>
+    <li>안 보이면 텍스트 박스 폰트를 "Noto Sans CJK"로 바꿔보세요</li>
+  </ul>
+
+  <h3>Magic Switch 결과가 망가져요</h3>
+  <p>긴 페이지일수록 자동 변환이 어색해집니다. 다음 방법을 시도하세요:</p>
+  <ul>
+    <li>섹션 단위로 나눠서 변환 (히어로만 따로, 광장만 따로)</li>
+    <li>자동 변환 후 30% 정도는 수동 정리 각오</li>
+    <li>모바일은 시안_v4_모바일.html을 보고 처음부터 새로 만드는 게 빠를 수도 있음</li>
+  </ul>
+
+  <!-- ========== 마지막 ========== -->
+  <div class="big-num">09</div>
+  <h2><span class="step">마지막</span>잊지 말아야 할 다섯 가지</h2>
+
+  <ol>
+    <li><strong>광장이 페이지의 중심</strong> — 칼럼·세상·어디로·미래는 모두 광장을 받치는 보조 섹션</li>
+    <li><strong>색은 절제</strong> — 호박색(#A87B3E)은 "이 주의 ___" 같은 시간 표식에만</li>
+    <li><strong>"X가 아니라 Y" 비교 프레임 금지</strong> — 우리 카피는 비교가 아닌 마음씨로</li>
+    <li><strong>"좋은 물음"이 곧 우리 어휘</strong> — 좋아요 X, 좋은 물음 ◐</li>
+    <li><strong>새벽 6시의 호흡</strong> — 빠른 SNS의 반대편이 우리의 자리</li>
+  </ol>
+
+  <div class="note" style="margin-top:32px">
+    <strong>막히면 가이드의 어디로 돌아갈까</strong>
+    어떤 시안의 어디를 어떻게 만드는지 모를 때는 시안_v4_홈페이지.html과 디자인시스템_새벽의신뢰.html을 다시 열어보세요. 이 둘이 모든 답을 가지고 있습니다.
+  </div>
+
+  <div class="warn" style="margin-top:18px">
+    <strong>혹시 캔바 작업이 너무 어렵다면</strong>
+    부담 없이 말씀해 주세요. 크몽에서 디자이너를 고용하는 길로 전환할 수 있고, 그때는 의뢰서 ZIP만 보내시면 됩니다. 캔바 직접 작업이 정답은 아니에요 — 본인의 시간과 결과물 사이의 균형이 답입니다.
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>"연라이프는 천천히 자라는 마을입니다."</p>
+  <p style="margin-top:6px">캔바 AI 실전 가이드 v1.0 · 2026년 5월 14일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

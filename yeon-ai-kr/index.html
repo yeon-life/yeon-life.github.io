@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연마을 (울산) — y-life.kr</title>
+<meta name="description" content="연라이프 빌더로 직접 지은 개성 넘치는 홈페이지들이 이웃이 되어 모여 함께 성장하고 연동하는 공간, 연마을입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-paper: #F8F6F2;
+  --bg-paper-alt: #F0EBE1;
+  --ink: #1D1D1B;
+  --ink-soft: #3C3C38;
+  --ink-faint: rgba(29,29,27,0.5);
+  --wood: #5D4037;
+  --thread: #B08E61;
+  --thread-soft: rgba(176,142,97,0.12);
+  --border: rgba(29,29,27,0.08);
+  --border-strong: rgba(29,29,27,0.18);
+  --font-body: 'Noto Serif KR', 'Nanum Myeongjo', serif;
+  --font-title: 'Nanum Myeongjo', serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-paper);
+  color: var(--ink);
+  line-height: 1.8;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(176,142,97,0.06) 0, transparent 35%),
+    radial-gradient(circle at 85% 75%, rgba(93,64,55,0.04) 0, transparent 40%);
+}
+a { color: inherit; text-decoration: none; }
+
+/* ===== 플랫폼 바 ===== */
+.platform-bar {
+  background: var(--ink);
+  color: rgba(255,255,255,0.75);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 8px 5%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+}
+.platform-bar a {
+  color: rgba(255,255,255,0.75);
+  transition: color 0.2s;
+}
+.platform-bar a:hover { color: #fff; }
+.platform-bar .sep { opacity: 0.4; }
+.platform-bar .current { color: var(--thread); font-weight: 700; }
+
+/* ===== 헤더 ===== */
+.site-header {
+  padding: 56px 5% 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.site-header .brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.site-header .brand-name {
+  font-family: var(--font-title);
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+.site-header .brand-name span { color: var(--thread); }
+.site-header .brand-sub {
+  font-size: 14.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.5px;
+}
+.site-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.btn-register {
+  background: var(--wood);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 11px 22px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-register:hover { background: #4a3028; }
+
+/* ===== 안내 밴드 ===== */
+.intro-band {
+  background: var(--thread-soft);
+  border-top: 1px solid rgba(176,142,97,0.15);
+  border-bottom: 1px solid rgba(176,142,97,0.15);
+  padding: 24px 5%;
+  text-align: center;
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.intro-band strong { color: var(--wood); font-weight: 700; }
+
+/* ===== 섹션 공통 ===== */
+.section {
+  padding: 64px 5% 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--thread);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: var(--font-title);
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.section-desc {
+  font-size: 14.5px;
+  color: var(--ink-faint);
+  margin-bottom: 44px;
+  max-width: 720px;
+}
+
+/* ===== 이웃 마당 그리드 ===== */
+.neighbors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+.neighbor-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(29,29,27,0.02);
+}
+.neighbor-card:hover {
+  box-shadow: 0 16px 36px rgba(29,29,27,0.06);
+  transform: translateY(-3px);
+  border-color: var(--thread);
+}
+.card-banner {
+  background: var(--bg-paper-alt);
+  padding: 28px 28px 24px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.badge-kind {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--thread);
+  background: var(--thread-soft);
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.card-location {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.card-title {
+  font-family: var(--font-title);
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.card-body {
+  padding: 24px 28px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  flex: 1;
+}
+.card-connect-status {
+  background: var(--bg-paper);
+  border: 1px dashed var(--border-strong);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--wood);
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-connect-status .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #427a71; /* yp-pine */
+}
+.card-footer {
+  padding: 18px 28px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #faf9f6;
+}
+.card-url {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.card-action {
+  font-size: 13.5px;
+  color: var(--thread);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== 연동 메커니즘 소개 ===== */
+.mechanism-section {
+  background: var(--bg-paper-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 72px 5%;
+}
+.mechanism-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.mechanism-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+.mech-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  border: 1px solid var(--border);
+}
+.mech-icon {
+  font-size: 28px;
+  margin-bottom: 18px;
+  color: var(--thread);
+}
+.mech-title {
+  font-family: var(--font-title);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.mech-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* ===== 빌더 유도 배너 ===== */
+.builder-banner {
+  background: var(--ink);
+  color: #fff;
+  padding: 72px 5%;
+  text-align: center;
+}
+.builder-banner h2 {
+  font-family: var(--font-title);
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.builder-banner p {
+  font-size: 15.5px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.btn-build {
+  background: var(--thread);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 36px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.btn-build:hover { background: #97744f; }
+
+/* ===== 메뉴판 (카테고리 펼침 navbar) ===== */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(29,29,27,0.02);
+}
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nav-item {
+  position: relative;
+}
+.nav-item .nav-link {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.nav-item .nav-link:hover, .nav-item.open .nav-link {
+  color: var(--thread);
+  background: var(--bg-paper);
+}
+.nav-item .caret {
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: transform 0.2s;
+}
+.nav-item.open .caret {
+  transform: rotate(180deg);
+}
+.nav-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  min-width: 280px;
+  box-shadow: 0 12px 32px rgba(29,29,27,0.08);
+  padding: 8px 0;
+  z-index: 110;
+}
+.nav-item.open .nav-panel {
+  display: block;
+}
+.nav-panel a {
+  display: block;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(29,29,27,0.03);
+}
+.nav-panel a:last-child {
+  border-bottom: none;
+}
+.nav-panel a:hover {
+  background: var(--bg-paper);
+  color: var(--thread);
+}
+.nav-panel a .d {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+.nav-link-direct {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 16px 20px;
+  transition: all 0.2s ease;
+}
+.nav-link-direct:hover {
+  color: var(--thread);
+  background: var(--bg-paper);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 2%;
+  }
+  .navbar-inner {
+    gap: 4px;
+  }
+  .nav-item .nav-link, .nav-link-direct {
+    padding: 12px 10px;
+    font-size: 13.5px;
+  }
+  .nav-panel {
+    min-width: 220px;
+  }
+}
+@media (max-width: 480px) {
+  .navbar-inner {
+    justify-content: center;
+  }
+  .nav-item .nav-link, .nav-link-direct {
+    padding: 8px 6px;
+    font-size: 12.5px;
+  }
+  .nav-panel {
+    position: fixed;
+    top: auto;
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    min-width: 0;
+  }
+}
+
+/* ===== 푸터 ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 36px 5%;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+footer a { color: var(--thread); }
+footer .footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 14px;
+}
+</style>
+</head>
+<body>
+
+<!-- 플랫폼 바 -->
+<div class="platform-bar">
+  <a href="https://y-life.kr">y-life.kr</a>
+  <span class="sep">›</span>
+  <span class="current">연마을 (울산)</span>
+</div>
+
+<!-- 헤더 -->
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-name">연마을<span> (울산)</span></div>
+    <div class="brand-sub">연라이프 빌더로 지은 마당들의 연결고리</div>
+  </div>
+  <div class="header-actions">
+    <a href="https://y-life.kr" style="font-size:13px; color:var(--ink-faint);">← y-life.kr 플랫폼</a>
+    <a href="https://y-life.kr/builder.html" class="btn-register">내 마당 분양받기</a>
+  </div>
+</header>
+
+<!-- 주요 메뉴판 (카테고리 펼침) -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="nav-item">
+      <button class="nav-link" type="button">연플래닝아카데미 <svg class="caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="nav-panel">
+        <a href="./ulsan/yeon-planning/?branch=sijung">시청분원 <span class="d">울산 신정동 · 메타인지 사색</span></a>
+        <a href="./ulsan/yeon-planning/?branch=samsan">삼산분원 <span class="d">울산 삼산동 · 몰입학습</span></a>
+        <a href="./ulsan/yeon-planning/?branch=gangdong">강동분원 <span class="d">울산 강동동 · 바닷가 인문학</span></a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-link" type="button">각종 블로그 <svg class="caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="nav-panel">
+        <a href="../시안_v3_블로그.html" target="_blank">01. 정직 <span class="d">Quiet Editorial</span></a>
+        <a href="../시안_블로그_02_여백.html" target="_blank">02. 여백 <span class="d">Minimal White</span></a>
+        <a href="../시안_블로그_03_노트.html" target="_blank">03. 노트 <span class="d">Scribble Note</span></a>
+        <a href="../시안_블로그_04_카드.html" target="_blank">04. 카드 <span class="d">Grid Card</span></a>
+        <a href="../시안_블로그_05_장서.html" target="_blank">05. 장서 <span class="d">Book Library</span></a>
+        <a href="../시안_블로그_06_편지.html" target="_blank">06. 편지 <span class="d">Warm Letter</span></a>
+        <a href="../시안_블로그_07_잡지.html" target="_blank">07. 잡지 <span class="d">Modern Magazine</span></a>
+        <a href="../시안_블로그_08_풍경.html" target="_blank">08. 풍경 <span class="d">Scenic View</span></a>
+        <a href="../시안_블로그_09_묵화.html" target="_blank">09. 묵화 <span class="d">Oriental Ink</span></a>
+        <a href="../시안_블로그_10_풀잎.html" target="_blank">10. 풀잎 <span class="d">Green Herb</span></a>
+        <a href="../블로그_템플릿_10종_갤러리.html" target="_blank" style="border-top: 1px solid var(--border); font-weight: 700;">템플릿 갤러리 전체 보기 →</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-link" type="button">이웃 도구 <svg class="caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="nav-panel">
+        <a href="./supul/su-pul.html" target="_blank">수풀 AI <span class="d">수학 완전학습</span></a>
+        <a href="../yeongpul/yeong-pul.html" target="_blank">영풀 <span class="d">영어 몰입학습</span></a>
+      </div>
+    </div>
+    <a class="nav-link-direct" href="https://y-life.kr" target="_blank">y-life.kr 홈</a>
+    <a class="nav-link-direct" href="https://y-life.kr/builder.html" target="_blank">내 마당 만들기 (사이트 빌더)</a>
+  </div>
+</nav>
+
+<!-- 안내 밴드 -->
+<div class="intro-band">
+  <strong>연마을 (울산)</strong>은 연라이프 빌더로 지어진 독립적인 홈페이지들이 이웃이 되어<br>
+  서로의 소식을 실시간 연동하고 생각의 끈을 함께 이어 나가는 <strong>상생 연동 공간</strong>입니다.
+</div>
+
+<!-- 이웃 마당들 -->
+<div class="section">
+  <div class="section-label">이웃 마당 둘러보기</div>
+  <h2 class="section-title">서로 연동하며 함께 가꾸는 이웃들</h2>
+  <p class="section-desc">마을 주민들이 빌더로 직접 일군 공간들입니다. 글과 소식이 서로 유기적으로 연동되고 있습니다.</p>
+
+  <div class="neighbors-grid">
+
+    <!-- 시청 연아카데미 -->
+    <div class="neighbor-card">
+      <div class="card-banner">
+        <div class="card-meta">
+          <span class="badge-kind">교육 · 연아카데미</span>
+          <span class="card-location">울산 신정동</span>
+        </div>
+        <div class="card-title">연플래닝아카데미 시청분원</div>
+      </div>
+      <div class="card-body">
+        스스로 배움의 지도를 그리며, 사색과 주체적인 메타인지 공부 능력을 다지는 연플래닝아카데미의 시청 분원 마당입니다.
+        <div class="card-connect-status">
+          <span class="dot"></span>
+          연라이프 <strong>「오늘의 화두」</strong> 및 <strong>「생각의 지도」</strong>와 연동
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-url">ulsan/yeon-planning/?branch=sijung</span>
+        <a href="./ulsan/yeon-planning/?branch=sijung" class="card-action">마당 방문 →</a>
+      </div>
+    </div>
+
+    <!-- 삼산 연아카데미 -->
+    <div class="neighbor-card">
+      <div class="card-banner">
+        <div class="card-meta">
+          <span class="badge-kind">교육 · 연아카데미</span>
+          <span class="card-location">울산 삼산동</span>
+        </div>
+        <div class="card-title">연플래닝아카데미 삼산분원</div>
+      </div>
+      <div class="card-body">
+        의식적 몰입학습과 5.2.5.5 공부법을 바탕으로 학생들의 진짜 배움과 사색을 돕는 연플래닝아카데미의 삼산 분원 마당입니다.
+        <div class="card-connect-status">
+          <span class="dot"></span>
+          사랑방 자료실에 <strong>「옵시디언 활용법」</strong> 실시간 배포 중
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-url">ulsan/yeon-planning/?branch=samsan</span>
+        <a href="./ulsan/yeon-planning/?branch=samsan" class="card-action">마당 방문 →</a>
+      </div>
+    </div>
+
+    <!-- 강동 연아카데미 -->
+    <div class="neighbor-card">
+      <div class="card-banner">
+        <div class="card-meta">
+          <span class="badge-kind">교육 · 연아카데미</span>
+          <span class="card-location">울산 강동동</span>
+        </div>
+        <div class="card-title">연플래닝아카데미 강동분원</div>
+      </div>
+      <div class="card-body">
+        푸른 강동 바다 옆에서 책을 읽고 글을 지으며, 깊은 생각과 논리적 표현력을 가꾸는 연플래닝아카데미의 강동 분원 마당입니다.
+        <div class="card-connect-status">
+          <span class="dot"></span>
+          연라이프 <strong>「학생의 질문 (아곤란)」</strong> 코너와 실시간 연동
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-url">ulsan/yeon-planning/?branch=gangdong</span>
+        <a href="./ulsan/yeon-planning/?branch=gangdong" class="card-action">마당 방문 →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 연동 메커니즘 소개 -->
+<div class="mechanism-section">
+  <div class="mechanism-inner">
+    <div class="section-label">이웃 연동 시스템</div>
+    <h2 class="section-title">홈페이지들이 어떻게 서로 돕고 연동하나요?</h2>
+    <p class="section-desc">연라이프 빌더로 만들어진 페이지들은 고립된 섬이 아닙니다. 아래의 세 가지 상호작용 시스템을 기본적으로 탐재하고 있습니다.</p>
+    
+    <div class="mechanism-grid">
+      
+      <div class="mech-card">
+        <div class="mech-icon">⇅</div>
+        <h3 class="mech-title">실시간 소식지 연동</h3>
+        <p class="mech-desc">하나의 마당(예: 연플래닝)에 새로운 칼럼이나 자료를 발행하면, 연동된 이웃 마당들의 '위젯'과 연라이프 '사랑방'에 즉시 소식이 흘러갑니다.</p>
+      </div>
+
+      <div class="mech-card">
+        <div class="mech-icon">🌌</div>
+        <h3 class="mech-title">생각의 지도 공동 구축</h3>
+        <p class="mech-desc">마을 주민들이 스크랩하고 정리한 지식 노드들이 모여 연라이프 광장의 '생각의 지도'를 함께 엮어 나갑니다. 서로의 배움이 별자리처럼 연결됩니다.</p>
+      </div>
+
+      <div class="mech-card">
+        <div class="mech-icon">🤝</div>
+        <h3 class="mech-title">이웃 추천 및 교차 배지</h3>
+        <p class="mech-desc">내 마당 하단에 이웃 마당의 추천 배지를 자동으로 삽입할 수 있습니다. 상호 링크를 통해 트래픽을 나눠 가지며 건강한 생태계를 이룹니다.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 빌더 유도 -->
+<div class="builder-banner">
+  <h2>당신의 생각도 하나의 마당이 될 수 있습니다</h2>
+  <p>연라이프의 1분 사이트 빌더를 활용해 뚝딱 나만의 홈페이지를 짓고, 연 마을 이웃들과 연동해보세요.</p>
+  <a href="https://y-life.kr/builder.html" class="btn-build">지금 내 마당 짓기 시작하기</a>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-nav">
+    <a href="https://y-life.kr">y-life.kr 플랫폼</a>
+    <a href="https://y-life.kr/builder.html">사이트 빌더</a>
+    <a href="https://y-life.kr/saranbang.html">사랑방</a>
+  </div>
+  <p>© 2026 y-life.kr/yeon-ai-kr/ — 연라이프 빌더 이웃 마당 허브</p>
+</footer>
+
+
+<script>
+(function(){
+  var items = [].slice.call(document.querySelectorAll('.navbar .nav-item'));
+  items.forEach(function(it){
+    var btn = it.querySelector('.nav-link');
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var wasOpen = it.classList.contains('open');
+      items.forEach(function(x){ x.classList.remove('open'); });
+      if(!wasOpen) it.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.navbar .nav-item')) {
+      items.forEach(function(x){ x.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+</body>
+</html>

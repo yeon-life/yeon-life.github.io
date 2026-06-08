@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영풀 중·고등부 — 좋은 문장 일주일</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-accent:#8F856B;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --success:#6B8F71;
+  --warn:#8F856B;
+  --touch-min:44px;
+  --card-radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Pretendard','Noto Sans KR',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:640px;margin:0 auto;padding:16px;}
+@media(min-width:768px){.wrap{max-width:720px;padding:24px;}}
+@media(min-width:1024px){.wrap{max-width:820px;padding:32px;}}
+
+/* 상단바 */
+.app-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 4px;margin-bottom:16px;
+  border-bottom:1px solid var(--color-surface);
+}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo .mark{width:36px;height:36px;border-radius:10px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo .nm{font-size:14px;font-weight:700;}
+.logo .nm small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;}
+.home{color:var(--color-text-light);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:8px;}
+.home:active,.home:hover{background:var(--color-surface);}
+
+/* 선생님 코드 배너 */
+.teacher-bar{
+  background:var(--color-surface);
+  border-radius:var(--card-radius);
+  padding:10px 14px;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;
+}
+.teacher-bar .ico{font-size:16px;}
+.teacher-bar input{
+  flex:1;min-width:0;
+  border:none;background:#fff;
+  padding:8px 12px;border-radius:8px;
+  font-family:inherit;font-size:13px;
+  color:var(--color-text);
+  outline:none;
+}
+.teacher-bar input:focus{box-shadow:0 0 0 2px var(--color-primary);}
+.teacher-bar button{
+  background:var(--color-primary);color:#fff;
+  border:none;padding:8px 14px;border-radius:8px;
+  font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  min-height:36px;
+}
+.teacher-bar .status{font-size:11px;color:var(--color-primary);font-weight:600;}
+
+/* 히어로 */
+.hero{text-align:center;padding:8px 4px 20px;}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:-0.5px;}
+.hero p{font-size:13px;color:var(--color-text-light);}
+
+/* 학년 선택 */
+.grade-tabs{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  margin-bottom:16px;
+}
+@media(min-width:480px){.grade-tabs{gap:8px;}}
+.grade-tab{
+  background:#fff;border:2px solid var(--color-surface);
+  border-radius:10px;padding:10px 4px;text-align:center;
+  font-family:inherit;font-size:12px;font-weight:700;
+  color:var(--color-text-light);cursor:pointer;
+  transition:all .15s ease;
+  min-height:var(--touch-min);
+}
+.grade-tab.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.grade-tab small{display:block;font-size:9px;font-weight:400;margin-top:2px;opacity:0.8;}
+
+/* Day 선택 */
+.days{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;}
+.day-pill{
+  flex-shrink:0;background:#fff;border:2px solid var(--color-surface);
+  border-radius:20px;padding:8px 14px;
+  font-family:inherit;font-size:12px;font-weight:700;
+  color:var(--color-primary);cursor:pointer;
+  min-height:var(--touch-min);
+}
+.day-pill.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.day-pill.done{border-color:var(--color-accent);}
+
+/* 문장 카드 */
+.sentence-card{
+  background:#fff;border-radius:var(--card-radius);
+  padding:20px 18px;margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(90,122,130,0.1);
+}
+.sentence-card .label{
+  font-size:11px;color:var(--color-text-light);
+  text-transform:uppercase;letter-spacing:0.5px;
+  font-weight:700;margin-bottom:8px;
+}
+.sentence-en{
+  font-size:18px;font-weight:700;color:var(--color-primary);
+  line-height:1.5;margin-bottom:6px;
+}
+.sentence-ko{
+  font-size:13px;color:var(--color-text);margin-bottom:12px;
+}
+.sentence-meta{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;
+}
+.chip{
+  display:inline-block;
+  background:var(--color-bg);
+  border:1px solid var(--color-surface);
+  border-radius:14px;
+  padding:4px 10px;font-size:11px;
+  color:var(--color-primary);font-weight:600;
+}
+.grammar-tip{
+  background:var(--color-bg);
+  border-left:3px solid var(--color-primary);
+  padding:10px 12px;border-radius:0 8px 8px 0;
+  font-size:12px;color:var(--color-text);
+  margin-top:10px;
+  display:none;
+}
+.grammar-tip.show{display:block;}
+.grammar-tip b{color:var(--color-primary);}
+.card-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.card-actions button{
+  background:var(--color-surface);
+  color:var(--color-primary);
+  border:none;border-radius:8px;
+  padding:8px 12px;font-family:inherit;font-size:12px;font-weight:600;
+  cursor:pointer;min-height:36px;
+}
+.card-actions button:active{transform:scale(0.96);}
+.card-actions button.primary{background:var(--color-primary);color:#fff;}
+
+/* 영풀 AI 에이전트 버튼 (고정) */
+.ai-fab{
+  position:fixed;bottom:16px;right:16px;
+  background:var(--color-primary);color:#fff;
+  border:none;border-radius:28px;
+  padding:12px 18px;
+  font-family:inherit;font-size:13px;font-weight:700;
+  box-shadow:0 6px 20px rgba(90,122,130,0.4);
+  cursor:pointer;z-index:50;
+  display:flex;align-items:center;gap:8px;
+}
+.ai-fab:active{transform:scale(0.95);}
+
+/* 모달 공통 */
+.modal-mask{
+  position:fixed;inset:0;background:rgba(44,62,66,0.55);
+  display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;
+}
+.modal-mask.show{display:flex;}
+.modal-card{
+  background:#fff;border-radius:16px;
+  padding:24px 22px 20px;
+  max-width:420px;width:100%;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  max-height:85vh;overflow-y:auto;
+}
+.modal-card h2{font-size:17px;font-weight:800;margin-bottom:8px;color:var(--color-primary);text-align:center;}
+.modal-card p{font-size:13px;color:var(--color-text-light);text-align:center;margin-bottom:16px;line-height:1.6;}
+.modal-card .btn{
+  width:100%;padding:12px;border:none;border-radius:10px;
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  min-height:var(--touch-min);margin-top:8px;
+}
+.modal-card .btn-primary{background:var(--color-primary);color:#fff;}
+.modal-card .btn-secondary{background:var(--color-surface);color:var(--color-primary);}
+
+.ai-chat-input{
+  width:100%;padding:12px 14px;
+  border:2px solid var(--color-surface);
+  border-radius:10px;font-family:inherit;font-size:14px;
+  outline:none;margin-bottom:12px;resize:vertical;
+  min-height:60px;
+}
+.ai-chat-input:focus{border-color:var(--color-primary);}
+.ai-response{
+  background:var(--color-bg);
+  border-radius:10px;
+  padding:12px 14px;font-size:13px;color:var(--color-text);
+  line-height:1.6;
+  margin-top:12px;
+  display:none;
+}
+.ai-response.show{display:block;}
+.ai-response .source{font-size:11px;color:var(--color-text-light);margin-top:8px;display:block;}
+
+.note{
+  margin-top:20px;background:var(--color-surface);
+  border-radius:var(--card-radius);padding:14px 16px;
+  font-size:12px;line-height:1.7;
+}
+.note b{color:var(--color-primary);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app-bar">
+    <div class="logo">
+      <div class="mark">영풀</div>
+      <div class="nm">중·고등부<small>좋은 문장 일주일</small></div>
+    </div>
+    <a class="home" href="study-hub.html">← 허브</a>
+  </div>
+
+  <!-- 선생님 코드 입력 -->
+  <div class="teacher-bar">
+    <span class="ico">👨‍🏫</span>
+    <input type="text" id="teacherCodeInput" placeholder="선생님 코드 (예: T-1234)" maxlength="10">
+    <button onclick="saveTeacherCode()">저장</button>
+    <span class="status" id="teacherStatus"></span>
+  </div>
+
+  <div class="hero">
+    <h1>좋은 문장을 통째로 내 것으로</h1>
+    <p>문법은 필요할 때만 — 통문장 체화가 진짜 실력</p>
+  </div>
+
+  <div class="grade-tabs" id="gradeTabs"></div>
+  <div class="days" id="days"></div>
+  <div id="sentences"></div>
+
+  <div class="note">
+    💡 <b>학습 원칙</b>: 문장을 먼저 소리내어 3번 읽으세요. 막힐 때만 문법 팁을 열어요. 마지막에 플래너 복습 추가.<br>
+    🤖 <b>영풀 AI 에이전트</b>: 우측 하단 버튼으로 언제든 질문 가능. 여러 AI 합의 답변을 보여드려요.
+  </div>
+
+</div>
+
+<!-- 영풀 AI 에이전트 FAB -->
+<button class="ai-fab" onclick="openAI()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> 영풀 AI</button>
+
+<!-- 플래너 복습 모달 -->
+<div class="modal-mask" id="reviewModal">
+  <div class="modal-card" style="text-align:center;">
+    <div style="font-size:44px;margin-bottom:8px;">🗂️</div>
+    <h2>오늘 배운 문장을<br>플래너에 복습 자료로 올릴까요?</h2>
+    <p>3일·7일·14일 뒤 다시 알려드려요. 장기 기억으로 넘어가요.</p>
+    <button class="btn btn-primary" onclick="addToPlanner()">네, 복습 자료로 올리기</button>
+    <button class="btn btn-secondary" onclick="closeReview()">다음에</button>
+  </div>
+</div>
+
+<!-- 영풀 AI 모달 -->
+<div class="modal-mask" id="aiModal">
+  <div class="modal-card">
+    <h2><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> 영풀 AI 에이전트</h2>
+    <p>문장, 문법, 해석 — 뭐든 물어보세요.<br>여러 AI가 의견을 모아 답해드려요.</p>
+    <textarea class="ai-chat-input" id="aiInput" placeholder="예: &quot;I have been&quot; 의 정확한 의미가 뭐야?"></textarea>
+    <button class="btn btn-primary" onclick="askAI()">물어보기</button>
+    <button class="btn btn-secondary" onclick="closeAI()">닫기</button>
+    <div class="ai-response" id="aiResponse"></div>
+  </div>
+</div>
+
+<script>
+// === 학년별 문장 데이터 (1주일 × 6학년) ===
+const CURRICULUM = {
+  m1: {name:"중1", label:"중등 1", days:[
+    {day:1, topic:"be동사 현재", sentences:[
+      {en:"I am a student.", ko:"나는 학생이야.", tags:["be동사","1인칭"], tip:"<b>be동사 = am/is/are</b>. 주어가 I 면 am, 단수 3인칭이면 is, 나머지는 are."},
+      {en:"She is my best friend.", ko:"그녀는 내 가장 친한 친구야.", tags:["be동사","3인칭"], tip:"She/He/It 뒤에는 <b>is</b>. my best friend 는 '내 가장 친한 친구'."},
+      {en:"We are in the same class.", ko:"우리는 같은 반이야.", tags:["be동사","복수"], tip:"We/You/They 뒤에는 <b>are</b>. in the same class = 같은 반에 있는."}
+    ]},
+    {day:2, topic:"일반동사 3인칭 단수", sentences:[
+      {en:"He plays soccer every day.", ko:"그는 매일 축구를 해.", tags:["3인칭 단수","-s"], tip:"3인칭 단수(He/She/It) + 일반동사 → 동사 끝에 <b>-s</b>. plays."},
+      {en:"She watches TV after school.", ko:"그녀는 방과 후에 TV를 봐.", tags:["-es","watch"], tip:"동사가 -ch/-sh/-s/-x 로 끝나면 <b>-es</b>. watch → watches."},
+      {en:"My brother studies English hard.", ko:"내 형은 영어를 열심히 공부해.", tags:["-ies","study"], tip:"자음 + y 로 끝나면 y → i + es. study → studies."}
+    ]},
+    {day:3, topic:"의문문 · 부정문", sentences:[
+      {en:"Do you like pizza?", ko:"너 피자 좋아해?", tags:["의문문","do"], tip:"일반동사 의문문 → <b>Do/Does</b> 로 시작. you 는 Do, 3인칭 단수는 Does."},
+      {en:"Does she speak English?", ko:"그녀는 영어를 말하니?", tags:["의문문","does"], tip:"Does 뒤의 동사는 원형! speaks 가 아닌 <b>speak</b>."},
+      {en:"I don't like coffee.", ko:"나는 커피를 좋아하지 않아.", tags:["부정문","don't"], tip:"부정문 → don't/doesn't. 뒤의 동사는 역시 원형."}
+    ]},
+    {day:4, topic:"Wh-의문사", sentences:[
+      {en:"What time is it now?", ko:"지금 몇 시야?", tags:["What","시간"], tip:"시간 묻기 → <b>What time is it?</b> 통째로 외우세요."},
+      {en:"Where are you from?", ko:"어디 출신이야?", tags:["Where","from"], tip:"출신·국적 묻기 고정 표현. <b>Where + be동사 + 주어 + from?</b>"},
+      {en:"Why do you study English?", ko:"왜 영어를 공부해?", tags:["Why","이유"], tip:"이유 묻기. Why + do/does + 주어 + 동사원형 ~?"}
+    ]},
+    {day:5, topic:"조동사 can", sentences:[
+      {en:"I can swim very well.", ko:"나 수영 정말 잘해.", tags:["can","능력"], tip:"<b>can</b> 뒤에는 항상 동사원형. can swim, can go."},
+      {en:"Can you help me?", ko:"도와줄 수 있어?", tags:["can","요청"], tip:"부탁할 때 <b>Can you ~?</b>. 정중하게는 Could you ~?"},
+      {en:"She can't come today.", ko:"그녀는 오늘 못 와.", tags:["can't","부정"], tip:"can't = cannot. 뒤는 원형 come."}
+    ]}
+  ]},
+  m2: {name:"중2", label:"중등 2", days:[
+    {day:1, topic:"과거시제", sentences:[
+      {en:"I visited my grandmother last weekend.", ko:"지난 주말에 할머니를 찾아뵈었어.", tags:["과거","-ed"], tip:"규칙 과거 → 동사 + <b>-ed</b>. visit → visited."},
+      {en:"She went to the library yesterday.", ko:"그녀는 어제 도서관에 갔어.", tags:["불규칙","go"], tip:"go 는 불규칙. <b>go - went - gone</b> 꼭 외워두기."},
+      {en:"We had a great time at the party.", ko:"우리는 파티에서 즐거운 시간을 보냈어.", tags:["had","have 과거"], tip:"have → <b>had</b>. have a great time = 즐거운 시간 보내다."}
+    ]},
+    {day:2, topic:"현재진행·과거진행", sentences:[
+      {en:"I am studying for the test now.", ko:"나 지금 시험 공부 중이야.", tags:["현재진행","be+ing"], tip:"지금 하고 있는 일 → <b>be동사 + 동사-ing</b>. am studying."},
+      {en:"She was cooking when I called.", ko:"내가 전화했을 때 그녀는 요리 중이었어.", tags:["과거진행","when"], tip:"과거 어느 시점의 진행 → <b>was/were + -ing</b>."},
+      {en:"They are not listening to me.", ko:"그들은 내 말을 듣고 있지 않아.", tags:["진행 부정"], tip:"부정은 be동사 뒤에 not. are not = aren't."}
+    ]},
+    {day:3, topic:"미래 will", sentences:[
+      {en:"I will call you tonight.", ko:"오늘 밤 전화할게.", tags:["will","약속"], tip:"<b>will + 동사원형</b> = ~할 것이다/할게."},
+      {en:"It will rain tomorrow.", ko:"내일 비 올 거야.", tags:["will","예측"], tip:"미래 예측도 will. 날씨·사건 등."},
+      {en:"Will you come to my party?", ko:"내 파티에 올래?", tags:["Will","초대"], tip:"Will you ~? = 초대·부탁. 정중함은 Would you."}
+    ]},
+    {day:4, topic:"비교급·최상급", sentences:[
+      {en:"He is taller than me.", ko:"그는 나보다 키가 커.", tags:["비교급","-er"], tip:"짧은 형용사 + <b>-er</b> + than. tall → taller."},
+      {en:"Math is more difficult than English.", ko:"수학이 영어보다 더 어려워.", tags:["more","긴 형용사"], tip:"긴 형용사 (3음절 이상) → <b>more</b> + 원형."},
+      {en:"This is the best pizza in town.", ko:"이게 동네에서 제일 맛있는 피자야.", tags:["최상급","the best"], tip:"good → better → <b>the best</b>. 최상급엔 the."}
+    ]},
+    {day:5, topic:"접속사 when/because/if", sentences:[
+      {en:"When I was a child, I loved ice cream.", ko:"어렸을 때 아이스크림을 좋아했어.", tags:["when","시간"], tip:"when = ~할 때. 시간 관계."},
+      {en:"I stayed home because it was raining.", ko:"비가 와서 집에 있었어.", tags:["because","이유"], tip:"because = 왜냐하면. 이유 설명."},
+      {en:"If you study hard, you will pass.", ko:"열심히 공부하면 합격할 거야.", tags:["if","조건"], tip:"if절의 동사는 현재형, 주절은 will. 조건 문장."}
+    ]}
+  ]},
+  m3: {name:"중3", label:"중등 3", days:[
+    {day:1, topic:"현재완료", sentences:[
+      {en:"I have lived in Seoul for 10 years.", ko:"나는 서울에 10년째 살고 있어.", tags:["have+pp","계속"], tip:"현재완료 = <b>have/has + 과거분사</b>. 과거부터 현재까지 계속."},
+      {en:"She has already finished her homework.", ko:"그녀는 이미 숙제를 끝냈어.", tags:["already","완료"], tip:"already = 이미. 완료 의미를 강조."},
+      {en:"Have you ever been to Jeju?", ko:"제주도 가 본 적 있어?", tags:["ever","경험"], tip:"Have you ever ~? = 경험 묻기. been = be의 과거분사."}
+    ]},
+    {day:2, topic:"수동태", sentences:[
+      {en:"This book was written by a famous author.", ko:"이 책은 유명한 작가가 썼어.", tags:["수동태","by"], tip:"수동태 = <b>be동사 + 과거분사</b>. 행위자는 by로."},
+      {en:"The window is cleaned every day.", ko:"그 창문은 매일 닦여.", tags:["수동태","현재"], tip:"현재 수동태. 주어가 '당하는' 입장일 때."},
+      {en:"The bridge will be built next year.", ko:"그 다리는 내년에 지어질 거야.", tags:["미래 수동"], tip:"will + be + 과거분사."}
+    ]},
+    {day:3, topic:"to부정사 (명사적)", sentences:[
+      {en:"I want to go home.", ko:"집에 가고 싶어.", tags:["want to","~하고 싶다"], tip:"want + to + 동사원형 = ~하고 싶다."},
+      {en:"It is important to study hard.", ko:"열심히 공부하는 것은 중요해.", tags:["It ~ to","가주어"], tip:"It = 가주어, to study hard = 진주어."},
+      {en:"My dream is to become a doctor.", ko:"내 꿈은 의사가 되는 거야.", tags:["to 보어"], tip:"is + to부정사 = ~하는 것이다."}
+    ]},
+    {day:4, topic:"동명사", sentences:[
+      {en:"Reading books is my hobby.", ko:"책 읽기가 내 취미야.", tags:["동명사 주어"], tip:"-ing 형태로 명사 역할. 주어로 쓰면 단수 취급 → is."},
+      {en:"I enjoy playing the guitar.", ko:"나는 기타 치는 걸 즐겨.", tags:["enjoy+ing"], tip:"enjoy 뒤에는 반드시 <b>-ing</b>. enjoy to play X."},
+      {en:"Thank you for helping me.", ko:"도와줘서 고마워.", tags:["전치사+ing"], tip:"전치사 for 뒤에는 동명사. helping."}
+    ]},
+    {day:5, topic:"간접의문문", sentences:[
+      {en:"I don't know where he lives.", ko:"나는 그가 어디 사는지 몰라.", tags:["간접의문문"], tip:"문장 속 의문문 → <b>의문사 + 주어 + 동사</b> 순서. does 없어짐."},
+      {en:"Can you tell me what time it is?", ko:"지금 몇 시인지 알려줄래?", tags:["tell me"], tip:"What time is it? → what time it is (간접)."},
+      {en:"I wonder if she will come.", ko:"그녀가 올지 궁금해.", tags:["if","yes/no"], tip:"Yes/No 의문문은 <b>if/whether</b> + 평서문 어순."}
+    ]}
+  ]},
+  h1: {name:"고1", label:"고등 1", days:[
+    {day:1, topic:"관계대명사 that/which/who", sentences:[
+      {en:"The book that I read yesterday was boring.", ko:"내가 어제 읽은 책은 지루했어.", tags:["that","목적격"], tip:"관계대명사 that = 앞 명사를 꾸미는 절 연결. 사람·사물 둘 다."},
+      {en:"She is the woman who teaches English.", ko:"그녀가 영어를 가르치는 선생님이야.", tags:["who","주격"], tip:"who = 사람 주격. 뒤에 동사가 바로 옴."},
+      {en:"This is the house which my father built.", ko:"이게 우리 아버지가 지으신 집이야.", tags:["which","사물"], tip:"which = 사물 관계대명사. that 과 호환."}
+    ]},
+    {day:2, topic:"가정법 과거", sentences:[
+      {en:"If I were rich, I would travel the world.", ko:"내가 부자라면 세계 여행을 할 텐데.", tags:["가정법 과거"], tip:"현재 사실과 반대. <b>If + 주어 + 과거동사, 주어 + would + 동사원형</b>. were 는 인칭 무관."},
+      {en:"If I had more time, I could finish it.", ko:"시간이 더 있다면 끝낼 수 있을 텐데.", tags:["could"], tip:"would 대신 <b>could</b> 도 가능 (할 수 있을 텐데)."},
+      {en:"I wish I could speak French.", ko:"프랑스어를 할 수 있으면 좋겠어.", tags:["I wish"], tip:"I wish + 가정법 과거 = ~하면 좋을 텐데. 현재 아쉬움."}
+    ]},
+    {day:3, topic:"분사 (현재·과거)", sentences:[
+      {en:"The crying baby needs milk.", ko:"우는 아기는 우유가 필요해.", tags:["현재분사","-ing"], tip:"현재분사 -ing = 능동·진행. '우는' 아기."},
+      {en:"I found a broken glass on the floor.", ko:"바닥에서 깨진 유리를 발견했어.", tags:["과거분사","pp"], tip:"과거분사 = 수동·완료. '깨진' 유리."},
+      {en:"The book written by her is famous.", ko:"그녀가 쓴 책은 유명해.", tags:["분사 뒤꾸밈"], tip:"분사가 뒤에서 명사를 꾸밀 때. 'written by her' 전체가 the book 을 수식."}
+    ]},
+    {day:4, topic:"지각·사역동사", sentences:[
+      {en:"I saw him cross the street.", ko:"그가 길 건너는 걸 봤어.", tags:["saw","원형"], tip:"see/hear/feel + 목적어 + <b>동사원형</b>. cross (crossed X)."},
+      {en:"She made me wait for an hour.", ko:"그녀가 나를 한 시간 기다리게 했어.", tags:["make","사역"], tip:"make + 목적어 + <b>원형</b>. 강한 시킴."},
+      {en:"My mom let me go to the party.", ko:"엄마가 파티에 가게 해주셨어.", tags:["let","허락"], tip:"let + 목적어 + <b>원형</b>. 허락의 뉘앙스."}
+    ]},
+    {day:5, topic:"도치·강조", sentences:[
+      {en:"Never have I seen such a beautiful sunset.", ko:"그렇게 아름다운 석양은 본 적이 없어.", tags:["도치","Never"], tip:"부정어 Never/Hardly 문두 → <b>주어·동사 도치</b>. have I seen."},
+      {en:"It was John who broke the window.", ko:"창문을 깬 것은 바로 존이야.", tags:["강조구문","It was ~ who"], tip:"<b>It was + 강조하고 싶은 말 + who/that</b>. '바로 ~'."},
+      {en:"Only then did I realize my mistake.", ko:"그제야 내 실수를 깨달았어.", tags:["Only","도치"], tip:"Only + 부사 문두도 도치. did I realize."}
+    ]}
+  ]},
+  h2: {name:"고2", label:"고등 2", days:[
+    {day:1, topic:"가정법 과거완료", sentences:[
+      {en:"If I had studied harder, I would have passed.", ko:"더 열심히 공부했더라면 합격했을 텐데.", tags:["가정법 과거완료"], tip:"과거 사실과 반대. <b>If + had + pp, 주어 + would have + pp</b>."},
+      {en:"Had I known, I would have helped.", ko:"알았더라면 도와줬을 거야.", tags:["If 생략"], tip:"If 생략 시 <b>Had + 주어 + pp</b> 도치."},
+      {en:"I wish I had told her the truth.", ko:"그녀에게 진실을 말했더라면 좋을 텐데.", tags:["I wish + 과거완료"], tip:"과거 후회. I wish + had + pp."}
+    ]},
+    {day:2, topic:"관계부사 where/when/why/how", sentences:[
+      {en:"This is the place where I was born.", ko:"이곳이 내가 태어난 곳이야.", tags:["where","장소"], tip:"장소 선행사 + <b>where</b>. in which 로 바꿀 수 있음."},
+      {en:"I remember the day when we first met.", ko:"우리가 처음 만난 날을 기억해.", tags:["when","시간"], tip:"시간 선행사 + <b>when</b>. on which."},
+      {en:"That's the reason why I love her.", ko:"그게 내가 그녀를 사랑하는 이유야.", tags:["why","이유"], tip:"이유 선행사 + <b>why</b>. for which."}
+    ]},
+    {day:3, topic:"복합관계사", sentences:[
+      {en:"Whoever comes will be welcome.", ko:"누가 오든 환영이야.", tags:["whoever"], tip:"whoever = anyone who. 누구든."},
+      {en:"Whatever you say, I won't change my mind.", ko:"네가 뭐라고 말하든 마음 안 바꿔.", tags:["whatever","양보"], tip:"whatever = no matter what. '~라도/든'."},
+      {en:"You can sit wherever you like.", ko:"원하는 곳 어디든 앉아도 돼.", tags:["wherever"], tip:"wherever = any place where."}
+    ]},
+    {day:4, topic:"특수구문 — 강조·삽입", sentences:[
+      {en:"I do love you, you know.", ko:"난 정말 널 사랑해, 알잖아.", tags:["do 강조"], tip:"일반동사 앞 <b>do/does/did</b> = 정말로."},
+      {en:"He is, as you know, a genius.", ko:"그는, 너도 알다시피, 천재야.", tags:["as you know","삽입"], tip:"콤마로 구절 삽입. 의미 추가."},
+      {en:"The problem, however, remains unsolved.", ko:"하지만 그 문제는 여전히 해결되지 않았어.", tags:["however","삽입"], tip:"however 가 문장 중간에 오면 콤마로 감싸기."}
+    ]},
+    {day:5, topic:"어법 핵심 정리", sentences:[
+      {en:"Neither he nor I am wrong.", ko:"그도 나도 틀리지 않았어.", tags:["Neither nor","동사 일치"], tip:"동사는 <b>가까운 주어</b>에 맞춤. I am."},
+      {en:"Each of the students has a book.", ko:"학생 각자가 책을 한 권씩 가지고 있어.", tags:["each","단수"], tip:"each/every = 단수 취급. has."},
+      {en:"The number of students is increasing.", ko:"학생 수가 증가하고 있어.", tags:["number","단수"], tip:"The number of ~ = 단수. A number of ~ = 복수."}
+    ]}
+  ]},
+  h3: {name:"고3", label:"고등 3", days:[
+    {day:1, topic:"수능 구문 — 관계절 심화", sentences:[
+      {en:"The ability to adapt to change is what defines successful leaders.", ko:"변화에 적응하는 능력이 성공한 리더를 정의하는 것이다.", tags:["what","명사절"], tip:"<b>what</b> = the thing(s) which. 선행사 없이 명사절."},
+      {en:"Those who do not learn from history are doomed to repeat it.", ko:"역사에서 배우지 않는 자는 역사를 반복할 운명이다.", tags:["Those who","일반"], tip:"Those who ~ = ~하는 사람들. 격언 자주 등장."},
+      {en:"Whatever decision you make, make sure it reflects your values.", ko:"어떤 결정을 내리든, 네 가치관이 반영되도록 해라.", tags:["Whatever","명령"], tip:"부사절 + 명령문. 수능·토플 자주."}
+    ]},
+    {day:2, topic:"수능 구문 — 고급 분사·부정사", sentences:[
+      {en:"Given the current situation, we have no choice but to wait.", ko:"현재 상황을 감안하면, 기다리는 수밖에 없다.", tags:["Given","분사구문"], tip:"Given ~ = ~을 고려하면. 분사구문 관용."},
+      {en:"To be honest, I don't think it will work.", ko:"솔직히 말하면, 그게 될 것 같지 않아.", tags:["To be honest","독립부정사"], tip:"독립부정사. 문두에서 해석 조절."},
+      {en:"Having finished the task, she felt relieved.", ko:"일을 끝낸 후, 그녀는 안도감을 느꼈다.", tags:["Having pp","완료분사"], tip:"<b>Having + pp</b> = 완료 분사구문. 주절보다 먼저."}
+    ]},
+    {day:3, topic:"빈칸 추론 핵심 문장", sentences:[
+      {en:"Humans are wired to seek patterns, even where none exist.", ko:"인간은 패턴을 찾도록 설계되어 있다, 없는 곳에서조차.", tags:["빈칸","be wired to"], tip:"be wired to ~ = ~하도록 타고나다. 수능 심리학 지문 단골."},
+      {en:"The less we know, the more confident we tend to be.", ko:"덜 알수록 더 확신하는 경향이 있다.", tags:["The 비교급","경향"], tip:"<b>The + 비교급, the + 비교급</b> = ~할수록 더 ~하다."},
+      {en:"What matters is not what happens, but how we respond.", ko:"중요한 것은 무엇이 일어나느냐가 아니라 어떻게 반응하느냐다.", tags:["not A but B"], tip:"not A but B = A가 아니라 B."}
+    ]},
+    {day:4, topic:"주제·요지 표현", sentences:[
+      {en:"The key to learning a language is consistent practice.", ko:"언어 학습의 핵심은 꾸준한 연습이다.", tags:["The key to","핵심"], tip:"The key to + 명사 = ~의 핵심. 주제문 단골."},
+      {en:"What distinguishes experts from novices is deliberate practice.", ko:"전문가를 초보자와 구별 짓는 것은 의도적 연습이다.", tags:["distinguish A from B"], tip:"distinguish A from B = A를 B와 구별하다."},
+      {en:"Ultimately, success depends on how you respond to failure.", ko:"궁극적으로, 성공은 실패에 어떻게 반응하느냐에 달려 있다.", tags:["depend on"], tip:"depend on = ~에 달려 있다."}
+    ]},
+    {day:5, topic:"어법 심화 — 자주 틀리는 포인트", sentences:[
+      {en:"The number of books increases every year, which is impressive.", ko:"책의 수가 매년 증가하는데, 이는 인상적이다.", tags:["which","앞문장"], tip:"계속적 용법 which = 앞 문장 전체 받음. 콤마 필수."},
+      {en:"Not only did he study hard, but he also helped others.", ko:"그는 열심히 공부했을 뿐 아니라 남도 도왔다.", tags:["Not only 도치"], tip:"Not only 문두 → 도치. did he study."},
+      {en:"It is high time we left.", ko:"이제 떠날 시간이야.", tags:["It is time + 과거"], tip:"It is (high) time + <b>과거동사</b>. 가정법 과거 관용."}
+    ]}
+  ]}
+};
+
+// === 상태 ===
+const STORE_KEY = "yeon_secondary_state";
+let state = loadState();
+
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(STORE_KEY)||"{}");
+    return {grade: s.grade||"m1", day: s.day||1, doneDays: s.doneDays||{}};
+  }catch(e){
+    return {grade:"m1", day:1, doneDays:{}};
+  }
+}
+function saveState(){
+  try{localStorage.setItem(STORE_KEY, JSON.stringify(state));}catch(e){}
+}
+
+// === 선생님 코드 ===
+function loadTeacherCode(){
+  try{ return localStorage.getItem("yeon_teacher_code") || ""; }catch(e){ return ""; }
+}
+function saveTeacherCode(){
+  const v = document.getElementById("teacherCodeInput").value.trim().toUpperCase();
+  if(!v){ alert("코드를 입력해주세요."); return; }
+  try{
+    localStorage.setItem("yeon_teacher_code", v);
+    // 학습 로그에 선생님 연결 표시
+    const log = JSON.parse(localStorage.getItem("yeon_teacher_link_log")||"[]");
+    log.push({code:v, linkedAt:new Date().toISOString(), source:"secondary"});
+    localStorage.setItem("yeon_teacher_link_log", JSON.stringify(log));
+    renderTeacherStatus();
+    alert("✅ 선생님 코드가 저장됐어요. 이제 학습이 선생님께 전달돼요.");
+  }catch(e){ alert("저장 실패"); }
+}
+function renderTeacherStatus(){
+  const code = loadTeacherCode();
+  const input = document.getElementById("teacherCodeInput");
+  const status = document.getElementById("teacherStatus");
+  if(code){
+    input.value = code;
+    status.textContent = "✓ 연결됨";
+  }else{
+    status.textContent = "";
+  }
+}
+
+// === 렌더 ===
+function renderGradeTabs(){
+  const wrap = document.getElementById("gradeTabs");
+  wrap.innerHTML = "";
+  Object.keys(CURRICULUM).forEach(key=>{
+    const g = CURRICULUM[key];
+    const btn = document.createElement("button");
+    btn.className = "grade-tab";
+    if(key === state.grade) btn.classList.add("active");
+    btn.innerHTML = g.name + '<small>' + g.label + '</small>';
+    btn.onclick = ()=>{
+      state.grade = key;
+      state.day = 1;
+      saveState();
+      renderAll();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderDays(){
+  const wrap = document.getElementById("days");
+  wrap.innerHTML = "";
+  const days = CURRICULUM[state.grade].days;
+  const doneArr = (state.doneDays[state.grade] || []);
+  days.forEach(d=>{
+    const btn = document.createElement("button");
+    btn.className = "day-pill";
+    if(d.day === state.day) btn.classList.add("active");
+    if(doneArr.includes(d.day)) btn.classList.add("done");
+    btn.textContent = "Day " + d.day + " · " + d.topic;
+    btn.onclick = ()=>{
+      state.day = d.day;
+      saveState();
+      renderAll();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderSentences(){
+  const wrap = document.getElementById("sentences");
+  wrap.innerHTML = "";
+  const day = CURRICULUM[state.grade].days.find(x=>x.day===state.day) || CURRICULUM[state.grade].days[0];
+  day.sentences.forEach((s,i)=>{
+    const card = document.createElement("div");
+    card.className = "sentence-card";
+    card.innerHTML = `
+      <div class="label">문장 ${i+1} / ${day.sentences.length}</div>
+      <div class="sentence-en">${s.en}</div>
+      <div class="sentence-ko">${s.ko}</div>
+      <div class="sentence-meta">
+        ${s.tags.map(t=>`<span class="chip">${t}</span>`).join("")}
+      </div>
+      <div class="grammar-tip" id="tip-${i}">${s.tip}</div>
+      <div class="card-actions">
+        <button onclick="speak('${s.en.replace(/'/g,"\\'")}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> 듣기</button>
+        <button onclick="toggleTip(${i})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> 문법 팁</button>
+        <button onclick="saveWord('${s.en.replace(/'/g,"\\'")}','${s.ko.replace(/'/g,"\\'")}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 단어장</button>
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+  // 완료 버튼
+  const completeBtn = document.createElement("button");
+  completeBtn.className = "btn btn-primary";
+  completeBtn.style.cssText = "width:100%;padding:14px;margin-top:4px;background:var(--color-primary);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;";
+  completeBtn.textContent = "✓ Day " + state.day + " 완료 · 플래너 복습 올리기";
+  completeBtn.onclick = completeDay;
+  wrap.appendChild(completeBtn);
+}
+
+function toggleTip(i){
+  document.getElementById("tip-" + i).classList.toggle("show");
+}
+
+function speak(txt){
+  if("speechSynthesis" in window){
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US";
+    u.rate = 0.9;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+}
+
+function saveWord(en, ko){
+  try{
+    const list = JSON.parse(localStorage.getItem("yeon_vocab")||"[]");
+    list.push({en, ko, savedAt:new Date().toISOString(), source:"secondary-"+state.grade});
+    localStorage.setItem("yeon_vocab", JSON.stringify(list));
+    alert("<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 단어장에 저장됐어요 (" + list.length + "개)");
+  }catch(e){alert("저장 실패");}
+}
+
+function completeDay(){
+  const arr = state.doneDays[state.grade] || [];
+  if(!arr.includes(state.day)){
+    arr.push(state.day);
+    state.doneDays[state.grade] = arr;
+  }
+  saveState();
+  renderAll();
+  showReviewPrompt();
+}
+
+function renderAll(){
+  renderGradeTabs();
+  renderDays();
+  renderSentences();
+  renderTeacherStatus();
+}
+
+// === 플래너 복습 ===
+function showReviewPrompt(){document.getElementById("reviewModal").classList.add("show");}
+function closeReview(){document.getElementById("reviewModal").classList.remove("show");}
+function addToPlanner(){
+  let isMember = false;
+  try{
+    const session = JSON.parse(localStorage.getItem("yeon_session")||"null");
+    isMember = !!(session && session.userId);
+  }catch(e){}
+  const day = CURRICULUM[state.grade].days.find(x=>x.day===state.day);
+  const review = {
+    source:"secondary",
+    grade:state.grade,
+    day:state.day,
+    topic:day.topic,
+    sentences:day.sentences.map(s=>s.en+" | "+s.ko),
+    teacherCode: loadTeacherCode(),
+    addedAt:new Date().toISOString(),
+    nextReviewAt:new Date(Date.now() + 3*24*60*60*1000).toISOString()
+  };
+  if(isMember){
+    try{
+      const list = JSON.parse(localStorage.getItem("yeon_planner_reviews")||"[]");
+      list.push(review);
+      localStorage.setItem("yeon_planner_reviews", JSON.stringify(list));
+      alert("✅ 플래너에 복습 자료로 올렸어요. 3일 후 다시 만나요.");
+      closeReview();
+    }catch(e){alert("저장 실패");}
+  }else{
+    closeReview();
+    if(confirm("📒 플래너 복습은 회원 전용 기능입니다.\n가입하시면 자동 복습 일정을 관리해드려요.\n\n가입 페이지로 이동할까요?")){
+      location.href = "app.html";
+    }
+  }
+}
+
+// === 영풀 AI 에이전트 (베타) ===
+function openAI(){document.getElementById("aiModal").classList.add("show");}
+function closeAI(){
+  document.getElementById("aiModal").classList.remove("show");
+  document.getElementById("aiResponse").classList.remove("show");
+  document.getElementById("aiInput").value = "";
+}
+function askAI(){
+  const q = document.getElementById("aiInput").value.trim();
+  if(!q){alert("질문을 입력해주세요.");return;}
+  const res = document.getElementById("aiResponse");
+  // 베타: 라이브러리 캐시 조회 시뮬레이션
+  // 실제 구현은 BYOK + Multi-AI 호출로 교체 예정
+  let reply = "🔍 영풀 라이브러리 검색 중...\n\n";
+  reply += "현재는 베타 상태로, 정식 Multi-AI 연동은 준비 중이에요.\n\n";
+  reply += "💡 질문 요약: " + q + "\n\n";
+  reply += "곧 GPT + Gemini + Grok 이 동시에 답하고, 합의된 답을 보여드릴 예정입니다.\n\n";
+  reply += "아래 버튼으로 직접 AI에게 물어볼 수도 있어요.";
+  res.innerHTML = reply.replace(/\n/g,"<br>") +
+    '<div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">' +
+    '<a href="https://chat.openai.com/?q=' + encodeURIComponent(q) + '" target="_blank" style="flex:1;min-width:110px;background:#fff;border:1px solid var(--color-surface);padding:8px;border-radius:8px;text-decoration:none;color:var(--color-primary);font-size:11px;text-align:center;font-weight:600;">ChatGPT</a>' +
+    '<a href="https://gemini.google.com/app?q=' + encodeURIComponent(q) + '" target="_blank" style="flex:1;min-width:110px;background:#fff;border:1px solid var(--color-surface);padding:8px;border-radius:8px;text-decoration:none;color:var(--color-primary);font-size:11px;text-align:center;font-weight:600;">Gemini</a>' +
+    '<a href="https://grok.com/?q=' + encodeURIComponent(q) + '" target="_blank" style="flex:1;min-width:110px;background:#fff;border:1px solid var(--color-surface);padding:8px;border-radius:8px;text-decoration:none;color:var(--color-primary);font-size:11px;text-align:center;font-weight:600;">Grok</a>' +
+    '</div>' +
+    '<span class="source">* 베타 모드 — 정식 Multi-AI 합의 기능은 곧 추가됩니다</span>';
+  res.classList.add("show");
+}
+
+// 시작
+renderAll();
+</script>
+</body>
+</html>

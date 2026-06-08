@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 최종 추천 셋 — 품질 우선, 합리적 비용</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:56px 0 36px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);margin:56px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-56px;top:0;font-family:var(--serif);font-size:24px;font-weight:300;color:var(--amber)}
+
+  h3{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin:28px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* TL;DR */
+  .tldr{background:var(--ink);color:var(--warm);padding:36px;border-radius:8px;margin:32px 0}
+  .tldr .tag{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .tldr h3{font-family:var(--serif);font-size:24px;color:var(--warm);margin:0 0 14px;border:none;padding:0}
+  .tldr p{font-size:14px;color:rgba(244,240,230,.88);line-height:1.85;margin-bottom:10px}
+  .tldr strong{color:var(--amber)}
+  .tldr .num{font-family:var(--serif);font-size:32px;font-weight:900;color:var(--amber);line-height:1;display:inline-block;margin-right:8px;vertical-align:-2px}
+
+  /* 부품 카드 */
+  .part-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+  .part{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 24px;position:relative}
+  .part-num{position:absolute;top:14px;right:18px;font-family:var(--serif);font-size:36px;font-weight:900;color:var(--line);letter-spacing:-.04em;line-height:1}
+  .part-role{font-size:10px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+  .part-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em;padding-right:50px}
+  .part-tool{font-size:13px;color:var(--teal);font-weight:600;margin-bottom:10px}
+  .part-reason{font-size:13px;color:var(--muted);line-height:1.7;padding-top:10px;border-top:1px dashed var(--line)}
+  .part-reason strong{color:var(--ink)}
+  .part-cost{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-top:10px}
+  .cost-free{background:#E6F4EA;color:var(--green)}
+  .cost-low{background:#FFF8E1;color:var(--amber)}
+  .cost-mid{background:#FFECB3;color:#9a6800}
+
+  /* 아키텍처 다이어그램 */
+  .arch{background:var(--ink);color:var(--warm);padding:32px;border-radius:8px;margin:24px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;overflow-x:auto;white-space:pre}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+  td.right{text-align:right}
+  td.good{color:var(--green);font-weight:600}
+  td.warn{color:var(--amber);font-weight:600}
+  td.best{background:#FFF5E6;font-weight:700;color:var(--ink)}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  /* 라우팅 흐름 */
+  .routing{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px 28px;margin:14px 0}
+  .routing-row{display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .routing-row:last-child{border:none}
+  .routing-tier{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink)}
+  .routing-tier .small{display:block;font-size:11px;color:var(--muted);font-family:var(--sans);font-weight:400}
+  .routing-detail{font-size:13px;color:var(--soft);line-height:1.6}
+  .routing-cost{font-family:var(--serif);font-size:13px;font-weight:700;text-align:right}
+  .routing-cost.free{color:var(--green)}
+  .routing-cost.low{color:var(--amber)}
+  .routing-cost.mid{color:#9a6800}
+
+  /* 큰 비용 카드 */
+  .cost-card{background:var(--teal);color:var(--warm);padding:36px;border-radius:8px;margin:24px 0;text-align:center}
+  .cost-card .tag{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+  .cost-card .num{font-family:var(--serif);font-size:56px;font-weight:900;color:var(--warm);letter-spacing:-.02em;line-height:1;margin-bottom:8px}
+  .cost-card .num small{font-size:24px;opacity:.7}
+  .cost-card .desc{font-size:13px;opacity:.85;line-height:1.7}
+
+  /* 체크리스트 */
+  .checklist{list-style:none;margin-left:0;padding-left:0}
+  .checklist li{padding-left:24px;position:relative;margin-bottom:8px;font-size:14px;line-height:1.8}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:16px;color:var(--teal)}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:30px}
+    h2 .num{position:static;display:block;margin-bottom:6px}
+    .part-grid{grid-template-columns:1fr}
+    .routing-row{grid-template-columns:1fr}
+    .arch{font-size:10px;padding:18px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr</a><span>최종 추천 셋 · 2026.05.16.</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Final System Recommendation · 품질 우선 · 합리적 비용</div>
+    <h1>연라이프 최종 추천 셋 — <em>품질 우선, 무료에 가까운 비용</em></h1>
+    <p class="lede">
+      그동안 합의한 모든 결정을 한 자리에 모은 최종 추천 구성입니다.
+      품질을 최우선으로 두되, 똑똑한 라우팅으로 비용은 거의 무료를 유지합니다.
+      한 번 셋업 후 본인 컴퓨터 없이 24시간 자동 운영, 회원 1,000명까지 월 1만원 이내.
+    </p>
+  </header>
+
+  <!-- ========== TL;DR ========== -->
+  <div class="tldr">
+    <div class="tag">한 페이지 결론</div>
+    <h3>품질은 최고급, 비용은 거의 무료 — 똑똑한 라우팅의 힘</h3>
+    <p><span class="num">⊕</span> <strong>챗봇 메인</strong>: Claude Haiku 4.5 (한국어 1등급, 사색적 톤)</p>
+    <p><span class="num">⊕</span> <strong>모더레이션</strong>: Gemini Flash 무료 티어 (단순 분류 작업, 무료로 충분)</p>
+    <p><span class="num">⊕</span> <strong>뉴스 수집·요약</strong>: GitHub Actions + Gemini Flash 무료</p>
+    <p><span class="num">⊕</span> <strong>인프라</strong>: Cloudflare Workers 무료 + D1 무료 + GitHub Pages 무료</p>
+    <p><span class="num">⊕</span> <strong>보안</strong>: Cloudflare 무료 + Turnstile 무료 + 3단계 경고 시스템</p>
+    <p style="margin-top:16px;font-size:15px;color:white"><strong>예상 월 비용: 회원 100명 무료 → 500명 5천원 → 2,000명 2만원 → 1만명 8만원</strong></p>
+  </div>
+
+  <!-- ========== 1. 전체 그림 ========== -->
+  <h2><span class="num">01</span>전체 시스템 그림</h2>
+
+  <div class="arch">┌──────────────────────────────────────────────────────────────────┐
+│                  방문자 브라우저 (y-life.kr)                     │
+│         메가 메뉴 · 화두 · 광장 · 챗봇 · 스크랩북 · 블로그       │
+└────────────────────────────────┬─────────────────────────────────┘
+                                 │ HTTPS
+                                 ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  Cloudflare 게이트웨이 (무료)                                    │
+│  · DDoS 자동 차단  · Turnstile 봇 차단  · SSL 자동                │
+│  · API 키 보호 (Workers Secret 환경변수)                          │
+└──┬─────────────┬──────────────┬────────────────┬─────────────────┘
+   │             │              │                │
+   ▼             ▼              ▼                ▼
+┌───────┐  ┌──────────┐  ┌──────────────┐  ┌──────────────────┐
+│ 챗봇  │  │ 모더레이션│  │ 보안·인증    │  │ 데이터 (D1)      │
+│       │  │           │  │              │  │                  │
+│Claude │  │ Gemini    │  │ 3단계 경고   │  │ 회원·글·댓글     │
+│Haiku  │  │ Flash     │  │ 감시 명단    │  │ 비용 로그        │
+│       │  │ (무료)    │  │ Turnstile    │  │ 뉴스 캐시        │
+└───────┘  └──────────┘  └──────────────┘  └──────────────────┘
+
+         ┌────────────────────────────────┐
+         │  GitHub Actions (공개·무료)    │
+         │  · 매시간 RSS 7개 카테고리 수집 │
+         │  · Gemini로 요약·필터          │
+         │  · data/news.json 자동 커밋    │
+         │  · 매주 백업 → Google Drive    │
+         └────────────────────────────────┘</div>
+
+  <!-- ========== 2. 부품별 선택 ========== -->
+  <h2><span class="num">02</span>부품별 선택과 이유</h2>
+
+  <div class="part-grid">
+
+    <div class="part">
+      <div class="part-num">01</div>
+      <div class="part-role">호스팅</div>
+      <div class="part-name">GitHub Pages</div>
+      <div class="part-tool">현재 그대로 유지</div>
+      <p class="part-reason"><strong>왜</strong> — 이미 운영 중. 정적 사이트라 서버 침투 어려움. 무료. 24/7 자동.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">02</div>
+      <div class="part-role">백엔드 게이트웨이</div>
+      <div class="part-name">Cloudflare Workers</div>
+      <div class="part-tool">+ D1 데이터베이스</div>
+      <p class="part-reason"><strong>왜</strong> — API 키 보호, 모든 AI 호출 중계, 보안 미들웨어. 무료 한도 큼(10만 요청/일).</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">03</div>
+      <div class="part-role">챗봇 (안내자)</div>
+      <div class="part-name">Claude Haiku 4.5</div>
+      <div class="part-tool">+ 똑똑한 라우팅 (아래)</div>
+      <p class="part-reason"><strong>왜</strong> — 한국어 사색적 톤 1등급. 마을 정서와 가장 잘 맞음. 가격 합리적($0.25/M 입력).</p>
+      <span class="part-cost cost-low">월 0~3만원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">04</div>
+      <div class="part-role">모더레이션 (글 정돈)</div>
+      <div class="part-name">Gemini 2.5 Flash</div>
+      <div class="part-tool">무료 티어 1,500/일</div>
+      <p class="part-reason"><strong>왜</strong> — 모더는 단순 분류라 작은 모델로 충분. 한국어 좋음. 회원 1,000명까지 완전 무료.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">05</div>
+      <div class="part-role">자동 뉴스 수집</div>
+      <div class="part-name">GitHub Actions + Gemini</div>
+      <div class="part-tool">매시간 자동 실행</div>
+      <p class="part-reason"><strong>왜</strong> — 공개 저장소는 GitHub Actions 무제한 무료. 뉴스 요약은 Gemini 무료로 충분.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">06</div>
+      <div class="part-role">보안·봇 차단</div>
+      <div class="part-name">Cloudflare Turnstile</div>
+      <div class="part-tool">+ 3단계 경고 시스템</div>
+      <p class="part-reason"><strong>왜</strong> — reCAPTCHA 무료 대안. 사용자에 거의 안 보이는데 봇은 차단. 한국 사용자 친화적.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">07</div>
+      <div class="part-role">백업</div>
+      <div class="part-name">GitHub Actions → Google Drive</div>
+      <div class="part-tool">매주 자동</div>
+      <p class="part-reason"><strong>왜</strong> — 매주 일요일 새벽 사이트 전체 + DB 압축해서 Google Drive에 자동 업로드. 무료.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+    <div class="part">
+      <div class="part-num">08</div>
+      <div class="part-role">모니터링</div>
+      <div class="part-name">관리자 대시보드 비용 패널</div>
+      <div class="part-tool">이미 시안 완성</div>
+      <p class="part-reason"><strong>왜</strong> — AI 비용·사용량 실시간 확인. 한도 70% 도달 시 이메일 알림. 100% 자동 폴백.</p>
+      <span class="part-cost cost-free">월 0원</span>
+    </div>
+
+  </div>
+
+  <!-- ========== 3. 똑똑한 라우팅 ========== -->
+  <h2><span class="num">03</span>똑똑한 라우팅 — 비용 90% 절감의 핵심</h2>
+
+  <p>"품질 우선이면 매번 비싼 모델 써야 하나?" 그렇지 않습니다. 질문 종류에 따라 다른 단계로 보내면 품질은 유지되고 비용만 줄어듭니다.</p>
+
+  <div class="routing">
+    <div class="routing-row">
+      <div class="routing-tier">0단계<span class="small">캐시</span></div>
+      <div class="routing-detail">자주 묻는 질문 30개는 미리 만든 답변을 그냥 보여줌. "화두가 뭐예요?" 같은 것.</div>
+      <div class="routing-cost free">0원</div>
+    </div>
+    <div class="routing-row">
+      <div class="routing-tier">1단계<span class="small">FAQ 매칭</span></div>
+      <div class="routing-detail">사용자 질문이 FAQ와 비슷한지 임베딩 검색으로 판단. 비슷하면 미리 만든 답.</div>
+      <div class="routing-cost free">0원</div>
+    </div>
+    <div class="routing-row">
+      <div class="routing-tier">2단계<span class="small">일반 질문</span></div>
+      <div class="routing-detail"><strong>Claude Haiku 4.5</strong> 호출. 대부분의 질문은 여기서 처리됨. 답변 품질 1등급.</div>
+      <div class="routing-cost low">약 6원/회</div>
+    </div>
+    <div class="routing-row">
+      <div class="routing-tier">3단계<span class="small">깊은 질문</span></div>
+      <div class="routing-detail">철학적·복잡한 질문에만 <strong>Claude Sonnet 4.6</strong> 호출 (선택). 자주 안 일어남.</div>
+      <div class="routing-cost mid">약 80원/회</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>실제 트래픽 시뮬레이션</strong>
+    회원 500명/일, 챗봇 호출 1,500회/일 기준 분배 예상:<br>
+    · 0~1단계 캐시 매칭 60% (900회) → 0원<br>
+    · 2단계 Haiku 35% (525회) → 약 3,150원/일 = 95,000원/월... 너무 많아 보이지만 ↓<br>
+    · 프롬프트 캐싱 90% 할인 적용 시 → 약 9,500원/월<br>
+    · 3단계 Sonnet 5% (75회) → 약 6,000원/월<br>
+    <strong>실제 월 합계 ≈ 1만 5천원</strong>
+  </div>
+
+  <!-- ========== 4. 비용 시뮬레이션 ========== -->
+  <h2><span class="num">04</span>회원 단계별 실제 월 비용</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>회원 단계</th>
+        <th>일일 사용자</th>
+        <th>일일 AI 호출</th>
+        <th>월 비용</th>
+        <th>비고</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>시작</strong></td>
+        <td class="center">~50명</td>
+        <td class="center">~250회</td>
+        <td class="center good">무료</td>
+        <td>전 구간 무료 한도 내</td>
+      </tr>
+      <tr>
+        <td><strong>마을 형성</strong></td>
+        <td class="center">~200명</td>
+        <td class="center">~1,000회</td>
+        <td class="center good">약 2,000원</td>
+        <td>Gemini 무료 + Haiku 일부</td>
+      </tr>
+      <tr class="best">
+        <td><strong>마을 안정</strong></td>
+        <td class="center">~500명</td>
+        <td class="center">~2,500회</td>
+        <td class="center">약 8,000원</td>
+        <td>커피 두 잔 값</td>
+      </tr>
+      <tr>
+        <td><strong>마을 성장</strong></td>
+        <td class="center">~2,000명</td>
+        <td class="center">~10,000회</td>
+        <td class="center warn">약 30,000원</td>
+        <td>학원 1회 강의료</td>
+      </tr>
+      <tr>
+        <td><strong>큰 마을</strong></td>
+        <td class="center">~10,000명</td>
+        <td class="center">~50,000회</td>
+        <td class="center warn">약 80,000원</td>
+        <td>그때는 광고·후원으로 충당 가능</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cost-card">
+    <div class="tag">현실적 첫 1년</div>
+    <div class="num">월 5,000원 <small>이내</small></div>
+    <div class="desc">회원 500명 수준까지의 첫 1년 평균. 1년 합계 약 6만원으로 마을 전체의 AI 시스템을 운영할 수 있습니다.</div>
+  </div>
+
+  <!-- ========== 5. 품질 보장 ========== -->
+  <h2><span class="num">05</span>품질 보장 — 9가지 안전장치</h2>
+
+  <ol style="margin-left:22px;font-size:14px;line-height:2">
+    <li><strong>한국어 1등급 모델만 선정</strong> — Claude Haiku는 한국어 사색적 톤이 가장 좋다는 평가</li>
+    <li><strong>시스템 프롬프트 정성껏</strong> — 광장 약속·연라이프 정체성을 챗봇에게 명확히 가르침</li>
+    <li><strong>프롬프트 캐싱</strong> — 같은 시스템 프롬프트 재사용 시 90% 할인되며 응답도 빨라짐</li>
+    <li><strong>관리자 검수 도구</strong> — AI가 가린 글, 챗봇이 답한 내용을 매주 5분만 검토하면 충분</li>
+    <li><strong>자동 폴백</strong> — Claude 다운 시 Gemini로 자동 전환, 끊김 없음</li>
+    <li><strong>한도 알림</strong> — 비용 70% 도달 시 이메일, 100% 도달 시 자동 일시정지</li>
+    <li><strong>오탐 복원 도구</strong> — AI가 잘못 가린 글 30초 안에 복원 가능</li>
+    <li><strong>응답 길이 제한</strong> — 챗봇이 너무 길게 답해서 토큰 낭비하는 일 방지</li>
+    <li><strong>1주차 데이터 튜닝</strong> — 시작 후 1주일 운영하면서 발견된 패턴으로 프롬프트 미세 조정</li>
+  </ol>
+
+  <!-- ========== 6. 구현 순서 ========== -->
+  <h2><span class="num">06</span>구현 순서 — 디자인 끝난 후 4~5주</h2>
+
+  <h3>1주차 — 기초 + 비용 패널 (가장 중요)</h3>
+  <ul class="checklist">
+    <li>Anthropic Console 가입 + 결제 카드 + <strong>월 한도 $25 설정</strong></li>
+    <li>Cloudflare Workers + D1 셋업 (API 키 보호 게이트웨이)</li>
+    <li>관리자 비용 모니터링 패널 가동 (이미 시안 있음)</li>
+    <li>리디자인 단일 파일에서 색감·마스트헤드부터 운영 사이트에 적용</li>
+  </ul>
+
+  <h3>2주차 — 모더레이션 + 보안 기초</h3>
+  <ul class="checklist">
+    <li>Gemini Flash 모더레이션 가동 (자동 숨김 + 관리자 복원)</li>
+    <li>Cloudflare DNS 연결 (DDoS 방어 + Turnstile 봇 차단)</li>
+    <li>관리자 비밀번호 클라이언트에서 제거 (Workers로 이전)</li>
+    <li>DOMPurify로 XSS 방어</li>
+    <li>매주 자동 백업 셋업</li>
+  </ul>
+
+  <h3>3주차 — 챗봇 + 메가 메뉴</h3>
+  <ul class="checklist">
+    <li>FAQ 30개 작성 → 캐시·임베딩 검색 셋업</li>
+    <li>Claude Haiku 챗봇 가동 (시스템 프롬프트 + 프롬프트 캐싱)</li>
+    <li>리디자인 단일 파일의 메가 메뉴를 운영 사이트에 적용</li>
+    <li>좌측 하단 緣 도우미 플로팅 버튼 활성화</li>
+  </ul>
+
+  <h3>4주차 — 자동 뉴스 + 다듬기</h3>
+  <ul class="checklist">
+    <li>GitHub Actions 매시간 RSS 수집 가동</li>
+    <li>7개 카테고리 소스 점검 + AI 요약 셋업</li>
+    <li>3단계 경고 시스템 + 감시 명단 등록 (이우주·이규민)</li>
+    <li>1~3주차 데이터로 프롬프트 미세 조정</li>
+  </ul>
+
+  <h3>5주차 — 안전망 + 운영 매뉴얼</h3>
+  <ul class="checklist">
+    <li>한도 알림 이메일 + 자동 폴백 검증</li>
+    <li>월 보고서 자동화</li>
+    <li>2단계 인증 (관리자 OTP) 적용</li>
+    <li>주민 안내 페이지·이의 신청 폼</li>
+  </ul>
+
+  <!-- ========== 7. 통합 ========== -->
+  <h2><span class="num">07</span>통합 — 한 손에 들어오는 도구 모음</h2>
+
+  <p>모든 셋업이 끝나면 매일·매주·매월 해야 할 일이 명확해집니다.</p>
+
+  <table>
+    <thead>
+      <tr><th>주기</th><th>해야 할 일</th><th>시간</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="center"><strong>매일</strong></td>
+        <td>관리자 대시보드 → 보안 알림 새 항목 확인 (1분)</td>
+        <td class="center">1분</td>
+      </tr>
+      <tr>
+        <td class="center"><strong>매주</strong></td>
+        <td>비용 패널·모더 결과·챗봇 응답 표본 검토</td>
+        <td class="center">10분</td>
+      </tr>
+      <tr>
+        <td class="center"><strong>매월</strong></td>
+        <td>Cloudflare 보안 이벤트·종속성 알림·백업 정상 작동</td>
+        <td class="center">30분</td>
+      </tr>
+      <tr>
+        <td class="center"><strong>매분기</strong></td>
+        <td>관리자 비밀번호·API 키 회전·전체 보안 점검</td>
+        <td class="center">1시간</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>총 운영 시간</strong>
+    한 달에 약 2시간 정도. 마을 관리에는 그 외 시간이 더 들지만, 시스템 자체 운영은 이 정도면 충분합니다.
+  </div>
+
+  <!-- ========== 8. 위험 관리 ========== -->
+  <h2><span class="num">08</span>위험 관리 — 미리 알고 가는 것</h2>
+
+  <div class="warn">
+    <strong>무료 티어 정책 변동</strong>
+    구글이 2025년 말 Gemini 무료 한도 50~80% 줄인 사례 있음. 무료에 의존하지 말고, 매월 사용량 점검하고 폴백 구축. 이번 셋은 폴백 두 단계(Gemini → Groq → Cerebras)까지 자동 전환되도록 설계.
+  </div>
+
+  <div class="warn">
+    <strong>AI 오탐</strong>
+    모더가 학생의 서툰 질문이나 한자 인용을 잘못 가릴 수 있음. 자동 삭제 X, 자동 숨김 + 관리자 30초 복원. 매주 검토로 패턴 학습.
+  </div>
+
+  <div class="warn">
+    <strong>비용 통제</strong>
+    Anthropic 콘솔 월 한도 $25 + 자체 알림 시스템 + 100% 도달 시 자동 Gemini 폴백. 세 겹 안전장치로 청구서 폭탄 방지.
+  </div>
+
+  <div class="warn">
+    <strong>운영자 한 명에 의존</strong>
+    연소사님 한 분의 손에 모든 것이 달려 있음. 1~2년 안에 신뢰할 만한 부운영자(인증된 선생님 등)를 한두 명 더 확보하면 마을이 단단해짐.
+  </div>
+
+  <!-- ========== 9. 결론 ========== -->
+  <div class="tldr" style="margin-top:56px">
+    <div class="tag">최종</div>
+    <h3>"품질 우선"과 "거의 무료"는 양립 가능합니다.</h3>
+    <p>핵심은 <strong>똑똑한 라우팅과 무료 티어 적극 활용</strong>입니다.</p>
+    <p>· 단순한 작업(모더레이션·뉴스 요약)은 무료 Gemini로</p>
+    <p>· 중요한 답변(챗봇)은 한국어 1등급 Claude Haiku로</p>
+    <p>· 드물게 깊은 질문은 Claude Sonnet으로 (옵션)</p>
+    <p>· 인프라(호스팅·게이트웨이·DB·자동화·보안)는 전부 무료 티어</p>
+    <p>· 프롬프트 캐싱·FAQ 캐시로 비용 90% 절감</p>
+    <p style="margin-top:18px;font-size:16px"><strong>결과: 회원 500명까지 월 1만원 이내. 1년 평균 5천원/월.</strong> 마을 전체의 따뜻한 AI 시스템이 카페 한 잔 값으로 운영됩니다.</p>
+  </div>
+
+  <h3>지금 보류 중인 검토 사항 — 통합 진행 순서</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:2">
+    <li><strong>디자인 적용</strong> (현재 진행 중 — 디자이너 작업)</li>
+    <li><strong>이 추천 셋 구현</strong> (디자인 끝난 후 4~5주)
+      <ul style="margin-left:18px;font-size:13px;margin-top:4px">
+        <li>AI 챗봇·모더레이션 가동</li>
+        <li>자동 뉴스 수집 가동</li>
+        <li>보안 강화 (5가지 + 3단계 경고)</li>
+        <li>비용 모니터링 패널</li>
+      </ul>
+    </li>
+    <li><strong>마을 운영 본격 시작</strong> — 화두 매주, 시민 저널, 블로그 입주</li>
+  </ol>
+
+  <p style="margin-top:24px;font-size:13px;color:var(--muted);font-style:italic;text-align:center">
+    "마을이 천천히 자라는 동안 시스템도 천천히 따라옵니다.<br>
+    먼저 사람이 들어오게 하고, 그 다음 시스템이 그들을 돕게 합니다."
+  </p>
+
+</div>
+
+<footer class="footer">
+  <p>"품질과 비용 사이, 영리한 균형."</p>
+  <p style="margin-top:6px">연라이프 최종 추천 셋 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

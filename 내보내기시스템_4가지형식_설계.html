@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내보내기 시스템 — MD·HTML·DOCX·PDF — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72; --purple:#6858c0;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 36px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);margin:44px 0 16px;border-bottom:1px solid var(--ink);padding-bottom:10px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-50px;top:0;font-family:var(--serif);font-size:22px;font-weight:300;color:var(--amber)}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin:24px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--teal);margin:16px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* Vision */
+  .vision{background:var(--ink);color:var(--warm);padding:32px 36px;border-radius:8px;margin:28px 0}
+  .vision .tag{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .vision h3{font-family:var(--serif);font-size:22px;color:var(--warm);margin:0 0 14px;border:none;padding:0}
+  .vision p{font-size:14px;color:rgba(244,240,230,.88);line-height:1.85;margin-bottom:10px}
+  .vision strong{color:var(--amber)}
+
+  /* 4가지 형식 카드 */
+  .format-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0}
+  .fmt{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px 26px;position:relative}
+  .fmt .ext{position:absolute;top:18px;right:24px;font-family:var(--serif);font-size:24px;font-weight:900;color:var(--line);letter-spacing:-.04em;line-height:1}
+  .fmt-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .fmt-name{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+  .fmt-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+  .fmt-good,.fmt-bad{font-size:12px;line-height:1.7;padding-top:10px;border-top:1px dashed var(--line);margin-top:10px}
+  .fmt-good strong{color:var(--green);display:inline-block;margin-right:4px}
+  .fmt-bad strong{color:var(--red);display:inline-block;margin-right:4px}
+
+  /* 내보내기 단위 */
+  .level-row{display:grid;grid-template-columns:80px 1fr auto;gap:14px;align-items:center;padding:14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-bottom:8px}
+  .level-icon{font-size:28px;text-align:center}
+  .level-detail{font-size:13px;line-height:1.7}
+  .level-detail strong{display:block;font-family:var(--serif);font-size:14px;color:var(--ink);font-weight:700;margin-bottom:2px}
+  .level-size{font-family:var(--serif);font-size:12px;color:var(--muted);text-align:right;line-height:1.5}
+
+  /* 옵션 / 필터 박스 */
+  .options-mock{background:var(--surface);border:2px solid var(--line);border-radius:8px;padding:24px;margin:14px 0}
+  .options-mock h4{font-family:var(--serif);font-size:15px;color:var(--ink);margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline}
+  .options-mock h4 .x{color:var(--muted);font-size:14px;font-weight:400}
+  .opt-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed var(--fine)}
+  .opt-section:last-child{border:none;padding:0;margin:0}
+  .opt-label{font-size:11px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .opt-row{font-size:13px;padding:6px 0;color:var(--soft)}
+  .opt-check{color:var(--teal);font-weight:700;margin-right:6px}
+  .opt-radio{color:var(--amber);margin-right:6px;font-weight:700}
+
+  /* 자서전 템플릿 미리보기 */
+  .book-preview{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:32px;margin:14px 0}
+  .book-cover{background:linear-gradient(135deg,var(--ink),#0c1820);color:var(--warm);padding:36px 28px;border-radius:6px;margin-bottom:14px;text-align:center;min-height:200px;display:flex;flex-direction:column;justify-content:center}
+  .book-cover .year{font-size:11px;color:var(--amber);letter-spacing:.18em;margin-bottom:10px}
+  .book-cover .title{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:8px}
+  .book-cover .author{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(244,240,230,.7);margin-top:14px}
+  .book-toc{font-family:var(--serif);font-size:13px;line-height:2;color:var(--ink)}
+  .book-toc .chap{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .book-toc .chap-name{font-weight:600}
+  .book-toc .chap-pg{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted)}
+  .book-toc .sub{padding-left:18px;font-size:12px;color:var(--soft)}
+
+  /* MD 미리보기 */
+  .md-preview{background:#1a2326;color:#e8e4d9;padding:20px 24px;border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;margin:14px 0;overflow-x:auto;white-space:pre}
+  .md-preview .h{color:#e8945a;font-weight:700}
+  .md-preview .meta{color:#7a8a8e}
+  .md-preview .link{color:#c4e4d8}
+  .md-preview .quote{color:#a8b8bc;font-style:italic}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:26px}
+    h2 .num{position:static;display:block;margin-bottom:6px}
+    .format-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="3단폴더_바로가기_설계.html">← 3단 폴더</a><span>내보내기 시스템 · 4가지 형식</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Export System · 2026.05.16.</div>
+    <h1>내보내기 — <em>당신의 자산</em>이 책이 되는 자리</h1>
+    <p class="lede">
+      모은 별과 폴더를 네 가지 형식으로 본인 컴퓨터에 보존할 수 있습니다.
+      MD(노트 도구용)·HTML(웹페이지)·DOCX(워드 책)·PDF(인쇄용).
+      별 한 개부터 1년치 전부까지, 본인이 원하는 단위로.
+      이것이 2027년 자서전 공방으로 가는 마지막 한 걸음입니다.
+    </p>
+  </header>
+
+  <!-- ========== Vision ========== -->
+  <div class="vision">
+    <div class="tag">설계 원칙</div>
+    <h3>"마을은 자료를 가두지 않는다"</h3>
+    <p>연라이프의 깊은 약속 중 하나 — <strong>"여기서 쓴 모든 것은 당신의 자산입니다."</strong></p>
+    <p>이게 진짜 되려면 언제든 본인 자료를 가져갈 수 있어야 합니다. 한 자리에 묶이지 않고, 본인이 원하는 형식으로 옮겨갈 수 있어야 자산이라 할 수 있어요.</p>
+    <p>이 내보내기 시스템은 <strong>"나가도 좋다"는 약속</strong>이자, 동시에 <strong>"머물고 싶다"는 정서</strong>를 만듭니다. 떠날 자유가 있는 곳이 머물고 싶은 자리니까요.</p>
+  </div>
+
+  <!-- ========== 1. 내보내기 5단계 ========== -->
+  <h2><span class="num">01</span>무엇을 내보낼까 — 다섯 단위</h2>
+
+  <div class="level-row">
+    <div class="level-icon">⭐</div>
+    <div class="level-detail">
+      <strong>별 한 개</strong>
+      마음에 든 글 한 편만 빠르게 내보내기. 친구에게 보내기 좋음.
+    </div>
+    <div class="level-size">~5KB<br>즉시</div>
+  </div>
+
+  <div class="level-row">
+    <div class="level-icon">📁</div>
+    <div class="level-detail">
+      <strong>폴더 하나</strong>
+      "자유의지" 같은 한 폴더 안 별들을 모두. 주제별 책 만들기 좋음.
+    </div>
+    <div class="level-size">~50~500KB<br>5~15초</div>
+  </div>
+
+  <div class="level-row">
+    <div class="level-icon">📂</div>
+    <div class="level-detail">
+      <strong>폴더 + 하위 폴더</strong>
+      "철학·사상" 1단 폴더와 그 안의 모든 2단·3단까지. 큰 갈래 통째로.
+    </div>
+    <div class="level-size">~1~5MB<br>20~60초</div>
+  </div>
+
+  <div class="level-row">
+    <div class="level-icon">🗂️</div>
+    <div class="level-detail">
+      <strong>선택한 여러 폴더</strong>
+      "철학·사상" + "교실의 순간들" 두 갈래만. 책의 일부 챕터처럼.
+    </div>
+    <div class="level-size">~3~10MB<br>1~3분</div>
+  </div>
+
+  <div class="level-row">
+    <div class="level-icon">📚</div>
+    <div class="level-detail">
+      <strong>내 모든 자료</strong>
+      가입 후 모은 모든 별·폴더·노트·연결 정보. 1년치 자서전 후보.
+    </div>
+    <div class="level-size">~10~50MB<br>3~10분</div>
+  </div>
+
+  <!-- ========== 2. 네 가지 형식 ========== -->
+  <h2><span class="num">02</span>어떤 형식으로 — 네 가지</h2>
+
+  <div class="format-grid">
+
+    <div class="fmt">
+      <div class="ext">.md</div>
+      <div class="fmt-tag">노트 도구용</div>
+      <div class="fmt-name">Markdown (마크다운)</div>
+      <p class="fmt-sub">가장 가볍고 호환성 좋음. Obsidian·Notion·Bear 등 모든 노트 앱에서 열림.</p>
+      <p class="fmt-good"><strong>좋음</strong> 다른 도구로 이주 자유, 평생 보존, 모든 기기 호환</p>
+      <p class="fmt-bad"><strong>덜 좋음</strong> 디자인 없음 (있는 그대로 글만)</p>
+    </div>
+
+    <div class="fmt">
+      <div class="ext">.html</div>
+      <div class="fmt-tag">웹용 단일 파일</div>
+      <div class="fmt-name">HTML (웹페이지)</div>
+      <p class="fmt-sub">새벽의 신뢰 디자인이 그대로 입혀진 한 장짜리 HTML. 더블 클릭으로 열림.</p>
+      <p class="fmt-good"><strong>좋음</strong> 디자인 그대로, 검색 가능, 본인 도메인에 올려 공개도 가능</p>
+      <p class="fmt-bad"><strong>덜 좋음</strong> 파일 한 개라 인쇄·종이책엔 부적합</p>
+    </div>
+
+    <div class="fmt">
+      <div class="ext">.docx</div>
+      <div class="fmt-tag">책 형태 워드</div>
+      <div class="fmt-name">Word (워드 문서)</div>
+      <p class="fmt-sub">목차·페이지 번호·챕터가 있는 정식 책 형태. 인쇄소에 보내기 좋음.</p>
+      <p class="fmt-good"><strong>좋음</strong> 자서전 공방 직결, 출판·인쇄 표준, 가족·지인과 공유 좋음</p>
+      <p class="fmt-bad"><strong>덜 좋음</strong> 파일 크기 큼, 편집은 워드 필요</p>
+    </div>
+
+    <div class="fmt">
+      <div class="ext">.pdf</div>
+      <div class="fmt-tag">인쇄·보관용</div>
+      <div class="fmt-name">PDF (피디에프)</div>
+      <p class="fmt-sub">고정 레이아웃. 누구에게 보내도 똑같이 보임. 종이로 인쇄 표준.</p>
+      <p class="fmt-good"><strong>좋음</strong> 변형 없음, 영구 보존, 종이책 직접 인쇄 가능</p>
+      <p class="fmt-bad"><strong>덜 좋음</strong> 다시 편집은 어려움</p>
+    </div>
+
+  </div>
+
+  <h3>네 가지를 한 번에 받기 — 추천</h3>
+  <p>큰 내보내기(폴더 전체나 모두)는 <strong>"네 가지 형식 모두 받기"</strong>를 선택하면 ZIP 파일에 .md·.html·.docx·.pdf 네 개가 함께 들어옵니다. 같은 내용을 상황에 맞게 골라 쓰실 수 있어요.</p>
+
+  <!-- ========== 3. 내보내기 옵션 모달 ========== -->
+  <h2><span class="num">03</span>옵션 모달 — 무엇을 어떻게</h2>
+
+  <div class="options-mock">
+    <h4>내보내기 설정 <span class="x">×</span></h4>
+
+    <div class="opt-section">
+      <div class="opt-label">① 무엇을 내보낼지</div>
+      <div class="opt-row"><span class="opt-radio">●</span>이 폴더만 ("자유의지" — 11개 별)</div>
+      <div class="opt-row"><span class="opt-radio">○</span>이 폴더 + 하위 폴더 모두 (24개 별)</div>
+      <div class="opt-row"><span class="opt-radio">○</span>내 모든 자료 (총 73개 별)</div>
+    </div>
+
+    <div class="opt-section">
+      <div class="opt-label">② 어떤 형식으로</div>
+      <div class="opt-row"><span class="opt-check">✓</span>Markdown (.md)</div>
+      <div class="opt-row"><span class="opt-check">✓</span>HTML (단일 파일)</div>
+      <div class="opt-row"><span class="opt-check">✓</span>Word (.docx)</div>
+      <div class="opt-row"><span class="opt-check">○</span>PDF</div>
+      <div class="opt-row" style="font-size:11px;color:var(--muted);font-style:italic;padding-top:6px">선택한 형식이 ZIP 한 파일로 묶입니다</div>
+    </div>
+
+    <div class="opt-section">
+      <div class="opt-label">③ 무엇을 포함할지</div>
+      <div class="opt-row"><span class="opt-check">✓</span>본문 (스크랩 원문)</div>
+      <div class="opt-row"><span class="opt-check">✓</span>내가 쓴 한 줄 메모</div>
+      <div class="opt-row"><span class="opt-check">✓</span>원본 출처·링크</div>
+      <div class="opt-row"><span class="opt-check">✓</span>태그</div>
+      <div class="opt-row"><span class="opt-check">○</span>별 사이 연결 정보</div>
+      <div class="opt-row"><span class="opt-check">○</span>날짜·통계</div>
+    </div>
+
+    <div class="opt-section">
+      <div class="opt-label">④ 기간 필터 (선택)</div>
+      <div class="opt-row"><span class="opt-radio">●</span>전체 기간</div>
+      <div class="opt-row"><span class="opt-radio">○</span>최근 1주</div>
+      <div class="opt-row"><span class="opt-radio">○</span>최근 1개월</div>
+      <div class="opt-row"><span class="opt-radio">○</span>최근 1년</div>
+      <div class="opt-row"><span class="opt-radio">○</span>날짜 직접 지정</div>
+    </div>
+
+    <div class="opt-section">
+      <div class="opt-label">⑤ 형식 (Style)</div>
+      <div class="opt-row"><span class="opt-radio">●</span>책 형태 (목차·챕터·페이지 번호)</div>
+      <div class="opt-row"><span class="opt-radio">○</span>노트 모음 (시간순·구분선)</div>
+      <div class="opt-row"><span class="opt-radio">○</span>짧은 모음 (별 정보만)</div>
+    </div>
+
+    <div style="margin-top:16px;padding:12px 16px;background:var(--cool);border-radius:4px;font-size:12px;color:var(--soft);font-style:italic">
+      예상 파일 크기: <strong style="color:var(--ink);font-style:normal">약 1.2MB</strong> · 예상 시간: <strong style="color:var(--ink);font-style:normal">약 20초</strong>
+    </div>
+
+    <div style="margin-top:14px;display:flex;justify-content:flex-end;gap:8px">
+      <span style="padding:8px 16px;background:var(--surface);border:1px solid var(--line);border-radius:4px;font-size:12px;color:var(--muted);font-weight:600">취소</span>
+      <span style="padding:8px 18px;background:var(--ink);color:var(--warm);border-radius:4px;font-size:12px;font-weight:700">내보내기 시작</span>
+    </div>
+  </div>
+
+  <!-- ========== 4. 책 템플릿 (DOCX·PDF) ========== -->
+  <h2><span class="num">04</span>책 형태 템플릿 — 자서전으로 가는 길</h2>
+
+  <p>DOCX·PDF로 내보낼 때 "책 형태" 옵션을 고르면 다음과 같이 정돈됩니다.</p>
+
+  <div class="book-preview">
+    <div class="book-cover">
+      <div class="year">2026 · 봄</div>
+      <div class="title">임선생의 별자리<br><span style="font-size:18px;font-weight:400;font-style:italic;opacity:.85">— 모은 글, 모은 마음</span></div>
+      <div class="author">@lim-teacher · 연라이프 마을 주민<br>2026년 5월 16일 — 73개의 별</div>
+    </div>
+
+    <h4 style="margin-top:18px">목차</h4>
+    <div class="book-toc">
+      <div class="chap"><span class="chap-name">서문 — 왜 별을 모았는가</span><span class="chap-pg">003</span></div>
+      <div class="chap" style="margin-top:6px"><span class="chap-name">제1장 · 철학·사상</span><span class="chap-pg">009</span></div>
+      <div class="chap sub"><span>1.1 자유의지 — 11편</span><span class="chap-pg">011</span></div>
+      <div class="chap sub"><span>1.2 동서양 비교 — 8편</span><span class="chap-pg">038</span></div>
+      <div class="chap sub"><span>1.3 마음 이론 — 5편</span><span class="chap-pg">060</span></div>
+      <div class="chap" style="margin-top:6px"><span class="chap-name">제2장 · 교실의 순간들</span><span class="chap-pg">075</span></div>
+      <div class="chap sub"><span>2.1 학생 질문 — 12편</span><span class="chap-pg">077</span></div>
+      <div class="chap sub"><span>2.2 수업 단상 — 6편</span><span class="chap-pg">110</span></div>
+      <div class="chap" style="margin-top:6px"><span class="chap-name">제3장 · 마을 발견</span><span class="chap-pg">125</span></div>
+      <div class="chap sub"><span>3.1 둘레길 — 9편</span><span class="chap-pg">127</span></div>
+      <div class="chap sub"><span>3.2 우리 동네 — 5편</span><span class="chap-pg">152</span></div>
+      <div class="chap" style="margin-top:6px"><span class="chap-name">제4장 · 책상 위 단상</span><span class="chap-pg">170</span></div>
+      <div class="chap" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--ink)"><span class="chap-name">맺음 · 다음 봄을 향해</span><span class="chap-pg">184</span></div>
+    </div>
+  </div>
+
+  <h3>한 별이 책 안에서 어떻게 보이나</h3>
+  <p>각 별이 한 페이지 또는 반 페이지로 정돈됩니다. 본문 위에 메타정보, 본문 아래 본인 노트.</p>
+
+  <div style="background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px;margin:14px 0;font-family:var(--serif);font-size:13px;line-height:1.85">
+    <p style="font-size:11px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:8px">1.1.4 · 자유의지 · 리벳 실험</p>
+    <h3 style="font-family:var(--serif);font-size:18px;color:var(--ink);margin:0 0 10px;border:none;padding:0">선택이라는 말의 무게</h3>
+    <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)">아골라 글 · 임선생 작성 · 2026.05.14 · 좋은 물음 24개</div>
+    <p style="margin-bottom:10px;color:var(--soft)">"의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까."</p>
+    <p style="font-size:12px;color:var(--muted);padding-top:10px;border-top:1px dashed var(--line);margin-top:14px">
+      <strong style="color:var(--teal);font-style:normal">나의 메모</strong> · 학생들에게 이 한 줄을 어떻게 풀어 줄지 한 주 고민. 시작이 아니라 멈춤에 자유가 있다는 말.
+    </p>
+    <p style="font-size:10px;color:var(--soft-c);margin-top:8px">원문: y-life.kr/agora/lim-teacher/선택의-무게 (2026.05.14)</p>
+  </div>
+
+  <!-- ========== 5. MD 형식 미리보기 ========== -->
+  <h2><span class="num">05</span>Markdown 형식 — 한 별의 모습</h2>
+
+  <p>마크다운으로 내보낸 별 한 개. Obsidian·Notion·Bear 등에서 그대로 열림.</p>
+
+  <div class="md-preview"><span class="h">---</span>
+<span class="meta">id: scrap-a8f3b2</span>
+<span class="meta">created: 2026-05-14 10:23</span>
+<span class="meta">folder: 철학·사상/자유의지/리벳 실험</span>
+<span class="meta">source: 아골라</span>
+<span class="meta">tags: [자유의지, 리벳, 임선생]</span>
+<span class="h">---</span>
+
+<span class="h"># 선택이라는 말의 무게</span>
+
+<span class="meta">_아골라 글 · 임선생 작성 · 좋은 물음 24개_</span>
+
+<span class="quote">> "의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은
+> 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까."</span>
+
+<span class="h">## 나의 메모</span>
+
+학생들에게 이 한 줄을 어떻게 풀어 줄지 한 주 고민.
+시작이 아니라 멈춤에 자유가 있다는 말.
+
+<span class="h">## 연결된 별</span>
+
+- [[무위와 자유의지]] — 동서양 비교
+- [[왜요?가 많이 나오는 수업]] — 교실의 순간들
+
+<span class="h">## 원문</span>
+
+<span class="link">[y-life.kr/agora/lim-teacher/선택의-무게](https://y-life.kr/...)</span>
+스크랩 날짜: 2026-05-14 10:23</div>
+
+  <div class="note">
+    <strong>마크다운의 좋은 점</strong>
+    Obsidian·Logseq·Roam Research 같은 노트 도구에 그대로 가져갈 수 있고, 별 사이 연결도 <code>[[제목]]</code> 표기로 살아 있어서 그 도구 안에서도 별자리가 만들어집니다. 진짜 본인 자료 이주가 됩니다.
+  </div>
+
+  <!-- ========== 6. 바로가기 처리 ========== -->
+  <h2><span class="num">06</span>바로가기는 어떻게 내보내지나</h2>
+
+  <p>3단 폴더에 바로가기가 여러 자리에 있어도, 내보낼 때는 똑똑하게 정리됩니다.</p>
+
+  <table>
+    <thead><tr><th>상황</th><th>내보내기 결과</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>원본만 내보내기 (기본)</td>
+        <td>원본 위치에 한 번만 등장. 본인이 모은 자료 그대로.</td>
+      </tr>
+      <tr>
+        <td>원본 + "이 별은 다른 곳에도 보입니다" 안내</td>
+        <td>원본 위치에 한 번 등장 + 작은 글씨로 "이 별은 [B][C] 폴더에서도 보입니다" 표시</td>
+      </tr>
+      <tr>
+        <td>전체 폴더 트리 보존</td>
+        <td>각 폴더에 바로가기 그대로 표시 (단, 본문은 첫 등장에만, 이후엔 "→ 1.1.4 참조" 같이)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>기본은 <strong>"중복 없이 깔끔"</strong> — 원본 한 번만. 본인 책에 같은 내용 다섯 번 나오면 어색하니까요.</p>
+
+  <!-- ========== 7. 기술 구현 ========== -->
+  <h2><span class="num">07</span>기술 구현 — 어디서 처리하나</h2>
+
+  <table>
+    <thead><tr><th>형식</th><th>처리 위치</th><th>이유</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>MD</strong></td>
+        <td>브라우저 자체</td>
+        <td>가장 단순. 텍스트 조합으로 생성. 즉시.</td>
+      </tr>
+      <tr>
+        <td><strong>HTML</strong></td>
+        <td>브라우저 자체</td>
+        <td>템플릿 + 데이터 조합. 새벽의 신뢰 스타일 그대로 인라인.</td>
+      </tr>
+      <tr>
+        <td><strong>DOCX</strong></td>
+        <td>브라우저 (docx.js)</td>
+        <td>이미 의뢰서 만들 때 썼던 라이브러리. 같은 방식.</td>
+      </tr>
+      <tr>
+        <td><strong>PDF (작은)</strong></td>
+        <td>브라우저 (window.print → PDF)</td>
+        <td>10MB 미만이면 브라우저 자체로 충분.</td>
+      </tr>
+      <tr>
+        <td><strong>PDF (큰)</strong></td>
+        <td>Cloudflare Workers</td>
+        <td>10MB+ 큰 책은 서버에서 생성 후 다운로드 링크 전송.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>장점 — 대부분 무료</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>대부분 브라우저에서 처리 → 서버 부담·비용 X</li>
+    <li>본인 데이터가 본인 컴퓨터에서만 처리됨 → 개인정보 안전</li>
+    <li>인터넷 끊겨도 작동 가능 (이미 받은 데이터 기준)</li>
+    <li>큰 PDF만 서버 사용 (월 몇 백 원 추가)</li>
+  </ul>
+
+  <!-- ========== 8. 정기 자동 백업 ========== -->
+  <h2><span class="num">08</span>정기 자동 백업 — 매월 자동 발송 옵션</h2>
+
+  <p>본인이 직접 내보내기를 안 해도, 옵션을 켜면 매월 1일에 자동으로 한 달치 자료가 본인 이메일로 발송됩니다.</p>
+
+  <h3>설정 옵션</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>발송 주기: 매월 / 매분기 / 매년</li>
+    <li>형식: MD / HTML / DOCX / PDF / 전부</li>
+    <li>받는 곳: 본인 이메일 / Google Drive 자동 업로드 / Dropbox</li>
+    <li>포함 기간: 지난 한 달 / 누적 전체</li>
+  </ul>
+
+  <div class="note">
+    <strong>왜 좋은가</strong>
+    매월 자동 발송이 켜져 있으면 — (1) 매월 작은 책이 메일함에 쌓임, (2) 데이터 손실 걱정 없음, (3) 1년 후 12권의 작은 책이 모임. 자서전 공방의 본격 토대.
+  </div>
+
+  <!-- ========== 9. 구현 단계 ========== -->
+  <h2><span class="num">09</span>구현 — 9주 계획의 4단계에 통합</h2>
+
+  <p>이전에 만든 "스크랩+폴더 9주 구현"의 마지막 4단계(2주)에 자연스럽게 들어갑니다.</p>
+
+  <table>
+    <thead><tr><th>주차</th><th>작업</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>8주차</strong></td>
+        <td>
+          · MD·HTML 내보내기 (가장 단순, 브라우저 자체)<br>
+          · 옵션 모달 UI<br>
+          · 단일 별·폴더 단위 내보내기
+        </td>
+      </tr>
+      <tr>
+        <td><strong>9주차</strong></td>
+        <td>
+          · DOCX 내보내기 (docx.js 활용 — 의뢰서 만들 때와 같은 방식)<br>
+          · PDF 내보내기 (브라우저 인쇄 + 큰 건 서버)<br>
+          · 책 형태 템플릿 (목차·챕터·페이지 번호)<br>
+          · 자동 백업 옵션 (cron)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 10. 비용 ========== -->
+  <h2><span class="num">10</span>비용 — 거의 무료</h2>
+
+  <table>
+    <thead><tr><th>처리</th><th>비용</th></tr></thead>
+    <tbody>
+      <tr><td>MD·HTML·DOCX 내보내기</td><td>0원 (브라우저)</td></tr>
+      <tr><td>작은 PDF 내보내기</td><td>0원 (브라우저)</td></tr>
+      <tr><td>큰 PDF (10MB+)</td><td>~월 500원 (Cloudflare Workers + 임시 저장)</td></tr>
+      <tr><td>자동 월간 백업 이메일</td><td>~월 500원 (전송 비용)</td></tr>
+      <tr><td colspan="2" style="background:var(--cool);font-weight:700"><strong>총 추가: 월 약 1,000원</strong> (스크랩 시스템 위에 얹는 것)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 11. 약속 ========== -->
+  <h2><span class="num">11</span>약속 — 본인 자료에 대한 권리</h2>
+
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>언제든 내보낼 수 있다</strong> — 가입 첫날부터 가능, 한도 없음</li>
+    <li><strong>모든 데이터 다운로드 가능</strong> — 별·폴더·노트·연결·태그·메타까지</li>
+    <li><strong>광고 안 끼움</strong> — 내보낸 파일에 연라이프 광고·로고 안 박힘 (작은 출처 표시만)</li>
+    <li><strong>탈퇴 시 즉시 모든 자료 받을 수 있음</strong> — 마지막 자동 내보내기 + 본인 메일로 발송</li>
+    <li><strong>30일 보관 후 영구 삭제</strong> — 탈퇴 후 30일 안에 마음 바뀌면 복구 가능, 그 후엔 영구 삭제</li>
+  </ul>
+
+  <div class="vision" style="margin-top:48px">
+    <div class="tag">한 줄로</div>
+    <h3>"네 가지 형식, 다섯 단위 — 본인의 자료가 본인의 것이 되는 자리."</h3>
+    <p>스크랩은 모으는 일. 폴더는 정돈하는 일. 별자리는 펼치는 일. <strong>내보내기는 마침내 본인의 것으로 만드는 일.</strong></p>
+    <p>매월 자동 백업을 켜두면 1년 후 12개의 작은 책이 모입니다. 그게 2027년 자서전 공방의 살아 있는 토대가 됩니다.</p>
+  </div>
+
+  <h3 style="margin-top:32px">갱신된 검토 사항</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>디자인 적용 (진행 중)</li>
+    <li>AI 챗봇·모더레이션 (4주)</li>
+    <li>자동 뉴스 수집 (1주)</li>
+    <li>보안 강화 (1주)</li>
+    <li>개인 생각의 지도 + 스마트 폴더 + 바로가기 + <strong>내보내기 (9주 통합)</strong></li>
+  </ol>
+
+</div>
+
+<footer class="footer">
+  <p>"네 가지 형식, 다섯 단위 — 본인의 자료는 본인의 것."</p>
+  <p style="margin-top:6px">내보내기 시스템 설계 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

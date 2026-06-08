@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마크다운 뷰어 · y-life.kr</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<style>
+:root[data-theme="day"]{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8;
+  --bg-page: radial-gradient(circle at top left, rgba(195,141,86,.08), transparent 22%),
+             radial-gradient(circle at bottom right, rgba(66,122,113,.10), transparent 22%),
+             linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt-base:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --bd:#d7d1c5; --bd-soft: rgba(31,42,42,.08);
+  --link:#2f5d62; --link-hover:#c38d56;
+  --code-bg:#f4f1eb; --code-bd:#d7d1c5;
+  --quote-bg: rgba(66,122,113,.06); --quote-bar:#427a71;
+  --table-head:#f4f1eb;
+}
+:root[data-theme="night"]{
+  --yp-ink:#f0ede2; --yp-deep:#6eb5a6; --yp-pine:#3aa0a8; --yp-accent:#d8a55a;
+  --bg-page: radial-gradient(ellipse at top, #122428 0%, #0c1a1f 80%);
+  --txt-base:#f0ede2; --txt-soft:rgba(240,237,226,.72); --txt-mute:rgba(240,237,226,.45);
+  --bd: rgba(255,255,255,.12); --bd-soft: rgba(255,255,255,.08);
+  --link:#d8a55a; --link-hover:#f0ede2;
+  --code-bg:rgba(255,255,255,.05); --code-bd:rgba(255,255,255,.1);
+  --quote-bg: rgba(196,146,62,.08); --quote-bar:#c4923e;
+  --table-head: rgba(255,255,255,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;
+  color:var(--txt-base);
+  background: var(--bg-page);
+  background-attachment: fixed;
+  line-height:1.75;
+  font-size:15.5px;
+  transition: background .35s ease, color .35s ease;
+}
+
+/* 상단 바 */
+.bar{
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:12px;
+  padding:12px 24px;
+  background: rgba(244,241,235,.85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--bd-soft);
+}
+:root[data-theme="night"] .bar{ background: rgba(18,36,40,.82); }
+.bar-brand{
+  display:inline-flex; align-items:baseline; gap:8px;
+  color:var(--txt-soft); text-decoration:none;
+  font-family:'Noto Serif KR',serif;
+}
+.bar-brand .yeon{ color:var(--yp-accent); font-size:20px; font-weight:700 }
+.bar-brand .name{ font-size:14px; font-weight:500 }
+.bar-brand:hover{ color:var(--txt-base) }
+.bar-sep{ color:var(--txt-mute) }
+.bar-path{
+  flex:1; min-width:0;
+  font-family:'Noto Serif KR',serif;
+  font-size:13px; color:var(--txt-soft);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.bar-actions{ display:flex; gap:6px; align-items:center }
+.bar-btn{
+  appearance:none; border:1px solid var(--bd);
+  background: var(--yp-card, transparent);
+  color:var(--txt-base);
+  padding:7px 14px;
+  border-radius:999px;
+  font-family:'Pretendard',sans-serif; font-size:12.5px; font-weight:500;
+  cursor:pointer; transition:all .18s ease;
+  text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+}
+.bar-btn:hover{ border-color: var(--yp-deep); color:var(--yp-deep) }
+.theme-toggle{ display:flex; gap:2px; border:1px solid var(--bd); border-radius:999px; padding:3px }
+.theme-btn{
+  appearance:none; border:0; background:transparent; color:var(--txt-soft);
+  width:30px; height:30px; border-radius:999px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; font-size:14px;
+  transition:all .18s ease;
+}
+.theme-btn:hover{ color:var(--txt-base) }
+.theme-btn.active{ background:var(--yp-accent); color:#fbf8f1 }
+
+/* 본문 컨테이너 */
+.wrap{
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+.card{
+  background: var(--yp-card, var(--bg-page));
+  border:1px solid var(--bd-soft);
+  border-radius: 24px;
+  padding: 48px 56px;
+  box-shadow: 0 10px 30px rgba(31,42,42,.04);
+}
+:root[data-theme="night"] .card{
+  background: rgba(255,255,255,.02);
+  border-color: var(--bd);
+}
+
+/* 마크다운 스타일 */
+.md{ font-family:'Pretendard','Apple SD Gothic Neo',sans-serif }
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+  font-family:'Noto Serif KR', serif;
+  color:var(--yp-ink);
+  letter-spacing:-.02em;
+  line-height:1.35;
+}
+:root[data-theme="night"] .md h1, :root[data-theme="night"] .md h2,
+:root[data-theme="night"] .md h3, :root[data-theme="night"] .md h4,
+:root[data-theme="night"] .md h5, :root[data-theme="night"] .md h6 { color: var(--yp-ink); }
+.md h1{ font-size:30px; font-weight:700; margin:8px 0 22px; padding-bottom:14px; border-bottom:2px solid var(--yp-deep); }
+.md h2{ font-size:22px; font-weight:700; margin:36px 0 14px; color:var(--yp-deep) }
+:root[data-theme="night"] .md h2{ color: var(--yp-pine) }
+.md h3{ font-size:17px; font-weight:600; margin:24px 0 10px }
+.md h4{ font-size:15px; font-weight:600; margin:18px 0 8px; color:var(--txt-soft) }
+.md p{ margin: 12px 0; color: var(--txt-base) }
+.md a{
+  color:var(--link); text-decoration:none;
+  border-bottom:1px solid rgba(47,93,98,.25);
+  transition: color .18s ease, border-color .18s ease;
+}
+.md a:hover{ color:var(--link-hover); border-bottom-color:var(--link-hover) }
+.md ul, .md ol{ padding-left: 24px; margin: 12px 0 }
+.md li{ margin: 6px 0 }
+.md li > ul, .md li > ol{ margin: 4px 0 }
+.md strong{ color:var(--yp-ink); font-weight:700 }
+:root[data-theme="night"] .md strong{ color: var(--yp-ink) }
+.md em{ font-style: italic; color:var(--yp-deep) }
+.md hr{ border:0; border-top:1px solid var(--bd-soft); margin: 28px 0 }
+.md blockquote{
+  margin: 18px 0;
+  padding: 12px 18px;
+  border-left: 3px solid var(--quote-bar);
+  background: var(--quote-bg);
+  border-radius: 0 8px 8px 0;
+  color: var(--txt-soft);
+}
+.md blockquote p{ margin: 6px 0; color:inherit }
+
+/* 코드 */
+.md code{
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: .92em;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--code-bd);
+  color: var(--yp-deep);
+}
+:root[data-theme="night"] .md code{ color: var(--yp-accent) }
+.md pre{
+  background: var(--code-bg);
+  border: 1px solid var(--code-bd);
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 16px 0;
+  line-height: 1.55;
+}
+.md pre code{
+  background: transparent; border: 0; padding: 0;
+  color: var(--txt-base);
+  font-size: 13px;
+}
+
+/* 표 */
+.md table{
+  border-collapse: collapse;
+  width: 100%;
+  margin: 18px 0;
+  font-size: 14px;
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.md th{
+  background: var(--table-head);
+  color: var(--yp-ink);
+  font-family:'Noto Serif KR',serif;
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--bd);
+}
+.md td{
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bd-soft);
+}
+.md tr:last-child td{ border-bottom: 0 }
+
+/* 이미지 */
+.md img{
+  max-width:100%;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+
+/* 에러 / 안내 영역 */
+.alert{
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(195,141,86,.10);
+  border: 1px solid rgba(195,141,86,.35);
+  color: var(--txt-base);
+  font-size: 13.5px; line-height: 1.7;
+  margin: 16px 0;
+}
+.alert strong{ color: var(--yp-accent) }
+.alert .path{
+  display:block;
+  margin-top:8px;
+  font-family:'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size:12px;
+  background: var(--code-bg);
+  border:1px solid var(--code-bd);
+  border-radius:6px;
+  padding:8px 10px;
+  word-break: break-all;
+  color:var(--yp-deep);
+}
+
+/* 로딩 */
+.spinner{
+  display:inline-block; width:20px; height:20px;
+  border:2px solid var(--bd); border-top-color: var(--yp-deep);
+  border-radius:50%;
+  animation: sp .8s linear infinite;
+  vertical-align:middle; margin-right:8px;
+}
+@keyframes sp { to { transform: rotate(360deg) } }
+
+@media (max-width: 720px){
+  .wrap{ padding: 20px 16px 60px }
+  .card{ padding: 24px 20px; border-radius: 16px }
+  .md h1{ font-size: 24px }
+  .md h2{ font-size: 18px }
+  .bar{ padding: 10px 16px }
+  .bar-path{ font-size: 12px }
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a class="bar-brand" href="시안_v4_홈페이지.html" title="홈으로">
+    <span class="yeon">緣</span>
+    <span class="name">y-life.kr</span>
+  </a>
+  <span class="bar-sep">/</span>
+  <span class="bar-path" id="barPath">…</span>
+  <div class="bar-actions">
+    <button class="bar-btn" id="backBtn" type="button" title="이전 페이지로">← 뒤로</button>
+    <div class="theme-toggle" id="themeToggle">
+      <button class="theme-btn" data-theme="day" aria-label="낮 모드">☀</button>
+      <button class="theme-btn" data-theme="night" aria-label="밤 모드">☾</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <article class="card md" id="content">
+    <p><span class="spinner"></span> 마크다운 불러오는 중…</p>
+  </article>
+</div>
+
+<script>
+/* ── 낮/밤 테마 ── */
+(function(){
+  const root = document.documentElement;
+  const KEY = 'ylife.thinkmap.theme';
+  function apply(t){
+    root.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === t));
+    try{ localStorage.setItem(KEY, t) }catch(e){}
+  }
+  let initial = 'day';
+  try{
+    const saved = localStorage.getItem(KEY);
+    if (saved === 'day' || saved === 'night') initial = saved;
+  }catch(e){}
+  apply(initial);
+  document.getElementById('themeToggle').addEventListener('click', e => {
+    const b = e.target.closest('.theme-btn');
+    if (b) apply(b.dataset.theme);
+  });
+})();
+
+/* ── 뒤로 ── */
+document.getElementById('backBtn').addEventListener('click', () => {
+  if (history.length > 1) history.back();
+  else window.location.href = '광장_생각지도.html';
+});
+
+/* ── 마크다운 로드 ── */
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const file = params.get('file') || '';
+  const barPath = document.getElementById('barPath');
+  const content = document.getElementById('content');
+
+  if (!file) {
+    barPath.textContent = '파일이 지정되지 않았습니다';
+    content.innerHTML = `
+      <h1>마크다운 뷰어</h1>
+      <div class="alert">
+        <strong>사용법:</strong> 이 뷰어는 URL 쿼리로 마크다운 파일을 지정해서 엽니다.
+        <span class="path">md_viewer.html?file=내_자료/4_광장과_연결/_폴더안내.md</span>
+      </div>`;
+    return;
+  }
+  barPath.textContent = file;
+
+  // marked 설정
+  if (window.marked) {
+    marked.setOptions({ gfm:true, breaks:false, headerIds:true, mangle:false });
+  }
+
+  function renderMd(text){
+    const html = window.marked ? marked.parse(text) : escapeHtml(text).replace(/\n/g, '<br>');
+    content.innerHTML = html;
+    // 내부 .md 링크는 다시 뷰어로 열기
+    content.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      if (/^https?:|^mailto:|^#/.test(href)) return; // 외부·앵커는 그대로
+      if (/\.md(\?|$|#)/i.test(href)) {
+        const base = file.split('/').slice(0, -1).join('/');
+        const target = base ? (base + '/' + href) : href;
+        a.href = 'md_viewer.html?file=' + encodeURIComponent(target);
+      }
+    });
+  }
+
+  function showFetchFailure(){
+    content.innerHTML = `
+      <h1>📂 파일을 직접 읽을 수 없습니다</h1>
+      <div class="alert">
+        <strong>브라우저 보안 정책</strong>으로 인해 <code>file://</code> 환경에서는
+        다른 로컬 파일을 직접 불러올 수 없습니다.
+        <span class="path">${escapeHtml(file)}</span>
+      </div>
+      <h3>해결 방법</h3>
+      <ul>
+        <li>위 경로의 파일을 <strong>탐색기에서 직접 열기</strong> (메모장·VS Code 등)</li>
+        <li>또는 사이트를 <strong>로컬 서버</strong>로 띄우기 (예: VS Code의 Live Server, 또는 <code>python -m http.server</code>)</li>
+        <li>또는 사이트를 <strong>실제 도메인</strong>(y-life.kr)에 배포한 뒤 그쪽에서 열기</li>
+      </ul>`;
+  }
+
+  // 1) fetch 시도
+  fetch(file)
+    .then(r => r.ok ? r.text() : Promise.reject(r.status))
+    .then(renderMd)
+    .catch(() => {
+      // 2) iframe trick — chrome file:// 에서 같은 디렉토리 내 텍스트 파일 로드
+      const ifr = document.createElement('iframe');
+      ifr.style.display = 'none';
+      ifr.src = file;
+      let resolved = false;
+      ifr.onload = () => {
+        try {
+          const txt = ifr.contentDocument && (
+            ifr.contentDocument.body.innerText ||
+            ifr.contentDocument.body.textContent
+          );
+          if (txt) { resolved = true; renderMd(txt); }
+          else { showFetchFailure(); }
+        } catch(e){ showFetchFailure(); }
+        ifr.remove();
+      };
+      ifr.onerror = () => { showFetchFailure(); ifr.remove(); };
+      document.body.appendChild(ifr);
+      setTimeout(() => { if (!resolved) {/* onload 안 오면 그대로 */} }, 4000);
+    });
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+})();
+</script>
+
+</body>
+</html>

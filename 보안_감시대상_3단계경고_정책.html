@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감시 대상·3단계 경고 시스템 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1040px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 32px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--red);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--red);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--red)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:48px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin:24px 0 10px}
+  h4{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* 감시 대상 카드 */
+  .watch-card{background:#FFF5F5;border:2px solid var(--red);border-radius:8px;padding:24px 28px;margin:20px 0}
+  .watch-card .tag{font-size:11px;color:var(--red);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .watch-card .tag::before{content:"⚠ ";font-size:14px}
+  .watch-card h3{margin-top:0;color:var(--red);border:none}
+  .watch-list{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .watch-item{background:white;border:1.5px solid var(--red);padding:8px 14px;border-radius:4px;font-family:var(--serif);font-weight:700;color:var(--ink);font-size:14px;display:inline-flex;align-items:center;gap:8px}
+  .watch-item .label{font-size:10px;background:var(--red);color:white;padding:2px 6px;border-radius:2px;font-weight:700;font-family:var(--sans)}
+  .watch-card .desc{font-size:13px;color:var(--soft);line-height:1.75;margin-top:14px}
+
+  /* 단계별 경고 */
+  .stage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+  .stage{background:var(--surface);border:2px solid var(--line);border-radius:8px;padding:24px;position:relative}
+  .stage-num{position:absolute;top:18px;right:24px;font-family:var(--serif);font-size:48px;font-weight:900;color:var(--line);letter-spacing:-.04em;line-height:1}
+  .stage.s1{border-color:var(--amber);background:#FFF8E1}
+  .stage.s1 .stage-num{color:var(--amber);opacity:.3}
+  .stage.s2{border-color:#d97706;background:#FFECB3}
+  .stage.s2 .stage-num{color:#d97706;opacity:.3}
+  .stage.s3{border-color:var(--red);background:#FFE5E5}
+  .stage.s3 .stage-num{color:var(--red);opacity:.3}
+  .stage-tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .s1 .stage-tag{color:var(--amber)}
+  .s2 .stage-tag{color:#d97706}
+  .s3 .stage-tag{color:var(--red)}
+  .stage-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.015em;padding-right:40px}
+  .stage-action{font-size:13px;line-height:1.75;margin-bottom:10px}
+  .stage-effect{font-size:12px;color:var(--muted);padding-top:10px;border-top:1px dashed rgba(0,0,0,.1)}
+  .stage-effect strong{color:var(--ink)}
+
+  /* 위반 행위 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+  td.severe{color:var(--red);font-weight:700}
+  td.warn{color:var(--amber);font-weight:700}
+  td.notice{color:var(--teal);font-weight:600}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .danger{background:rgba(168,80,72,.08);border-left:3px solid var(--red);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .danger strong{color:var(--red);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  /* 알림 UI 시안 */
+  .alert-mockup{background:var(--ink);color:var(--warm);padding:20px 24px;border-radius:6px;margin:14px 0;font-family:var(--serif);font-size:14px;line-height:1.7;border-left:4px solid var(--red);position:relative}
+  .alert-mockup .alert-tag{font-size:10px;color:var(--red);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px;font-family:var(--sans)}
+  .alert-mockup strong{color:var(--amber);font-weight:700}
+
+  /* 사용자 화면 경고 시안 */
+  .user-warn{background:#FFE5E5;border:2px solid var(--red);border-radius:8px;padding:24px 28px;margin:14px 0;text-align:center}
+  .user-warn .icon{width:48px;height:48px;border-radius:50%;background:var(--red);color:white;display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:14px}
+  .user-warn h4{font-family:var(--serif);font-size:18px;color:var(--red);margin:0 0 8px;font-weight:700}
+  .user-warn p{font-size:13px;color:var(--soft);line-height:1.75}
+
+  /* 코드 */
+  .code{background:var(--ink);color:#e8e4d9;padding:14px 18px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.7;margin:10px 0;overflow-x:auto;white-space:pre-wrap}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--surface);padding:2px 6px;border-radius:3px;border:1px solid var(--line);color:var(--ink)}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:28px}
+    .stage-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="보안대책_종합가이드.html">← 보안 가이드로</a><span>감시 대상·3단계 경고 정책</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · 보안 부속 정책 · 2026.05.15.</div>
+    <h1>감시 대상·<em>3단계 경고</em> 시스템</h1>
+    <p class="lede">
+      마을을 지키기 위한 명시적 정책. 위험을 알고 들어오는 특정 사용자에 대한 감시 강화와,
+      해킹 시도 발생 시 3단계 경고 후 강퇴까지의 절차를 정리했습니다.
+      이 정책은 광장 약속의 부속 문서로 사이트에 공개됩니다.
+    </p>
+  </header>
+
+  <!-- ========== 1. 감시 대상 ========== -->
+  <h2>1. 감시 대상자 목록 (Watchlist)</h2>
+
+  <p>운영자가 사전에 위험을 인지하고 있는 사용자. 이들이 가입·로그인·글쓰기 활동을 할 때 관리자에게 즉시 알림이 가고, 모든 행동이 자세히 로그됩니다.</p>
+
+  <div class="watch-card">
+    <div class="tag">감시 강화 대상</div>
+    <h3>경계 경보 자동 발령 명단</h3>
+    <div class="watch-list">
+      <div class="watch-item">이우주 <span class="label">학생</span></div>
+      <div class="watch-item">이규민 <span class="label">학생</span></div>
+    </div>
+    <p class="desc">
+      위 사용자가 닉네임·이름·이메일·휴대폰 끝 4자리 등으로 식별되어 가입 시도하거나 로그인하면 즉시 관리자에게 경계 경보가 발령됩니다.
+      가입 자체는 막지 않지만, 모든 행동이 상세 로그에 기록되고 의심 행동 발견 시 1차 경고가 즉시 발동합니다.
+    </p>
+  </div>
+
+  <h3>감시 대상 식별 방법</h3>
+  <p>이름만으로는 식별이 어렵습니다 (동명이인 가능). 다음 조합으로 매칭:</p>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li><strong>이름 + 학년</strong>: "이우주 (중2)" 같은 조합</li>
+    <li><strong>이메일</strong>: 알려진 이메일 주소</li>
+    <li><strong>IP 대역</strong>: 같은 학원·학교에서 접속하는 IP</li>
+    <li><strong>닉네임 유사성</strong>: "wooju", "이우주", "lee_w" 등 유사 패턴</li>
+    <li><strong>기기 지문</strong>: 브라우저 fingerprint (보조 단서)</li>
+  </ul>
+
+  <div class="warn">
+    <strong>주의 — 신중하게 적용</strong>
+    동명이인 가능성이 있으므로 "이름만 일치"로는 자동 차단 X. 운영자가 알림을 받고 직접 확인 후 조치. 무고한 학생이 오해받지 않게 합니다.
+  </div>
+
+  <h3>감시 대상 추가·해제 절차</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>운영자만 추가·해제 가능</li>
+    <li>관리자 대시보드 → 보안 → 감시 대상 관리</li>
+    <li>추가 시 사유 명시 (예: "타 사이트 해킹 전과")</li>
+    <li>1년마다 자동 재검토 — 1년간 문제 없으면 해제 검토</li>
+  </ul>
+
+  <!-- ========== 2. 위반 행위 정의 ========== -->
+  <h2>2. "해킹 시도"의 정의 — 무엇이 경고 대상인가</h2>
+
+  <p>모호한 기준은 분쟁의 원인입니다. 어떤 행동이 "해킹 시도"로 간주되는지 명확히 정합니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>행위 카테고리</th>
+        <th>구체 예시</th>
+        <th>심각도</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>인증 우회 시도</strong></td>
+        <td>관리자 페이지 URL 직접 접근, 비밀번호 무차별 대입(5번 이상), 다른 사람 계정으로 로그인 시도</td>
+        <td class="center severe">중대</td>
+      </tr>
+      <tr>
+        <td><strong>스크립트 주입</strong></td>
+        <td>글이나 댓글에 <code>&lt;script&gt;</code>, <code>onerror=</code>, <code>javascript:</code> 등 삽입 시도</td>
+        <td class="center severe">중대</td>
+      </tr>
+      <tr>
+        <td><strong>SQL 인젝션 시도</strong></td>
+        <td>입력 폼에 <code>' OR 1=1 --</code>, <code>UNION SELECT</code> 등 SQL 패턴</td>
+        <td class="center severe">중대</td>
+      </tr>
+      <tr>
+        <td><strong>비정상 API 호출</strong></td>
+        <td>일반 사용자가 못 보는 API 엔드포인트 직접 호출, 다른 사용자 ID로 데이터 요청</td>
+        <td class="center severe">중대</td>
+      </tr>
+      <tr>
+        <td><strong>대량 자동화</strong></td>
+        <td>분당 30건 이상 글·댓글 등록, 매크로로 보이는 패턴</td>
+        <td class="center warn">경고</td>
+      </tr>
+      <tr>
+        <td><strong>도배·스팸</strong></td>
+        <td>같은 내용 반복, 의미 없는 문자열, 외부 광고 링크</td>
+        <td class="center warn">경고</td>
+      </tr>
+      <tr>
+        <td><strong>개발자 도구 비정상 사용</strong></td>
+        <td>관리자 권한 변수 조작 시도, 로컬스토리지 임의 변경, 콘솔에서 fetch로 직접 API 호출</td>
+        <td class="center warn">경고</td>
+      </tr>
+      <tr>
+        <td><strong>다중 계정</strong></td>
+        <td>같은 IP·기기에서 5개 이상 계정 생성</td>
+        <td class="center notice">주의</td>
+      </tr>
+      <tr>
+        <td><strong>경고 회피</strong></td>
+        <td>경고 받은 후 다른 계정으로 가입, IP 우회 시도</td>
+        <td class="center severe">즉시 강퇴</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>판단 원칙</strong>
+    "심각도 중대"는 1번 발견 시 곧바로 2단계 이상 경고. "경고"는 1단계부터. "주의"는 관리자 알림만, 별도 경고는 X.
+  </div>
+
+  <!-- ========== 3. 3단계 경고 ========== -->
+  <h2>3. 3단계 경고 시스템</h2>
+
+  <div class="stage-grid">
+
+    <div class="stage s1">
+      <div class="stage-num">1</div>
+      <div class="stage-tag">1차 경고</div>
+      <div class="stage-title">노란 카드</div>
+      <p class="stage-action">
+        해킹 시도가 처음 감지되면 사용자 화면에 경고창이 뜨고, 행위는 차단됩니다.
+        관리자에게도 알림이 가서 어떤 행위였는지 확인합니다.
+      </p>
+      <div class="stage-effect">
+        <strong>제한:</strong> 24시간 글쓰기 정지<br>
+        <strong>알림:</strong> 사용자에게 + 관리자에게<br>
+        <strong>기록:</strong> 영구 로그 남김
+      </div>
+    </div>
+
+    <div class="stage s2">
+      <div class="stage-num">2</div>
+      <div class="stage-tag">2차 경고 — 마지막</div>
+      <div class="stage-title">마지막 카드</div>
+      <p class="stage-action">
+        같은 사용자가 두 번째로 시도하면 "마지막 경고"가 발동됩니다.
+        사용 권한이 7일간 정지되고, 한 번 더 시도하면 강퇴라는 사실을 명확히 알립니다.
+      </p>
+      <div class="stage-effect">
+        <strong>제한:</strong> 7일 전체 정지 (로그인 가능, 글쓰기 X, 댓글 X)<br>
+        <strong>알림:</strong> 사용자에게 + 관리자에게 + (학생이라면) 학부모 통보 옵션<br>
+        <strong>기록:</strong> 영구 로그 + "마지막 경고" 플래그
+      </div>
+    </div>
+
+    <div class="stage s3">
+      <div class="stage-num">3</div>
+      <div class="stage-tag">3차 — 강퇴</div>
+      <div class="stage-title">빨간 카드</div>
+      <p class="stage-action">
+        세 번째 시도 시 영구 강퇴. 계정 삭제·IP 차단·이메일 등록 불가 처리.
+        강퇴 사유는 관리자 로그에 영구 보존됩니다.
+      </p>
+      <div class="stage-effect">
+        <strong>제한:</strong> 영구 차단 (재가입 불가)<br>
+        <strong>알림:</strong> 사용자에게 + 관리자에게 + (학생이라면) 학부모 통보 + 필요시 학교·경찰 신고<br>
+        <strong>기록:</strong> "강퇴 명단"에 영구 보존
+      </div>
+    </div>
+
+  </div>
+
+  <h3>예외 — 즉시 강퇴 케이스</h3>
+  <p>다음은 1·2단계 없이 곧바로 3단계(강퇴):</p>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>관리자 계정 탈취 시도 성공한 경우</li>
+    <li>데이터베이스 또는 시스템 파일 손상 시도</li>
+    <li>이미 강퇴된 사람이 다른 계정으로 재가입한 경우</li>
+    <li>다른 사용자의 개인정보를 훔치려 한 경우</li>
+    <li>형사 처벌 대상이 명백한 행위 (위협·협박 등)</li>
+  </ul>
+
+  <!-- ========== 4. UI 시안 ========== -->
+  <h2>4. 화면에 어떻게 보일까</h2>
+
+  <h3>관리자에게 가는 경계 경보 알림</h3>
+  <div class="alert-mockup">
+    <div class="alert-tag">⚠ 보안 경보 · 2026.05.15. 14:23</div>
+    감시 대상 <strong>이우주 (중2)</strong>의 가입 시도가 감지되었습니다.<br>
+    이메일: lee***@naver.com · IP: 211.43.xxx.xxx<br>
+    <br>
+    가입을 차단하시겠습니까? <strong>[차단] [감시 강화] [무시]</strong>
+  </div>
+
+  <div class="alert-mockup" style="border-left-color:var(--amber)">
+    <div class="alert-tag" style="color:var(--amber)">⚠ 해킹 시도 감지 · 1차 경고 발동</div>
+    사용자 <strong>nickname123</strong>이 광장 글에 스크립트 삽입을 시도했습니다.<br>
+    내용: <code style="font-size:11px">&lt;script&gt;alert('test')&lt;/script&gt;</code><br>
+    조치: 글 등록 차단 + 24시간 글쓰기 정지<br>
+    <br>
+    <strong>[자세히 보기] [수동 조치]</strong>
+  </div>
+
+  <h3>위반자 사용자에게 보이는 경고</h3>
+
+  <div class="user-warn" style="border-color:var(--amber);background:#FFF8E1">
+    <div class="icon" style="background:var(--amber)">!</div>
+    <h4 style="color:var(--amber)">1차 경고 — 노란 카드</h4>
+    <p>
+      방금 작성하신 글에서 보안상 위험한 내용이 감지되었습니다.<br>
+      말에는 마음씨가 그대로 담깁니다. 24시간 동안 글쓰기가 일시 정지됩니다.<br>
+      <strong>다음에 또 발견되면 마지막 경고가 발동됩니다.</strong>
+    </p>
+  </div>
+
+  <div class="user-warn" style="border-color:#d97706;background:#FFECB3">
+    <div class="icon" style="background:#d97706">!!</div>
+    <h4 style="color:#d97706">2차 경고 — 마지막 카드</h4>
+    <p>
+      두 번째 위반입니다. 이번이 <strong>마지막 경고</strong>입니다.<br>
+      앞으로 7일간 사이트 사용이 제한됩니다 (글쓰기·댓글 X).<br>
+      <strong>한 번 더 위반하면 영구 강퇴됩니다.</strong> 마을의 안전을 위해 약속을 지켜주세요.
+    </p>
+  </div>
+
+  <div class="user-warn">
+    <div class="icon">×</div>
+    <h4>강퇴 — 빨간 카드</h4>
+    <p>
+      세 번째 위반이 감지되어 사이트 사용이 영구 중단됩니다.<br>
+      모든 글과 활동 기록은 보존되지만, 이 계정으로는 더 이상 접속하실 수 없습니다.<br>
+      이의 신청은 관리자(jinwooshon@gmail.com)에게 이메일로.
+    </p>
+  </div>
+
+  <!-- ========== 5. 구현 ========== -->
+  <h2>5. 기술 구현 — 어떻게 작동하나</h2>
+
+  <h3>데이터 구조</h3>
+  <div class="code">// Cloudflare D1 테이블 설계
+
+// 감시 대상 명단
+CREATE TABLE watchlist (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  grade TEXT,            -- "중2" 같은 학년
+  email TEXT,
+  ip_pattern TEXT,       -- "211.43." 같은 IP 대역
+  nickname_pattern TEXT, -- "wooju|이우주" 같은 정규식
+  reason TEXT,           -- 등록 사유
+  added_by TEXT,         -- 운영자
+  added_at DATETIME,
+  active BOOLEAN DEFAULT 1
+);
+
+// 위반 기록 (영구 보존)
+CREATE TABLE violations (
+  id INTEGER PRIMARY KEY,
+  user_id INTEGER,
+  ip TEXT,
+  device_fingerprint TEXT,
+  violation_type TEXT,    -- 'auth_bypass', 'xss', 'sql_injection' 등
+  detail TEXT,            -- 실제 시도 내용
+  severity TEXT,          -- 'severe', 'warning', 'notice'
+  stage INTEGER,          -- 1, 2, 3
+  detected_at DATETIME,
+  acted_at DATETIME,
+  resolution TEXT         -- 'warn', 'suspend7', 'ban', 'false_positive'
+);
+
+// 사용자 상태
+ALTER TABLE users ADD COLUMN warning_count INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN suspended_until DATETIME;
+ALTER TABLE users ADD COLUMN banned BOOLEAN DEFAULT 0;
+ALTER TABLE users ADD COLUMN watchlist_match TEXT;</div>
+
+  <h3>감지 로직 (의사 코드)</h3>
+  <div class="code">// Cloudflare Workers에서
+
+async function checkAction(user, action, content) {
+  // 1. 감시 대상 매칭 확인
+  const onWatchlist = await isOnWatchlist(user);
+  if (onWatchlist) {
+    notifyAdmin('감시 대상 활동', user, action);
+  }
+
+  // 2. 해킹 시도 패턴 검사
+  const violations = detectViolations(content, action);
+  if (violations.length === 0) return { ok: true };
+
+  // 3. 심각도에 따라 단계 결정
+  const severity = getMaxSeverity(violations);
+  let newStage;
+
+  if (severity === 'severe') {
+    // 중대 위반: 1단계라도 곧바로 2단계로
+    newStage = Math.max(user.warning_count + 1, 2);
+  } else {
+    newStage = user.warning_count + 1;
+  }
+
+  // 4. 단계별 조치
+  if (newStage === 1) {
+    suspendWriting(user, '24h');
+    sendWarning(user, '1차 경고');
+  } else if (newStage === 2) {
+    suspendAll(user, '7d');
+    sendWarning(user, '마지막 경고');
+    notifyParents(user); // 학생이면
+  } else if (newStage >= 3) {
+    banUser(user, '영구');
+    sendWarning(user, '강퇴');
+    notifyParents(user);
+  }
+
+  // 5. 영구 기록
+  await logViolation(user, violations, newStage);
+  await notifyAdmin('위반 감지', user, newStage);
+}</div>
+
+  <h3>알림 채널</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li><strong>관리자 이메일</strong> — 모든 단계의 알림 (jinwooshon@gmail.com)</li>
+    <li><strong>관리자 대시보드</strong> — 실시간 알림 배너 + "최근 위반" 패널</li>
+    <li><strong>(선택) 카카오톡 알림</strong> — 카카오 알림톡 API 연동 시</li>
+    <li><strong>학부모 통보</strong> — 2차·3차 단계, 가입 시 학부모 이메일 받아둬야 가능</li>
+  </ul>
+
+  <!-- ========== 6. 공정성 ========== -->
+  <h2>6. 공정성·이의 신청</h2>
+
+  <p>억울하게 경고받을 가능성도 있어요. 공정성을 위해 다음을 마련합니다.</p>
+
+  <h3>오탐 방지</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>1차 경고 발동 시 자동 알림 + 관리자가 30분 안에 확인</li>
+    <li>오탐으로 판명되면 즉시 복구 + 사과 메시지</li>
+    <li>AI 모더와 별개의 규칙 기반 감지 → 두 시스템 모두 동의해야 발동</li>
+  </ul>
+
+  <h3>이의 신청 절차</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>경고 받은 사용자는 24시간 안에 이메일로 이의 신청 가능</li>
+    <li>관리자가 7일 안에 검토·답변</li>
+    <li>오탐 확인 시 경고 취소 + 카운트 복구</li>
+    <li>3차 강퇴자도 1회 이의 신청권 보장</li>
+  </ul>
+
+  <h3>학생 보호 원칙</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li><strong>실명 공개 X</strong> — 위반 사실을 다른 사용자에게 공개하지 않음</li>
+    <li><strong>학교 통보는 신중히</strong> — 형사 처벌 대상 아니면 학교 X, 학부모만</li>
+    <li><strong>회복 기회</strong> — 강퇴자도 1년 후 본인 신청 시 재검토</li>
+    <li><strong>교육적 관점</strong> — 학생이 호기심으로 시도하는 경우, 강한 처벌 전에 대화 우선</li>
+  </ul>
+
+  <div class="note">
+    <strong>교육적 접근</strong>
+    이우주·이규민 학생이 들어왔는데 실제 해킹 시도가 발견됐다면, 1차 경고와 함께 "왜 그랬는지 한 줄 답해줘"라는 메시지를 보내볼 수도 있어요. 호기심에서 비롯된 시도라면 광장의 자원이 되어줄 수도 있습니다. 처벌만이 답은 아닙니다.
+  </div>
+
+  <!-- ========== 7. 정책 공개 ========== -->
+  <h2>7. 정책 공개·고지</h2>
+
+  <p>이 정책은 비밀이 아니라 마을의 약속입니다. 사이트에 명시적으로 공개합니다.</p>
+
+  <h3>공개 위치</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>회원가입 시 "약관·운영 정책 동의" 체크박스에 링크</li>
+    <li>광장 약속 페이지의 부속 문서로</li>
+    <li>관리자 페이지에서도 조회 가능</li>
+  </ul>
+
+  <h3>가입 시 동의 받기</h3>
+  <p>가입 폼에 다음 체크박스 추가:</p>
+  <div class="code">☐ 광장 약속과 보안 정책을 읽었습니다.
+  해킹 시도·도배·악의적 행위 시 3단계 경고 후 강퇴됨을 이해합니다.</div>
+
+  <!-- ========== 8. 운영 매뉴얼 ========== -->
+  <h2>8. 관리자 운영 매뉴얼</h2>
+
+  <h3>매일 (1분)</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>대시보드 → 보안 알림 새 항목 없는지 확인</li>
+  </ul>
+
+  <h3>매주 (10분)</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>지난주 위반 기록 검토 (오탐 없었는지)</li>
+    <li>감시 대상자 활동 패턴 검토</li>
+    <li>새로운 공격 패턴 발견 시 감지 규칙에 추가</li>
+  </ul>
+
+  <h3>경계 경보 받았을 때</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.8">
+    <li>침착하게 알림 자세히 보기 (어떤 시도였는지)</li>
+    <li>해당 사용자의 다른 활동 확인 (정상 글도 있는지)</li>
+    <li>오탐 가능성 판단 — 의심스러우면 복구</li>
+    <li>분명한 시도면 단계 진행 (자동으로 발동돼 있음)</li>
+    <li>중대 케이스는 증거 보존 (스크린샷, 로그)</li>
+  </ol>
+
+  <div class="danger">
+    <strong>마지막 한 가지</strong>
+    이 정책은 마을을 보호하기 위한 것이지, 처벌하기 위한 것이 아닙니다. 모든 경고는 "다시 잘 들어오라"는 손짓이어야 합니다. 학생이 호기심에 한 일과 악의적인 공격을 구분하는 것이 운영자의 가장 어려운 일이에요. 망설여지면 처벌보다 대화부터.
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>"마을의 안전은 신뢰 위에 단단해집니다."</p>
+  <p style="margin-top:6px">감시 대상·3단계 경고 정책 v1.0 · 2026년 5월 15일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

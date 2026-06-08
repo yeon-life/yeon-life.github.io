@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>통합 관리 대시보드 + 5계층 매핑 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  /* YUV 3.2 --yp-* 토큰 사용 */
+  :root{
+    --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+    --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+    --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+    --soft:#3a4848; --muted:#6a7878; --soft-c:#8a9494;
+    --red:#a85048; --green:#5a8a72; --purple:#6858c0;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--yp-mist);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--yp-deep);text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--yp-line);font-size:12px;color:var(--muted);background:var(--yp-mist)}
+  .top .in{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--yp-ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 32px;border-bottom:2px solid var(--yp-ink)}
+  .meta{font-size:12px;color:var(--yp-accent);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--yp-accent);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--yp-ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--yp-deep)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--yp-ink);margin:44px 0 16px;border-bottom:1px solid var(--yp-ink);padding-bottom:10px;letter-spacing:-.015em}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--yp-ink);margin:24px 0 10px}
+  h4{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--yp-deep);margin:14px 0 6px}
+  p{margin-bottom:10px;font-size:14px}
+
+  /* 결정 박스 */
+  .decision{background:var(--yp-ink);color:var(--yp-mist);padding:32px 36px;border-radius:8px;margin:28px 0}
+  .decision .tag{font-size:11px;color:var(--yp-accent);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .decision h3{font-family:var(--serif);font-size:22px;color:var(--yp-mist);margin:0 0 14px;border:none;padding:0}
+  .decision p{font-size:14px;color:rgba(244,241,235,.88);line-height:1.85;margin-bottom:8px}
+  .decision strong{color:var(--yp-accent)}
+
+  /* 5계층 다이어그램 */
+  .tiers{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:8px;padding:32px;margin:14px 0;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:2;overflow-x:auto;white-space:pre;color:var(--yp-ink)}
+
+  /* 계층 카드 */
+  .tier-card{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:8px;padding:20px 24px;margin:12px 0;display:grid;grid-template-columns:80px 1fr auto;gap:18px;align-items:center}
+  .tier-card.l1{background:var(--yp-ink);color:var(--yp-mist);border-color:var(--yp-ink)}
+  .tier-card.l2a{border-left:5px solid var(--yp-deep)}
+  .tier-card.l2b{border-left:5px solid var(--yp-pine)}
+  .tier-card.l3{border-left:5px solid var(--yp-accent)}
+  .tier-card.l4{border-left:5px solid var(--soft-c)}
+  .tier-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:700;color:white;text-align:center;line-height:1}
+  .tier-icon.l1{background:var(--yp-mist);color:var(--yp-ink)}
+  .tier-icon.l2a{background:var(--yp-deep)}
+  .tier-icon.l2b{background:var(--yp-pine)}
+  .tier-icon.l3{background:var(--yp-accent)}
+  .tier-icon.l4{background:var(--soft-c)}
+  .tier-detail .name{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:4px}
+  .tier-card.l1 .tier-detail .name{color:var(--yp-mist)}
+  .tier-detail .role{font-size:13px;line-height:1.65;color:var(--muted)}
+  .tier-card.l1 .tier-detail .role{color:rgba(244,241,235,.7)}
+  .tier-meta{font-size:11px;color:var(--soft-c);text-align:right;line-height:1.6}
+  .tier-card.l1 .tier-meta{color:rgba(244,241,235,.6)}
+  .tier-meta strong{display:block;font-family:var(--serif);font-size:13px;color:var(--yp-ink);font-weight:700}
+  .tier-card.l1 .tier-meta strong{color:var(--yp-mist)}
+
+  /* 두 가지 가입 경로 */
+  .paths{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:8px;padding:28px;margin:14px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;white-space:pre;overflow-x:auto;color:var(--yp-ink)}
+
+  /* 대시보드 mock */
+  .dashboard-mock{background:var(--yp-card);border:2px solid var(--yp-ink);border-radius:8px;overflow:hidden;margin:18px 0;box-shadow:0 8px 32px rgba(31,42,42,.1)}
+  .dash-header{background:var(--yp-ink);color:var(--yp-mist);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+  .dash-header .brand{font-family:var(--serif);font-size:16px;font-weight:700}
+  .dash-header .brand .y{color:var(--yp-accent)}
+  .dash-header .role{font-size:11px;color:var(--yp-accent);letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:3px 10px;background:rgba(195,141,86,.15);border-radius:999px}
+  .dash-body{display:grid;grid-template-columns:240px 1fr;min-height:540px}
+  .dash-side{background:var(--yp-mist);border-right:1px solid var(--yp-line);padding:18px 0}
+  .side-section{padding:0 18px;margin-bottom:14px}
+  .side-section .label{font-size:9px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:6px 0 4px}
+  .side-item{padding:8px 14px;font-size:13px;color:var(--soft);border-radius:4px;display:flex;align-items:center;gap:10px;margin-bottom:1px;cursor:pointer}
+  .side-item.active{background:var(--yp-card);color:var(--yp-ink);font-weight:700;border-left:3px solid var(--yp-accent);padding-left:11px}
+  .side-item .ico{font-family:var(--serif);font-size:14px;color:var(--yp-deep);width:18px;text-align:center}
+  .side-item .badge{margin-left:auto;font-size:10px;background:var(--yp-accent);color:white;padding:1px 7px;border-radius:999px;font-weight:700}
+  .dash-main{padding:24px;background:var(--yp-mist)}
+
+  /* 한눈 보기 카드 */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+  .kpi{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:4px;padding:14px}
+  .kpi-tag{font-size:10px;color:var(--yp-accent);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+  .kpi-val{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--yp-ink);letter-spacing:-.02em;line-height:1.1}
+  .kpi-unit{font-size:13px;color:var(--muted);font-family:var(--sans);font-weight:400;margin-left:2px}
+  .kpi-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+  /* 사용자 테이블 mock */
+  .user-table{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:6px;overflow:hidden;font-size:12px}
+  .ut-head{background:var(--yp-mist);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--yp-line)}
+  .ut-title{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--yp-ink)}
+  .ut-filter{display:flex;gap:6px;font-size:10px;color:var(--muted)}
+  .ut-filter span{padding:2px 8px;background:var(--yp-card);border:1px solid var(--yp-line);border-radius:3px;cursor:pointer}
+  .ut-filter span.act{background:var(--yp-ink);color:var(--yp-mist);border-color:var(--yp-ink)}
+  table{width:100%;border-collapse:collapse;font-size:11.5px;background:var(--yp-card)}
+  table th,table td{padding:8px 12px;border-bottom:1px solid var(--yp-line);text-align:left;line-height:1.5}
+  table th{font-family:var(--serif);font-size:10px;background:var(--yp-mist);color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .role-badge{display:inline-block;font-size:9px;padding:2px 8px;border-radius:999px;font-weight:700;letter-spacing:.04em}
+  .rb-server{background:var(--yp-ink);color:var(--yp-mist)}
+  .rb-academy{background:var(--yp-deep);color:white}
+  .rb-village{background:var(--yp-pine);color:white}
+  .rb-writer{background:var(--yp-accent);color:white}
+  .rb-resident{background:var(--yp-sage);color:var(--yp-ink)}
+  .action-btn{font-size:10px;padding:3px 7px;background:var(--yp-mist);border:1px solid var(--yp-line);border-radius:3px;color:var(--soft);margin-right:2px;cursor:pointer}
+
+  /* 권한 매트릭스 */
+  table.perms{font-size:12px}
+  table.perms td.center{text-align:center}
+  table.perms .yes{color:var(--green);font-weight:700;font-size:14px}
+  table.perms .no{color:var(--red);font-weight:400;font-size:11px}
+  table.perms .partial{color:var(--yp-accent);font-weight:600;font-size:11px}
+
+  /* 박스들 */
+  .note{background:rgba(47,93,98,.08);border-left:3px solid var(--yp-deep);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--yp-deep);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(195,141,86,.1);border-left:3px solid var(--yp-accent);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .warn strong{color:var(--yp-accent);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+
+  /* 행위 카드 */
+  .ability-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+  .ability{background:var(--yp-card);border:1px solid var(--yp-line);border-radius:4px;padding:12px 14px;font-size:12px;line-height:1.6}
+  .ability strong{display:block;color:var(--yp-ink);font-family:var(--serif);font-weight:700;font-size:13px;margin-bottom:3px}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--yp-line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:26px}
+    .dash-body{grid-template-columns:1fr}
+    .dash-side{border-right:none;border-bottom:1px solid var(--yp-line)}
+    .kpi-grid{grid-template-columns:1fr 1fr}
+    .ability-grid{grid-template-columns:1fr}
+    .tier-card{grid-template-columns:60px 1fr;gap:14px}
+    .tier-meta{grid-column:span 2;text-align:left}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="YUV3.2_부합_조정안_정리.html">← YUV 3.2 조정안</a><span>통합 관리 대시보드 + 5계층 매핑</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Unified Admin · 2026.05.16.</div>
+    <h1>5계층 매핑 + <em>한 곳에서 다 조정</em></h1>
+    <p class="lede">
+      연소사님이 한 화면에서 모든 사용자·콘텐츠·시스템을 자유롭게 조정할 수 있는 <strong>통합 관리 대시보드</strong>와,
+      그 위에서 작동하는 <strong>5계층 권한 구조</strong>를 정리합니다.
+      YUV 3.2의 학원 중심 4계층 위에 연라이프 마을 구조를 자연스럽게 얹었어요.
+    </p>
+  </header>
+
+  <!-- ========== 결정 ========== -->
+  <div class="decision">
+    <div class="tag">합의된 결정</div>
+    <h3>5계층 + 두 가지 가입 경로 + 통합 관리 대시보드</h3>
+    <p><strong>5계층</strong>: 서버관리자(연소사) → 학원관리자 → 마을지기 → 글지기 → 일반 주민</p>
+    <p><strong>두 경로</strong>: 학원·학교 단위 가입(6자리 코드) ↔ 마을 직접 가입(이메일·비번) — 둘 다 결국 "일반 주민"으로 합류</p>
+    <p><strong>통합 관리</strong>: 연소사님이 단 한 화면에서 모든 사용자·콘텐츠·AI·보안·시스템을 조정. 역할 승강·권한 토글·일괄 작업 모두 가능.</p>
+  </div>
+
+  <!-- ========== 1. 5계층 ========== -->
+  <h2>1. 5계층 구조 — 위에서 아래로</h2>
+
+  <div class="tier-card l1">
+    <div class="tier-icon l1">蓮</div>
+    <div class="tier-detail">
+      <div class="name">서버 관리자 — 연소사</div>
+      <div class="role">모든 권한. 모든 사용자 조정, 모든 콘텐츠 편집, 모든 시스템 설정, 모든 데이터 접근.</div>
+    </div>
+    <div class="tier-meta">
+      <strong>1명</strong>
+      6자리 코드<br>
+      모든 지점·모든 기능
+    </div>
+  </div>
+
+  <div class="tier-card l2a">
+    <div class="tier-icon l2a">院</div>
+    <div class="tier-detail">
+      <div class="name">학원 관리자</div>
+      <div class="role">학원·학교·기관 단위로 가입한 학생들의 관리자. 자기 기관 소속 학생·선생님 관리. 연플래너 등 연 프로젝트 다른 앱과 연계.</div>
+    </div>
+    <div class="tier-meta">
+      <strong>기관당 1~여러 명</strong>
+      6자리 코드<br>
+      자기 기관 범위
+    </div>
+  </div>
+
+  <div class="tier-card l2b">
+    <div class="tier-icon l2b">村</div>
+    <div class="tier-detail">
+      <div class="name">마을지기</div>
+      <div class="role">연라이프 마을 자체의 모더·운영 도우미. 광장 글 모더, 신규 주민 환영, 시민 저널 검증, 위반 사례 처리. 학원과 무관한 일반 마을 운영.</div>
+    </div>
+    <div class="tier-meta">
+      <strong>5~10명 (선임)</strong>
+      6자리 코드<br>
+      마을 운영 권한
+    </div>
+  </div>
+
+  <div class="tier-card l3">
+    <div class="tier-icon l3">筆</div>
+    <div class="tier-detail">
+      <div class="name">글지기</div>
+      <div class="role">시민기자·작가·블로거 등 인증된 활동 회원. 칼럼 게재 권한, 블로그 가게 운영, 시민 저널 작성. 일반 주민 중 운영자가 인증해 승급.</div>
+    </div>
+    <div class="tier-meta">
+      <strong>20~100명</strong>
+      이메일·비번<br>
+      콘텐츠 작성 권한
+    </div>
+  </div>
+
+  <div class="tier-card l4">
+    <div class="tier-icon l4">人</div>
+    <div class="tier-detail">
+      <div class="name">일반 주민 (= 학생 = 일반인)</div>
+      <div class="role">두 경로로 가입. 광장 댓글, 블로그 작성, 스크랩, 화두 참여. 가장 많은 회원층.</div>
+    </div>
+    <div class="tier-meta">
+      <strong>제한 없음 (마을 자체)</strong>
+      이메일·비번 OR 6자리 코드<br>
+      광장·블로그 기본 권한
+    </div>
+  </div>
+
+  <!-- ========== 2. 두 가지 가입 경로 ========== -->
+  <h2>2. 두 가지 가입 경로 — 같은 "일반 주민"으로 합류</h2>
+
+  <p>YUV의 학원 중심 흐름과 연라이프의 마을 흐름이 자연스럽게 합쳐집니다.</p>
+
+  <div class="paths">┌─ 경로 A: 학원·학교 단위 가입 (YUV 표준) ─────────────────┐
+│                                                          │
+│   연소사 (서버관리자)                                     │
+│       │ 6자리 코드 발급                                   │
+│       ▼                                                  │
+│   학원 관리자                                             │
+│       │ 6자리 코드 발급                                   │
+│       ▼                                                  │
+│   학원 학생 → 연라이프 입장 = "일반 주민"                │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+
+┌─ 경로 B: 마을 직접 가입 (연라이프 고유) ─────────────────┐
+│                                                          │
+│   누구나                                                  │
+│       │ 이메일·비번 가입                                  │
+│       ▼                                                  │
+│   일반 주민                                               │
+│       │ 운영자가 인증 (활동·신뢰도 보고)                  │
+│       ▼                                                  │
+│   글지기 ──── 마을지기 (선임 인증 시)                    │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+
+→ 두 경로 모두 같은 "일반 주민" 자리로 출발
+→ 활동·인증에 따라 위 계층으로 승급
+→ 모든 사용자는 같은 `y_accounts` 통합 계정 DB
+→ 연소사는 어느 경로로 들어왔든 모두 통합 관리</div>
+
+  <div class="note">
+    <strong>핵심 — 합류 지점이 "일반 주민"</strong>
+    학원 학생이 연라이프 마을에 들어오면 그도 일반 주민이 됩니다. 학원 활동(연플래너 등)은 학원 관리자가, 마을 활동(광장·블로그)은 마을지기가 봅니다. 한 사람이 두 자리에 동시 속하지만 권한이 충돌 없이 깨끗하게 분리.
+  </div>
+
+  <!-- ========== 3. 권한 매트릭스 ========== -->
+  <h2>3. 권한 매트릭스 — 누가 무엇을 할 수 있나</h2>
+
+  <table class="perms">
+    <thead>
+      <tr>
+        <th>기능</th>
+        <th class="center">연소사</th>
+        <th class="center">학원관리자</th>
+        <th class="center">마을지기</th>
+        <th class="center">글지기</th>
+        <th class="center">일반 주민</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>모든 사용자 보기·검색</td>
+        <td class="center yes">✓</td>
+        <td class="center partial">자기 기관만</td>
+        <td class="center partial">마을 회원만</td>
+        <td class="center no">자신만</td>
+        <td class="center no">자신만</td>
+      </tr>
+      <tr>
+        <td>역할 변경·승강</td>
+        <td class="center yes">✓</td>
+        <td class="center partial">자기 학생</td>
+        <td class="center partial">글지기 추천</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>화두 작성·편집</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center partial">제안</td>
+        <td class="center partial">제안</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>광장 글 작성</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+      </tr>
+      <tr>
+        <td>광장 글 숨김·복원</td>
+        <td class="center yes">✓</td>
+        <td class="center partial">자기 학생 글</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>시민 저널 6단계 검증</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center yes">참여</td>
+        <td class="center yes">참여</td>
+        <td class="center partial">읽기만</td>
+      </tr>
+      <tr>
+        <td>칼럼·정기 발행</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>블로그·가게 운영</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+        <td class="center yes">✓</td>
+      </tr>
+      <tr>
+        <td>AI 비용·한도 설정</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>시스템 설정·배포</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+      </tr>
+      <tr>
+        <td>감시 명단·3단계 경고</td>
+        <td class="center yes">✓</td>
+        <td class="center partial">자기 학생</td>
+        <td class="center yes">✓</td>
+        <td class="center no">—</td>
+        <td class="center no">—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>핵심 약속</strong>
+    연소사(서버관리자)는 위 표의 모든 행에 ✓. 다른 누구도 못 하는 일은 없습니다. <strong>"한 곳에서 자유롭게 조정"이라는 약속의 기초.</strong>
+  </div>
+
+  <!-- ========== 4. 통합 관리 대시보드 ========== -->
+  <h2>4. 통합 관리 대시보드 — 한 화면에서 모든 것</h2>
+
+  <p>연소사님 전용 화면. 좌측 사이드바에서 분류, 메인 영역에서 작업.</p>
+
+  <div class="dashboard-mock">
+    <div class="dash-header">
+      <div class="brand"><span class="y">緣</span> y-life.kr — 통합 관리</div>
+      <div class="role">서버 관리자 · 연소사</div>
+    </div>
+    <div class="dash-body">
+
+      <aside class="dash-side">
+        <div class="side-section">
+          <div class="label">한눈 보기</div>
+          <div class="side-item active"><span class="ico">◎</span>대시보드</div>
+        </div>
+
+        <div class="side-section">
+          <div class="label">사람</div>
+          <div class="side-item"><span class="ico">人</span>전체 사용자<span class="badge">1,540</span></div>
+          <div class="side-item"><span class="ico">院</span>학원 관리자<span class="badge">3</span></div>
+          <div class="side-item"><span class="ico">村</span>마을지기<span class="badge">5</span></div>
+          <div class="side-item"><span class="ico">筆</span>글지기<span class="badge">28</span></div>
+          <div class="side-item"><span class="ico">主</span>일반 주민<span class="badge">1,452</span></div>
+          <div class="side-item"><span class="ico">待</span>인증 대기<span class="badge">12</span></div>
+        </div>
+
+        <div class="side-section">
+          <div class="label">콘텐츠</div>
+          <div class="side-item"><span class="ico">話</span>화두</div>
+          <div class="side-item"><span class="ico">廣</span>광장 글</div>
+          <div class="side-item"><span class="ico">柱</span>칼럼</div>
+          <div class="side-item"><span class="ico">記</span>시민 저널</div>
+          <div class="side-item"><span class="ico">店</span>블로그·가게</div>
+          <div class="side-item"><span class="ico">新</span>뉴스 자동 수집</div>
+        </div>
+
+        <div class="side-section">
+          <div class="label">시스템</div>
+          <div class="side-item"><span class="ico">機</span>AI 비용·한도</div>
+          <div class="side-item"><span class="ico">守</span>보안·감시</div>
+          <div class="side-item"><span class="ico">備</span>백업·복원</div>
+          <div class="side-item"><span class="ico">設</span>설정</div>
+        </div>
+      </aside>
+
+      <main class="dash-main">
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-tag">오늘 가입</div>
+            <div class="kpi-val">12<span class="kpi-unit">명</span></div>
+            <div class="kpi-sub">어제 +3</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-tag">활성 회원</div>
+            <div class="kpi-val">487<span class="kpi-unit">명</span></div>
+            <div class="kpi-sub">7일 활동</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-tag">이번 달 AI</div>
+            <div class="kpi-val">5,820<span class="kpi-unit">원</span></div>
+            <div class="kpi-sub">예산 30,000원의 19%</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-tag">처리 대기</div>
+            <div class="kpi-val">8<span class="kpi-unit">건</span></div>
+            <div class="kpi-sub">인증·신고·복원</div>
+          </div>
+        </div>
+
+        <div class="user-table">
+          <div class="ut-head">
+            <div class="ut-title">전체 사용자 — 검색·필터·일괄 작업</div>
+            <div class="ut-filter">
+              <span class="act">전체</span>
+              <span>학원 경로</span>
+              <span>마을 경로</span>
+              <span>최근 7일</span>
+              <span>경고 받은</span>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>이름</th><th>역할</th><th>경로</th><th>가입일</th><th>최근 활동</th><th>경고</th><th>빠른 작업</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>임선생</strong></td>
+                <td><span class="role-badge rb-writer">글지기</span></td>
+                <td>마을 가입</td>
+                <td>2026.01.12</td>
+                <td>2시간 전</td>
+                <td>—</td>
+                <td><span class="action-btn">상세</span><span class="action-btn">승강</span></td>
+              </tr>
+              <tr>
+                <td><strong>박주민</strong></td>
+                <td><span class="role-badge rb-village">마을지기</span></td>
+                <td>마을 가입</td>
+                <td>2025.11.03</td>
+                <td>10분 전</td>
+                <td>—</td>
+                <td><span class="action-btn">상세</span><span class="action-btn">승강</span></td>
+              </tr>
+              <tr>
+                <td><strong>민서</strong></td>
+                <td><span class="role-badge rb-resident">일반 주민</span></td>
+                <td>학원 (삼산)</td>
+                <td>2026.04.20</td>
+                <td>오늘</td>
+                <td>—</td>
+                <td><span class="action-btn">상세</span><span class="action-btn">글지기로</span></td>
+              </tr>
+              <tr>
+                <td><strong>현지영</strong></td>
+                <td><span class="role-badge rb-writer">글지기</span></td>
+                <td>마을 가입</td>
+                <td>2026.03.18</td>
+                <td>어제</td>
+                <td>—</td>
+                <td><span class="action-btn">상세</span><span class="action-btn">승강</span></td>
+              </tr>
+              <tr>
+                <td><strong>이우주</strong></td>
+                <td><span class="role-badge rb-resident">일반 주민</span></td>
+                <td>마을 가입</td>
+                <td>2026.05.01</td>
+                <td>3분 전</td>
+                <td style="color:var(--red);font-weight:700">1단계 ⚠</td>
+                <td><span class="action-btn">상세</span><span class="action-btn">감시</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">검색창에 이름·이메일·코드·전화 입력 / 필터로 좁히기 / 일괄 선택 → 역할 변경·차단·메시지 발송 등 한 번에</p>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ========== 5. 연소사가 할 수 있는 모든 것 ========== -->
+  <h2>5. 연소사가 한 화면에서 할 수 있는 모든 것</h2>
+
+  <div class="ability-grid">
+    <div class="ability"><strong>역할 자유 조정</strong>한 클릭으로 일반 주민 → 글지기 → 마을지기 승급, 또는 강등</div>
+    <div class="ability"><strong>두 경로 통합 보기</strong>학원 가입자·마을 가입자를 같은 표에서 검색·필터</div>
+    <div class="ability"><strong>일괄 작업</strong>여러 사용자 선택 → 메시지 발송·역할 변경·태그 추가 한 번에</div>
+    <div class="ability"><strong>모든 화두 편집</strong>이번 주·다음 주 화두를 직접 편집·예약</div>
+    <div class="ability"><strong>광장 글 숨김·복원</strong>AI가 가린 글 검토·복원, 직접 숨김 처리</div>
+    <div class="ability"><strong>AI 비용·한도 설정</strong>월 예산 조정, 한도 알림 설정, 모델 전환</div>
+    <div class="ability"><strong>모든 시스템 설정</strong>색 테마, 챗봇 프롬프트, 모더 규칙, 자동 뉴스 소스</div>
+    <div class="ability"><strong>감시 명단 관리</strong>이우주·이규민 등 감시 대상 추가·제거, 경고 단계 직접 조정</div>
+    <div class="ability"><strong>3단계 경고 직접 발동</strong>특정 사용자 1·2·3단계 경고·복구 수동 조작</div>
+    <div class="ability"><strong>모든 데이터 다운로드</strong>전체 회원·글·통계 CSV/JSON으로 백업</div>
+    <div class="ability"><strong>학원·기관 등록·해제</strong>새 학원 추가, 학원 관리자 임명</div>
+    <div class="ability"><strong>긴급 정지·복구</strong>사이트 일시 정지, 특정 기능 비활성, 백업에서 복원</div>
+  </div>
+
+  <!-- ========== 6. 권한 누수 방지 ========== -->
+  <h2>6. 권한 누수 방지 — YUV §2-3 그대로</h2>
+
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>일반 주민 화면에 글지기 기능 ❌</strong> — 칼럼 작성 메뉴 안 보임</li>
+    <li><strong>글지기 화면에 마을지기 기능 ❌</strong> — 모더 도구 안 보임</li>
+    <li><strong>마을지기 화면에 학원 관리자 기능 ❌</strong> — 학원 가입자 데이터 안 보임</li>
+    <li><strong>학원 관리자 화면에 다른 학원 데이터 ❌</strong> — 자기 기관만</li>
+    <li><strong>그 누구도 서버 관리자 화면 못 봄</strong> — 연소사 외 접근 불가</li>
+    <li><strong>"API"·"토큰" 단어 일반 화면 노출 ❌</strong> — YUV 절대 규칙</li>
+  </ul>
+
+  <!-- ========== 7. 데이터 구조 ========== -->
+  <h2>7. 데이터 구조 — y_accounts 통합 (YUV §3·§10 준수)</h2>
+
+  <div class="paths" style="font-size:11px">// Firebase Firestore — y_accounts 컬렉션 (YUV 통합)
+{
+  "uid": "...",
+  "y_user_no": 1234,                    // 가입 순서 일련번호
+  "role": "general_resident",            // 5계층 중 하나
+  "role_levels": {                       // 보조 역할 (병행 가능)
+    "is_writer": false,                  // 글지기인가
+    "is_village_keeper": false,          // 마을지기인가
+    "is_academy_admin": false,           // 학원 관리자인가
+    "academy_id": null                   // 학원 ID (학원 가입 경로면)
+  },
+  "join_path": "village" | "academy",    // 가입 경로
+  "name": "임선생",
+  "id": "lim-teacher",
+  "pw_hash": "...",                      // bcrypt만 — 평문 X
+  "code": null | "123450",               // 6자리 코드 (학원 경로만)
+
+  // 권한 추가 토글 (연소사가 자유롭게 조정)
+  "extra_permissions": {
+    "can_post_column": true,             // 칼럼 작성
+    "can_moderate": false,               // 모더 권한
+    "can_verify_journal": true,          // 시민저널 검증
+    "shop_enabled": true                 // 가게 운영
+  },
+
+  // 감시·경고
+  "warning_level": 0,                    // 0/1/2/3
+  "on_watchlist": false,
+
+  // 변경 이력 (불변 로그 별도 컬렉션)
+  // ...
+  "verification_status": "verified",
+  "created_at": "...",
+  "last_login": "..."
+}</div>
+
+  <div class="note">
+    <strong>핵심 — role + extra_permissions 두 단</strong>
+    역할(role)은 큰 분류, extra_permissions는 세부 토글. 연소사가 "이 사람은 일반 주민이지만 시민 저널 검증 권한은 줘봐도 좋겠다" 같은 미세 조정이 가능합니다. 모든 토글이 통합 대시보드에서 한 번 클릭으로 조정.
+  </div>
+
+  <!-- ========== 8. 구현 단계 ========== -->
+  <h2>8. 구현 단계 — 어디에 끼울까</h2>
+
+  <p>이미 짜둔 로드맵 안에 자연스럽게 들어갑니다. 별도 작업 추가 X.</p>
+
+  <table>
+    <thead>
+      <tr><th>주차</th><th>기존 작업</th><th>이번 합의 반영</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1주차</strong></td>
+        <td>기초 + 비용 패널</td>
+        <td>+ y_accounts 5계층 스키마 셋업<br>+ 통합 대시보드 메뉴 골격 (한눈 보기)</td>
+      </tr>
+      <tr>
+        <td><strong>2주차</strong></td>
+        <td>모더 시스템</td>
+        <td>+ 사용자 관리 페이지 (검색·필터·역할 변경)<br>+ 마을지기 권한 부여 기능</td>
+      </tr>
+      <tr>
+        <td><strong>3주차</strong></td>
+        <td>챗봇 + 메가 메뉴</td>
+        <td>+ 글지기 자격 인증·승급 흐름<br>+ 학원 관리자 등록 (학원 가입 경로 시작)</td>
+      </tr>
+      <tr>
+        <td><strong>4주차</strong></td>
+        <td>다듬기 + 안전망</td>
+        <td>+ 일괄 작업·메시지 발송<br>+ 모든 시스템 설정 통합 패널</td>
+      </tr>
+      <tr>
+        <td><strong>5주차</strong></td>
+        <td>자동 업데이트 (YUV §18 신설)</td>
+        <td>+ 학원 가입자와 마을 가입자 통합 보기 검증</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 결론 ========== -->
+  <div class="decision" style="margin-top:48px">
+    <div class="tag">정리</div>
+    <h3>"한 곳에서 모든 것을 자유롭게" — 약속이 토대가 됩니다.</h3>
+    <p>5계층 + 두 가지 가입 경로 + 통합 대시보드가 정해지니, 이전에 검토 사항으로 미뤄둔 모든 자료가 이 위에 자연스럽게 얹힙니다.</p>
+    <p><strong>다음 갱신 자동 대상</strong>:</p>
+    <p>· AI 도입 4주 로드맵 — 통합 대시보드를 1주차에 추가</p>
+    <p>· 보안 가이드 — 5계층 권한으로 갱신</p>
+    <p>· 비용 모니터링 패널 — 통합 대시보드의 한 메뉴로</p>
+    <p>· 모더레이션 시스템 — 마을지기·학원관리자 권한 분리</p>
+    <p>· 데이터 구조 — y_accounts 5계층 스키마</p>
+    <p style="margin-top:14px"><strong>다음 단계 제안</strong> — 위 우선순위 1번(맥락 매핑)이 끝났으니, 우선순위 2번(색 토큰 일괄 갱신)부터 진행하면 모든 자료가 YUV 3.2 부합으로 정돈됩니다.</p>
+  </div>
+
+  <h3 style="margin-top:32px">검토 사항 목록 — 한 단계 정돈됨</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>디자인 적용 (진행 중)</li>
+    <li>YUV 3.2 부합 — 매핑 합의 ✓ <strong>완료 (이번 결정)</strong></li>
+    <li><strong>색 토큰 일괄 갱신 ← 다음 작업 (반나절)</strong></li>
+    <li>챗봇 엔진 Gemma 4 26B 전환 + 관련 자료 5개 갱신 (1일)</li>
+    <li>호스팅 전환 GitHub Pages → Cloudflare Pages (1~2주)</li>
+    <li>자동 업데이트 시스템 추가 (3~5일)</li>
+    <li>SSO + Firebase 전환 (2~3주)</li>
+    <li>위 전부 위에 — 스크랩·폴더·내보내기 9주 작업</li>
+  </ol>
+
+</div>
+
+<footer class="footer">
+  <p>"5계층 위에, 한 곳에서 모든 것을."</p>
+  <p style="margin-top:6px">통합 관리 대시보드 + 5계층 매핑 설계 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

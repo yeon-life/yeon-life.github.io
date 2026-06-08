@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영풀 파일 작업기록</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: #F8F2EA;
+    --color-surface: #EDE3D5;
+    --color-surface2: #D4C4A8;
+    --color-primary: #7A6A52;
+    --color-primary-dark: #5C4F3C;
+    --color-muted: #B8B0A4;
+    --color-text: #2C2418;
+    --color-text-light: #6B5F50;
+    --color-success: #5A7A5A;
+    --color-error: #8F6B6B;
+    --color-warning: #8F856B;
+    --color-code-bg: #EAE0D4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* 헤더 */
+  .page-header {
+    background: var(--color-primary-dark);
+    color: #F5EDDF;
+    padding: 40px 32px 32px;
+    border-bottom: 3px solid var(--color-surface2);
+  }
+  .page-header .app-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #F5EDDF;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  .page-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .page-header .subtitle {
+    font-size: 14px;
+    color: rgba(245,237,223,0.75);
+    font-weight: 300;
+  }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(245,237,223,0.8);
+  }
+  .meta-item svg { opacity: 0.7; }
+
+  /* 컨테이너 */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* 섹션 */
+  .section { margin-bottom: 40px; }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-surface2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* 카드 */
+  .card {
+    background: var(--color-surface);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* 상태 배지 */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-success { background: #D4EAD4; color: var(--color-success); }
+  .badge-error   { background: #EAD4D4; color: var(--color-error); }
+  .badge-warning { background: #EAE4D4; color: var(--color-warning); }
+  .badge-info    { background: #D4DCE0; color: #4A6A72; }
+
+  /* 코드 블록 */
+  .code-block {
+    background: var(--color-code-bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    color: var(--color-primary-dark);
+    border-left: 3px solid var(--color-primary);
+    margin: 10px 0;
+    white-space: pre;
+  }
+
+  /* 타임라인 */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--color-surface2);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid var(--color-bg);
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+  .timeline-item.done::before { background: var(--color-success); box-shadow: 0 0 0 2px var(--color-success); }
+  .timeline-item.error::before { background: var(--color-error); box-shadow: 0 0 0 2px var(--color-error); }
+  .timeline-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+  .timeline-content {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  .timeline-content strong { color: var(--color-primary-dark); }
+
+  /* 파일 정보 */
+  .file-info {
+    background: var(--color-code-bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .file-info .path {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--color-primary-dark);
+    word-break: break-all;
+    margin-top: 4px;
+  }
+
+  /* 테이블 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 8px 0;
+  }
+  th {
+    background: var(--color-surface2);
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--color-surface2);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.02); }
+  td code {
+    background: var(--color-code-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--color-primary-dark);
+  }
+
+  /* 확인 체크리스트 */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-surface2);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { margin-top: 2px; flex-shrink: 0; }
+
+  /* 오류 박스 */
+  .error-box {
+    background: #F5E8E8;
+    border: 1px solid #D4AAAA;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .error-box .error-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-error);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .error-box p { font-size: 13.5px; color: var(--color-text); }
+
+  .fix-box {
+    background: #E8F0E8;
+    border: 1px solid #AACAAA;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .fix-box .fix-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-success);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fix-box p { font-size: 13.5px; color: var(--color-text); }
+
+  /* 분리선 */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-surface2);
+    margin: 32px 0;
+  }
+
+  /* 인라인 강조 */
+  .highlight {
+    background: rgba(122,106,82,0.12);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    color: var(--color-primary-dark);
+  }
+
+  /* 푸터 */
+  .page-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-muted);
+    padding: 24px;
+    border-top: 1px solid var(--color-surface2);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="app-tag">영풀 · yeon-ai-kr</div>
+  <h1>영풀 파일 작업기록</h1>
+  <p class="subtitle">yeong-pul.html 버그 수정 및 기능 추가 — 최종 작업 기록</p>
+  <div class="meta-row">
+    <div class="meta-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      2026-04-25
+    </div>
+    <div class="meta-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      yeon-ai-kr-v4/yeongpul/yeong-pul.html
+    </div>
+    <div class="meta-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      최종 크기 904,146자
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 원본 파일 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      원본 파일 정보
+    </h2>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Netlify 원본 (작업 기반)
+      </div>
+      <div class="file-info">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span style="font-weight:600;">deploy/app.html</span>
+          <span class="badge badge-success">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Netlify 무결 원본
+          </span>
+        </div>
+        <div class="path">C:\Users\jinwo\yeon-teacher\deploy\app.html</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--color-text-light);">901,111자 · Netlify 서비스 당시 정상 작동하던 파일</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--color-text-light);margin-top:8px;">
+        Netlify가 유료화되기 전, 영풀이 정상 작동하던 시점의 원본 파일. 모든 핵심 함수(applyTheme, resetSettings, printShareCard, openSettingsModal 등)가 온전히 포함된 유일한 기준점. GitHub 리포의 yeong-pul.html은 불완전한 버전이었기 때문에, 이 파일을 새 작업의 기반으로 채택.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        최종 결과 파일
+      </div>
+      <div class="file-info">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span style="font-weight:600;">yeon-ai-kr-v4/yeongpul/yeong-pul.html</span>
+          <span class="badge badge-success">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            배포 대기
+          </span>
+        </div>
+        <div class="path">C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\yeongpul\yeong-pul.html</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--color-text-light);">904,146자 (원본 대비 +3,035자 추가)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문제 원인 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      발견된 문제
+    </h2>
+
+    <div class="error-box">
+      <div class="error-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        문제 1 — GitHub 리포 파일 자체가 불완전한 버전
+      </div>
+      <p>GitHub 리포의 yeong-pul.html은 Netlify 원본과 다른 파일이었다. applyTheme, resetSettings, printShareCard, openSettingsModal 등 핵심 함수들이 누락되어 있었고, 이 때문에 버튼을 눌러도 아무 반응이 없었다.</p>
+    </div>
+
+    <div class="error-box">
+      <div class="error-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        문제 2 — JS 코드가 텍스트로 렌더링됨
+      </div>
+      <p>일부 파일에서 <code>&lt;/script&gt;</code> 태그가 JS 문자열 내부에 unescaped 상태로 포함되어 있어, 브라우저가 스크립트 블록을 중간에 닫아버렸다. 이후 코드가 일반 텍스트로 페이지 하단에 노출되었다.</p>
+    </div>
+
+    <div class="error-box">
+      <div class="error-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        문제 3 — 그림판 버튼 UI 누락
+      </div>
+      <p>그림판 함수(openDrawingPadModal 등)는 정의되어 있었지만 UI에 버튼이 없어서 사용자가 그림판을 호출할 방법이 없었다.</p>
+    </div>
+  </div>
+
+  <!-- 해결 방법 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      해결 방법
+    </h2>
+
+    <div class="fix-box">
+      <div class="fix-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        해결 1 — deploy/app.html 원본으로 완전 교체
+      </div>
+      <p>불완전한 GitHub 리포 파일을 버리고, Netlify 원본인 <code>C:\Users\jinwo\yeon-teacher\deploy\app.html</code>을 기반으로 새로 작업. 모든 핵심 함수가 온전히 보존된 상태에서 기능 추가만 수행.</p>
+    </div>
+
+    <div class="fix-box">
+      <div class="fix-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        해결 2 — v3 동결, v4 작업본 분리
+      </div>
+      <p>기존 작업 폴더를 <span class="highlight">yeon-ai-kr-v3</span>로 동결(건드리지 않음)하고, <span class="highlight">yeon-ai-kr-v4</span>를 새로운 작업본으로 생성. v4에서만 수정 진행.</p>
+    </div>
+  </div>
+
+  <!-- 추가된 내용 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      추가된 내용 (원본 대비)
+    </h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>위치</th>
+          <th>내용</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>학생 등록 코드</strong></td>
+          <td>첫 번째 <code>const</code> 선언 직전</td>
+          <td>50개 코드 배열 <code>STUDENT_ENROLLMENT_CODES</code></td>
+          <td><span class="badge badge-success">✅ 추가</span></td>
+        </tr>
+        <tr>
+          <td><strong>그림판 모달 HTML</strong></td>
+          <td><code>&lt;body&gt;</code> 태그 직후 (807번째 줄)</td>
+          <td>드로잉 패드 iframe + 닫기/전송 버튼</td>
+          <td><span class="badge badge-success">✅ 추가</span></td>
+        </tr>
+        <tr>
+          <td><strong>그림판 함수 3개</strong></td>
+          <td>마지막 <code>&lt;/script&gt;</code> 직전 (14,491번째 줄)</td>
+          <td>openDrawingPadModal / closeDrawingPadModal / sendDrawingToAnalyze</td>
+          <td><span class="badge badge-success">✅ 추가</span></td>
+        </tr>
+        <tr>
+          <td><strong>그림판 UI 버튼</strong></td>
+          <td>분석하기/샘플/지우기 버튼 그룹 뒤 (2,039번째 줄)</td>
+          <td>연필 SVG 아이콘 + "그림판" 레이블 버튼</td>
+          <td><span class="badge badge-success">✅ 추가</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 추가 코드 상세 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      추가 코드 상세
+    </h2>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        그림판 모달 HTML (body 직후 삽입)
+      </div>
+      <div class="code-block">&lt;div id="drawingPadModal" style="display:none;position:fixed;inset:0;z-index:9998;
+     background:rgba(0,0,0,.6);align-items:center;justify-content:center;"&gt;
+  &lt;div style="background:#fff;border-radius:16px;overflow:hidden;
+       width:min(95vw,680px);max-height:90vh;display:flex;flex-direction:column;"&gt;
+    &lt;div style="display:flex;align-items:center;justify-content:space-between;
+         padding:12px 16px;background:#f4f4f4;border-bottom:1px solid #e0e0e0;"&gt;
+      &lt;span style="font-size:15px;font-weight:700;color:#5a7a82;"&gt;그림판으로 입력&lt;/span&gt;
+      &lt;button onclick="closeDrawingPadModal()" ...&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;iframe id="drawingPadFrame" src="" style="flex:1;border:none;min-height:480px;"&gt;&lt;/iframe&gt;
+    &lt;div style="padding:12px 16px;display:flex;justify-content:flex-end;gap:8px;"&gt;
+      &lt;button onclick="closeDrawingPadModal()"&gt;취소&lt;/button&gt;
+      &lt;button onclick="sendDrawingToAnalyze()"&gt;이 그림으로 분석하기&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        그림판 JavaScript 함수 3개
+      </div>
+      <div class="code-block">function openDrawingPadModal(){
+  var m=document.getElementById('drawingPadModal');
+  if(!m)return;
+  var f=document.getElementById('drawingPadFrame');
+  // 최초 열 때만 src 설정 (lazy load)
+  if(f &amp;&amp; !f.src) f.src='./drawing-pad.html';
+  m.style.display='flex';
+}
+
+function closeDrawingPadModal(){
+  var m=document.getElementById('drawingPadModal');
+  if(m) m.style.display='none';
+}
+
+function sendDrawingToAnalyze(){
+  var f=document.getElementById('drawingPadFrame');
+  if(!f||!f.contentWindow){closeDrawingPadModal();return;}
+  try{
+    var FC=f.contentWindow.FC;
+    if(!FC){
+      alert('그림판이 아직 로딩 중입니다. 잠시 후 다시 시도하세요.');
+      return;
+    }
+    var d=FC.toDataURL({format:'png',multiplier:2});
+    closeDrawingPadModal();
+    window._openImageEditor(d, function(ed){ processOcrFromDataUrl(ed); });
+  }catch(e){
+    closeDrawingPadModal();
+    console.error('그림판 캡처 오류', e);
+  }
+}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        그림판 UI 버튼 (분석하기 버튼 그룹 내)
+      </div>
+      <div class="code-block">&lt;button class="btn-secondary" onclick="openDrawingPadModal()"
+        title="그림판으로 입력"
+        style="display:inline-flex;align-items:center;gap:5px;"&gt;
+  &lt;svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="1.5"
+       stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;path d="M12 20h9"/&gt;
+    &lt;path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/&gt;
+  &lt;/svg&gt;
+  그림판
+&lt;/button&gt;</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        학생 등록 코드 배열 (50개)
+      </div>
+      <div class="code-block">const STUDENT_ENROLLMENT_CODES = [
+  "2EP9TA","2MG4PQ","2WWNZG","3YM3B3","4KZVPT",
+  "4TKS2B","5HA2WV","5QMRGL","64U5YL","6EHNP4",
+  "7FUQTX","8SRWBW","98U765","9R4STZ","AL7ETW",
+  "CB4E3J","CCTNUX","CGUWRL","CL2S5C","CQDLBV",
+  "D4G8QG","D6CBF9","DFU8EV","EU9JNT","EUY22K",
+  "FHP879","GP66QG","HH5T75","JCNAXF","JEDVYB",
+  "JUQTXC","KV5UBB","MCNZ3G","P9PXN6","QGFFTG",
+  "QWFEQ5","RW9WSA","SBAG7P","T7BG8M","UQVQFY",
+  "UWGWNQ","V68PPZ","VT6MZZ","WZVRYW","XLQRCU",
+  "Y9CD2W","YQV5KP","YUCX4J","YUKY2T","ZWLF25"
+];</div>
+    </div>
+  </div>
+
+  <!-- 작업 타임라인 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      작업 타임라인
+    </h2>
+    <div class="timeline">
+      <div class="timeline-item error">
+        <div class="timeline-label">문제 발견</div>
+        <div class="timeline-content">GitHub 리포의 yeong-pul.html로 작업 시 버튼 미작동. applyTheme 등 핵심 함수 없음 확인.</div>
+      </div>
+      <div class="timeline-item error">
+        <div class="timeline-label">2차 문제</div>
+        <div class="timeline-content">push 후 JS 코드가 텍스트로 렌더링되는 현상. 모든 탭 하단에 raw JS 코드 노출.</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">원본 발견</div>
+        <div class="timeline-content"><strong>deploy/app.html</strong> 발견 — Netlify 서비스 당시 정상 작동하던 원본 파일(901,111자). 이것을 기준점으로 채택.</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">폴더 전략 확정</div>
+        <div class="timeline-content">yeon-ai-kr-v3 동결(원본 보관용), <strong>yeon-ai-kr-v4</strong>를 작업본으로 분리.</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">등록 코드 추가</div>
+        <div class="timeline-content">STUDENT_ENROLLMENT_CODES 50개를 원본 첫 const 선언 직전에 삽입.</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">그림판 모달 추가</div>
+        <div class="timeline-content">drawingPadModal HTML을 &lt;body&gt; 직후에 삽입. iframe lazy loading 방식(최초 오픈 시 src 설정).</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">그림판 함수 추가</div>
+        <div class="timeline-content">openDrawingPadModal / closeDrawingPadModal / sendDrawingToAnalyze 3개 함수 추가. Fabric.js FC.toDataURL()로 캔버스 캡처.</div>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-label">그림판 버튼 추가</div>
+        <div class="timeline-content">분석하기/샘플/지우기 버튼 그룹 뒤에 그림판 버튼(연필 SVG 아이콘) 추가. UI에서 호출 가능해짐.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">현재 상태</div>
+        <div class="timeline-content"><strong>배포 대기 중</strong> — 사용자 로컬 확인 후 push 예정. "일단 올리지는 마" 상태.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검증 체크리스트 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      함수 검증 결과
+    </h2>
+    <div class="card">
+      <ul class="checklist">
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>applyTheme()</strong> — 테마 적용 함수 ✅ 원본 보존</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>resetSettings()</strong> — 설정 초기화 함수 ✅ 원본 보존</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>printShareCard()</strong> — 공유카드 인쇄 함수 ✅ 원본 보존</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>openSettingsModal()</strong> — 설정 모달 열기 ✅ 원본 보존</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>openDrawingPadModal()</strong> — 그림판 열기 ✅ 신규 추가</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>closeDrawingPadModal()</strong> — 그림판 닫기 ✅ 신규 추가</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>sendDrawingToAnalyze()</strong> — 그림 분석 전송 ✅ 신규 추가</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>STUDENT_ENROLLMENT_CODES</strong> — 50개 등록 코드 배열 ✅ 신규 추가</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>그림판 UI 버튼</strong> — 분석하기 그룹 내 버튼 배치 ✅ 신규 추가</div>
+        </li>
+        <li>
+          <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <div><strong>unescaped &lt;/script&gt; 없음</strong> — JS 텍스트 렌더링 버그 없음 ✅</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 배포 안내 -->
+  <div class="section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.42 2 2 0 0 1 3.55 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.51a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      배포 안내
+    </h2>
+    <div class="card">
+      <p style="font-size:14px;color:var(--color-text-light);margin-bottom:12px;">로컬에서 파일 확인 후 아래 명령으로 push하면 됩니다.</p>
+      <div class="code-block">cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+
+# v4 파일을 배포 폴더로 복사
+copy "yeon-ai-kr-v4\yeongpul\yeong-pul.html" "yeongpul\yeong-pul.html"
+
+# git 커밋 & push
+git add yeongpul/yeong-pul.html
+git commit -m "영풀: deploy/app.html 원본 기반 재구성 + 그림판 + 등록코드"
+git push origin main</div>
+      <div style="margin-top:12px;padding:10px 14px;background:rgba(122,106,82,0.1);border-radius:8px;font-size:13px;color:var(--color-text-light);">
+        Service Worker가 <code>network-first</code> 전략을 사용하므로 push 후 캐시 무효화 없이 바로 반영됩니다.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  영풀 파일 작업기록 · 연라이프 프로젝트 · 2026-04-25
+</div>
+
+</body>
+</html>

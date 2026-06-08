@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>드로어 vs 메가 메뉴 — 비교</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e; --soft-c:#8a9398;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:linear-gradient(180deg,var(--warm) 0%,var(--paper) 100%);color:var(--soft);line-height:1.75;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 32px}
+
+  /* 페이지 헤더 */
+  .top-mini{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .top-mini .wrap{display:flex;justify-content:space-between;align-items:center}
+  .top-mini a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .page-head{padding:56px 0 40px;border-bottom:2px solid var(--ink)}
+  .page-meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .page-meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .page-head h1{font-family:var(--serif);font-size:48px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.15;margin-bottom:16px}
+  .page-head h1 em{font-style:italic;color:var(--teal);font-weight:600}
+  .page-head .lede{font-size:16px;color:var(--muted);line-height:1.7;max-width:740px}
+
+  /* 시각 비교 */
+  .visual-compare{padding:48px 0;display:grid;grid-template-columns:1fr 1fr;gap:40px;border-bottom:1px solid var(--line)}
+  .vc-card{}
+  .vc-num{font-family:var(--serif);font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .vc-name{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em}
+  .vc-en{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:18px;letter-spacing:.04em}
+
+  /* 시각 미리보기 — 드로어 */
+  .preview-frame{height:420px;border:2px solid var(--ink);background:var(--warm);position:relative;overflow:hidden;margin-bottom:18px;border-radius:2px}
+  .pf-mast{background:var(--warm);border-bottom:2px solid var(--ink);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  .pf-brand{font-family:var(--serif);font-size:18px;font-weight:900;color:var(--ink)}
+  .pf-brand .yeon{color:var(--teal)}
+  .pf-trigger{padding:5px 10px;border:1px solid var(--ink);font-size:10px;font-family:var(--serif);font-weight:600;color:var(--ink);background:var(--ink);color:var(--warm)}
+
+  /* 드로어 (우측에서 슬라이드) */
+  .pf-body{padding:14px 16px;font-family:var(--serif);font-size:11px;color:var(--soft-c);line-height:1.6;background:rgba(0,0,0,.05);height:calc(100% - 50px);position:relative;overflow:hidden}
+  .pf-content-blur{position:absolute;inset:0;padding:14px 16px;font-family:var(--serif);font-size:11px;color:var(--soft-c);line-height:1.6;filter:blur(1px);opacity:.5}
+  .pf-drawer{position:absolute;top:0;right:0;bottom:0;width:60%;background:var(--warm);border-left:1px solid var(--ink);padding:14px;animation:slideIn .8s ease-out}
+  @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+  .pf-drawer h4{font-family:var(--serif);font-size:11px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+  .pf-drawer-item{padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-size:13px;color:var(--ink);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+  .pf-drawer-item.act{color:var(--teal)}
+  .pf-drawer-item .plus{color:var(--soft-c);font-weight:300}
+
+  /* 메가 메뉴 (상단에서 슬라이드 다운) */
+  .pf-mega{position:absolute;top:0;left:0;right:0;background:var(--warm);border-bottom:2px solid var(--ink);animation:slideDown .8s ease-out;z-index:5}
+  @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+  .pf-mega-head{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+  .pf-mega-body{display:grid;grid-template-columns:1fr 1fr 1.2fr;font-size:10px}
+  .pf-mega-col{padding:10px 12px;border-right:1px solid var(--line)}
+  .pf-mega-col:last-child{border-right:none}
+  .pf-mega-item{padding:5px 0;font-family:var(--serif);font-size:11px;color:var(--ink);font-weight:600}
+  .pf-mega-item.act{color:var(--teal);background:var(--surface);margin:0 -12px;padding-left:12px;padding-right:12px;border-left:2px solid var(--teal)}
+  .pf-mega-item .d{display:block;font-size:9px;color:var(--soft-c);font-weight:400;margin-top:1px}
+  .pf-mega-feat{background:var(--surface);padding:10px;border:1px solid var(--fine);font-size:10px;margin-top:8px}
+  .pf-mega-feat .tag{font-size:8px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+  .pf-mega-feat h5{font-family:var(--serif);font-size:11px;color:var(--ink);font-weight:600;line-height:1.3}
+
+  /* 표 */
+  .table-compare{padding:48px 0;border-bottom:1px solid var(--line)}
+  .table-head{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);margin-bottom:24px}
+  .tbl{width:100%;border-collapse:collapse;font-size:14px}
+  .tbl th,.tbl td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl th{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;background:var(--cool);border-bottom:2px solid var(--ink)}
+  .tbl th.dim{font-family:var(--serif);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);background:var(--paper)}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl td:first-child{font-family:var(--serif);font-weight:600;color:var(--ink);width:25%}
+  .tbl td.win{position:relative}
+  .tbl td.win::before{content:"●";color:var(--teal);font-size:11px;margin-right:6px}
+  .tbl td.lose{color:var(--muted)}
+
+  /* 추천 */
+  .recommend{padding:56px 0;background:var(--ink);color:var(--warm);margin:0 -32px;padding-left:32px;padding-right:32px}
+  .rec-inner{max-width:1280px;margin:0 auto}
+  .rec-meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .rec-meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .rec-head{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--warm);letter-spacing:-.02em;margin-bottom:22px;line-height:1.3}
+  .rec-head em{color:var(--amber);font-style:normal;font-weight:600}
+  .rec-body p{font-size:15px;line-height:1.85;color:rgba(244,240,230,.85);margin-bottom:14px}
+  .rec-body p strong{color:var(--warm);font-weight:600}
+
+  /* 결정 안내 */
+  .decide{padding:56px 0 72px;text-align:center}
+  .decide h3{font-family:var(--serif);font-size:22px;color:var(--ink);font-weight:700;margin-bottom:14px}
+  .decide p{font-size:14px;color:var(--muted);line-height:1.75;max-width:640px;margin:0 auto 18px}
+  .decide .links{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .decide .link-btn{padding:11px 22px;background:var(--surface);border:1px solid var(--ink);font-family:var(--serif);font-size:13px;color:var(--ink);font-weight:600;transition:all .2s}
+  .decide .link-btn:hover{background:var(--ink);color:var(--warm)}
+  .decide .link-btn.primary{background:var(--ink);color:var(--warm)}
+  .decide .link-btn.primary:hover{background:var(--teal);border-color:var(--teal)}
+
+  .footer{padding:30px 0;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+
+  @media (max-width:1024px){
+    .visual-compare{grid-template-columns:1fr;gap:36px}
+    .page-head h1{font-size:32px}
+    .preview-frame{height:360px}
+  }
+  @media (max-width:640px){
+    .pf-mega-body{grid-template-columns:1fr}
+    .pf-mega-col{border-right:none;border-bottom:1px solid var(--line)}
+    .pf-drawer{width:85%}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-mini">
+  <div class="wrap">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr 홈으로</a>
+    <span>비교 — 드로어 vs 메가 메뉴</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page-head">
+    <div class="page-meta">y-life.kr · 내비게이션 패턴 비교 · 2026.05.14.</div>
+    <h1>드로어와 메가 메뉴, <em>어느 결</em>이 마을에 맞을까</h1>
+    <p class="lede">
+      v3에서는 Worcester Academy식 우측 드로어, v4에서는 Miro식 3열 메가 메뉴를 시도했습니다.
+      두 패턴을 나란히 두고 어디서 무엇이 더 잘 작동하는지 정리합니다.
+    </p>
+  </header>
+
+  <!-- ===== 시각 비교 ===== -->
+  <section class="visual-compare">
+
+    <!-- 드로어 -->
+    <div class="vc-card">
+      <div class="vc-num">A · v3</div>
+      <h2 class="vc-name">우측 드로어</h2>
+      <div class="vc-en">Worcester Academy 방식 · 우측에서 슬라이드</div>
+
+      <div class="preview-frame">
+        <div class="pf-mast">
+          <div class="pf-brand"><span class="yeon">緣</span>y-life.kr</div>
+          <div class="pf-trigger">차림표</div>
+        </div>
+        <div class="pf-body">
+          <div class="pf-content-blur">
+            이 주의 화두 · 사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저...
+          </div>
+          <div class="pf-drawer">
+            <h4>차림표 · Menu</h4>
+            <div class="pf-drawer-item">화두 <span class="plus">+</span></div>
+            <div class="pf-drawer-item act">광장 <span class="plus">×</span></div>
+            <div style="padding:6px 0 6px 14px;font-size:11px;color:var(--muted);line-height:1.7;font-family:var(--sans)">
+              아골라 — 어른의 토론<br>
+              아곤란 — 학생의 질문<br>
+              이번 주 인사이트
+            </div>
+            <div class="pf-drawer-item">칼럼 <span class="plus">+</span></div>
+            <div class="pf-drawer-item">세상 <span class="plus">+</span></div>
+            <div class="pf-drawer-item">블로그 <span class="plus">+</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:14px;color:var(--muted);line-height:1.7">
+        오른쪽에서 좁고 긴 패널이 열린다. 메뉴 항목을 누르면 아래쪽으로 하위 항목이 펼쳐지는 <strong style="color:var(--ink)">아코디언</strong> 방식. 본문이 살짝 비치는 게 특징.
+      </p>
+    </div>
+
+    <!-- 메가 메뉴 -->
+    <div class="vc-card">
+      <div class="vc-num">B · v4</div>
+      <h2 class="vc-name">메가 메뉴</h2>
+      <div class="vc-en">Miro 방식 · 상단에서 슬라이드 다운 · 3열</div>
+
+      <div class="preview-frame">
+        <div class="pf-mega">
+          <div class="pf-mega-head">
+            <span>차림표 · Menu</span>
+            <span>닫기 ×</span>
+          </div>
+          <div class="pf-mega-body">
+            <div class="pf-mega-col">
+              <div class="pf-mega-item">화두</div>
+              <div class="pf-mega-item act">광장 <span class="d">아골라 · 아곤란</span></div>
+              <div class="pf-mega-item">칼럼</div>
+              <div class="pf-mega-item">세상</div>
+              <div class="pf-mega-item">블로그</div>
+            </div>
+            <div class="pf-mega-col">
+              <div style="font-size:9px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:6px">광장 · 廣場</div>
+              <div class="pf-mega-item">議 아골라 <span class="d">어른의 토론</span></div>
+              <div class="pf-mega-item">問 아곤란 <span class="d">학생의 질문</span></div>
+              <div class="pf-mega-item">深 이 주의 인사이트</div>
+            </div>
+            <div class="pf-mega-col">
+              <div style="font-size:9px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:6px">지금 깊어지는 글</div>
+              <div class="pf-mega-feat">
+                <div class="tag">지금</div>
+                <h5>'선택'이라는 말의 무게</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:14px;color:var(--muted);line-height:1.7">
+        상단에서 큰 패널이 슬라이드 다운. <strong style="color:var(--ink)">3열</strong>이 한 화면에 동시에 보임: 대분류 · 중분류 · 추천. 마우스 이동에 따라 즉시 컨텍스트 전환.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== 항목별 표 ===== -->
+  <section class="table-compare">
+    <h2 class="table-head">항목별로 자세히</h2>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="dim">기준</th>
+          <th>A · 드로어</th>
+          <th>B · 메가 메뉴</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>한눈에 보이는 정보</td>
+          <td class="lose">한 번에 한 갈래만. 하위 항목은 펼쳐야 보임</td>
+          <td class="win">3열을 동시에. 대분류 → 중분류 → 추천 까지 한 화면</td>
+        </tr>
+        <tr>
+          <td>탐색 속도</td>
+          <td class="lose">탭 → 펼침 → 선택의 3단계</td>
+          <td class="win">호버만으로 컨텍스트 전환. 즉시 보임</td>
+        </tr>
+        <tr>
+          <td>화면 차지 비율</td>
+          <td class="win">우측 일부만. 본문 50%는 살아 있음</td>
+          <td class="lose">상단을 전부 덮음. 본문은 어두워짐</td>
+        </tr>
+        <tr>
+          <td>마을 결과의 어울림</td>
+          <td class="win">조용하고 절제된 느낌. 신문 사이드바 같음</td>
+          <td>풍성하고 친절한 느낌. 큐레이션이 강함</td>
+        </tr>
+        <tr>
+          <td>모바일 적응</td>
+          <td class="win">원래 좁은 패널이라 큰 변형 없음</td>
+          <td class="lose">3열을 1열 아코디언으로 재구성 필요</td>
+        </tr>
+        <tr>
+          <td>구현 난이도</td>
+          <td class="win">단순 (오버레이 + 슬라이드)</td>
+          <td>중간 (3열 동기화 + 컨텍스트 전환)</td>
+        </tr>
+        <tr>
+          <td>"지금 무엇이 있는지" 보여주기</td>
+          <td class="lose">메뉴는 메뉴, 콘텐츠는 별개</td>
+          <td class="win">3열에 "지금 깊어지는 글" 추천 카드 노출</td>
+        </tr>
+        <tr>
+          <td>학생도 쉽게 쓰나</td>
+          <td class="win">단순해서 직관적</td>
+          <td>처음엔 풍성해서 살짝 압도될 수 있음</td>
+        </tr>
+        <tr>
+          <td>"광장 중심" 원칙</td>
+          <td>광장이 메뉴 안 한 자리</td>
+          <td class="win">광장을 펼치면 즉시 인기 글이 보임 — 중심성 강조</td>
+        </tr>
+        <tr>
+          <td>"마을이 친절하다"는 인상</td>
+          <td>차분하지만 정보가 적음</td>
+          <td class="win">아이콘 · 설명 · 추천이 풍부 — 환대받는 느낌</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== 추천 ===== -->
+  <section class="recommend">
+    <div class="rec-inner">
+      <div class="rec-meta">제 솔직한 의견</div>
+      <h2 class="rec-head">연라이프에는 <em>메가 메뉴(B)</em>를 추천합니다 — 단, 차분한 톤을 유지하면서.</h2>
+      <div class="rec-body">
+        <p>두 가지가 결정적입니다. 첫째, 연라이프는 <strong>"광장이 중심"</strong>이라는 원칙이 있고, 메가 메뉴는 사용자가 광장 카테고리에 마우스를 갖다 대는 순간 "지금 가장 깊어지는 글"을 곧바로 보여줄 수 있습니다. 메뉴가 곧 콘텐츠로 이어집니다.</p>
+        <p>둘째, 연라이프는 학생·어른·시민기자·블로거 등 <strong>역할이 다양한 마을</strong>입니다. 메가 메뉴의 3열 구조는 이 다양한 갈래를 한 화면에 펼쳐 보여주기에 알맞습니다.</p>
+        <p>다만 메가 메뉴가 너무 풍성하면 마을의 차분한 결이 흐려질 수 있습니다. 그래서 v4에서는 의도적으로 <strong>아이콘은 한자 작은 글자, 그림자 거의 없음, 배경은 종이 톤</strong>으로 절제했습니다. "정보는 많되 시각은 조용한" 균형이 핵심입니다.</p>
+        <p style="margin-top:18px;font-size:13px;opacity:.7">반대 결론도 가능합니다. 만약 연라이프가 더 작아지고, 메뉴가 단순해져도 충분하다고 판단되면 A(드로어)도 좋은 선택입니다. 결정은 콘텐츠 양에 달려 있어요.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 결정 ===== -->
+  <section class="decide">
+    <h3>두 패턴을 직접 비교해 보세요</h3>
+    <p>실제 작동하는 두 시안을 직접 열어 메뉴를 펼쳐보시면 차이가 더 또렷이 느껴집니다.</p>
+    <div class="links">
+      <a href="시안_v3_홈페이지.html" class="link-btn">A · v3 드로어 열기</a>
+      <a href="시안_v4_홈페이지.html" class="link-btn primary">B · v4 메가 메뉴 열기</a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="wrap">© 2026 y-life.kr — 내비 비교 메모. 결정은 연소사님께.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영풀 회화 — 상황별 시작</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-accent:#8F856B;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --ok:#6B8F71;
+  --no:#8F6B6B;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 120px;}
+
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo .mark{width:40px;height:40px;border-radius:11px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+.logo .nm{font-size:15px;font-weight:700;}
+.logo .nm small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;}
+.home{color:var(--color-text-light);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:10px;}
+.home:hover,.home:active{background:var(--color-surface);}
+
+.teacher-bar{background:#fff;border:2px solid var(--color-surface);border-radius:14px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.teacher-bar .lbl{font-size:13px;color:var(--color-text-light);font-weight:600;}
+.teacher-bar input{flex:1;min-width:120px;border:1.5px solid var(--color-surface);border-radius:10px;padding:8px 12px;font-size:14px;font-family:inherit;background:var(--color-bg);}
+.teacher-bar input:focus{outline:none;border-color:var(--color-primary);}
+.teacher-bar button{background:var(--color-primary);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.teacher-bar .status{font-size:12px;color:var(--color-primary);font-weight:600;}
+
+.hero{text-align:center;padding:10px 8px 20px;}
+.hero h1{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;}
+.hero p{font-size:14px;color:var(--color-text-light);}
+
+.sit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+@media(min-width:640px){.sit-grid{grid-template-columns:repeat(4,1fr);}}
+.sit{background:#fff;border:2px solid var(--color-surface);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s ease;font-family:inherit;}
+.sit:hover{border-color:var(--color-primary);}
+.sit.on{background:var(--color-primary);border-color:var(--color-primary);color:#fff;}
+.sit .emoji{font-size:32px;display:block;margin-bottom:4px;}
+.sit .lbl{font-size:13px;font-weight:700;}
+
+.section-title{font-size:13px;font-weight:700;color:var(--color-primary);margin:10px 4px 10px;text-transform:uppercase;letter-spacing:0.5px;}
+
+.phrase{background:#fff;border:2px solid var(--color-surface);border-radius:16px;padding:18px 20px;margin-bottom:12px;}
+.phrase .en{font-size:18px;font-weight:700;color:var(--color-primary);margin-bottom:4px;line-height:1.4;}
+.phrase .ko{font-size:14px;color:var(--color-text);margin-bottom:10px;}
+.phrase .note{font-size:12px;color:var(--color-text-light);background:var(--color-bg);padding:8px 12px;border-radius:10px;margin-bottom:10px;line-height:1.6;}
+.phrase .acts{display:flex;gap:8px;flex-wrap:wrap;}
+.phrase .acts button{background:var(--color-bg);border:1.5px solid var(--color-surface);border-radius:10px;padding:7px 12px;font-size:12px;color:var(--color-text);cursor:pointer;font-family:inherit;font-weight:600;}
+.phrase .acts button:hover{border-color:var(--color-primary);color:var(--color-primary);}
+
+.role{background:var(--color-surface);border-radius:16px;padding:18px 20px;margin-top:20px;}
+.role h3{font-size:15px;color:var(--color-primary);margin-bottom:10px;}
+.role .turn{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.role .turn .who{font-size:11px;color:var(--color-text-light);font-weight:700;margin-bottom:3px;}
+.role .turn .line{font-size:14px;color:var(--color-text);}
+.role .turn .line b{color:var(--color-primary);}
+
+.done-btn{display:block;width:100%;margin-top:18px;background:var(--color-primary);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;}
+.done-btn:hover{filter:brightness(0.92);}
+
+/* FAB */
+.fab{position:fixed;bottom:20px;right:20px;background:var(--color-primary);color:#fff;border:none;border-radius:28px;padding:14px 20px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(90,122,130,0.3);font-family:inherit;z-index:50;}
+
+/* Modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(44,62,66,0.55);z-index:100;align-items:center;justify-content:center;padding:16px;}
+.modal.on{display:flex;}
+.modal .box{background:#fff;border-radius:18px;padding:22px 20px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;}
+.modal h3{font-size:17px;color:var(--color-primary);margin-bottom:10px;}
+.modal p{font-size:13px;color:var(--color-text-light);margin-bottom:14px;line-height:1.6;}
+.modal textarea{width:100%;border:1.5px solid var(--color-surface);border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical;min-height:80px;background:var(--color-bg);}
+.modal textarea:focus{outline:none;border-color:var(--color-primary);}
+.modal .ai-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;}
+.modal .ai-opts a{background:var(--color-bg);border:1.5px solid var(--color-surface);border-radius:10px;padding:10px 6px;font-size:12px;text-align:center;text-decoration:none;color:var(--color-text);font-weight:700;}
+.modal .ai-opts a:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.modal .beta-note{margin-top:12px;padding:10px 12px;background:var(--color-bg);border-radius:10px;font-size:11px;color:var(--color-text-light);line-height:1.5;}
+.modal .row{display:flex;gap:8px;margin-top:14px;}
+.modal .row button{flex:1;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.modal .row .cancel{background:var(--color-bg);color:var(--color-text-light);}
+.modal .row .ok{background:var(--color-primary);color:#fff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="logo">
+      <div class="mark">영풀</div>
+      <div class="nm">상황별 회화<small>바로 쓰는 말부터</small></div>
+    </div>
+    <a class="home" href="study-hub.html">← 허브</a>
+  </div>
+
+  <div class="teacher-bar">
+    <span class="lbl">👩‍🏫 담당 선생님 코드</span>
+    <input id="teacherCodeInput" placeholder="예: YEON-K12" maxlength="20">
+    <button onclick="saveTeacherCode()">연결</button>
+    <span class="status" id="teacherStatus"></span>
+  </div>
+
+  <div class="hero">
+    <h1>어떤 상황의 영어가 필요해요?</h1>
+    <p>상황을 고르면 그 자리에서 바로 쓰는 표현부터 연습해요</p>
+  </div>
+
+  <div class="sit-grid" id="sitGrid"></div>
+
+  <div id="content"></div>
+
+</div>
+
+<button class="fab" onclick="openAI()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> 영풀 AI</button>
+
+<!-- Planner modal -->
+<div class="modal" id="planModal">
+  <div class="box">
+    <h3>오늘 연습 끝!</h3>
+    <p id="planMsg">이 상황을 <b>플래너 복습 자료</b>로 올릴까요?</p>
+    <div class="row">
+      <button class="cancel" onclick="closePlan()">나중에</button>
+      <button class="ok" onclick="addToPlanner()">올리기</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI modal -->
+<div class="modal" id="aiModal">
+  <div class="box">
+    <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> 영풀 AI (베타)</h3>
+    <p>궁금한 걸 적으면 여러 AI한테 한꺼번에 물어봐요.<br>지금은 베타라 각 AI 창으로 이동해요.</p>
+    <textarea id="aiQ" placeholder="예: '주문할 때 음료 바꾸는 법 알려줘' 처럼 써보세요"></textarea>
+    <div class="ai-opts">
+      <a id="aiGpt" target="_blank">ChatGPT</a>
+      <a id="aiGem" target="_blank">Gemini</a>
+      <a id="aiGrok" target="_blank">Grok</a>
+    </div>
+    <div class="beta-note">💡 정식 버전은 GPT·Gemini·Grok에 동시에 물어보고 정답을 교차 확인해요. BYOK(내 키) 방식이라 무료.</div>
+    <div class="row">
+      <button class="cancel" onclick="closeAI()">닫기</button>
+      <button class="ok" onclick="sendAI()">물어보기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========= 상황별 회화 데이터 ========= */
+const SITS = {
+  cafe:{emoji:"☕", label:"카페·식당", title:"카페에서",
+    phrases:[
+      {en:"Can I have a latte, please?", ko:"라떼 한 잔 주세요.", note:"주문의 기본. <b>Can I have ~?</b> 는 '~ 주세요' 가장 부드러운 표현."},
+      {en:"For here or to go?", ko:"드시고 가세요, 가지고 가세요?", note:"직원이 자주 묻는 말. <b>For here</b> = 여기서, <b>To go</b> = 테이크아웃."},
+      {en:"Could I get a refill?", ko:"리필 받을 수 있을까요?", note:"<b>refill</b> = 다시 채우기. 아메리카노·물 리필에 자주 쓰임."},
+      {en:"Is this seat taken?", ko:"이 자리 비어 있나요?", note:"직역은 '이 자리 잡혔나요?'. 붐비는 카페에서 꼭 필요한 말."},
+      {en:"Can I have the menu, please?", ko:"메뉴판 좀 볼 수 있을까요?", note:"식당에서 자리 앉자마자. 손가락 가리키기 대신 이 말로."},
+      {en:"I'd like to order, please.", ko:"주문할게요.", note:"<b>I'd like to ~</b> = ~하고 싶어요. 예의 있는 주문 표현."},
+      {en:"Could we get the check?", ko:"계산서 주세요.", note:"미국식 <b>check</b>, 영국식 <b>bill</b>. 손으로 글씨 쓰는 시늉과 함께도 OK."}
+    ],
+    role:[
+      {who:"직원", line:"Hi, what can I get for you?"},
+      {who:"나", line:"<b>Can I have an iced Americano, please?</b>"},
+      {who:"직원", line:"For here or to go?"},
+      {who:"나", line:"<b>To go, please.</b>"},
+      {who:"직원", line:"That'll be five dollars."},
+      {who:"나", line:"<b>Here you go. Thank you!</b>"}
+    ]
+  },
+  airport:{emoji:"✈️", label:"공항", title:"공항에서",
+    phrases:[
+      {en:"I'd like to check in, please.", ko:"체크인하고 싶어요.", note:"카운터에서 여권 내밀면서 바로 쓰는 말."},
+      {en:"Here's my passport.", ko:"여기 제 여권이요.", note:"passport 발음 주의: '패스포트' 보다 '패스펏' 에 가까움."},
+      {en:"I have one bag to check.", ko:"부칠 가방 하나 있어요.", note:"<b>check</b> 에는 '짐을 부치다' 뜻도 있음. 수하물 맡길 때."},
+      {en:"What's the gate number?", ko:"탑승구 몇 번인가요?", note:"티켓에 적혀 있어도 바뀌는 일 많아서 다시 확인용."},
+      {en:"Where is gate 23?", ko:"23번 게이트 어디예요?", note:"숫자 읽기: twenty-three. 공항 직원에게 묻기."},
+      {en:"I'm here for sightseeing.", ko:"관광하러 왔어요.", note:"입국 심사에서 목적 묻는 질문에. <b>business</b>(업무)·<b>study</b>(공부) 로 바꾸기."},
+      {en:"I'm staying for 5 days.", ko:"5일 동안 있을 거예요.", note:"체류 기간 질문에. 숫자만 바꾸면 됨."}
+    ],
+    role:[
+      {who:"직원", line:"Passport, please."},
+      {who:"나", line:"<b>Here you go.</b>"},
+      {who:"직원", line:"What's the purpose of your visit?"},
+      {who:"나", line:"<b>I'm here for sightseeing.</b>"},
+      {who:"직원", line:"How long will you stay?"},
+      {who:"나", line:"<b>I'm staying for 5 days.</b>"}
+    ]
+  },
+  school:{emoji:"🏫", label:"학교·친구", title:"학교에서",
+    phrases:[
+      {en:"Hi, I'm new here.", ko:"안녕, 나 새로 왔어.", note:"전학생·첫 수업 때. 이어서 이름 말하면 자연스러움."},
+      {en:"What's your name?", ko:"네 이름이 뭐야?", note:"가장 기본. 대답은 <b>My name is ~</b> 또는 <b>I'm ~</b>."},
+      {en:"Can I sit here?", ko:"여기 앉아도 돼?", note:"구내식당·교실에서 낯선 자리 앉을 때 꼭 필요."},
+      {en:"What class do you have next?", ko:"다음 수업 뭐야?", note:"친구 만들기 시작. <b>have</b> 로 수업을 '가지다' 표현."},
+      {en:"Did you do the homework?", ko:"숙제 했어?", note:"과거 질문 <b>Did you ~?</b>. 동사는 원형(do)."},
+      {en:"I don't understand.", ko:"이해 못 했어요.", note:"수업 중 선생님께 말할 때 가장 기본. 부끄러워 말기."},
+      {en:"Can you say that again?", ko:"다시 한 번 말해 줄래?", note:"못 들었을 때. <b>Pardon?</b> 한 단어로도 됨."}
+    ],
+    role:[
+      {who:"친구", line:"Hi, I don't think we've met. What's your name?"},
+      {who:"나", line:"<b>I'm Jiwoo. I'm new here.</b>"},
+      {who:"친구", line:"Nice to meet you, Jiwoo. What class do you have next?"},
+      {who:"나", line:"<b>Math. How about you?</b>"},
+      {who:"친구", line:"Same! Let's go together."},
+      {who:"나", line:"<b>Sure, thanks!</b>"}
+    ]
+  },
+  shop:{emoji:"🛍️", label:"쇼핑", title:"가게에서",
+    phrases:[
+      {en:"I'm just looking, thanks.", ko:"그냥 둘러보는 거예요, 고마워요.", note:"직원이 도움 필요하냐고 물을 때 쓰는 가장 흔한 답."},
+      {en:"How much is this?", ko:"이거 얼마예요?", note:"가격표 없을 때. 물건을 가리키며 말하면 됨."},
+      {en:"Do you have this in a bigger size?", ko:"이거 더 큰 사이즈 있어요?", note:"<b>smaller</b> 로 바꾸면 작은 사이즈. 색깔은 <b>in blue</b>."},
+      {en:"Can I try this on?", ko:"이거 입어봐도 돼요?", note:"옷·신발 가게에서 꼭 쓰는 말. <b>try on</b> = 착용해 보다."},
+      {en:"It's too expensive.", ko:"너무 비싸요.", note:"혼잣말처럼 말해도 되고, 할인 협상 시작하는 말이기도."},
+      {en:"Do you take credit cards?", ko:"카드 되나요?", note:"해외 작은 가게에서 현금만 받는 곳 많음. 꼭 확인."},
+      {en:"Can I have a receipt?", ko:"영수증 주세요.", note:"<b>receipt</b> 발음 주의: 'p' 묵음, '리씨트'."}
+    ],
+    role:[
+      {who:"직원", line:"Can I help you?"},
+      {who:"나", line:"<b>Yes, do you have this in a bigger size?</b>"},
+      {who:"직원", line:"Let me check... Here you go."},
+      {who:"나", line:"<b>Can I try this on?</b>"},
+      {who:"직원", line:"Sure, the fitting room is over there."},
+      {who:"나", line:"<b>Thanks!</b>"}
+    ]
+  },
+  travel:{emoji:"🗺️", label:"길찾기", title:"길을 물을 때",
+    phrases:[
+      {en:"Excuse me, where is the subway station?", ko:"실례지만, 지하철역이 어디예요?", note:"<b>Excuse me</b> 로 시작하는 게 예의. 목적지만 바꾸면 끝."},
+      {en:"How do I get to the museum?", ko:"박물관 어떻게 가요?", note:"<b>How do I get to ~?</b> 길찾기 만능 공식."},
+      {en:"Is it far from here?", ko:"여기서 멀어요?", note:"거리 감 잡기. <b>near</b> 로 바꾸면 '가까워요?'"},
+      {en:"Can you show me on the map?", ko:"지도에서 보여줄 수 있어요?", note:"말로 설명 들어도 모를 때. 휴대폰 내밀며."},
+      {en:"Which way is north?", ko:"북쪽이 어디예요?", note:"길 완전히 잃었을 때. 방향 감각 되찾기."},
+      {en:"I think I'm lost.", ko:"길을 잃은 것 같아요.", note:"도움 요청의 시작. 친절한 사람 잘 도와줌."},
+      {en:"Thank you so much for your help.", ko:"도와주셔서 정말 감사합니다.", note:"받은 도움에는 꼭 감사. 여행의 기본 매너."}
+    ],
+    role:[
+      {who:"나", line:"<b>Excuse me, how do I get to the museum?</b>"},
+      {who:"행인", line:"Go straight two blocks and turn left."},
+      {who:"나", line:"<b>Is it far from here?</b>"},
+      {who:"행인", line:"No, just a 5-minute walk."},
+      {who:"나", line:"<b>Thank you so much for your help!</b>"},
+      {who:"행인", line:"You're welcome. Enjoy your trip!"}
+    ]
+  },
+  hospital:{emoji:"🏥", label:"병원·응급", title:"병원에서",
+    phrases:[
+      {en:"I don't feel well.", ko:"몸이 안 좋아요.", note:"진료실 들어가서 첫 마디로 쓰기 좋음."},
+      {en:"I have a headache.", ko:"머리가 아파요.", note:"<b>stomachache</b>(배), <b>toothache</b>(치통), <b>sore throat</b>(목) 로 바꾸기."},
+      {en:"I have a fever.", ko:"열이 있어요.", note:"<b>fever</b> 가 열. 동사는 <b>have</b> 를 씀."},
+      {en:"It hurts here.", ko:"여기가 아파요.", note:"손으로 가리키며. 설명 안 되면 이게 제일 확실."},
+      {en:"Can I get some medicine?", ko:"약 좀 받을 수 있을까요?", note:"약국·병원 어디서나. <b>medicine</b>('메디슨')."},
+      {en:"I'm allergic to peanuts.", ko:"땅콩 알레르기가 있어요.", note:"알레르기 있는 사람 꼭 외우기. 목숨 걸린 말."},
+      {en:"Please call an ambulance!", ko:"구급차 불러주세요!", note:"응급 상황. <b>ambulance</b>('앰뷸런스')."}
+    ],
+    role:[
+      {who:"의사", line:"What brings you in today?"},
+      {who:"나", line:"<b>I don't feel well. I have a headache and a fever.</b>"},
+      {who:"의사", line:"How long have you had these symptoms?"},
+      {who:"나", line:"<b>Since yesterday.</b>"},
+      {who:"의사", line:"Let me check. You'll need some rest and medicine."},
+      {who:"나", line:"<b>Thank you, doctor.</b>"}
+    ]
+  },
+  hotel:{emoji:"🏨", label:"호텔", title:"호텔에서",
+    phrases:[
+      {en:"I have a reservation under Kim.", ko:"Kim 이름으로 예약했어요.", note:"체크인 첫 마디. <b>under + 이름</b> 이 포인트."},
+      {en:"Can I check in, please?", ko:"체크인할게요.", note:"예약 없을 때도 이 말부터. 방 있는지 물어봐 줌."},
+      {en:"What time is check-out?", ko:"체크아웃 몇 시예요?", note:"보통 오전 11시. 시간 맞춰 짐 싸야 추가 요금 없음."},
+      {en:"Is breakfast included?", ko:"조식 포함인가요?", note:"호텔 요금 확인 필수. <b>included</b>('인클루디드')."},
+      {en:"The Wi-Fi isn't working.", ko:"와이파이가 안 돼요.", note:"현대 여행 필수 불만. 리셉션에 가서 말하기."},
+      {en:"Can I get an extra towel?", ko:"수건 하나 더 받을 수 있을까요?", note:"<b>extra</b> = 추가로. 베개(<b>pillow</b>)·담요(<b>blanket</b>) 로 바꾸기."},
+      {en:"I'd like a wake-up call at 7.", ko:"7시에 모닝콜 부탁해요.", note:"<b>wake-up call</b> 이 모닝콜 영어 표현. 콩글리시 주의."}
+    ],
+    role:[
+      {who:"직원", line:"Welcome to Grand Hotel. How can I help you?"},
+      {who:"나", line:"<b>I have a reservation under Kim.</b>"},
+      {who:"직원", line:"Yes, Mr. Kim. Here's your key. Room 305."},
+      {who:"나", line:"<b>Is breakfast included?</b>"},
+      {who:"직원", line:"Yes, from 7 to 10 in the restaurant."},
+      {who:"나", line:"<b>Thank you!</b>"}
+    ]
+  },
+  phone:{emoji:"📞", label:"전화·온라인", title:"전화 · 화상에서",
+    phrases:[
+      {en:"Hello, this is Jiwoo speaking.", ko:"여보세요, 저 지우예요.", note:"전화 받을 때. <b>speaking</b> 붙이는 게 자연스러움."},
+      {en:"Can I speak to Mr. Lee?", ko:"Lee 선생님 좀 바꿔 주세요.", note:"내가 전화 걸 때. 이름만 바꾸면 끝."},
+      {en:"Could you speak more slowly?", ko:"좀 더 천천히 말해 주시겠어요?", note:"전화는 얼굴 안 보여서 더 어려움. 부끄럼 없이 요청."},
+      {en:"You're breaking up.", ko:"소리가 끊겨요.", note:"화상·전화에서 연결 안 좋을 때. 원어민 표현."},
+      {en:"Can you hear me?", ko:"제 목소리 들려요?", note:"줌·구글미트에서 매번 쓰는 말."},
+      {en:"Let me share my screen.", ko:"화면 공유할게요.", note:"온라인 수업·회의에서 꼭 필요."},
+      {en:"Sorry, I got disconnected.", ko:"죄송해요, 연결이 끊겼었어요.", note:"다시 들어왔을 때 첫 마디."}
+    ],
+    role:[
+      {who:"상대", line:"Hello?"},
+      {who:"나", line:"<b>Hi, this is Jiwoo speaking. Can I speak to Mr. Lee?</b>"},
+      {who:"상대", line:"Sorry, he's not available right now."},
+      {who:"나", line:"<b>Could you tell him I called?</b>"},
+      {who:"상대", line:"Sure, I'll let him know."},
+      {who:"나", line:"<b>Thank you. Goodbye.</b>"}
+    ]
+  }
+};
+
+/* ========= 상태 ========= */
+let currentSit = "cafe";
+
+/* ========= 선생님 코드 ========= */
+function saveTeacherCode(){
+  const v=(document.getElementById('teacherCodeInput').value||'').trim().toUpperCase();
+  if(!v){alert('선생님 코드를 입력해 주세요');return;}
+  localStorage.setItem('yeon_teacher_code',v);
+  const log=JSON.parse(localStorage.getItem('yeon_teacher_link_log')||'[]');
+  log.push({code:v,at:new Date().toISOString(),from:'conversation'});
+  localStorage.setItem('yeon_teacher_link_log',JSON.stringify(log));
+  renderTeacherStatus();
+  alert('✅ 선생님과 연결되었어요: '+v);
+}
+function renderTeacherStatus(){
+  const v=localStorage.getItem('yeon_teacher_code');
+  const s=document.getElementById('teacherStatus');
+  if(v){s.textContent='✅ '+v;document.getElementById('teacherCodeInput').value=v;}
+  else{s.textContent='';}
+}
+
+/* ========= 상황 선택 ========= */
+function renderSits(){
+  const g=document.getElementById('sitGrid');
+  g.innerHTML=Object.entries(SITS).map(([k,v])=>
+    `<button class="sit ${k===currentSit?'on':''}" onclick="selectSit('${k}')">
+      <span class="emoji">${v.emoji}</span>
+      <span class="lbl">${v.label}</span>
+    </button>`).join('');
+}
+function selectSit(k){currentSit=k;renderSits();renderContent();window.scrollTo({top:document.getElementById('content').offsetTop-20,behavior:'smooth'});}
+
+/* ========= 본문 렌더 ========= */
+function renderContent(){
+  const s=SITS[currentSit];
+  const c=document.getElementById('content');
+  c.innerHTML=`
+    <div class="section-title">${s.emoji} ${s.title} — 꼭 쓰는 표현 ${s.phrases.length}개</div>
+    ${s.phrases.map((p,i)=>`
+      <div class="phrase">
+        <div class="en">${p.en}</div>
+        <div class="ko">${p.ko}</div>
+        <div class="note">💡 ${p.note}</div>
+        <div class="acts">
+          <button onclick="speak(this.parentNode.parentNode.querySelector('.en').textContent)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> 듣기</button>
+          <button onclick="speakSlow(this.parentNode.parentNode.querySelector('.en').textContent)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 천천히</button>
+          <button onclick="saveWord('${p.en.replace(/'/g,"\\'")}','${p.ko.replace(/'/g,"\\'")}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 단어장</button>
+        </div>
+      </div>`).join('')}
+
+    <div class="role">
+      <h3>🎭 미니 롤플레이</h3>
+      ${s.role.map(t=>`
+        <div class="turn">
+          <div class="who">${t.who}</div>
+          <div class="line">${t.line}</div>
+        </div>`).join('')}
+    </div>
+
+    <button class="done-btn" onclick="completeSit()">✅ ${s.title} 연습 끝!</button>
+  `;
+}
+
+/* ========= TTS ========= */
+function speak(text,rate=0.95){
+  if(!('speechSynthesis' in window)){alert('이 브라우저는 읽어주기를 지원하지 않아요');return;}
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=rate;
+  window.speechSynthesis.speak(u);
+}
+function speakSlow(text){speak(text,0.6);}
+
+/* ========= 단어/문장 저장 ========= */
+function saveWord(en,ko){
+  const v=JSON.parse(localStorage.getItem('yeon_vocab')||'[]');
+  v.push({en,ko,from:'conversation-'+currentSit,at:Date.now()});
+  localStorage.setItem('yeon_vocab',JSON.stringify(v));
+  alert('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 단어장에 저장되었어요');
+}
+
+/* ========= 완료 + 플래너 ========= */
+function completeSit(){
+  const s=SITS[currentSit];
+  document.getElementById('planMsg').innerHTML=`<b>${s.title}</b> 상황의 표현 ${s.phrases.length}개를<br><b>플래너 복습 자료</b>로 올릴까요?`;
+  document.getElementById('planModal').classList.add('on');
+}
+function closePlan(){document.getElementById('planModal').classList.remove('on');}
+function addToPlanner(){
+  const s=SITS[currentSit];
+  const r=JSON.parse(localStorage.getItem('yeon_planner_reviews')||'[]');
+  r.push({
+    type:'conversation',
+    sit:currentSit,
+    title:s.title+' 회화',
+    count:s.phrases.length,
+    createdAt:Date.now(),
+    nextReviewAt:Date.now()+3*24*3600*1000
+  });
+  localStorage.setItem('yeon_planner_reviews',JSON.stringify(r));
+  const isMember=!!localStorage.getItem('yeon_session');
+  if(isMember){alert('✅ 플래너에 복습 자료로 올렸어요');closePlan();}
+  else{
+    alert('✅ 저장 완료! 회원가입하면 복습 일정이 자동으로 잡혀요');
+    location.href='app.html';
+  }
+}
+
+/* ========= AI ========= */
+function openAI(){document.getElementById('aiModal').classList.add('on');}
+function closeAI(){document.getElementById('aiModal').classList.remove('on');}
+function sendAI(){
+  const q=(document.getElementById('aiQ').value||'').trim();
+  if(!q){alert('질문을 입력해 주세요');return;}
+  const e=encodeURIComponent(q);
+  document.getElementById('aiGpt').href='https://chat.openai.com/?q='+e;
+  document.getElementById('aiGem').href='https://gemini.google.com/app?q='+e;
+  document.getElementById('aiGrok').href='https://grok.com/?q='+e;
+  alert('아래 AI 중 하나를 골라 클릭해 보세요');
+}
+
+/* ========= init ========= */
+renderSits();
+renderContent();
+renderTeacherStatus();
+</script>
+</body>
+</html>

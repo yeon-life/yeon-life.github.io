@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 디자인 시스템 — 새벽의 신뢰</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    /* === 새벽의 신뢰 — Daybreak Trust 팔레트 === */
+    --ink-deep:    #1a2326;  /* 본문 텍스트 — 거의 검정, 푸른 기 살짝 */
+    --ink-soft:    #2a3438;  /* 부제·강조 */
+    --teal-deep:   #2a5358;  /* 1차 강조 — 새벽 딥 틸 */
+    --teal-mid:    #4a6878;  /* 2차 강조 — 푸른 잿빛 */
+    --amber-quiet: #a87b3e;  /* 액센트 — 절제된 머스타드, 정말 필요한 자리에만 */
+    --line-soft:   #d8d3c7;  /* 라인·구분 */
+    --line-fine:   #e8e4d9;  /* 흐린 라인 */
+    --paper-base:  #f4f0e6;  /* 기본 배경 — 푸른 기 머금은 아이보리 */
+    --paper-warm:  #f6f3ec;  /* 윗부분 따뜻한 배경 */
+    --paper-cool:  #eee9dc;  /* 아랫부분 차분한 배경 */
+    --surface:     #fbfaf5;  /* 카드 표면 */
+    --surface-pure:#ffffff;
+    --text-body:   #2a3438;
+    --text-muted:  #5e6a6e;
+    --text-soft:   #8a9398;
+    --font-title:"Noto Serif KR", serif;
+    --font-body:"Pretendard", "Apple SD Gothic Neo", sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: var(--font-body);
+    color: var(--text-body);
+    background: linear-gradient(180deg, var(--paper-warm) 0%, var(--paper-base) 50%, var(--paper-cool) 100%);
+    min-height: 100vh;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 56px 32px; }
+
+  /* ===== 페이지 헤더 ===== */
+  .page-head { border-bottom: 1px solid var(--ink-deep); padding-bottom: 32px; margin-bottom: 56px; }
+  .page-head .meta { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .page-head h1 { font-family: var(--font-title); font-size: 52px; font-weight: 700; line-height: 1.15; letter-spacing: -.025em; color: var(--ink-deep); margin-bottom: 16px; }
+  .page-head h1 em { font-style: italic; color: var(--teal-deep); font-weight: 600; }
+  .page-head .lede { font-size: 18px; color: var(--text-muted); max-width: 720px; line-height: 1.65; }
+
+  /* ===== 섹션 ===== */
+  section { margin-bottom: 72px; }
+  .sec-head { border-bottom: 1px solid var(--line-soft); padding-bottom: 16px; margin-bottom: 28px; display: flex; align-items: baseline; gap: 16px; }
+  .sec-num { font-family: var(--font-title); font-size: 14px; color: var(--amber-quiet); letter-spacing: .08em; font-weight: 700; }
+  .sec-title { font-family: var(--font-title); font-size: 28px; font-weight: 700; color: var(--ink-deep); letter-spacing: -.015em; }
+
+  /* ===== 색 팔레트 ===== */
+  .palette { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .swatch { border-radius: 6px; overflow: hidden; border: 1px solid var(--line-fine); }
+  .swatch .chip { height: 110px; }
+  .swatch .info { padding: 10px 12px; background: var(--surface); font-size: 12px; }
+  .swatch .name { font-weight: 700; color: var(--ink-deep); margin-bottom: 2px; }
+  .swatch .hex { color: var(--text-muted); font-family: ui-monospace, Menlo, monospace; letter-spacing: .04em; }
+  .swatch .role { color: var(--text-soft); font-size: 11px; margin-top: 4px; line-height: 1.4; }
+
+  /* ===== 색의 이유 ===== */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .why-card { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 8px; padding: 24px; }
+  .why-card h3 { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: var(--ink-deep); margin-bottom: 10px; }
+  .why-card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+  .why-card .icon { font-family: var(--font-title); font-size: 32px; color: var(--teal-deep); margin-bottom: 8px; line-height: 1; }
+
+  /* ===== 타이포 ===== */
+  .type-row { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 0; border-bottom: 1px dashed var(--line-soft); align-items: center; }
+  .type-row:last-child { border-bottom: none; }
+  .type-label { font-size: 12px; color: var(--text-muted); letter-spacing: .08em; text-transform: uppercase; }
+  .type-label strong { display: block; color: var(--ink-deep); font-size: 14px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0; text-transform: none; }
+  .type-h1 { font-family: var(--font-title); font-size: 48px; font-weight: 700; line-height: 1.2; color: var(--ink-deep); letter-spacing: -.025em; }
+  .type-h2 { font-family: var(--font-title); font-size: 32px; font-weight: 600; line-height: 1.3; color: var(--ink-deep); letter-spacing: -.015em; }
+  .type-h3 { font-family: var(--font-title); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--ink-deep); }
+  .type-quote { font-family: var(--font-title); font-size: 26px; font-weight: 400; font-style: italic; line-height: 1.5; color: var(--teal-deep); }
+  .type-body { font-family: var(--font-body); font-size: 17px; font-weight: 400; line-height: 1.75; color: var(--text-body); }
+  .type-meta { font-family: var(--font-body); font-size: 12px; letter-spacing: .08em; color: var(--text-muted); text-transform: uppercase; }
+
+  /* ===== 광장 중심 원칙 ===== */
+  .principle-list { counter-reset: pp; }
+  .principle { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--line-soft); }
+  .principle:last-child { border-bottom: none; }
+  .principle::before {
+    counter-increment: pp;
+    content: counter(pp, decimal-leading-zero);
+    font-family: var(--font-title);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--amber-quiet);
+    line-height: 1;
+  }
+  .principle h3 { font-family: var(--font-title); font-size: 19px; font-weight: 700; color: var(--ink-deep); margin-bottom: 8px; }
+  .principle p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+  /* ===== 광장 중심 레이아웃 시각화 ===== */
+  .layout-viz {
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 24px;
+  }
+  .viz-frame {
+    border: 2px solid var(--ink-deep);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 11px;
+  }
+  .viz-row { padding: 14px 18px; border-bottom: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; }
+  .viz-row:last-child { border-bottom: none; }
+  .viz-row.masthead { background: var(--ink-deep); color: var(--paper-warm); padding: 16px 18px; }
+  .viz-row.masthead strong { font-family: var(--font-title); font-size: 16px; font-weight: 900; }
+  .viz-row.hero { background: var(--paper-warm); padding: 24px 18px; }
+  .viz-row.plaza { background: var(--paper-cool); padding: 32px 18px; }
+  .viz-row.plaza .label { font-size: 12px; font-weight: 700; color: var(--teal-deep); letter-spacing: .04em; }
+  .viz-row.plaza .desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .viz-row.support { background: var(--surface); padding: 10px 18px; }
+  .viz-row.support .label { color: var(--text-soft); }
+  .viz-tag { font-size: 10px; padding: 3px 8px; border-radius: 999px; background: var(--line-fine); color: var(--text-muted); letter-spacing: .04em; }
+  .viz-tag.weight-3 { background: var(--teal-deep); color: var(--surface-pure); font-weight: 700; }
+  .viz-tag.weight-2 { background: var(--amber-quiet); color: var(--surface-pure); }
+  .viz-tag.weight-1 { background: var(--line-soft); color: var(--text-muted); }
+
+  /* ===== 실제 화면 예시 ===== */
+  .scene { background: var(--surface-pure); border: 1px solid var(--line-soft); border-radius: 12px; padding: 48px; margin-top: 24px; }
+  .scene-meta { font-size: 11px; color: var(--amber-quiet); letter-spacing: .18em; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; }
+  .scene-meta::before { content: ""; display: inline-block; width: 24px; height: 1px; background: var(--amber-quiet); margin-right: 10px; vertical-align: 5px; }
+  .scene-quote { font-family: var(--font-title); font-size: 38px; font-weight: 500; line-height: 1.35; letter-spacing: -.02em; color: var(--ink-deep); margin-bottom: 20px; }
+  .scene-quote em { font-style: italic; color: var(--teal-deep); }
+  .scene-byline { font-size: 14px; color: var(--text-muted); font-style: italic; }
+
+  /* 광장 카드 미리보기 */
+  .plaza-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px; }
+  .pc { background: var(--surface-pure); border: 1px solid var(--line-soft); border-radius: 8px; padding: 28px; }
+  .pc .colhead { border-bottom: 1px solid var(--ink-deep); padding-bottom: 10px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: baseline; }
+  .pc .coltitle { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--ink-deep); }
+  .pc .coltitle .hanja { font-size: 14px; color: var(--amber-quiet); font-weight: 400; margin-left: 6px; }
+  .pc .colmore { font-size: 11px; color: var(--text-muted); letter-spacing: .06em; }
+  .pc .item { padding-bottom: 16px; border-bottom: 1px dashed var(--line-fine); margin-bottom: 16px; }
+  .pc .item:last-child { border-bottom: none; margin-bottom: 0; }
+  .pc .imeta { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .pc .imeta .who { color: var(--teal-deep); font-weight: 600; }
+  .pc .ititle { font-family: var(--font-title); font-size: 17px; font-weight: 500; line-height: 1.45; color: var(--ink-deep); margin-bottom: 4px; }
+  .pc .isnip { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ===== 마무리 ===== */
+  .summary { background: var(--ink-deep); color: var(--paper-warm); padding: 48px; border-radius: 12px; margin-top: 56px; }
+  .summary h2 { font-family: var(--font-title); font-size: 26px; font-weight: 700; margin-bottom: 16px; color: var(--paper-warm); }
+  .summary p { font-size: 15px; line-height: 1.7; opacity: .85; margin-bottom: 12px; }
+  .summary em { color: var(--amber-quiet); font-style: normal; font-weight: 600; }
+
+  @media (max-width: 1024px) {
+    .palette { grid-template-columns: repeat(3, 1fr); }
+    .why-grid { grid-template-columns: 1fr; }
+    .plaza-preview { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 1fr; gap: 8px; }
+    .page-head h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ========== HEADER ========== -->
+  <header class="page-head">
+    <div class="meta">y-life.kr · 디자인 시스템 · 2026년 5월</div>
+    <h1>새벽의 <em>신뢰</em></h1>
+    <p class="lede">
+      신문이 막 도착한 새벽 6시의 정서를 사이트에 옮긴다.
+      차분하게 들어오는 신뢰감, 푸른 기 머금은 아이보리, 깊은 먹빛 본문.
+      광장은 늘 화면의 중심에 있고, 다른 코너는 광장을 보조한다.
+    </p>
+  </header>
+
+  <!-- ========== 1. 팔레트 ========== -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <div class="sec-title">색 — 새벽 6시의 팔레트</div>
+    </div>
+    <div class="palette">
+      <div class="swatch">
+        <div class="chip" style="background:#1a2326"></div>
+        <div class="info"><div class="name">먹빛</div><div class="hex">#1a2326</div><div class="role">본문 텍스트. 검정에 푸른 기 살짝.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#2a5358"></div>
+        <div class="info"><div class="name">새벽 딥 틸</div><div class="hex">#2a5358</div><div class="role">1차 강조. 링크·버튼·강조 인용.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#4a6878"></div>
+        <div class="info"><div class="name">잿빛 푸름</div><div class="hex">#4a6878</div><div class="role">2차 강조. 부제·메타·아이콘.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#a87b3e"></div>
+        <div class="info"><div class="name">절제된 호박</div><div class="hex">#a87b3e</div><div class="role">아주 가끔. "이 주의" 같은 시간 표식.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#f4f0e6"></div>
+        <div class="info"><div class="name">아이보리</div><div class="hex">#f4f0e6</div><div class="role">기본 배경. 푸른 기 머금은 따뜻함.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#fbfaf5;border:1px solid #e8e4d9"></div>
+        <div class="info"><div class="name">표면</div><div class="hex">#fbfaf5</div><div class="role">카드·패널. 거의 흰색에 가까움.</div></div>
+      </div>
+    </div>
+
+    <div class="why-grid" style="margin-top:32px">
+      <div class="why-card">
+        <div class="icon">朝</div>
+        <h3>왜 새벽인가</h3>
+        <p>새벽은 가장 정직한 시간이다. 광고도, 속보도, 떠들썩한 댓글도 없는 시간. 연라이프가 가장 닮고 싶은 호흡이 거기 있다.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">青</div>
+        <h3>왜 푸른 기를 머금은 아이보리인가</h3>
+        <p>순수한 베이지는 따뜻하기만 하고, 회색은 너무 차갑다. 둘 사이의 푸른 아이보리는 따뜻하면서도 또렷한 정신을 준다.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">節</div>
+        <h3>왜 호박색을 아껴 쓰는가</h3>
+        <p>강조색은 자주 쓰면 강조가 아니다. 호박은 "이 주의" "지금 깊어지는" 같은 시간 표식에만 쓴다. 본문에는 거의 등장하지 않는다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. 타이포 ========== -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <div class="sec-title">글자 — 두 글꼴, 다섯 호흡</div>
+    </div>
+    <p style="font-size:15px;color:var(--text-muted);margin-bottom:16px;max-width:720px;line-height:1.7">
+      제목·인용은 <strong style="color:var(--ink-deep)">Noto Serif KR</strong>로 한국어 본문의 깊이를 살리고,
+      본문·메타는 <strong style="color:var(--ink-deep)">Pretendard</strong>로 새벽에도 또렷이 읽히게 한다.
+      본문은 17px로 살짝 키워서 호흡을 늘인다.
+    </p>
+
+    <div class="type-row">
+      <div class="type-label"><strong>H1 — 화두</strong>Noto Serif KR · 48px · 700</div>
+      <div class="type-h1">사람은 어디에서 시작되는가</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label"><strong>H2 — 섹션 제목</strong>Noto Serif KR · 32px · 600</div>
+      <div class="type-h2">아골라 — 어른의 토론</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label"><strong>H3 — 글 제목</strong>Noto Serif KR · 22px · 600</div>
+      <div class="type-h3">기록되지 않은 결정은 정말 내 결정인가</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label"><strong>인용 · 화두</strong>Noto Serif KR · 26px · 400 italic</div>
+      <div class="type-quote">"나는 선택한다고 믿지만, 그 선택은 어디에서 시작되는가?"</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label"><strong>본문</strong>Pretendard · 17px · 400 · line 1.75</div>
+      <div class="type-body">사람은 무의식적 최면 상태에서의 행동을 자신인 것으로 착각하며 산다. 그래서 종교·정치 같은 믿음 체계가 가장 위험하다.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label"><strong>메타</strong>Pretendard · 12px · uppercase</div>
+      <div class="type-meta">2026년 5월 14일 · 19주차 · 울산</div>
+    </div>
+  </section>
+
+  <!-- ========== 3. 광장 중심 원칙 ========== -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <div class="sec-title">광장 중심 — 다섯 가지 원칙</div>
+    </div>
+
+    <div class="principle-list">
+      <div class="principle">
+        <div></div>
+        <div>
+          <h3>광장이 페이지의 절반을 차지한다</h3>
+          <p>아골라와 아곤란 글이 글 6~8건씩, 화면의 거의 절반을 점유한다. 칼럼·세상·어디로는 그 아래로 내려간다.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div></div>
+        <div>
+          <h3>화두 다음 자리는 무조건 광장이다</h3>
+          <p>히어로(이 주의 화두) 바로 아래는 광장. 어떤 코너도 그 사이에 끼지 않는다. 화두가 광장으로 자연스럽게 흘러가야 한다.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div></div>
+        <div>
+          <h3>광장 헤더는 본 페이지에서 가장 큰 글자다</h3>
+          <p>"아골라" "아곤란"이 마스트헤드 다음으로 큰 세리프 헤딩을 쓴다. 다른 섹션 헤딩보다 의도적으로 크다.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div></div>
+        <div>
+          <h3>모든 페이지에 "지금 광장에서" 사이드 위젯</h3>
+          <p>어디 페이지에 있든 우측 또는 하단에 광장의 현재 상황(지금 깊어지는 글 3건)이 떠 있다. 광장은 늘 곁에 있다.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div></div>
+        <div>
+          <h3>다른 코너는 광장보다 한 톤 옅게</h3>
+          <p>광장은 진한 표면(흰 가까운 카드), 칼럼·세상·어디로는 옅은 표면. 색의 무게로 위계를 만든다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 레이아웃 시각화 -->
+    <div class="layout-viz">
+      <div style="font-size:12px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">광장 중심 레이아웃 — 위에서 아래로</div>
+      <div class="viz-frame">
+        <div class="viz-row masthead"><strong>緣 y-life.kr</strong><span style="font-size:11px;opacity:.7">마스트헤드 · 날짜 · 검색</span></div>
+        <div class="viz-row hero">
+          <div><strong style="font-family:var(--font-title);font-size:14px;color:var(--ink-deep)">이 주의 화두 + 에디토리얼</strong><div style="font-size:11px;color:var(--text-muted);margin-top:4px">큰 인용 · 화두에서 광장으로 자연스럽게 흐름</div></div>
+          <span class="viz-tag weight-2">무게 2</span>
+        </div>
+        <div class="viz-row plaza">
+          <div><div class="label">광장 — 아골라 · 아곤란 · 이 주의 인사이트</div><div class="desc">페이지의 절반. 글 6~8건씩. 큰 헤딩.</div></div>
+          <span class="viz-tag weight-3">무게 3 · 중심</span>
+        </div>
+        <div class="viz-row support">
+          <div><strong>칼럼 — 작가별 네 사람</strong></div>
+          <span class="viz-tag weight-1">보조</span>
+        </div>
+        <div class="viz-row support">
+          <div><strong>세상 — 오늘 · 시사 · 세계</strong></div>
+          <span class="viz-tag weight-1">보조</span>
+        </div>
+        <div class="viz-row support">
+          <div><strong>어디로 가볼까 — 동네 맛집·멋집</strong></div>
+          <span class="viz-tag weight-1">보조</span>
+        </div>
+        <div class="viz-row support">
+          <div><strong>미래 뉴스</strong></div>
+          <span class="viz-tag weight-1">보조</span>
+        </div>
+        <div class="viz-row support">
+          <div><strong>시민 저널 · 인연의 다리</strong></div>
+          <span class="viz-tag weight-1">보조</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. 실제 화면 ========== -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <div class="sec-title">새벽의 신뢰가 입혀진 화면 — 미리보기</div>
+    </div>
+
+    <!-- 화두 히어로 -->
+    <div class="scene">
+      <div class="scene-meta">This Week · 이 주의 화두</div>
+      <h2 class="scene-quote">
+        사람은 자신이 의식적으로 <em>선택한다</em>고 믿지만,<br>
+        그 이전에 이미 몸이 먼저 움직이기 시작한다.
+      </h2>
+      <div class="scene-byline">— 연소사 제안 · Libet 실험에서 영감</div>
+    </div>
+
+    <!-- 광장 미리보기 -->
+    <div class="plaza-preview">
+      <div class="pc">
+        <div class="colhead">
+          <div class="coltitle">아골라<span class="hanja">阿閣羅</span></div>
+          <div class="colmore">전체 보기 →</div>
+        </div>
+        <div class="item">
+          <div class="imeta"><span class="who">임선생</span> · 2시간 전 · 좋은 물음 24</div>
+          <div class="ititle">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</div>
+          <div class="isnip">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까.</div>
+        </div>
+        <div class="item">
+          <div class="imeta"><span class="who">박주민</span> · 어제 · 좋은 물음 48</div>
+          <div class="ititle">기록되지 않은 결정은 정말 내 결정인가</div>
+          <div class="isnip">한 주 동안 내가 한 '결정'들을 거꾸로 적어보았다. 70%는 결정이 아니라 흐름이었다.</div>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="colhead">
+          <div class="coltitle">아곤란<span class="hanja">阿昆蘭</span></div>
+          <div class="colmore">전체 보기 →</div>
+        </div>
+        <div class="item">
+          <div class="imeta"><span class="who">민서</span> · 중1 · 좋은 물음 36</div>
+          <div class="ititle">내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</div>
+          <div class="isnip">친구들이 좋아하니까 좋아진 건지, 원래 내가 좋아한 건지 헷갈려요.</div>
+        </div>
+        <div class="item">
+          <div class="imeta"><span class="who">준호</span> · 고2 · 좋은 물음 22</div>
+          <div class="ititle">습관은 나인가, 내가 아닌가</div>
+          <div class="isnip">매일 같은 시간에 핸드폰을 보는데, 그건 제가 한 행동인가요 습관이 한 행동인가요.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 마무리 ========== -->
+  <div class="summary">
+    <h2>한 문장으로</h2>
+    <p>연라이프의 첫 정서는 <em>차분하게 들어오는 신뢰감</em>.</p>
+    <p>색은 <em>새벽 6시</em>의 푸른 아이보리와 깊은 먹빛.</p>
+    <p>구조는 <em>광장이 페이지의 중심</em>, 다른 코너는 광장을 보조.</p>
+    <p style="margin-top:20px;font-size:13px;opacity:.65">이 시스템에 동의가 되면, v3 본 시안에서 이 팔레트와 원칙을 그대로 입힌 광장 중심 첫 화면을 그릴게요.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

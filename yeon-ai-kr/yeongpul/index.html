@@ -1,0 +1,3216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5A7A82">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="영풀">
+<title>영풀 — 막힌 영어를 풀다</title>
+<script>
+// 카카오톡 인앱 브라우저 → 외부 브라우저로 자동 전환
+(function(){
+  var ua = navigator.userAgent || '';
+  if (/KAKAOTALK/i.test(ua)) {
+    location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href);
+  }
+})();
+</script>
+<meta name="description" content="영풀 — 막힌 영어를 풀다. 오답과 약점을 AI가 기록·분석해 1:1 맞춤 완전학습으로 이끄는 영어 학습 도우미.">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<!-- <link rel="canonical" href="https://yeongpul.yeon.ai.kr/"> DNS 세팅 후 주석 해제 -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --color-success:#6B8F71;
+  --color-error:#8F6B6B;
+  --color-warning:#8F856B;
+  --color-special:#8F7A6B;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-bg:#1A2024;
+    --color-surface:#2C3E42;
+    --color-primary:#7AACB8;
+    --color-muted:#4A5E62;
+    --color-text:#E0E8EA;
+    --color-text-light:#8AACB2;
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--color-bg);color:var(--color-text);
+  /* 유동 타이포 — 모바일 14px ~ 와이드 16px */
+  font-size:clamp(14px, 0.9vw + 12px, 16px);
+  line-height:1.6;min-height:100vh;min-height:100dvh;
+  /* iPhone 세이프 에어리어 (노치 / 홈바) */
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+.app-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(16px,4vw,32px);
+  padding-top:max(14px, env(safe-area-inset-top));
+  background:var(--color-bg);border-bottom:1px solid var(--color-muted);
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:saturate(180%) blur(8px);
+  -webkit-backdrop-filter:saturate(180%) blur(8px);
+}
+.app-bar .brand{display:flex;align-items:center;gap:10px;min-width:0;}
+.app-bar .brand-logo{width:32px;height:32px;border-radius:8px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0;}
+.app-bar h1{font-size:clamp(15px,1vw + 12px,18px);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.app-bar .subtitle{font-size:clamp(11px,0.4vw + 10px,13px);color:var(--color-text-light);font-weight:400;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-actions{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.bar-btn{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;}
+
+/* ============================================ */
+/* 반응형 컨테이너 — 전 기기 즉각 적응 */
+/* ============================================ */
+/* 기본: 폰 세로 (≤ 480px) */
+.container{
+  padding:20px clamp(14px, 4vw, 20px) calc(80px + env(safe-area-inset-bottom));
+  max-width:100%;
+  margin:0 auto;
+}
+/* 큰 폰 / 폰 가로 (481~767px) */
+@media(min-width:481px){
+  .container{padding:24px 20px calc(80px + env(safe-area-inset-bottom));max-width:500px;}
+}
+/* 태블릿 (768~1023px) — iPad, 갤럭시 탭 */
+@media(min-width:768px){
+  .container{padding:32px 28px calc(80px + env(safe-area-inset-bottom));max-width:620px;}
+}
+/* 노트북 / 데스크톱 (1024~1439px) — MacBook 13"/14", 일반 노트북 */
+@media(min-width:1024px){
+  .container{padding:40px 36px calc(80px + env(safe-area-inset-bottom));max-width:720px;}
+}
+/* 와이드 데스크톱 (≥ 1440px) — 외장 모니터, MacBook 16"/Studio */
+@media(min-width:1440px){
+  .container{padding:48px 40px calc(80px + env(safe-area-inset-bottom));max-width:820px;}
+}
+
+/* 히어로 */
+.hero{text-align:center;padding:24px 8px 28px;}
+.hero h2{font-size:22px;font-weight:700;margin-bottom:8px;}
+.hero p{font-size:14px;color:var(--color-text-light);line-height:1.7;}
+.hero .badge-group{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:14px;}
+.hero .badge{font-size:11px;padding:4px 10px;border-radius:999px;background:var(--color-surface);color:var(--color-primary);font-weight:600;}
+
+/* 탭 */
+.mode-tabs{display:flex;gap:6px;background:var(--color-surface);border-radius:12px;padding:4px;margin-bottom:20px;}
+.mode-tab{flex:1;padding:10px;border:none;background:transparent;color:var(--color-text-light);font-size:14px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;font-family:inherit;}
+.mode-tab.active{background:var(--color-bg);color:var(--color-primary);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+
+/* 카드 */
+.card{background:var(--color-surface);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:16px;}
+.card h3{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+/* 폼 */
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--color-text);}
+.form-group label .req{color:var(--color-error);margin-left:2px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--color-muted);border-radius:8px;background:var(--color-bg);color:var(--color-text);font-size:14px;font-family:inherit;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--color-primary);}
+.form-group textarea{resize:vertical;min-height:72px;}
+.form-group .help{font-size:11px;color:var(--color-text-light);margin-top:4px;}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;width:100%;}
+.btn-primary{background:var(--color-primary);color:#fff;}
+.btn-primary:hover:not(:disabled){filter:brightness(0.92);}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-secondary{background:var(--color-surface);color:var(--color-text);border:1.5px solid var(--color-muted);}
+.btn-outline{background:transparent;color:var(--color-primary);border:1.5px solid var(--color-primary);}
+.btn-outline:hover:not(:disabled){background:var(--color-primary);color:#fff;}
+
+/* 안내 박스 */
+.info-box{background:var(--color-bg);border-left:3px solid var(--color-primary);padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;color:var(--color-text-light);}
+.info-box.success{border-color:var(--color-success);background:rgba(107,143,113,0.08);}
+.info-box.warning{border-color:var(--color-warning);background:rgba(143,133,107,0.08);}
+.info-box.error{border-color:var(--color-error);background:rgba(143,107,107,0.08);}
+.info-box.special{border-color:var(--color-special);background:rgba(143,122,107,0.08);}
+.info-box strong{color:var(--color-text);}
+
+/* 결과 카드 */
+.result-card{display:none;background:var(--color-surface);border-radius:12px;padding:22px;text-align:center;animation:fadeIn .3s ease;}
+.result-card.open{display:block;}
+.result-card .icon-circle{width:56px;height:56px;border-radius:50%;background:var(--color-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-success);}
+.result-card h3{font-size:18px;margin-bottom:10px;}
+.result-card p{font-size:13px;color:var(--color-text-light);line-height:1.6;margin-bottom:12px;}
+.password-box{display:inline-flex;align-items:center;gap:10px;background:var(--color-bg);border:1.5px dashed var(--color-primary);padding:12px 16px;border-radius:8px;font-family:'Courier New',monospace;font-size:17px;font-weight:700;color:var(--color-primary);letter-spacing:2px;margin:6px 0 10px;}
+.copy-btn{background:var(--color-primary);color:#fff;border:none;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;}
+
+/* 강동원 특례 알림 */
+.special-alert{display:none;background:linear-gradient(135deg,#F5EFEC,#F0F4F5);border:2px solid var(--color-special);border-radius:12px;padding:18px;margin:14px 0;animation:fadeIn .4s ease;}
+.special-alert.open{display:block;}
+.special-alert .sa-title{font-size:14px;font-weight:700;color:var(--color-special);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.special-alert .sa-desc{font-size:12px;color:var(--color-text-light);line-height:1.6;}
+
+/* 로딩 */
+.loading{display:none;text-align:center;padding:16px;color:var(--color-text-light);font-size:13px;}
+.loading.open{display:block;}
+.loading::before{content:'';display:inline-block;width:14px;height:14px;border:2px solid var(--color-muted);border-top-color:var(--color-primary);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* 푸터 */
+.footer{text-align:center;padding:24px 16px;color:var(--color-text-light);font-size:11px;}
+.footer a{color:var(--color-primary);text-decoration:none;}
+
+/* 탭 패널 */
+.panel{display:none;}
+.panel.open{display:block;}
+
+/* 요금제 선택 카드 */
+.pricing-card{background:linear-gradient(135deg,rgba(90,122,130,0.08),rgba(212,224,227,0.3));border:1.5px solid var(--color-surface);border-radius:14px;padding:16px;margin:12px 0;}
+.pricing-card h3{font-size:15px;margin-bottom:4px;display:flex;align-items:center;gap:6px;color:var(--color-primary);}
+.pricing-card .pc-sub{font-size:11px;color:var(--color-text-light);margin-bottom:12px;line-height:1.55;}
+.pricing-card .pc-sub strong{color:var(--color-text);}
+.tier-scroll{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+.tier-scroll::-webkit-scrollbar{height:4px;}
+.tier-scroll::-webkit-scrollbar-thumb{background:var(--color-muted);border-radius:2px;}
+.tier-chip{flex:0 0 140px;scroll-snap-align:start;background:var(--color-bg);border:1.5px solid var(--color-surface);border-radius:12px;padding:12px 10px;cursor:pointer;transition:all .2s;position:relative;text-align:center;}
+.tier-chip:hover{border-color:var(--color-primary);transform:translateY(-2px);}
+.tier-chip.highlight{border-color:var(--color-primary);background:linear-gradient(135deg,rgba(90,122,130,0.12),var(--color-bg));}
+.tier-chip.highlight::before{content:'추천';position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--color-primary);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;letter-spacing:0.5px;}
+.tier-chip .tc-name{font-size:13px;font-weight:700;color:var(--color-text);margin-bottom:2px;}
+.tier-chip .tc-tag{font-size:10px;color:var(--color-text-light);margin-bottom:8px;}
+.tier-chip .tc-price{font-size:17px;font-weight:800;color:var(--color-primary);line-height:1.1;}
+.tier-chip .tc-unit{font-size:10px;color:var(--color-text-light);margin-bottom:6px;}
+.tier-chip .tc-sess{font-size:10px;color:var(--color-text);background:var(--color-surface);border-radius:8px;padding:3px 6px;display:inline-block;margin-bottom:4px;}
+.tier-chip .tc-for{font-size:10px;color:var(--color-text-light);line-height:1.4;}
+.pricing-card .pc-foot{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.pricing-card .pc-foot .pc-note{flex:1;min-width:140px;font-size:10.5px;color:var(--color-text-light);line-height:1.5;background:var(--color-bg);border-radius:8px;padding:8px 10px;border-left:2px solid var(--color-success);}
+.pricing-card .pc-foot .pc-note strong{color:var(--color-success);}
+.pricing-card .pc-parent-btn{margin-top:10px;width:100%;background:var(--color-primary);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;}
+.pricing-card .pc-parent-btn:hover{filter:brightness(0.92);}
+
+/* 생태계 앱 소개 */
+.ecosystem-card{background:var(--color-bg);border:1.5px dashed var(--color-muted);border-radius:12px;padding:14px;margin:12px 0;}
+.ecosystem-card h4{font-size:13px;margin-bottom:4px;color:var(--color-text);display:flex;align-items:center;gap:6px;}
+.ecosystem-card .ec-sub{font-size:11px;color:var(--color-text-light);margin-bottom:10px;}
+.eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.eco-item{background:var(--color-surface);border-radius:8px;padding:10px;font-size:11px;line-height:1.45;}
+.eco-item.current{background:linear-gradient(135deg,rgba(90,122,130,0.15),var(--color-surface));border:1.5px solid var(--color-primary);}
+.eco-item .ei-name{font-weight:700;color:var(--color-text);font-size:12px;margin-bottom:3px;display:flex;align-items:center;gap:4px;}
+.eco-item .ei-badge{font-size:9px;background:var(--color-primary);color:#fff;padding:1px 5px;border-radius:6px;font-weight:600;}
+.eco-item .ei-badge.beta{background:var(--color-warning);}
+.eco-item .ei-desc{color:var(--color-text-light);font-size:10.5px;}
+@media(min-width:768px){.eco-grid{grid-template-columns:1fr 1fr 1fr;}}
+
+/* 혜택 배너 */
+.benefit-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(107,143,113,0.15),rgba(90,122,130,0.12));border:1.5px solid var(--color-success);border-radius:12px;padding:12px 14px;margin:12px 0 16px;font-size:12px;line-height:1.55;}
+.benefit-banner .bb-ic{flex-shrink:0;color:var(--color-success);}
+.benefit-banner strong{color:var(--color-text);}
+
+/* 무료 체험 */
+.trial-status{background:var(--color-bg);border:1.5px solid var(--color-muted);border-radius:10px;padding:14px;margin:12px 0;}
+.trial-status .ts-row{display:flex;justify-content:space-between;font-size:13px;margin:5px 0;color:var(--color-text-light);}
+.trial-status .ts-row strong{color:var(--color-text);font-weight:600;}
+.trial-progress{height:6px;background:var(--color-muted);border-radius:3px;overflow:hidden;margin-top:8px;}
+.trial-progress .tp-fill{height:100%;background:var(--color-primary);transition:width .3s;}
+
+/* 상단 아이콘 버튼 */
+.bar-actions{display:flex;align-items:center;gap:10px;}
+.bar-btn{background:none;border:none;padding:6px;color:var(--color-text-light);cursor:pointer;border-radius:6px;display:flex;align-items:center;}
+.bar-btn:hover{background:var(--color-surface);}
+
+/* 모달 */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+.modal.open{display:flex;}
+.modal-content{background:var(--color-bg);border-radius:16px;max-width:560px;width:100%;padding:22px;box-shadow:0 8px 32px rgba(0,0,0,0.25);animation:fadeIn .25s ease;}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.modal-head h3{font-size:17px;font-weight:700;}
+.modal-close{background:none;border:none;padding:4px;cursor:pointer;color:var(--color-text-light);font-size:24px;line-height:1;}
+
+/* 매뉴얼 검색 */
+.search-box{position:relative;margin-bottom:12px;}
+.search-box input{width:100%;padding:11px 14px 11px 38px;border:1.5px solid var(--color-muted);border-radius:8px;background:var(--color-surface);color:var(--color-text);font-size:14px;font-family:inherit;}
+.search-box input:focus{outline:none;border-color:var(--color-primary);}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--color-text-light);}
+.manual-list{max-height:50vh;overflow-y:auto;}
+.manual-item{background:var(--color-surface);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:transform .15s;}
+.manual-item:hover{transform:translateY(-1px);}
+.manual-item h4{font-size:14px;font-weight:600;margin-bottom:4px;color:var(--color-primary);}
+.manual-item .mi-body{font-size:12px;color:var(--color-text-light);line-height:1.55;display:none;margin-top:6px;}
+.manual-item.open .mi-body{display:block;}
+.manual-empty{text-align:center;padding:24px;color:var(--color-text-light);font-size:13px;}
+
+/* 평가 슬라이더 */
+.score-box{text-align:center;padding:16px;background:var(--color-surface);border-radius:12px;margin-bottom:12px;}
+.score-display{font-size:42px;font-weight:700;color:var(--color-primary);line-height:1;margin-bottom:4px;}
+.score-label{font-size:12px;color:var(--color-text-light);margin-bottom:12px;}
+.score-slider{width:100%;height:6px;background:var(--color-muted);border-radius:3px;outline:none;-webkit-appearance:none;appearance:none;}
+.score-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--color-primary);cursor:pointer;border:3px solid var(--color-bg);box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.score-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--color-primary);cursor:pointer;border:3px solid var(--color-bg);}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.chip{padding:6px 12px;background:var(--color-surface);border:1.5px solid var(--color-muted);border-radius:999px;font-size:12px;cursor:pointer;transition:all .15s;user-select:none;}
+.chip.on{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+
+/* 평가 게시판 */
+.rb-filter{display:flex;gap:6px;margin-bottom:12px;border-bottom:1.5px solid var(--color-surface);padding-bottom:10px;}
+.rb-tab{flex:1;padding:8px 10px;background:var(--color-surface);border:none;border-radius:8px;font-size:12px;font-weight:600;color:var(--color-text-light);cursor:pointer;font-family:inherit;transition:all .15s;}
+.rb-tab.active{background:var(--color-primary);color:#fff;}
+.rb-list{max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px;}
+.rb-card{background:var(--color-bg);border:1.5px solid var(--color-surface);border-radius:12px;padding:14px;transition:all .15s;}
+.rb-card.story{border-color:var(--color-success);background:rgba(107,143,113,0.05);}
+.rb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.rb-score{font-size:22px;font-weight:800;line-height:1;}
+.rb-score.lo{color:var(--color-error);}
+.rb-score.mid{color:var(--color-warning);}
+.rb-score.hi{color:var(--color-success);}
+.rb-meta{font-size:11px;color:var(--color-text-light);text-align:right;}
+.rb-meta .tier-b{display:inline-block;padding:2px 6px;border-radius:8px;background:var(--color-surface);color:var(--color-text);font-weight:600;margin-right:4px;}
+.rb-meta .story-b{display:inline-block;padding:2px 6px;border-radius:8px;background:var(--color-success);color:#fff;font-weight:600;margin-right:4px;}
+.rb-reason{font-size:13px;font-weight:600;color:var(--color-text);margin-bottom:6px;padding:6px 10px;background:rgba(90,122,130,0.08);border-left:3px solid var(--color-primary);border-radius:4px;}
+.rb-text{font-size:13px;color:var(--color-text);line-height:1.6;white-space:pre-wrap;word-break:break-word;}
+.rb-tags{margin:8px 0 6px;display:flex;flex-wrap:wrap;gap:4px;}
+.rb-tag{font-size:10px;padding:2px 7px;border-radius:8px;background:var(--color-surface);color:var(--color-text-light);}
+.rb-tag.neg{background:rgba(143,107,107,0.15);color:var(--color-error);}
+.rb-tag.pos{background:rgba(107,143,113,0.15);color:var(--color-success);}
+.rb-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px dashed var(--color-muted);}
+.rb-vote{display:flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;border:1.5px solid var(--color-muted);border-radius:999px;font-size:12px;font-weight:600;color:var(--color-text-light);cursor:pointer;font-family:inherit;transition:all .15s;}
+.rb-vote:hover{border-color:var(--color-error);color:var(--color-error);}
+.rb-vote.voted{background:rgba(143,107,107,0.12);border-color:var(--color-error);color:var(--color-error);}
+.rb-date{font-size:11px;color:var(--color-text-light);}
+.rb-empty{text-align:center;padding:40px 20px;color:var(--color-text-light);font-size:13px;line-height:1.7;}
+
+/* 검증 배지(딱지) */
+.rb-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;vertical-align:middle;margin-left:4px;}
+.rb-badge.verified{background:rgba(107,143,113,0.14);color:var(--color-success);border:1px solid var(--color-success);}
+.rb-badge.disputed{background:rgba(143,133,107,0.14);color:var(--color-warning);border:1px solid var(--color-warning);cursor:pointer;}
+.rb-badge.pushed{background:rgba(90,122,130,0.14);color:var(--color-primary);border:1px solid var(--color-primary);}
+.rb-badge.adopted{background:var(--color-success);color:#fff;border:1px solid var(--color-success);}
+.rb-badge.adopted svg{color:#fff;}
+.rb-badge svg{width:10px;height:10px;}
+.rb-card.disputed-card{border-color:var(--color-warning);background:rgba(143,133,107,0.04);}
+.rb-response{margin-top:10px;padding:12px 14px;background:var(--color-bg);border:1.5px dashed var(--color-warning);border-radius:10px;display:none;}
+.rb-response.open{display:block;}
+.rb-response-head{font-size:11px;font-weight:700;color:var(--color-warning);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.rb-response-body{font-size:12px;color:var(--color-text);line-height:1.6;white-space:pre-wrap;}
+
+/* 검증 대화 모달 */
+.sc-head{padding:14px 16px;background:linear-gradient(135deg,rgba(143,133,107,0.15),rgba(143,107,107,0.10));border-radius:10px;margin-bottom:14px;border:1.5px solid var(--color-warning);}
+.sc-head h4{font-size:15px;font-weight:700;color:var(--color-warning);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.sc-head p{font-size:12px;color:var(--color-text);line-height:1.6;}
+.sc-flags{background:#fff;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:11px;}
+.sc-flags .sc-flag{padding:3px 0;color:var(--color-error);font-weight:500;}
+.sc-q{background:var(--color-bg);border:1.5px solid var(--color-surface);border-radius:10px;padding:14px;margin-bottom:10px;}
+.sc-q .sc-q-num{display:inline-block;background:var(--color-primary);color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;}
+.sc-q label{font-size:13px;font-weight:600;color:var(--color-text);display:block;margin-bottom:8px;}
+.sc-q .sc-opts{display:flex;flex-direction:column;gap:6px;}
+.sc-q .sc-opt{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;background:#fff;border:1.5px solid var(--color-muted);border-radius:8px;cursor:pointer;transition:all .15s;}
+.sc-q .sc-opt input{margin-top:2px;flex-shrink:0;}
+.sc-q .sc-opt span{font-size:12px;color:var(--color-text);line-height:1.5;}
+.sc-q .sc-opt:has(input:checked){border-color:var(--color-primary);background:rgba(90,122,130,0.06);}
+.sc-q textarea{width:100%;min-height:70px;padding:8px 10px;border:1.5px solid var(--color-muted);border-radius:8px;font-family:inherit;font-size:12px;resize:vertical;}
+.sc-actions{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+.sc-ban-box{background:rgba(143,107,107,0.08);border:2px solid var(--color-error);border-radius:12px;padding:16px;margin-bottom:12px;}
+.sc-ban-box h4{color:var(--color-error);font-size:15px;margin-bottom:8px;}
+.sc-ban-box p{font-size:12px;color:var(--color-text);line-height:1.6;margin-bottom:6px;}
+.sc-ban-box .ev{background:#fff;border-left:3px solid var(--color-error);padding:6px 10px;font-size:11px;color:var(--color-text-light);margin:6px 0;font-style:italic;}
+
+/* 비밀번호 강도 */
+.pw-strength{height:6px;background:var(--color-muted);border-radius:3px;overflow:hidden;margin-top:6px;}
+.pw-strength .pw-fill{height:100%;width:0%;transition:all .25s;background:var(--color-error);}
+.pw-strength.lv1 .pw-fill{width:25%;background:var(--color-error);}
+.pw-strength.lv2 .pw-fill{width:50%;background:var(--color-warning);}
+.pw-strength.lv3 .pw-fill{width:75%;background:#8F9E6B;}
+.pw-strength.lv4 .pw-fill{width:100%;background:var(--color-success);}
+.pw-checks{font-size:11px;color:var(--color-text-light);margin-top:5px;display:flex;gap:10px;flex-wrap:wrap;}
+.pw-check{display:flex;align-items:center;gap:3px;}
+.pw-check.ok{color:var(--color-success);}
+.pw-check::before{content:'○';font-size:13px;}
+.pw-check.ok::before{content:'●';}
+
+/* 수업 수강생 체크 */
+.route-check{display:flex;align-items:flex-start;gap:10px;background:var(--color-bg);border:1.5px solid var(--color-muted);padding:12px 14px;border-radius:10px;margin-bottom:12px;cursor:pointer;transition:all .15s;}
+.route-check:hover{border-color:var(--color-primary);}
+.route-check.checked{background:rgba(90,122,130,0.08);border-color:var(--color-primary);}
+.route-check input{margin-top:2px;flex-shrink:0;cursor:pointer;}
+.route-check .rc-text{font-size:13px;line-height:1.55;color:var(--color-text);}
+.route-check .rc-text strong{color:var(--color-primary);}
+.route-check .rc-text small{display:block;font-size:11px;color:var(--color-text-light);margin-top:2px;}
+
+/* 초대 코드 카드 */
+.invite-card{background:linear-gradient(135deg,rgba(143,122,107,0.12),rgba(90,122,130,0.08));border:1.5px solid var(--color-special);border-radius:12px;padding:16px;margin-bottom:16px;}
+.invite-card h4{font-size:14px;color:var(--color-special);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.invite-card p{font-size:12px;color:var(--color-text-light);line-height:1.55;margin-bottom:10px;}
+.invite-code-row{display:flex;gap:6px;justify-content:center;margin:10px 0;}
+.invite-code-row input{width:38px;height:48px;border:1.5px solid var(--color-muted);border-radius:8px;background:var(--color-bg);color:var(--color-text);font-size:20px;font-weight:700;font-family:'Courier New',monospace;text-align:center;outline:none;}
+.invite-code-row input:focus{border-color:var(--color-special);}
+
+/* 친구 초대 코드 입력 (회원가입 시, 8자리 4+4) */
+.ref-code-group{margin-bottom:16px;}
+.ref-code-group label{display:block;font-size:13px;color:var(--color-text);font-weight:600;margin-bottom:6px;}
+.ref-code-group .help{font-size:11px;color:var(--color-text-light);margin-top:4px;}
+.ref-code-row{display:flex;align-items:center;gap:8px;}
+.ref-code-row input{flex:1;max-width:110px;height:46px;border:1.5px solid var(--color-muted);border-radius:10px;background:var(--color-bg);color:var(--color-text);font-size:20px;font-weight:700;font-family:'Courier New',monospace;text-align:center;letter-spacing:2px;outline:none;}
+.ref-code-row input:focus{border-color:var(--color-primary);}
+.ref-code-row .sep{font-size:22px;font-weight:700;color:var(--color-muted);}
+
+/* 내 초대 코드 카드 (회원가입 결과 + 로그인 후) */
+.my-code-card{background:linear-gradient(135deg,rgba(90,122,130,0.1),rgba(212,224,227,0.4));border:2px solid var(--color-primary);border-radius:14px;padding:18px 16px;margin:16px 0;text-align:center;}
+.my-code-card h4{font-size:14px;color:var(--color-primary);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700;}
+.my-code-card .sub{font-size:11px;color:var(--color-text-light);line-height:1.5;margin-bottom:12px;}
+.my-code-display{font-size:30px;font-weight:800;color:var(--color-primary);letter-spacing:4px;font-family:'Courier New',monospace;margin:10px 0 14px;padding:12px;background:#fff;border-radius:10px;border:1.5px dashed var(--color-primary);}
+.my-code-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.my-code-actions button{padding:12px 8px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;}
+.my-code-actions .btn-copy{background:var(--color-surface);color:var(--color-primary);}
+.my-code-actions .btn-share{background:var(--color-primary);color:#fff;}
+.my-code-actions button:active{transform:scale(0.96);}
+.my-code-stats{display:flex;gap:8px;margin-top:10px;font-size:11px;color:var(--color-text-light);justify-content:center;}
+.my-code-stats strong{color:var(--color-primary);font-weight:700;font-size:13px;}
+
+/* Google Sign-In */
+.google-signin-box{text-align:center;padding:14px;background:var(--color-bg);border:1.5px dashed var(--color-muted);border-radius:10px;margin-bottom:12px;}
+.google-signin-box .gs-label{font-size:12px;color:var(--color-text-light);margin-bottom:8px;}
+#gSignInDiv{display:flex;justify-content:center;min-height:40px;}
+
+/* ==================== 가입 CTA (Hero 바로 아래) ==================== */
+.signup-cta{background:linear-gradient(145deg,var(--color-bg) 0%,var(--color-surface) 100%);border:2px solid var(--color-primary);border-radius:16px;padding:22px 18px;margin-bottom:18px;box-shadow:0 6px 20px rgba(90,122,130,0.14);position:relative;overflow:hidden;}
+.signup-cta::before{content:"";position:absolute;top:-40px;right:-40px;width:140px;height:140px;background:radial-gradient(circle,rgba(90,122,130,0.12) 0%,transparent 70%);pointer-events:none;}
+.signup-cta .cta-head{text-align:center;margin-bottom:16px;position:relative;z-index:1;}
+.signup-cta .cta-head h3{font-size:19px;font-weight:700;color:var(--color-primary);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.signup-cta .cta-head p{font-size:13px;color:var(--color-text-light);line-height:1.55;}
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;position:relative;z-index:1;}
+@media(max-width:400px){.cta-grid{grid-template-columns:1fr;gap:10px;}}
+.cta-btn{display:flex;align-items:center;gap:12px;padding:16px 14px;border-radius:12px;border:1.5px solid var(--color-muted);background:var(--color-bg);cursor:pointer;transition:all .2s ease;text-align:left;min-height:72px;font-family:inherit;}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(90,122,130,0.18);border-color:var(--color-primary);}
+.cta-btn:active{transform:translateY(0);}
+.cta-btn .cta-icon{flex:0 0 40px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.cta-btn.cta-google .cta-icon{background:var(--color-bg);border:1.5px solid var(--color-muted);}
+.cta-btn.cta-manual .cta-icon{background:var(--color-surface);}
+.cta-btn .cta-text{flex:1;min-width:0;}
+.cta-btn .cta-text strong{display:block;font-size:15px;font-weight:800;color:var(--color-text);margin-bottom:3px;}
+.cta-btn .cta-text small{display:block;font-size:12px;color:var(--color-text-light);line-height:1.4;}
+.cta-bottom{text-align:center;font-size:12px;color:var(--color-text-light);padding-top:12px;border-top:1px dashed var(--color-muted);position:relative;z-index:1;}
+.cta-bottom a{color:var(--color-primary);font-weight:600;text-decoration:none;margin:0 4px;cursor:pointer;}
+.cta-bottom a:hover{text-decoration:underline;}
+.cta-bottom .cta-sep{color:var(--color-muted);margin:0 2px;}
+
+/* ==================== 반응형 보강 ==================== */
+/* iOS 자동 줌 방지 — input/select/textarea 최소 16px */
+@supports(-webkit-touch-callout:none){
+  .form-group input,.form-group select,.form-group textarea,
+  .search-box input,.sc-q textarea,.invite-code-row input{font-size:16px;}
+}
+/* 모달: 소형 화면에서도 스크롤 가능, 세이프 에어리어 반영 */
+.modal{padding:max(24px,env(safe-area-inset-top)) 12px max(24px,env(safe-area-inset-bottom));}
+.modal-content{max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+/* 작은 폰(≤360px) 모달 여백 축소 */
+@media(max-width:380px){
+  .modal{padding:12px 8px;}
+  .modal-content{padding:16px;border-radius:14px;}
+  .modal-head h3{font-size:15px;}
+  .rb-list{max-height:60vh;}
+}
+/* 태블릿 이상: 모달 약간 여유 */
+@media(min-width:768px){
+  .modal-content{max-width:600px;padding:26px;}
+  .rb-list{max-height:60vh;}
+}
+/* 데스크톱(≥1024px): 게시판 2열 그리드 */
+@media(min-width:1024px){
+  .modal-content{max-width:780px;padding:30px;}
+  .rb-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:64vh;}
+  .rb-list > *{align-self:start;}
+}
+/* 대형 화면(≥1440px): 3열 선택 안함 — 가독성 위해 2열 유지 */
+@media(min-width:1440px){
+  .modal-content{max-width:860px;}
+}
+/* 가로 모드 폰(랜드스케이프): 모달 top 여백 축소 */
+@media(max-height:500px) and (orientation:landscape){
+  .modal{padding:8px 12px;align-items:center;}
+  .modal-content{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);}
+  .manual-list,.rb-list{max-height:40vh;}
+}
+/* 터치 장치: hover 효과 끄기 */
+@media(hover:none){
+  .manual-item:hover,.bar-btn:hover,.btn-primary:hover:not(:disabled){transform:none;filter:none;background:initial;}
+  .btn-primary:hover:not(:disabled){background:var(--color-primary);}
+  .bar-btn:hover{background:initial;}
+}
+/* 접근성: 애니메이션 축소 선호 */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-bar">
+  <div class="brand">
+    <div class="brand-logo">연</div>
+    <div>
+      <h1>영풀</h1>
+      <span class="subtitle">회원 등록 및 로그인</span>
+    </div>
+  </div>
+  <div class="bar-actions">
+    <button class="bar-btn" onclick="goLoginTab()" title="로그인 / 로그아웃" id="barLoginBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+    </button>
+    <button class="bar-btn" onclick="openManual()" title="사용자 매뉴얼">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </button>
+    <button class="bar-btn" onclick="openReview()" title="사용자 평가 남기기">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </button>
+    <button class="bar-btn" onclick="openReviewBoard()" title="평가 게시판 (펼친 책)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/><line x1="4.5" y1="8" x2="9" y2="8"/><line x1="4.5" y1="11" x2="9" y2="11"/><line x1="4.5" y1="14" x2="8" y2="14"/><line x1="15" y1="8" x2="19.5" y2="8"/><line x1="15" y1="11" x2="19.5" y2="11"/><line x1="15" y1="14" x2="18.5" y2="14"/></svg>
+    </button>
+    <button class="bar-btn" onclick="openFeatureRequest()" title="기능 · 시스템 추가 요청">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 1 6 0c0 2-3 3-3 5"/><line x1="12" y1="19" x2="12" y2="19"/><circle cx="12" cy="12" r="10"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===== 기능 · 시스템 추가 요청 모달 ===== -->
+<div class="modal" id="featureRequestModal">
+  <div class="modal-content" style="max-width:560px;">
+    <div class="modal-header">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 11a3 3 0 1 1 6 0c0 2-3 3-3 5"/><line x1="12" y1="19" x2="12" y2="19"/></svg>
+        기능 · 시스템 추가 요청
+      </h3>
+      <button class="close-btn" onclick="closeModal('featureRequestModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:linear-gradient(135deg,rgba(107,143,113,0.16),rgba(90,122,130,0.10));border-left:4px solid var(--color-success);border-radius:10px;padding:16px 18px;margin-bottom:18px;">
+        <div style="font-weight:700;color:var(--color-success);font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          여러분의 의견이 곧 이 앱의 방향입니다
+        </div>
+        <p style="font-size:13.5px;line-height:1.65;color:var(--color-text);margin:0;">
+          저희는 <strong>모든 사용자의 요구를 적극 수용할 수 있는 방향으로</strong> 이 학습앱을 계속 발전시켜 나갈 것을 약속드립니다.
+          작은 불편이든, 새로운 기능 제안이든, 과감한 시스템 추가 아이디어든 — <strong>무엇이든 환영합니다.</strong>
+          받은 제안은 빠짐없이 검토되며, 채택된 의견은 다음 업데이트에 반영되고 제안자에게 감사 패킷과 배지가 부여됩니다.
+        </p>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:600;color:var(--color-primary);display:block;margin-bottom:6px;">제안 유형</label>
+        <select id="frType" style="width:100%;padding:10px 12px;border:1.5px solid var(--color-surface);border-radius:8px;font-size:14px;background:#fff;color:var(--color-text);">
+          <option value="new_feature">새로운 기능 추가</option>
+          <option value="improvement">기존 기능 개선</option>
+          <option value="bug">오류 · 버그 제보</option>
+          <option value="content">학습 콘텐츠 제안</option>
+          <option value="ecosystem">연 앱 생태계 연동 아이디어</option>
+          <option value="other">기타 자유 의견</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:600;color:var(--color-primary);display:block;margin-bottom:6px;">제안 내용 <span style="font-weight:400;color:var(--color-text-light);">— 구체적일수록 좋아요</span></label>
+        <textarea id="frContent" rows="6" placeholder="예) 오답 노트에 손글씨로 직접 쓸 수 있는 기능이 있으면 좋겠어요. 태블릿 사용자가 많은데..." style="width:100%;padding:12px;border:1.5px solid var(--color-surface);border-radius:8px;font-size:14px;font-family:inherit;resize:vertical;line-height:1.6;color:var(--color-text);background:#fff;"></textarea>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:600;color:var(--color-primary);display:block;margin-bottom:6px;">연락 받을 방법 <span style="font-weight:400;color:var(--color-text-light);">— 선택</span></label>
+        <input type="text" id="frContact" placeholder="카카오톡 ID, 이메일, 전화 등 (채택 시 감사 패킷 지급용)" style="width:100%;padding:10px 12px;border:1.5px solid var(--color-surface);border-radius:8px;font-size:14px;color:var(--color-text);background:#fff;">
+      </div>
+
+      <div style="background:var(--color-surface);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;color:var(--color-text);line-height:1.6;">
+        <strong style="color:var(--color-primary);">📣 저희의 약속</strong><br>
+        · 모든 제안은 <strong>48시간 이내 검토 착수</strong><br>
+        · 채택 여부와 상관없이 <strong>답변 회신</strong><br>
+        · 채택 시 <strong>감사 패킷 +20 · 기여자 배지 부여</strong><br>
+        · 큰 시스템 제안은 별도 감사 인사와 함께 구현 진행 상황 공유
+      </div>
+
+      <button class="btn btn-primary" onclick="submitFeatureRequest()" style="width:100%;padding:14px;font-size:15px;font-weight:600;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        제안 보내기
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 히어로 -->
+  <div class="hero">
+    <h2>막힌 영어를 풀다</h2>
+    <p>오답과 약점을 AI가 기록·분석해<br>1:1 맞춤 완전학습까지 함께 이끄는 영어 학습 도우미.</p>
+    <div class="badge-group">
+      <span class="badge">오답 해설</span>
+      <span class="badge">취약점 분석</span>
+      <span class="badge">완전학습</span>
+      <span class="badge">복습 알림</span>
+    </div>
+  </div>
+
+  <!-- 자동 로그인 카드 -->
+  <div class="card" id="autoLoginCard" style="display:none;background:linear-gradient(135deg,rgba(107,143,113,0.14),rgba(90,122,130,0.10));border:1.5px solid var(--color-success);">
+    <h3 style="color:var(--color-success);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      다시 오신 걸 환영해요
+    </h3>
+    <p style="font-size:13px;color:var(--color-text-light);margin-bottom:12px;">
+      <strong id="alName">-</strong> 학생으로 자동 로그인됩니다.
+    </p>
+    <button class="btn btn-primary" onclick="autoLoginContinue()">이어서 학습하기</button>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="clearAutoLogin()">다른 계정으로 로그인</button>
+  </div>
+
+  <!-- ===== 빠른 시작 (이름 + 학년만 입력) ===== -->
+  <div class="signup-cta" id="signupCTA">
+    <div class="cta-head">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        이름만 입력하면 바로 시작
+      </h3>
+      <p>비밀번호 없이, 이름과 학년만으로 학습을 시작할 수 있어요</p>
+    </div>
+    <form id="quickStartForm" onsubmit="handleQuickStart(event)" style="position:relative;z-index:1;">
+      <div class="form-group" style="margin-bottom:10px;">
+        <input type="text" id="qs-name" required maxlength="20" placeholder="이름 입력" style="width:100%;padding:13px 14px;border:1.5px solid var(--color-muted);border-radius:10px;background:var(--color-bg);color:var(--color-text);font-size:15px;font-family:inherit;">
+      </div>
+      <div class="form-group" style="margin-bottom:14px;">
+        <select id="qs-grade" required style="width:100%;padding:13px 14px;border:1.5px solid var(--color-muted);border-radius:10px;background:var(--color-bg);color:var(--color-text);font-size:15px;font-family:inherit;appearance:auto;">
+          <option value="">학년 선택</option>
+          <option value="초4">초4</option>
+          <option value="초5">초5</option>
+          <option value="초6">초6</option>
+          <option value="중1">중1</option>
+          <option value="중2">중2</option>
+          <option value="중3">중3</option>
+          <option value="고1">고1</option>
+          <option value="고2">고2</option>
+          <option value="고3">고3</option>
+          <option value="일반">일반/성인</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" id="quickStartBtn" style="font-size:16px;padding:14px 20px;">학습 시작</button>
+    </form>
+    <div class="loading" id="quickStartLoading" style="text-align:center;font-size:13px;color:var(--color-text-light);padding:10px 0;">가입 처리 중...</div>
+    <div class="cta-bottom">
+      이미 회원이신가요? <a onclick="ctaLogin();return false;">로그인</a>
+      <span class="cta-sep">·</span>
+      체험만 해보기 <a onclick="startTrialSession();return false;">무료 시작</a>
+      <span class="cta-sep">·</span>
+      <a onclick="toggleDetailedSignup();return false;">자세한 정보로 가입</a>
+    </div>
+  </div>
+
+  <!-- 요금제 선택 (5단) — 학생 배포 버전에서는 숨김 (VIP 무료 체험) -->
+  <div class="pricing-card" id="pricingCard" style="display:none;">
+    <h3>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      월 요금제
+    </h3>
+    <div class="pc-sub">
+      <strong>모든 단계 기능 동일</strong> · 차이는 월 사용량뿐
+    </div>
+    <div class="tier-scroll" id="tierScroll"></div>
+    <div class="pc-foot">
+      <div class="pc-note">
+        <strong>🎁 누적 혜택</strong> — 스트릭·패킷·친구 추천 등급은 구독 유지 시에만 누적됩니다.
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button class="pc-parent-btn" onclick="openPayModal()" style="flex:2;min-width:180px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        결제하기
+      </button>
+      <button class="pc-parent-btn" onclick="openParentInfo()" style="flex:1;min-width:140px;background:var(--color-surface);color:var(--color-primary);border:1.5px solid var(--color-primary);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        부모님 안내
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       생태계 앱 소개 카드 — 첫 화면 노출 차단 (2026-04-10)
+
+       Why hidden:
+         사용자(이진우 선생님) 피드백 — 첫 화면이 "장사꾼" 느낌을 주어
+         학생 신뢰를 떨어뜨림. "구독 유지 시에만" 같은 결제 압박 문구와
+         6개 앱 광고 그리드가 학습 도구 첫 인상을 망침.
+
+       Status:
+         코드는 보존 (DOM·렌더 함수·데이터는 유효).
+         첫 화면에서만 숨김 처리. style="display:none" 로 차단.
+
+       Where to move (Phase 2):
+         (a) parent.html — 부모님 안내 페이지에서만 노출
+         (b) 마이페이지(로그인 후 별도 페이지)
+         → 학생의 학습 첫 화면에는 절대 노출하지 않음
+
+       Also fixed:
+         config.js 의 ECOSYSTEM_APPS status 값을 실제 상태로 정정.
+         (영풀만 'live', 나머지는 'dev'/'planned'/'internal')
+
+       Related memory:
+         - feedback_no_pricing_on_first_screen.md
+         - project_yeongpul_onboarding_redesign.md
+       ============================================================ -->
+  <div class="ecosystem-card" id="ecosystemCard" style="display:none;" data-hidden-reason="first-screen-no-pricing-2026-04-10">
+    <h4>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      함께 쓰면 더 좋은 앱 — 연 프로젝트 생태계
+    </h4>
+    <div class="ec-sub">하나의 계정으로 모든 앱 연동 · 누적 데이터 공유</div>
+    <div class="eco-grid" id="ecoGrid"></div>
+  </div>
+
+  <!-- ============================================================
+       평가 안내 배너 — 톤 완화 (2026-04-10)
+
+       Original (장사꾼 느낌):
+         "솔직한 평가 = 더 많은 패킷"
+         "최대 +5 패킷까지 적립! ... 더 많이 보상합니다"
+
+       Why changed:
+         "패킷" = 게임 아이템·유료 통화 느낌
+         "보상" = 광고 톤
+         첫 화면에 보상 적립 광고처럼 보임
+
+       New tone:
+         학생 의견이 학습앱을 발전시킨다는 메시지 중심.
+         보상은 평가 모달 안에서만 안내 (rewardSummary 함수 등에서 처리).
+       ============================================================ -->
+  <div class="benefit-banner">
+    <svg class="bb-ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><polyline points="22 7 12 2 2 7 12 12 22 7"/><polyline points="2 7 2 12"/></svg>
+    <div>
+      <strong>여러분의 의견이 학습앱을 발전시킵니다</strong><br>
+      불편한 점이나 개선 아이디어를 알려주시면 <strong>다음 업데이트에 반영</strong>됩니다. 특히 <strong>구체적인 비판</strong>이 학습앱을 가장 빠르게 좋아지게 만듭니다.
+    </div>
+  </div>
+
+  <!-- 탭 -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-panel="signup">가입 신청</button>
+    <button class="mode-tab" onclick="startTrialSession();return false;">무료 시작</button>
+    <button class="mode-tab" data-panel="login">로그인</button>
+  </div>
+
+  <!-- 친구 초대하기 카드 — 로그인한 사용자에게만 표시 (모든 패널 상단 공통) -->
+  <div class="my-code-card" id="inviteGenCard" style="display:none;">
+    <h4>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      친구 초대하고 보상 받기
+    </h4>
+    <div class="sub">버튼을 누르면 <strong>1회용 초대 링크</strong>가 생성됩니다. 친구가 링크를 클릭하면 코드 입력 없이 바로 가입돼요.</div>
+    <button class="btn btn-primary" id="genInviteBtn" style="width:100%;margin:4px 0 10px;" onclick="generateInviteLink()">🎁 초대 링크 새로 만들기</button>
+
+    <!-- 생성된 초대 코드 + 공유 버튼 (생성 후 표시) -->
+    <div id="inviteResult" style="display:none;">
+      <div class="my-code-display" id="generatedCode">--------</div>
+      <div class="sub" style="margin:-4px 0 10px;font-size:10.5px;word-break:break-all;">
+        <span id="generatedUrl">-</span>
+      </div>
+      <div class="my-code-actions">
+        <button class="btn-copy" onclick="copyInviteLink()">📋 링크 복사</button>
+        <button class="btn-share" onclick="shareInviteKakao()">💬 카톡 공유</button>
+      </div>
+      <div class="my-code-actions" style="margin-top:6px;">
+        <button class="btn-copy" onclick="shareInviteSms()">📱 문자 보내기</button>
+        <button class="btn-copy" onclick="generateInviteLink()">🔄 새 코드</button>
+      </div>
+      <div class="my-code-stats" id="inviteStats">
+        <span>지금까지 발급: <strong id="statSent">0</strong>건</span>
+        <span>·</span>
+        <span>가입 완료: <strong id="statJoined">0</strong>명</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 무료 체험 패널 ===== -->
+  <div class="panel" id="panel-trial">
+    <div class="card">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        무료로 사용해보기
+      </h3>
+
+      <div class="info-box" style="background:linear-gradient(135deg,rgba(107,143,113,0.14),rgba(90,122,130,0.10));border-left:3px solid var(--color-success);">
+        <strong style="color:var(--color-success);">🎁 특별 체험 회원 환영합니다</strong><br>
+        · 가입 없이 바로 사용 가능<br>
+        · <strong>사용 횟수 제한 없음</strong> — 하루 몇 번이든 마음껏<br>
+        · <strong>기간 제한 없음</strong> — 원하는 만큼 오래<br>
+        · <strong>모든 기능 무제한 사용</strong> — 오답 해설 · 취약점 분석 · 완전학습 · 복습 알림<br>
+        · <strong style="color:var(--color-primary);">피드백 주시면 정말 큰 도움이 됩니다 — 개선 제안 환영</strong>
+      </div>
+
+      <div class="trial-status" id="trialStatus">
+        <div class="ts-row"><span>체험 시작일</span><strong id="tsStart">-</strong></div>
+        <div class="ts-row"><span>경과일수</span><strong id="tsDay">-</strong></div>
+        <div class="ts-row"><span>오늘 남은 횟수</span><strong id="tsRemain">-</strong></div>
+        <div class="ts-row"><span>오늘 한도</span><strong id="tsQuota">-</strong></div>
+        <div class="trial-progress"><div class="tp-fill" id="tpFill" style="width:0%;"></div></div>
+      </div>
+
+      <button class="btn btn-primary" id="trialBtn" onclick="startTrialSession()">무료로 시작하기</button>
+
+      <a class="btn btn-outline" href="../study-hub.html" style="margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        학습 허브 둘러보기 <span style="font-size:11px;background:var(--color-primary);color:#fff;padding:2px 7px;border-radius:10px;font-weight:700;">NEW v1.3</span>
+      </a>
+
+      <button class="btn btn-outline" onclick="openReview()" style="margin-top:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        체험 후 솔직한 평가 남기기 (최대 +5 패킷)
+      </button>
+
+      <div class="info-box warning" id="trialBlocked" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ===== 가입 신청 패널 (자세한 정보 — 기본 숨김, 토글로 펼침) ===== -->
+  <div class="panel open" id="panel-signup">
+
+    <!-- 친구 초대로 가입 배너 (URL ?invite=XXXXXXXX 있을 때만 표시) -->
+    <div class="my-code-card" id="inviteBanner" style="display:none;border-color:var(--color-success);background:linear-gradient(135deg,rgba(107,143,113,0.12),rgba(212,224,227,0.4));">
+      <h4 style="color:var(--color-success);">친구 초대로 가입 중</h4>
+      <div class="sub">친구가 보내준 초대 링크로 들어왔어요. 가입 완료 시 초대한 친구와 양쪽 모두 보상 패킷이 적립됩니다.</div>
+      <div class="my-code-display" id="inviteBannerCode" style="color:var(--color-success);border-color:var(--color-success);">--------</div>
+      <div class="sub" style="margin-bottom:0;">이 코드는 자동 적용되므로 따로 입력할 필요 없어요.</div>
+    </div>
+
+    <div class="card" id="detailedSignupCard" style="display:none;">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        자세한 정보로 가입
+      </h3>
+
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <!-- 초대 코드 (hidden — URL ?invite=로 자동 주입) -->
+        <input type="hidden" id="su-invite-code" value="">
+        <div class="form-group">
+          <label>이름<span class="req">*</span></label>
+          <input type="text" id="su-name" required maxlength="20" placeholder="실명 입력">
+        </div>
+
+        <div class="form-group">
+          <label>학년<span class="req">*</span></label>
+          <select id="su-grade" required>
+            <option value="">선택하세요</option>
+            <option value="초4">초4</option>
+            <option value="초5">초5</option>
+            <option value="초6">초6</option>
+            <option value="중1">중1</option>
+            <option value="중2">중2</option>
+            <option value="중3">중3</option>
+            <option value="고1">고1</option>
+            <option value="고2">고2</option>
+            <option value="고3">고3</option>
+            <option value="일반">일반/성인</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>연락처 (선택)</label>
+          <input type="tel" id="su-phone" maxlength="13" placeholder="010-0000-0000" pattern="[0-9\-]+">
+        </div>
+
+        <div class="form-group">
+          <label>이메일 (선택)</label>
+          <input type="email" id="su-email" maxlength="60" placeholder="예: student@example.com">
+          <div class="help">계정 복구에 사용됩니다</div>
+        </div>
+
+        <!-- 담당 선생님 직접 관리 여부 -->
+        <label class="route-check" id="routeCheckLabel">
+          <input type="checkbox" id="su-academy">
+          <div class="rc-text">
+            <strong>담당 선생님께 직접 관리받고 있습니다</strong>
+            <small>체크하면 선생님 확인 후 프리미엄으로 승격됩니다.</small>
+          </div>
+        </label>
+
+        <div class="form-group">
+          <label>비밀번호<span class="req">*</span></label>
+          <input type="password" id="su-password" required maxlength="32" placeholder="영문+숫자 8자 이상" autocomplete="new-password">
+          <div class="pw-strength" id="pwStrength"><div class="pw-fill"></div></div>
+          <div class="pw-checks" id="pwChecks">
+            <span class="pw-check" data-k="len">8자 이상</span>
+            <span class="pw-check" data-k="letter">영문 포함</span>
+            <span class="pw-check" data-k="number">숫자 포함</span>
+            <span class="pw-check" data-k="special">특수문자 (+)</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>비밀번호 확인<span class="req">*</span></label>
+          <input type="password" id="su-password2" required maxlength="32" placeholder="동일하게 다시 입력" autocomplete="new-password">
+          <div class="help" id="pwMatchHelp">&nbsp;</div>
+        </div>
+
+        <div class="form-group">
+          <label>가입 메시지 (선택)</label>
+          <textarea id="su-message" maxlength="200" placeholder="간단한 자기 소개나 학습 목표를 적어주세요"></textarea>
+          <div class="help">예: 내신 3등급, 모의고사 문법 취약, 1학기 내 내신 2등급 진입 희망</div>
+        </div>
+
+        <!-- 특례 알림 (실시간) -->
+        <div class="special-alert" id="specialAlert">
+          <div class="sa-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            기존 관리 회원 — 즉시 활성화
+          </div>
+          <div class="sa-desc">
+            이미 담당 선생님이 파악하고 있어 가입과 동시에 <strong>특별 관리 회원으로 즉시 활성화</strong>됩니다.
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>가입 후 흐름</strong><br>
+          · 담당 선생님 승인 후 프리미엄 회원으로 전환됩니다<br>
+          · 비밀번호를 설정하면 이 기기에서 자동 로그인됩니다
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="signupBtn">
+          가입 신청하기
+        </button>
+      </form>
+
+      <div class="loading" id="signupLoading">서버에 연결 중...</div>
+    </div>
+
+    <!-- 가입 완료 결과 -->
+    <div class="result-card" id="signupResult">
+      <div class="icon-circle">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h3 id="resultTitle">가입 신청 완료</h3>
+      <p id="resultDesc">아래 비밀번호를 꼭 기억해 주세요. 담당 선생님이 승인하면 로그인할 수 있습니다.</p>
+      <div class="password-box" id="resultPassword">--------</div><br>
+      <button class="copy-btn" onclick="copyPassword()">비밀번호 복사</button>
+      <div class="info-box" style="margin-top:14px;text-align:left;" id="resultMeta"></div>
+      <button class="btn btn-secondary" style="margin-top:14px;" onclick="resetToSignup()">처음으로</button>
+    </div>
+  </div>
+
+  <!-- ===== 로그인 패널 ===== -->
+  <div class="panel" id="panel-login">
+
+    <!-- Google One Tap (원격회원) -->
+    <div class="google-signin-box" id="googleBox" style="display:none;">
+      <div class="gs-label">원격회원이신가요? Google 계정으로 바로 로그인</div>
+      <div id="gSignInDiv"></div>
+    </div>
+
+    <div class="card">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        로그인
+      </h3>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>이름<span class="req">*</span></label>
+          <input type="text" id="lg-name" required maxlength="20" placeholder="가입할 때 입력한 이름">
+        </div>
+        <div class="form-group">
+          <label>비밀번호<span class="req">*</span></label>
+          <div style="position:relative;">
+            <input type="password" id="lg-password" required maxlength="32" placeholder="비밀번호" autocomplete="current-password" style="padding-right:42px;">
+            <button type="button" onclick="togglePwVis('lg-password',this)" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-light);padding:4px;" title="비밀번호 보기">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="help">이 기기에서 한 번 로그인하면 다음부터 자동 로그인됩니다.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginBtn">로그인</button>
+      </form>
+
+      <div class="loading" id="loginLoading">인증 중...</div>
+
+      <div class="info-box warning" id="loginError" style="display:none;"></div>
+
+      <!-- 원격회원 초대 코드 — 접히는 섹션 -->
+      <div style="margin-top:14px;text-align:center;">
+        <a onclick="toggleRemoteLogin();return false;" style="font-size:12px;color:var(--color-text-light);cursor:pointer;">원격회원 초대 코드 입력</a>
+      </div>
+      <div id="remoteLoginSection" style="display:none;margin-top:12px;">
+        <div class="info-box" style="font-size:12px;">
+          관리자가 전달한 <strong>6자리 초대 코드</strong>를 입력하면 프리미엄 기능이 활성화됩니다.
+        </div>
+        <div class="invite-code-row" id="inviteRow">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        </div>
+        <div class="info-box warning" id="inviteError" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 영풀 — 막힌 영어를 풀다 · 문의: 카카오톡 연플래너<br>
+    개인정보는 학습 서비스 제공 목적으로만 사용됩니다.</p>
+    <p style="opacity:.55;font-size:.82em;margin-top:6px;letter-spacing:.02em;">
+      © 2026 이진우 (연소사) · <a href="https://yeon.ai.kr" style="color:inherit;text-decoration:none;">yeon.ai.kr</a> · All rights reserved
+    </p>
+  </div>
+</div>
+
+<!-- ===== 매뉴얼 모달 ===== -->
+<div class="modal" id="manualModal" onclick="if(event.target===this)closeManual()">
+  <div class="modal-content">
+    <div class="modal-head">
+      <h3>📖 사용자 매뉴얼</h3>
+      <button class="modal-close" onclick="closeManual()">&times;</button>
+    </div>
+    <div class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="manualSearch" placeholder="무엇이든 검색해 보세요 (예: 비밀번호, 특별회원, 평가)" oninput="filterManual()">
+    </div>
+    <div class="manual-list" id="manualList"></div>
+  </div>
+</div>
+
+<!-- ===== 평가 모달 ===== -->
+<div class="modal" id="reviewModal" onclick="if(event.target===this)closeReview()">
+  <div class="modal-content">
+    <div class="modal-head">
+      <h3>솔직한 평가 부탁드립니다</h3>
+      <button class="modal-close" onclick="closeReview()">&times;</button>
+    </div>
+    <div class="info-box" style="margin-bottom:12px;border-color:var(--color-warning);background:rgba(143,133,107,0.08);">
+      <strong>솔직할수록 최대 +11 패킷</strong><br>
+      · 기본 평가 제출 <strong>+1</strong> · 구체적 문제점 <strong>+2</strong> · 상세 의견 150자+ <strong>+1</strong> · 개선/버그 키워드 <strong>+1</strong><br>
+      · <strong style="color:var(--color-success);">학습 경험담</strong> 200자+ <strong>+1</strong> · 500자+ 추가 <strong>+2</strong><br>
+      · <strong style="color:var(--color-primary);">평가 이유</strong> 20자+ <strong>+1</strong> · 40자+ 추가 <strong>+1</strong> · 구체적 근거 <strong>+1</strong><br>
+      <span style="color:var(--color-error);">※ 억지로 좋게 쓰면 바로 티납니다. 공감 많이 받는 솔직한 경험담이 게시판 상단에 노출됩니다.</span>
+    </div>
+
+    <div class="score-box">
+      <div class="score-display" id="scoreDisplay">-</div>
+      <div class="score-label" id="scoreLabel">슬라이더를 움직여 점수를 정해 주세요 (0~100)</div>
+      <input type="range" min="0" max="100" value="-1" class="score-slider" id="scoreSlider" oninput="updateScore()">
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:13px;color:var(--color-error);font-weight:600;">🔧 문제점 · 개선할 점 (가장 중요!)</label>
+      <div class="chip-row" id="tagNeg">
+        <div class="chip" data-tag="버그발견">버그 발견</div>
+        <div class="chip" data-tag="느림">느림</div>
+        <div class="chip" data-tag="어려움">사용 어려움</div>
+        <div class="chip" data-tag="설명부족">설명 부족</div>
+        <div class="chip" data-tag="디자인별로">디자인 별로</div>
+        <div class="chip" data-tag="기능부족">기능 부족</div>
+        <div class="chip" data-tag="오답많음">오답 판정 문제</div>
+        <div class="chip" data-tag="접근성">접근성 문제</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:13px;color:var(--color-text-light);">👍 좋았던 점 (선택 사항)</label>
+      <div class="chip-row" id="tagPos">
+        <div class="chip" data-tag="쉬움">쉬움</div>
+        <div class="chip" data-tag="재미있음">재미있음</div>
+        <div class="chip" data-tag="도움됨">도움됨</div>
+        <div class="chip" data-tag="빠름">빠름</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:13px;font-weight:600;color:var(--color-primary);">이 점수를 준 이유 (한 줄) <span style="font-weight:400;color:var(--color-text-light);">— 20자 이상이면 +1 패킷 & 게시판 상단 노출 유리</span></label>
+      <input type="text" id="reviewReason" maxlength="80" placeholder="예) 오답 해설이 친절해서 / 강제로 답을 외우게 하지 않아서 / 화면이 너무 답답해서" style="width:100%;padding:10px 12px;border:1.5px solid var(--color-muted);border-radius:8px;font-size:13px;font-family:inherit;">
+      <div class="help"><span id="reasonLen">0</span> / 80자</div>
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:13px;font-weight:600;">상세 의견 · 내 경험 그대로 — <span style="color:var(--color-success);">솔직할수록 보상이 커집니다</span></label>
+      <textarea id="reviewText" maxlength="1500" placeholder="아래 질문에 솔직하게 답해 주세요 (꾸밈 금지):&#10;&#10;· 이 앱을 며칠/몇 주 써봤는지?&#10;· 진짜로 공부가 되었던 순간이 있었나요? 어떤 순간이었나요?&#10;· 반대로, '이건 별로다' 싶었던 부분은 무엇이었나요?&#10;· 다른 사람에게 추천할 수 있나요? 왜 그런가요?&#10;&#10;※ 좋게만 쓰면 오히려 의심받습니다. 진짜 경험만 적어 주세요."></textarea>
+      <div class="help"><span id="reviewLen">0</span> / 1500자 — 200자+ 경험담 +1 · 500자+ 상세 경험담 +2</div>
+    </div>
+
+    <div class="info-box success" id="rewardPreview" style="margin-bottom:12px;display:none;">
+      <strong>예상 보상: <span id="rewardNum">1</span> 패킷</strong> <span id="rewardDetail" style="font-size:11px;"></span>
+    </div>
+
+    <button class="btn btn-primary" onclick="submitReview()">솔직한 평가 제출</button>
+  </div>
+</div>
+
+<!-- ===== 평가 게시판 모달 ===== -->
+<div class="modal" id="reviewBoardModal" onclick="if(event.target===this)closeReviewBoard()">
+  <div class="modal-content" style="max-width:640px;">
+    <div class="modal-head">
+      <h3>평가 게시판 · 공감 순</h3>
+      <button class="modal-close" onclick="closeReviewBoard()">&times;</button>
+    </div>
+    <div class="info-box" style="margin-bottom:12px;">
+      공감(♥)을 많이 받은 평가가 상단에 노출됩니다.<br>
+      구체적인 <strong>경험담</strong>일수록 많은 공감과 추가 패킷을 받을 가능성이 높습니다.
+    </div>
+    <div class="rb-filter">
+      <button class="rb-tab active" data-rb="top">공감 순</button>
+      <button class="rb-tab" data-rb="recent">최신 순</button>
+      <button class="rb-tab" data-rb="story">경험담만</button>
+    </div>
+    <div id="reviewBoardList" class="rb-list"></div>
+    <div id="reviewBoardEmpty" class="rb-empty" style="display:none;">
+      아직 등록된 평가가 없습니다.<br>첫 평가의 주인공이 되어 보세요!
+    </div>
+    <button class="btn btn-primary" onclick="closeReviewBoard();openReview();" style="margin-top:14px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      내 평가 남기기
+    </button>
+  </div>
+</div>
+
+<!-- ===== 검증 대화 모달 (악의 의심 평가) ===== -->
+<div class="modal" id="sincerityModal" onclick="if(event.target===this)closeSincerity()">
+  <div class="modal-content" style="max-width:600px;">
+    <div class="modal-head">
+      <h3>평가 전 확인이 필요합니다</h3>
+      <button class="modal-close" onclick="closeSincerity()">&times;</button>
+    </div>
+
+    <div class="sc-head">
+      <h4>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        시스템이 이 평가에서 아래 신호를 감지했습니다
+      </h4>
+      <p>악의적 평가를 막기 위해 몇 가지 논리적 질문을 드립니다. 모든 질문은 한 번만 답하시면 됩니다.</p>
+      <div class="sc-flags" id="scFlags"></div>
+    </div>
+
+    <!-- 질문 1 -->
+    <div class="sc-q">
+      <label><span class="sc-q-num">1</span>이 앱을 실제로 얼마나 사용해 보셨나요?</label>
+      <div class="sc-opts">
+        <label class="sc-opt"><input type="radio" name="scQ1" value="none"><span>사용해 본 적 없음 (설명만 봤음)</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ1" value="1to3"><span>1~3회 정도 열어봤음</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ1" value="4to10"><span>4~10회 사용</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ1" value="over10"><span>10회 이상 꾸준히 사용</span></label>
+      </div>
+    </div>
+
+    <!-- 질문 2 -->
+    <div class="sc-q">
+      <label><span class="sc-q-num">2</span>구체적으로 어떤 화면, 어떤 순간에 문제가 있었나요? (30자 이상)</label>
+      <textarea id="scQ2" maxlength="400" placeholder="예) 로그인 후 첫 화면에서 가입 신청 탭을 눌렀을 때 폼이 뜨지 않았음. 재시도해도 동일."></textarea>
+      <div class="help" style="margin-top:4px;"><span id="scQ2Len">0</span> / 400자 (30자 이상 필수)</div>
+    </div>
+
+    <!-- 질문 3 -->
+    <div class="sc-q">
+      <label><span class="sc-q-num">3</span>이 평가를 남기는 목적은 무엇인가요?</label>
+      <div class="sc-opts">
+        <label class="sc-opt"><input type="radio" name="scQ3" value="improve"><span>실제 경험을 공유하고 개선을 바람</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ3" value="complain"><span>특정 기능에 대한 불만 표현</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ3" value="warn"><span>앱이 쓸모없다고 생각해 다른 사용자에게 경고</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ3" value="other"><span>기타</span></label>
+      </div>
+    </div>
+
+    <!-- 질문 4 -->
+    <div class="sc-q">
+      <label><span class="sc-q-num">4</span>이 평가는 공개되며, 회사의 공식 검증 답변이 함께 붙을 수 있습니다. 동의하시나요?</label>
+      <div class="sc-opts">
+        <label class="sc-opt"><input type="radio" name="scQ4" value="agree"><span>동의합니다 — 검증 답변이 붙어도 게시하겠습니다</span></label>
+        <label class="sc-opt"><input type="radio" name="scQ4" value="cancel"><span>동의하지 않습니다 — 평가를 취소하겠습니다</span></label>
+      </div>
+    </div>
+
+    <div class="sc-actions">
+      <button class="btn btn-primary" onclick="submitSincerityCheck()">검증 완료 · 게시 의사 확인</button>
+      <button class="btn btn-secondary" onclick="closeSincerity()">평가 다시 쓰기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 게시판 차단 모달 ===== -->
+<div class="modal" id="banModal" onclick="if(event.target===this)closeBan()">
+  <div class="modal-content" style="max-width:560px;">
+    <div class="modal-head">
+      <h3>평가 게시 제한 안내</h3>
+      <button class="modal-close" onclick="closeBan()">&times;</button>
+    </div>
+    <div class="sc-ban-box">
+      <h4>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        현재 기기는 평가 게시가 제한되어 있습니다
+      </h4>
+      <p>아래 근거에 따라 정밀 검증 후 이 기기에서 새 평가 작성이 일시 제한되었습니다. 기존에 남기신 답변을 그대로 인용합니다.</p>
+      <div id="banEvidence"></div>
+      <p style="margin-top:10px;">이 판정이 부당하다고 생각하시면 담당 선생님께 연락해 재검토를 요청할 수 있습니다. 검증 답변은 수정·삭제 불가하며, 본인 기기에 원본이 보관되어 있습니다.</p>
+    </div>
+    <button class="btn btn-primary" onclick="closeBan()">확인</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 연 프로젝트 생태계 — 표준 싱크 스키마 + 학생 식별 (2026-04-10)
+// ============================================================
+// 비전: 연플래너 = Hub, 학과목 앱 = Spoke
+//   - 영풀(현 앱) 은 spoke 로서 학습 데이터를 표준 형식으로 송출
+//   - 연플래너가 모든 spoke 에서 표준 키를 읽어 종합/시각화
+//
+// 원칙:
+//   - 100% additive — 기존 코드 수정 0건. 신규 함수만 추가.
+//   - 라이브 서비스 회귀 0 (project_yeongpul_live_rollout.md 준수)
+//   - 스키마 변경 시 모든 학과목 앱이 동일 변경 → 신중히 확정
+//
+// 관련 메모리:
+//   - project_planner_hub_architecture.md (스키마 원본)
+//   - project_anonymous_to_member_journey.md (익명 UUID → 회원 머지)
+//   - project_admin_roster_migration.md (학원 코드 ↔ OTP)
+// ============================================================
+
+// --- C4. 학생 식별 단일화 ----------------------------------
+// 우선순위: 로그인 세션 memberId → 가입자 ID → 익명 UUID
+// 익명 UUID 는 yeon_voter_id 와 동일 (이미 게시판에서 발급 중)
+//   → 가입 시 머지: yeon_student_id 를 회원 ID 로 덮어쓰면 됨
+function getStudentId(){
+  // 1) 로그인 세션
+  try{
+    const sess = JSON.parse(sessionStorage.getItem('yeon_session') || 'null');
+    if (sess && sess.memberId) return sess.memberId;
+  } catch(e){}
+  // 2) 영구 학생 ID (가입 시 채워짐)
+  let sid = localStorage.getItem('yeon_student_id');
+  if (sid) return sid;
+  // 3) 익명 UUID (게시판 voter_id 와 동일 — 익명→회원 머지의 시드)
+  sid = localStorage.getItem('yeon_voter_id');
+  if (!sid){
+    sid = 'anon_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+    localStorage.setItem('yeon_voter_id', sid);
+  }
+  // 임시로 student_id 슬롯에도 기록 (가입 시 회원 ID 로 덮어쓰여짐)
+  localStorage.setItem('yeon_student_id', sid);
+  return sid;
+}
+
+// --- C8. 학원 코드 (6자리) — 영풀 측 ------------------------
+// 학원 가입 학생은 OTP/초대 코드 입력 시 academy 정보가 채워짐
+// 6자리 정책 확정 (config.REMOTE.INVITE_CODE_LENGTH 와 동기)
+function getAcademyCode(){
+  return localStorage.getItem('yeon_academy_code') || null;
+}
+function setAcademyCode(code){
+  if (!code || String(code).length !== 6) return false;
+  localStorage.setItem('yeon_academy_code', String(code));
+  return true;
+}
+
+// --- C5. 표준 싱크 스키마 + 송출 ----------------------------
+// localStorage 키: yeon_planner_sync_<subjectKey>_<studentId>
+// 모든 학과목 앱이 동일 형식으로 기록 → 플래너가 자동 수집
+const YEON_SYNC_SUBJECT = 'english';
+const YEON_SYNC_KEY = 'yeongpul';
+
+function _yeonSyncStorageKey(studentId){
+  return 'yeon_planner_sync_' + YEON_SYNC_KEY + '_' + (studentId || getStudentId());
+}
+
+// 빈 스키마 — 새 학생의 초기 상태
+function _yeonSyncEmpty(studentId){
+  return {
+    subject: YEON_SYNC_SUBJECT,
+    subjectKey: YEON_SYNC_KEY,
+    studentId: studentId || getStudentId(),
+    sessions:    [],   // {id, startedAt, endedAt, durationSec, type, score?}
+    reviews:     [],   // {id, dueAt, sourceId, type, status}  (에빙하우스 1/3/7/14/30)
+    todo:        [],   // {id, label, dueAt, source}
+    weakPoints:  [],   // {id, label, weight, lastSeenAt}
+    vocab:       [],   // {id, word, meaning, addedAt, examples?}
+    metadata: {
+      academyCode: getAcademyCode(),
+      tier: (function(){
+        try{ const s = JSON.parse(sessionStorage.getItem('yeon_session')||'null'); return s?.tier || null; } catch(e){ return null; }
+      })()
+    },
+    updatedAt: new Date().toISOString()
+  };
+}
+
+// 읽기 — 없으면 빈 스키마
+function readYeonPlannerSync(studentId){
+  const sid = studentId || getStudentId();
+  try{
+    const raw = localStorage.getItem(_yeonSyncStorageKey(sid));
+    if (!raw) return _yeonSyncEmpty(sid);
+    const data = JSON.parse(raw);
+    // 호환성 보강 — 누락 필드 채움
+    return Object.assign(_yeonSyncEmpty(sid), data, { studentId: sid });
+  } catch(e){
+    return _yeonSyncEmpty(sid);
+  }
+}
+
+// 쓰기 — patch 방식 (부분 업데이트). updatedAt 자동 갱신.
+// patch 예시: { sessions: [...누적] }, { vocab: [...] }
+function writeYeonPlannerSync(patch, studentId){
+  const sid = studentId || getStudentId();
+  const cur = readYeonPlannerSync(sid);
+  const next = Object.assign({}, cur, patch || {}, {
+    subject: YEON_SYNC_SUBJECT,
+    subjectKey: YEON_SYNC_KEY,
+    studentId: sid,
+    metadata: Object.assign({}, cur.metadata || {}, (patch && patch.metadata) || {}),
+    updatedAt: new Date().toISOString()
+  });
+  try{
+    localStorage.setItem(_yeonSyncStorageKey(sid), JSON.stringify(next));
+    return next;
+  } catch(e){
+    console.warn('[yeon-sync] write failed', e);
+    return null;
+  }
+}
+
+// 편의 함수 — 단일 항목 누적
+function pushYeonSyncItem(field, item, studentId){
+  const cur = readYeonPlannerSync(studentId);
+  const arr = Array.isArray(cur[field]) ? cur[field].slice() : [];
+  arr.push(item);
+  return writeYeonPlannerSync({ [field]: arr }, studentId);
+}
+
+// --- C10. 스무고개 교차 API (양방향) ------------------------
+// 영풀에서 배운 단어/문장 → 학생이 직접 스무고개 카드로 제작
+// → 영어 완전학습 + 추리력 동시 훈련
+//
+// 송출: 스무고개 앱이 polling 으로 yeon_20q_inbox 에서 pull
+function exportToTwentyQuestions(payload){
+  // payload = { from, topic, items: [{front, back, hint?}], studentId? }
+  const sid = (payload && payload.studentId) || getStudentId();
+  const entry = {
+    id: 'tq_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    from: (payload && payload.from) || 'english',
+    fromKey: YEON_SYNC_KEY,
+    topic: (payload && payload.topic) || '',
+    items: (payload && payload.items) || [],
+    studentId: sid,
+    pushedAt: new Date().toISOString(),
+    consumed: false
+  };
+  try{
+    const inbox = JSON.parse(localStorage.getItem('yeon_20q_inbox') || '[]');
+    inbox.push(entry);
+    localStorage.setItem('yeon_20q_inbox', JSON.stringify(inbox));
+    return entry;
+  } catch(e){
+    console.warn('[yeon-20q] export failed', e);
+    return null;
+  }
+}
+
+// 전역 노출 (콘솔/디버그/외부 호출용 — 1차는 디버그만)
+window.YeonSync = {
+  getStudentId, getAcademyCode, setAcademyCode,
+  read: readYeonPlannerSync,
+  write: writeYeonPlannerSync,
+  push: pushYeonSyncItem,
+  exportToTwentyQuestions,
+  SUBJECT: YEON_SYNC_SUBJECT,
+  SUBJECT_KEY: YEON_SYNC_KEY
+};
+
+// ============================================
+// 자동 로그인 (localStorage 기억)
+// ============================================
+const AUTO_KEY = 'yeon_auto_login';
+function saveAutoLogin(info){
+  // info = { tier, name, memberId, password?, redirect? }
+  localStorage.setItem(AUTO_KEY, JSON.stringify({
+    ...info, savedAt: new Date().toISOString()
+  }));
+}
+function getAutoLogin(){
+  try{ return JSON.parse(localStorage.getItem(AUTO_KEY) || 'null'); } catch{ return null; }
+}
+function clearAutoLogin(){
+  localStorage.removeItem(AUTO_KEY);
+  document.getElementById('autoLoginCard').style.display = 'none';
+  document.querySelector('.mode-tabs').style.display = '';
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  document.getElementById('panel-signup').classList.add('open');
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.mode-tab[data-panel="signup"]').classList.add('active');
+}
+function autoLoginContinue(){
+  const auto = getAutoLogin();
+  if (!auto) return;
+  sessionStorage.setItem('yeon_session', JSON.stringify({
+    tier: auto.tier, name: auto.name, memberId: auto.memberId,
+    loginAt: new Date().toISOString(), auto: true
+  }));
+  if (auto.tier === 'special' || auto.redirect === 'app.html'){
+    window.location.href = 'app.html';
+  } else if (auto.tier === 'premium'){
+    window.location.href = 'app.html';
+  } else {
+    window.location.href = 'app.html';
+  }
+}
+// 진입 시 무조건 학습 페이지로 바로 이동 — 로그인 장벽 없음
+(function initAutoLogin(){
+  // 저장된 세션 있으면 세션 복원 후 이동
+  const auto = getAutoLogin();
+  if (auto && auto.name) {
+    autoLoginContinue();
+    return;
+  }
+  // 세션 없어도 바로 학습 페이지로 이동 (게스트 모드)
+  window.location.href = 'app.html';
+})();
+
+// ============================================
+// 탭 전환
+// ============================================
+document.querySelectorAll('.mode-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));
+    document.getElementById('panel-'+tab.dataset.panel).classList.add('open');
+    document.getElementById('signupResult').classList.remove('open');
+    document.getElementById('signupForm').style.display='';
+    // 가입 탭 클릭 시 자세한 가입 폼 표시
+    if (tab.dataset.panel === 'signup'){
+      var dc = document.getElementById('detailedSignupCard');
+      if (dc) dc.style.display = '';
+    }
+    if (tab.dataset.panel === 'trial') renderTrialStatus();
+  });
+});
+
+// ============================================
+// 상단 가입 CTA — 버튼 동작
+// ============================================
+function _activateTab(name){
+  const tabBtn = document.querySelector('.mode-tab[data-panel="'+name+'"]');
+  if (tabBtn) tabBtn.click();
+  const el = document.getElementById('panel-'+name);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function ctaGoogleSignup(){
+  _activateTab('signup');
+  if (window.google && window.google.accounts && window.google.accounts.id){
+    try { window.google.accounts.id.prompt(); return; } catch(e){}
+  }
+  setTimeout(function(){
+    alert('Google 간편 가입은 곧 지원됩니다.\n지금은 아래 양식에 직접 작성해 주세요. 🙂');
+    const nameEl = document.getElementById('su-name');
+    if (nameEl){ nameEl.focus(); }
+  }, 400);
+}
+
+// ============================================
+// Google Sign-In 초기화 + 자동 이름/이메일 채우기
+// ============================================
+(function initGoogleSignIn(){
+  const clientId = (window.YEON_CONFIG && window.YEON_CONFIG.GOOGLE_CLIENT_ID) || '';
+  if (!clientId) return;
+
+  function handleCredentialResponse(response){
+    try {
+      var b64 = response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+      var raw = atob(b64);
+      var bytes = new Uint8Array(raw.length);
+      for(var i=0;i<raw.length;i++) bytes[i]=raw.charCodeAt(i);
+      const payload = JSON.parse(new TextDecoder().decode(bytes));
+      const nameEl  = document.getElementById('su-name');
+      const emailEl = document.getElementById('su-email');
+      if (nameEl  && payload.name)  nameEl.value  = payload.name;
+      if (emailEl && payload.email) emailEl.value = payload.email;
+      _activateTab('signup');
+      setTimeout(function(){
+        const gradeEl = document.getElementById('su-grade');
+        if (gradeEl) gradeEl.focus();
+      }, 300);
+    } catch(e){ console.warn('Google credential parse error', e); }
+  }
+
+  function tryInit(){
+    if (!window.google || !window.google.accounts || !window.google.accounts.id) return false;
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleCredentialResponse,
+      auto_select: false
+    });
+    var gDiv = document.getElementById('gSignInDiv');
+    if (gDiv){
+      window.google.accounts.id.renderButton(gDiv, {
+        theme:'outline', size:'large', text:'signin_with', locale:'ko', width:300
+      });
+      var box = document.getElementById('googleBox');
+      if (box) box.style.display = '';
+    }
+    return true;
+  }
+
+  if (!tryInit()){
+    var timer = setInterval(function(){
+      if (tryInit()) clearInterval(timer);
+    }, 500);
+    setTimeout(function(){ clearInterval(timer); }, 10000);
+  }
+})();
+function ctaManualSignup(){
+  _activateTab('signup');
+  setTimeout(function(){
+    const nameEl = document.getElementById('su-name');
+    if (nameEl){
+      nameEl.scrollIntoView({behavior:'smooth', block:'center'});
+      nameEl.focus();
+    }
+  }, 350);
+}
+function ctaLogin(){ _activateTab('login'); }
+function ctaTrial(){ _activateTab('trial'); }
+
+// ============================================
+// 빠른 시작 (이름 + 학년만으로 가입 → 바로 학습)
+// ============================================
+async function handleQuickStart(e){
+  e.preventDefault();
+  const btn = document.getElementById('quickStartBtn');
+  const loading = document.getElementById('quickStartLoading');
+  btn.disabled = true;
+  loading.classList.add('open');
+
+  const name = document.getElementById('qs-name').value.trim();
+  const grade = document.getElementById('qs-grade').value;
+  if (!name || !grade){ alert('이름과 학년을 입력해 주세요.'); btn.disabled=false; loading.classList.remove('open'); return; }
+
+  // 초대 코드 (URL ?invite=)
+  const invFromStore = sessionStorage.getItem('yeon_pending_invite') || '';
+  const inviteCode = invFromStore.replace(/\D/g,'').slice(0,8);
+
+  const payload = {
+    name: name,
+    grade: grade,
+    phone: '',
+    email: '',
+    password: null,  // 서버에서 자동 생성
+    message: '',
+    invitedBy: inviteCode || null
+  };
+
+  const res = await callBackend('signup', payload);
+  btn.disabled = false;
+  loading.classList.remove('open');
+
+  if (!res.ok){
+    alert('가입 처리 중 오류: ' + (res.error||'알 수 없는 오류'));
+    return;
+  }
+
+  // 초대 트리 저장
+  if (inviteCode){
+    localStorage.setItem(INVITED_BY_KEY, JSON.stringify({
+      code: inviteCode, joinedAt: Date.now(), memberId: res.memberId
+    }));
+    sessionStorage.removeItem('yeon_pending_invite');
+  }
+
+  // 자동 로그인 저장
+  saveAutoLogin({
+    tier: 'general',
+    name: name,
+    memberId: res.memberId,
+    password: res.password,
+    pending: false
+  });
+
+  // 세션 저장
+  sessionStorage.setItem('yeon_session', JSON.stringify({
+    tier: 'general', name: name, memberId: res.memberId,
+    loginAt: new Date().toISOString(), auto: true
+  }));
+
+  // 바로 학습 페이지로 이동
+  window.location.href = 'app.html';
+}
+
+// 자세한 정보로 가입 토글
+function toggleDetailedSignup(){
+  const card = document.getElementById('detailedSignupCard');
+  if (!card) return;
+  if (card.style.display === 'none'){
+    card.style.display = '';
+    _activateTab('signup');
+    setTimeout(function(){
+      card.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 200);
+  } else {
+    card.style.display = 'none';
+  }
+}
+
+// 원격회원 초대 코드 토글
+function toggleRemoteLogin(){
+  var sec = document.getElementById('remoteLoginSection');
+  if (!sec) return;
+  sec.style.display = sec.style.display === 'none' ? '' : 'none';
+}
+
+// 상단바 로그인 아이콘 — 로그인 상태에 따라 분기
+function goLoginTab(){
+  // 이미 로그인된 상태면 로그아웃 확인
+  let sess = null;
+  try { sess = JSON.parse(sessionStorage.getItem('yeon_session')||'null'); } catch(e){}
+  const auto = (function(){ try { return JSON.parse(localStorage.getItem(AUTO_KEY)||'null'); } catch(e){ return null; } })();
+  if ((sess && sess.name) || auto){
+    const who = (sess && sess.name) || (auto && auto.name) || '';
+    if (confirm((who ? who+' 님으로 로그인되어 있습니다.\n' : '')+'로그아웃 하시겠습니까?')){
+      sessionStorage.removeItem('yeon_session');
+      clearAutoLogin();
+      updateLoginBarIcon();
+    }
+    return;
+  }
+  // 비로그인 → 로그인 탭으로 이동 + 스크롤
+  document.querySelector('.mode-tab[data-panel="login"]').click();
+  const el = document.getElementById('panel-login');
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function updateLoginBarIcon(){
+  const btn = document.getElementById('barLoginBtn');
+  if (!btn) return;
+  let sess = null;
+  try { sess = JSON.parse(sessionStorage.getItem('yeon_session')||'null'); } catch(e){}
+  const auto = (function(){ try { return JSON.parse(localStorage.getItem(AUTO_KEY)||'null'); } catch(e){ return null; } })();
+  const loggedIn = (sess && sess.name) || auto;
+  if (loggedIn){
+    btn.title = '로그아웃 ('+((sess&&sess.name)||(auto&&auto.name)||'')+')';
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+    btn.style.color = 'var(--color-success)';
+  } else {
+    btn.title = '로그인';
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>';
+    btn.style.color = '';
+  }
+}
+// 초기 상태 반영
+updateLoginBarIcon();
+
+// ============================================
+// 요금제 (5단 수동 선택) · 생태계 앱 렌더링
+// 정책: 자동 승급 금지 — 한도 초과 시 사용자가 직접 상위 티어를 선택해야 변경
+// ============================================
+function formatKRW(n){ return n.toLocaleString('ko-KR') + '원'; }
+
+function getTierByUsage(sessionsUsed){
+  // 월간 세션 사용량이 어느 티어 한도 안에 들어가는지 조회 (자동 과금 X, 참고용)
+  const tiers = (window.YEON_CONFIG && window.YEON_CONFIG.PRICING && window.YEON_CONFIG.PRICING.TIERS) || [];
+  if (!tiers.length) return null;
+  for (const t of tiers){
+    if (sessionsUsed <= t.sessions) return t;
+  }
+  return tiers[tiers.length - 1]; // 최상위 cap
+}
+
+function currentBillingTier(){
+  // 사용자가 직접 선택한 티어만 청구 대상. 사용량 기반 자동 승급 없음.
+  const sess = parseInt(localStorage.getItem('yeon_month_sessions') || '0', 10);
+  const selected = localStorage.getItem('yeon_selected_tier') || (window.YEON_CONFIG.PRICING.DEFAULT_TIER || 'T1');
+  const tiers = window.YEON_CONFIG.PRICING.TIERS;
+  const selIdx = Math.max(0, tiers.findIndex(t => t.id === selected));
+  const selTier = tiers[selIdx];
+  // 한도 초과 여부만 표시 (실제 과금은 사용자 선택으로만)
+  const overQuota = sess > selTier.sessions;
+  return { tier: selTier, overQuota: overQuota, usedSessions: sess, selectedId: selected };
+}
+
+function selectTier(id){
+  localStorage.setItem('yeon_selected_tier', id);
+  renderTiers();
+  const t = window.YEON_CONFIG.PRICING.TIERS.find(x => x.id === id);
+  if (t) alert(`[${t.name}] 선택되었습니다.\n월 ${formatKRW(t.price)} · ${t.sessions}세션\n\n한도를 넘어가면 학습이 일시 정지되며, 원하실 때 직접 상위 요금제로 올릴 수 있어요. 동의 없이 자동으로 금액이 오르지 않습니다.`);
+}
+
+function renderTiers(){
+  const box = document.getElementById('tierScroll');
+  if (!box || !window.YEON_CONFIG || !window.YEON_CONFIG.PRICING) return;
+  const tiers = window.YEON_CONFIG.PRICING.TIERS || [];
+  const selected = localStorage.getItem('yeon_selected_tier') || window.YEON_CONFIG.PRICING.DEFAULT_TIER;
+  box.innerHTML = tiers.map(t => {
+    const isSel = t.id === selected;
+    const cls = 'tier-chip' + (t.highlight ? ' highlight' : '') + (isSel ? ' selected' : '');
+    const sessLabel = t.sessions >= 9999 ? '사실상 무제한' : `${t.sessions}세션`;
+    return `
+      <div class="${cls}" onclick="selectTier('${t.id}')" style="${isSel ? 'box-shadow:0 0 0 2px var(--color-primary);' : ''}">
+        <div class="tc-name">${t.name}</div>
+        <div class="tc-tag">${t.tagline}</div>
+        <div class="tc-price">${formatKRW(t.price)}</div>
+        <div class="tc-unit">/ 월</div>
+        <div class="tc-sess">${sessLabel}</div>
+        <div class="tc-for">${t.bestFor}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderEcosystem(){
+  const box = document.getElementById('ecoGrid');
+  if (!box || !window.YEON_CONFIG) return;
+  const apps = window.YEON_CONFIG.ECOSYSTEM_APPS || [];
+  box.innerHTML = apps.map(a => {
+    const badge = a.current
+      ? '<span class="ei-badge">현재</span>'
+      : (a.status === 'beta' ? '<span class="ei-badge beta">BETA</span>' : '');
+    return `
+      <div class="eco-item${a.current ? ' current' : ''}">
+        <div class="ei-name">${a.name} ${badge}</div>
+        <div class="ei-desc">${a.desc}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openParentInfo(){
+  // 현재 사용량 + 선택 티어를 parent.html 에 전달
+  const info = currentBillingTier();
+  const params = new URLSearchParams();
+  params.set('tier', info.tier.id);
+  params.set('used', info.usedSessions);
+  params.set('selected', info.selectedId);
+  const url = (window.YEON_CONFIG.PRICING.PARENT_INFO_URL || 'parent.html') + '?' + params.toString();
+  window.open(url, '_blank');
+}
+
+renderTiers();
+renderEcosystem();
+
+// ============================================
+// 특별 체험 모드 — VIP / 초대 학생 전용
+// 제한 사실상 해제: 365일 / 일 999회
+// 일반 배포 시에는 원래 값(30/7/3/1)으로 되돌릴 것
+// ============================================
+const TRIAL_TOTAL_DAYS = 365;
+const TRIAL_PHASE1_DAYS = 365;
+const TRIAL_PHASE1_QUOTA = 999;
+const TRIAL_PHASE2_QUOTA = 999;
+
+function trialState(){
+  const start = localStorage.getItem('yeon_trial_start');
+  const usage = JSON.parse(localStorage.getItem('yeon_trial_usage') || '[]');
+  return { start, usage };
+}
+function trialDayIndex(startIso){
+  if (!startIso) return 0;
+  const start = new Date(startIso);
+  const now = new Date();
+  const s = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+  const n = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.floor((n - s) / 86400000) + 1; // day 1 = 시작일
+}
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+}
+function trialQuota(day){
+  if (day < 1) return 0;
+  if (day <= TRIAL_PHASE1_DAYS) return TRIAL_PHASE1_QUOTA;
+  if (day <= TRIAL_TOTAL_DAYS) return TRIAL_PHASE2_QUOTA;
+  return 0;
+}
+function trialUsedToday(usage){
+  const t = todayStr();
+  return usage.filter(d => d.startsWith(t)).length;
+}
+function renderTrialStatus(){
+  const { start, usage } = trialState();
+  const blocked = document.getElementById('trialBlocked');
+  blocked.style.display = 'none';
+
+  if (!start){
+    document.getElementById('tsStart').textContent = '미시작';
+    document.getElementById('tsDay').textContent = '-';
+    document.getElementById('tsRemain').textContent = '-';
+    document.getElementById('tsQuota').textContent = '-';
+    document.getElementById('tpFill').style.width = '0%';
+    document.getElementById('trialBtn').textContent = '무료로 시작하기';
+    document.getElementById('trialBtn').disabled = false;
+    return;
+  }
+  const day = trialDayIndex(start);
+  const quota = trialQuota(day);
+  const used = trialUsedToday(usage);
+  const remain = Math.max(0, quota - used);
+
+  // 특별 체험 회원 — 제한 없음 (999 quota)
+  const isVIP = TRIAL_PHASE1_QUOTA >= 999;
+
+  document.getElementById('tsStart').textContent = start.slice(0,10);
+  document.getElementById('tsDay').textContent = isVIP ? (day + '일째') : (day <= TRIAL_TOTAL_DAYS ? (day + ' / ' + TRIAL_TOTAL_DAYS + '일') : (day + '일 (종료)'));
+  document.getElementById('tsRemain').textContent = isVIP ? '무제한' : (remain + '회');
+  document.getElementById('tsQuota').textContent = isVIP ? '무제한 (특별 체험)' : (quota + '회 ('+(day<=TRIAL_PHASE1_DAYS?'1주차':(day<=TRIAL_TOTAL_DAYS?'2~4주차':'종료'))+')');
+  const progressPct = isVIP ? 100 : Math.min(100, (day / TRIAL_TOTAL_DAYS) * 100);
+  document.getElementById('tpFill').style.width = progressPct + '%';
+
+  const btn = document.getElementById('trialBtn');
+  if (!isVIP && day > TRIAL_TOTAL_DAYS){
+    btn.textContent = '체험 기간 종료';
+    btn.disabled = true;
+    blocked.innerHTML = '<strong>무료 체험이 종료되었습니다.</strong><br>정식 가입을 신청하거나 담당 선생님께 문의해 주세요.';
+    blocked.style.display = 'block';
+  } else if (!isVIP && remain <= 0){
+    btn.textContent = '오늘 한도 초과 — 내일 다시';
+    btn.disabled = true;
+    blocked.innerHTML = '<strong>오늘 사용 한도 초과</strong><br>오늘은 '+quota+'회 모두 사용했습니다. 자정 이후 초기화됩니다.';
+    blocked.style.display = 'block';
+  } else {
+    btn.textContent = isVIP ? '학습 시작하기' : ('무료로 시작하기 (남은 '+remain+'회)');
+    btn.disabled = false;
+  }
+}
+function startTrialSession(){
+  let { start, usage } = trialState();
+  if (!start){
+    start = new Date().toISOString();
+    localStorage.setItem('yeon_trial_start', start);
+  }
+  const day = trialDayIndex(start);
+  const quota = trialQuota(day);
+  const used = trialUsedToday(usage);
+  const isVIP = TRIAL_PHASE1_QUOTA >= 999;
+  if (!isVIP && day > TRIAL_TOTAL_DAYS){
+    alert('체험 기간이 종료되었습니다. 정식 가입을 신청해 주세요.');
+    return;
+  }
+  if (!isVIP && used >= quota){
+    alert('오늘 한도('+quota+'회)를 모두 사용했습니다.');
+    return;
+  }
+  usage.push(new Date().toISOString());
+  localStorage.setItem('yeon_trial_usage', JSON.stringify(usage));
+  sessionStorage.setItem('yeon_session', JSON.stringify({ tier:'trial', loginAt:new Date().toISOString() }));
+  renderTrialStatus();
+  if (isVIP) {
+    // 특별 체험 — 조용히 입장 (귀찮은 alert 생략)
+  } else {
+    alert('체험 모드로 입장합니다. 남은 '+(quota-used-1)+'회');
+  }
+  window.location.href = 'app.html';
+}
+
+// ============================================
+// 사용자 매뉴얼 + 통합 검색
+// ============================================
+const MANUAL = [
+  { title:'무료 체험이 무엇인가요?', body:'가입 없이 바로 사용할 수 있는 체험 모드입니다. 특별 체험 회원으로 초대받으신 분은 사용 횟수·기간 제한 없이 모든 기능을 마음껏 사용하실 수 있습니다. 마음에 드시면 "가입 신청" 탭에서 정식 가입하시면 됩니다.' },
+  { title:'회원 등급은 어떻게 구분되나요?', body:'일반회원(승인 대기) → 프리미엄회원(담당 선생님 승인 후) → 특별회원(관리자 지정)의 3단계로 운영됩니다. 특별회원은 일회용 비밀번호(OTP)로만 접속합니다.' },
+  { title:'비밀번호는 어떻게 발급받나요?', body:'가입 신청 직후 자동으로 8자리 비밀번호가 발급됩니다. 화면에서 반드시 복사해 두거나, 담당 선생님께 카카오톡으로 안내받으세요.' },
+  { title:'특별회원 일회용 비밀번호(OTP)', body:'특별회원의 비밀번호는 로그인 즉시 폐기되는 일회용입니다. 재접속이 필요하면 담당 선생님께 새 번호를 요청하시면 알림장으로 전달됩니다.' },
+  { title:'강동원 학생(고1) 특례', body:'기존 학습 이력이 있는 강동원(고1) 학생이 가입하면 자동으로 일반회원+특별회원에 동시 등록됩니다. 특별회원 OTP로 로그인하면 기존 학습 데이터(최초 영어 시험 포함)를 이어서 볼 수 있습니다.' },
+  { title:'사용자 평가하면 패킷이 늘어나나요?', body:'네! 1건 당 최대 +11 패킷까지 적립됩니다. 기본 리뷰 최대 +5, 학습 경험담 200자+ +1·500자+ 추가 +2, 평가 이유 20자+ +1·40자+ 추가 +1·구체적 근거 +1. 공감 많이 받는 솔직한 경험담이 게시판 상단에 노출되어 더 널리 읽힙니다. 억지로 좋게 쓰면 티가 납니다.' },
+  { title:'평가 게시판은 어떤 기준으로 정렬되나요?', body:'기본은 공감(♥) 수가 많은 순으로 상위 노출됩니다. 같은 공감 수끼리는 경험담이 먼저, 그 다음 최신순입니다. "경험담만" 탭으로 200자 이상 학습 서술 평가만 골라 볼 수 있습니다. 평가 이유를 20자 이상 적으면 게시판 초기 공감이 +2로 시작되어 상단 노출 가능성이 높아집니다.' },
+  { title:'평가는 어떻게 하나요?', body:'상단 별 아이콘을 누르면 평가 창이 열립니다. 0~100점 슬라이더로 솔직한 점수를 주시고, 문제점 태그를 고르거나 "어디가 어떻게 문제였는지" 구체적으로 적어 주세요. 좋은 말보다 진짜 도움되는 비판이 서비스를 키웁니다.' },
+  { title:'로그인이 안 돼요', body:'① 이름이 가입 시와 정확히 동일한지 확인 ② 비밀번호 대소문자 확인 ③ 특별회원이라면 OTP가 이미 사용됐을 수 있음 → 담당 선생님께 재발급 요청' },
+  { title:'개인정보는 안전한가요?', body:'입력하신 정보는 학습 서비스 제공 목적으로만 사용되며, 모든 비밀값은 서버(Netlify 환경변수)에만 저장됩니다. 클라이언트(브라우저)에는 비밀번호의 해시만 저장됩니다.' },
+  { title:'복습 알림은 어떻게 받나요?', body:'정식 회원으로 가입하면 학습 일정에 맞춰 카카오톡으로 복습 알림을 자동 발송합니다. 친구 추가 후 "연플래너" 채널을 추가해 주세요.' },
+  { title:'오답 해설 · 취약점 분석', body:'틀린 문제를 즉시 해설하고, 반복되는 오답 패턴에서 취약 개념을 자동 추출합니다. 누적 학습 후에는 본부 관리 프로그램에서 선생님이 맞춤 보고서를 받아볼 수 있습니다.' },
+  { title:'인쇄 기능이 있나요?', body:'모든 학습 자료는 A4 사이즈로 인쇄할 수 있도록 설계되어 있습니다. 종이로 복습하고 싶은 경우 우측 상단의 인쇄 버튼을 눌러 주세요.' },
+  { title:'친구 추천 보상', body:'카카오톡/SMS/링크로 친구를 초대하면 등급별 보상 패킷이 적립됩니다. 자세한 조건은 마이페이지에서 확인하실 수 있습니다.' },
+  { title:'부정사용 정책', body:'해킹·자동화·비밀번호 도용 등 부정 시도가 감지되면 1회부터 경고, 3회 발생 시 영구 차단됩니다. 모든 부정 시도는 본부에 자동 통보됩니다.' },
+  { title:'문의 · 신고', body:'카카오톡 채널 "연플래너"로 메시지를 보내주시거나, 하단 연락처를 통해 연락 주세요. 평균 24시간 이내 답변 드립니다.' }
+];
+function openManual(){
+  document.getElementById('manualModal').classList.add('open');
+  document.getElementById('manualSearch').value = '';
+  filterManual();
+}
+function closeManual(){ document.getElementById('manualModal').classList.remove('open'); }
+function filterManual(){
+  const q = document.getElementById('manualSearch').value.trim().toLowerCase();
+  const list = document.getElementById('manualList');
+  const items = q === '' ? MANUAL : MANUAL.filter(it =>
+    it.title.toLowerCase().includes(q) || it.body.toLowerCase().includes(q));
+  if (items.length === 0){
+    list.innerHTML = '<div class="manual-empty">검색 결과가 없습니다. 다른 키워드로 시도해 보세요.</div>';
+    return;
+  }
+  list.innerHTML = items.map((it,i) =>
+    '<div class="manual-item" onclick="this.classList.toggle(\'open\')"><h4>'+escapeHtml(it.title)+'</h4><div class="mi-body">'+escapeHtml(it.body)+'</div></div>'
+  ).join('');
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ============================================
+// 사용자 평가 — 솔직함/비판 장려형 (최대 +5 패킷)
+// ============================================
+function openReview(){
+  // 게시판 작성 차단 상태면 차단 안내로 우회
+  const ban = isBoardBanned();
+  if (ban){ showBanResult(ban); return; }
+  document.getElementById('reviewReason').value = '';
+  document.getElementById('reasonLen').textContent = '0';
+  document.getElementById('reviewModal').classList.add('open');
+  document.getElementById('scoreSlider').value = -1;
+  document.getElementById('scoreDisplay').textContent = '-';
+  document.getElementById('scoreLabel').textContent = '슬라이더를 움직여 점수를 정해 주세요 (0~100)';
+  document.getElementById('reviewText').value = '';
+  document.getElementById('reviewLen').textContent = '0';
+  document.querySelectorAll('#reviewModal .chip').forEach(c => c.classList.remove('on'));
+  document.getElementById('rewardPreview').style.display = 'none';
+}
+function closeReview(){ document.getElementById('reviewModal').classList.remove('open'); }
+function updateScore(){
+  const v = parseInt(document.getElementById('scoreSlider').value, 10);
+  if (v < 0){
+    document.getElementById('scoreDisplay').textContent = '-';
+    document.getElementById('scoreLabel').textContent = '슬라이더를 움직여 점수를 정해 주세요 (0~100)';
+  } else {
+    document.getElementById('scoreDisplay').textContent = v;
+    const lbl = v <= 30 ? '많이 부족하다고 느끼셨군요 — 소중합니다' :
+                v <= 60 ? '개선할 점이 많이 보이시는군요' :
+                v <= 85 ? '대체로 괜찮지만 아쉬운 부분이 있으시군요' :
+                          '만족스러우시군요. 그래도 개선점 한 가지만 알려주세요';
+    document.getElementById('scoreLabel').textContent = lbl + ' · '+v+' / 100';
+  }
+  updateRewardPreview();
+}
+document.addEventListener('click', e => {
+  const chip = e.target.closest('#tagNeg .chip, #tagPos .chip');
+  if (chip){
+    chip.classList.toggle('on');
+    updateRewardPreview();
+  }
+});
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'reviewText'){
+    document.getElementById('reviewLen').textContent = e.target.value.length;
+    updateRewardPreview();
+  }
+  if (e.target && e.target.id === 'reviewReason'){
+    document.getElementById('reasonLen').textContent = e.target.value.length;
+    updateRewardPreview();
+  }
+});
+
+// 보상 계산 — config.REWARDS 에서 모든 수치 로드 (서버 관리자만 조정 가능)
+function calcReward(score, negTags, posTags, text, reason){
+  const R = (window.YEON_CONFIG && window.YEON_CONFIG.REWARDS) || {};
+  const RV = R.REVIEW || {BASE:1, NEG_TAG:2, TEXT_50:1, TEXT_150:1, PROBLEM_KW:1, CAP:5};
+  const ST = R.STORY || {LEN_200:1, LEN_500:2, CAP:3};
+  const RN = R.REASON || {LEN_20:1, LEN_40:1, KW:1, CAP:3};
+  let reward = RV.BASE;
+  const details = ['기본 평가 +'+RV.BASE];
+  // 구체적 문제점 태그 선택
+  if (negTags.length > 0){
+    reward += RV.NEG_TAG;
+    details.push('문제점 지적 +'+RV.NEG_TAG);
+  }
+  // 상세 의견 길이
+  const len = (text||'').length;
+  if (len >= 50){
+    reward += RV.TEXT_50;
+    details.push('상세 의견 50자+ +'+RV.TEXT_50);
+  }
+  if (len >= 150){
+    reward += RV.TEXT_150;
+    details.push('상세 의견 150자+ +'+RV.TEXT_150);
+  }
+  // 버그/개선 키워드 보너스
+  const problemKw = /버그|오류|안됨|안돼|오답|틀림|느림|불편|개선|제안|추가|아쉬|문제|깨짐|잘림|안보|안나옴|에러/;
+  if (problemKw.test(text||'')){
+    reward += RV.PROBLEM_KW;
+    details.push('구체적 문제/개선 키워드 +'+RV.PROBLEM_KW);
+  }
+  // 기본 리뷰 cap
+  if (reward > RV.CAP){ reward = RV.CAP; details.push('(리뷰 최대 '+RV.CAP+' cap)'); }
+
+  // === 경험담 보너스 ===
+  let storyBonus = 0;
+  const storyKw = /공부|학습|외웠|이해|기억|성적|점수|올랐|향상|시험|문장|단어|발음|해석|작문|일기|꾸준|매일|습관|도움|변화|자신감/;
+  const hasStoryKw = storyKw.test(text||'');
+  let isStory = false;
+  if (len >= 200 && hasStoryKw){
+    storyBonus += ST.LEN_200;
+    details.push('경험담(200자+ 학습 서술) +'+ST.LEN_200);
+    isStory = true;
+  }
+  if (len >= 500 && hasStoryKw){
+    storyBonus += ST.LEN_500;
+    details.push('상세 경험담(500자+) +'+ST.LEN_500);
+  }
+  if (storyBonus > ST.CAP) storyBonus = ST.CAP;
+  reward += storyBonus;
+
+  // === 평가 이유 보너스 ===
+  const reasonLen = (reason||'').trim().length;
+  let reasonBonus = 0;
+  if (reasonLen >= 20){
+    reasonBonus += RN.LEN_20;
+    details.push('평가 이유 20자+ +'+RN.LEN_20);
+  }
+  if (reasonLen >= 40){
+    reasonBonus += RN.LEN_40;
+    details.push('평가 이유 40자+ 추가 +'+RN.LEN_40);
+  }
+  const reasonKw = /때문|왜냐|\d|예를|예:|비해|반면|처음|지금|전에|후에|비교|이전|마음|답답|시원|확실|도움|차이/;
+  if (reasonLen >= 20 && reasonKw.test(reason||'')){
+    reasonBonus += RN.KW;
+    details.push('구체적 근거 제시 +'+RN.KW);
+  }
+  if (reasonBonus > RN.CAP) reasonBonus = RN.CAP;
+  reward += reasonBonus;
+
+  return { reward, details, isStory, storyBonus, reasonBonus };
+}
+function updateRewardPreview(){
+  const score = parseInt(document.getElementById('scoreSlider').value, 10);
+  if (score < 0){ document.getElementById('rewardPreview').style.display = 'none'; return; }
+  const text = document.getElementById('reviewText').value;
+  const reason = document.getElementById('reviewReason').value;
+  const negTags = Array.from(document.querySelectorAll('#tagNeg .chip.on')).map(c => c.dataset.tag);
+  const posTags = Array.from(document.querySelectorAll('#tagPos .chip.on')).map(c => c.dataset.tag);
+  const { reward, details } = calcReward(score, negTags, posTags, text, reason);
+  document.getElementById('rewardNum').textContent = reward;
+  document.getElementById('rewardDetail').textContent = '(' + details.join(' · ') + ')';
+  document.getElementById('rewardPreview').style.display = 'block';
+}
+
+// 악의 의심 평가 자동 감지 — 반박 불가 증거 기반
+function detectMaliciousSignals(score, text, reason, negTags){
+  const flags = [];
+  const blob = (text+' '+reason).toLowerCase();
+  const len = (text+reason).trim().length;
+
+  // 1. 극단 점수인데 본문/이유가 거의 비어있음
+  if (score <= 20 && len < 15){
+    flags.push({code:'empty_low', msg:'점수 '+score+'점인데 근거 설명이 '+len+'자로 너무 짧습니다.'});
+  }
+  // 2. 혐오/비방/인신공격 키워드
+  const hateKw = /씨발|시발|ㅆㅂ|ㅅㅂ|병신|ㅄ|ㅂㅅ|미친놈|ㅁㅊ|꺼져|쓰레기|망해라|없어져|사기꾼|도둑|죽어|멍청|등신|개소리/;
+  if (hateKw.test(blob)){
+    flags.push({code:'hate', msg:'혐오/비방/인신공격 표현이 감지되었습니다.', severe:true});
+  }
+  // 3. 사용 기록이 거의 없는데 버그/오류 주장
+  let totalUse = 0;
+  try {
+    const logs = JSON.parse(localStorage.getItem('yeon_session_log')||'[]');
+    const trialUsage = JSON.parse(localStorage.getItem('yeon_trial_usage')||'[]');
+    totalUse = logs.length + trialUsage.length;
+  } catch(e){}
+  const claimsBug = /느림|버그|오류|에러|안됨|안돼|먹통|작동|고장|안켜|안열/.test(blob);
+  if (claimsBug && totalUse < 2){
+    flags.push({code:'no_usage', msg:'이 기기에서 누적 사용 로그가 '+totalUse+'회에 불과한데 버그/오류를 주장하고 있습니다.'});
+  }
+  // 4. 0~10점인데 이유가 너무 모호(10자 미만)
+  if (score <= 10 && (reason||'').trim().length < 10){
+    flags.push({code:'vague_reason', msg:'극단 점수('+score+'점)에 비해 평가 이유가 '+((reason||'').trim().length)+'자로 모호합니다.'});
+  }
+  // 5. 부정태그 잔뜩 고르고 본문 없음
+  if (negTags.length >= 3 && len < 30){
+    flags.push({code:'tag_spam', msg:'문제점 태그를 '+negTags.length+'개 선택했는데 구체적 설명이 '+len+'자뿐입니다.'});
+  }
+  return flags;
+}
+
+// 검증 대기 중인 리뷰 임시 저장
+let pendingReview = null;
+
+function submitReview(){
+  const score = parseInt(document.getElementById('scoreSlider').value, 10);
+  if (score < 0){ alert('점수를 선택해 주세요'); return; }
+  const text = document.getElementById('reviewText').value.trim();
+  const reason = document.getElementById('reviewReason').value.trim();
+  const negTags = Array.from(document.querySelectorAll('#tagNeg .chip.on')).map(c => c.dataset.tag);
+  const posTags = Array.from(document.querySelectorAll('#tagPos .chip.on')).map(c => c.dataset.tag);
+  const { reward, details, isStory, storyBonus, reasonBonus } = calcReward(score, negTags, posTags, text, reason);
+
+  // 악의 감지 → 검증 대화로 우회
+  const flags = detectMaliciousSignals(score, text, reason, negTags);
+  if (flags.length > 0){
+    pendingReview = { score, text, reason, negTags, posTags, reward, details, isStory, storyBonus, reasonBonus, flags };
+    startSincerityCheck(flags);
+    return;
+  }
+
+  // 현재 사용자 등급 태깅 (trial/general/premium/remote/special/guest)
+  let tier = 'guest';
+  try {
+    const sess = JSON.parse(sessionStorage.getItem('yeon_session') || 'null');
+    if (sess && sess.tier) tier = sess.tier;
+    else if (localStorage.getItem('yeon_trial_start')) tier = 'trial';
+  } catch(e){}
+
+  // 평가 이유가 충실하면(20자+) 게시판 초기 공감 +2 부여 → 상단 노출 유리
+  const initialUpvotes = reason.length >= 20 ? 2 : 0;
+
+  const review = {
+    id: 'rv_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    at:new Date().toISOString(),
+    tier,
+    score, negTags, posTags, text, reason, reward,
+    isStory, storyBonus, reasonBonus,
+    upvotes: initialUpvotes,
+    voters: [],
+    breakdown: details,
+    challenged: false,
+    companyResponse: ''
+  };
+  const arr = JSON.parse(localStorage.getItem('yeon_reviews')||'[]');
+  arr.push(review);
+  localStorage.setItem('yeon_reviews', JSON.stringify(arr));
+  const packets = parseInt(localStorage.getItem('yeon_bonus_packets')||'0', 10) + reward;
+  localStorage.setItem('yeon_bonus_packets', String(packets));
+  closeReview();
+  alert('솔직한 평가 감사합니다!\n+'+reward+' 패킷 적립 (누적 '+packets+'개)\n\n'+details.join('\n'));
+}
+
+// ============================================
+// 평가 게시판 — 공감 순 정렬 + 투표
+// ============================================
+function getVoterId(){
+  let vid = localStorage.getItem('yeon_voter_id');
+  if (!vid){
+    vid = 'v_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+    localStorage.setItem('yeon_voter_id', vid);
+  }
+  return vid;
+}
+// ===== 기능 · 시스템 추가 요청 =====
+function openFeatureRequest(){
+  document.getElementById('featureRequestModal').classList.add('open');
+}
+function closeModal(id){
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('open');
+}
+async function submitFeatureRequest(){
+  const type = document.getElementById('frType').value;
+  const content = (document.getElementById('frContent').value || '').trim();
+  const contact = (document.getElementById('frContact').value || '').trim();
+  if(content.length < 5){
+    alert('제안 내용을 5자 이상 입력해 주세요.\n작은 의견도 소중합니다 :)');
+    return;
+  }
+  // 로컬 저장 (서버 연동 전 임시 보관)
+  try {
+    const key = 'yeon_feature_requests';
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.push({
+      type, content, contact,
+      user: (typeof currentUser !== 'undefined' && currentUser) ? currentUser.name : '',
+      ts: Date.now(),
+      sent: false
+    });
+    localStorage.setItem(key, JSON.stringify(list));
+  } catch(e) {}
+  // Apps Script 전송 (있을 때만)
+  try {
+    const url = (window.YEON_CONFIG && window.YEON_CONFIG.APPS_SCRIPT_URL) || '';
+    if(url && !/PASTE_YOUR_URL/.test(url)){
+      await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({action:'feature_request', type, content, contact, ts: Date.now()})
+      }).catch(()=>{});
+    }
+  } catch(e) {}
+  alert('✅ 소중한 의견 감사합니다!\n\n48시간 이내 검토에 들어가며, 채택되면 감사 패킷 +20과 기여자 배지가 부여됩니다.');
+  document.getElementById('frContent').value = '';
+  document.getElementById('frContact').value = '';
+  closeModal('featureRequestModal');
+}
+
+// ===== 결제 모달 (수동 모드 기본 · PG 승인되면 PG 흐름으로 분기) =====
+function openPayModal(){
+  const cfg = (window.YEON_CONFIG && window.YEON_CONFIG.PAYMENT) || {};
+  const deposit = (window.YEON_CONFIG && window.YEON_CONFIG.DEPOSIT_INFO) || {};
+  const info = (typeof currentBillingTier === 'function') ? currentBillingTier() : null;
+  const tier = info ? info.tier : null;
+  const amount = tier ? tier.price : 0;
+  const tierName = tier ? tier.name : '요금제';
+  const orderId = (cfg.ORDER_ID_PREFIX || 'YEON') + '-' + Date.now();
+
+  // 이미 모달이 있으면 재사용, 없으면 즉석 생성
+  let modal = document.getElementById('payModal');
+  if(!modal){
+    modal = document.createElement('div');
+    modal.id = 'payModal';
+    modal.className = 'modal';
+    modal.onclick = (e) => { if(e.target === modal) modal.classList.remove('open'); };
+    document.body.appendChild(modal);
+  }
+
+  const methods = cfg.METHODS || {};
+  const enabled = Object.entries(methods)
+    .filter(([k,v]) => v && v.enabled)
+    .sort((a,b) => (a[1].order||99) - (b[1].order||99));
+
+  const pgMode = (cfg.PG_PROVIDER && cfg.PG_PROVIDER !== 'manual');
+
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width:520px;">
+      <div class="modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          결제하기
+        </h3>
+        <button class="close-btn" onclick="closeModal('payModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="background:var(--color-surface-light,#E4ECEE);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+          <div style="font-size:12px;color:var(--color-text-light);margin-bottom:4px;">선택 요금제</div>
+          <div style="font-size:16px;font-weight:700;color:var(--color-primary);">${tierName}</div>
+          <div style="font-size:22px;font-weight:700;margin-top:4px;">${formatKRW(amount)}<span style="font-size:13px;font-weight:400;color:var(--color-text-light);"> / 월</span></div>
+          <div style="font-size:11px;color:var(--color-text-light);margin-top:6px;">주문번호: ${orderId}</div>
+        </div>
+
+        ${pgMode ? `
+          <div style="font-size:13px;font-weight:600;color:var(--color-primary);margin-bottom:8px;">결제 수단 선택</div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;">
+            ${enabled.map(([k,v]) => `
+              <button class="btn" onclick="startPGPayment('${k}','${orderId}',${amount})" style="padding:12px;font-size:13px;background:#fff;border:1.5px solid var(--color-surface);border-radius:8px;color:var(--color-text);">${v.label}</button>
+            `).join('')}
+          </div>
+        ` : `
+          <div style="background:#FBF5E4;border-left:3px solid var(--color-warn,#8F856B);padding:12px 14px;border-radius:8px;margin-bottom:14px;font-size:12.5px;line-height:1.6;">
+            <strong>🏦 수동 입금 모드</strong><br>
+            PG 심사 완료 전까지 계좌이체/카카오페이 수동 확인으로 처리됩니다. 입금 후 "송금 완료" 버튼을 눌러주세요.
+          </div>
+          <div style="background:#fff;border:1.5px solid var(--color-surface);border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-size:12px;color:var(--color-text-light);margin-bottom:4px;">입금 계좌</div>
+            <div style="font-weight:700;font-size:14px;">${deposit.BANK_NAME || '카카오뱅크'}</div>
+            <div style="font-family:monospace;font-size:16px;margin:4px 0;color:var(--color-primary);">${deposit.ACCOUNT_NUMBER || ''}</div>
+            <div style="font-size:13px;">예금주: ${deposit.ACCOUNT_HOLDER || ''}</div>
+            <button class="btn btn-secondary" onclick="copyAccount()" style="margin-top:10px;padding:8px 12px;font-size:12px;">계좌번호 복사</button>
+          </div>
+          <div style="background:#fff;border:1.5px solid var(--color-surface);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:12.5px;line-height:1.6;">
+            💡 <strong>입금자명 안내</strong><br>
+            반드시 <strong>학생 이름 + 요금제</strong> 형식으로 입금해주세요. (예: 홍길동라이트)
+          </div>
+          <button class="btn btn-primary" onclick="confirmManualPayment('${orderId}',${amount})" style="width:100%;padding:14px;font-size:15px;font-weight:600;">
+            송금 완료 · 확인 요청
+          </button>
+        `}
+
+        <div style="text-align:center;font-size:11px;color:var(--color-text-light);margin-top:14px;line-height:1.6;">
+          전자상거래법 제17조에 따라 결제 후 ${(cfg.REFUND_POLICY && cfg.REFUND_POLICY.FULL_REFUND_DAYS) || 7}일 이내 전액 환불 가능.<br>
+          ${(cfg.CASH_RECEIPT && cfg.CASH_RECEIPT.REQUIRED) ? '현금영수증은 자동 발행됩니다.' : ''}
+        </div>
+      </div>
+    </div>
+  `;
+  modal.classList.add('open');
+}
+
+function copyAccount(){
+  const d = (window.YEON_CONFIG && window.YEON_CONFIG.DEPOSIT_INFO) || {};
+  const num = (d.ACCOUNT_NUMBER || '').replace(/[^0-9]/g,'');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(num).then(() => alert('계좌번호가 복사되었습니다.'));
+  } else {
+    alert('계좌번호: ' + num);
+  }
+}
+
+async function confirmManualPayment(orderId, amount){
+  const key = 'yeon_pending_payments';
+  try {
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.push({
+      orderId, amount,
+      user: (typeof currentUser !== 'undefined' && currentUser) ? currentUser.name : '',
+      ts: Date.now(),
+      status: 'pending'
+    });
+    localStorage.setItem(key, JSON.stringify(list));
+  } catch(e) {}
+  try {
+    const url = (window.YEON_CONFIG && window.YEON_CONFIG.APPS_SCRIPT_URL) || '';
+    if(url && !/PASTE_YOUR_URL/.test(url)){
+      await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({action:'manual_payment', orderId, amount, ts: Date.now()})
+      }).catch(()=>{});
+    }
+  } catch(e) {}
+  alert('✅ 송금 확인 요청이 접수되었습니다.\n\n운영자가 입금 내역을 확인하는 대로 유료 회원 자격이 활성화됩니다. (평균 1시간 이내, 영업시간 외에는 다음 영업일 오전)');
+  closeModal('payModal');
+}
+
+function startPGPayment(method, orderId, amount){
+  // PG 연동 완료 시 구현 — 현재는 안내
+  alert('PG 결제(' + method + ') 준비 중입니다.\n현재는 수동 입금 모드로 운영 중이니 잠시만 기다려주세요.');
+}
+
+let rbFilter = 'top';
+function openReviewBoard(){
+  document.getElementById('reviewBoardModal').classList.add('open');
+  renderReviewBoard();
+}
+function closeReviewBoard(){
+  document.getElementById('reviewBoardModal').classList.remove('open');
+}
+document.querySelectorAll('#reviewBoardModal .rb-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#reviewBoardModal .rb-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    rbFilter = t.dataset.rb;
+    renderReviewBoard();
+  });
+});
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function tierLabel(t){
+  return ({trial:'체험',general:'일반',premium:'프리미엄',remote:'원격',special:'특별',guest:'방문'}[t] || '방문');
+}
+function scoreCls(s){
+  if (s <= 40) return 'lo';
+  if (s <= 70) return 'mid';
+  return 'hi';
+}
+function fmtDate(iso){
+  try {
+    const d = new Date(iso);
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return d.getFullYear()+'.'+m+'.'+dd;
+  } catch(e){ return ''; }
+}
+function renderReviewBoard(){
+  const raw = JSON.parse(localStorage.getItem('yeon_reviews') || '[]');
+  // 이전 버전 리뷰 마이그레이션
+  const arr = raw.map(r => ({
+    id: r.id || ('rv_' + Math.random().toString(36).slice(2,10)),
+    at: r.at, tier: r.tier || 'guest',
+    score: r.score, negTags: r.negTags||[], posTags: r.posTags||[],
+    text: r.text||'', reason: r.reason||'',
+    reward: r.reward||0, isStory: !!r.isStory,
+    upvotes: r.upvotes||0, voters: r.voters||[],
+    challenged: !!r.challenged,
+    companyResponse: r.companyResponse||'',
+    adminNotified: !!r.adminNotified,
+    adopted: !!r.adopted,
+    adoptReward: r.adoptReward||0
+  }));
+  let filtered = arr.slice();
+  if (rbFilter === 'story') filtered = filtered.filter(r => r.isStory);
+  if (rbFilter === 'recent'){
+    filtered.sort((a,b) => (b.at||'').localeCompare(a.at||''));
+  } else {
+    // top: 공감 수 desc → 경험담 우선 → 최신
+    filtered.sort((a,b) => {
+      if (b.upvotes !== a.upvotes) return b.upvotes - a.upvotes;
+      if (a.isStory !== b.isStory) return b.isStory - a.isStory;
+      return (b.at||'').localeCompare(a.at||'');
+    });
+  }
+  const listEl = document.getElementById('reviewBoardList');
+  const emptyEl = document.getElementById('reviewBoardEmpty');
+  if (filtered.length === 0){
+    listEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  const vid = getVoterId();
+  listEl.innerHTML = filtered.map(r => {
+    const voted = (r.voters||[]).includes(vid);
+    const negChips = (r.negTags||[]).map(t => '<span class="rb-tag neg">'+escapeHtml(t)+'</span>').join('');
+    const posChips = (r.posTags||[]).map(t => '<span class="rb-tag pos">'+escapeHtml(t)+'</span>').join('');
+    const storyBadge = r.isStory ? '<span class="story-b">경험담</span>' : '';
+    const reasonBlock = r.reason ? '<div class="rb-reason">"'+escapeHtml(r.reason)+'"</div>' : '';
+    // 검증 배지(딱지)
+    let verifyBadge = '';
+    let responseBlock = '';
+    if (r.challenged){
+      verifyBadge = '<span class="rb-badge disputed" onclick="toggleResponse(\''+r.id+'\')" title="회사 공식 검증 답변 보기">'
+                  + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+                  + '검증 대화 후 게시</span>';
+      responseBlock = '<div class="rb-response" id="resp_'+r.id+'">'
+                    + '<div class="rb-response-head">'
+                    +   '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+                    +   '영풀 · 공식 검증 답변'
+                    + '</div>'
+                    + '<div class="rb-response-body">'+escapeHtml(r.companyResponse||'')+'</div>'
+                    + '</div>';
+    } else if (r.isStory && (r.upvotes||0) >= 3){
+      verifyBadge = '<span class="rb-badge verified">'
+                  + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+                  + '인증 경험담</span>';
+    }
+    // 관리자 전달 / 채택 배지
+    let adminBadge = '';
+    if (r.adopted){
+      adminBadge = '<span class="rb-badge adopted" title="관리자 채택 완료 — 감사 패킷 +'+(r.adoptReward||0)+'">'
+                 + '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+                 + '채택됨</span>';
+    } else if (r.adminNotified){
+      adminBadge = '<span class="rb-badge pushed" title="관리자에게 전달되어 승인 대기 중">'
+                 + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>'
+                 + '관리자 전달</span>';
+    }
+    return ''
+      + '<div class="rb-card '+(r.isStory?'story':'')+' '+(r.challenged?'disputed-card':'')+'">'
+      +   '<div class="rb-head">'
+      +     '<div class="rb-score '+scoreCls(r.score)+'">'+r.score+'<span style="font-size:11px;font-weight:500;color:var(--color-text-light);">점</span></div>'
+      +     '<div class="rb-meta">'+storyBadge+verifyBadge+adminBadge+'<span class="tier-b">'+tierLabel(r.tier)+'</span><br>'+fmtDate(r.at)+'</div>'
+      +   '</div>'
+      +   reasonBlock
+      +   (r.text ? '<div class="rb-text">'+escapeHtml(r.text)+'</div>' : '')
+      +   ((negChips||posChips) ? '<div class="rb-tags">'+negChips+posChips+'</div>' : '')
+      +   responseBlock
+      +   '<div class="rb-foot">'
+      +     '<button class="rb-vote '+(voted?'voted':'')+'" onclick="toggleVote(\''+r.id+'\')">'
+      +       '<svg width="14" height="14" viewBox="0 0 24 24" fill="'+(voted?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+      +       '공감 '+r.upvotes
+      +     '</button>'
+      +     '<span class="rb-date">'+(r.challenged ? '검증 후 게시 · 보상 없음' : '보상 +'+r.reward+' 패킷')+'</span>'
+      +   '</div>'
+      + '</div>';
+  }).join('');
+}
+function toggleVote(rid){
+  const vid = getVoterId();
+  const arr = JSON.parse(localStorage.getItem('yeon_reviews') || '[]');
+  const r = arr.find(x => x.id === rid);
+  if (!r) return;
+  r.voters = r.voters || [];
+  r.upvotes = r.upvotes || 0;
+  const idx = r.voters.indexOf(vid);
+  if (idx >= 0){
+    r.voters.splice(idx, 1);
+    r.upvotes = Math.max(0, r.upvotes - 1);
+  } else {
+    r.voters.push(vid);
+    r.upvotes += 1;
+  }
+  // 임계치 도달 시 관리자 알림장 자동 푸시
+  checkAdminPush(r);
+  localStorage.setItem('yeon_reviews', JSON.stringify(arr));
+  renderReviewBoard();
+}
+
+// ============================================
+// 고득점 평가 → 관리자 자동 전달
+// ============================================
+function checkAdminPush(r){
+  const CFG = (window.YEON_CONFIG && window.YEON_CONFIG.BOARD_ADMIN_PUSH) || {};
+  if (!CFG.ENABLED) return;
+  if (r.adminNotified) return;
+  if (CFG.CHALLENGED_EXCLUDED && r.challenged) return;
+  if ((r.score||0) < (CFG.MIN_SCORE||70)) return;
+  const threshold = (CFG.MIN_UPVOTES||3) - (CFG.PREFER_STORY && r.isStory ? 1 : 0);
+  if ((r.upvotes||0) < threshold) return;
+
+  // 임계치 도달 — 관리자 알림장에 승인 대기 카드로 push
+  const msg = generateAdminMessage(r);
+  pushAdminInbox({
+    id: 'inbox_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    at: new Date().toISOString(),
+    type: 'review_suggestion',
+    reviewId: r.id,
+    title: '[고득점 평가 승인 대기] ' + (r.reason ? '"'+r.reason.slice(0,30)+'"' : r.score+'점 게시물'),
+    score: r.score,
+    tier: r.tier,
+    upvotes: r.upvotes,
+    isStory: !!r.isStory,
+    bodyText: msg,              // 관리자가 바로 읽기 좋은 전체 메시지
+    keywords: extractKeywords(r),
+    suggestedActions: [
+      '공식 개선 사례로 등록 (채택)',
+      '작성자에게 감사 답변 공개',
+      '홈 화면 배너로 노출',
+      '반영하지 않음 (사유 기록)'
+    ],
+    status: 'pending'            // pending | adopted | declined
+  });
+  r.adminNotified = true;
+  r.adminNotifiedAt = new Date().toISOString();
+}
+
+function extractKeywords(r){
+  const blob = ((r.text||'') + ' ' + (r.reason||'')).toLowerCase();
+  // 개선·긍정 키워드 사전에서 매칭
+  const dict = ['해설','이해','친절','빠름','쉬움','재미','도움','꾸준','복습','문제','어휘','단어','발음','해석','작문','일기','성적','점수','향상','자신감','변화','습관','집중','동기','편리','디자인','속도','모바일'];
+  const found = dict.filter(k => blob.indexOf(k) !== -1);
+  return found.slice(0,6);
+}
+
+function generateAdminMessage(r){
+  const tierMap = {trial:'체험',general:'일반',premium:'프리미엄',remote:'원격',special:'특별',guest:'방문'};
+  const lines = [];
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('📮 평가 게시판 · 승인 대기 추천 건');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('');
+  lines.push('• 평가 점수 : ' + r.score + '점');
+  lines.push('• 작성자 등급 : ' + (tierMap[r.tier]||r.tier));
+  lines.push('• 공감 수 : ' + (r.upvotes||0) + '개');
+  lines.push('• 경험담 여부 : ' + (r.isStory ? '예 (상세 학습 서술)' : '아니오'));
+  lines.push('• 게시 일시 : ' + (r.at ? new Date(r.at).toLocaleString('ko-KR') : '-'));
+  lines.push('');
+  if (r.reason){
+    lines.push('[ 요지 ]');
+    lines.push('"' + r.reason + '"');
+    lines.push('');
+  }
+  if (r.text){
+    const snippet = r.text.length > 280 ? r.text.slice(0,280) + '...' : r.text;
+    lines.push('[ 본문 발췌 ]');
+    lines.push(snippet);
+    lines.push('');
+  }
+  const kw = extractKeywords(r);
+  if (kw.length){
+    lines.push('[ 자동 추출 핵심 키워드 ]');
+    lines.push('· ' + kw.join(' · '));
+    lines.push('');
+  }
+  lines.push('[ 추천 조치 ]');
+  lines.push('✓ 이 피드백을 공식 개선 사례로 등록 (채택)');
+  lines.push('✓ 작성자에게 감사 답변 공개');
+  lines.push('✓ 홈 화면 배너 노출');
+  lines.push('');
+  lines.push('승인 시 원작성자에게 감사 패킷이 자동 지급되며,');
+  lines.push('게시판에 "✓ 채택됨" 배지가 부여됩니다.');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━');
+  return lines.join('\n');
+}
+
+function pushAdminInbox(item){
+  try {
+    const inbox = JSON.parse(localStorage.getItem('yeon_admin_inbox')||'[]');
+    inbox.push(item);
+    localStorage.setItem('yeon_admin_inbox', JSON.stringify(inbox));
+    // 미읽 카운터 증가
+    const unread = parseInt(localStorage.getItem('yeon_admin_inbox_unread')||'0', 10) + 1;
+    localStorage.setItem('yeon_admin_inbox_unread', String(unread));
+  } catch(e){ console.warn('admin inbox push failed', e); }
+}
+
+// 관리자 콘솔에서 호출 — 승인(채택) 처리
+// 이 함수는 admin.html 의 알림장 수신함 UI 에서 '채택' 버튼이 호출합니다.
+function adoptSuggestion(inboxId){
+  const inbox = JSON.parse(localStorage.getItem('yeon_admin_inbox')||'[]');
+  const item = inbox.find(x => x.id === inboxId);
+  if (!item) return false;
+  item.status = 'adopted';
+  item.adoptedAt = new Date().toISOString();
+  // 원 리뷰에 채택 배지 부여 + 감사 패킷 지급 표시
+  const reviews = JSON.parse(localStorage.getItem('yeon_reviews')||'[]');
+  const r = reviews.find(x => x.id === item.reviewId);
+  if (r){
+    r.adopted = true;
+    r.adoptedAt = item.adoptedAt;
+    const bonus = ((window.YEON_CONFIG||{}).BOARD_ADMIN_PUSH||{}).ADOPT_REWARD_PACKETS || 5;
+    r.adoptReward = bonus;
+    localStorage.setItem('yeon_reviews', JSON.stringify(reviews));
+  }
+  localStorage.setItem('yeon_admin_inbox', JSON.stringify(inbox));
+  return true;
+}
+function toggleResponse(rid){
+  const el = document.getElementById('resp_' + rid);
+  if (el) el.classList.toggle('open');
+}
+
+// ============================================
+// 악의 평가 검증 대화 시스템
+// ============================================
+function startSincerityCheck(flags){
+  closeReview();
+  const fx = document.getElementById('scFlags');
+  fx.innerHTML = flags.map(f => '<div class="sc-flag">• '+escapeHtml(f.msg)+'</div>').join('');
+  // 라디오/textarea 초기화
+  document.querySelectorAll('#sincerityModal input[type=radio]').forEach(r => r.checked = false);
+  document.getElementById('scQ2').value = '';
+  document.getElementById('scQ2Len').textContent = '0';
+  document.getElementById('sincerityModal').classList.add('open');
+}
+function closeSincerity(){
+  document.getElementById('sincerityModal').classList.remove('open');
+  pendingReview = null;
+}
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'scQ2'){
+    document.getElementById('scQ2Len').textContent = e.target.value.length;
+  }
+});
+
+function submitSincerityCheck(){
+  if (!pendingReview){ closeSincerity(); return; }
+  const q1 = (document.querySelector('#sincerityModal input[name=scQ1]:checked')||{}).value;
+  const q2 = document.getElementById('scQ2').value.trim();
+  const q3 = (document.querySelector('#sincerityModal input[name=scQ3]:checked')||{}).value;
+  const q4 = (document.querySelector('#sincerityModal input[name=scQ4]:checked')||{}).value;
+
+  if (!q1 || !q2 || !q3 || !q4){
+    alert('4가지 질문 모두 답해 주세요. 모든 답변은 회사 검증 기록에 인용됩니다.');
+    return;
+  }
+  if (q2.length < 30){
+    alert('2번 질문은 30자 이상 구체적으로 적어 주세요.\n현재 '+q2.length+'자');
+    return;
+  }
+  if (q4 === 'cancel'){
+    alert('평가가 취소되었습니다. 다시 작성하실 수 있습니다.');
+    closeSincerity();
+    return;
+  }
+
+  // === 차단 판정: 부정 불가 증거 기반 ===
+  // 조건 A: 혐오 표현 플래그 포함 (severe)
+  // 조건 B: "사용해 본 적 없음" + 버그 주장 플래그
+  // 조건 C: "앱이 쓸모없다고 경고" + 사용 0~3회
+  const hasHate = (pendingReview.flags||[]).some(f => f.code === 'hate');
+  const hasNoUsageClaim = (pendingReview.flags||[]).some(f => f.code === 'no_usage');
+  const banTriggered =
+    hasHate ||
+    (hasNoUsageClaim && q1 === 'none') ||
+    (q3 === 'warn' && (q1 === 'none' || q1 === '1to3'));
+
+  // 본인 답변을 증거로 기록 → 부정 불가
+  const answers = { q1, q2, q3, q4, at: new Date().toISOString() };
+
+  if (banTriggered){
+    // 차단 등록 — localStorage 에 영구 저장, 본인 답변 원문 인용
+    const ban = {
+      at: new Date().toISOString(),
+      until: new Date(Date.now() + 30*24*60*60*1000).toISOString(), // 30일
+      flags: pendingReview.flags.map(f => f.msg),
+      answers,
+      originalScore: pendingReview.score,
+      originalReason: pendingReview.reason,
+      originalText: pendingReview.text
+    };
+    localStorage.setItem('yeon_board_ban', JSON.stringify(ban));
+    closeSincerity();
+    showBanResult(ban);
+    pendingReview = null;
+    return;
+  }
+
+  // 차단은 아니지만 검증 거친 글 → 그대로 게시 + 회사 대응문 첨부
+  const companyResponse = generateCompanyResponse(pendingReview, answers);
+  const tier = (function(){
+    try {
+      const sess = JSON.parse(sessionStorage.getItem('yeon_session')||'null');
+      if (sess && sess.tier) return sess.tier;
+    } catch(e){}
+    if (localStorage.getItem('yeon_trial_start')) return 'trial';
+    return 'guest';
+  })();
+
+  // 검증 거친 평가는 패킷 보상 없음 (solid 피드백이 아니므로)
+  const review = {
+    id: 'rv_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    at: new Date().toISOString(),
+    tier,
+    score: pendingReview.score,
+    negTags: pendingReview.negTags,
+    posTags: pendingReview.posTags,
+    text: pendingReview.text,
+    reason: pendingReview.reason,
+    reward: 0,
+    isStory: false,
+    storyBonus: 0,
+    reasonBonus: 0,
+    upvotes: 0,
+    voters: [],
+    breakdown: ['검증 대화 후 게시 — 보상 없음'],
+    challenged: true,
+    challengeAnswers: answers,
+    companyResponse
+  };
+  const arr = JSON.parse(localStorage.getItem('yeon_reviews')||'[]');
+  arr.push(review);
+  localStorage.setItem('yeon_reviews', JSON.stringify(arr));
+  closeSincerity();
+  alert('검증을 거쳐 게시되었습니다.\n\n회사 공식 검증 답변이 이 평가 아래에 부착되었으며, 수정할 수 없습니다. 본인 답변도 원본 그대로 기록되었습니다.');
+  openReviewBoard();
+  pendingReview = null;
+}
+
+function generateCompanyResponse(p, ans){
+  const q1Map = {
+    none:'사용해 본 적 없음 (설명만 봤음)',
+    '1to3':'1~3회 정도 열어봤음',
+    '4to10':'4~10회 사용',
+    over10:'10회 이상 꾸준히 사용'
+  };
+  const q3Map = {
+    improve:'실제 경험 공유·개선 희망',
+    complain:'특정 기능 불만 표현',
+    warn:'앱이 쓸모없다고 생각해 다른 사용자에게 경고',
+    other:'기타'
+  };
+  let usageLog = 0;
+  try {
+    const logs = JSON.parse(localStorage.getItem('yeon_session_log')||'[]');
+    const trial = JSON.parse(localStorage.getItem('yeon_trial_usage')||'[]');
+    usageLog = logs.length + trial.length;
+  } catch(e){}
+
+  const lines = [];
+  lines.push('이 평가는 아래 사유로 검증 대화를 거쳤습니다:');
+  (p.flags||[]).forEach(f => lines.push('• ' + f.msg));
+  lines.push('');
+  lines.push('— 작성자 본인 답변 —');
+  lines.push('1. 사용 횟수: ' + (q1Map[ans.q1]||ans.q1));
+  lines.push('2. 문제 상황: ' + ans.q2);
+  lines.push('3. 평가 목적: ' + (q3Map[ans.q3]||ans.q3));
+  lines.push('4. 공개 동의: ' + (ans.q4 === 'agree' ? '동의' : '동의 안 함'));
+  lines.push('');
+  lines.push('— 회사 공식 대응 —');
+  // 본인 답변과 시스템 기록의 모순을 냉정하게 적시
+  if (ans.q1 === 'none' || ans.q1 === '1to3'){
+    lines.push('• 본인 답변상 사용 횟수는 '+(q1Map[ans.q1])+'이며, 이 기기의 실제 누적 사용 로그는 '+usageLog+'회입니다. 이 수치는 본 앱에 대한 충분한 경험 판단에 필요한 최소 기준에 미치지 않습니다.');
+  } else {
+    lines.push('• 본인 답변상 사용 횟수는 '+(q1Map[ans.q1])+'이며, 이 기기 로그는 '+usageLog+'회입니다.');
+  }
+  if (/느림|버그|오류|에러/.test((p.text||'')+(p.reason||'')) && usageLog < 3){
+    lines.push('• 본문에서 "버그/오류/느림" 등 기술적 문제를 주장하셨으나, 재현 확인에 필요한 실제 사용량이 기기 로그상 확인되지 않습니다. 해당 서술은 검증된 기술적 결함이 아닌 개인 인상입니다.');
+  }
+  if (ans.q3 === 'warn'){
+    lines.push('• 평가 목적이 "다른 사용자에게 경고"라고 명시하셨습니다. 본 서비스는 무료 체험을 통해 누구나 1개월간 직접 확인할 수 있으며, 타인의 판단을 대신하는 경고 행위는 본 게시판의 취지와 맞지 않습니다.');
+  }
+  lines.push('');
+  lines.push('이 평가는 작성자 본인의 의사에 따라 그대로 게시되었으며, 본 답변은 수정·삭제되지 않습니다. 읽는 분들께서 위 정보를 함께 참고해 주시기 바랍니다.');
+  lines.push('');
+  lines.push('검증 일시: ' + new Date(ans.at).toLocaleString('ko-KR'));
+  return lines.join('\n');
+}
+
+function showBanResult(ban){
+  const el = document.getElementById('banEvidence');
+  const q1Map = {none:'사용해 본 적 없음','1to3':'1~3회','4to10':'4~10회',over10:'10회 이상'};
+  const q3Map = {improve:'경험 공유·개선',complain:'불만 표현',warn:'다른 사용자에게 경고',other:'기타'};
+  const a = ban.answers;
+  el.innerHTML =
+    '<div class="ev">플래그: ' + ban.flags.map(escapeHtml).join(' / ') + '</div>' +
+    '<div class="ev">1. 사용 횟수 (본인 답변): ' + escapeHtml(q1Map[a.q1]||a.q1) + '</div>' +
+    '<div class="ev">2. 문제 상황 (본인 답변): ' + escapeHtml(a.q2) + '</div>' +
+    '<div class="ev">3. 평가 목적 (본인 답변): ' + escapeHtml(q3Map[a.q3]||a.q3) + '</div>' +
+    '<div class="ev">원평가: ' + ban.originalScore + '점 · "' + escapeHtml(ban.originalReason||'(이유 없음)') + '"</div>';
+  document.getElementById('banModal').classList.add('open');
+}
+function closeBan(){ document.getElementById('banModal').classList.remove('open'); }
+
+// 게시판 작성 차단 확인 — openReview 진입 전에 호출
+function isBoardBanned(){
+  try {
+    const ban = JSON.parse(localStorage.getItem('yeon_board_ban')||'null');
+    if (!ban) return null;
+    if (ban.until && new Date(ban.until) < new Date()){
+      localStorage.removeItem('yeon_board_ban');
+      return null;
+    }
+    return ban;
+  } catch(e){ return null; }
+}
+
+// ============================================
+// 강동원 특례 실시간 감지
+// ============================================
+function updateSpecialAlert(){
+  const name = document.getElementById('su-name').value.trim();
+  const grade = document.getElementById('su-grade').value;
+  const alert = document.getElementById('specialAlert');
+  if (name === '강동원' && grade === '고1'){
+    alert.classList.add('open');
+  } else {
+    alert.classList.remove('open');
+  }
+}
+document.getElementById('su-name').addEventListener('input', updateSpecialAlert);
+document.getElementById('su-grade').addEventListener('change', updateSpecialAlert);
+
+// ============================================
+// 체크박스 상태 표시
+// ============================================
+document.getElementById('su-academy').addEventListener('change', function(){
+  document.getElementById('routeCheckLabel').classList.toggle('checked', this.checked);
+});
+
+// ============================================
+// 비밀번호 강도 체크
+// ============================================
+function checkPasswordStrength(pw){
+  const checks = {
+    len: pw.length >= 8,
+    letter: /[A-Za-z]/.test(pw),
+    number: /[0-9]/.test(pw),
+    special: /[^A-Za-z0-9]/.test(pw)
+  };
+  const passed = Object.values(checks).filter(Boolean).length;
+  return { checks, level: passed, valid: checks.len && checks.letter && checks.number };
+}
+document.getElementById('su-password').addEventListener('input', function(){
+  const { checks, level } = checkPasswordStrength(this.value);
+  const bar = document.getElementById('pwStrength');
+  bar.className = 'pw-strength lv'+level;
+  document.querySelectorAll('#pwChecks .pw-check').forEach(el => {
+    el.classList.toggle('ok', !!checks[el.dataset.k]);
+  });
+  checkPwMatch();
+});
+document.getElementById('su-password2').addEventListener('input', checkPwMatch);
+function checkPwMatch(){
+  const a = document.getElementById('su-password').value;
+  const b = document.getElementById('su-password2').value;
+  const help = document.getElementById('pwMatchHelp');
+  if (!b){ help.textContent = ''; help.style.color=''; return; }
+  if (a === b){ help.textContent = '✓ 일치'; help.style.color='var(--color-success)'; }
+  else { help.textContent = '비밀번호가 일치하지 않습니다'; help.style.color='var(--color-error)'; }
+}
+
+// ============================================
+// 연락처 자동 하이픈
+// ============================================
+document.getElementById('su-phone').addEventListener('input', function(e){
+  let v = e.target.value.replace(/[^0-9]/g,'');
+  if (v.length >= 11) v = v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7,11);
+  else if (v.length >= 7) v = v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
+  else if (v.length >= 4) v = v.slice(0,3)+'-'+v.slice(3);
+  e.target.value = v;
+});
+
+// ============================================
+// 백엔드 호출 래퍼 — config.js 의 APPS_SCRIPT_URL 사용
+// 미설정 시 localStorage 폴백 (데모 모드)
+// ============================================
+async function callBackend(action, payload){
+  const url = (window.YEON_CONFIG && window.YEON_CONFIG.APPS_SCRIPT_URL) || '';
+  if (!url || url.includes('PASTE_YOUR_URL_HERE')){
+    // 데모 폴백 — localStorage
+    return demoBackend(action, payload);
+  }
+  try{
+    const res = await fetch(url, {
+      method:'POST',
+      mode:'cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({action, ...payload})
+    });
+    return await res.json();
+  } catch(err){
+    console.error('[yeon] backend error', err);
+    return {ok:false, error:'서버에 연결할 수 없습니다. 담당 선생님께 문의해 주세요.'};
+  }
+}
+
+// ============================================
+// 데모 폴백 (Apps Script 미설정 시) — localStorage
+// ============================================
+function demoBackend(action, payload){
+  const K_GEN = 'yeon_demo_general';
+  const K_PRM = 'yeon_demo_premium';
+  const K_SPC = 'yeon_demo_special';
+  const read = k => { try { return JSON.parse(localStorage.getItem(k)||'[]'); } catch { return []; } };
+  const write = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+  const genPw = (len=8) => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let s=''; for (let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)]; return s;
+  };
+  const now = new Date().toISOString();
+  const newId = 'M' + Date.now().toString(36).toUpperCase();
+
+  if (action === 'signup'){
+    const password = payload.password || genPw(8);
+    const row = {
+      id:newId, 가입일시:now, 이름:payload.name, 학년:payload.grade,
+      연락처:payload.phone||'', 이메일:payload.email||'', 가입메시지:payload.message||'',
+      비밀번호:password, 상태:'pending'
+    };
+    const gen = read(K_GEN); gen.push(row); write(K_GEN, gen);
+    const isSpecial = (payload.name==='강동원' && payload.grade==='고1');
+    let otp = null;
+    if (isSpecial){
+      otp = genPw(10);
+      const spc = read(K_SPC);
+      spc.push({
+        id:newId, 등록일시:now, 이름:payload.name, 학년:payload.grade,
+        연락처:payload.phone, 이메일:payload.email||'',
+        일회용비번:otp, 비번발급일시:now,
+        유효기간시간:24, 사용여부:false, 사용일시:'',
+        특례플래그:'yeongpul-original', 관리자메모:'기존 학습 데이터 보유 (app.html)'
+      });
+      write(K_SPC, spc);
+    }
+    return {ok:true, demo:true, password, memberId:newId, isSpecial, specialOtp:otp};
+  }
+
+  if (action === 'login'){
+    // premium 먼저
+    const prm = read(K_PRM).find(r=> r.이름===payload.name && r.비밀번호===payload.password);
+    if (prm) return {ok:true, demo:true, tier:'premium', member:prm};
+    // special OTP (일회용)
+    const spc = read(K_SPC);
+    const sIdx = spc.findIndex(r=> r.이름===payload.name && r.일회용비번===payload.password && !r.사용여부);
+    if (sIdx >= 0){
+      const member = spc[sIdx];
+      // 유효기간 체크
+      const issued = new Date(member.비번발급일시).getTime();
+      const validMs = (member.유효기간시간||24) * 3600 * 1000;
+      if (Date.now() - issued > validMs){
+        return {ok:false, error:'일회용 비밀번호 유효기간이 만료되었습니다. 담당 선생님께 재발급을 요청하세요.'};
+      }
+      // 소모
+      spc[sIdx].사용여부 = true;
+      spc[sIdx].사용일시 = now;
+      spc[sIdx].일회용비번 = '';
+      write(K_SPC, spc);
+      return {ok:true, demo:true, tier:'special', member, redirect: member.특례플래그==='yeongpul-original' ? 'app.html' : null};
+    }
+    // general (pending)
+    const gen = read(K_GEN).find(r=> r.이름===payload.name && r.비밀번호===payload.password);
+    if (gen) return {ok:true, demo:true, tier:'general', member:gen, pending:true};
+    return {ok:false, error:'이름 또는 비밀번호가 일치하지 않습니다.'};
+  }
+  return {ok:false, error:'지원하지 않는 요청입니다.'};
+}
+
+// ============================================
+// 가입 처리
+// ============================================
+async function handleSignup(e){
+  e.preventDefault();
+  const btn = document.getElementById('signupBtn');
+  const loading = document.getElementById('signupLoading');
+  btn.disabled = true;
+  loading.classList.add('open');
+
+  // 친구 초대 코드 — URL ?invite= 또는 sessionStorage에서 우선 주입
+  const invFromField = (document.getElementById('su-invite-code').value || '').trim();
+  const invFromStore = sessionStorage.getItem('yeon_pending_invite') || '';
+  const inviteCode   = (invFromField || invFromStore).replace(/\D/g,'').slice(0,8);
+
+  const pw1 = document.getElementById('su-password').value;
+  const pw2 = document.getElementById('su-password2').value;
+  if (pw1.length < 4) { alert('비밀번호를 4자 이상 입력해 주세요.'); btn.disabled=false; loading.classList.remove('open'); return; }
+  if (pw1 !== pw2) { alert('비밀번호가 일치하지 않습니다.'); btn.disabled=false; loading.classList.remove('open'); return; }
+
+  const payload = {
+    name: document.getElementById('su-name').value.trim(),
+    grade: document.getElementById('su-grade').value,
+    phone: document.getElementById('su-phone').value.trim(),
+    email: document.getElementById('su-email').value.trim(),
+    password: pw1,
+    message: document.getElementById('su-message').value.trim(),
+    invitedBy: inviteCode || null   // 초대 트리 상위 노드 — 서버에서 추천인 매칭
+  };
+
+  const res = await callBackend('signup', payload);
+  btn.disabled = false;
+  loading.classList.remove('open');
+
+  if (!res.ok){
+    alert('가입 처리 중 오류: ' + (res.error||'알 수 없는 오류'));
+    return;
+  }
+
+  // 친구 초대 트리 — 내가 초대받은 사람의 코드를 영구 저장 (상위 노드 참조)
+  if (inviteCode){
+    localStorage.setItem(INVITED_BY_KEY, JSON.stringify({
+      code: inviteCode,
+      joinedAt: Date.now(),
+      memberId: res.memberId
+    }));
+    sessionStorage.removeItem('yeon_pending_invite');
+  }
+
+  // 자동 로그인 정보 저장 — 다음 방문 시 바로 입장
+  saveAutoLogin({
+    tier: 'general',
+    name: payload.name,
+    memberId: res.memberId,
+    password: payload.password,
+    pending: false
+  });
+
+  // 결과 표시
+  document.getElementById('signupForm').style.display='none';
+  const result = document.getElementById('signupResult');
+  result.classList.add('open');
+  document.getElementById('resultPassword').textContent = res.password;
+  window._lastPassword = res.password;
+
+  let meta = '';
+  meta += '<strong>회원 ID</strong>: ' + res.memberId + '<br>';
+  meta += '<strong>이름</strong>: ' + payload.name + ' (' + payload.grade + ')<br>';
+  meta += '<strong>상태</strong>: 승인 대기 (일반회원)';
+
+  if (res.isSpecial){
+    document.getElementById('resultTitle').textContent = '특별 관리 회원 자동 등록 완료';
+    document.getElementById('resultDesc').innerHTML =
+      '<strong>강동원(고1) 특례</strong>로 일반 회원과 특별 관리 회원에 동시 등록되었습니다.<br>' +
+      '담당 선생님이 <strong>일회용 비밀번호가 담긴 알림장</strong>을 별도 발송할 예정입니다. ' +
+      '아래는 일반 가입용 비밀번호이며, 기존 학습 데이터(최초 영어 시험 포함) 접근에는 담당 선생님이 보내주시는 <strong>일회용 번호</strong>를 사용하세요.';
+    meta += '<br><strong>특례</strong>: 특별 관리 회원 자동 등록 ✓';
+    if (res.specialOtp){
+      meta += '<br><strong>알림장 예고</strong>: 담당 선생님 확인 후 별도 전달';
+    }
+  }
+  if (res.demo){
+    meta += '<br><em style="color:var(--color-warning);">* 데모 모드 — Apps Script 미연결. 이 기기 localStorage 에만 저장됨.</em>';
+  }
+  document.getElementById('resultMeta').innerHTML = meta;
+}
+
+function copyPassword(){
+  if (!window._lastPassword) return;
+  navigator.clipboard.writeText(window._lastPassword)
+    .then(()=>alert('비밀번호가 복사되었습니다.'))
+    .catch(()=>alert('복사 실패 — 직접 선택해 복사해 주세요.'));
+}
+
+function resetToSignup(){
+  document.getElementById('signupForm').reset();
+  document.getElementById('signupForm').style.display='';
+  document.getElementById('signupResult').classList.remove('open');
+  document.getElementById('specialAlert').classList.remove('open');
+}
+
+// 비밀번호 보기/숨기기 토글
+function togglePwVis(inputId, btn){
+  const inp = document.getElementById(inputId);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
+// ============================================
+// 로그인 처리
+// ============================================
+async function handleLogin(e){
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const loading = document.getElementById('loginLoading');
+  const errorBox = document.getElementById('loginError');
+  errorBox.style.display='none';
+  btn.disabled = true;
+  loading.classList.add('open');
+
+  const payload = {
+    name: document.getElementById('lg-name').value.trim(),
+    password: document.getElementById('lg-password').value.trim()
+  };
+  const res = await callBackend('login', payload);
+  btn.disabled = false;
+  loading.classList.remove('open');
+
+  if (!res.ok){
+    errorBox.textContent = res.error || '로그인 실패';
+    errorBox.style.display='block';
+    return;
+  }
+
+  // 세션 저장 (memberId 포함)
+  const memberId = (res.member && res.member.id) || '';
+  sessionStorage.setItem('yeon_session', JSON.stringify({
+    tier: res.tier, name: payload.name, memberId: memberId,
+    loginAt: new Date().toISOString()
+  }));
+
+  // 자동 로그인 기억 — 다음 방문 시 즉시 입장
+  saveAutoLogin({
+    tier: res.tier,
+    name: payload.name,
+    memberId: memberId,
+    password: res.tier === 'special' ? null : payload.password, // 특별회원 OTP는 소모되므로 저장 X
+    redirect: 'app.html'
+  });
+
+  // 모든 티어 → 학습 페이지로 바로 이동
+  window.location.href = 'app.html';
+}
+
+// ============================================
+// 친구 초대 (1회용 초대 링크)
+// ============================================
+const INVITE_SENT_KEY = 'yeon_invites_sent';       // [{ code, createdAt, joinedBy|null }]
+const INVITED_BY_KEY  = 'yeon_invited_by';          // 가입 시 저장: 초대한 사람의 코드
+const INVITE_PARAM    = 'invite';
+
+// 8자리 숫자 생성 (충돌 체크)
+function _genRawInviteCode(){
+  return String(Math.floor(Math.random() * 1e8)).padStart(8, '0');
+}
+function _isInviteCodeTaken(code){
+  const all = _loadInvitesSent();
+  return all.some(it => it.code === code);
+}
+function newInviteCode(){
+  let tries = 0, code;
+  do {
+    code = _genRawInviteCode();
+    tries++;
+    if (tries > 100) break; // 방어
+  } while (_isInviteCodeTaken(code));
+  return code;
+}
+function formatInviteCode(code){
+  // 12345678 → 1234-5678
+  return code.slice(0,4) + '-' + code.slice(4);
+}
+function _loadInvitesSent(){
+  try { return JSON.parse(localStorage.getItem(INVITE_SENT_KEY) || '[]'); }
+  catch { return []; }
+}
+function _saveInvitesSent(arr){
+  localStorage.setItem(INVITE_SENT_KEY, JSON.stringify(arr));
+}
+
+// 초대 링크 생성 (버튼 클릭)
+function generateInviteLink(){
+  const code = newInviteCode();
+  const now = Date.now();
+  const sent = _loadInvitesSent();
+  sent.push({ code, createdAt: now, joinedBy: null });
+  _saveInvitesSent(sent);
+
+  const url = location.origin + location.pathname + '?' + INVITE_PARAM + '=' + code;
+  window._lastInviteCode = code;
+  window._lastInviteUrl  = url;
+
+  document.getElementById('generatedCode').textContent = formatInviteCode(code);
+  document.getElementById('generatedUrl').textContent  = url;
+  document.getElementById('inviteResult').style.display = '';
+  updateInviteStats();
+}
+
+function updateInviteStats(){
+  const sent = _loadInvitesSent();
+  const joined = sent.filter(it => it.joinedBy).length;
+  const s = document.getElementById('statSent');
+  const j = document.getElementById('statJoined');
+  if (s) s.textContent = sent.length;
+  if (j) j.textContent = joined;
+}
+
+function _buildInviteMessage(){
+  const code = window._lastInviteCode;
+  const url  = window._lastInviteUrl;
+  if (!code || !url) return '';
+  return '[영풀 초대] 친구야, 함께 영어 공부하자!\n' +
+         '아래 링크를 누르면 바로 가입돼. (초대코드 ' + formatInviteCode(code) + ' 자동 적용)\n' +
+         url;
+}
+
+// 링크 복사 (메시지 전체 복사)
+async function copyInviteLink(){
+  const msg = _buildInviteMessage();
+  if (!msg){ alert('먼저 "초대 링크 새로 만들기" 버튼을 눌러 주세요.'); return; }
+  try {
+    await navigator.clipboard.writeText(msg);
+    alert('초대 메시지가 복사되었습니다.\n카톡·문자·메모 등에 붙여넣기 하세요.');
+  } catch {
+    prompt('아래 내용을 복사해 주세요:', msg);
+  }
+}
+
+// 카톡 공유 (Kakao SDK 없이도 동작: 공유 시트 → 카톡 선택)
+async function shareInviteKakao(){
+  const msg = _buildInviteMessage();
+  if (!msg){ alert('먼저 "초대 링크 새로 만들기" 버튼을 눌러 주세요.'); return; }
+  // Kakao SDK가 있으면 우선 사용
+  if (window.Kakao && window.Kakao.Share){
+    try {
+      window.Kakao.Share.sendDefault({
+        objectType: 'text',
+        text: msg,
+        link: { mobileWebUrl: window._lastInviteUrl, webUrl: window._lastInviteUrl }
+      });
+      return;
+    } catch(e){}
+  }
+  // Web Share API (모바일)
+  if (navigator.share){
+    try {
+      await navigator.share({ title: '영풀 초대', text: msg, url: window._lastInviteUrl });
+      return;
+    } catch(e){ if (e.name === 'AbortError') return; }
+  }
+  // 폴백: 복사 + 안내
+  try {
+    await navigator.clipboard.writeText(msg);
+    alert('카톡 공유 SDK가 없어 메시지를 복사했어요.\n카카오톡을 열어 대화창에 붙여넣기 해 주세요.');
+  } catch {
+    prompt('아래 내용을 복사해 카톡에 붙여넣기 해 주세요:', msg);
+  }
+}
+
+// SMS (모바일 전용 sms: 스킴)
+function shareInviteSms(){
+  const msg = _buildInviteMessage();
+  if (!msg){ alert('먼저 "초대 링크 새로 만들기" 버튼을 눌러 주세요.'); return; }
+  // 모바일이면 sms: 스킴 오픈, 데스크탑이면 복사로 폴백
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile){
+    location.href = 'sms:?body=' + encodeURIComponent(msg);
+    return;
+  }
+  navigator.clipboard.writeText(msg)
+    .then(()=>alert('PC에서는 SMS 발송이 안 돼요.\n메시지를 복사했으니 문자 앱에 붙여넣기 하세요.'))
+    .catch(()=>prompt('아래 내용을 복사해 문자로 보내 주세요:', msg));
+}
+
+// URL ?invite= 파서 — 가입 폼 자동 주입 + 배너 표시
+function applyInviteParamFromUrl(){
+  try {
+    const params = new URLSearchParams(location.search);
+    const code = (params.get(INVITE_PARAM) || '').replace(/\D/g,'').slice(0,8);
+    if (!code || code.length !== 8) return;
+    const hidden = document.getElementById('su-invite-code');
+    const banner = document.getElementById('inviteBanner');
+    const bCode  = document.getElementById('inviteBannerCode');
+    if (hidden) hidden.value = code;
+    if (bCode)  bCode.textContent = formatInviteCode(code);
+    if (banner) banner.style.display = '';
+    // 가입 탭으로 자동 전환
+    const tabBtn = document.querySelector('.mode-tab[data-panel="signup"]');
+    if (tabBtn) tabBtn.click();
+    // 보조 저장: 가입 전에 URL이 사라져도 유지
+    sessionStorage.setItem('yeon_pending_invite', code);
+  } catch(e){}
+}
+
+// 로그인 상태에 따라 친구 초대 카드 토글
+function toggleInviteGenCard(){
+  const card = document.getElementById('inviteGenCard');
+  if (!card) return;
+  let sess = null;
+  try { sess = JSON.parse(sessionStorage.getItem('yeon_session')||'null'); } catch(e){}
+  const auto = (function(){ try { return JSON.parse(localStorage.getItem(AUTO_KEY)||'null'); } catch(e){ return null; } })();
+  const loggedIn = (sess && sess.name) || auto;
+  card.style.display = loggedIn ? '' : 'none';
+  if (loggedIn) updateInviteStats();
+}
+
+// 초기화
+applyInviteParamFromUrl();
+toggleInviteGenCard();
+
+// 로그인/로그아웃 시 카드 토글 반영
+const _origUpdateLoginBarIcon = updateLoginBarIcon;
+updateLoginBarIcon = function(){
+  _origUpdateLoginBarIcon.apply(this, arguments);
+  toggleInviteGenCard();
+};
+</script>
+</body>
+</html>

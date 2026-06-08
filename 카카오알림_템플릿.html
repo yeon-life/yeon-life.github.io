@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카카오톡 알림 템플릿 · y-life.kr</title>
+<meta name="description" content="연라이프 매일 아침 06:30 카카오톡 알림 템플릿 — 미리보기 + 알림톡 API 페이로드.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<script src="data/personas.js" defer></script>
+<script src="data/articles_today.js" defer></script>
+<style>
+:root[data-theme="day"]{
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-mist:#f4f1eb; --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-peach:#f3e7dd;
+  --bg: linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+  --txt:#1f2a2a; --txt-soft:#536060; --txt-mute:#7b8686;
+  --kakao:#FEE500; --kakao-text:#191919; --kakao-bd:#FAD000;
+  --talk-bg:#B2C7D9;
+}
+:root[data-theme="night"]{
+  --yp-ink:#f0ede2; --yp-deep:#6eb5a6; --yp-pine:#3aa0a8; --yp-accent:#d8a55a;
+  --yp-mist:#1a2629; --yp-card:#1a2629; --yp-peach:#2a3438;
+  --bg: linear-gradient(180deg, #0c1a1f 0%, #122428 100%);
+  --txt:#f0ede2; --txt-soft:rgba(240,237,226,.72); --txt-mute:rgba(240,237,226,.48);
+  --talk-bg:#2a3438;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;color:var(--txt);background:var(--bg);background-attachment:fixed;line-height:1.75;transition:background .35s,color .35s;padding-bottom:60px}
+a{color:var(--yp-deep);text-decoration:none}
+a:hover{color:var(--yp-accent)}
+
+.topbar{position:sticky;top:0;z-index:30;background:rgba(244,241,235,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd-soft,rgba(31,42,42,.08))}
+:root[data-theme="night"] .topbar{background:rgba(18,36,40,.85)}
+.topbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:14px 24px}
+.brand{display:inline-flex;align-items:baseline;gap:8px;font-family:'Noto Serif KR',serif;color:var(--txt-soft)}
+.brand .yeon{font-size:22px;color:var(--yp-accent);font-weight:700}
+.brand .name{font-size:15px;font-weight:500}
+.crumbs{font-family:'Noto Serif KR',serif;font-size:13.5px;color:var(--txt-soft)}.sep{color:var(--txt-mute)}.spacer{flex:1}
+.theme-pick{display:flex;gap:2px;border:1px solid var(--yp-line,#d7d1c5);border-radius:999px;padding:3px}
+.theme-pick button{appearance:none;border:0;background:transparent;color:var(--txt-soft);height:30px;min-width:30px;border-radius:999px;cursor:pointer;font:inherit;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center}
+.theme-pick button.active{background:var(--yp-accent);color:#fbf8f1}
+
+.wrap{max-width:1100px;margin:0 auto;padding:40px 24px}
+header.doc-head{text-align:center;margin-bottom:36px}
+.kicker{display:inline-block;padding:5px 14px;background:rgba(195,141,86,.12);color:var(--yp-accent);border-radius:999px;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:'Noto Serif KR',serif}
+h1{font-family:'Noto Serif KR',serif;font-size:clamp(28px,4vw,38px);font-weight:900;letter-spacing:-.025em;margin:14px 0 10px;color:var(--yp-ink)}
+.meta{font-size:12.5px;color:var(--txt-mute);letter-spacing:.06em}
+
+.grid{display:grid;grid-template-columns:380px 1fr;gap:32px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+
+/* 카카오톡 미리보기 — 채팅 화면 모양 */
+.kakao-frame{
+  background: var(--talk-bg);
+  border-radius: 24px;
+  padding: 22px 14px;
+  box-shadow: 0 20px 50px rgba(31,42,42,.18);
+}
+.kakao-header{
+  display:flex; align-items:center; gap:8px;
+  padding: 6px 8px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  margin-bottom: 16px;
+}
+.kakao-back{ width:24px; height:24px; color:#fff; opacity:.85; font-size:18px }
+.kakao-name{ font-size: 14px; font-weight: 600; color:#fff }
+.kakao-bubble{
+  background: var(--kakao);
+  color: var(--kakao-text);
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 14px;
+  max-width: 92%;
+  margin-bottom: 6px;
+  position: relative;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+.kakao-bubble::before{
+  content:''; position:absolute; left:-6px; top:14px;
+  width:0;height:0; border:6px solid transparent;
+  border-right-color: var(--kakao); border-left: 0;
+}
+.kakao-bubble h3{
+  font-family:'Noto Serif KR',serif; font-size: 15px; font-weight: 700;
+  margin-bottom: 8px; letter-spacing:-.01em;
+}
+.kakao-bubble .hwadu{
+  background: rgba(255,255,255,.45);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin: 8px 0;
+  font-family:'Noto Serif KR',serif;
+  font-style: italic;
+}
+.kakao-bubble ul{ padding-left: 16px; margin: 6px 0; font-size: 13px }
+.kakao-bubble li{ margin: 4px 0 }
+.kakao-bubble .footer-link{
+  display: block;
+  margin-top: 12px; padding: 8px 12px;
+  background: var(--yp-deep); color: #fbf8f1;
+  text-align: center; border-radius: 10px;
+  font-weight: 600; font-size: 13px;
+  text-decoration: none;
+}
+.kakao-time{
+  font-size: 11px; color: rgba(255,255,255,.7);
+  margin-top: 4px; padding-left: 4px;
+}
+
+/* 오른쪽 — 페이로드 */
+.payload-panel{
+  background: var(--yp-card); border:1px solid var(--yp-line,#d7d1c5); border-radius: 14px;
+  padding: 24px 28px;
+}
+.payload-panel h2{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--yp-ink);margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--yp-deep)}
+.payload-panel h3{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--txt-soft);letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin:18px 0 8px}
+.payload-panel p{font-size:13.5px;color:var(--txt-soft);margin:6px 0}
+.payload-panel pre{background:var(--yp-mist);border:1px solid var(--yp-line);padding:14px 16px;border-radius:8px;overflow-x:auto;font-family:'JetBrains Mono',Menlo,monospace;font-size:12.5px;line-height:1.6;margin:10px 0;color:var(--txt)}
+.payload-panel table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.payload-panel th{background:var(--yp-peach);font-family:'Noto Serif KR',serif;font-weight:700;text-align:left;padding:8px 12px}
+.payload-panel td{padding:8px 12px;border-bottom:1px solid var(--bd-soft,rgba(31,42,42,.08))}
+.payload-panel code{background:var(--yp-mist);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--yp-deep)}
+.copy-btn{appearance:none;border:1px solid var(--yp-deep);background:transparent;color:var(--yp-deep);padding:6px 14px;border-radius:999px;font-family:'Pretendard';font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
+.copy-btn:hover{background:var(--yp-deep);color:#fbf8f1}
+.note{padding:12px 16px;margin:14px 0;background:rgba(195,141,86,.07);border-left:3px solid var(--yp-accent);border-radius:0 8px 8px 0;font-size:13px;color:var(--txt);line-height:1.7}
+.note.warn{background:rgba(168,90,74,.08);border-left-color:#a85a4a}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="시안_v4_홈페이지.html"><span class="yeon">緣</span><span class="name">y-life.kr</span></a>
+    <span class="sep">/</span>
+    <span class="crumbs">카카오톡 알림 템플릿</span>
+    <span class="spacer"></span>
+    <div class="theme-pick">
+      <button data-theme="day" class="active">☀</button>
+      <button data-theme="night">☾</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="doc-head">
+    <span class="kicker">kakao alimtalk template</span>
+    <h1>카카오톡 매일 아침 알림 템플릿</h1>
+    <div class="meta">매일 06:30 KST 발송 · YLV-4 §12 · v1.0</div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 왼쪽: 실 카카오톡 채팅 미리보기 -->
+    <div>
+      <div class="kakao-frame">
+        <div class="kakao-header">
+          <span class="kakao-back">‹</span>
+          <span class="kakao-name">緣 연라이프</span>
+        </div>
+        <div class="kakao-bubble">
+          <h3>🌅 오늘의 연라이프 — 2026.05.18 (월)</h3>
+
+          <div class="hwadu">
+            <strong style="color:var(--yp-accent)">話頭 #19</strong><br>
+            사람은 자신이 의식적으로 선택한다고 믿지만, 그 이전에 이미 몸이 먼저 움직이기 시작한다. 그렇다면 '나'는 누구인가?
+          </div>
+
+          <strong>오늘의 글 3편 ↓</strong>
+          <ul>
+            <li>📰 <strong>주 4일제 시범 1차 결과</strong> (연우진 · 신뢰도 91)</li>
+            <li>☀️ <strong>잠은 처방되지 않는다</strong> (신유경 · 90)</li>
+            <li>✍️ <strong>멈춤이라는 자유</strong> (류온 · 86)</li>
+          </ul>
+
+          <a href="#" class="footer-link">전체 13편 보러 가기 →</a>
+        </div>
+        <div class="kakao-time">오전 06:30 · 매일 발송</div>
+      </div>
+    </div>
+
+    <!-- 오른쪽: 페이로드 정보 -->
+    <div class="payload-panel">
+      <h2>구성 요소</h2>
+
+      <table>
+        <thead><tr><th>슬롯</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>제목</td><td>"🌅 오늘의 연라이프 — YYYY.MM.DD (요일)"</td></tr>
+          <tr><td>화두 번호</td><td>"#{화두번호}"</td></tr>
+          <tr><td>화두 본문</td><td>이번 주 화두 (전체)</td></tr>
+          <tr><td>오늘의 글</td><td>신뢰도 점수 ≥ 80 인 글 중 카테고리 균형 3편</td></tr>
+          <tr><td>CTA 버튼</td><td>전체 13편 보기 → 오늘의_연라이프_DATE.html</td></tr>
+        </tbody>
+      </table>
+
+      <h3>알림톡 API 페이로드 (카카오 알림톡)</h3>
+      <button class="copy-btn" onclick="copyPayload()">📋 페이로드 복사</button>
+      <pre id="payload">{
+  "templateCode": "YLIFE_DAILY_001",
+  "to": "{{phone}}",
+  "from": "사업자전화",
+  "content": "🌅 오늘의 연라이프 — #{date} (#{dow})\n\n[話頭 #{hwadu_no}]\n#{hwadu_body}\n\n— 오늘의 글 —\n📰 #{title_1}\n  ({{persona_1}} · 신뢰도 #{trust_1})\n☀️ #{title_2}\n  ({{persona_2}} · 신뢰도 #{trust_2})\n✍️ #{title_3}\n  ({{persona_3}} · 신뢰도 #{trust_3})",
+  "button": [
+    {
+      "name": "전체 13편 보러 가기",
+      "type": "WL",
+      "url_pc": "https://y-life.kr/오늘의_연라이프_#{date}.html",
+      "url_mobile": "https://y-life.kr/오늘의_연라이프_#{date}.html"
+    }
+  ]
+}</pre>
+
+      <h3>변수 치환</h3>
+      <table>
+        <tbody>
+          <tr><td><code>#{date}</code></td><td>YYYY-MM-DD 형식</td></tr>
+          <tr><td><code>#{dow}</code></td><td>월/화/수/목/금/토/일</td></tr>
+          <tr><td><code>#{hwadu_no}</code></td><td>화두 번호 (예: 19)</td></tr>
+          <tr><td><code>#{hwadu_body}</code></td><td>화두 본문 200자 이내 발췌</td></tr>
+          <tr><td><code>#{title_n} #{persona_n} #{trust_n}</code></td><td>오늘 발행 글 상위 3편 자동 선정</td></tr>
+        </tbody>
+      </table>
+
+      <h3>발송 정책 (YLV-4 §12)</h3>
+      <ul style="padding-left:20px;font-size:13.5px;color:var(--txt);line-height:1.85">
+        <li>발송 시각: <strong>매일 06:30 KST</strong> (자동 발행 직후)</li>
+        <li>대상: 카카오 채널 친구 + 알림톡 동의 회원만</li>
+        <li>주말·공휴일: 동일 발송 (옵션 — 회원이 설정 가능)</li>
+        <li>휴재일(부재 모드): 발송 생략 + 안내 1통</li>
+        <li>발송 실패 시: 1시간 후 재시도, 3회 실패 시 큐 폐기</li>
+        <li>수신 거부: 카카오 채널 차단으로 즉시 적용</li>
+      </ul>
+
+      <h3>알림톡 vs 친구톡 vs 채널톡</h3>
+      <table>
+        <thead><tr><th>유형</th><th>대상</th><th>비용</th><th>승인</th></tr></thead>
+        <tbody>
+          <tr><td>알림톡</td><td>전화번호 보유 회원</td><td>건당 약 8원</td><td>템플릿 사전 승인 필요</td></tr>
+          <tr><td>친구톡</td><td>카카오 채널 친구</td><td>건당 약 8~15원</td><td>광고성 가능</td></tr>
+          <tr><td>채널 메시지</td><td>채널 친구</td><td>무료~약 15원</td><td>일 발송 한도 있음</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note warn">
+        <strong>주의</strong>: 카카오 알림톡 템플릿은 카카오비즈니스에서 <strong>사전 심사</strong>를 받아야 합니다. 광고성 표현·이모지 사용에 제약이 있으므로 본 템플릿은 채널톡(친구톡)으로 발송하거나, 알림톡 심사 통과 후 사용하세요.
+      </div>
+
+      <h3>이메일 백업 (구독자용)</h3>
+      <p>알림톡 동의 안 한 회원에게는 같은 내용을 <strong>Resend</strong> 로 이메일 발송. HTML 템플릿은 별도 파일.</p>
+
+      <h3>발송 시스템</h3>
+      <ol style="padding-left:20px;font-size:13.5px;line-height:1.85">
+        <li>Cloudflare Workers Cron 매일 06:30 KST 트리거</li>
+        <li><code>articles_published</code> 에서 오늘 발행 글 13편 조회</li>
+        <li>신뢰도 ≥ 80 + 카테고리 균형으로 3편 선정</li>
+        <li>화두 본문 + 3편 제목·페르소나·신뢰도 슬롯 치환</li>
+        <li>카카오 비즈 API + Resend 이메일 동시 발송</li>
+        <li>발송 결과 <code>y_usage_events</code> 에 기록</li>
+      </ol>
+    </div>
+  </div>
+
+  <footer style="text-align:center;color:var(--txt-mute);font-size:12px;padding:32px 0 0;margin-top:30px;border-top:1px solid var(--bd-soft,#d7d1c5)">
+    © 2026 y-life.kr · 카카오톡 알림 템플릿 v1.0 · YLV-4 §12 ·
+    <a href="이용약관.html">이용약관</a> ·
+    <a href="개인정보처리방침.html">개인정보 처리방침</a>
+  </footer>
+</div>
+
+<script>
+(function(){const root=document.documentElement;const KEY='ylife.theme';function apply(t){root.setAttribute('data-theme',t);document.querySelectorAll('.theme-pick button').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));try{localStorage.setItem(KEY,t)}catch(e){}}let init='day';try{const s=localStorage.getItem(KEY);if(s==='day'||s==='night')init=s}catch(e){}apply(init);document.querySelectorAll('.theme-pick button').forEach(b=>b.addEventListener('click',()=>apply(b.dataset.theme)));})();
+
+function copyPayload(){
+  const text = document.getElementById('payload').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    if(window.yeonToast) yeonToast('페이로드가 복사됐어요 ✨');
+    else alert('복사됐어요');
+  }).catch(()=>alert('복사 실패'));
+}
+</script>
+</body>
+</html>

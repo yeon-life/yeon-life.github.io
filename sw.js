@@ -23,6 +23,7 @@ const STATIC_ASSETS = [
 ];
 
 const NETWORK_FIRST_PATTERNS = [
+  /^\/$/,
   /\/index\.html$/,
   /\/manifest\.json$/,
   /\/version\.json$/,

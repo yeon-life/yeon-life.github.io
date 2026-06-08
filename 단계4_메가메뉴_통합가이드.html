@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단계 4 — 메가 메뉴 통합 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --amber:#a87b3e;
+    --line:#d8d3c7; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 32px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .lede{font-size:16px;color:var(--muted);max-width:720px;margin-bottom:40px;line-height:1.7}
+  h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);margin:48px 0 16px;border-bottom:1px solid var(--ink);padding-bottom:10px}
+  h2 .step{font-size:13px;color:var(--amber);letter-spacing:.1em;margin-right:10px;font-weight:700;text-transform:uppercase}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin:24px 0 10px}
+  p{margin-bottom:14px;font-size:14px;line-height:1.75}
+  .code{background:var(--ink);color:#e8e4d9;padding:18px 22px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.7;margin:14px 0;overflow-x:auto;white-space:pre}
+  .code .c{color:#7a8a8e}
+  .code .v{color:#c4e4d8}
+  .code .k{color:#e4c89a}
+  .code .s{color:#a8b8bc}
+  .note{background:var(--surface);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin:14px 0}
+  .note strong{color:var(--ink);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;color:var(--soft);line-height:1.7;margin:14px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .danger{background:rgba(168,80,72,.08);border-left:3px solid #a85048;padding:14px 18px;font-size:13px;color:var(--soft);line-height:1.7;margin:14px 0}
+  .danger strong{color:#a85048;font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  ul,ol{margin:10px 0 14px 22px;font-size:14px;line-height:1.85}
+  li{margin-bottom:6px}
+  .checklist{list-style:none;margin-left:0}
+  .checklist li{padding-left:28px;position:relative}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:18px;color:var(--teal)}
+  .topbar{padding:14px 0;border-bottom:1px solid var(--line);background:var(--warm);font-size:12px;color:var(--muted)}
+  .topbar .in{max-width:960px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center}
+  .topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+  a{color:var(--teal)}
+  .step-marker{font-family:var(--serif);font-size:80px;font-weight:900;color:var(--line);line-height:1;letter-spacing:-.04em}
+  .files-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .files-table th,.files-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  .files-table th{font-family:var(--serif);font-size:12px;background:var(--surface);font-weight:700;color:var(--ink);letter-spacing:.04em;text-transform:uppercase}
+  .files-table td:first-child{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--teal)}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--surface);padding:1px 5px;border-radius:2px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr 홈으로</a><span>단계 4 — 메가 메뉴 통합</span></div></div>
+
+<div class="wrap">
+
+  <div class="step-marker">04</div>
+  <div class="meta">y-life.kr · 점진적 도입 4단계 · 가장 큰 변화</div>
+  <h1>메가 메뉴를 <em>기존 사이트</em>에 통합하기</h1>
+  <p class="lede">
+    단계 1·2·3을 거쳐 색감·마스트헤드·블로그가 자리잡았다면, 이제 가장 큰 변화입니다.
+    기존 사이트의 인라인 메뉴([화두] [소식] [토론광장]…)를 메가 메뉴로 교체합니다.
+    가장 위험한 작업이라 가장 마지막에 합니다.
+  </p>
+
+  <div class="danger">
+    <strong>⚠ 위험도 높음</strong>
+    이 작업은 사이트의 핵심 내비게이션을 바꿉니다. 반드시 단계 1~3이 안정적으로 작동하는 것을 확인한 다음 진행하세요. 백업 필수.
+  </div>
+
+  <!-- ========== 사전 점검 ========== -->
+  <h2><span class="step">사전</span>점검 사항</h2>
+  <ul class="checklist">
+    <li>단계 1(마스트헤드·색감) 적용 완료</li>
+    <li>단계 2(글 상세 페이지) 적용 완료</li>
+    <li>단계 3(블로그 셋팅) 적용 완료</li>
+    <li>현재 운영 중인 기능(관리자 모드, 동기화, AI 도우미) 모두 정상 작동</li>
+    <li>모바일에서 단계 1~3 모두 깨지지 않음</li>
+    <li><strong>index.html 새 백업</strong> (<code>index_backup_pre_megamenu.html</code>)</li>
+  </ul>
+
+  <!-- ========== 통합할 코드 위치 ========== -->
+  <h2><span class="step">변경 1</span>기존 인라인 메뉴 제거</h2>
+  <p>
+    현재 마스트헤드 아래에 있는 인라인 텍스트 메뉴 영역을 통째로 제거합니다.
+    아래 패턴의 HTML 블록을 찾아 삭제하세요.
+  </p>
+  <div class="code"><span class="c">&lt;!-- 이런 패턴의 블록을 통째로 제거 --&gt;</span>
+&lt;nav class=<span class="s">"..."</span>&gt;
+  &lt;a href=<span class="s">"#hwadu"</span>&gt;화두&lt;/a&gt;
+  &lt;a href=<span class="s">"#news"</span>&gt;소식&lt;/a&gt;
+  &lt;a href=<span class="s">"#agora"</span>&gt;토론광장&lt;/a&gt;
+  &lt;a href=<span class="s">"#bridge"</span>&gt;인연의 다리&lt;/a&gt;
+  &lt;a href=<span class="s">"#builder"</span>&gt;사이트 빌더&lt;/a&gt;
+&lt;/nav&gt;</div>
+
+  <p>대신 마스트헤드 우측에 메가 메뉴 트리거(차림표 버튼)를 추가합니다.</p>
+
+  <h2><span class="step">변경 2</span>차림표 버튼 추가</h2>
+  <p>단계 1에서 만든 <code>.yl-masthead-inner</code> 안에 메뉴 트리거 버튼을 추가합니다.</p>
+  <div class="code"><span class="c">&lt;!-- yl-masthead-inner 끝에 추가 --&gt;</span>
+&lt;button class=<span class="s">"yl-menu-trigger"</span> id=<span class="s">"ylMenuTrigger"</span>&gt;
+  &lt;svg viewBox=<span class="s">"0 0 24 16"</span> fill=<span class="s">"none"</span>&gt;
+    &lt;line x1=<span class="s">"2"</span> y1=<span class="s">"3"</span> x2=<span class="s">"22"</span> y2=<span class="s">"3"</span>/&gt;
+    &lt;line x1=<span class="s">"2"</span> y1=<span class="s">"8"</span> x2=<span class="s">"22"</span> y2=<span class="s">"8"</span>/&gt;
+    &lt;line x1=<span class="s">"2"</span> y1=<span class="s">"13"</span> x2=<span class="s">"14"</span> y2=<span class="s">"13"</span>/&gt;
+  &lt;/svg&gt;
+  &lt;span&gt;차림표&lt;/span&gt;
+&lt;/button&gt;</div>
+
+  <h3>버튼 CSS</h3>
+  <div class="code">.yl-menu-trigger {
+  <span class="k">display</span>: <span class="v">inline-flex</span>; <span class="k">align-items</span>: <span class="v">center</span>; <span class="k">gap</span>: <span class="v">10px</span>;
+  <span class="k">padding</span>: <span class="v">10px 18px</span>;
+  <span class="k">background</span>: <span class="v">transparent</span>; <span class="k">border</span>: <span class="v">1px solid var(--yl-ink)</span>;
+  <span class="k">color</span>: <span class="v">var(--yl-ink)</span>;
+  <span class="k">font-family</span>: <span class="v">var(--yl-serif)</span>;
+  <span class="k">font-size</span>: <span class="v">14px</span>; <span class="k">font-weight</span>: <span class="v">600</span>;
+  <span class="k">cursor</span>: <span class="v">pointer</span>; <span class="k">transition</span>: <span class="v">all .2s</span>;
+}
+.yl-menu-trigger:hover, .yl-menu-trigger.active {
+  <span class="k">background</span>: <span class="v">var(--yl-ink)</span>;
+  <span class="k">color</span>: <span class="v">var(--yl-warm)</span>;
+}
+.yl-menu-trigger svg {
+  <span class="k">width</span>: <span class="v">16px</span>; <span class="k">height</span>: <span class="v">14px</span>;
+  <span class="k">stroke</span>: <span class="v">currentColor</span>; <span class="k">stroke-width</span>: <span class="v">1.6</span>;
+  <span class="k">stroke-linecap</span>: <span class="v">round</span>;
+}</div>
+
+  <!-- 메가 메뉴 본체 -->
+  <h2><span class="step">변경 3</span>메가 메뉴 HTML 본체 추가</h2>
+  <p>
+    <code>&lt;/header&gt;</code> 바로 다음에 메가 메뉴 본체와 오버레이를 붙입니다.
+    이 블록은 시안 v4 홈페이지의 메가 메뉴 코드를 그대로 가져와 클래스 접두사를 <code>.yl-</code>로 바꾸면 됩니다.
+  </p>
+  <div class="note">
+    <strong>편한 방법</strong>
+    <code>시안_v4_홈페이지.html</code> 파일을 열어 <code>&lt;div class="mega-overlay"&gt;</code>부터 <code>&lt;/aside&gt;</code>(또는 메가 메뉴 마지막 닫는 태그)까지 통째로 복사 → 클래스명 일괄 변경 (<code>mega-</code> → <code>yl-mega-</code>) → index.html에 붙여넣기.
+  </div>
+
+  <p>HTML 구조의 핵심 골격:</p>
+  <div class="code">&lt;div class=<span class="s">"yl-mega-overlay"</span> id=<span class="s">"ylMegaOverlay"</span>&gt;&lt;/div&gt;
+
+&lt;div class=<span class="s">"yl-mega-menu"</span> id=<span class="s">"ylMegaMenu"</span>&gt;
+
+  <span class="c">&lt;!-- 헤더: 로고 + 검색 + 닫기 --&gt;</span>
+  &lt;div class=<span class="s">"yl-mega-head"</span>&gt; ... &lt;/div&gt;
+
+  <span class="c">&lt;!-- 3열 본문 --&gt;</span>
+  &lt;div class=<span class="s">"yl-mega-body"</span>&gt;
+    &lt;div class=<span class="s">"yl-mega-col-1"</span>&gt;
+      <span class="c">&lt;!-- 대분류: 화두 광장 칼럼 세상 어디로 시민저널 블로그 인연의다리 --&gt;</span>
+    &lt;/div&gt;
+    &lt;div class=<span class="s">"yl-mega-col-2"</span>&gt;
+      <span class="c">&lt;!-- 중분류 (선택된 대분류에 따라 바뀜) --&gt;</span>
+    &lt;/div&gt;
+    &lt;div class=<span class="s">"yl-mega-col-3"</span>&gt;
+      <span class="c">&lt;!-- 추천/지금 (선택된 대분류에 따라 바뀜) --&gt;</span>
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  <span class="c">&lt;!-- 푸터 --&gt;</span>
+  &lt;div class=<span class="s">"yl-mega-foot"</span>&gt; ... &lt;/div&gt;
+
+&lt;/div&gt;</div>
+
+  <h2><span class="step">변경 4</span>JavaScript 연결</h2>
+  <p>기존 사이트의 <code>&lt;script&gt;</code> 블록 끝에 추가합니다. 기존 코드와 충돌하지 않도록 <code>yl-</code> 접두사 유지.</p>
+  <div class="code"><span class="c">// 메가 메뉴 작동 — 기존 JS와 분리된 IIFE로 감싸기</span>
+(function() {
+  <span class="k">const</span> trigger = document.getElementById(<span class="s">'ylMenuTrigger'</span>);
+  <span class="k">const</span> mega = document.getElementById(<span class="s">'ylMegaMenu'</span>);
+  <span class="k">const</span> overlay = document.getElementById(<span class="s">'ylMegaOverlay'</span>);
+  <span class="k">if</span> (!trigger || !mega || !overlay) <span class="k">return</span>;
+
+  <span class="k">function</span> open() {
+    mega.classList.add(<span class="s">'open'</span>);
+    overlay.classList.add(<span class="s">'open'</span>);
+    trigger.classList.add(<span class="s">'active'</span>);
+    document.body.classList.add(<span class="s">'menu-open'</span>);
+  }
+  <span class="k">function</span> close() {
+    mega.classList.remove(<span class="s">'open'</span>);
+    overlay.classList.remove(<span class="s">'open'</span>);
+    trigger.classList.remove(<span class="s">'active'</span>);
+    document.body.classList.remove(<span class="s">'menu-open'</span>);
+  }
+
+  trigger.addEventListener(<span class="s">'click'</span>, () =&gt;
+    mega.classList.contains(<span class="s">'open'</span>) ? close() : open()
+  );
+  overlay.addEventListener(<span class="s">'click'</span>, close);
+  document.addEventListener(<span class="s">'keydown'</span>, e =&gt; { <span class="k">if</span> (e.key === <span class="s">'Escape'</span>) close(); });
+
+  <span class="c">// 대분류 호버/클릭 → 2열·3열 동기화</span>
+  document.querySelectorAll(<span class="s">'.yl-cat-item'</span>).forEach(item =&gt; {
+    item.addEventListener(<span class="s">'mouseenter'</span>, () =&gt; switchPane(item.dataset.target));
+    item.addEventListener(<span class="s">'click'</span>, () =&gt; switchPane(item.dataset.target));
+  });
+  <span class="k">function</span> switchPane(target) {
+    document.querySelectorAll(<span class="s">'.yl-cat-item'</span>).forEach(c =&gt;
+      c.classList.toggle(<span class="s">'active'</span>, c.dataset.target === target)
+    );
+    document.querySelectorAll(<span class="s">'.yl-mega-col-2-pane'</span>).forEach(p =&gt;
+      p.classList.toggle(<span class="s">'active'</span>, p.dataset.pane === target)
+    );
+    document.querySelectorAll(<span class="s">'.yl-mega-col-3-pane'</span>).forEach(p =&gt;
+      p.classList.toggle(<span class="s">'active'</span>, p.dataset.pane === target)
+    );
+  }
+})();</code></div>
+
+  <h2><span class="step">변경 5</span>모바일 대응</h2>
+  <p>화면 너비가 1024px 이하일 때는 3열을 1열로, 640px 이하에서는 카테고리만 보여주는 아코디언 형태로 자동 전환.</p>
+  <div class="code">@media (max-width: 1024px) {
+  .yl-mega-body { <span class="k">grid-template-columns</span>: <span class="v">1fr</span>; }
+  .yl-mega-col-1, .yl-mega-col-2 {
+    <span class="k">border-right</span>: <span class="v">none</span>;
+    <span class="k">border-bottom</span>: <span class="v">1px solid var(--yl-line)</span>;
+  }
+}
+@media (max-width: 640px) {
+  .yl-mega-body { <span class="k">display</span>: <span class="v">block</span>; }
+  .yl-mega-col-2, .yl-mega-col-3 { <span class="k">display</span>: <span class="v">none</span>; }
+  <span class="c">/* 모바일: 클릭 시 다음 단계로 슬라이드 (선택 사항) */</span>
+}</div>
+
+  <!-- 통합 후 테스트 -->
+  <h2><span class="step">테스트</span>통합 후 확인 사항</h2>
+  <ul class="checklist">
+    <li><strong>차림표 버튼 동작</strong>: 클릭 시 메뉴 부드럽게 슬라이드 다운</li>
+    <li><strong>3열 동기화</strong>: 왼쪽 항목 호버 시 가운데·오른쪽이 즉시 바뀜</li>
+    <li><strong>닫기</strong>: X 버튼, 오버레이 클릭, ESC 키 모두 작동</li>
+    <li><strong>모바일</strong>: 폰 폭에서 1열 또는 아코디언으로 변환</li>
+    <li><strong>화두 링크</strong>: 메가 메뉴에서 화두 → 클릭 시 본문 화두 섹션으로 스크롤</li>
+    <li><strong>광장 링크</strong>: 메가 메뉴에서 아골라 → 본문 광장 섹션으로 스크롤</li>
+    <li><strong>관리자 모드</strong>: 메뉴와 관계없이 기존처럼 작동</li>
+    <li><strong>로그인 모달</strong>: 메뉴와 별개로 정상 작동</li>
+    <li><strong>AI 도우미</strong>: 플로팅 버튼 가려지지 않는지</li>
+    <li><strong>키보드 접근성</strong>: Tab 키로 메뉴 탐색 가능한지</li>
+  </ul>
+
+  <h2><span class="step">파일</span>참고 파일 위치</h2>
+  <table class="files-table">
+    <thead>
+      <tr><th>파일</th><th>역할</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>시안_v4_홈페이지.html</td><td>메가 메뉴 완성된 HTML/CSS/JS 원본 — 복사해 가져올 자료</td></tr>
+      <tr><td>단계1_점진적도입_가이드.html</td><td>색감·마스트헤드 적용 (선행)</td></tr>
+      <tr><td>단계2_광장글_상세페이지.html</td><td>글 상세 페이지 (선행)</td></tr>
+      <tr><td>index.html</td><td>실제 운영 파일 — 여기에 통합</td></tr>
+      <tr><td>index_backup_pre_megamenu.html</td><td>이번 단계 직전 백업 (필수)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>되돌리기와 점진적 적용</h2>
+  <p>
+    메가 메뉴가 너무 큰 변화여서 부담스럽다면, 더 작은 단위로 쪼갤 수 있습니다.
+  </p>
+  <ol>
+    <li><strong>마이크로 단계 1</strong>: 차림표 버튼만 추가 (클릭 시 alert으로 "준비 중" 표시)</li>
+    <li><strong>마이크로 단계 2</strong>: 단순한 사이드 드로어(v3 방식)로 시작</li>
+    <li><strong>마이크로 단계 3</strong>: 사이드 드로어를 점차 3열 메가 메뉴로 확장</li>
+  </ol>
+
+  <div class="note">
+    <strong>마지막 한 마디</strong>
+    이 4단계까지 끝나면 v4 시안의 모든 디자인이 실제 운영 사이트에 적용된 상태가 됩니다. 그 다음은 콘텐츠 — 매주 화두를 채우고, 광장을 살리고, 칼럼니스트를 모시는 일입니다. 디자인은 그 토대일 뿐이에요. 마을이 진짜로 자라는 것은 사람이 들어오기 시작하면서부터입니다.
+  </div>
+
+</div>
+
+</body>
+</html>

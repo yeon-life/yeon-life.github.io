@@ -10,15 +10,27 @@ try:
 except AttributeError:
     pass
 
-# 대상 디렉토리 정의 (스크립트가 위치한 폴더 기준)
-TARGET_DIR = os.path.dirname(os.path.abspath(__file__))
+# 대상 디렉토리 정의 (yeon-life.github.io 하위 폴더 대상, 없을 시 스크립트 위치 기준)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TARGET_DIR = os.path.join(BASE_DIR, "yeon-life.github.io")
+if not os.path.exists(TARGET_DIR):
+    TARGET_DIR = BASE_DIR
 
 errors = []
 warnings = []
 
-# 검증에서 제외할 폴더 및 파일
-EXCLUDE_DIRS = {".git", "node_modules", ".vercel", "_samsan_backup_deleted", "내친구인공지능_책"}
-EXCLUDE_FILES = {"index_backup_before_length_fix.html", "index_옛_20260507_v5배포전.html"}
+# 검증에서 제외할 폴더 및 파일 (백업 및 비배포 폴더 포함)
+EXCLUDE_DIRS = {
+    ".git", "node_modules", ".vercel", "_samsan_backup_deleted", "내친구인공지능_책",
+    "yeon-ai-kr", "yeon-ai-kr-new", "yeon-ai-kr-v3", "yeon-ai-kr-v4", "_백업",
+    "y-life_v6_2026-05-18", "리디자인_2026-05-16", "리디자인_2026-05-16_전체",
+    "연라이프_캔바_디자인_의뢰", "울산소개_v1_20260521"
+}
+EXCLUDE_FILES = {
+    "index_backup_before_length_fix.html", 
+    "index_옛_20260507_v5배포전.html",
+    "_INDEX_현재까지_완성된것.html"
+}
 
 def log_error(file_path, line_no, message):
     errors.append(f"[ERROR] {os.path.basename(file_path)}:L{line_no} - {message}")

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0">
+<title>영풀 · 나의 사명 — 우리 한민족의 아름다운 철학을 되살려야</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F3;          /* 미색 한지 느낌 */
+  --bg-card:#FFFFFF;
+  --surface:#F0EBE0;     /* 연한 베이지 */
+  --primary:#5A7A82;     /* Cool Coastline primary */
+  --primary-deep:#3E5A62;
+  --ink:#2C2C2C;         /* 서예 먹색 */
+  --ink-soft:#4A4A4A;
+  --light:#7A7A7A;
+  --accent-gold:#C9A961;  /* 전통 금색 */
+  --accent-red:#A94442;   /* 전통 단청 붉은색 */
+  --hl-yellow:rgba(255,232,80,0.5);
+  --hl-green:rgba(167,222,112,0.5);
+  --hl-blue:rgba(120,180,220,0.5);
+  --hl-pink:rgba(255,150,180,0.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  background:var(--bg);
+  font-family:'Gowun Batang','Nanum Myeongjo','Noto Sans KR',serif;
+  color:var(--ink);
+  line-height:1.9;
+  -webkit-text-size-adjust:100%;
+}
+body{
+  background:
+    radial-gradient(ellipse at top, rgba(201,169,97,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse at bottom, rgba(90,122,130,0.04) 0%, transparent 70%),
+    var(--bg);
+  min-height:100vh;
+}
+
+.page{max-width:720px;margin:0 auto;padding:0 20px 80px;}
+
+/* 상단 바 */
+.top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.top-actions{display:flex;gap:8px;align-items:center;}
+.back-btn,.print-btn{
+  background:transparent;border:1px solid rgba(90,122,130,0.3);
+  color:var(--primary);padding:8px 14px;border-radius:10px;
+  font-size:12px;cursor:pointer;font-family:inherit;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all 0.2s;
+}
+.back-btn:hover,.print-btn:hover{background:var(--surface);border-color:var(--accent-gold);}
+.print-btn{
+  border-color:rgba(201,169,97,0.4);
+  color:var(--primary-deep);
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;color:var(--light);letter-spacing:3px;font-weight:500;
+}
+.brand img{
+  height:30px;width:auto;display:block;
+  filter:drop-shadow(0 1px 2px rgba(90,122,130,0.1));
+}
+
+/* 선생님 메시지 카드 (연플래닝 작성) */
+.teacher-card{
+  background:var(--bg-card);
+  border:1.5px solid rgba(201,169,97,0.3);
+  border-radius:18px;
+  padding:28px 26px 24px;
+  margin-bottom:40px;
+  position:relative;
+  box-shadow:0 6px 24px rgba(90,122,130,0.08);
+}
+.teacher-card::before{
+  content:'';position:absolute;top:-1px;left:20px;right:20px;height:4px;
+  background:linear-gradient(90deg,transparent,var(--accent-gold),transparent);
+  border-radius:0 0 4px 4px;
+}
+.teacher-card h2{
+  font-family:'Nanum Myeongjo',serif;
+  font-size:22px;font-weight:800;color:var(--ink);
+  margin-bottom:16px;line-height:1.45;
+  letter-spacing:-0.5px;
+}
+.teacher-card h2 .q{color:var(--accent-red);}
+.teacher-card p{
+  font-size:15px;color:var(--ink-soft);
+  margin-bottom:12px;line-height:1.85;
+}
+.teacher-card p.emphasize{font-weight:700;color:var(--ink);}
+.teacher-card p .hl{background:var(--hl-yellow);padding:0 4px;font-weight:700;}
+.teacher-card .sign{
+  text-align:right;margin-top:14px;
+  font-family:'Nanum Myeongjo',serif;
+  font-size:16px;font-weight:700;color:var(--primary-deep);
+  font-style:italic;letter-spacing:1px;
+}
+.teacher-card .sign::before{content:'— ';color:var(--accent-gold);}
+
+/* 에세이 헤더 */
+.essay-header{
+  text-align:center;margin:50px 0 36px;
+  position:relative;
+}
+.essay-header .calligraphy{
+  font-family:'Nanum Myeongjo',serif;
+  font-size:56px;font-weight:800;color:var(--ink);
+  letter-spacing:12px;margin-bottom:14px;
+  text-shadow:2px 2px 0 rgba(201,169,97,0.15);
+}
+.essay-header .author{
+  font-family:'Nanum Myeongjo',serif;
+  font-size:15px;color:var(--primary);font-weight:700;
+  letter-spacing:2px;margin-bottom:6px;
+}
+.essay-header .chapters{
+  font-size:13px;color:var(--light);
+  font-family:'Noto Sans KR',sans-serif;
+  letter-spacing:0.5px;
+}
+.essay-header .chapters span{margin:0 6px;}
+.essay-header .chapters .current{color:var(--accent-red);font-weight:700;}
+
+.kimgu-portrait{
+  width:280px;height:320px;margin:10px auto 24px;
+  display:flex;align-items:flex-end;justify-content:center;
+  position:relative;
+  /* 테두리·배경 없음 — 한지에 자연스럽게 녹아들게 */
+}
+.kimgu-portrait img{
+  width:100%;height:100%;
+  object-fit:contain;
+  opacity:0.75;                     /* 적당히 연하게 (유령처럼 안 되게) */
+  mix-blend-mode:multiply;          /* 흰 배경을 한지에 녹임 */
+  filter:
+    sepia(1)                        /* 완전 세피아 */
+    saturate(1.7)                   /* 브라운 진하게 */
+    brightness(0.98)                /* 살짝 어둡게 유지 → 보이게 */
+    contrast(1.05)                  /* 약간의 대비 복구 */
+    hue-rotate(-12deg);             /* 따뜻한 브라운 쪽으로 */
+  /* 가장자리 페더링 — 배경과 경계 없이 */
+  -webkit-mask-image:radial-gradient(ellipse 80% 90% at 50% 45%, #000 55%, transparent 100%);
+          mask-image:radial-gradient(ellipse 80% 90% at 50% 45%, #000 55%, transparent 100%);
+}
+@media (max-width:600px){
+  .kimgu-portrait{width:220px;height:250px;}
+}
+
+/* 에세이 본문 */
+.essay{
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:36px 30px;
+  box-shadow:0 4px 20px rgba(90,122,130,0.06);
+  border:1px solid rgba(90,122,130,0.08);
+  margin-bottom:30px;
+}
+.essay p{
+  font-family:'Gowun Batang','Nanum Myeongjo',serif;
+  font-size:16.5px;line-height:2.05;
+  color:var(--ink-soft);
+  margin-bottom:22px;
+  text-align:justify;
+  word-break:keep-all;
+  text-indent:0;
+}
+.essay p.lead{
+  font-size:19px;font-weight:700;color:var(--ink);
+  line-height:1.85;margin-bottom:24px;
+}
+.essay .yellow{background:var(--hl-yellow);padding:1px 4px;border-radius:2px;font-weight:700;color:var(--ink);}
+.essay .green {background:var(--hl-green); padding:1px 4px;border-radius:2px;font-weight:700;color:var(--ink);}
+.essay .blue  {background:var(--hl-blue);  padding:1px 4px;border-radius:2px;font-weight:700;color:var(--ink);}
+.essay .pink  {background:var(--hl-pink);  padding:1px 4px;border-radius:2px;font-weight:700;color:var(--ink);}
+.essay .underline{border-bottom:2.5px solid var(--accent-red);padding-bottom:1px;font-weight:700;color:var(--ink);}
+
+.essay-chapter{
+  margin-top:40px;margin-bottom:20px;
+  font-family:'Nanum Myeongjo',serif;
+  font-size:18px;font-weight:800;color:var(--primary-deep);
+  padding-left:14px;border-left:4px solid var(--accent-gold);
+  letter-spacing:0.5px;
+}
+
+.essay .signature{
+  text-align:right;margin-top:36px;padding-top:24px;
+  border-top:1px solid rgba(90,122,130,0.15);
+  font-family:'Nanum Myeongjo',serif;
+  color:var(--ink);
+}
+.essay .signature .place{font-size:15px;font-weight:700;margin-bottom:4px;}
+.essay .signature .date{font-size:12px;color:var(--light);line-height:1.7;}
+
+/* 하단 작은 인용구 */
+.closing-quote{
+  text-align:center;margin:30px 0 10px;
+  padding:24px 20px;
+  font-family:'Nanum Myeongjo',serif;
+  font-size:20px;color:var(--ink-soft);
+  font-style:italic;line-height:1.9;font-weight:500;
+}
+.closing-quote::before,.closing-quote::after{
+  display:block;color:var(--accent-gold);font-size:24px;
+  margin:6px 0;
+}
+.closing-quote::before{content:'"';}
+.closing-quote::after{content:'"';}
+
+/* 출처 */
+.source{
+  text-align:center;margin-top:20px;
+  font-size:11px;color:var(--light);
+  font-family:'Noto Sans KR',sans-serif;
+  letter-spacing:0.5px;
+}
+
+/* 모바일 */
+@media (max-width:600px){
+  .page{padding:0 14px 60px;}
+  .teacher-card{padding:22px 18px;}
+  .teacher-card h2{font-size:19px;}
+  .teacher-card p{font-size:14px;}
+  .essay-header .calligraphy{font-size:40px;letter-spacing:8px;}
+  .kimgu-portrait{width:100px;height:100px;}
+  .essay{padding:26px 20px;}
+  .essay p{font-size:15.5px;line-height:1.95;}
+  .essay p.lead{font-size:17px;}
+}
+
+/* 인쇄 스타일 — 종이에 옮길 때 UI 요소 숨김 */
+@media print{
+  body{background:#fff;}
+  .top-bar,.back-btn,.print-btn{display:none !important;}
+  .page{max-width:100%;padding:0 20px;}
+  .teacher-card,.essay{
+    box-shadow:none;
+    border:1px solid #ddd;
+    break-inside:avoid;
+  }
+  .essay p{font-size:13pt;line-height:1.8;}
+  .essay p.lead{font-size:15pt;}
+  .essay-chapter{break-after:avoid;}
+  .kimgu-portrait{break-inside:avoid;}
+  .closing-quote{break-inside:avoid;page-break-inside:avoid;}
+  .essay .yellow,.essay .green,.essay .blue,.essay .pink{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top-bar">
+    <div class="top-actions">
+      <button class="back-btn" onclick="history.back()">← 돌아가기</button>
+      <button class="print-btn" onclick="window.print()" title="A4 용지로 인쇄">🖨️ 인쇄하기</button>
+    </div>
+    <div class="brand">
+      <img src="assets/yeonplanning-logo.svg" alt="연플래닝">
+      <span>YEONPUL · MISSION</span>
+    </div>
+  </div>
+
+  <!-- ===== 선생님(연플래닝) 서두 메시지 ===== -->
+  <section class="teacher-card">
+    <h2>우리 한민족의 <span class="q">"아름다운 철학"</span> 을 되살려야…</h2>
+    <p>
+      오랜 시간 지난 글이지만, <span class="hl">아래 백범 김구 선생님의 글은 우리 민족이 걸어온 길과 대한민국이 앞으로 나아가야 할 길, 그리고 모든 사람이 지녀야 할 품성과 철학이 가장 명확하게 잘 나타나 있는 글</span>이라 생각됩니다.
+    </p>
+    <p class="emphasize">
+      이렇듯 아름다운 마음을 세상에 널리 알려 <span class="hl">"인류공영(人類共榮)에 조금이나마 이바지하는 삶"</span>이야말로 우리가 가져야 할 사명이 아닐까 합니다.
+    </p>
+    <p>
+      다시 한 번 읽어보고 삶에 큰 지표를 세우는 계기로 삼길 바랍니다.
+    </p>
+    <div class="sign">연플래닝</div>
+  </section>
+
+  <!-- ===== 나의 소원 ===== -->
+  <div class="essay-header">
+    <div class="kimgu-portrait" aria-label="백범 김구 선생 초상">
+      <img src="assets/kimgu-portrait.jpg" alt="백범 김구 선생">
+    </div>
+    <div class="calligraphy">나의 소원</div>
+    <div class="author">— 백범 김구 —</div>
+    <div class="chapters">
+      <span>1. 민족국가</span>·
+      <span>2. 정치 이념</span>·
+      <span class="current">3. 내가 원하는 우리나라</span>
+    </div>
+  </div>
+
+  <!-- ===== 에세이 본문 ===== -->
+  <article class="essay">
+
+    <div class="essay-chapter">3. 내가 원하는 우리나라</div>
+
+    <p class="lead">
+      나는 <span class="yellow">우리나라가 세계에서 가장 아름다운 나라가 되기를 원한다.</span>
+    </p>
+
+    <p>
+      가장 부강한 나라가 되기를 원하는 것은 아니다. 내가 남의 침략에 가슴이 아팠으니, 내 나라가 남을 침략하는 것을 원치 아니한다. 우리의 부력(富力)은 우리의 생활을 풍족히 할 만하고, 우리의 강력(强力)은 남의 침략을 막을 만하면 족하다. 오직 한없이 가지고 싶은 것은 <span class="yellow">높은 문화의 힘</span>이다. <span class="yellow">문화의 힘은 우리 자신을 행복되게 하고, 나아가서 남에게 행복을 주겠기 때문이다.</span> 지금 인류에게 부족한 것은 무력도 아니오, 경제력도 아니다. 자연과학의 힘은 아무리 많아도 좋으나, <span class="yellow">인류 전체로 보면 현재의 자연과학만 가지고도 편안히 살아가기에 넉넉하다.</span>
+    </p>
+
+    <p>
+      <span class="yellow">인류가 현재에 불행한 근본 이유는</span> 인의(仁義)가 부족하고, 자비가 부족하고, <span class="yellow">사랑이 부족한 때문이다.</span> 이 마음만 발달이 되면 현재의 물질력으로 20억이 다 편안히 살아갈 수 있을 것이다. 인류의 이 정신을 배양하는 것은 오직 문화이다. <span class="yellow">나는 우리나라가 남의 것을 모방하는 나라가 되지 말고, 이러한 높고 새로운 문화의 근원이 되고, 목표가 되고, 모범이 되기를 원한다. 그래서 진정한 세계의 평화가 우리나라에서, 우리나라로 말미암아서 세계에 실현되기를 원한다.</span>
+    </p>
+
+    <p>
+      <span class="underline">홍익인간(弘益人間)이라는 우리 국조(國祖) 단군의 이상이 이것이라고 믿는다.</span> 또 우리 민족의 재주와 정신과 과거의 단련이 이 사명을 달하기에 넉넉하고, 국토의 위치와 기타의 지리적 조건이 그러하며, 또 1차 2차 세계대전을 치른 인류의 요구가 그러하며, 이러한 시대에 새로 나라를 고쳐 세우는 우리의 서 있는 시기가 그러하다고 믿는다. <span class="yellow">우리 민족이 주연배우로 세계의 무대에 등장할 날이 눈앞에 보이지 아니하는가.</span>
+    </p>
+
+    <p>
+      <span class="yellow">이 일을 하기 위하여 우리가 할 일은 사상의 자유를 확보하는 정치양식의 건립과 국민교육의 완비다. 내가 위에서 자유의 나라를 강조하고, 교육의 중요성을 말한 것이 이 때문이다.</span> 최고 문화 건설의 사명을 달할 민족은 일언이 폐지하면, 모두 성인(聖人)을 만드는 데 있다. <span class="yellow">대한(大韓)사람이라면 간 데마다 신용을 받고 대접을 받아야 한다.</span>
+    </p>
+
+    <p>
+      우리의 적이 우리를 누르고 있을 때에는 미워하고 분해하는 살벌·투쟁의 정신을 길렀었거니와, 적은 이미 물러갔으니 우리는 증오의 투쟁을 버리고 화합의 건설을 일삼을 때다. 집안이 불화하면 망하고, 나라 안이 갈려서 싸우면 망한다. 동포간의 증오와 투쟁은 망조다. 우리의 용모에서는 화기가 빛나야 한다. 우리 국토 안에는 언제나 춘풍(春風)이 태탕(鋏蕩)하여야 한다. 이것은 우리 국민 각자가 한번 마음을 고쳐먹음으로써 되고, 그러한 정신의 교육으로 영속될 것이다.
+    </p>
+
+    <p>
+      <span class="green">최고 문화로 인류의 모범이 되기로 사명을 삼는 우리 민족의 각원(各員)은 이기적 개인주의자여서는 안된다. 우리는 개인의 자유를 극도로 주장하되, 그것은 저 짐승들과 같이 저마다 제 배를 채우기에 쓰는 자유가 아니요, 제 가족을, 제 이웃을, 제 국민을 잘 살게 하기에 쓰이는 자유다. 공원의 꽃을 꺾는 자유가 아니라 공원에 꽃을 심는 자유다.</span> <span class="green">우리는 남의 것을 빼앗거나 남의 덕을 입으려는 사람이 아니라, 가족에게, 이웃에게, 동포에게 주는 것으로 낙을 삼는 사람이다.</span>
+    </p>
+
+    <p>
+      우리 말에 이른바 <span class="green">선비요 점잖은 사람이다. 그러므로 우리는 게으르지 아니하고 부지런하다. 사랑하는 처자를 가진 가장은 부지런할 수밖에 없다.</span> 한없이 주기 위함이다. 힘드는 일은 내가 앞서 하니 사랑하는 동포를 아낌이요, 즐거운 것은 남에게 권하니 사랑하는 자를 위하기 때문이다. 우리 조상네가 좋아하던 인후지덕(仁厚之德)이란 것이다.
+    </p>
+
+    <p>
+      이러함으로써 우리나라의 산에는 삼림이 무성하고 들에는 오곡백과가 풍성하며, 촌락과 도시는 깨끗하고 풍성하고 화평한 것이다. 그리하여 우리 동포, 즉 <span class="yellow">대한사람은 남자나 여자나 얼굴에는 항상 화기가 있고, 몸에서는 덕의 향기를 발할 것이다. 이러한 나라는 불행하려 하여도 불행할 수 없고, 망하려 하여도 망할 수 없는 것이다.</span> 민족의 행복은 결코 계급투쟁에서 오는 것도 아니요, 개인의 행복이 이기심에서 오는 것이 아니다. 계급투쟁은 끝없는 계급투쟁을 낳아서 국토의 피가 마를 날이 없고, <span class="yellow">내가 이기심으로 남을 해하면 천하가 이기심으로 나를 해할 것이니, 이것은 조금 얻고 많이 빼앗기는 법이다.</span> 일본의 이번 당한 보복은 국제적·민족적으로도 그러함을 증명하는 가장 좋은 실례다. 이상에 말한 것은 내가 바라는 새 나라의 용모의 일단을 그린 것이어니와,
+    </p>
+
+    <p>
+      동포 여러분! 이러한 나라가 될진대 얼마나 좋겠는가. 우리네 자손을 이러한 나라에 남기고 가면 얼마나 만족하겠는가. 옛날 한토(漢土)의 기자(箕子)가 우리나라를 사모하여 왔고, 공자(孔子)께서도 우리 민족이 사는 데 오고 싶다고 하셨으며, 우리 민족을 인(仁)을 좋아하는 민족이라 하였으니 옛날에도 그러하였거니와, <span class="underline">앞으로는 세계 인류가 모두 우리 민족의 문화를 이렇게 사모하도록 하지 아니하려는가. 나는 우리의 힘으로, 특히 교육의 힘으로 반드시 이 일이 이루어질 것을 믿는다. 우리나라의 젊은 남녀가 다 이 마음을 가질진대 아니 이루어지고 어찌하랴!</span>
+    </p>
+
+    <p>
+      나도 일찍이 황해도에서 교육에 종사하였거니와 내가 교육에서 바라던 것이 이것이었다. 내 나이 이제 70이 넘었으니, 직접 국민교육에 종사할 시일이 넉넉지 못하거니와, <span class="yellow">나는 천하의 교육자와 남녀 학도들이 한번 크게 마음을 고쳐먹기를 빌지 아니할 수 없다.</span>
+    </p>
+
+    <div class="signature">
+      <div class="place">1947년 샛문 밖에서</div>
+      <div class="date">(단기 4280년 11월 15일 개천절 날 / 1947년 음력 10월 3일 / 김구)</div>
+    </div>
+  </article>
+
+  <div class="closing-quote">
+    우리 민족이 주연배우로<br>
+    세계의 무대에 등장할 날이<br>
+    눈앞에 보이지 아니하는가.
+  </div>
+
+  <div class="source">
+    출처: 백범 김구, 『백범일지』 중 "나의 소원 — 3. 내가 원하는 우리나라" (1947)<br>
+    편집·서두: 연플래닝
+  </div>
+
+</div>
+
+<script>
+// 스크롤 인터랙션 — 읽는 속도에 맞춰 부드럽게 등장
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.essay p, .essay-chapter, .closing-quote').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

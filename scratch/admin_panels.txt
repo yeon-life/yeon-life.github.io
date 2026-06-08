@@ -1,0 +1,535 @@
+// --- PANEL 0 ---
+>
+      </div>
+
+      <!-- ② 뉴스 관리 -->
+      <div class="admin-panel" id="panel-news-mgmt">
+        <div class="admin-section-title">뉴스 관리</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">각 카테고리의 뉴스를 추가·수정·삭제합니다. 변경 후 저장하면 홈페이지에 즉시 반영됩니다.</p>
+        <div id="newsMgmtTabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
+        <div id="newsMgmtContent"></div>
+        <button class="btn-add" style="margin-top:12px" onclick="adminAddNews()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>뉴스 추가
+        </button>
+        <div class="admin-actions-bar" style="flex-wrap:wrap;gap:8px;">
+          <button class="btn-primary" onclick="saveNews()">변경사항 저장</button>
+          <button class="btn-sm" onclick="batchGenerateImages()" id="batchImgBtn"
+            style="background:rgba(176,128,64,.15);border:1px solid rgba(176,128,64,.4);color:#B08040;font-weight:600;">
+            ✦ 이미지 일괄 생성
+          </button>
+          <div id="batchImgStatus" style="font-size:12px;color:var(--ink-faint);align-self:center;"></div>
+        </div>
+      </div>
+
+      <!-- ③ 게시판 관리 -->
+      <div class="admin-panel" id="panel-post-mgmt">
+        <div class="admin-section-title">게시판 관리</div>
+        <div class="admin-post-rule">
+          <strong>운영 원칙:</strong> 글은 그 사람의 얼굴입니다. 장난성 글, 도배, 의미 없는 문자 반복, 욕설·비방 글은 삭제할 수 있으며 반복될 경우 글쓰기 권한을 제한할 수 있습니다.
+        </div>
+        <div style="margin-bottom:14px;display:flex;gap:8px">
+          <button class="news-tab active" id="postMgmtTab-all" onclick="switchPostMgmtTab('all')">전체</button>
+          <button class="news-tab" id="postMgmtTab-agora" onclick="switchPostMgmtTab('agora')">아골라</button>
+          <button class="news-tab" id="postMgmtTab-agonran" onclick="switchPostMgmtTab('agonran')">아곤란</button>
+        </div>
+        <div class="admin-post-toolbar">
+          <input class="admin-post-search" id="postMgmtSearch" type="text" placeholder="제목·내용·작성자 검색" oninput="renderPostMgmtTable()">
+          <button class="btn-soft" onclick="adminToggleSpamOnly()" id="postMgmtSpamBtn">의심글만 보기</button>
+          <button class="btn-soft" onclick="adminAutoSelectSuspiciousPosts()">의심글 자동 선택</button>
+          <button class="btn-danger" onclick="adminDeleteSelectedPosts()">선택 삭제</button>
+          <button class="btn-warn" onclick="adminDeleteSpamPosts()">반복/장난글 정리</button>
+          <button class="btn-soft" onclick="syncFromFirebase(true).then(()=>{renderPostMgmtTable();renderPlaza();updateStats();updateInsights();})">동기화</button>
+        </div>
+        <div id="postMgmtTable"></div>
+        <div id="postMgmtDetail" class="admin-post-detail"></div>
+      </div>
+
+      <!-- ④ 화두 편집 -->
+      <div class="admin-panel" id="panel-hwadu-mgmt">
+        <div class="admin-section-title">화두(話頭) 편집</div>
+
+        <!-- 이번 주 화두 -->
+        <div class="settings-group">
+          <h3>이번 주 화두 <span style="font-size:12px;font-weight:400;color:var(--ink-faint)" id="thisWeekLabel"></span></h3>
+          <div class="form-group"><label>화두 내용</label>
+            <textarea id="adminHwaduText" style="min-height:90px"></textarea></div>
+          <div class="form-group"><label>출처 / 제안자</label>
+            <input type="text" id="adminHwaduBy"></div>
+          <div class="admin-actions-bar" style="border:none;padding:0;margin-top:8px;">
+            <button class="btn-primary" onclick="saveHwadu()">이번 주 화두 저장</button>
+          </div>
+        </div>
+
+        <!-- AI 20개 생성 -->
+        <div class="settings-group">
+          <h3>✦ AI 화두 20개 자동 생성</h3>
+          <p style="font-size:13px;color:var(--ink-faint);margin-bottom:12px">
+            Gemini가 철학·인문·사회·자연 주제로 20개를 한 번에 생성합니다.<br>
+            생성 후 아래 목록에서 각 주차를 지정해두면 자동으로 적용됩니다.
+          </p>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="genHwaduBatch()" id="hwaduGenBtn">✦ 20
+
+// --- PANEL 1 ---
+
+      </div>
+
+      <!-- ③ 게시판 관리 -->
+      <div class="admin-panel" id="panel-post-mgmt">
+        <div class="admin-section-title">게시판 관리</div>
+        <div class="admin-post-rule">
+          <strong>운영 원칙:</strong> 글은 그 사람의 얼굴입니다. 장난성 글, 도배, 의미 없는 문자 반복, 욕설·비방 글은 삭제할 수 있으며 반복될 경우 글쓰기 권한을 제한할 수 있습니다.
+        </div>
+        <div style="margin-bottom:14px;display:flex;gap:8px">
+          <button class="news-tab active" id="postMgmtTab-all" onclick="switchPostMgmtTab('all')">전체</button>
+          <button class="news-tab" id="postMgmtTab-agora" onclick="switchPostMgmtTab('agora')">아골라</button>
+          <button class="news-tab" id="postMgmtTab-agonran" onclick="switchPostMgmtTab('agonran')">아곤란</button>
+        </div>
+        <div class="admin-post-toolbar">
+          <input class="admin-post-search" id="postMgmtSearch" type="text" placeholder="제목·내용·작성자 검색" oninput="renderPostMgmtTable()">
+          <button class="btn-soft" onclick="adminToggleSpamOnly()" id="postMgmtSpamBtn">의심글만 보기</button>
+          <button class="btn-soft" onclick="adminAutoSelectSuspiciousPosts()">의심글 자동 선택</button>
+          <button class="btn-danger" onclick="adminDeleteSelectedPosts()">선택 삭제</button>
+          <button class="btn-warn" onclick="adminDeleteSpamPosts()">반복/장난글 정리</button>
+          <button class="btn-soft" onclick="syncFromFirebase(true).then(()=>{renderPostMgmtTable();renderPlaza();updateStats();updateInsights();})">동기화</button>
+        </div>
+        <div id="postMgmtTable"></div>
+        <div id="postMgmtDetail" class="admin-post-detail"></div>
+      </div>
+
+      <!-- ④ 화두 편집 -->
+      <div class="admin-panel" id="panel-hwadu-mgmt">
+        <div class="admin-section-title">화두(話頭) 편집</div>
+
+        <!-- 이번 주 화두 -->
+        <div class="settings-group">
+          <h3>이번 주 화두 <span style="font-size:12px;font-weight:400;color:var(--ink-faint)" id="thisWeekLabel"></span></h3>
+          <div class="form-group"><label>화두 내용</label>
+            <textarea id="adminHwaduText" style="min-height:90px"></textarea></div>
+          <div class="form-group"><label>출처 / 제안자</label>
+            <input type="text" id="adminHwaduBy"></div>
+          <div class="admin-actions-bar" style="border:none;padding:0;margin-top:8px;">
+            <button class="btn-primary" onclick="saveHwadu()">이번 주 화두 저장</button>
+          </div>
+        </div>
+
+        <!-- AI 20개 생성 -->
+        <div class="settings-group">
+          <h3>✦ AI 화두 20개 자동 생성</h3>
+          <p style="font-size:13px;color:var(--ink-faint);margin-bottom:12px">
+            Gemini가 철학·인문·사회·자연 주제로 20개를 한 번에 생성합니다.<br>
+            생성 후 아래 목록에서 각 주차를 지정해두면 자동으로 적용됩니다.
+          </p>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="genHwaduBatch()" id="hwaduGenBtn">✦ 20개 생성하기</button>
+            <span id="hwaduGenStatus" style="font-size:12px;color:var(--ink-faint)"></span>
+          </div>
+        </div>
+
+        <!-- 화두 예비 목록 (주차 예약) -->
+        <div class="admin-section-title" style="margin-top:8px">
+          주차별 화두 예약 목록
+          <span style="font-size:11px;font-weight:400;color:var(--ink-faint);margin-left:8px">해당 주가 되면 자동 적용됩니다</span>
+        </div>
+        <div id="hwaduList" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
+        <button class="btn-add" style="margin-top:10px" onclick="adminAddHwadu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>화두 직접 추가
+        </button>
+      </div>
+
+      <!-- ⑤ 회원 관리 -->
+      <div class="admin-panel" id="panel-user-mgmt">
+        <div class="admin-section-title">회원 관리</div>
+        <div id="userMgmtTable"></div>
+      </div>
+
+      <!-- ⑥ 사랑방 자료실 -->
+      <div class="admin-panel" id="panel-saranbang-mgmt">
+        <div class="admin-section-title">사랑방 자료실</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">자료실에 올린 자료를 관리합니다. 새 
+
+// --- PANEL 2 ---
+>
+      </div>
+
+      <!-- ④ 화두 편집 -->
+      <div class="admin-panel" id="panel-hwadu-mgmt">
+        <div class="admin-section-title">화두(話頭) 편집</div>
+
+        <!-- 이번 주 화두 -->
+        <div class="settings-group">
+          <h3>이번 주 화두 <span style="font-size:12px;font-weight:400;color:var(--ink-faint)" id="thisWeekLabel"></span></h3>
+          <div class="form-group"><label>화두 내용</label>
+            <textarea id="adminHwaduText" style="min-height:90px"></textarea></div>
+          <div class="form-group"><label>출처 / 제안자</label>
+            <input type="text" id="adminHwaduBy"></div>
+          <div class="admin-actions-bar" style="border:none;padding:0;margin-top:8px;">
+            <button class="btn-primary" onclick="saveHwadu()">이번 주 화두 저장</button>
+          </div>
+        </div>
+
+        <!-- AI 20개 생성 -->
+        <div class="settings-group">
+          <h3>✦ AI 화두 20개 자동 생성</h3>
+          <p style="font-size:13px;color:var(--ink-faint);margin-bottom:12px">
+            Gemini가 철학·인문·사회·자연 주제로 20개를 한 번에 생성합니다.<br>
+            생성 후 아래 목록에서 각 주차를 지정해두면 자동으로 적용됩니다.
+          </p>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="genHwaduBatch()" id="hwaduGenBtn">✦ 20개 생성하기</button>
+            <span id="hwaduGenStatus" style="font-size:12px;color:var(--ink-faint)"></span>
+          </div>
+        </div>
+
+        <!-- 화두 예비 목록 (주차 예약) -->
+        <div class="admin-section-title" style="margin-top:8px">
+          주차별 화두 예약 목록
+          <span style="font-size:11px;font-weight:400;color:var(--ink-faint);margin-left:8px">해당 주가 되면 자동 적용됩니다</span>
+        </div>
+        <div id="hwaduList" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
+        <button class="btn-add" style="margin-top:10px" onclick="adminAddHwadu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>화두 직접 추가
+        </button>
+      </div>
+
+      <!-- ⑤ 회원 관리 -->
+      <div class="admin-panel" id="panel-user-mgmt">
+        <div class="admin-section-title">회원 관리</div>
+        <div id="userMgmtTable"></div>
+      </div>
+
+      <!-- ⑥ 사랑방 자료실 -->
+      <div class="admin-panel" id="panel-saranbang-mgmt">
+        <div class="admin-section-title">사랑방 자료실</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">자료실에 올린 자료를 관리합니다. 새 버전을 추가하면 본문 페이지가 자동으로 갱신되고, 옛 버전은 그대로 보존됩니다.</p>
+
+        <!-- 책 목록 -->
+        <div id="saranbangBookList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;"></div>
+
+        <!-- 선택된 책의 버전 관리 -->
+        <div id="saranbangBookDetail" style="display:none;">
+
+          <div class="settings-group">
+            <h3 id="sbBookTitle">옵시디언 활용법</h3>
+            <p style="font-size:12.5px;color:var(--ink-faint);margin-bottom:14px">이 책의 새 버전을 추가하거나, 기존 버전을 확인합니다.</p>
+
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+              <button class="news-tab active" id="sbTab-new" onclick="sbSwitchTab('new')">새 버전 추가</button>
+              <button class="news-tab" id="sbTab-history" onclick="sbSwitchTab('history')">버전 히스토리</button>
+            </div>
+
+            <!-- 새 버전 추가 -->
+            <div id="sbPanelNew">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                <div class="form-group">
+                  <label>버전 번호</label>
+                  <input type="text" id="sbNewVersion" placeholder="v1.1" />
+                  <div style="font-size:11px;color:var(--ink-faint);margin-top:4px">현재 최신: <span id="sbCurrentVer">v1.0</span></div>
+                </div>
+                <div class="form-group">
+                  <label>발행일</label>
+                  <input type="date" id="sbNewDate" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>이번 업데이트 내용 (한 줄)</label>
+                
+
+// --- PANEL 3 ---
+>
+      </div>
+
+      <!-- ⑤ 회원 관리 -->
+      <div class="admin-panel" id="panel-user-mgmt">
+        <div class="admin-section-title">회원 관리</div>
+        <div id="userMgmtTable"></div>
+      </div>
+
+      <!-- ⑥ 사랑방 자료실 -->
+      <div class="admin-panel" id="panel-saranbang-mgmt">
+        <div class="admin-section-title">사랑방 자료실</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">자료실에 올린 자료를 관리합니다. 새 버전을 추가하면 본문 페이지가 자동으로 갱신되고, 옛 버전은 그대로 보존됩니다.</p>
+
+        <!-- 책 목록 -->
+        <div id="saranbangBookList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;"></div>
+
+        <!-- 선택된 책의 버전 관리 -->
+        <div id="saranbangBookDetail" style="display:none;">
+
+          <div class="settings-group">
+            <h3 id="sbBookTitle">옵시디언 활용법</h3>
+            <p style="font-size:12.5px;color:var(--ink-faint);margin-bottom:14px">이 책의 새 버전을 추가하거나, 기존 버전을 확인합니다.</p>
+
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+              <button class="news-tab active" id="sbTab-new" onclick="sbSwitchTab('new')">새 버전 추가</button>
+              <button class="news-tab" id="sbTab-history" onclick="sbSwitchTab('history')">버전 히스토리</button>
+            </div>
+
+            <!-- 새 버전 추가 -->
+            <div id="sbPanelNew">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                <div class="form-group">
+                  <label>버전 번호</label>
+                  <input type="text" id="sbNewVersion" placeholder="v1.1" />
+                  <div style="font-size:11px;color:var(--ink-faint);margin-top:4px">현재 최신: <span id="sbCurrentVer">v1.0</span></div>
+                </div>
+                <div class="form-group">
+                  <label>발행일</label>
+                  <input type="date" id="sbNewDate" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>이번 업데이트 내용 (한 줄)</label>
+                <input type="text" id="sbNewSummary" placeholder="예: 3장 데일리 노트 템플릿 보강, 5장 그래프 뷰 예시 추가" />
+              </div>
+
+              <div class="form-group">
+                <label>본문 (HTML 또는 Markdown / 일반 텍스트)</label>
+                <textarea id="sbNewBody" style="min-height:280px;font-family:'Consolas','Menlo',monospace;font-size:13px;line-height:1.55" placeholder="여기에 책 본문을 붙여넣거나 작성하세요.&#10;&#10;HTML 태그가 포함되어 있으면 그대로 렌더링되고, 일반 텍스트면 자동으로 단락으로 묶여 표시됩니다.&#10;&#10;예시:&#10;&lt;h2&gt;1장. 옵시디언이란 무엇인가&lt;/h2&gt;&#10;&lt;p&gt;옵시디언은 마크다운 기반의 노트 앱입니다...&lt;/p&gt;"></textarea>
+                <div style="font-size:11px;color:var(--ink-faint);margin-top:4px">
+                  💡 마크다운으로 작성한 경우 자동 변환됩니다. HTML로 직접 쓰면 더 정밀한 디자인이 가능합니다.
+                </div>
+              </div>
+
+              <div class="settings-group" style="background:rgba(176,128,64,.06);border:1px solid rgba(176,128,64,.2);">
+                <h3 style="font-size:13px;color:var(--gold);">⚙ 게시 옵션</h3>
+                <div class="form-group">
+                  <label>본문 형식</label>
+                  <select id="sbBodyFormat" style="padding:9px 12px;border:1px solid var(--border);border-radius:7px;width:100%;background:var(--surface);">
+                    <option value="auto">자동 감지 (HTML 태그가 있으면 HTML, 아니면 Markdown)</option>
+                    <option value="html">HTML로 그대로 사용</option>
+                    <option value="markdown">Markdown으로 변환</option>
+                    <option value="plain">일반 텍스트 (줄바꿈만 단락 처리)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                    <input type="checkbox" id="sbReplaceLatest" checked style="width:16px;height:16px;">
+                    <span>이 버전을 최신으로 표시 (책 페이지에 본문으로 노출)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="background:#F4ECDD;border-left:3px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:16px;font
+
+// --- PANEL 4 ---
+      </div>
+
+      <!-- ⑥ 사랑방 자료실 -->
+      <div class="admin-panel" id="panel-saranbang-mgmt">
+        <div class="admin-section-title">사랑방 자료실</div>
+        <p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">자료실에 올린 자료를 관리합니다. 새 버전을 추가하면 본문 페이지가 자동으로 갱신되고, 옛 버전은 그대로 보존됩니다.</p>
+
+        <!-- 책 목록 -->
+        <div id="saranbangBookList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;"></div>
+
+        <!-- 선택된 책의 버전 관리 -->
+        <div id="saranbangBookDetail" style="display:none;">
+
+          <div class="settings-group">
+            <h3 id="sbBookTitle">옵시디언 활용법</h3>
+            <p style="font-size:12.5px;color:var(--ink-faint);margin-bottom:14px">이 책의 새 버전을 추가하거나, 기존 버전을 확인합니다.</p>
+
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+              <button class="news-tab active" id="sbTab-new" onclick="sbSwitchTab('new')">새 버전 추가</button>
+              <button class="news-tab" id="sbTab-history" onclick="sbSwitchTab('history')">버전 히스토리</button>
+            </div>
+
+            <!-- 새 버전 추가 -->
+            <div id="sbPanelNew">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                <div class="form-group">
+                  <label>버전 번호</label>
+                  <input type="text" id="sbNewVersion" placeholder="v1.1" />
+                  <div style="font-size:11px;color:var(--ink-faint);margin-top:4px">현재 최신: <span id="sbCurrentVer">v1.0</span></div>
+                </div>
+                <div class="form-group">
+                  <label>발행일</label>
+                  <input type="date" id="sbNewDate" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>이번 업데이트 내용 (한 줄)</label>
+                <input type="text" id="sbNewSummary" placeholder="예: 3장 데일리 노트 템플릿 보강, 5장 그래프 뷰 예시 추가" />
+              </div>
+
+              <div class="form-group">
+                <label>본문 (HTML 또는 Markdown / 일반 텍스트)</label>
+                <textarea id="sbNewBody" style="min-height:280px;font-family:'Consolas','Menlo',monospace;font-size:13px;line-height:1.55" placeholder="여기에 책 본문을 붙여넣거나 작성하세요.&#10;&#10;HTML 태그가 포함되어 있으면 그대로 렌더링되고, 일반 텍스트면 자동으로 단락으로 묶여 표시됩니다.&#10;&#10;예시:&#10;&lt;h2&gt;1장. 옵시디언이란 무엇인가&lt;/h2&gt;&#10;&lt;p&gt;옵시디언은 마크다운 기반의 노트 앱입니다...&lt;/p&gt;"></textarea>
+                <div style="font-size:11px;color:var(--ink-faint);margin-top:4px">
+                  💡 마크다운으로 작성한 경우 자동 변환됩니다. HTML로 직접 쓰면 더 정밀한 디자인이 가능합니다.
+                </div>
+              </div>
+
+              <div class="settings-group" style="background:rgba(176,128,64,.06);border:1px solid rgba(176,128,64,.2);">
+                <h3 style="font-size:13px;color:var(--gold);">⚙ 게시 옵션</h3>
+                <div class="form-group">
+                  <label>본문 형식</label>
+                  <select id="sbBodyFormat" style="padding:9px 12px;border:1px solid var(--border);border-radius:7px;width:100%;background:var(--surface);">
+                    <option value="auto">자동 감지 (HTML 태그가 있으면 HTML, 아니면 Markdown)</option>
+                    <option value="html">HTML로 그대로 사용</option>
+                    <option value="markdown">Markdown으로 변환</option>
+                    <option value="plain">일반 텍스트 (줄바꿈만 단락 처리)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                    <input type="checkbox" id="sbReplaceLatest" checked style="width:16px;height:16px;">
+                    <span>이 버전을 최신으로 표시 (책 페이지에 본문으로 노출)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="background:#F4ECDD;border-left:3px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;color:var(--ink);">
+                <strong style="color:var(--gold);font-size:11px;letter-spacing:.08em;">📦 게시되면</strong><br>
+                <span id="sbPublishPreview">
+
+// --- PANEL 5 ---
+
+      </div>
+
+      <!-- ⑦ 사이트 빌더 -->
+      <div class="admin-panel" id="panel-site-builder" style="padding:0;display:flex;flex-direction:column;height:100%;">
+        <div style="padding:16px 24px;border-bottom:1px solid var(--admin-border);background:var(--admin-panel);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <div>
+            <div class="admin-section-title" style="margin:0 0 2px">사이트 빌더</div>
+            <div style="font-size:12px;color:var(--admin-muted)">나만의 홈페이지를 블록으로 만드세요</div>
+          </div>
+          <a href="builder.html" target="_blank" style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--admin-accent);text-decoration:none;border:1px solid var(--admin-accent);border-radius:6px;padding:5px 10px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            새 탭으로 열기
+          </a>
+        </div>
+        <iframe id="builderIframe" src="" style="flex:1;border:none;width:100%;min-height:0;" allow="clipboard-write"></iframe>
+      </div>
+
+      <!-- ⑥ 설정 -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="admin-section-title">사이트 설정</div>
+
+        <!-- 기본 정보 -->
+        <div class="settings-group">
+          <h3>기본 정보</h3>
+          <div class="setting-row">
+            <span class="setting-label">사이트 이름</span>
+            <input class="setting-input" id="cfg-sitename" value="y-life.kr">
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">슬로건</span>
+            <input class="setting-input" id="cfg-slogan" value="삶·인연·소통">
+          </div>
+        </div>
+
+        <!-- 디자인 설정 -->
+        <div class="settings-group">
+          <h3>디자인 설정</h3>
+          <div class="setting-row" style="flex-wrap:wrap;gap:10px;">
+            <div>
+              <div class="setting-label">기본 글씨 크기</div>
+              <div class="setting-desc">사이트 전체 본문 크기를 조절합니다</div>
+            </div>
+            <div>
+              <div class="font-size-ctrl">
+                <span style="font-size:11px;color:var(--ink-faint)">작게</span>
+                <input type="range" min="13" max="20" step="1" value="15" id="cfg-fontsize"
+                  oninput="previewFontSize(this.value)" style="flex:1">
+                <span style="font-size:11px;color:var(--ink-faint)">크게</span>
+                <span class="font-size-val" id="fontsize-val" style="min-width:32px;text-align:right;font-weight:700;color:var(--thread)">15px</span>
+              </div>
+              <div class="font-preview-box" id="fontPreviewBox" style="font-size:15px;line-height:1.75">이 글씨가 실시간으로 변합니다 — 가나다라마바사 123</div>
+            </div>
+          </div>
+          <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <div>
+              <div class="setting-label">색상 테마</div>
+              <div class="setting-desc">프리셋 선택 또는 직접 색상을 고르세요</div>
+            </div>
+            <div class="color-preset-row" id="colorPresetRow">
+              <div class="color-preset active" style="background:#B08040" title="Warm Linen (기본)" data-theme="warm-linen" onclick="applyColorTheme('warm-linen',this)"></div>
+              <div class="color-preset" style="background:#4A9B8A" title="Mint Tide" data-theme="mint-tide" onclick="applyColorTheme('mint-tide',this)"></div>
+              <div class="color-preset" style="background:#3D5F8A" title="Agora Blue" data-theme="agora-blue" onclick="applyColorTheme('agora-blue',this)"></div>
+              <div class="color-preset" style="background:#7B6B88" title="Mauve Fog" data-theme="mauve-fog" onclick="applyColorTheme('mauve-fog',this)"></div>
+              <div class="color-preset" style="background:#5D4037" title="Wood Dark" data-theme="wood-dark" onclick="applyColorTheme('wood-dark',this)"></div>
+            </div>
+            <div class
+
+// --- PANEL 6 ---
+ame>
+      </div>
+
+      <!-- ⑥ 설정 -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="admin-section-title">사이트 설정</div>
+
+        <!-- 기본 정보 -->
+        <div class="settings-group">
+          <h3>기본 정보</h3>
+          <div class="setting-row">
+            <span class="setting-label">사이트 이름</span>
+            <input class="setting-input" id="cfg-sitename" value="y-life.kr">
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">슬로건</span>
+            <input class="setting-input" id="cfg-slogan" value="삶·인연·소통">
+          </div>
+        </div>
+
+        <!-- 디자인 설정 -->
+        <div class="settings-group">
+          <h3>디자인 설정</h3>
+          <div class="setting-row" style="flex-wrap:wrap;gap:10px;">
+            <div>
+              <div class="setting-label">기본 글씨 크기</div>
+              <div class="setting-desc">사이트 전체 본문 크기를 조절합니다</div>
+            </div>
+            <div>
+              <div class="font-size-ctrl">
+                <span style="font-size:11px;color:var(--ink-faint)">작게</span>
+                <input type="range" min="13" max="20" step="1" value="15" id="cfg-fontsize"
+                  oninput="previewFontSize(this.value)" style="flex:1">
+                <span style="font-size:11px;color:var(--ink-faint)">크게</span>
+                <span class="font-size-val" id="fontsize-val" style="min-width:32px;text-align:right;font-weight:700;color:var(--thread)">15px</span>
+              </div>
+              <div class="font-preview-box" id="fontPreviewBox" style="font-size:15px;line-height:1.75">이 글씨가 실시간으로 변합니다 — 가나다라마바사 123</div>
+            </div>
+          </div>
+          <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <div>
+              <div class="setting-label">색상 테마</div>
+              <div class="setting-desc">프리셋 선택 또는 직접 색상을 고르세요</div>
+            </div>
+            <div class="color-preset-row" id="colorPresetRow">
+              <div class="color-preset active" style="background:#B08040" title="Warm Linen (기본)" data-theme="warm-linen" onclick="applyColorTheme('warm-linen',this)"></div>
+              <div class="color-preset" style="background:#4A9B8A" title="Mint Tide" data-theme="mint-tide" onclick="applyColorTheme('mint-tide',this)"></div>
+              <div class="color-preset" style="background:#3D5F8A" title="Agora Blue" data-theme="agora-blue" onclick="applyColorTheme('agora-blue',this)"></div>
+              <div class="color-preset" style="background:#7B6B88" title="Mauve Fog" data-theme="mauve-fog" onclick="applyColorTheme('mauve-fog',this)"></div>
+              <div class="color-preset" style="background:#5D4037" title="Wood Dark" data-theme="wood-dark" onclick="applyColorTheme('wood-dark',this)"></div>
+            </div>
+            <div class="color-custom-wrap">
+              <input type="color" class="color-custom-input" id="colorCustomPicker" value="#B08040"
+                oninput="applyCustomColor(this.value)" title="직접 색상 선택">
+              <span class="color-custom-label">직접 선택</span>
+              <span class="color-theme-name" id="colorThemeName">Warm Linen</span>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- 관리자 대시보드 색상 설정 -->
+        <div class="settings-group admin-theme-box">
+          <h3>관리자 대시보드 색상</h3>
+          <p class="setting-desc" style="margin-bottom:10px">관리자 화면은 별도 색상으로 조정합니다. 글씨가 안 보이면 <strong>고대비 밝은색</strong>을 누르세요.</p>
+          <div class="admin-theme-presets">
+            <button type="button" onclick="applyAdminThemePreset('light')">고대비 밝은색</button>
+            <button type="button" onclick="applyAdminThemePreset('cream')">따뜻한 크림</button>
+            <button type="button" onclick="applyAdminThemePreset('dark')">고대비 다크</button>
+            <button type="button" onclick="applyAdminThemePreset('green')">아곤란 초록</button>
+            <button type="button" onclick="resetAdminTheme()">기본값</button>
+          </div>
+          <div class="admin-theme-grid">
+            <div class="admin-color-field"><
+

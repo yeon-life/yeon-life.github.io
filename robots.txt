@@ -1,0 +1,65 @@
+# 연라이프 robots.txt
+# YLV-4 시점 / 베타 기간 색인 정책
+# ────────────────────────────────────────────────────────────
+
+User-agent: *
+Allow: /
+
+# 베타 기간 색인 제외 (시안·검토·백업·내부 도구)
+Disallow: /시안_v1_*
+Disallow: /시안_v2_*
+Disallow: /시안_v3_*
+Disallow: /검토사항_*
+Disallow: /v2_갱신_*
+Disallow: /_백업/
+Disallow: /functions/
+Disallow: /data/
+Disallow: /yeon-life.github.io/
+Disallow: /yeon-ai-kr/
+Disallow: /y-life_v6_*
+Disallow: /리디자인_*
+Disallow: /자료 ZIP/
+
+# 검수·관리·임시 페이지
+Disallow: /admin
+Disallow: /api/
+Disallow: /*.bak$
+Disallow: /*?draft=1
+Disallow: /오늘의_연라이프_2026-05-1*  # 시안 본문(자동화 가동 전)
+
+# 외부 AI 학습 데이터 사용 금지 — YLV-4 §16 저작권
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+# 사이트맵
+Sitemap: https://y-life.kr/sitemap.xml
+
+# 호스트
+Host: y-life.kr

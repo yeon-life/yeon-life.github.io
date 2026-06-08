@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-04-25 작업 완결 정리</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F6F2;
+  --bg-alt: #F0EBE1;
+  --ink: #1D1D1B;
+  --ink-soft: #3C3C38;
+  --ink-faint: rgba(29,29,27,0.5);
+  --wood: #5D4037;
+  --thread: #B08E61;
+  --thread-soft: rgba(176,142,97,0.12);
+  --border: rgba(29,29,27,0.1);
+  --green: #4A7C59;
+  --green-soft: rgba(74,124,89,0.1);
+  --blue: #3A6EA5;
+  --blue-soft: rgba(58,110,165,0.1);
+  --font-title: 'Nanum Myeongjo', serif;
+  --font-body: 'Noto Sans KR', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* 헤더 */
+.doc-header {
+  background: var(--ink);
+  color: #fff;
+  padding: 40px 5%;
+}
+.doc-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.doc-title {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.doc-title span { color: var(--thread); }
+.doc-date { font-size: 13px; color: rgba(255,255,255,0.55); }
+.doc-badge {
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+/* 본문 레이아웃 */
+.doc-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 5% 80px;
+}
+
+/* 구조 다이어그램 */
+.structure-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 40px;
+}
+.structure-box h2 {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.structure-box h2::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  background: var(--thread);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.tree {
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+.tree .tier-1 { color: var(--ink); font-weight: 700; font-size: 15px; }
+.tree .tier-2 { padding-left: 24px; color: var(--wood); font-weight: 700; }
+.tree .tier-3 { padding-left: 48px; }
+.tree .tier-4 { padding-left: 72px; color: var(--ink-faint); font-size: 13px; }
+.tree .url { color: var(--thread); font-weight: 700; }
+.tree .new-badge {
+  background: var(--green);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  font-family: var(--font-body);
+  vertical-align: middle;
+}
+.tree .updated-badge {
+  background: var(--blue);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  font-family: var(--font-body);
+  vertical-align: middle;
+}
+
+/* 사이트 카드 그리드 */
+.sites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.site-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.site-card:hover {
+  box-shadow: 0 6px 20px rgba(29,29,27,0.1);
+  transform: translateY(-2px);
+}
+.site-card-head {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.site-card-head h3 {
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.site-url {
+  font-size: 12px;
+  color: var(--thread);
+  font-weight: 600;
+}
+.site-status {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+.site-status.live { background: var(--green-soft); color: var(--green); }
+.site-status.updated { background: var(--blue-soft); color: var(--blue); }
+
+.site-card-body { padding: 16px 20px; }
+.site-card-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.site-card-body li {
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.site-card-body li::before {
+  content: '✓';
+  color: var(--green);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.site-card-foot {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.site-link {
+  font-size: 13px;
+  color: var(--thread);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+.site-link:hover { color: var(--wood); }
+
+/* URL 정리 테이블 */
+.url-table-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.url-table-wrap h2 {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.url-table-wrap h2::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  background: var(--thread);
+  border-radius: 2px;
+  display: inline-block;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  padding: 10px 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+td {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg); }
+.td-url {
+  font-family: monospace;
+  color: var(--thread);
+  font-size: 13px;
+  font-weight: 700;
+}
+.td-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.td-badge.live { background: var(--green-soft); color: var(--green); }
+.td-badge.short { background: var(--thread-soft); color: var(--wood); }
+
+/* 다음 할 일 */
+.next-box {
+  background: var(--ink);
+  border-radius: 8px;
+  padding: 28px 32px;
+  color: #fff;
+}
+.next-box h2 {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.next-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+}
+.next-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--thread);
+  color: var(--thread);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* 섹션 레이블 */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--thread);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+  .sites-grid { grid-template-columns: 1fr; }
+  .doc-header-inner { flex-direction: column; align-items: flex-start; }
+  table { font-size: 12px; }
+  th, td { padding: 10px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div>
+      <div class="doc-title">오늘의 작업 완결 정리 <span>—</span> 연 플랫폼</div>
+      <div class="doc-date">2026년 4월 25일 · 연소사 이진우</div>
+    </div>
+    <div class="doc-badge">✅ 전체 배포 완료</div>
+  </div>
+</div>
+
+<div class="doc-body">
+
+  <!-- 전체 구조 -->
+  <div class="section-label">플랫폼 계층 구조</div>
+  <div class="structure-box">
+    <h2>3단계 플랫폼 구조</h2>
+    <div class="tree">
+      <div class="tier-1">🌐 <span class="url">y-life.kr</span> <span class="updated-badge">업데이트</span> — 전국 오픈 플랫폼</div>
+      <div class="tier-3">├ 아골라 (어른들의 목소리) <span class="new-badge">NEW</span></div>
+      <div class="tier-3">├ 아곤란 (아이들의 목소리) <span class="new-badge">NEW</span></div>
+      <div class="tier-3">├ 사이트 빌더 섹션 <span class="new-badge">NEW</span></div>
+      <div class="tier-3">└ 뉴스 · 기능 · 사용 사례 (기존)</div>
+      <br>
+      <div class="tier-2">🏘 <span class="url">yeon.ai.kr</span> <span class="new-badge">NEW</span> — 연 마을 플랫폼</div>
+      <div class="tier-3">├ 지역별 사이트 찾기</div>
+      <div class="tier-3">└ 업체 등록 안내</div>
+      <br>
+      <div class="tier-2 " style="padding-left:48px;">📍 <span class="url">yeon.ai.kr/ulsan/</span> <span class="new-badge">NEW</span> — 울산 지역</div>
+      <div class="tier-4">└ 등록된 업체 목록 · 필터</div>
+      <br>
+      <div class="tier-2" style="padding-left:72px;">🏫 <span class="url">yeon.ai.kr/ulsan/yeon-planning/</span> <span class="new-badge">NEW</span></div>
+      <div class="tier-4" style="padding-left:96px;">연플래닝 학원 홈페이지</div>
+      <div class="tier-4" style="padding-left:96px;">단축 URL → <span class="url">yeon.ai.kr/planning</span> <span class="new-badge">NEW</span></div>
+    </div>
+  </div>
+
+  <!-- 사이트 카드 -->
+  <div class="section-label">배포된 페이지</div>
+  <div class="sites-grid">
+
+    <div class="site-card">
+      <div class="site-card-head">
+        <div>
+          <h3>연라이프 플랫폼</h3>
+          <div class="site-url">y-life.kr</div>
+        </div>
+        <span class="site-status updated">업데이트</span>
+      </div>
+      <div class="site-card-body">
+        <ul>
+          <li>아골라 섹션 — 어른들의 목소리 공간</li>
+          <li>아곤란 섹션 — 아이들의 목소리 공간</li>
+          <li>사이트 빌더 섹션 — 홈페이지·쇼핑몰·블로그 안내</li>
+          <li>yeon.ai.kr 사용 예시로 연결</li>
+        </ul>
+      </div>
+      <div class="site-card-foot">
+        <a href="https://y-life.kr" target="_blank" class="site-link">y-life.kr 열기 →</a>
+      </div>
+    </div>
+
+    <div class="site-card">
+      <div class="site-card-head">
+        <div>
+          <h3>연 마을 메인</h3>
+          <div class="site-url">yeon.ai.kr</div>
+        </div>
+        <span class="site-status live">신규</span>
+      </div>
+      <div class="site-card-body">
+        <ul>
+          <li>y-life.kr 플랫폼 바 (최상단)</li>
+          <li>지역별 카드 — 울산(활성) / 부산·서울(준비중)</li>
+          <li>업체 등록 3단계 안내</li>
+          <li>y-life.kr로 올라가는 링크</li>
+        </ul>
+      </div>
+      <div class="site-card-foot">
+        <a href="https://yeon.ai.kr" target="_blank" class="site-link">yeon.ai.kr 열기 →</a>
+      </div>
+    </div>
+
+    <div class="site-card">
+      <div class="site-card-head">
+        <div>
+          <h3>울산 지역 페이지</h3>
+          <div class="site-url">yeon.ai.kr/ulsan/</div>
+        </div>
+        <span class="site-status live">신규</span>
+      </div>
+      <div class="site-card-body">
+        <ul>
+          <li>플랫폼 바 — y-life.kr › yeon.ai.kr › 울산</li>
+          <li>울산 지역 등록 업체 목록</li>
+          <li>업종별 필터 탭</li>
+          <li>등록 유도 카드</li>
+        </ul>
+      </div>
+      <div class="site-card-foot">
+        <a href="https://yeon.ai.kr/ulsan/" target="_blank" class="site-link">ulsan/ 열기 →</a>
+      </div>
+    </div>
+
+    <div class="site-card">
+      <div class="site-card-head">
+        <div>
+          <h3>연플래닝 학원</h3>
+          <div class="site-url">yeon.ai.kr/ulsan/yeon-planning/</div>
+        </div>
+        <span class="site-status live">신규</span>
+      </div>
+      <div class="site-card-body">
+        <ul>
+          <li>플랫폼 바 — y-life.kr › yeon.ai.kr › 울산 › 연플래닝</li>
+          <li>기존 한지·먹·실타래 디자인 유지</li>
+          <li>핵심 학습법 4가지 카드</li>
+          <li>코스 목록 · 상담 신청 CTA</li>
+        </ul>
+      </div>
+      <div class="site-card-foot">
+        <a href="https://yeon.ai.kr/ulsan/yeon-planning/" target="_blank" class="site-link">연플래닝 열기 →</a>
+      </div>
+    </div>
+
+    <div class="site-card">
+      <div class="site-card-head">
+        <div>
+          <h3>홍보용 단축 URL</h3>
+          <div class="site-url">yeon.ai.kr/planning</div>
+        </div>
+        <span class="site-status live">신규</span>
+      </div>
+      <div class="site-card-body">
+        <ul>
+          <li>전단지·카카오톡 홍보에 쓰는 짧은 주소</li>
+          <li>방문 시 자동으로 연플래닝 페이지로 이동</li>
+          <li>나중에 부산 분원 생기면 /planning → 지역 선택 페이지로 변경 가능</li>
+        </ul>
+      </div>
+      <div class="site-card-foot">
+        <a href="https://yeon.ai.kr/planning" target="_blank" class="site-link">단축 URL 확인 →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- URL 전체 목록 -->
+  <div class="section-label">전체 URL 목록</div>
+  <div class="url-table-wrap">
+    <h2>배포된 모든 주소</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>페이지</th>
+          <th>주소</th>
+          <th>용도</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>연라이프 플랫폼</td>
+          <td class="td-url">y-life.kr</td>
+          <td>전국 오픈 플랫폼 메인</td>
+          <td><span class="td-badge live">라이브</span></td>
+        </tr>
+        <tr>
+          <td>연 마을 메인</td>
+          <td class="td-url">yeon.ai.kr</td>
+          <td>지역별 사이트 모음</td>
+          <td><span class="td-badge live">라이브</span></td>
+        </tr>
+        <tr>
+          <td>울산 지역</td>
+          <td class="td-url">yeon.ai.kr/ulsan/</td>
+          <td>울산 등록 업체 목록</td>
+          <td><span class="td-badge live">라이브</span></td>
+        </tr>
+        <tr>
+          <td>연플래닝 학원</td>
+          <td class="td-url">yeon.ai.kr/ulsan/yeon-planning/</td>
+          <td>연플래닝 공식 홈페이지</td>
+          <td><span class="td-badge live">라이브</span></td>
+        </tr>
+        <tr>
+          <td>홍보용 단축 주소</td>
+          <td class="td-url">yeon.ai.kr/planning</td>
+          <td>전단지·카카오톡 홍보용</td>
+          <td><span class="td-badge short">단축 URL</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 다음 할 일 -->
+  <div class="next-box">
+    <h2>다음에 할 만한 것들</h2>
+    <div class="next-list">
+      <div class="next-item">
+        <div class="next-num">1</div>
+        <div>울산 지역에 연플래닝 외 업체 추가 — 동네 가게, 포트폴리오, 블로그 등록</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">2</div>
+        <div>y-life.kr에 <strong style="color:#fff;">업체/사이트 찾기</strong> 전용 페이지 제작 — 지역·업종 필터로 탐색</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">3</div>
+        <div>연플래닝 세부 페이지 (courses, immersion 등) 새 구조로 이전</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">4</div>
+        <div>y-life.kr 가비아 DNS 설정 완료 — A 레코드·CNAME 등록으로 커스텀 도메인 연결</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+--- Lines 1350-1375 ---
+      </div>
+      <div class="cat-item" data-target="columns">
+        <div class="cat-item-text">
+          <div class="cat-name">칼럼</div>
+          <div class="cat-desc">네 사람의 시선</div>
+        </div>
+        <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="cat-item" data-target="magazine">
+        <div class="cat-item-text">
+          <div class="cat-name">잡지</div>
+          <div class="cat-desc">연 주간지 · 과학의 결 · 수학의 결</div>
+        </div>
+        <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="cat-item" data-target="sesang">
+        <div class="cat-item-text">
+          <div class="cat-name">세상</div>
+          <div class="cat-desc">오늘 · 시사 · 세계 · 미래</div>
+        </div>
+        <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="cat-item" data-target="where">
+        <div class="cat-item-text">
+          <div class="cat-name">어디로 가볼까</div>
+--- Lines 1445-1470 ---
+        <div class="col-2-title">칼럼 · 柱</div>
+        <div class="sub-list">
+          <a class="sub-item"><div class="sub-icon">蓮</div><div class="sub-text"><div class="sub-name">연소사</div><div class="sub-desc">교육 · 사유</div></div></a>
+          <a class="sub-item"><div class="sub-icon">林</div><div class="sub-text"><div class="sub-name">임선생</div><div class="sub-desc">철학 · 동서양</div></div></a>
+          <a class="sub-item"><div class="sub-icon">朴</div><div class="sub-text"><div class="sub-name">박주민</div><div class="sub-desc">사회 · 지역</div></div></a>
+          <a class="sub-item"><div class="sub-icon">玄</div><div class="sub-text"><div class="sub-name">현지영</div><div class="sub-desc">청년 · 미래</div></div></a>
+        </div>
+      </div>
+
+      <div class="mega-col-2-pane" data-pane="magazine">
+        <div class="col-2-title">연 주간지 · 刊</div>
+        <div class="sub-list">
+          <a class="sub-item" href="https://yeon-science.web.app" target="_blank" rel="noopener"><div class="sub-icon">科</div><div class="sub-text"><div class="sub-name">과학의 결</div><div class="sub-desc">연 과학 주간 · 매주 발행</div></div></a>
+          <a class="sub-item" href="https://yeon-math.web.app" target="_blank" rel="noopener"><div class="sub-icon">數</div><div class="sub-text"><div class="sub-name">수학의 결</div><div class="sub-desc">연 수학 주간 · 학년별 진도</div></div></a>
+          <a class="sub-item" href="#magazines"><div class="sub-icon">刊</div><div class="sub-text"><div class="sub-name">잡지 코너 전체 보기</div><div class="sub-desc">우리가 발행하는 주간지 모음</div></div></a>
+        </div>
+      </div>
+
+      <div class="mega-col-2-pane" data-pane="sesang">
+        <div class="col-2-title">세상 · 世</div>
+        <div class="sub-list">
+          <a class="sub-item" data-pane="sesang" data-subcat="all"><div class="sub-icon">今</div><div class="sub-text"><div class="sub-name">오늘의 뉴스</div><div class="sub-desc">매일 15편 전체</div></div></a>
+          <a class="sub-item" data-pane="sesang" data-subcat="domestic"><div class="sub-icon">時</div><div class="sub-text"><div class="sub-name">시사</div><div class="sub-desc">정책 · 경제 · 사회</div></div></a>
+          <a class="sub-item" data-pane="sesang" data-subcat="world"><div class="sub-icon">界</div><div class="sub-text"><div class="sub-name">세계 흐름</div><div class="sub-desc">옆 나라 · 먼 나라</div></div></a>
+          <a class="sub-item" data-pane="sesang" data-subcat="future"><div class="sub-icon">来</div><div class="sub-text"><div class="sub-name">미래 뉴스</div><div class="sub-desc">과학·기술·환경</div></div></a>
+--- Lines 1570-1595 ---
+        <div class="featured-block">
+          <div class="featured-tag">이번 주 칼럼</div>
+          <div class="featured-title">불러오는 중…</div>
+        </div>
+      </div>
+
+      <div class="mega-col-3-pane" data-pane="magazine">
+        <div class="featured-block">
+          <div class="featured-tag">연 주간지 · 우리가 발행하는 잡지</div>
+          <div class="featured-title">매주 한 호, 사람을 위한 잡지</div>
+          <div class="featured-deck">과학의 결과 수학의 결. AI 필진이 쓰고 사람이 검수하며, 수학은 외부 AI(DeepSeek)가 모든 답을 검산합니다.</div>
+          <div class="featured-meta">과학의 결 · 수학의 결 · 매주 발행</div>
+        </div>
+      </div>
+
+      <div class="mega-col-3-pane" data-pane="sesang" id="megaPaneSesang">
+        <div class="featured-block">
+          <div class="featured-tag">오늘의 헤드라인 — 불러오는 중…</div>
+        </div>
+      </div>
+
+      <div class="mega-col-3-pane" data-pane="where">
+        <div class="featured-block" onclick="location.href='ulsan.html'" style="cursor:pointer;">
+          <div class="featured-tag">스페셜 로컬 가이드</div>
+          <div class="featured-title">울산 — 사람이 강이 되고, 강이 바다가 되는 곳</div>
+--- Lines 1940-1970 ---
+      <!-- 과학의 결 -->
+      <a href="https://yeon-science.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(38,71,79,.52),rgba(63,125,117,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
+        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
+          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><circle cx="20" cy="20" r="6"/><ellipse cx="20" cy="20" rx="16" ry="7"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(120 20 20)"/></svg>
+          科 · 과학의 결
+        </div>
+        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">과학에는 결이 있다</h3>
+        <p style="font-size:13.5px;color:#dfe8de;line-height:1.7;flex:1">일반 대중을 위한 주간 과학 잡지. 필진의 글과 편집회의, 세계 과학 데스크가 한 호로 묶입니다.</p>
+        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">과학의 결 펼치기 →</span></div>
+      </a>
+
+      <!-- 수학의 결 -->
+      <a href="https://yeon-math.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(71,61,128,.52),rgba(99,87,166,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(50,40,70,.16)">
+        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
+          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><path d="M14 14 C14 9 25 9 30 14 C35 19 21 21 20 20 C19 19 5 21 10 26 C15 31 26 31 26 26"/></svg>
+          數 · 수학의 결
+        </div>
+        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">교과서보다 살아있게,<br>한 줄도 틀리지 않게</h3>
+        <p style="font-size:13.5px;color:#e6e2f2;line-height:1.7;flex:1">학년별(중1~3) 내 진도 맞춤 + 살아있는 수학 이야기. 모든 문제·풀이·증명은 외부 AI(DeepSeek)가 검산합니다.</p>
+        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#473d80;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">수학의 결 펼치기 →</span></div>
+      </a>
+
+    </div>
+    <p style="font-size:12.5px;color:#9a948b;margin:14px 2px 0">곧 더 많은 주간지가 이 코너에 더해집니다.</p>
+  </section>
+
+  <!-- 세계는 지금 — 첫 화면 핵심 헤드라인 -->
+  <section class="world-now reveal" id="world-now">
+    <div class="wn-head">
+      <div class="wn-title">

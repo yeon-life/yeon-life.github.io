@@ -1,0 +1,22 @@
+c:\Claude\연라이프\index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\index.html:2048:      <!-- 인공지능의 결 (책자) -->
+c:\Claude\연라이프\index.html:2052:          AI · 인공지능의 결
+c:\Claude\연라이프\index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:1:index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:2:index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:3:index.html:2048:      <!-- 인공지능의 결 (책자) -->
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:4:index.html:2052:          AI · 인공지능의 결
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:5:index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:210:yeon-life.github.io\index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:211:yeon-life.github.io\index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:212:yeon-life.github.io\index.html:2048:      <!-- 인공지능의 결 (책자) -->
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:213:yeon-life.github.io\index.html:2052:          AI · 인공지능의 결
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:214:yeon-life.github.io\index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+c:\Claude\연라이프\scratch\ai_gyeol_search.txt:216:yeon-life.github.io\내친구인공지능_책\index.html:1854:      '1': '1부 ✦ 인공지능의 결',
+c:\Claude\연라이프\yeon-life.github.io\index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\yeon-life.github.io\index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+c:\Claude\연라이프\yeon-life.github.io\index.html:2048:      <!-- 인공지능의 결 (책자) -->
+c:\Claude\연라이프\yeon-life.github.io\index.html:2052:          AI · 인공지능의 결
+c:\Claude\연라이프\yeon-life.github.io\index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+c:\Claude\연라이프\yeon-life.github.io\내친구인공지능_책\index.html:1854:      '1': '1부 ✦ 인공지능의 결',

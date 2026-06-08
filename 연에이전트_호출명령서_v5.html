@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연에이전트 v5 호출 명령서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hanji: #F8F2EA;
+    --ink: #1D1D1B;
+    --gold: #B8955A;
+    --wood: #5D4037;
+    --pine: #427a71;
+    --accent: #c38d56;
+    --alert: #b3514a;
+    --card: #FFFDF8;
+    --line: #D7C9B4;
+    --muted: #7A6E64;
+    --shadow: rgba(93,64,55,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--hanji);
+    color: var(--ink);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── 레이아웃 ── */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── 사이드바 ── */
+  .sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: #EDE6D9;
+    border-right: 1.5px solid var(--line);
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--wood);
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.5;
+  }
+
+  .sidebar-logo span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .sidebar nav a {
+    display: block;
+    padding: 6px 10px;
+    font-size: 12.5px;
+    color: var(--wood);
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: background 0.15s;
+    line-height: 1.45;
+  }
+
+  .sidebar nav a:hover {
+    background: rgba(184,149,90,0.15);
+    color: var(--ink);
+  }
+
+  .sidebar nav .sec-num {
+    display: inline-block;
+    width: 18px;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* ── 본문 ── */
+  .main {
+    flex: 1;
+    max-width: 860px;
+    padding: 40px 48px 80px;
+  }
+
+  /* ── 헤더 ── */
+  .doc-header {
+    text-align: center;
+    padding: 36px 0 32px;
+    border-bottom: 2px solid var(--gold);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .doc-header::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 20px;
+  }
+
+  .doc-title {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .doc-subtitle {
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  .doc-meta {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+
+  .doc-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── 섹션 ── */
+  .section {
+    margin-bottom: 48px;
+    scroll-margin-top: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--line);
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 700;
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── 긴급 인지 박스 ── */
+  .urgent-box {
+    background: linear-gradient(135deg, #2f3e2e, #1D1D1B);
+    color: #F8F2EA;
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin-bottom: 40px;
+    border: 2px solid var(--gold);
+  }
+
+  .urgent-box .urgent-title {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 14px;
+    letter-spacing: 0.06em;
+  }
+
+  .urgent-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .urgent-item {
+    background: rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .urgent-item strong {
+    color: var(--gold);
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+
+  .urgent-item code {
+    font-family: monospace;
+    font-size: 12px;
+    background: rgba(184,149,90,0.2);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #F8C97A;
+  }
+
+  /* ── 테이블 ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+
+  th {
+    background: #EDE6D9;
+    color: var(--wood);
+    font-weight: 700;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid var(--line);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  td {
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  tr:hover td { background: #FEFBF4; }
+
+  /* ── 카드 그리드 ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .card strong {
+    display: block;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+
+  .card.gold-border { border-top: 4px solid var(--gold); }
+  .card.pine-border { border-top: 4px solid var(--pine); }
+  .card.wood-border { border-top: 4px solid var(--wood); }
+  .card.alert-border { border-top: 4px solid var(--alert); }
+
+  /* ── 배지 ── */
+  .badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-pine { background: var(--pine); color: #fff; }
+  .badge-gold { background: var(--gold); color: #fff; }
+  .badge-alert { background: var(--alert); color: #fff; }
+  .badge-wood { background: var(--wood); color: #fff; }
+
+  /* ── 흐름 다이어그램 ── */
+  .flow-box {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+
+  .flow-step {
+    padding: 8px 14px;
+    border-radius: 7px;
+    margin: 5px 0;
+    line-height: 1.5;
+  }
+
+  .flow-step.pine { background: #EFF6F4; border-left: 3px solid var(--pine); }
+  .flow-step.gold { background: #FDF6EC; border-left: 3px solid var(--gold); }
+  .flow-step.alert { background: #FFF5F4; border-left: 3px solid var(--alert); }
+  .flow-arrow { text-align: center; color: var(--gold); font-size: 14px; margin: 2px 0; }
+
+  /* ── 사용법 박스 ── */
+  .usage-box {
+    background: linear-gradient(135deg, var(--wood), #7A5C4F);
+    color: #F8F2EA;
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  .usage-box ol {
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+
+  .usage-box li {
+    margin-bottom: 7px;
+    line-height: 1.6;
+  }
+
+  .usage-box code {
+    background: rgba(255,255,255,0.15);
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  /* ── 코드 블록 ── */
+  pre {
+    background: #1D1D1B;
+    color: #D7C9B4;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid #333;
+  }
+
+  pre .cmt { color: #7A8C7A; }
+  pre .key { color: #F8C97A; }
+
+  /* ── 모바일 토글 ── */
+  .mobile-nav-toggle {
+    display: none;
+    background: var(--wood);
+    color: #F8F2EA;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-family: 'Noto Serif KR', serif;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-nav {
+    display: none;
+    background: #EDE6D9;
+    padding: 12px 16px;
+    border-bottom: 1.5px solid var(--line);
+  }
+
+  .mobile-nav a {
+    display: block;
+    padding: 6px 8px;
+    font-size: 13px;
+    color: var(--wood);
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  /* ── 인쇄 ── */
+  @media print {
+    .sidebar, .mobile-nav-toggle, .mobile-nav { display: none !important; }
+    .main { padding: 20px; max-width: 100%; }
+    .layout { display: block; }
+    .section { page-break-inside: avoid; margin-bottom: 24px; }
+    body { font-size: 12px; }
+    pre { white-space: pre-wrap; font-size: 10px; }
+    .urgent-row { grid-template-columns: 1fr 1fr; }
+    .doc-title { font-size: 22px; }
+  }
+
+  /* ── 반응형 ── */
+  @media (max-width: 900px) {
+    .main { padding: 24px 24px 60px; }
+  }
+
+  @media (max-width: 680px) {
+    .sidebar { display: none; }
+    .mobile-nav-toggle { display: block; }
+    .main { padding: 20px 16px 60px; }
+    .doc-title { font-size: 22px; }
+    .urgent-row { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 모바일 토글 -->
+<button class="mobile-nav-toggle" onclick="toggleNav()">☰ 목차 펼치기</button>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#s1">1. 사용자 정체</a>
+  <a href="#s2">2. 사용법</a>
+  <a href="#s3">3. 14인 에이전트 체제</a>
+  <a href="#s4">4. 5종 외주 하청</a>
+  <a href="#s5">5. 모델 가성비 매트릭스</a>
+  <a href="#s6">6. 자동 회귀 + GPT 외주 흐름</a>
+  <a href="#s7">7. 호출 조건 매트릭스</a>
+  <a href="#s8">8. 정체성 분리</a>
+  <a href="#s9">9. 운영 규칙</a>
+  <a href="#s10">10. API 키 위치</a>
+  <a href="#s11">11. 정기 작동</a>
+  <a href="#s12">12. 가이드북 참조 매핑</a>
+  <a href="#s13">13. 연에이전트 구조도</a>
+</div>
+
+<div class="layout">
+
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      연에이전트 v5<br>호출 명령서
+      <span>2026-05-20 · 울산 연아카데미</span>
+    </div>
+    <nav>
+      <a href="#urgent"><span class="sec-num">🔴</span>긴급 인지</a>
+      <a href="#s1"><span class="sec-num">1.</span>사용자 정체</a>
+      <a href="#s2"><span class="sec-num">2.</span>사용법</a>
+      <a href="#s3"><span class="sec-num">3.</span>14인 에이전트 체제</a>
+      <a href="#s4"><span class="sec-num">4.</span>5종 외주 하청</a>
+      <a href="#s5"><span class="sec-num">5.</span>모델 가성비 매트릭스</a>
+      <a href="#s6"><span class="sec-num">6.</span>자동 회귀·GPT 흐름</a>
+      <a href="#s7"><span class="sec-num">7.</span>호출 조건 매트릭스</a>
+      <a href="#s8"><span class="sec-num">8.</span>정체성 분리</a>
+      <a href="#s9"><span class="sec-num">9.</span>운영 규칙</a>
+      <a href="#s10"><span class="sec-num">10.</span>API 키 위치</a>
+      <a href="#s11"><span class="sec-num">11.</span>정기 작동</a>
+      <a href="#s12"><span class="sec-num">12.</span>가이드북 참조 매핑</a>
+      <a href="#s13"><span class="sec-num">13.</span>연에이전트 구조도</a>
+    </nav>
+  </aside>
+
+  <!-- 본문 -->
+  <main class="main">
+
+    <!-- 헤더 -->
+    <div class="doc-header">
+      <div class="doc-title">연에이전트 v5 호출 명령서</div>
+      <div class="doc-subtitle">한 첨부로 14인 팀 즉시 가동</div>
+      <div class="doc-meta">
+        <span>발행자: 이진우 (연소사) · 울산 연아카데미</span>
+        <span>발행일: 2026-05-20</span>
+        <span>버전: v5.0</span>
+      </div>
+    </div>
+
+    <!-- 긴급 인지 박스 -->
+    <div class="urgent-box" id="urgent">
+      <div class="urgent-title">🔴 메인 클로드 즉시 인지 — 첨부 즉시 읽을 것</div>
+      <div class="urgent-row">
+        <div class="urgent-item">
+          <strong>사용자 이름</strong>
+          이진우 (연소사) / 울산 연아카데미 선생님
+        </div>
+        <div class="urgent-item">
+          <strong>이메일</strong>
+          jinwooshon@gmail.com
+        </div>
+        <div class="urgent-item">
+          <strong>API 키 위치</strong>
+          <code>C:\Claude\.env</code> (모든 세션 공통)
+        </div>
+        <div class="urgent-item">
+          <strong>주 작업 폴더</strong>
+          <code>C:\Claude\연라이프</code> · <code>C:\Claude\내 친구 인공지능</code>
+        </div>
+        <div class="urgent-item">
+          <strong>핵심 가치</strong>
+          자기주도학습 · 참사람 되기 · 따뜻한 공동체
+        </div>
+        <div class="urgent-item">
+          <strong>주의 사항</strong>
+          영어 모름 → 모든 안내 한국어 / "학원" → "연아카데미"
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 1 -->
+    <div class="section" id="s1">
+      <div class="section-header">
+        <span class="section-num">1</span>
+        <h2 class="section-title">사용자 정체</h2>
+      </div>
+      <table>
+        <tr><th>항목</th><th>값</th></tr>
+        <tr><td><strong>이름</strong></td><td>이진우 (연소사)</td></tr>
+        <tr><td><strong>이메일</strong></td><td>jinwooshon@gmail.com</td></tr>
+        <tr><td><strong>직업</strong></td><td>울산 연아카데미 선생님</td></tr>
+        <tr><td><strong>핵심 가치</strong></td><td>자기주도학습 · 참사람 되기 · 따뜻한 공동체</td></tr>
+        <tr><td><strong>작업 폴더</strong></td><td><code>C:\Claude\연라이프</code> · <code>C:\Claude\내 친구 인공지능</code> · 기타</td></tr>
+        <tr><td><strong>공통 환경 변수</strong></td><td><code>C:\Claude\.env</code> (모든 세션 공통)</td></tr>
+        <tr><td><strong>언어</strong></td><td>영어 모름 → 모든 메뉴·안내·파일명 반드시 한국어</td></tr>
+      </table>
+    </div>
+
+    <!-- 섹션 2 -->
+    <div class="section" id="s2">
+      <div class="section-header">
+        <span class="section-num">2</span>
+        <h2 class="section-title">사용법</h2>
+      </div>
+      <div class="usage-box">
+        <strong style="font-size:15px; letter-spacing:0.03em;">새 Cowork 세션 시작 절차</strong>
+        <ol>
+          <li>이 HTML 파일을 대화창에 첨부</li>
+          <li>작업 요청 한 마디 (예: <code>"광고 캠페인 시안 만들어줘"</code>)</li>
+          <li>메인 클로드가 이 명령서를 읽고 → 작업 성격 판단 → 적절한 전문가 자동 호출</li>
+          <li>사용자는 최종 결과만 받음. 중간 과정 노출 최소화</li>
+        </ol>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:10px;">※ 가이드북 상세 규칙은 yeon-guidebook 스킬에 있습니다. 이 명령서는 빠른 호출 참조용입니다.</p>
+    </div>
+
+    <!-- 섹션 3 -->
+    <div class="section" id="s3">
+      <div class="section-header">
+        <span class="section-num">3</span>
+        <h2 class="section-title">14인 에이전트 체제 (한 사이클)</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>역할</th><th>핵심 질문</th><th>호출 조건</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🛠 <strong>실행자</strong></td><td>"어떻게 만들까?"</td><td><span class="badge badge-pine">모든 작업</span></td></tr>
+          <tr><td>🔍 <strong>검증자</strong></td><td>"동작합니까?"</td><td><span class="badge badge-pine">모든 작업</span></td></tr>
+          <tr><td>🎯 <strong>비평가</strong></td><td>"정말 좋은가? 약점은?"</td><td><span class="badge badge-gold">대부분 작업</span></td></tr>
+          <tr><td>💼 <strong>사업가</strong></td><td>"사업으로 살아남는가?"</td><td><span class="badge badge-gold">비즈니스 결정 (페어)</span></td></tr>
+          <tr><td>🌱 <strong>사회 가치가</strong></td><td>"사람과 사회에 좋은가?"</td><td><span class="badge badge-gold">비즈니스 결정 (페어)</span></td></tr>
+          <tr><td>🎨 <strong>디자인 전문가</strong></td><td>"시각·UX 좋은가?"</td><td>UI·시각 작업</td></tr>
+          <tr><td>🧑‍🏫 <strong>교육 전문가</strong></td><td>"학습에 도움되는가?"</td><td>교육 콘텐츠</td></tr>
+          <tr><td>📝 <strong>글쓰기·편집 전문가</strong></td><td>"잘 읽히는가?"</td><td>글이 많은 작업</td></tr>
+          <tr><td>🔒 <strong>보안·개인정보 전문가</strong></td><td>"안전한가?"</td><td>외부 노출·민감 데이터</td></tr>
+          <tr><td>♿ <strong>접근성 전문가</strong></td><td>"누구나 쓸 수 있는가?"</td><td>대중·노인·약자</td></tr>
+          <tr><td>🌏 <strong>글로벌·K-트렌드 전문가</strong></td><td>"세계가 원하는가?"</td><td>신규 사업·글로벌</td></tr>
+          <tr><td>🏛 <strong>국가지원사업 조사 전문가</strong></td><td>"지금 도전할 사업은?"</td><td><span class="badge badge-wood">격주 정기 (매월 1·15일 5시)</span></td></tr>
+          <tr><td>💰 <strong>재무 관리 전문가</strong></td><td>"비용·수익 잘 관리되는가?"</td><td>월 1회 + 가격·과금 결정</td></tr>
+          <tr><td>💡 <strong>제안자</strong></td><td>"다음에 뭘 합니까?"</td><td><span class="badge badge-pine">매 사이클 마지막</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px; color:var(--muted); margin-top:8px;">각 전문가의 5가지 시선은 yeon-guidebook §10-41 참조.</p>
+    </div>
+
+    <!-- 섹션 4 -->
+    <div class="section" id="s4">
+      <div class="section-header">
+        <span class="section-num">4</span>
+        <h2 class="section-title">5종 외주 하청 (다중 모델)</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>외주</th><th>모델</th><th>용도</th><th>호출 조건</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🎨 <strong>① 나노바나나</strong></td><td>Gemini 2.5 Flash Image</td><td>이미지 1차 생성</td><td>시각 결과물 필요 시 자율 호출</td></tr>
+          <tr><td>🎨 <strong>② GPT-Image</strong></td><td>OpenAI DALL-E 3 / GPT-Image-1</td><td>이미지 2차 생성</td><td>① 결과 불만족 시 자동</td></tr>
+          <tr><td>💻 <strong>③ GPT (Chat/Code)</strong></td><td>OpenAI GPT-5 / GPT-4o</td><td>코드 외주</td><td><span class="badge badge-alert">메인 클로드 2회 실패 시 자동</span></td></tr>
+          <tr><td>🎯 <strong>④ 그록</strong></td><td>xAI Grok</td><td>날카로운 비평</td><td>중요 결정에만</td></tr>
+          <tr><td>(향후)</td><td>ElevenLabs · Suno · Imagen</td><td>음성 · 음악 · 영상</td><td>미구현</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 5 -->
+    <div class="section" id="s5">
+      <div class="section-header">
+        <span class="section-num">5</span>
+        <h2 class="section-title">모델 가성비 매트릭스</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>역할</th><th>권장 모델</th><th>비용</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>단순 실행자 · 검증자 (grep·치환·라벨 교체)</td><td>Haiku (claude-haiku-4-5)</td><td><span class="badge badge-pine">🟢 가장 저렴</span></td></tr>
+          <tr><td>복잡 실행자 · 비평가 · 제안자 · 전문가</td><td>Sonnet (claude-sonnet-4-6)</td><td><span class="badge badge-gold">🟡 중간</span></td></tr>
+          <tr><td>진짜 어려운 설계만</td><td>Opus (claude-opus-4-6)</td><td><span class="badge badge-alert">🔴 가장 비쌈 — 사용자 동의 후만</span></td></tr>
+        </tbody>
+      </table>
+      <div class="card" style="margin-top:12px; border-left:4px solid var(--alert);">
+        <strong>Opus 사용 원칙</strong>
+        메인 클로드가 "이건 Opus 가 필요합니다 — 사용할까요?" 확인 후 동의 시에만 사용. 별도 동의 없으면 Sonnet 으로 진행.
+      </div>
+    </div>
+
+    <!-- 섹션 6 -->
+    <div class="section" id="s6">
+      <div class="section-header">
+        <span class="section-num">6</span>
+        <h2 class="section-title">자동 회귀 + GPT 외주 흐름</h2>
+      </div>
+      <div class="flow-box">
+        <div class="flow-step pine"><strong>실행자 1차 시도</strong> → 검증자 판정</div>
+        <div class="flow-arrow">↓ 미통과</div>
+        <div class="flow-step pine"><strong>실행자 2차 시도</strong> → 검증자 판정</div>
+        <div class="flow-arrow">↓ 미통과</div>
+        <div class="flow-step alert">🆘 <strong>GPT 외주 자동 위임</strong> (망설임 X · 사용자 허락 X)</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step gold">결과 받아 적용 → 검증자 재호출</div>
+        <div class="flow-arrow">↓ 통과</div>
+        <div class="flow-step pine">비평 · 사업 · 가치 · 디자인 · 제안 단계 진행</div>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:8px;">GPT 도 실패 시 → "두 모델 모두 막힘 — 원인 + 옵션" 사용자 보고</p>
+    </div>
+
+    <!-- 섹션 7 -->
+    <div class="section" id="s7">
+      <div class="section-header">
+        <span class="section-num">7</span>
+        <h2 class="section-title">호출 조건 매트릭스</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>작업 유형</th><th>호출 전문가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>단순 코드 수정 · 문서 갱신</td><td>실행자 + 검증자 + 제안자 (3명)</td></tr>
+          <tr><td>UI · 디자인 작업</td><td>+ 디자인 전문가 + 비평가</td></tr>
+          <tr><td>교육 콘텐츠 (책자·수업·학생 앱)</td><td>+ 교육 전문가 + 글쓰기 전문가 + 비평가</td></tr>
+          <tr><td>글이 많은 작업 (칼럼·뉴스·홍보 문구)</td><td>+ 글쓰기 전문가 + 비평가</td></tr>
+          <tr><td>비즈니스 결정 (가격·구독·정책)</td><td>+ 사업가 + 사회 가치가 <em>(페어)</em> + 비평가</td></tr>
+          <tr><td>외부 노출 · 민감 데이터</td><td>+ 보안·개인정보 전문가</td></tr>
+          <tr><td>대중 · 노인 · 약자 노출</td><td>+ 접근성 전문가</td></tr>
+          <tr><td>가격 · 과금 · 재무 결정</td><td>+ 재무 관리 전문가</td></tr>
+          <tr><td>새 기능 출시 · 새 앱 전체</td><td><strong>거의 전원 호출 (5~10명)</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 8 -->
+    <div class="section" id="s8">
+      <div class="section-header">
+        <span class="section-num">8</span>
+        <h2 class="section-title">정체성 분리 (충돌 방지)</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>영역</th><th>정체성</th><th>정책</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>연라이프 (y-life.kr)</strong></td>
+            <td>시민 무료 · 사람 연결 · 수익 X</td>
+            <td>따뜻함 우선. 4단계 과금 적용 금지.</td>
+          </tr>
+          <tr>
+            <td><strong>연 글로벌 (신규)</strong></td>
+            <td>K-트렌드 세계화 · 수익 O</td>
+            <td>글로벌 전문가 + 사업가 주도</td>
+          </tr>
+          <tr>
+            <td><strong>연아카데미</strong></td>
+            <td>자기주도학습 코칭</td>
+            <td>별도 4단계 과금. YUV5 §11 기준.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card" style="margin-top:12px; border-left:4px solid var(--alert);">
+        <strong>충돌 방지 핵심</strong>
+        연라이프에 연아카데미 과금·6자리 코드 강제·학원 등록 요구 적용 금지. 두 영역은 시너지를 갖되 끼어들지 않는다.
+      </div>
+    </div>
+
+    <!-- 섹션 9 -->
+    <div class="section" id="s9">
+      <div class="section-header">
+        <span class="section-num">9</span>
+        <h2 class="section-title">운영 규칙 (메인 클로드 의무)</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card pine-border">
+          <strong>① "대답부터 먼저"</strong>
+          사용자 질문 누적 시 도구 호출 전에 먼저 답변. 도구가 먼저가 아님.
+        </div>
+        <div class="card gold-border">
+          <strong>② §10-43 즉시 위임</strong>
+          현재 세션 주제 외 작업은 즉시 서브 에이전트로 위임. 메인 클로드 컨텍스트 보호.
+        </div>
+        <div class="card alert-border">
+          <strong>③ §10-41 전문가 위임 의무</strong>
+          비평·사업·사회가치·디자인·교육·글쓰기·보안·접근성은 모두 전문가에게. 메인 클로드 직접 평가 금지.
+        </div>
+        <div class="card pine-border">
+          <strong>④ §10-45 외주 자율 사용</strong>
+          .env 에 키 있으면 사용자 매번 허락 없이 자율 호출. 나노바나나·GPT·그록 포함.
+        </div>
+        <div class="card gold-border">
+          <strong>⑤ 비용 가시화 의무</strong>
+          모든 외주 호출 시 ₩ 단위 비용 보고. 누적 금액 명시.
+        </div>
+        <div class="card wood-border">
+          <strong>⑥ 한국어 원칙</strong>
+          모든 메뉴·버튼·안내·파일명 한국어. "학원" → "연아카데미" 자동 교체.
+        </div>
+        <div class="card pine-border">
+          <strong>⑦ 규칙 자동 기억</strong>
+          새 규칙 발견 시 yeon-guidebook 즉시 갱신 + "기억했습니다 ✅" 알림.
+        </div>
+        <div class="card gold-border">
+          <strong>⑧ 취침 권유 금지</strong>
+          "자라" · "주무세요" · "잘 자요" · "좋은 꿈" 일체 금지.
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 10 -->
+    <div class="section" id="s10">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <h2 class="section-title">API 키 위치</h2>
+      </div>
+      <div class="card" style="border-left:4px solid var(--gold);">
+        <strong>.env 파일 — 공통 위치 (모든 세션 공통)</strong>
+        <code style="display:block; margin-top:6px; font-size:12px; background: #1D1D1B; color: #D7C9B4; padding: 4px 8px; border-radius: 5px;">C:\Claude\.env</code>
+      </div>
+      <pre>
+<span class="cmt"># 이미지 생성 (나노바나나)</span>
+<span class="key">GEMINI_IMAGE_API_KEY</span>=AIza...
+
+<span class="cmt"># 코드 외주 · 이미지 2차 (GPT)</span>
+<span class="key">OPENAI_API_KEY</span>=sk-...
+
+<span class="cmt"># 날카로운 비평 (그록)</span>
+<span class="key">GROK_API_KEY</span>=xai-...</pre>
+      <p style="font-size:12.5px; color:var(--muted); margin-top:8px;">키가 .env 에 박혀 있으면 메인 클로드가 사용자 허락 없이 자율 호출합니다. (§10-45)</p>
+    </div>
+
+    <!-- 섹션 11 -->
+    <div class="section" id="s11">
+      <div class="section-header">
+        <span class="section-num">11</span>
+        <h2 class="section-title">정기 작동</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>태스크</th><th>스케줄</th><th>산출물</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🏛 <strong>국가지원사업 조사</strong></td>
+            <td>매월 1·15일 오전 5시</td>
+            <td><code>reports/지원사업_리포트_YYYY-MM-DD.html</code></td>
+          </tr>
+          <tr>
+            <td>💰 <strong>재무 관리 리포트</strong></td>
+            <td>매월 1일 (예정)</td>
+            <td><code>reports/재무_리포트_YYYY-MM.html</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px; font-size:13px; color:var(--muted);">
+        국가지원사업 전문가는 격주 실행 시 <strong>디자인 전문가 + 사업가 + 사회 가치가</strong>를 페어로 함께 호출하여 홈페이지 정합성도 점검합니다.
+      </div>
+    </div>
+
+    <!-- 섹션 12 -->
+    <div class="section" id="s12">
+      <div class="section-header">
+        <span class="section-num">12</span>
+        <h2 class="section-title">가이드북 참조 매핑</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>명령서 항목</th><th>가이드북 §</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>14인 체제 전체 구성</td><td>§10-41</td></tr>
+          <tr><td>위임 원칙 · 컨텍스트 보호</td><td>§10-43</td></tr>
+          <tr><td>연라이프 챗봇 구독 모델</td><td>§10-44</td></tr>
+          <tr><td>외주 하청 시스템 (나노바나나 등)</td><td>§10-45</td></tr>
+          <tr><td>모델 가성비 매트릭스</td><td>§10-41 안 비용 관점</td></tr>
+          <tr><td>병렬 서브 에이전트 실행</td><td>§10-36</td></tr>
+          <tr><td>자체 검증 의무화</td><td>§10-37 원칙 1</td></tr>
+          <tr><td>정체성 분리 (연라이프 vs 연아카데미)</td><td>§10-27</td></tr>
+          <tr><td>파일 저장 위치 · 이삿짐 패턴</td><td>§10-8</td></tr>
+          <tr><td>국가지원사업 조사 전문가 정기 작동</td><td>§10-41 국가지원사업 항목</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 13 -->
+    <div class="section" id="s13">
+      <div class="section-header">
+        <span class="section-num">13</span>
+        <h2 class="section-title">연에이전트 v5 구조도</h2>
+      </div>
+
+      <!-- SVG 구조도 -->
+      <svg viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:12px;border:1.5px solid var(--line);">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#B8955A"/>
+          </marker>
+        </defs>
+        <rect width="740" height="420" fill="#FFFDF8"/>
+
+        <!-- 타이틀 -->
+        <text x="370" y="28" text-anchor="middle" font-family="Nanum Myeongjo,serif" font-size="14" font-weight="700" fill="#1D1D1B">연에이전트 v5 · 메인 클로드 중심 구조</text>
+
+        <!-- 메인 클로드 (중심) -->
+        <rect x="280" y="44" width="180" height="56" rx="10" fill="#2f5d62" stroke="#427a71" stroke-width="2"/>
+        <text x="370" y="67" text-anchor="middle" font-family="Noto Serif KR,serif" font-size="13" font-weight="700" fill="#F8F2EA">🏢 메인 클로드</text>
+        <text x="370" y="86" text-anchor="middle" font-family="Noto Serif KR,serif" font-size="10" fill="#B8E0D8">의사결정 · 조율 · 통합</text>
+
+        <!-- 사내 직원 그룹 -->
+        <rect x="30" y="135" width="150" height="36" rx="8" fill="#EFF6F4" stroke="#427a71" stroke-width="1.5"/>
+        <text x="105" y="158" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#2f5d62">🛠 실행자 (Haiku/Sonnet)</text>
+
+        <rect x="30" y="182" width="150" height="36" rx="8" fill="#EFF6F4" stroke="#427a71" stroke-width="1.5"/>
+        <text x="105" y="205" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#2f5d62">🔍 검증자 (Haiku)</text>
+
+        <rect x="30" y="229" width="150" height="36" rx="8" fill="#EFF6F4" stroke="#427a71" stroke-width="1.5"/>
+        <text x="105" y="252" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#2f5d62">💡 제안자 (Sonnet)</text>
+
+        <!-- 전문가 그룹 (중간) -->
+        <rect x="220" y="135" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="156" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">🎯 비평가</text>
+
+        <rect x="220" y="178" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="199" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">💼+🌱 페어</text>
+
+        <rect x="220" y="221" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="242" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">🎨 디자인</text>
+
+        <rect x="220" y="264" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="285" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">🧑‍🏫 교육</text>
+
+        <rect x="220" y="307" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="328" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">📝 글쓰기</text>
+
+        <rect x="220" y="350" width="110" height="32" rx="7" fill="#FDF6EC" stroke="#B8955A" stroke-width="1.5"/>
+        <text x="275" y="371" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#5D4037">🔒♿🌏🏛💰</text>
+
+        <!-- 외주 하청 (우측) -->
+        <rect x="480" y="135" width="140" height="36" rx="8" fill="#FFF5F4" stroke="#b3514a" stroke-width="1.5"/>
+        <text x="550" y="155" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#b3514a">🎨 나노바나나</text>
+        <text x="550" y="167" text-anchor="middle" font-size="10" fill="#b3514a">Gemini 2.5 Flash Image</text>
+
+        <rect x="480" y="182" width="140" height="36" rx="8" fill="#FFF5F4" stroke="#b3514a" stroke-width="1.5"/>
+        <text x="550" y="202" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#b3514a">🎨 GPT-Image</text>
+        <text x="550" y="214" text-anchor="middle" font-size="10" fill="#b3514a">DALL-E 3 / GPT-Image-1</text>
+
+        <rect x="480" y="229" width="140" height="36" rx="8" fill="#FFF5F4" stroke="#b3514a" stroke-width="1.5"/>
+        <text x="550" y="249" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#b3514a">💻 GPT Code</text>
+        <text x="550" y="261" text-anchor="middle" font-size="10" fill="#b3514a">2회 실패 시 자동 위임</text>
+
+        <rect x="480" y="276" width="140" height="36" rx="8" fill="#FFF5F4" stroke="#b3514a" stroke-width="1.5"/>
+        <text x="550" y="299" text-anchor="middle" font-size="12" font-family="Noto Serif KR,serif" fill="#b3514a">🎯 그록 (Grok)</text>
+        <text x="550" y="311" text-anchor="middle" font-size="10" fill="#b3514a">날카로운 비평 전용</text>
+
+        <!-- 화살표: 메인 → 사내 -->
+        <line x1="280" y1="90" x2="180" y2="135" stroke="#427a71" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- 메인 → 전문가 -->
+        <line x1="330" y1="100" x2="290" y2="135" stroke="#B8955A" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- 메인 → 외주 -->
+        <line x1="440" y1="90" x2="530" y2="135" stroke="#b3514a" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- 라벨 -->
+        <text x="105" y="122" text-anchor="middle" font-size="10" fill="#427a71" font-weight="700">사내 직원 (서브 에이전트)</text>
+        <text x="275" y="122" text-anchor="middle" font-size="10" fill="#B8955A" font-weight="700">전문가 그룹</text>
+        <text x="550" y="122" text-anchor="middle" font-size="10" fill="#b3514a" font-weight="700">외주 하청 (다중 모델)</text>
+
+        <!-- 정기 작동 -->
+        <rect x="550" y="340" width="160" height="50" rx="8" fill="#F0F6EE" stroke="#427a71" stroke-width="1.5"/>
+        <text x="630" y="360" text-anchor="middle" font-size="11" font-family="Noto Serif KR,serif" fill="#2f5d62" font-weight="700">⏰ 정기 자동 작동</text>
+        <text x="630" y="376" text-anchor="middle" font-size="10" fill="#427a71">매월 1·15일 새벽 5시</text>
+        <text x="630" y="388" text-anchor="middle" font-size="10" fill="#427a71">지원사업 조사 · 재무 리포트</text>
+      </svg>
+
+      <!-- 범례 -->
+      <div class="card-grid" style="margin-top:16px;">
+        <div class="card pine-border" style="font-size:12px;">
+          <strong>사내 직원</strong>
+          서브 에이전트. 실행·검증·제안. Haiku/Sonnet 가성비 운영.
+        </div>
+        <div class="card gold-border" style="font-size:12px;">
+          <strong>전문가 그룹</strong>
+          작업 성격별 조건부 호출. 한 번에 전원 호출 금지.
+        </div>
+        <div class="card alert-border" style="font-size:12px;">
+          <strong>외주 하청</strong>
+          메인 클로드가 자율 판단·호출. .env 키 필요. 비용 가시화 의무.
+        </div>
+      </div>
+    </div>
+
+    <!-- 푸터 -->
+    <div style="text-align:center; margin-top:40px; padding-top:20px; border-top:1.5px solid var(--line); font-size:12px; color:var(--muted);">
+      <p style="font-family:'Nanum Myeongjo',serif; font-size:14px; color:var(--gold); margin-bottom:6px;">연에이전트 v5.0</p>
+      <p>이진우 (연소사) · 울산 연아카데미 · 2026-05-20</p>
+      <p style="margin-top:4px;">이 문서는 새 Cowork 세션 시작 시 첨부 한 장으로 14인 팀을 즉시 가동합니다.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function toggleNav() {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.querySelector('.mobile-nav-toggle');
+  if (nav.style.display === 'block') {
+    nav.style.display = 'none';
+    btn.textContent = '☰ 목차 펼치기';
+  } else {
+    nav.style.display = 'block';
+    btn.textContent = '✕ 목차 닫기';
+  }
+}
+
+// 모바일 링크 클릭 시 자동 닫기
+document.querySelectorAll('.mobile-nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobileNav').style.display = 'none';
+    document.querySelector('.mobile-nav-toggle').textContent = '☰ 목차 펼치기';
+  });
+});
+</script>
+
+</body>
+</html>

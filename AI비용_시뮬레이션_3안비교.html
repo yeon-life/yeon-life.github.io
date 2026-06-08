@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 비용 시뮬레이션 — 세 가지 길 비교</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 32px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:48px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px}
+  h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);margin:24px 0 10px}
+  h4{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* 가정 박스 */
+  .assumptions{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px 28px;margin:20px 0}
+  .assumptions ul{margin:8px 0 0 22px;font-size:13px;line-height:1.85}
+  .assumptions ul li{margin-bottom:4px}
+  .assumptions strong{color:var(--teal);font-weight:700}
+
+  /* 옵션 카드 */
+  .opt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:24px 0}
+  .opt{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;text-align:center}
+  .opt.recommended{border-color:var(--amber);border-width:2px;background:#FFF5E6}
+  .opt-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--amber);margin-bottom:6px}
+  .opt-name{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3}
+  .opt-sub{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+  .opt-models{font-size:11px;color:var(--teal);font-weight:600;line-height:1.5}
+
+  /* 테이블 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.right{text-align:right}
+  td.center{text-align:center}
+  td.cost-free{background:#E6F4EA;color:var(--green);font-weight:700;text-align:right;font-family:var(--serif);font-size:14px}
+  td.cost-low{background:#FFF8E1;color:var(--amber);font-weight:700;text-align:right;font-family:var(--serif);font-size:14px}
+  td.cost-mid{background:#FFECB3;color:#9a6800;font-weight:700;text-align:right;font-family:var(--serif);font-size:14px}
+  td.cost-high{background:#FFCDD2;color:var(--red);font-weight:700;text-align:right;font-family:var(--serif);font-size:14px}
+  td.cost-huge{background:#B71C1C;color:white;font-weight:700;text-align:right;font-family:var(--serif);font-size:14px}
+  td.subtle{color:var(--muted);font-size:12px}
+
+  /* 막대 그래프 */
+  .bar-chart{margin:24px 0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px}
+  .bar-row{display:grid;grid-template-columns:100px 1fr 100px;gap:12px;align-items:center;margin-bottom:10px;font-size:13px}
+  .bar-row .label{font-weight:600;color:var(--ink)}
+  .bar-row .bar-wrap{background:var(--cool);border-radius:3px;height:24px;position:relative;overflow:hidden}
+  .bar-row .bar{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700}
+  .bar-free{background:var(--green)}
+  .bar-low{background:var(--amber)}
+  .bar-mid{background:#d4a85a}
+  .bar-high{background:var(--red)}
+  .bar-row .price{text-align:right;font-family:var(--serif);font-weight:700;color:var(--ink)}
+
+  /* 시나리오 박스 */
+  .scenario{background:var(--ink);color:var(--warm);padding:24px 28px;border-radius:6px;margin:20px 0}
+  .scenario .tag{font-size:11px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .scenario h3{font-family:var(--serif);font-size:20px;color:var(--warm);margin:0 0 14px}
+  .scenario p{font-size:13px;color:rgba(244,240,230,.85);line-height:1.7;margin-bottom:10px}
+  .scenario strong{color:var(--amber)}
+
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:28px}
+    .opt-grid{grid-template-columns:1fr}
+    table{font-size:11px}
+    th,td{padding:8px 10px}
+    .bar-row{grid-template-columns:80px 1fr 80px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="AI엔진_종합조사_2026-05.html">← AI 종합 조사로</a><span>비용 시뮬레이션 · 세 안 비교</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · 비용 시뮬레이션 · 2026.05.15.</div>
+    <h1>세 가지 길의 <em>실제 월 비용</em></h1>
+    <p class="lede">
+      Claude Haiku + Gemini 하이브리드 / Gemini 무료 단일 / Claude Sonnet 프리미엄 —
+      세 가지 옵션을 연라이프 트래픽 단계별로 시뮬레이션했습니다.
+      모든 숫자는 2026년 5월 공시 가격 기준이며, 환율 1USD = 1,350원 적용.
+    </p>
+  </header>
+
+  <!-- ========== 가정 ========== -->
+  <h2>1. 시뮬레이션 가정</h2>
+
+  <div class="assumptions">
+    <h4>토큰 사용량 (1회 호출 평균)</h4>
+    <ul>
+      <li><strong>챗봇 질문 답변</strong>: 입력 500 토큰 + 출력 300 토큰 = 800 토큰</li>
+      <li><strong>모더레이션 검사</strong>: 입력 300 토큰 + 출력 50 토큰 = 350 토큰</li>
+    </ul>
+    <h4 style="margin-top:14px">호출 비율</h4>
+    <ul>
+      <li>일일 AI 호출 중 챗봇 60% · 모더레이션 40%</li>
+      <li>활성 사용자 1명당 일평균 5회 호출 (챗봇 3회 + 모더 2회)</li>
+    </ul>
+    <h4 style="margin-top:14px">2026년 5월 공시 가격</h4>
+    <ul>
+      <li>Gemini 2.5 Flash: 무료 1,500/일 / 유료 $0.10 입력·$0.40 출력 (1M 토큰당)</li>
+      <li>Claude Haiku 4.5: $0.25 입력·$1.25 출력 (1M 토큰당) · 무료 X</li>
+      <li>Claude Sonnet 4.6: $3 입력·$15 출력 (1M 토큰당) · 무료 X</li>
+      <li>Cloudflare Workers: 무료 10만/일, 초과 시 $5/월부터</li>
+    </ul>
+  </div>
+
+  <!-- ========== 세 옵션 ========== -->
+  <h2>2. 세 가지 옵션</h2>
+
+  <div class="opt-grid">
+    <div class="opt recommended">
+      <div class="opt-tag">★ 추천</div>
+      <div class="opt-name">옵션 A<br>하이브리드</div>
+      <div class="opt-sub">품격은 살리고 비용은 합리적</div>
+      <div class="opt-models">
+        챗봇 = Claude Haiku 4.5<br>
+        모더 = Gemini Flash<br>
+        키 보호 = Cloudflare
+      </div>
+    </div>
+    <div class="opt">
+      <div class="opt-tag">완전 무료</div>
+      <div class="opt-name">옵션 B<br>Gemini 전용</div>
+      <div class="opt-sub">초기 단계 / 비용 최소화</div>
+      <div class="opt-models">
+        챗봇 = Gemini Flash<br>
+        모더 = Gemini Flash<br>
+        키 보호 = Cloudflare
+      </div>
+    </div>
+    <div class="opt">
+      <div class="opt-tag">최고 품질</div>
+      <div class="opt-name">옵션 C<br>프리미엄</div>
+      <div class="opt-sub">한 톤 위의 답변 품질</div>
+      <div class="opt-models">
+        챗봇 = Claude Sonnet 4.6<br>
+        모더 = Gemini Flash<br>
+        키 보호 = Cloudflare
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 시나리오별 비용 ========== -->
+  <h2>3. 트래픽 단계별 월 비용</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>단계</th>
+        <th>일일 사용자</th>
+        <th>일일 AI 호출</th>
+        <th>옵션 A<br>하이브리드</th>
+        <th>옵션 B<br>Gemini 전용</th>
+        <th>옵션 C<br>프리미엄</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>시작 단계</strong><br><span class="subtle">0~3개월</span></td>
+        <td class="center">100명</td>
+        <td class="center">~500회</td>
+        <td class="cost-low">약 6,000원</td>
+        <td class="cost-free">0원 (무료)</td>
+        <td class="cost-low">약 73,000원</td>
+      </tr>
+      <tr>
+        <td><strong>마을 단계</strong><br><span class="subtle">3~12개월</span></td>
+        <td class="center">500명</td>
+        <td class="center">~2,500회</td>
+        <td class="cost-low">약 30,000원</td>
+        <td class="cost-free">약 2,700원</td>
+        <td class="cost-mid">약 365,000원</td>
+      </tr>
+      <tr>
+        <td><strong>확장 단계</strong><br><span class="subtle">1~2년차</span></td>
+        <td class="center">2,000명</td>
+        <td class="center">~10,000회</td>
+        <td class="cost-mid">약 130,000원</td>
+        <td class="cost-low">약 21,000원</td>
+        <td class="cost-high">약 1,380,000원</td>
+      </tr>
+      <tr>
+        <td><strong>대규모 단계</strong><br><span class="subtle">2~3년차</span></td>
+        <td class="center">10,000명</td>
+        <td class="center">~50,000회</td>
+        <td class="cost-high">약 650,000원</td>
+        <td class="cost-mid">약 120,000원</td>
+        <td class="cost-huge">약 6,900,000원</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>주의</strong>
+    위 비용은 챗봇·모더레이션 두 가지만의 추정치입니다. 추가 AI 기능(글쓰기 도우미, 이미지 생성 등)을 넣으면 비용이 더 늘 수 있어요. 또 실제 토큰 사용량은 사용자 질문 길이에 따라 ±30% 변동 가능합니다.
+  </div>
+
+  <!-- ========== 시각화 ========== -->
+  <h2>4. 단계별 막대 그래프</h2>
+
+  <h3>시작 단계 (100명/일)</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="label">옵션 A</span>
+      <div class="bar-wrap"><div class="bar bar-low" style="width:8%">6천원</div></div>
+      <span class="price">6,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 B</span>
+      <div class="bar-wrap"><div class="bar bar-free" style="width:2%">0원</div></div>
+      <span class="price">무료</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 C</span>
+      <div class="bar-wrap"><div class="bar bar-mid" style="width:100%">73천원</div></div>
+      <span class="price">73,000원</span>
+    </div>
+  </div>
+
+  <h3>마을 단계 (500명/일)</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="label">옵션 A</span>
+      <div class="bar-wrap"><div class="bar bar-low" style="width:8%">3만원</div></div>
+      <span class="price">30,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 B</span>
+      <div class="bar-wrap"><div class="bar bar-free" style="width:1%">3천원</div></div>
+      <span class="price">2,700원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 C</span>
+      <div class="bar-wrap"><div class="bar bar-high" style="width:100%">365천원</div></div>
+      <span class="price">365,000원</span>
+    </div>
+  </div>
+
+  <h3>확장 단계 (2,000명/일)</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="label">옵션 A</span>
+      <div class="bar-wrap"><div class="bar bar-mid" style="width:9%">13만원</div></div>
+      <span class="price">130,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 B</span>
+      <div class="bar-wrap"><div class="bar bar-low" style="width:1.5%">2만원</div></div>
+      <span class="price">21,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 C</span>
+      <div class="bar-wrap"><div class="bar bar-high" style="width:100%">138만원</div></div>
+      <span class="price">1,380,000원</span>
+    </div>
+  </div>
+
+  <h3>대규모 단계 (10,000명/일)</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="label">옵션 A</span>
+      <div class="bar-wrap"><div class="bar bar-high" style="width:9.5%">65만원</div></div>
+      <span class="price">650,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 B</span>
+      <div class="bar-wrap"><div class="bar bar-low" style="width:1.7%">12만원</div></div>
+      <span class="price">120,000원</span>
+    </div>
+    <div class="bar-row">
+      <span class="label">옵션 C</span>
+      <div class="bar-wrap"><div class="bar bar-high" style="width:100%">690만원</div></div>
+      <span class="price">6,900,000원</span>
+    </div>
+  </div>
+
+  <!-- ========== 세부 분해 ========== -->
+  <h2>5. 마을 단계(500명/일) 세부 분해</h2>
+
+  <p>가장 현실적인 1년차 시나리오를 자세히 풀어봤습니다.</p>
+
+  <h3>옵션 A — 하이브리드 (약 30,000원/월)</h3>
+  <table>
+    <tbody>
+      <tr>
+        <td>챗봇 (Claude Haiku 4.5)</td>
+        <td>1,500 호출/일 × 30일</td>
+        <td class="right">$22.5</td>
+      </tr>
+      <tr>
+        <td>입력 토큰</td>
+        <td class="subtle">22.5M 토큰 × $0.25</td>
+        <td class="right subtle">$5.6</td>
+      </tr>
+      <tr>
+        <td>출력 토큰</td>
+        <td class="subtle">13.5M 토큰 × $1.25</td>
+        <td class="right subtle">$16.9</td>
+      </tr>
+      <tr>
+        <td>모더레이션 (Gemini Flash)</td>
+        <td>1,000/일 → 무료 한도(1,500) 내</td>
+        <td class="right cost-free">0원</td>
+      </tr>
+      <tr>
+        <td>Cloudflare Workers</td>
+        <td>75K req/월 → 무료 한도(10만) 내</td>
+        <td class="right cost-free">0원</td>
+      </tr>
+      <tr style="background:var(--cool)">
+        <td colspan="2"><strong>총 비용</strong></td>
+        <td class="right"><strong>$22.5 ≈ 30,000원/월</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>옵션 B — Gemini 전용 (약 2,700원/월)</h3>
+  <table>
+    <tbody>
+      <tr>
+        <td>챗봇 + 모더 (Gemini Flash)</td>
+        <td>2,500 호출/일 × 30일 = 75K/월</td>
+        <td class="right">—</td>
+      </tr>
+      <tr>
+        <td>무료 한도</td>
+        <td class="subtle">1,500/일 × 30 = 45K/월</td>
+        <td class="right cost-free">0원</td>
+      </tr>
+      <tr>
+        <td>유료 초과</td>
+        <td class="subtle">30K 호출 × 620 토큰 ≈ 18.6M</td>
+        <td class="right">$2</td>
+      </tr>
+      <tr>
+        <td>Cloudflare Workers</td>
+        <td>75K req/월 → 무료 한도 내</td>
+        <td class="right cost-free">0원</td>
+      </tr>
+      <tr style="background:var(--cool)">
+        <td colspan="2"><strong>총 비용</strong></td>
+        <td class="right"><strong>$2 ≈ 2,700원/월</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>옵션 C — 프리미엄 (약 365,000원/월)</h3>
+  <table>
+    <tbody>
+      <tr>
+        <td>챗봇 (Claude Sonnet 4.6)</td>
+        <td>1,500 호출/일 × 30일</td>
+        <td class="right">$270</td>
+      </tr>
+      <tr>
+        <td>입력 토큰</td>
+        <td class="subtle">22.5M 토큰 × $3</td>
+        <td class="right subtle">$67.5</td>
+      </tr>
+      <tr>
+        <td>출력 토큰</td>
+        <td class="subtle">13.5M 토큰 × $15</td>
+        <td class="right subtle">$202.5</td>
+      </tr>
+      <tr>
+        <td>모더레이션 (Gemini Flash)</td>
+        <td>무료 한도 내</td>
+        <td class="right cost-free">0원</td>
+      </tr>
+      <tr style="background:var(--cool)">
+        <td colspan="2"><strong>총 비용</strong></td>
+        <td class="right"><strong>$270 ≈ 365,000원/월</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>비용 줄이는 팁</strong>
+    옵션 C가 비싸 보이지만, 챗봇 대화 컨텍스트를 짧게 유지(=토큰 적게)하거나, 자주 묻는 질문은 FAQ로 빠지게 하면 절반 이하로 줄일 수 있습니다. 또 Claude는 prompt caching 기능이 있어 같은 시스템 프롬프트 재사용 시 90% 할인 적용 가능.
+  </div>
+
+  <!-- ========== 추천 ========== -->
+  <h2>6. 트래픽 단계별 추천</h2>
+
+  <div class="scenario">
+    <div class="tag">단계 1 · 0~6개월 (시작)</div>
+    <h3>옵션 B — Gemini 전용 (무료)</h3>
+    <p>아직 사용자가 적고 챗봇·모더 둘 다 검증해야 할 단계. 무료로 시작해서 어떤 패턴이 나오는지 관찰. <strong>이때는 Gemini 하나로 충분.</strong></p>
+  </div>
+
+  <div class="scenario">
+    <div class="tag">단계 2 · 6~18개월 (마을)</div>
+    <h3>옵션 A — 하이브리드 (월 3만원 이내)</h3>
+    <p>회원이 마을 규모가 되면 챗봇 품질이 중요해짐. <strong>Claude Haiku로 챗봇 톤을 한 단계 끌어올리고, 모더는 여전히 Gemini 무료.</strong> 한 달 카페 두세 번 안 가는 돈으로 마을 전체의 대화 품질이 올라감.</p>
+  </div>
+
+  <div class="scenario">
+    <div class="tag">단계 3 · 18개월+ (확장)</div>
+    <h3>옵션 A 유지 + 자체 호스팅 보강</h3>
+    <p>월 10만원 넘어가기 시작하면 <strong>Gemma 4 E4B 또는 EXAONE</strong>을 클라우드 GPU에 올려 모더레이션은 자체화. 챗봇만 Claude 유지. 비용 절반 절감.</p>
+  </div>
+
+  <div class="scenario" style="background:var(--teal);color:var(--warm)">
+    <div class="tag" style="color:var(--amber)">평생 답</div>
+    <h3>옵션 C 프리미엄은 언제?</h3>
+    <p>회원 한 분당 광고 수익이나 후원 수익이 월 1만원 이상 들어올 때만 검토하세요. 또는 연라이프가 도서·교육 사업으로 확장돼 본격 수익 모델이 생겼을 때. <strong>지금 단계에서는 Sonnet은 과합니다.</strong></p>
+  </div>
+
+  <!-- ========== "내가 만약" ========== -->
+  <h2>7. "내가 만약 ___이면 ___"</h2>
+
+  <table>
+    <thead>
+      <tr><th>나의 상황</th><th>추천 길</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"한 달 1만원도 부담스럽다"</td>
+        <td><strong>옵션 B</strong> — Gemini 전용. 회원 500명까지 거의 무료.</td>
+      </tr>
+      <tr>
+        <td>"챗봇 답변의 결이 중요하다.<br>한 톤 깊은 한국어가 필요"</td>
+        <td><strong>옵션 A</strong> — Claude Haiku의 한국어가 훨씬 자연스러움. 월 1~3만원.</td>
+      </tr>
+      <tr>
+        <td>"한국 회사에 돈을 쓰고 싶다"</td>
+        <td><strong>변형 A</strong> — Claude Haiku 대신 Upstage Solar Pro 사용.</td>
+      </tr>
+      <tr>
+        <td>"미국 회사에 데이터를 안 주고 싶다"</td>
+        <td><strong>EXAONE 4.5 자체 호스팅</strong> — 클라우드 GPU 월 5~10만원.</td>
+      </tr>
+      <tr>
+        <td>"광장 답변까지 최고 품질로"</td>
+        <td><strong>옵션 C</strong> — Sonnet 4.6. 다만 월 30~50만원 각오.</td>
+      </tr>
+      <tr>
+        <td>"광고/후원 수익이 안정적이다"</td>
+        <td><strong>옵션 C + Opus 일부</strong> — 깊은 답변은 Opus, 일반은 Sonnet.</td>
+      </tr>
+      <tr>
+        <td>"AI에 별로 돈 안 쓰고 싶다.<br>그래도 챗봇은 있으면 좋겠다"</td>
+        <td><strong>옵션 B + Cloudflare</strong> — 사실상 무료. 품질은 평균 이상.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ========== 결론 ========== -->
+  <h2>8. 정직한 결론</h2>
+
+  <div class="scenario">
+    <div class="tag">제 솔직한 추천</div>
+    <h3>지금 시작: 옵션 B (무료). 6개월 후 옵션 A로 갈아타기.</h3>
+    <p style="font-size:15px;line-height:1.85">
+      이유 — 시작 단계에서는 "어떤 챗봇이 어떤 질문을 받는지"가 더 중요합니다.
+      <strong>Gemini 무료로 데이터부터 쌓고</strong>, 어떤 자리에서 품질이 부족한지 확인한 다음,
+      그 자리에만 Claude Haiku로 갈아타는 게 가장 합리적입니다.
+    </p>
+    <p style="font-size:15px;line-height:1.85">
+      <strong>옵션 C(Sonnet)는 처음부터 가지 마세요.</strong> 좋은 모델이지만 트래픽 작을 때는 차이가 잘 안 느껴지고 비용만 큽니다. 마을 키우는 일에 그 돈을 쓰세요.
+    </p>
+    <p style="font-size:14px;line-height:1.85;color:rgba(244,240,230,.7);margin-top:18px">
+      ※ 만약 첫날부터 "한 톤 깊은 답변"이 중요하시다면 옵션 A로 바로 시작하셔도 됩니다. 월 6천 원짜리 결정이에요.
+    </p>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>"연라이프는 천천히 자라는 마을입니다."</p>
+  <p style="margin-top:6px">AI 비용 시뮬레이션 v1.0 · 2026년 5월 15일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

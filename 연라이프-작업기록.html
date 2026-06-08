@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 홈페이지 작업 기록</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: #F0F4F5;
+    --color-surface: #D4E0E3;
+    --color-primary: #5A7A82;
+    --color-muted: #A8B5B8;
+    --color-text: #2C3E42;
+    --color-text-light: #6B8A90;
+    --color-warm: #7A6A52;
+    --color-warm-bg: #F8F2EA;
+    --color-warm-surface: #D4C4A8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* 헤더 */
+  .page-header {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .page-header .subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+  .page-header .date-badge {
+    display: inline-block;
+    margin-top: 16px;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+  }
+
+  /* 목차 */
+  .toc {
+    background: #fff;
+    border-bottom: 1px solid var(--color-surface);
+    padding: 20px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .toc a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 12px;
+    background: var(--color-bg);
+    border-radius: 20px;
+    transition: background 0.2s;
+  }
+  .toc a:hover { background: var(--color-surface); }
+
+  /* 본문 */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* 섹션 */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-surface);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 28px;
+    height: 28px;
+    background: var(--color-surface);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* 카드 */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--color-surface);
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p { color: var(--color-text); margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* 카드 색상 변형 */
+  .card-warm {
+    background: var(--color-warm-bg);
+    border-color: var(--color-warm-surface);
+  }
+  .card-warm h3 { color: var(--color-warm); }
+
+  .card-highlight {
+    background: var(--color-surface);
+    border-color: var(--color-muted);
+  }
+
+  /* 인용 */
+  .quote {
+    border-left: 3px solid var(--color-primary);
+    padding: 12px 16px;
+    background: var(--color-bg);
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-style: italic;
+    color: var(--color-text-light);
+  }
+  .quote strong { font-style: normal; color: var(--color-text); }
+
+  /* 상태 뱃지 */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .badge-done { background: #d4edda; color: #2e7d32; }
+  .badge-pending { background: #fff3cd; color: #7a6000; }
+  .badge-issue { background: #fde8e8; color: #8f2020; }
+
+  /* 체크리스트 */
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-bg);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { flex-shrink: 0; margin-top: 2px; }
+
+  /* 코드 */
+  code {
+    background: var(--color-surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Menlo', 'Consolas', monospace;
+    color: var(--color-primary);
+  }
+  pre {
+    background: #2C3E42;
+    color: #E0E8EA;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+
+  /* 2단 그리드 */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  /* 타임라인 */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-surface);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 20px 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--color-surface);
+  }
+  .timeline-item .tl-date {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-bottom: 4px;
+  }
+  .timeline-item .tl-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .timeline-item .tl-desc {
+    font-size: 14px;
+    color: var(--color-text-light);
+  }
+
+  /* 구분선 */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-surface);
+    margin: 24px 0;
+  }
+
+  /* 태그 */
+  .tag {
+    display: inline-block;
+    background: var(--color-surface);
+    color: var(--color-text-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 2px;
+  }
+
+  /* 경고 박스 */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert-info { background: #e8f4f8; color: #1a5f7a; border: 1px solid #b8d4de; }
+  .alert-warn { background: #fff8e6; color: #7a5f00; border: 1px solid #ded0b8; }
+  .alert-success { background: #eaf4ec; color: #1a5f2a; border: 1px solid #b8d4be; }
+
+  /* 앱 카드 */
+  .app-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .app-card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .app-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .app-card-body { padding: 0 20px 20px; }
+  .app-card-body ul { list-style: none; }
+  .app-card-body li {
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-bg);
+    display: flex;
+    gap: 8px;
+  }
+  .app-card-body li:last-child { border-bottom: none; }
+
+  /* 마을 구조도 */
+  .village-map {
+    background: var(--color-warm-bg);
+    border: 1px solid var(--color-warm-surface);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .village-center {
+    text-align: center;
+    padding: 12px;
+    background: var(--color-warm);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .village-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 600px) {
+    .village-areas { grid-template-columns: 1fr 1fr; }
+  }
+  .village-area {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    border: 1px solid var(--color-warm-surface);
+  }
+  .village-area .area-name { font-weight: 600; margin-bottom: 4px; }
+  .village-area .area-desc { color: var(--color-text-light); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- 페이지 헤더 -->
+<div class="page-header">
+  <h1>연라이프 홈페이지 작업 기록</h1>
+  <div class="subtitle">연소사(이진우 선생님)와 Claude가 나눈 대화 정리</div>
+  <div class="date-badge">2026년 4월 기준</div>
+</div>
+
+<!-- 목차 -->
+<nav class="toc">
+  <a href="#vision">비전과 철학</a>
+  <a href="#ylife">y-life.kr</a>
+  <a href="#yeon-ai-kr">yeon.ai.kr</a>
+  <a href="#supul">수풀AI</a>
+  <a href="#yeongpul">영풀</a>
+  <a href="#deploy">배포 기록</a>
+  <a href="#bugs">버그 수정</a>
+  <a href="#files">파일 구조</a>
+</nav>
+
+<div class="container">
+
+  <!-- ① 비전과 철학 -->
+  <section class="section" id="vision">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </span>
+      연라이프의 비전과 철학
+    </h2>
+
+    <div class="card card-warm">
+      <h3>핵심 지향점</h3>
+      <div class="quote">
+        <strong>함께 만들어 갈 아름다운 세상 — 우리들의 대화 자체가 곧 그 공동 목표점.</strong>
+      </div>
+      <div class="quote">
+        <strong>인연으로 오고, 인연으로 간다</strong>
+      </div>
+      <p>연라이프는 단순 홈페이지가 아니라 시대에 대한 문화적 응답입니다. 신뢰가 무너지고 의리와 도덕이 이익 앞에 흔들리는 지금, 사람들이 <em>무엇을 먼저 생각해야 하나</em>에 다시 관심을 갖게 하는 자리입니다.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>세 대들보</h3>
+        <ul class="checklist">
+          <li>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A82" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span><strong>사필귀정(事必歸正)</strong> — 함께 묻고 따지면 결국 바른 곳으로</span>
+          </li>
+          <li>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A82" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span><strong>말에는 마음씨가 그대로 담겨있다</strong> — 모든 목소리에 존엄이 있음</span>
+          </li>
+          <li>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A82" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span><strong>참된 것이 먼저 오는 자리</strong> — 마음·과정·진실에 먼저 관심을 두는 구조</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>카피 원칙</h3>
+        <p><strong>"X가 아니라 Y"</strong> 구도는 사용하지 않습니다.</p>
+        <p>"말에는 마음씨가 그대로 담겨있다"는 정서를 토대로, 비교 프레임 없이 긍정적 언어로만 표현합니다.</p>
+        <div class="alert alert-warn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>❌ "틀린 공부가 아닌 바른 공부" → ✅ "마음씨가 담긴 공부"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>사상적 토대</h3>
+      <div class="quote">사람은 무의식적 최면 상태에서의 행동을 자신인 것으로 착각하며 산다. 의식이 할 수 있는 일은 거의 없다는 현대 심리과학의 결론이기도 하다. 그래서 종교·정치 같은 믿음 체계가 가장 위험하다. 여기에 사람의 욕심이 덧붙여지면 사이비가 된다.</div>
+      <p>Kahneman의 이중 처리, Libet 실험, 불교 무아(無我), 도교 무위(無爲)와 같은 지점에서 만납니다. 모든 기능은 <em>의식의 틈</em>을 여는 쪽으로 설계됩니다.</p>
+    </div>
+
+    <!-- 마을 구조 -->
+    <div class="village-map">
+      <div class="village-center">연라이프 — 울산 디지털 마을</div>
+      <div class="village-areas">
+        <div class="village-area">
+          <div class="area-name">🏛 광장 영역</div>
+          <div class="area-desc">아골라(성인) + 아곤란(학생) — 우선순위 최상</div>
+        </div>
+        <div class="village-area">
+          <div class="area-name">🏠 개인 공간</div>
+          <div class="area-desc">디지털 집 — 포트폴리오/블로그/상점</div>
+        </div>
+        <div class="village-area">
+          <div class="area-name">📖 자서전·출판</div>
+          <div class="area-desc">자기 전기 작성 → 책 출판 연계</div>
+        </div>
+        <div class="village-area">
+          <div class="area-name">🏪 자영업·상점</div>
+          <div class="area-desc">울산 지역 상권 자연 연결</div>
+        </div>
+        <div class="village-area">
+          <div class="area-name">🌊 울산 콘텐츠</div>
+          <div class="area-desc">명소·음식점 큐레이션</div>
+        </div>
+        <div class="village-area">
+          <div class="area-name">📰 시민 저널</div>
+          <div class="area-desc">누구나 기자 — 사실 검증 6단계</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② y-life.kr -->
+  <section class="section" id="ylife">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </span>
+      y-life.kr 홈페이지
+    </h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>배포 현황</h3>
+        <ul class="checklist">
+          <li><span class="badge badge-done">완료</span> yeon-life 조직 생성</li>
+          <li><span class="badge badge-done">완료</span> yeon-life.github.io 리포 생성</li>
+          <li><span class="badge badge-done">완료</span> GitHub Pages 활성화</li>
+          <li><span class="badge badge-done">완료</span> 모든 파일 업로드</li>
+          <li><span class="badge badge-done">완료</span> y-life.kr 커스텀 도메인 설정</li>
+          <li><span class="badge badge-pending">대기</span> 가비아 DNS 설정 (마지막 단계)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>DNS 설정 (가비아)</h3>
+        <p><strong>CNAME 레코드</strong></p>
+        <pre><code>호스트: www
+값: yeon-life.github.io</code></pre>
+        <p><strong>A 레코드</strong></p>
+        <pre><code>호스트: @
+IP: 185.199.108.153</code></pre>
+        <div class="alert alert-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>가비아 UI 문제로 저장 실패 — 직접 수동 설정 필요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>플랫폼 구조 — 오픈 지식 생산 플랫폼</h3>
+      <p>y-life.kr은 특정 업체에 종속되지 않는 <strong>멀티테넌시 사이트 빌더</strong>입니다. 교육기관·개인·소상공인이 y-life.kr 인프라를 이용해 자신만의 브랜드 페이지를 구축합니다.</p>
+      <pre><code>y-life.kr (중앙 플랫폼)
+  ├─ 연학원.com  (사이트 빌더 → API 호출)
+  ├─ A학원.kr   (동일 구조)
+  └─ myblog.kr  (개인 블로그)</code></pre>
+      <p>API 예시: <code>GET /api/{tenantId}/content?category=news&limit=20</code></p>
+    </div>
+
+    <div class="card">
+      <h3>단계별 로드맵</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-date">2026 Q3 (현재)</div>
+          <div class="tl-title">정적 사이트 + 광장 안내 페이지</div>
+          <div class="tl-desc">아골라/아곤란 소개, 수풀AI·영풀 연결</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2026 Q4 ~ 2027 Q1</div>
+          <div class="tl-title">회원가입(가명) + 광장 MVP</div>
+          <div class="tl-desc">단순 글·질문·반론 기능</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2027 Q2</div>
+          <div class="tl-title">회원 프로필 + 단순 블로그</div>
+          <div class="tl-desc"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2027 Q3 ~ Q4</div>
+          <div class="tl-title">자서전 앱 + 자영업 홈페이지 빌더</div>
+          <div class="tl-desc"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2028+</div>
+          <div class="tl-title">울산 명소·음식점 + 책 출판 연계</div>
+          <div class="tl-desc"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ yeon.ai.kr -->
+  <section class="section" id="yeon-ai-kr">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </span>
+      yeon.ai.kr — 현재 운영 중인 마을
+    </h2>
+
+    <div class="alert alert-success">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <span>GitHub Pages로 운영 중. 리포: <strong>jinwooshon-coder/yeon-ai-kr</strong> → <strong>yeon.ai.kr</strong></span>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>완성된 페이지</h3>
+        <ul class="checklist">
+          <li><span class="badge badge-done">완료</span> 마을 메인 페이지 (index.html)</li>
+          <li><span class="badge badge-done">완료</span> 아골라 섹션 추가</li>
+          <li><span class="badge badge-done">완료</span> 아곤란 섹션 추가</li>
+          <li><span class="badge badge-done">완료</span> 사이트 빌더 섹션 추가</li>
+          <li><span class="badge badge-done">완료</span> 울산 지역 페이지 (/ulsan/)</li>
+          <li><span class="badge badge-done">완료</span> 연플래닝 (/ulsan/yeon-planning/)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>하위 앱</h3>
+        <ul class="checklist">
+          <li>
+            <span class="badge badge-done">운영중</span>
+            <span><strong>수풀AI</strong> — yeon.ai.kr/supul/su-pul.html</span>
+          </li>
+          <li>
+            <span class="badge badge-done">운영중</span>
+            <span><strong>영풀</strong> — yeon.ai.kr/yeongpul/yeong-pul.html</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>배포 방법 — PowerShell</h3>
+      <pre><code>cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+git push origin main</code></pre>
+      <p>GitHub Desktop 또는 GitHub API(<code>upload_to_github.py</code>)로도 업로드 가능합니다.</p>
+    </div>
+  </section>
+
+  <!-- ④ 수풀AI -->
+  <section class="section" id="supul">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20v-6"/><path d="M22 20V8"/></svg>
+      </span>
+      수풀AI — 수학 완전학습
+    </h2>
+
+    <div class="app-card">
+      <div class="app-card-header" style="background: #f0f7f8;">
+        <div class="app-card-icon" style="background: #526E8A;">수</div>
+        <div>
+          <div style="font-weight:700;">수풀AI</div>
+          <div style="font-size:13px;color:var(--color-text-light);">수학 오답 분석 및 취약점 보완 시스템</div>
+        </div>
+        <span class="badge badge-done" style="margin-left:auto;">정상</span>
+      </div>
+      <div class="app-card-body">
+        <ul>
+          <li>✅ Google Sheets Apps Script 연동</li>
+          <li>✅ 학생 등록코드 50개 (6자리)</li>
+          <li>✅ OCR (Tesseract.js) 수식 인식</li>
+          <li>✅ 그림판 모달 (drawing-pad.html)</li>
+          <li>✅ QR 코드 공유 기능</li>
+          <li>✅ PWA (Service Worker, 오프라인 지원)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>주요 수정 내역</h3>
+      <ul class="checklist">
+        <li>
+          <span class="badge badge-done">수정</span>
+          <span>QR 모달 함수(<code>openQRModal</code> 등)가 <code>&lt;/script&gt;</code> 태그 밖에 있던 버그 수정 — 하단에 JS 코드가 텍스트로 보이던 현상 해결</span>
+        </li>
+        <li>
+          <span class="badge badge-done">추가</span>
+          <span><code>openDrawingPadModal()</code> / <code>closeDrawingPadModal()</code> / <code>sendDrawingToAnalyze()</code> 함수 추가</span>
+        </li>
+        <li>
+          <span class="badge badge-done">추가</span>
+          <span>그림판 버튼 UI에 추가 (분석하기 옆)</span>
+        </li>
+        <li>
+          <span class="badge badge-done">수정</span>
+          <span>iframe 지연 로딩 — 그림판 모달 열 때만 <code>drawing-pad.html</code> 로드</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>원본 파일 경로</h3>
+      <p>깨끗한 원본: <code>C:\Users\jinwo\su-pul\deploy\su-pul.html</code></p>
+      <p>배포 버전: <code>yeon-ai-kr\supul\su-pul.html</code></p>
+      <p>수정 작업본: <code>yeon-ai-kr-v4\supul\su-pul.html</code></p>
+    </div>
+  </section>
+
+  <!-- ⑤ 영풀 -->
+  <section class="section" id="yeongpul">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </span>
+      영풀 — 영어 완전학습
+    </h2>
+
+    <div class="app-card">
+      <div class="app-card-header" style="background: #f0f6f7;">
+        <div class="app-card-icon" style="background: #5A7A82;">영</div>
+        <div>
+          <div style="font-weight:700;">영풀</div>
+          <div style="font-size:13px;color:var(--color-text-light);">영어 완전학습 — 어휘·문법·독해 통합</div>
+        </div>
+        <span class="badge badge-done" style="margin-left:auto;">수정완료</span>
+      </div>
+      <div class="app-card-body">
+        <ul>
+          <li>✅ Google Sheets Apps Script 연동</li>
+          <li>✅ 학생 등록코드 50개</li>
+          <li>✅ 어휘·문법·독해·시험 탭 전체</li>
+          <li>✅ applyTheme, resetSettings 등 모든 원본 함수 정상</li>
+          <li>✅ 그림판 모달 + 버튼 추가</li>
+          <li>✅ PWA (Service Worker yeongpul-v22-gallery)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>핵심 버그 — 원인과 수정</h3>
+      <div class="alert alert-warn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>git 리포에 올라간 원본 자체가 처음부터 Netlify 버전과 다른 불완전한 파일이었습니다.</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <span class="badge badge-issue">원인</span>
+          <span><code>printShareCard()</code> 함수 내부에 <code>&lt;/script&gt;</code> 문자열이 그대로 들어있어, HTML 파서가 스크립트 블록을 중간에 끊어버림 → 이후 모든 함수 미실행</span>
+        </li>
+        <li>
+          <span class="badge badge-done">수정</span>
+          <span><code>'&lt;scr'+'ipt&gt;'</code> 분할 방식으로 수정, <code>&lt;\/script&gt;</code> 이스케이프 적용</span>
+        </li>
+        <li>
+          <span class="badge badge-issue">원인2</span>
+          <span><code>scanForAbuse</code> 함수 내 정규식에도 <code>&lt;/script&gt;</code> 포함 — 동일 문제</span>
+        </li>
+        <li>
+          <span class="badge badge-done">수정2</span>
+          <span>정규식을 <code>/&lt;script[\s&gt;]/i</code>로 변경</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>진짜 원본 위치</h3>
+      <div class="alert alert-success">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Netlify 원본 발견: <code>C:\Users\jinwo\yeon-teacher\deploy\app.html</code> (830,306 bytes)</span>
+      </div>
+      <p>Netlify가 내려가기 전 작동하던 파일입니다. 이 파일을 기준으로 그림판·등록코드를 추가해 재구성했습니다.</p>
+      <p>최종 작업본: <code>yeon-ai-kr-v4\yeongpul\yeong-pul.html</code></p>
+    </div>
+  </section>
+
+  <!-- ⑥ 배포 기록 -->
+  <section class="section" id="deploy">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </span>
+      배포 작업 기록
+    </h2>
+
+    <div class="card">
+      <h3>작업 완료 목록</h3>
+      <ul class="checklist">
+        <li><span class="badge badge-done">완료</span> yeon.ai.kr 마을 메인 페이지 제작 및 배포</li>
+        <li><span class="badge badge-done">완료</span> yeon.ai.kr/ulsan/ 울산 지역 페이지</li>
+        <li><span class="badge badge-done">완료</span> 연플래닝 파일 /ulsan/yeon-planning/ 이동 + 플랫폼 바 추가</li>
+        <li><span class="badge badge-done">완료</span> y-life.kr 전체 재설계 (원래 비전 완전 반영)</li>
+        <li><span class="badge badge-done">완료</span> index.html 아골라·아곤란·사이트빌더 섹션 추가</li>
+        <li><span class="badge badge-done">완료</span> 수풀AI + 영풀 버그 수정 및 그림판 연동</li>
+        <li><span class="badge badge-pending">대기</span> git push origin main (커밋은 완료, push만 남음)</li>
+        <li><span class="badge badge-pending">대기</span> 가비아 DNS 설정 → y-life.kr 최종 연결</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Service Worker 현황</h3>
+      <div class="grid-2">
+        <div>
+          <p><strong>수풀AI</strong></p>
+          <p>캐시명: <code>supulai-v4</code></p>
+          <p>전략: 네트워크 우선</p>
+        </div>
+        <div>
+          <p><strong>영풀</strong></p>
+          <p>캐시명: <code>yeongpul-v22-gallery</code></p>
+          <p>전략: 네트워크 우선</p>
+        </div>
+      </div>
+      <div class="alert alert-info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>네트워크 우선 전략 — push 후 방문자는 자동으로 최신 파일을 받음. 별도 캐시 삭제 불필요.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑦ 버그 수정 기록 -->
+  <section class="section" id="bugs">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      주요 버그 수정 기록
+    </h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-date">영풀 — 치명적 버그</div>
+        <div class="tl-title">모든 버튼 미작동 (스크립트 블록 조기 종료)</div>
+        <div class="tl-desc"><code>printShareCard()</code>에 포함된 <code>&lt;/script&gt;</code> 문자열이 HTML 파서를 혼동시켜, 스크립트 블록 4301번째 줄 이후 모든 JS가 실행되지 않았음. <code>&lt;scr'+'ipt&gt;</code>로 분할해 수정.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">영풀 — 버그 2</div>
+        <div class="tl-title">scanForAbuse 정규식 문제</div>
+        <div class="tl-desc"><code>/&lt;/script&gt;\n&lt;script[\s&gt;]/i</code> 정규식에 <code>&lt;/script&gt;</code>가 포함되어 같은 파서 문제 발생. <code>/&lt;script[\s&gt;]/i</code>로 수정.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">수풀AI — QR 버그</div>
+        <div class="tl-title">QR 모달 함수들이 script 태그 밖에 위치</div>
+        <div class="tl-desc">파일 하단의 <code>openQRModal</code>, <code>closeQRModal</code>, <code>copyAppLink</code> 함수들이 <code>&lt;/script&gt;</code> 닫힌 후에 위치해 JS로 실행되지 않고 텍스트로 렌더링됨. <code>&lt;script&gt;</code> 태그로 감싸 수정.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">공통 — git index 오류</div>
+        <div class="tl-title">error: bad signature 0x00000000 fatal: index file corrupt</div>
+        <div class="tl-desc">NTFS 마운트와 git index 동기화 문제. <code>rm -f .git/index && git read-tree HEAD</code>로 해결.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑧ 파일 구조 -->
+  <section class="section" id="files">
+    <h2 class="section-title">
+      <span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      </span>
+      파일 구조 및 경로
+    </h2>
+
+    <div class="card">
+      <h3>작업 폴더 목록</h3>
+      <pre><code>C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\
+├─ yeon-ai-kr\          ← 배포 중인 git 리포
+│  ├─ supul\su-pul.html
+│  ├─ yeongpul\yeong-pul.html
+│  ├─ ulsan\
+│  └─ index.html
+│
+├─ yeon-ai-kr-new\      ← 1차 수정본
+├─ yeon-ai-kr-v3\       ← 2차 정리본 (건드리지 않음)
+├─ yeon-ai-kr-v4\       ← 최종 수정 작업본
+│
+├─ yeon-life.github.io\ ← y-life.kr 배포 리포
+└─ index.html           ← y-life.kr 메인
+
+C:\Users\jinwo\su-pul\deploy\su-pul.html   ← 수풀 Netlify 원본
+C:\Users\jinwo\yeon-teacher\deploy\app.html ← 영풀 Netlify 원본</code></pre>
+    </div>
+
+    <div class="card">
+      <h3>각 폴더 역할 요약</h3>
+      <ul class="checklist">
+        <li>
+          <span class="tag">배포</span>
+          <span><strong>yeon-ai-kr/</strong> — git push하면 yeon.ai.kr에 즉시 반영되는 폴더</span>
+        </li>
+        <li>
+          <span class="tag">원본</span>
+          <span><strong>yeon-ai-kr-v3/</strong> — 수정 전 깨끗한 상태 보존용 (건드리지 않음)</span>
+        </li>
+        <li>
+          <span class="tag">작업</span>
+          <span><strong>yeon-ai-kr-v4/</strong> — 현재 수정 작업 중인 폴더</span>
+        </li>
+        <li>
+          <span class="tag">원본</span>
+          <span><strong>deploy/app.html</strong> — 영풀 Netlify 원본 (모든 함수 정상, 버그 없음)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>push 전 최종 체크리스트</h3>
+      <ul class="checklist">
+        <li>
+          <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A82" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
+          <span>로컬 파일 브라우저에서 열어 버튼 작동 확인</span>
+        </li>
+        <li>
+          <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A7A82" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
+          <span>하단에 JS 코드가 텍스트로 보이지 않는지 확인</span>
+        </li>
+        <li>
+          <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8B5B8" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>PowerShell: <code>git push origin main</code> 실행</span>
+        </li>
+        <li>
+          <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8B5B8" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>1~2분 후 yeon.ai.kr에서 라이브 확인</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- 푸터 -->
+<div style="background: var(--color-primary); color: rgba(255,255,255,0.7); text-align:center; padding: 24px; font-size: 13px;">
+  연소사(이진우 선생님) × Claude — 2026년 4월 작업 기록
+</div>
+
+</body>
+</html>

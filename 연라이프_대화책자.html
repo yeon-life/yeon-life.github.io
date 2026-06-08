@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>연라이프 대화 책자 — 아골라 기획부터 사회적협동조합까지</title>
+    <meta name="description" content="연소사님과 나눈 연라이프 설계 대화 전체 기록. 잊지 않기 위한 책자.">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-paper: #F8F6F2;
+            --bg-paper-alt: #F0EBE1;
+            --ink: #1D1D1B;
+            --ink-soft: #3C3C38;
+            --wood: #5D4037;
+            --thread: #B08E61;
+            --thread-soft: #D4B896;
+            --border: rgba(29, 29, 27, 0.08);
+            --highlight: #FFF7E8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg-paper);
+            color: var(--ink);
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.85;
+            word-break: keep-all;
+        }
+
+        /* 레이아웃 */
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 280px; flex-shrink: 0;
+            background: var(--bg-paper-alt);
+            border-right: 1px solid var(--ink);
+            padding: 24px 20px;
+            position: sticky; top: 0;
+            height: 100vh; height: 100dvh;
+            overflow-y: auto;
+        }
+        .main {
+            flex: 1; padding: 40px 6% 80px;
+            max-width: 820px;
+        }
+
+        /* 사이드바 */
+        .sb-header { padding-bottom: 16px; border-bottom: 1px solid var(--ink); margin-bottom: 16px; }
+        .sb-title { font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+        .sb-title .hanja { font-weight: 200; font-family: 'Noto Serif KR'; margin-right: 6px; }
+        .sb-date { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.72rem; color: var(--thread); margin-top: 6px; letter-spacing: 0.1em; }
+        .sb-search {
+            width: 100%; padding: 10px 12px; margin-bottom: 16px;
+            border: 1px solid var(--border); background: var(--bg-paper);
+            font-family: inherit; font-size: 0.85rem; color: var(--ink);
+        }
+        .sb-search:focus { outline: none; border-color: var(--thread); }
+
+        .toc { list-style: none; }
+        .toc > li { margin-bottom: 4px; }
+        .toc .part-title {
+            display: block; padding: 8px 10px; font-family: 'Nanum Myeongjo', serif;
+            font-size: 0.9rem; font-weight: 700; color: var(--ink);
+            text-decoration: none; border-left: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .toc .part-title:hover { background: var(--bg-paper); color: var(--thread); border-left-color: var(--thread); }
+        .toc .part-title.active { background: var(--bg-paper); color: var(--thread); border-left-color: var(--thread); }
+        .toc ul {
+            list-style: none; padding-left: 14px; margin-top: 4px;
+            border-left: 1px dashed var(--border);
+        }
+        .toc ul li a {
+            display: block; padding: 5px 10px; font-size: 0.8rem;
+            color: var(--ink-soft); text-decoration: none;
+            transition: 0.2s;
+        }
+        .toc ul li a:hover { color: var(--thread); }
+        .toc ul li a.active { color: var(--thread); font-weight: 700; }
+
+        .sb-actions { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .sb-btn {
+            display: block; width: 100%; padding: 10px 12px; margin-bottom: 8px;
+            background: transparent; border: 1px solid var(--ink); color: var(--ink);
+            font-family: inherit; font-size: 0.82rem; cursor: pointer;
+            text-decoration: none; text-align: center;
+            transition: 0.3s;
+        }
+        .sb-btn:hover { background: var(--ink); color: white; }
+        .sb-btn.primary { background: var(--ink); color: white; }
+        .sb-btn.primary:hover { background: var(--thread); border-color: var(--thread); }
+
+        /* 본문 */
+        .cover {
+            padding: 80px 0 60px; border-bottom: 1px solid var(--ink);
+            margin-bottom: 40px; text-align: center; position: relative;
+        }
+        .cover-tag { font-family: 'Playfair Display', serif; font-style: italic; color: var(--thread); letter-spacing: 0.25em; font-size: 0.8rem; margin-bottom: 16px; display: block; }
+        .cover-title { font-family: 'Nanum Myeongjo', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.3; margin-bottom: 16px; }
+        .cover-sub { color: var(--wood); font-size: 1.05rem; max-width: 600px; margin: 0 auto 30px; line-height: 1.8; }
+        .cover-meta { font-family: 'Playfair Display'; font-style: italic; font-size: 0.75rem; color: var(--ink-soft); letter-spacing: 0.15em; }
+        .cover::before {
+            content: "廣"; position: absolute; right: 5%; top: 50%;
+            transform: translateY(-50%); font-size: 14rem; opacity: 0.04;
+            font-family: 'Nanum Myeongjo'; font-weight: 200; pointer-events: none;
+        }
+
+        /* 파트 */
+        .part {
+            margin-bottom: 80px; padding-bottom: 40px;
+            border-bottom: 2px solid var(--border);
+        }
+        .part:last-of-type { border-bottom: none; }
+        .part-header {
+            margin-bottom: 36px; padding-bottom: 20px;
+            border-bottom: 1px solid var(--ink);
+            display: flex; justify-content: space-between; align-items: flex-end;
+            flex-wrap: wrap; gap: 16px;
+        }
+        .part-num { font-family: 'Playfair Display', serif; font-style: italic; color: var(--thread); font-size: 0.85rem; letter-spacing: 0.2em; display: block; margin-bottom: 8px; }
+        .part-title-big { font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.35; }
+        .part-print {
+            background: none; border: 1px solid var(--ink); color: var(--ink);
+            padding: 8px 16px; font-family: inherit; font-size: 0.8rem;
+            cursor: pointer; transition: 0.3s; letter-spacing: 0.5px;
+        }
+        .part-print:hover { background: var(--ink); color: white; }
+
+        /* 챕터 */
+        .chapter { margin-bottom: 36px; }
+        .chapter h3 {
+            font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem;
+            margin-bottom: 16px; padding-bottom: 8px;
+            border-bottom: 1px dashed var(--thread-soft);
+        }
+        .chapter h3 .ch-num {
+            font-family: 'Playfair Display', serif; font-style: italic;
+            color: var(--thread); font-size: 0.9rem; margin-right: 10px;
+        }
+        .chapter p { margin-bottom: 14px; font-size: 0.98rem; }
+        .chapter ul, .chapter ol { margin: 12px 0 14px 0; padding-left: 24px; }
+        .chapter li { margin-bottom: 6px; font-size: 0.96rem; }
+
+        /* 강조 박스들 */
+        .key-box {
+            background: var(--bg-paper-alt); border-left: 3px solid var(--thread);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .key-box .kb-label {
+            font-family: 'Playfair Display'; font-style: italic; color: var(--thread);
+            letter-spacing: 0.2em; font-size: 0.75rem; margin-bottom: 8px;
+        }
+        .key-box strong { color: var(--thread); }
+
+        .quote {
+            background: var(--highlight); padding: 16px 22px;
+            margin: 18px 0; border-left: 2px solid var(--wood);
+            font-style: italic; color: var(--ink-soft);
+        }
+        .quote::before { content: "“"; color: var(--thread); font-size: 1.5rem; margin-right: 6px; font-style: normal; }
+
+        .decision {
+            border: 1px solid var(--thread); padding: 16px 20px; margin: 18px 0;
+            background: white;
+        }
+        .decision-label {
+            font-family: 'Playfair Display'; font-style: italic; color: var(--thread);
+            letter-spacing: 0.2em; font-size: 0.72rem; margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem;
+        }
+        th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { background: var(--bg-paper-alt); font-family: 'Nanum Myeongjo', serif; font-weight: 700; }
+
+        /* 세 대들보 디스플레이 */
+        .pillars {
+            display: grid; grid-template-columns: 1fr; gap: 12px;
+            margin: 24px 0; padding: 24px; background: var(--bg-paper-alt);
+            border: 1px solid var(--thread-soft);
+        }
+        .pillar {
+            padding: 12px 16px; background: var(--bg-paper);
+            border-left: 2px solid var(--thread);
+        }
+        .pillar strong { font-family: 'Nanum Myeongjo', serif; color: var(--thread); display: block; margin-bottom: 4px; }
+
+        /* 푸터 */
+        .book-footer {
+            text-align: center; padding: 60px 0 20px;
+            color: var(--ink-soft); font-size: 0.82rem;
+            border-top: 1px solid var(--border); margin-top: 60px;
+        }
+        .book-footer .hanja { font-family: 'Nanum Myeongjo'; font-size: 1.4rem; color: var(--thread); display: block; margin-bottom: 8px; }
+
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            .layout { flex-direction: column; }
+            .sidebar {
+                width: 100%; height: auto; position: static;
+                border-right: none; border-bottom: 1px solid var(--ink);
+                padding: 16px;
+            }
+            .sb-mobile-toggle { display: block; }
+            .toc-wrap { display: none; }
+            .toc-wrap.open { display: block; }
+            .main { padding: 24px 5%; }
+        }
+        .sb-mobile-toggle { display: none; background: none; border: 1px solid var(--border); padding: 8px 12px; margin-top: 10px; cursor: pointer; font-family: inherit; font-size: 0.85rem; width: 100%; }
+
+        /* 프린트 스타일 */
+        @media print {
+            body { background: white; color: black; font-size: 11pt; }
+            .sidebar, .part-print, .sb-actions, .sb-search, .sb-mobile-toggle { display: none !important; }
+            .main { max-width: 100%; padding: 0; }
+            .layout { display: block; }
+            .part { page-break-before: always; padding-top: 20px; }
+            .part:first-of-type { page-break-before: auto; }
+            .cover { page-break-after: always; }
+            .chapter { page-break-inside: avoid; }
+            .key-box, .quote, .decision { page-break-inside: avoid; border-color: #999; }
+            h2, h3 { page-break-after: avoid; }
+            a { color: inherit; text-decoration: none; }
+            .cover::before { display: none; }
+            table { page-break-inside: avoid; }
+        }
+
+        /* 프린트 단일 파트 전용 */
+        body.print-part-only .part:not(.printing) { display: none; }
+        body.print-part-only .cover { display: none; }
+
+        .updated-info {
+            padding: 12px 16px; background: var(--highlight);
+            font-size: 0.85rem; margin-bottom: 30px; border-left: 2px solid var(--wood);
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- 사이드바 (목차) -->
+    <aside class="sidebar">
+        <div class="sb-header">
+            <div class="sb-title"><span class="hanja">緣</span>연라이프 대화 책자</div>
+            <div class="sb-date">RECORD · 2026-04-21</div>
+        </div>
+
+        <input type="text" class="sb-search" placeholder="내용 검색..." id="search-input">
+
+        <button class="sb-mobile-toggle" onclick="document.querySelector('.toc-wrap').classList.toggle('open')">목차 펼치기 ▾</button>
+
+        <div class="toc-wrap">
+            <ul class="toc" id="toc">
+                <li>
+                    <a href="#part-1" class="part-title">1부. 아골라 기획 검토</a>
+                    <ul>
+                        <li><a href="#ch-1-1">1-1. 첫 검토 의견 — 강점과 위험</a></li>
+                        <li><a href="#ch-1-2">1-2. BYOK · AI 운영비 구조</a></li>
+                        <li><a href="#ch-1-3">1-3. 비영리로 "운영" vs "등록"</a></li>
+                        <li><a href="#ch-1-4">1-4. 투명한 운영 공개 자동화</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-2" class="part-title">2부. 작명과 세 대들보</a>
+                    <ul>
+                        <li><a href="#ch-2-1">2-1. 아골라 · 아곤란 작명</a></li>
+                        <li><a href="#ch-2-2">2-2. 사필귀정 — 첫 번째 대들보</a></li>
+                        <li><a href="#ch-2-3">2-3. 약속 카드 "실력보다 생각"</a></li>
+                        <li><a href="#ch-2-4">2-4. 말에는 마음씨가 그대로 담겨있다</a></li>
+                        <li><a href="#ch-2-5">2-5. 비교/대립 프레임 지양</a></li>
+                        <li><a href="#ch-2-6">2-6. 참된 것이 먼저 오는 자리</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-3" class="part-title">3부. 메뉴 구조의 진화</a>
+                    <ul>
+                        <li><a href="#ch-3-1">3-1. 영리/비영리 구분 원칙</a></li>
+                        <li><a href="#ch-3-2">3-2. 메뉴 구조의 여러 번 재설계</a></li>
+                        <li><a href="#ch-3-3">3-3. 아곤란 = 학생 허브로 확장</a></li>
+                        <li><a href="#ch-3-4">3-4. 3단 드롭다운 최종안</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-4" class="part-title">4부. 마을의 여섯 영역</a>
+                    <ul>
+                        <li><a href="#ch-4-1">4-1. 광장 영역</a></li>
+                        <li><a href="#ch-4-2">4-2. 개인 디지털 집 · 연학원 모델</a></li>
+                        <li><a href="#ch-4-3">4-3. 자서전 · 출판</a></li>
+                        <li><a href="#ch-4-4">4-4. 자영업 · 상점 사이트</a></li>
+                        <li><a href="#ch-4-5">4-5. 울산 명소 · 음식점</a></li>
+                        <li><a href="#ch-4-6">4-6. 시민 저널리즘 + 사실 검증 6단계</a></li>
+                        <li><a href="#ch-4-7">4-7. 어린이 기자단 "나도 기자"</a></li>
+                        <li><a href="#ch-4-8">4-8. 자원봉사 성격의 편입</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-5" class="part-title">5부. 미리보기 디자인 작업</a>
+                    <ul>
+                        <li><a href="#ch-5-1">5-1. 아골라 첫 화면 초안</a></li>
+                        <li><a href="#ch-5-2">5-2. 사필귀정 인장 추가</a></li>
+                        <li><a href="#ch-5-3">5-3. 경상도 방언 명시</a></li>
+                        <li><a href="#ch-5-4">5-4. 반응형 · 모든 기기 대응</a></li>
+                        <li><a href="#ch-5-5">5-5. 로그인 · 설정 · 햄버거</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-6" class="part-title">6부. 사회적협동조합 설립 실무</a>
+                    <ul>
+                        <li><a href="#ch-6-1">6-1. 비영리 단체 형태 비교</a></li>
+                        <li><a href="#ch-6-2">6-2. 사회적협동조합 추천 이유</a></li>
+                        <li><a href="#ch-6-3">6-3. 설립 비용 · 무료 자원</a></li>
+                        <li><a href="#ch-6-4">6-4. 발기인 5명 · 출자금 기준</a></li>
+                        <li><a href="#ch-6-5">6-5. 신용불량자의 발기인 자격</a></li>
+                        <li><a href="#ch-6-6">6-6. 통장 없는 경우 해결책</a></li>
+                        <li><a href="#ch-6-7">6-7. 비영리 운영자의 생계</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#part-7" class="part-title">7부. 장기 비전과 로드맵</a>
+                    <ul>
+                        <li><a href="#ch-7-1">7-1. 디지털 마을 통합 그림</a></li>
+                        <li><a href="#ch-7-2">7-2. 단계별 로드맵</a></li>
+                        <li><a href="#ch-7-3">7-3. 학원 영리와 완전 분리 원칙</a></li>
+                        <li><a href="#ch-7-4">7-4. 울산 · 경상도 메타-의도</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#appendix" class="part-title">부록. 메모리 인덱스</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sb-actions">
+            <button class="sb-btn primary" onclick="window.print()">전체 프린트</button>
+            <a href="#cover" class="sb-btn">맨 위로</a>
+        </div>
+    </aside>
+
+    <!-- 본문 -->
+    <main class="main">
+
+        <!-- 표지 -->
+        <section class="cover" id="cover">
+            <span class="cover-tag">YEON LIFE · DIALOGUE ARCHIVE</span>
+            <h1 class="cover-title">연라이프 대화 책자<br><span style="font-size: 0.6em; color: var(--wood);">아골라 기획부터 사회적협동조합까지</span></h1>
+            <p class="cover-sub">연소사님과 나눈 연라이프 설계 대화의 기록. 잊지 않기 위해, 그리고 다시 돌아와 펼칠 수 있도록 엮은 책자.</p>
+            <div class="cover-meta">UPDATED · 2026-04-21 · CONNECTED BY 緣</div>
+        </section>
+
+        <div class="updated-info">
+            <strong>이 책자는 살아있는 문서입니다.</strong> 새로운 대화가 쌓이면 "책자 업데이트 해줘"라고 요청하시면 해당 섹션이 추가·정리됩니다. 마지막 업데이트: <strong>2026-04-21</strong>.
+        </div>
+
+        <!-- 서문: 세 대들보 -->
+        <section style="margin-bottom: 60px;">
+            <h2 style="font-family: 'Nanum Myeongjo'; font-size: 1.6rem; margin-bottom: 20px; text-align: center;">연라이프의 세 대들보</h2>
+            <p style="text-align: center; color: var(--wood); margin-bottom: 20px;">이 책자에 담긴 모든 결정은 아래 세 기둥 위에 서 있습니다.</p>
+            <div class="pillars">
+                <div class="pillar">
+                    <strong>事必歸正 · 사필귀정</strong>
+                    함께 묻고 따지면, 결국 바른 곳으로.
+                </div>
+                <div class="pillar">
+                    <strong>말에는 마음씨가 그대로 담겨있다</strong>
+                    모든 목소리에 존엄이 있다. 표준어든 방언이든, 길든 짧든, 거칠든 매끈하든.
+                </div>
+                <div class="pillar">
+                    <strong>참된 것이 먼저 오는 자리</strong>
+                    이익·결과·논쟁이 지배하는 시대에, 마음·과정·진실에 먼저 관심을 둔다.
+                </div>
+            </div>
+        </section>
+
+        <!-- 1부 -->
+        <section class="part" id="part-1">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART ONE</span>
+                    <h2 class="part-title-big">아골라 기획 검토</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-1')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-1-1">
+                <h3><span class="ch-num">1-1</span>첫 검토 의견 — 강점과 위험</h3>
+                <p>연소사님이 ChatGPT와 만든 기획서(아고라/아곤란 기반 공론장)를 Claude가 검토함. 표현 철학·AI 역할 정의·연령 분리 구조를 핵심 강점으로 봄.</p>
+                <div class="key-box">
+                    <div class="kb-label">핵심 강점</div>
+                    <ul>
+                        <li><strong>"검토를 견딘 의견이 남는다"</strong>는 한 줄 철학이 살아있음. "다수결 아닌 숙의", "인기 아닌 검토", "신분 아닌 생각"의 대치 구도가 명확.</li>
+                        <li>AI 역할 정의가 매우 정확 — <em>판단자가 아니라 표현 보조자</em>. 9-1번 "공지가 기능보다 중요하다"는 통찰.</li>
+                        <li>아골라와 아곤란의 비대칭 설계 — 둘을 동등 듀얼 코어로 두지 않고 "중심 + 보조"로 위계를 둔 것이 옳은 판단.</li>
+                    </ul>
+                </div>
+                <div class="key-box" style="border-left-color: var(--wood);">
+                    <div class="kb-label">우려되는 부분 3가지</div>
+                    <ol>
+                        <li><strong>"검토를 견딘 의견" 측정 문제</strong> — 인기순을 거부한 자리를 무엇이 채울 것인가. 결국 누군가가 가중치를 정하게 되면 편향 이슈 발생.</li>
+                        <li><strong>AI 글쓰기 보조의 운영비</strong> — 일 활성 1,000명만 돼도 월 수백만 원.</li>
+                        <li><strong>청소년 공간(아골란)의 법적 무게</strong> — 14세 미만 법정대리인 동의, 청소년보호법, 24시간 민원 대응 의무 등.</li>
+                    </ol>
+                </div>
+                <div class="decision">
+                    <div class="decision-label">놓치고 있던 큰 문제</div>
+                    <p>(가) <strong>토론의 결실이 무엇인가</strong> — 7단계 흐름 이후 "쟁점 지도·합의된 부분" 같은 공식 산출물 필요.</p>
+                    <p>(나) <strong>조직적 개입(brigading) 대응</strong> — 소규모 공론장일수록 50명 조직 동원에 취약.</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="ch-1-2">
+                <h3><span class="ch-num">1-2</span>BYOK · AI 운영비 구조</h3>
+                <p>연소사님 질문: "본인 계정의 엔진을 사용하게 하면 안되나?" (BYOK = Bring Your Own Key)</p>
+                <p>BYOK는 비용을 사용자에게 분산시키는 영리한 발상이지만, "조용한 사람·표현이 서툰 사람도 보호한다"는 7번 철학과 충돌 가능. API 키를 모르는 사람은 혜택에서 소외됨.</p>
+                <div class="key-box">
+                    <div class="kb-label">3단 구조 결론</div>
+                    <p><strong>1단계</strong> (무료, 운영진 부담): 가벼운 모델로 <em>점검만</em> — 인신공격·모호성 체크리스트</p>
+                    <p><strong>2단계</strong> (선택, 일일 한도): 본격 보완안 생성. 후원자에게 더 많은 한도 → 자연스러운 지속가능성 모델</p>
+                    <p><strong>3단계</strong> (선택, 사용자 부담): OAuth로 본인 계정 연결, 또는 "이 프롬프트를 ChatGPT/Claude에 복사해서 다듬어 오세요" 버튼 (비용 0원)</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="ch-1-3">
+                <h3><span class="ch-num">1-3</span>비영리로 "운영" vs "등록"</h3>
+                <p>연소사님 질문: "혼자 비영리 단체 만들 수 있나?" 에서 시작해 "연라이프 전체를 비영리로 등록해야 하나?"로 이어짐.</p>
+                <div class="decision">
+                    <div class="decision-label">핵심 구분</div>
+                    <p><strong>비영리로 "운영"</strong> = 홈페이지에 비영리 선언 + 투명 공개. 법적 등록 불필요. 혼자 즉시 가능.</p>
+                    <p><strong>비영리 "법인"</strong> = 사단법인·재단법인·사회적협동조합 등. 2~5인 이상 발기인 필요.</p>
+                    <p>한국에는 "비영리 등록"이라는 단일 절차가 없음. 사단법인은 발기인 2인 이상, 비영리민간단체 등록은 회원 100명+, 사회적협동조합은 5인 이상.</p>
+                </div>
+                <p>그러나 연라이프를 "정보통신서비스"로 운영하려면 <strong>이용약관·개인정보처리방침·청소년보호책임자 표시</strong>가 필수. 이건 비영리 등록과 별도로 갖춰야 함.</p>
+            </div>
+
+            <div class="chapter" id="ch-1-4">
+                <h3><span class="ch-num">1-4</span>투명한 운영 공개 자동화</h3>
+                <p>"장부 정리 절대 못해 ㅠㅠ"에 대한 해결책 — 월 10분 수작업으로 자동 집계되는 구조.</p>
+                <div class="key-box">
+                    <div class="kb-label">가벼운 버전</div>
+                    <ol>
+                        <li>프로젝트 전용 계좌 하나 개설 (토스뱅크·카카오뱅크)</li>
+                        <li>모든 입출금을 그 계좌로 통과시킴</li>
+                        <li>Google Sheets에 카테고리 고정 (후원금/API비/호스팅/도메인/기타)</li>
+                        <li>월말 은행앱 CSV → Sheets 붙여넣기 → 수식 자동 집계</li>
+                        <li>Sheets를 연라이프 "운영 공개" 페이지에 임베드</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2부 -->
+        <section class="part" id="part-2">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART TWO</span>
+                    <h2 class="part-title-big">작명과 세 대들보</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-2')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-2-1">
+                <h3><span class="ch-num">2-1</span>아골라 · 아곤란 작명</h3>
+                <p>연소사님의 결정 — 한국어 정서에서 태어난 작명:</p>
+                <div class="decision">
+                    <div class="decision-label">작명 확정</div>
+                    <p><strong>아골라 (Agola)</strong> = "아! 골란다 (성질난다; 경상도 방언)" — 성인 중심. 답답함·울분의 출발을 환영하는 광장.</p>
+                    <p><strong>아곤란 (Agonran)</strong> = "아! 곤란하다" — 학생 중심. 어떻게 해야 할지 모를 때의 막막함을 환영하는 광장.</p>
+                </div>
+                <p>작명의 깊이: 광장의 <em>진입 정서</em>를 이름이 미리 인정해준다. "올바른 토론광장" 같은 권위적 이름은 진입장벽이 되지만, "성질난다 광장"은 감정을 가지고 그대로 들어올 수 있게 한다. 진입은 감정적, 경험은 다듬어진 토론.</p>
+                <p>경상도 방언이라는 정체성은 단순 음운이 아니라 <strong>지역성 자부심</strong>과 연결됨. 연소사님 활동지 울산과 정합.</p>
+                <p>시그니처 한자: 아골라는 <strong>廣(광)</strong>. 연라이프 緣(연)과 쌍을 이루는 브랜드 구조.</p>
+            </div>
+
+            <div class="chapter" id="ch-2-2">
+                <h3><span class="ch-num">2-2</span>사필귀정 — 첫 번째 대들보</h3>
+                <p>연소사님 제안: "모든 것은 사필귀정으로 바른 곳으로 향할 수밖에 없는 진리를 입구에 은근히 메시지로 넣어보면 어떨까?"</p>
+                <div class="quote">작명("아! 골란다")이 출발의 정서를 환영하는 것이라면, <strong>사필귀정(事必歸正)</strong>은 "왜 그래도 이 광장을 믿어도 되는가"에 대한 답. 분노도 막막함도 함께 묻고 따지면 결국 바른 자리로 돌아간다는 오래된 진리.</div>
+                <p>은근히 새기는 방식으로 두 군데 적용:</p>
+                <ul>
+                    <li><strong>히어로 세로 글씨</strong>: 한자 네 글자 "事必歸正"만 (해석 없이)</li>
+                    <li><strong>어원 블록 끝</strong>: "우리는 이것을 사필귀정이라 믿습니다 — 모든 말은 결국 바른 곳으로 돌아간다는, 오래된 진리 하나. 광장 입구에 새겨둔 네 글자는 그 약속입니다."</li>
+                </ul>
+            </div>
+
+            <div class="chapter" id="ch-2-3">
+                <h3><span class="ch-num">2-3</span>약속 카드 "실력보다 생각"</h3>
+                <p>연소사님이 6 약속 카드 중 첫 번째를 수정:</p>
+                <div class="decision">
+                    <div class="decision-label">변경</div>
+                    <p><strong>기존:</strong> "신분보다 생각" — 실명 경쟁장이 아니라 책임 있는 가명 중심.</p>
+                    <p><strong>변경 후:</strong> "실력보다 생각" — 실력의 경쟁장이 아니라 책임 있는 가명 중심, 누가 말했는지보다 무엇을 말했는지가 먼저 보이도록 설계.</p>
+                </div>
+                <p>의도: <em>글솜씨·표현력이 의견의 무게를 좌우하지 않는다</em>는 선언을 앞단에서부터 명시. 7번 약속 "조용한 목소리도 사라지지 않는다"와 짝을 이룸.</p>
+            </div>
+
+            <div class="chapter" id="ch-2-4">
+                <h3><span class="ch-num">2-4</span>말에는 마음씨가 그대로 담겨있다</h3>
+                <p>두 번째 대들보 — 연소사님의 한 마디에서 나옴.</p>
+                <div class="quote">말에는 마음씨가 그대로 담겨있어.</div>
+                <p>이 한 마디에 진짜 답이 있다. 어떤 말이 다른 말보다 좋다거나 못하다가 아니라, <em>각각의 말이 각각의 마음씨를 담는다</em>. 표준어든 방언이든, 길든 짧든, 거칠든 매끈하든 — 비교 자체가 의미를 잃는다.</p>
+                <p>*"그대로"*라는 말이 핵심: 필터 없이·다듬지 않고도 있는 그대로의 말에 마음씨가 담긴다. 아이 목소리를 어른 말투로 번역하지 말자는 원칙, 경상도 투박한 말도 그 자체로 마음씨라는 정서가 모두 여기 담김.</p>
+                <p>광장 6약속도 이 한 줄로 다시 정렬됨: <em>검토를 견딘 의견 = 마음씨가 단단한 의견</em>, <em>조용한 목소리 보호 = 작은 마음씨도 마음씨</em>, <em>AI 보조 = 마음씨를 더 정확히 드러내기</em>.</p>
+            </div>
+
+            <div class="chapter" id="ch-2-5">
+                <h3><span class="ch-num">2-5</span>비교/대립 프레임 지양</h3>
+                <p>Claude가 "서울이 아니라 울산에서, 표준 한국어가 아니라 경상도 말로 더 깊은 공론을 만든다는 증명"이라고 쓴 것을 연소사님이 부드럽게 교정:</p>
+                <div class="quote">방언의 소중함은 이루 말할 수 없는데 방언이 격이 조금 떨어지는 듯한 뉘앙스가 있기에 안타깝지 ^^... 아무튼 말에는 마음씨가 담겨 있어.</div>
+                <p>깨달음: 비교 프레임 안에서 옹호하는 것은 <em>위계를 인정한 후의 저항</em>이라 한계가 있다. 진짜 자유는 비교 자체에서 벗어나는 것.</p>
+                <div class="decision">
+                    <div class="decision-label">카피 원칙 (메모리에 새김)</div>
+                    <p>연라이프 관련 모든 카피에서 <strong>"X가 아니라 Y", "A보다 B"</strong> 같은 비교/위계 구도 사용 금지. 대신 <strong>"X와 마주 닿으며", "그 자체로", "고유의 결을 가진"</strong> 같은 병렬·본질 표현 사용.</p>
+                </div>
+                <p>실제 적용: 어원 블록 "서양의 아고라가 아니라" → "서양 아고라와 음으로 마주 닿으며"로 수정.</p>
+            </div>
+
+            <div class="chapter" id="ch-2-6">
+                <h3><span class="ch-num">2-6</span>참된 것이 먼저 오는 자리</h3>
+                <p>세 번째 대들보 — 연소사님의 시대 진단에서 나옴.</p>
+                <div class="quote">전체적인 정서는 참된 것, 진실, 진리를 찾아가는 과정이 중요하다는 메시지를 주고 싶어. 신뢰가 너무나 무너지고, 의리 도덕은 이익 앞에 무너지고 있는 세상을 다시 돌려, 무엇을 먼저 생각해야 하나에 관심을 가지도록 하고 싶어.</div>
+                <p>연라이프는 단순 홈페이지가 아니라 <strong>시대에 대한 문화적 응답</strong>. 이익·결과·논쟁이 지배하는 시대에, 마음·과정·진실에 먼저 관심을 두는 구조.</p>
+                <div class="key-box">
+                    <div class="kb-label">이 정신을 구조에 새기는 네 가지</div>
+                    <ol>
+                        <li><strong>기자·칼럼리스트 자격 — 단 두 가지:</strong> 의욕 + 진실된 마음. 학력·경력·자격증 안 물음.</li>
+                        <li><strong>글 작성 창의 작은 질문</strong>: "이 글을 쓰기 전, 먼저 생각할 것 한 가지 — 이 글이 누구의 마음에 어떻게 닿기를 바라는가?"</li>
+                        <li><strong>콘텐츠 정렬 원칙</strong>: 조회수가 아니라 <em>반론에 성실히 답한 글·스스로 수정한 글·재인용된 글</em>이 상위로.</li>
+                        <li><strong>사이트 전체 메타 인장</strong>: 사필귀정 · 말에는 마음씨가 그대로 담겨있다 · 참된 것이 먼저 오는 자리 (세 대들보).</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3부 -->
+        <section class="part" id="part-3">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART THREE</span>
+                    <h2 class="part-title-big">메뉴 구조의 진화</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-3')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-3-1">
+                <h3><span class="ch-num">3-1</span>영리/비영리 구분 원칙</h3>
+                <p>연라이프에 학생용 영리 앱(영풀·수풀)도 소개되는 구조. Claude는 미래 비영리 법인 단계에서 정관 위반·신뢰 훼손 위험을 짚음.</p>
+                <p>그러나 연소사님의 명확한 반박:</p>
+                <div class="quote">나는 지금 초기에 보기에 좋고 구조가 합리적인 것을 추구하기에... 필요할 때 따로 떼어내면 되지 않나?</div>
+                <p>Claude가 수용. 초기엔 대상 기반(학생/성인) 분류가 더 직관적이고, 나중에 필요 시점에 폴더 들어내듯 분리 가능. 다만 폴더 구조는 처음부터 <em>분리 가능하게</em> 설계.</p>
+            </div>
+
+            <div class="chapter" id="ch-3-2">
+                <h3><span class="ch-num">3-2</span>메뉴 구조의 여러 번 재설계</h3>
+                <p>여러 번의 반복 끝에 최종안 도달. 이 과정의 기록:</p>
+                <ul>
+                    <li><strong>초기 Claude 안</strong>: [홈/철학/아골라/아곤란/배움/소식/문의] 7개 평면</li>
+                    <li><strong>Claude 추천</strong>: [광장 ▾] 드롭다운으로 아골라·아곤란 묶기</li>
+                    <li><strong>연소사님 개입 1</strong>: "배움을 아골라 하위 카테고리로, 그 자리에 칼럼란을"</li>
+                    <li><strong>연소사님 개입 2</strong>: 학생 대상 기준으로 묶기 — 아곤란 + 배움</li>
+                    <li><strong>연소사님 개입 3</strong>: 아곤란이 학생 허브가 되어 배움을 <em>품음</em></li>
+                    <li><strong>최종</strong>: 3단 드롭다운 — 토론 → 아골라/아곤란 → 청소년광장/영풀/수풀</li>
+                </ul>
+            </div>
+
+            <div class="chapter" id="ch-3-3">
+                <h3><span class="ch-num">3-3</span>아곤란 = 학생 허브로 확장</h3>
+                <p>연소사님의 브랜드적 통찰:</p>
+                <div class="key-box">
+                    <div class="kb-label">의미 확장</div>
+                    <p><strong>아곤란</strong> = "아! 곤란하다" = 학생이 어려움·막막함을 느끼는 모든 순간.</p>
+                    <p>기존: 청소년 토론 광장 자체</p>
+                    <p>확장 후: 학생의 <em>모든 곤란함을 받는 공간의 우산</em> — 친구와 고민하고 싶으면 청소년 광장, 혼자 풀이 받고 싶으면 영풀/수풀.</p>
+                </div>
+                <p>이로써 아곤란 안에는 두 층 의미가 공존: <em>좁게는</em> 청소년 광장(본체), <em>넓게는</em> 학생 허브. 드롭다운 내부에서 "청소년 광장"을 별도 항목으로 뽑아 혼동 방지.</p>
+            </div>
+
+            <div class="chapter" id="ch-3-4">
+                <h3><span class="ch-num">3-4</span>3단 드롭다운 최종안</h3>
+                <div class="decision">
+                    <div class="decision-label">확정 메뉴 구조</div>
+                    <pre style="font-family: 'Noto Serif KR'; font-size: 0.9rem; padding: 12px 0;">[홈] [철학] [토론 ▾] [칼럼] [소식] [문의]
+                      ├ 아골라 (성인 광장)
+                      └ 아곤란 ▸ (학생 허브)
+                          ├ 청소년 광장
+                          ├ 영풀 — 영어 학습
+                          └ 수풀 — 수학 학습</pre>
+                </div>
+                <p>우측: 로그인 버튼 + 설정 ⚙︎ (연소사님 추가 요청).</p>
+                <p>"소식" 메뉴는 추후 <em>마을에서 흘러나오는 모든 이야기의 집합소</em>로 의미 확장 예정 — 연학원, 개인 사이트, 울산 소식, 시민 기자 기사 등이 모두 소식 하위 카테고리로 편입.</p>
+            </div>
+        </section>
+
+        <!-- 4부 -->
+        <section class="part" id="part-4">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART FOUR</span>
+                    <h2 class="part-title-big">마을의 여섯 영역</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-4')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-4-1">
+                <h3><span class="ch-num">4-1</span>광장 영역 (비영리, 우선순위 최상)</h3>
+                <ul>
+                    <li><strong>아골라</strong>: 성인 공론장. 廣 한자 시그니처.</li>
+                    <li><strong>아곤란</strong>: 학생 허브. 청소년 광장 + 영풀 + 수풀.</li>
+                </ul>
+                <p>이 영역은 처음부터 <strong>비영리</strong>로 운영. 학생 기자단과도 결합.</p>
+            </div>
+
+            <div class="chapter" id="ch-4-2">
+                <h3><span class="ch-num">4-2</span>개인 디지털 집 · 연학원 모델</h3>
+                <p>연소사님의 비전:</p>
+                <div class="quote">내가 운영했던 연학원 홈페이지도 소식란 안쪽 카테고리를 만들어서 누구나 사이트를 만들 수 있는 곳이면 좋겠지.</div>
+                <p>연소사님의 <strong>연학원 홈페이지</strong>가 모델이 되어, 학원·가게·개인이 각자의 디지털 집을 짓는 구조로 확장.</p>
+                <ul>
+                    <li>가명 닉네임 또는 단체명 기반: <code>yeon-life.com/@닉네임</code> 또는 <code>yeon-life.com/연학원/</code></li>
+                    <li>학생·성인·단체 구분 없음</li>
+                    <li>진입 자리: <strong>"소식" 메뉴 하위 카테고리</strong></li>
+                    <li>기술적으로 가장 무거운 기능 — 백엔드·인증·스토리지·페이지 빌더 필요</li>
+                </ul>
+            </div>
+
+            <div class="chapter" id="ch-4-3">
+                <h3><span class="ch-num">4-3</span>자서전 · 출판</h3>
+                <div class="quote">내가 앱을 만들어서 누구나가 자신의 전기 '자서전'을 만들기 쉽게 해줄거야. 아마도 나중에 책을 만들려고 이곳에 오는 사람도 생길거야.</div>
+                <p>사용자가 자기 자서전·전기를 쉽게 만드는 앱. 글이 모이면 책 출판(POD 또는 출판사 연계)까지 가능. 글쓰기 중심 사용자들의 거점이 됨.</p>
+            </div>
+
+            <div class="chapter" id="ch-4-4">
+                <h3><span class="ch-num">4-4</span>자영업 · 상점 사이트</h3>
+                <div class="quote">또 자신의 매장 가게를 소개하고 싶어 이곳에 홈페이지나 블로그를 만드는 사람도 있을 거고.</div>
+                <p>자영업자가 매장 홈페이지·블로그를 만드는 기능. 울산 지역 상권과 자연 연결. <em>영리 영역</em>이므로 비영리 광장과는 시각적/구조적 분리 필요.</p>
+            </div>
+
+            <div class="chapter" id="ch-4-5">
+                <h3><span class="ch-num">4-5</span>울산 명소 · 음식점</h3>
+                <div class="quote">나는 울산의 참 좋은 명소와 음식점도 소개하고 싶은 마음이 많아.</div>
+                <p>연소사님 직접 큐레이션 + 시민 참여로 울산 지역 콘텐츠를 만듦. 외지인에게 <em>울산을 재평가받게 하는 매개</em>. 시민 저널리즘과 결합되면 "시민 기자가 지역 이야기를 직접 쓰는" 구조.</p>
+            </div>
+
+            <div class="chapter" id="ch-4-6">
+                <h3><span class="ch-num">4-6</span>시민 저널리즘 + 사실 검증 6단계</h3>
+                <div class="quote">누구나 기자가 될 수 있는 공간이 되면 좋겠어. 반드시 기사는 사실 검증을 여러 방법을 통해서 통과하고 올릴 수 있도록 해야겠지.</div>
+                <div class="decision">
+                    <div class="decision-label">사실 검증 6단계</div>
+                    <table>
+                        <tr><th>단계</th><th>내용</th><th>주체</th></tr>
+                        <tr><td>1</td><td>주장·사실·의견 구분, 명백한 오류 탐지</td><td>AI 자동</td></tr>
+                        <tr><td>2</td><td>출처 2~3개 이상 제시 강제</td><td>기자 자가</td></tr>
+                        <tr><td>3</td><td>게시 전 24~48시간 커뮤니티 반박 기간</td><td>회원 전체</td></tr>
+                        <tr><td>4</td><td>외부 뉴스 DB·공공 데이터 크로스체크</td><td>시스템 자동</td></tr>
+                        <tr><td>5</td><td>명예·공익·안전 관련 기사 운영자 최종 승인</td><td>사람</td></tr>
+                        <tr><td>6</td><td>수정·철회 이력 공개 (과거 버전 보존)</td><td>시스템 강제</td></tr>
+                    </table>
+                </div>
+                <p>3번 커뮤니티 반박 기간이 <strong>사필귀정의 구체적 실현</strong>. 6번 오류 인정 방식이 가짜뉴스와 진짜 저널리즘을 가르는 기준 (가짜뉴스는 절대 "틀렸다"고 안 함).</p>
+            </div>
+
+            <div class="chapter" id="ch-4-7">
+                <h3><span class="ch-num">4-7</span>어린이 기자단 "나도 기자"</h3>
+                <div class="quote">초등학생도 참여하게 하고 싶어 그들이 보는 세상에 대해... 나도 기자.</div>
+                <p>자격은 어른과 똑같이 — <strong>의욕 + 진실된 마음</strong>. 나이도 묻지 않음. 다만 아이의 <em>보호와 목소리 보존</em>을 위한 별도 설계:</p>
+                <div class="key-box">
+                    <div class="kb-label">어린이 기자단 설계 원칙</div>
+                    <ul>
+                        <li>법정대리인 동의 필수</li>
+                        <li>가명 닉네임 — 실명·학교명·얼굴 노출 금지</li>
+                        <li>AI 보조는 <strong>최소</strong> — 오타·맞춤법만. 문장과 어휘는 그대로</li>
+                        <li>사실 검증은 <em>간소</em> — "내가 직접 본 것/들은 것/느낀 것"으로 충분</li>
+                        <li>주제는 아이 세상 — 생활·학교·계절·친구</li>
+                        <li>자리는 아곤란 안 "어린이 기자단" 탭</li>
+                    </ul>
+                </div>
+                <p>핵심 원칙: <strong>"아이의 눈을 어른 글로 번역하지 않는다."</strong></p>
+                <p>연소사님 교육 철학(자기주도·참사람 되기·배려·배움·놀기)과 정확히 맞물리는 활동.</p>
+            </div>
+
+            <div class="chapter" id="ch-4-8">
+                <h3><span class="ch-num">4-8</span>자원봉사 성격의 편입</h3>
+                <div class="quote">자원봉사의 성격을 띠우게.</div>
+                <p>이 한마디로 학생 기자단 활동이 <strong>학생부 기재에서 세 갈래로 강화</strong>됨:</p>
+                <ol>
+                    <li><strong>자원봉사 실적</strong> — 1365 자원봉사포털 자동 연계, 시간 단위 누적</li>
+                    <li><strong>대외 단체 활동</strong> — 사회적협동조합 소속 증명서</li>
+                    <li><strong>언론·미디어 활동</strong> — 지역 매체 협력 시 추가 인정</li>
+                </ol>
+                <p>그리고 연소사님 교육철학의 <strong>배려·배움·놀기</strong> 세 기둥 모두에 걸치게 됨:</p>
+                <ul>
+                    <li><strong>배려</strong> — 공동체를 위한 기록</li>
+                    <li><strong>배움</strong> — 세상을 보는 눈 기르기</li>
+                    <li><strong>놀기</strong> — 즐겁게 쓰는 경험</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5부 -->
+        <section class="part" id="part-5">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART FIVE</span>
+                    <h2 class="part-title-big">미리보기 디자인 작업</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-5')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-5-1">
+                <h3><span class="ch-num">5-1</span>아골라 첫 화면 초안</h3>
+                <p>파일: <code>아골라_미리보기.html</code></p>
+                <p>기존 index.html의 한지+먹+금빛 톤 그대로. 시그니처 한자 <strong>廣</strong>. 구성:</p>
+                <ul>
+                    <li>네비게이션 (토론 ▾ 드롭다운 포함)</li>
+                    <li>히어로 — "신분보다 생각이, 박수보다 검토가 남는 광장"</li>
+                    <li>어원 블록 — "아! 골란다" 설명 + 사필귀정 풀이</li>
+                    <li>광장의 약속 6가지</li>
+                    <li>숙의의 7단계 (문제제기 → 잠정결론)</li>
+                    <li>아곤란 연결 카드</li>
+                    <li>대기자 등록</li>
+                    <li>비영리·투명 공개 명시 푸터</li>
+                </ul>
+            </div>
+
+            <div class="chapter" id="ch-5-2">
+                <h3><span class="ch-num">5-2</span>사필귀정 인장 추가</h3>
+                <p>두 자리에 은근히 새김:</p>
+                <ul>
+                    <li>히어로 세로 글씨: "事必歸正" (한자만, 해석 없이)</li>
+                    <li>어원 블록 끝: "우리는 이것을 사필귀정이라 믿습니다..." 풀이 한 줄</li>
+                </ul>
+                <p>입구의 암호와 본문의 해독이 짝을 이룸 — "은근함"의 설계.</p>
+            </div>
+
+            <div class="chapter" id="ch-5-3">
+                <h3><span class="ch-num">5-3</span>경상도 방언 명시</h3>
+                <p>어원 블록에 <strong>"(성질난다; 경상도 방언)"</strong> 명시. 연소사님 요청. 단순 표기가 아니라 브랜드 정체성의 핵심 — 울산의 재평가 의도와 직결.</p>
+            </div>
+
+            <div class="chapter" id="ch-5-4">
+                <h3><span class="ch-num">5-4</span>반응형 · 모든 기기 대응</h3>
+                <p>연소사님 요청: "처음부터 모든 기기에서 잘 반응하도록, 가로 세로 회전시에도 화면 전환이 잘 되도록."</p>
+                <div class="key-box">
+                    <div class="kb-label">적용 내역</div>
+                    <ul>
+                        <li><strong>모바일 햄버거 + 사이드 드로어</strong> — 호버 안 되는 모바일에서 <code>&lt;details&gt;</code> 기반 다층 메뉴</li>
+                        <li><strong>viewport-fit=cover + safe-area-inset</strong> — 노치 영역 자동 회피</li>
+                        <li><strong>100dvh</strong> — 모바일 브라우저 주소창 변동 대응</li>
+                        <li><strong>터치 타겟 44px+</strong> 보장</li>
+                        <li><strong>가로(landscape) 모드</strong> 대응 — 높이 작은 경우 패딩·폰트 크기 자동 축소</li>
+                        <li><strong>화면 회전 시 드로어 자동 닫힘</strong> (혼란 방지)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chapter" id="ch-5-5">
+                <h3><span class="ch-num">5-5</span>로그인 · 설정 · 햄버거</h3>
+                <p>네비 우측에:</p>
+                <ul>
+                    <li><strong>로그인 버튼</strong> — 데스크톱 우측</li>
+                    <li><strong>설정 ⚙︎</strong> — 아이콘 버튼</li>
+                    <li><strong>햄버거 ☰</strong> — 1024px 이하에서만 표시</li>
+                </ul>
+                <p>모바일 드로어 안에도 로그인·설정 자리 확보.</p>
+            </div>
+        </section>
+
+        <!-- 6부 -->
+        <section class="part" id="part-6">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART SIX</span>
+                    <h2 class="part-title-big">사회적협동조합 설립 실무</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-6')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-6-1">
+                <h3><span class="ch-num">6-1</span>비영리 단체 형태 비교</h3>
+                <table>
+                    <tr><th>형태</th><th>발기인</th><th>특징</th></tr>
+                    <tr><td>사회적협동조합</td><td>5명</td><td>5인 발기인, 기재부 인가. 인건비 지급 가능</td></tr>
+                    <tr><td>비영리 사단법인</td><td>2명~20+</td><td>주무관청 허가. 무겁지만 가장 강력</td></tr>
+                    <tr><td>재단법인</td><td>1명</td><td>출연재산 필수 (실무 5억+)</td></tr>
+                    <tr><td>비영리민간단체 등록</td><td>회원 100+</td><td>1년 활동실적 필요</td></tr>
+                    <tr><td>임의단체 고유번호</td><td>2명</td><td>세무서 등록, 세제혜택 제한</td></tr>
+                </table>
+            </div>
+
+            <div class="chapter" id="ch-6-2">
+                <h3><span class="ch-num">6-2</span>사회적협동조합 추천 이유</h3>
+                <p>연소사님이 "학생 기자단 학생부 기재 인정을 위해 비영리 인가 필요하다"는 통찰을 주면서 시점이 <strong>1년 내로 앞당겨짐</strong>.</p>
+                <div class="decision">
+                    <div class="decision-label">삼중 인정 구조</div>
+                    <p><strong>사회적협동조합 + 자원봉사 관리기관 등록 + 학생 기자단</strong></p>
+                    <p>이 셋이 결합되면 학생부 기재가 세 갈래(자원봉사/대외단체/언론)로 강화.</p>
+                </div>
+                <p>사회적협동조합의 장점:</p>
+                <ul>
+                    <li>발기인 5명만 모이면 시작 (가장 현실적)</li>
+                    <li>"교육·언론·자원봉사를 통한 청소년 시민의식 함양" 사회적 목적 명시</li>
+                    <li>사회적기업 인증 추가 시 매우 강</li>
+                    <li>영리/비영리 절충 — 잉여금 사회환원, 운영진 인건비 지급 가능</li>
+                </ul>
+            </div>
+
+            <div class="chapter" id="ch-6-3">
+                <h3><span class="ch-num">6-3</span>설립 비용 · 무료 자원</h3>
+                <div class="key-box">
+                    <div class="kb-label">실제 비용</div>
+                    <table>
+                        <tr><td>인가 신청 수수료</td><td><strong>0원</strong></td></tr>
+                        <tr><td>법인 설립 등록면허세</td><td>약 5천~5만원 (출자금 0.4%)</td></tr>
+                        <tr><td>정관 공증</td><td>5~15만원</td></tr>
+                        <tr><td>법인 인감 도장</td><td>1~3만원</td></tr>
+                        <tr><td>사업자등록</td><td>0원</td></tr>
+                        <tr><td><strong>총 합계</strong></td><td><strong>약 10~30만원</strong></td></tr>
+                    </table>
+                </div>
+                <div class="decision">
+                    <div class="decision-label">무료 자원</div>
+                    <ul>
+                        <li><strong>협동조합 콜센터 ☎ 1800-9006</strong> — 기재부 운영, 첫 통화로 전체 그림 파악</li>
+                        <li><strong>울산광역시 협동조합지원센터</strong> — 정관·인가 무료 컨설팅</li>
+                        <li><strong>한국사회적기업진흥원</strong> — 매뉴얼·교육 무료</li>
+                        <li><strong>울산광역시 사회적경제지원센터</strong> — 지역 지원 사업</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chapter" id="ch-6-4">
+                <h3><span class="ch-num">6-4</span>발기인 5명 · 출자금 기준</h3>
+                <p>법정 하한선 없음. 1좌 1,000원도 이론상 가능.</p>
+                <div class="decision">
+                    <div class="decision-label">실무 기준</div>
+                    <ul>
+                        <li><strong>1좌당 가액</strong>: 5,000~10,000원</li>
+                        <li><strong>1인당 현실적 출자금</strong>: 5만~50만원 (통상 10만원 안팎)</li>
+                        <li><strong>발기인 5명 × 10만원 = 50만원</strong>이 가장 가벼운 시작 시나리오</li>
+                    </ul>
+                </div>
+                <p><strong>30% 룰 (협동조합기본법 제22조)</strong>: 한 조합원이 총 출자좌수의 30%를 넘을 수 없음. 발기인 5명 출자금은 비슷한 수준으로 균형 맞춰야 함.</p>
+                <p>출자금은 비용이 아니라 <strong>자본금 + 탈퇴 시 환급받을 수 있는 돈</strong>.</p>
+            </div>
+
+            <div class="chapter" id="ch-6-5">
+                <h3><span class="ch-num">6-5</span>신용불량자의 발기인 자격</h3>
+                <p>연소사님 질문: "신용불량자라도 발기인 5명에 해당될 수 있나?"</p>
+                <div class="decision">
+                    <div class="decision-label">답: 가능</div>
+                    <p>협동조합기본법 제24조 조합원 결격 사유에 <strong>신용불량은 포함되지 않음</strong>. 미성년자·피성년후견인만 결격.</p>
+                    <p>임원 결격도 "파산선고 받고 복권되지 않은 자"만 해당. 단순 신용불량은 무관.</p>
+                </div>
+                <p>사회적협동조합 정신과도 부합 — 경제적·사회적 약자가 함께 만드는 공동체.</p>
+            </div>
+
+            <div class="chapter" id="ch-6-6">
+                <h3><span class="ch-num">6-6</span>통장 없는 경우 해결책</h3>
+                <p>연소사님 후속 질문: "신용불량자라서 통장이 없는데 괜찮나?"</p>
+                <table>
+                    <tr><th>경로</th><th>성공 가능성</th></tr>
+                    <tr><td>카카오뱅크 앱 개설</td><td>높음 (가장 먼저 시도)</td></tr>
+                    <tr><td>토스뱅크</td><td>높음</td></tr>
+                    <tr><td>새마을금고·신협 조합원 통장</td><td>높음</td></tr>
+                    <tr><td>행복지킴이통장 (압류방지)</td><td>자격 시 가능</td></tr>
+                    <tr><td>시중은행 (KB·신한 등)</td><td>낮음</td></tr>
+                </table>
+                <p>대안: 소액 출자 + 대표자 통장 경유 납입, 또는 일반 조합원으로 먼저 참여하고 발기인 5명은 다른 분들로 구성.</p>
+            </div>
+
+            <div class="chapter" id="ch-6-7">
+                <h3><span class="ch-num">6-7</span>비영리 운영자의 생계</h3>
+                <p>연소사님 질문: "비영리 단체를 운영하는 사람들은 뭘 먹고 살아?"</p>
+                <p>사회적협동조합은 <strong>운영자·직원에게 정식 급여 지급 가능</strong>. 주요 수입원:</p>
+                <ol>
+                    <li>조직 자체의 급여</li>
+                    <li>정부 인건비 지원 (사회적기업 인증 후 최대 5년)</li>
+                    <li>사업 수익 (교육·강의·출판·컨설팅)</li>
+                    <li>지자체·공공 위탁 사업</li>
+                    <li>후원금 (지정기부금단체 지정 시 세제혜택)</li>
+                </ol>
+                <div class="key-box">
+                    <div class="kb-label">현실적 수입 수준</div>
+                    <table>
+                        <tr><td>초기 1~2년</td><td>월 0~50만원 (활동비 수준)</td></tr>
+                        <tr><td>2~4년 (정부 지원 시기)</td><td>월 180~250만원</td></tr>
+                        <tr><td>5년+ (안정화)</td><td>월 250~400만원</td></tr>
+                    </table>
+                </div>
+                <p>연소사님은 <strong>학원 본업</strong>이 있어서 초기 생계 안전망이 튼튼. 비영리를 여유 있게 키울 수 있는 유리한 상황.</p>
+            </div>
+        </section>
+
+        <!-- 7부 -->
+        <section class="part" id="part-7">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">PART SEVEN</span>
+                    <h2 class="part-title-big">장기 비전과 로드맵</h2>
+                </div>
+                <button class="part-print" onclick="printPart('part-7')">이 파트 프린트</button>
+            </div>
+
+            <div class="chapter" id="ch-7-1">
+                <h3><span class="ch-num">7-1</span>디지털 마을 통합 그림</h3>
+                <p>겉보기엔 광장+학습+블로그+자서전+자영업+지역가이드라는 섞인 구성처럼 보이지만, 한 가닥으로 묶이는 핵심:</p>
+                <div class="quote">마음씨가 담긴 모든 표현이 자기 자리를 갖는 곳.</div>
+                <p>광장 의견이든, 자서전 한 줄이든, 매장 소개든, 울산 음식점 평이든 — 모두 그 사람의 마음씨를 담는다는 점에서 같다. <strong>울산</strong>은 단순 대표 도시가 아니라 <em>마음씨가 살아있는 디지털 마을의 정신적 좌표</em>.</p>
+            </div>
+
+            <div class="chapter" id="ch-7-2">
+                <h3><span class="ch-num">7-2</span>단계별 로드맵</h3>
+                <table>
+                    <tr><th>단계</th><th>내용</th><th>예상 시점</th></tr>
+                    <tr><td>1</td><td>정적 사이트 + 광장 안내 (아골라/아곤란 소개)</td><td>지금 ~ 2026-Q3</td></tr>
+                    <tr><td>2</td><td>회원가입(가명) + 광장 MVP</td><td>2026-Q4 ~ 2027-Q1</td></tr>
+                    <tr><td>3</td><td>회원 프로필 + 단순 블로그</td><td>2027-Q2</td></tr>
+                    <tr><td>4</td><td>자서전 앱 + 자영업 홈페이지 빌더 + 시민 저널 MVP</td><td>2027-Q3 ~ Q4</td></tr>
+                    <tr><td>5</td><td>울산 명소·음식점 큐레이션 + 책 출판 연계</td><td>2028+</td></tr>
+                </table>
+                <p><strong>비영리 인가(사회적협동조합)는 1년 이내</strong>로 앞당겨짐 — 학생 기자단 학생부 기재 인정이 필요하기 때문.</p>
+            </div>
+
+            <div class="chapter" id="ch-7-3">
+                <h3><span class="ch-num">7-3</span>학원 영리와 완전 분리 원칙</h3>
+                <div class="decision">
+                    <div class="decision-label">반드시 지킬 것</div>
+                    <p>연소사님 학원(영리)과 비영리 사회적협동조합은 <strong>주체·계좌·기록</strong> 모두 분리.</p>
+                    <p><strong>학원 학생 우대 금지</strong> — 학원생만 기자단 가입이 쉬워지면 "학원 사은품 활동"으로 의심받아 입시 인정 자체가 깨질 수 있음.</p>
+                </div>
+                <p>비영리·자원봉사 단체의 공정성·신뢰가 길게 보면 훨씬 큰 자산.</p>
+            </div>
+
+            <div class="chapter" id="ch-7-4">
+                <h3><span class="ch-num">7-4</span>울산 · 경상도 메타-의도</h3>
+                <div class="quote">사실 우리 울산을 이곳에서 어떻게든 사람들에게 재평가 받고, 경상도 사람들의 투박한 아름다운 마음씨를 세상에 널리 퍼트리고 싶은 생각이 많아.</div>
+                <p>연라이프의 <strong>숨은 메타-의도</strong>. 단순 홈페이지가 아니라 <em>문화 운동</em>에 가까움.</p>
+                <p>이 정서가 이미 구조 곳곳에 녹아있음:</p>
+                <ul>
+                    <li>작명 자체 — "아! 골란다"는 경상도 말이 핵심 브랜드</li>
+                    <li>어원 블록 — "(성질난다; 경상도 방언)" 명시</li>
+                    <li>푸터 — "Made in Ulsan, Korea"</li>
+                    <li>사필귀정·한지·먹·세로글씨 — 동양적 미학</li>
+                    <li>울산 명소·음식점 영역 — 지역 콘텐츠 자리</li>
+                </ul>
+                <p>모든 디자인과 카피는 이 정서를 배반하지 않도록 자동 점검됨 (메모리 원칙).</p>
+            </div>
+        </section>
+
+        <!-- 부록 -->
+        <section class="part" id="appendix">
+            <div class="part-header">
+                <div>
+                    <span class="part-num">APPENDIX</span>
+                    <h2 class="part-title-big">부록. 메모리 인덱스</h2>
+                </div>
+                <button class="part-print" onclick="printPart('appendix')">이 파트 프린트</button>
+            </div>
+            <p>이 대화에서 정해진 사항들은 자동 메모리로 저장되어 다음 세션에서도 이어집니다:</p>
+            <ul>
+                <li><strong>project_yeon_life_vision.md</strong> — 연라이프 장기 비전, 세 대들보, 여섯 영역, 비영리 인가 계획</li>
+                <li><strong>feedback_no_comparison_frame.md</strong> — 말에는 마음씨가 그대로 담겨있다, 비교/대립 프레임 지양 카피 원칙</li>
+                <li><strong>project_yeon_life_homepage.md</strong> — yeon-life.github.io 배포 진행 상태</li>
+            </ul>
+            <p>새 세션에서 연소사님이 "이전에 말한 거 기억해?"라고 물으시면, Claude는 이 메모리들을 먼저 읽고 답변합니다.</p>
+        </section>
+
+        <!-- 푸터 -->
+        <footer class="book-footer">
+            <span class="hanja">緣</span>
+            <div style="font-family: 'Nanum Myeongjo', serif; font-size: 1.05rem; color: var(--wood); margin-bottom: 16px; letter-spacing: 0.05em;">인연으로 오고, 인연으로 간다</div>
+            연라이프 대화 책자 · 2026-04-21<br>
+            CONNECTED BY 緣 · Made in Ulsan, Korea
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+// 검색 기능
+const searchInput = document.getElementById('search-input');
+if (searchInput) {
+    searchInput.addEventListener('input', function(e) {
+        const q = e.target.value.trim().toLowerCase();
+        document.querySelectorAll('.chapter').forEach(ch => {
+            if (!q) {
+                ch.style.display = '';
+                return;
+            }
+            ch.style.display = ch.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+        document.querySelectorAll('.part').forEach(pt => {
+            const visibleChapters = Array.from(pt.querySelectorAll('.chapter')).some(c => c.style.display !== 'none');
+            pt.style.display = (!q || visibleChapters) ? '' : 'none';
+        });
+    });
+}
+
+// 스크롤 스파이 (현재 섹션 하이라이트)
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = document.querySelectorAll('.part, .chapter');
+
+function onScroll() {
+    let current = '';
+    sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 200) current = sec.id;
+    });
+    tocLinks.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// 파트별 프린트
+function printPart(partId) {
+    const parts = document.querySelectorAll('.part');
+    parts.forEach(p => p.classList.remove('printing'));
+    const target = document.getElementById(partId);
+    if (target) target.classList.add('printing');
+    document.body.classList.add('print-part-only');
+    window.print();
+    setTimeout(() => {
+        document.body.classList.remove('print-part-only');
+        parts.forEach(p => p.classList.remove('printing'));
+    }, 500);
+}
+</script>
+
+</body>
+</html>

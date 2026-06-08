@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단계 1 — 점진적 도입 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --amber:#a87b3e;
+    --line:#d8d3c7; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 32px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  .lede{font-size:16px;color:var(--muted);max-width:720px;margin-bottom:40px;line-height:1.7}
+  h2{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);margin:48px 0 16px;border-bottom:1px solid var(--ink);padding-bottom:10px}
+  h2 .step{font-size:13px;color:var(--amber);letter-spacing:.1em;margin-right:10px;font-weight:700;text-transform:uppercase}
+  h3{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin:24px 0 10px}
+  p{margin-bottom:14px;font-size:14px;line-height:1.75}
+  .code{background:var(--ink);color:#e8e4d9;padding:18px 22px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.7;margin:14px 0;overflow-x:auto;white-space:pre}
+  .code .c{color:#7a8a8e}
+  .code .v{color:#c4e4d8}
+  .code .k{color:#e4c89a}
+  .code .s{color:#a8b8bc}
+  .note{background:var(--surface);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin:14px 0}
+  .note strong{color:var(--ink);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;color:var(--soft);line-height:1.7;margin:14px 0}
+  .warn strong{color:var(--amber);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  ul,ol{margin:10px 0 14px 22px;font-size:14px;line-height:1.85}
+  li{margin-bottom:6px}
+  .checklist{list-style:none;margin-left:0}
+  .checklist li{padding-left:28px;position:relative}
+  .checklist li::before{content:"☐";position:absolute;left:0;font-family:var(--serif);font-size:18px;color:var(--teal)}
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+  .ba-card{background:var(--surface);border:1px solid var(--line);padding:18px;border-radius:4px}
+  .ba-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:8px}
+  .ba-tag.b{color:var(--muted)}
+  .ba-content{font-family:var(--serif);font-size:13px;color:var(--ink);line-height:1.5}
+  .topbar{padding:14px 0;border-bottom:1px solid var(--line);background:var(--warm);font-size:12px;color:var(--muted)}
+  .topbar .in{max-width:960px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center}
+  .topbar a{color:var(--ink);font-family:var(--serif);font-weight:600}
+  a{color:var(--teal)}
+  .step-marker{font-family:var(--serif);font-size:80px;font-weight:900;color:var(--line);line-height:1;margin-bottom:0;letter-spacing:-.04em}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="in"><a href="시안_v4_홈페이지.html">緣 y-life.kr 홈으로</a><span>점진적 도입 가이드</span></div></div>
+
+<div class="wrap">
+
+  <div class="step-marker">01</div>
+  <div class="meta">y-life.kr · 점진적 도입 1단계 · 가장 안전한 시작</div>
+  <h1>색감과 마스트헤드만 <em>먼저</em> 입히기</h1>
+  <p class="lede">
+    운영 중인 index.html의 기능(관리자 대시보드, AI 도우미, 게시판 동기화, 로그인)은 그대로 두고,
+    가장 위쪽 보이는 부분 두 곳만 v4 색감·마스트헤드로 교체합니다.
+    잘못되어도 되돌리기 쉽고, 효과는 즉시 눈에 보입니다.
+  </p>
+
+  <div class="warn">
+    <strong>⚠ 시작 전 백업</strong>
+    index.html을 통째로 복사해 두세요. 파일 이름은 <code>index_backup_2026-05-14.html</code> 추천. 잘못되면 이 파일로 즉시 되돌립니다.
+  </div>
+
+  <!-- ========== 변경 1: CSS 변수 ========== -->
+  <h2><span class="step">변경 1</span>CSS 변수 교체 (색감)</h2>
+  <p>
+    index.html 의 <code>&lt;style&gt;</code> 블록 맨 위에 있는 <code>:root</code> 변수를 아래 토큰으로 교체합니다.
+    기존 변수 이름과 충돌하지 않도록 새 이름(<code>--yl-*</code>)을 씁니다. 본문 색·배경만 새 토큰을 참조하게 합니다.
+  </p>
+
+  <h3>붙여넣을 코드 (style 블록 최상단)</h3>
+  <div class="code"><span class="c">/* y-life.kr 새벽의 신뢰 팔레트 — v4 */</span>
+:root {
+  <span class="c">/* Core */</span>
+  <span class="k">--yl-ink</span>:    <span class="v">#1a2326</span>;  <span class="c">/* 본문 텍스트 */</span>
+  <span class="k">--yl-soft</span>:   <span class="v">#2a3438</span>;
+  <span class="k">--yl-teal</span>:   <span class="v">#2a5358</span>;  <span class="c">/* 1차 강조 */</span>
+  <span class="k">--yl-teal-mid</span>:<span class="v">#4a6878</span>;  <span class="c">/* 2차 강조 */</span>
+  <span class="k">--yl-amber</span>:  <span class="v">#a87b3e</span>;  <span class="c">/* 액센트 */</span>
+
+  <span class="c">/* Lines */</span>
+  <span class="k">--yl-line</span>:   <span class="v">#d8d3c7</span>;
+  <span class="k">--yl-fine</span>:   <span class="v">#e8e4d9</span>;
+
+  <span class="c">/* Text */</span>
+  <span class="k">--yl-muted</span>:  <span class="v">#5e6a6e</span>;
+  <span class="k">--yl-soft-c</span>: <span class="v">#8a9398</span>;
+
+  <span class="c">/* Surfaces */</span>
+  <span class="k">--yl-paper</span>:  <span class="v">#f4f0e6</span>;
+  <span class="k">--yl-warm</span>:   <span class="v">#f6f3ec</span>;
+  <span class="k">--yl-cool</span>:   <span class="v">#eee9dc</span>;
+  <span class="k">--yl-surface</span>:<span class="v">#fbfaf5</span>;
+
+  <span class="c">/* Fonts */</span>
+  <span class="k">--yl-serif</span>: <span class="s">"Noto Serif KR", serif</span>;
+  <span class="k">--yl-sans</span>:  <span class="s">"Pretendard", "Apple SD Gothic Neo", sans-serif</span>;
+}</div>
+
+  <h3>본문 색·배경 적용</h3>
+  <p>같은 <code>&lt;style&gt;</code> 안에 다음 한 줄을 추가합니다. 기존 <code>body</code> 스타일 끝에 덧붙이면 됩니다.</p>
+  <div class="code">body {
+  <span class="c">/* 기존 스타일 유지 + 아래 두 줄만 추가/덮어쓰기 */</span>
+  <span class="k">background</span>: <span class="s">linear-gradient(180deg, var(--yl-warm) 0%, var(--yl-paper) 60%, var(--yl-cool) 100%)</span>;
+  <span class="k">color</span>: <span class="k">var</span>(--yl-soft);
+  <span class="k">font-family</span>: <span class="k">var</span>(--yl-sans);
+}</div>
+
+  <h3>구글 폰트 로드 (head 안)</h3>
+  <div class="code"><span class="c">&lt;!-- &lt;head&gt; 안에 추가 --&gt;</span>
+&lt;link href=<span class="s">"https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&amp;display=swap"</span> rel=<span class="s">"stylesheet"</span>&gt;
+&lt;link href=<span class="s">"https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"</span> rel=<span class="s">"stylesheet"</span>&gt;</div>
+
+  <!-- ========== 변경 2: 마스트헤드 ========== -->
+  <h2><span class="step">변경 2</span>마스트헤드 교체</h2>
+  <p>
+    현재 사이트 상단의 "緣 y-life.kr ✕" 영역과 그 아래 "[화두] [소식] [토론광장] [인연의 다리] [사이트 빌더]" 메뉴 부분을,
+    아래 새 마스트헤드 + 미니 상단 바로 교체합니다.
+    <strong style="color:var(--ink)">차림표 메뉴는 기존 메뉴를 그대로 두고 작동하게 합니다</strong> (메가 메뉴 통합은 단계 4에서).
+  </p>
+
+  <h3>before · 지금</h3>
+  <div class="ba">
+    <div class="ba-card">
+      <div class="ba-tag b">현재</div>
+      <div class="ba-content" style="color:var(--muted)">
+        緣 y-life.kr · 작은 글씨<br>
+        [화두] [소식] [토론광장] [인연의 다리] [사이트 빌더]<br>
+        — 인라인 텍스트 링크, 색감 일반
+      </div>
+    </div>
+    <div class="ba-card" style="background:var(--warm);border-color:var(--ink)">
+      <div class="ba-tag">v4 적용 후</div>
+      <div class="ba-content">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">2026.05.14. · 연마을</div>
+        <div style="font-family:var(--serif);font-size:26px;font-weight:900;color:var(--ink);line-height:1"><span style="color:var(--teal)">緣</span>y-life.kr</div>
+        <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:4px">삶 · 인연 · 소통 / 그 깊은 연(緣)으로 잇다</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>붙여넣을 코드 (body 시작 부분)</h3>
+  <div class="code"><span class="c">&lt;!-- 미니 상단 바 --&gt;</span>
+&lt;div class=<span class="s">"yl-topbar"</span>&gt;
+  &lt;div class=<span class="s">"yl-container"</span>&gt;
+    &lt;div class=<span class="s">"yl-topbar-inner"</span>&gt;
+      &lt;div class=<span class="s">"yl-topbar-left"</span>&gt;
+        &lt;span id=<span class="s">"yl-today"</span>&gt;2026.05.14.&lt;/span&gt;
+        &lt;span class=<span class="s">"yl-sep"</span>&gt;·&lt;/span&gt;
+        &lt;span&gt;연마을&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=<span class="s">"yl-topbar-right"</span>&gt;
+        &lt;a href=<span class="s">"#"</span> class=<span class="s">"yl-blog-pill"</span>&gt;
+          &lt;span class=<span class="s">"yl-av"</span>&gt;蓮&lt;/span&gt;&lt;span&gt;내 블로그&lt;/span&gt;
+        &lt;/a&gt;
+        <span class="c">&lt;!-- 기존 로그인/설정 아이콘은 여기로 옮김 --&gt;</span>
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+<span class="c">&lt;!-- 마스트헤드 --&gt;</span>
+&lt;header class=<span class="s">"yl-masthead"</span>&gt;
+  &lt;div class=<span class="s">"yl-container yl-masthead-inner"</span>&gt;
+    &lt;div class=<span class="s">"yl-brand"</span>&gt;&lt;span class=<span class="s">"yeon"</span>&gt;緣&lt;/span&gt;y-life.kr&lt;/div&gt;
+    &lt;div class=<span class="s">"yl-tagline"</span>&gt;삶 · 인연 · 소통&lt;br&gt;그 깊은 연(緣)으로 잇다&lt;/div&gt;
+    <span class="c">&lt;!-- 기존 메뉴 버튼 그대로 유지하되 클래스만 yl- 추가 --&gt;</span>
+  &lt;/div&gt;
+&lt;/header&gt;</div>
+
+  <h3>마스트헤드 CSS</h3>
+  <div class="code">.yl-container { <span class="k">max-width</span>: <span class="v">1280px</span>; <span class="k">margin</span>: <span class="v">0 auto</span>; <span class="k">padding</span>: <span class="v">0 32px</span>; }
+.yl-topbar { <span class="k">padding</span>: <span class="v">14px 0</span>; <span class="k">border-bottom</span>: <span class="v">1px solid var(--yl-line)</span>; <span class="k">background</span>: <span class="v">var(--yl-warm)</span>; }
+.yl-topbar-inner { <span class="k">display</span>:<span class="v">flex</span>; <span class="k">justify-content</span>:<span class="v">space-between</span>; <span class="k">font-size</span>:<span class="v">12px</span>; <span class="k">color</span>:<span class="v">var(--yl-muted)</span>; }
+.yl-topbar-left, .yl-topbar-right { <span class="k">display</span>:<span class="v">flex</span>; <span class="k">gap</span>:<span class="v">14px</span>; <span class="k">align-items</span>:<span class="v">center</span>; }
+.yl-sep { <span class="k">color</span>:<span class="v">var(--yl-line)</span>; }
+.yl-blog-pill { <span class="k">display</span>:<span class="v">inline-flex</span>; <span class="k">align-items</span>:<span class="v">center</span>; <span class="k">gap</span>:<span class="v">6px</span>;
+  <span class="k">padding</span>:<span class="v">4px 12px 4px 4px</span>; <span class="k">background</span>:<span class="v">var(--yl-surface)</span>;
+  <span class="k">border</span>:<span class="v">1px solid var(--yl-line)</span>; <span class="k">border-radius</span>:<span class="v">999px</span>;
+  <span class="k">font-size</span>:<span class="v">12px</span>; <span class="k">color</span>:<span class="v">var(--yl-soft)</span>; <span class="k">text-decoration</span>:<span class="v">none</span>; }
+.yl-av { <span class="k">width</span>:<span class="v">22px</span>; <span class="k">height</span>:<span class="v">22px</span>; <span class="k">border-radius</span>:<span class="v">50%</span>;
+  <span class="k">background</span>:<span class="v">linear-gradient(135deg, var(--yl-teal-mid), var(--yl-teal))</span>;
+  <span class="k">color</span>:<span class="v">#fff</span>; <span class="k">display</span>:<span class="v">inline-flex</span>; <span class="k">align-items</span>:<span class="v">center</span>; <span class="k">justify-content</span>:<span class="v">center</span>;
+  <span class="k">font-family</span>:<span class="v">var(--yl-serif)</span>; <span class="k">font-size</span>:<span class="v">10px</span>; <span class="k">font-weight</span>:<span class="v">700</span>; }
+
+.yl-masthead { <span class="k">border-bottom</span>: <span class="v">2px solid var(--yl-ink)</span>; <span class="k">padding</span>: <span class="v">30px 0 22px</span>; <span class="k">background</span>: <span class="v">var(--yl-warm)</span>; }
+.yl-masthead-inner { <span class="k">display</span>:<span class="v">flex</span>; <span class="k">align-items</span>:<span class="v">center</span>; <span class="k">justify-content</span>:<span class="v">space-between</span>; <span class="k">gap</span>:<span class="v">32px</span>; }
+.yl-brand { <span class="k">font-family</span>: <span class="v">var(--yl-serif)</span>; <span class="k">font-size</span>: <span class="v">54px</span>; <span class="k">font-weight</span>: <span class="v">900</span>;
+  <span class="k">letter-spacing</span>: <span class="v">-.03em</span>; <span class="k">line-height</span>: <span class="v">1</span>; <span class="k">color</span>: <span class="v">var(--yl-ink)</span>; }
+.yl-brand .yeon { <span class="k">color</span>: <span class="v">var(--yl-teal)</span>; <span class="k">font-size</span>: <span class="v">46px</span>; <span class="k">margin-right</span>: <span class="v">6px</span>; }
+.yl-tagline { <span class="k">font-family</span>:<span class="v">var(--yl-serif)</span>; <span class="k">font-size</span>:<span class="v">14px</span>;
+  <span class="k">color</span>:<span class="v">var(--yl-muted)</span>; <span class="k">font-style</span>:<span class="v">italic</span>; <span class="k">text-align</span>:<span class="v">right</span>; <span class="k">line-height</span>:<span class="v">1.5</span>; }
+
+@media (max-width: 640px) {
+  .yl-tagline { <span class="k">display</span>: <span class="v">none</span>; }
+  .yl-brand { <span class="k">font-size</span>: <span class="v">36px</span>; }
+}</div>
+
+  <!-- ========== 절대 건드리지 말 것 ========== -->
+  <h2><span class="step">주의</span>건드리지 말아야 할 곳</h2>
+  <p>아래 영역은 기능과 직결되어 있어서 1단계에서는 그대로 둡니다. 단계 4(메가 메뉴 통합)에서 한꺼번에 다룹니다.</p>
+  <ul>
+    <li>관리자 대시보드 진입 로직 (<code>관리자 모드</code> 버튼, <code>관리자 비밀번호</code>)</li>
+    <li>게시판 동기화 코드 (<code>지금 동기화</code>, 공유 게시판 ID 처리)</li>
+    <li>로그인·회원가입 모달 자체 (외형은 단계 3에서 입힘)</li>
+    <li>구글 OAuth 로직, Gemini API 호출</li>
+    <li>화두 편집·예약 로직</li>
+    <li>AI 도우미 플로팅 버튼의 동작</li>
+  </ul>
+
+  <!-- ========== 적용 순서 체크리스트 ========== -->
+  <h2><span class="step">실행</span>적용 순서 체크리스트</h2>
+  <ul class="checklist">
+    <li><strong>0단계 — 백업</strong>: 현재 index.html을 <code>index_backup_2026-05-14.html</code>로 복사</li>
+    <li><strong>1단계 — 폰트</strong>: <code>&lt;head&gt;</code>에 구글 폰트 두 줄 추가</li>
+    <li><strong>2단계 — CSS 변수</strong>: <code>:root</code>에 <code>--yl-*</code> 토큰 추가 (기존 변수 삭제 X)</li>
+    <li><strong>3단계 — body 색</strong>: body의 background·color·font-family를 <code>--yl-*</code>로 덮어쓰기</li>
+    <li><strong>4단계 — 마스트헤드 CSS</strong>: <code>.yl-topbar</code> ~ <code>.yl-masthead</code> 클래스 추가</li>
+    <li><strong>5단계 — 마스트헤드 HTML</strong>: body 시작 부분의 기존 상단을 새 마스트헤드로 교체</li>
+    <li><strong>6단계 — 로컬 테스트</strong>: 브라우저에서 열어 화두/소식/광장/관리자 모드 모두 작동하는지 확인</li>
+    <li><strong>7단계 — 모바일 테스트</strong>: 폰 폭에서 마스트헤드 깨지지 않는지</li>
+    <li><strong>8단계 — 배포</strong>: GitHub에 push (메모리 기준 <code>main</code> 브랜치)</li>
+  </ul>
+
+  <div class="note">
+    <strong>되돌리기</strong>
+    문제 발견 시 <code>index_backup_2026-05-14.html</code>을 <code>index.html</code>로 덮어쓰고 다시 push 하면 즉시 원상복구.
+  </div>
+
+  <div class="note">
+    <strong>예상 변화</strong>
+    배경이 푸른 기 머금은 아이보리로 바뀌고, 상단 로고가 큰 세리프로 변하며, 우측 상단에 "내 블로그" 진입 버튼이 새로 생깁니다. 본문 내용·기능은 그대로입니다.
+  </div>
+
+  <h2>다음 단계 예고</h2>
+  <p>
+    1단계가 안정되면 <strong>단계 2(광장 글 상세 페이지)</strong>로 갑니다.
+    그 다음 <strong>단계 3(블로그 템플릿 6종)</strong>, 마지막 <strong>단계 4(메가 메뉴 통합)</strong> 순서로.
+    각 단계는 별도의 가이드 문서로 만들어 두었습니다.
+  </p>
+
+</div>
+
+</body>
+</html>

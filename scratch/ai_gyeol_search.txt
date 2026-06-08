@@ -1,0 +1,249 @@
+index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+index.html:2048:      <!-- 인공지능의 결 (책자) -->
+index.html:2052:          AI · 인공지능의 결
+index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+robots.txt:18:Disallow: /yeon-ai-kr/
+수풀-작업기록.html:183:  <div class="app-tag">수풀AI · yeon-ai-kr</div>
+수풀-작업기록.html:193:      yeon-ai-kr-v4/supul/su-pul.html
+수풀-작업기록.html:228:          <span style="font-weight:600;">yeon-ai-kr-v4/supul/su-pul.html</span>
+수풀-작업기록.html:231:        <div class="path">C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\supul\su-pul.html</div>
+수풀-작업기록.html:523:      <div class="code-block">cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+수풀-작업기록.html:526:copy "yeon-ai-kr-v4\supul\su-pul.html" "supul\su-pul.html"
+수풀-작업기록.md:4:> 날짜: 2026-04-25 | 결과 파일: `yeon-ai-kr-v4/supul/su-pul.html` (801,651자)
+수풀-작업기록.md:16:- **경로**: `C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\supul\su-pul.html`
+수풀-작업기록.md:194:cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+수풀-작업기록.md:197:copy "yeon-ai-kr-v4\supul\su-pul.html" "supul\su-pul.html"
+연라이프-작업기록.html:374:  <a href="#yeon-ai-kr">yeon.ai.kr</a>
+연라이프-작업기록.html:550:  <section class="section" id="yeon-ai-kr">
+연라이프-작업기록.html:560:      <span>GitHub Pages로 운영 중. 리포: <strong>jinwooshon-coder/yeon-ai-kr</strong> → <strong>yeon.ai.kr</strong></span>
+연라이프-작업기록.html:592:      <pre><code>cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+연라이프-작업기록.html:653:      <p>배포 버전: <code>yeon-ai-kr\supul\su-pul.html</code></p>
+연라이프-작업기록.html:654:      <p>수정 작업본: <code>yeon-ai-kr-v4\supul\su-pul.html</code></p>
+연라이프-작업기록.html:721:      <p>최종 작업본: <code>yeon-ai-kr-v4\yeongpul\yeong-pul.html</code></p>
+연라이프-작업기록.html:814:├─ yeon-ai-kr\          ← 배포 중인 git 리포
+연라이프-작업기록.html:820:├─ yeon-ai-kr-new\      ← 1차 수정본
+연라이프-작업기록.html:821:├─ yeon-ai-kr-v3\       ← 2차 정리본 (건드리지 않음)
+연라이프-작업기록.html:822:├─ yeon-ai-kr-v4\       ← 최종 수정 작업본
+연라이프-작업기록.html:836:          <span><strong>yeon-ai-kr/</strong> — git push하면 yeon.ai.kr에 즉시 반영되는 폴더</span>
+연라이프-작업기록.html:840:          <span><strong>yeon-ai-kr-v3/</strong> — 수정 전 깨끗한 상태 보존용 (건드리지 않음)</span>
+연라이프-작업기록.html:844:          <span><strong>yeon-ai-kr-v4/</strong> — 현재 수정 작업 중인 폴더</span>
+연라이프-작업기록.md:117:GitHub Pages로 운영 중. 리포: **jinwooshon-coder/yeon-ai-kr** → **yeon.ai.kr**
+연라이프-작업기록.md:136:cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+연라이프-작업기록.md:167:- 배포 버전: `yeon-ai-kr\supul\su-pul.html`
+연라이프-작업기록.md:168:- 수정 작업본: `yeon-ai-kr-v4\supul\su-pul.html`
+연라이프-작업기록.md:199:최종 작업본: `yeon-ai-kr-v4\yeongpul\yeong-pul.html`
+연라이프-작업기록.md:261:├─ yeon-ai-kr\          ← 배포 중인 git 리포
+연라이프-작업기록.md:267:├─ yeon-ai-kr-new\      ← 1차 수정본
+연라이프-작업기록.md:268:├─ yeon-ai-kr-v3\       ← 2차 정리본 (건드리지 않음)
+연라이프-작업기록.md:269:├─ yeon-ai-kr-v4\       ← 최종 수정 작업본
+연라이프-작업기록.md:282:| `yeon-ai-kr/` | git push하면 yeon.ai.kr에 즉시 반영되는 배포 폴더 |
+연라이프-작업기록.md:283:| `yeon-ai-kr-v3/` | 수정 전 깨끗한 상태 보존용 (건드리지 않음) |
+연라이프-작업기록.md:284:| `yeon-ai-kr-v4/` | 현재 수정 작업 중인 폴더 |
+연플래닝-작업기록.html:404:            <span>jinwooshon-coder/yeon-ai-kr</span>
+연플래닝-작업기록.html:421:      <span>yeon-academy/ 폴더의 파일들을 yeon-ai-kr/ulsan/yeon-planning/ 으로 이동하고, 상단에 <strong>플랫폼 바</strong>(yeon.ai.kr 마을 링크)를 추가하는 작업이 완료되었습니다.</span>
+연플래닝-작업기록.html:732:        <div class="tl-desc">yeon-academy 파일들을 yeon-ai-kr/ulsan/yeon-planning/으로 이동. 상단에 yeon.ai.kr 마을로 돌아가는 플랫폼 바 추가. index.html 생성 (연플래닝 허브 페이지).</div>
+연플래닝-작업기록.html:847:연라이프 홈페이지 제작\yeon-ai-kr\
+연플래닝-작업기록.html:865:        <code>cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr" && git push origin main</code>
+연플래닝-작업기록.md:37:| 리포 | jinwooshon-coder/yeon-ai-kr |
+연플래닝-작업기록.md:46:yeon-academy/ 폴더의 파일들을 yeon-ai-kr/ulsan/yeon-planning/ 으로 이동하고, 상단에 **플랫폼 바**(yeon.ai.kr 마을 링크)를 추가하는 작업이 완료되었습니다.
+연플래닝-작업기록.md:164:3. **완료** — 연플래닝 파일 → /ulsan/yeon-planning/ 이동 + 플랫폼 바 추가. yeon-academy 파일들을 yeon-ai-kr/ulsan/yeon-planning/으로 이동. 상단에 yeon.ai.kr 마을로 돌아가는 플랫폼 바 추가.
+연플래닝-작업기록.md:243:연라이프 홈페이지 제작\yeon-ai-kr\
+연플래닝-작업기록.md:261:cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+영풀-작업기록.html:317:  <div class="app-tag">영풀 · yeon-ai-kr</div>
+영풀-작업기록.html:327:      yeon-ai-kr-v4/yeongpul/yeong-pul.html
+영풀-작업기록.html:373:          <span style="font-weight:600;">yeon-ai-kr-v4/yeongpul/yeong-pul.html</span>
+영풀-작업기록.html:379:        <div class="path">C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\yeongpul\yeong-pul.html</div>
+영풀-작업기록.html:437:      <p>기존 작업 폴더를 <span class="highlight">yeon-ai-kr-v3</span>로 동결(건드리지 않음)하고, <span class="highlight">yeon-ai-kr-v4</span>를 새로운 작업본으로 생성. v4에서만 수정 진행.</p>
+영풀-작업기록.html:613:        <div class="timeline-content">yeon-ai-kr-v3 동결(원본 보관용), <strong>yeon-ai-kr-v4</strong>를 작업본으로 분리.</div>
+영풀-작업기록.html:698:      <div class="code-block">cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+영풀-작업기록.html:701:copy "yeon-ai-kr-v4\yeongpul\yeong-pul.html" "yeongpul\yeong-pul.html"
+영풀-작업기록.md:4:> 날짜: 2026-04-25 | 결과 파일: `yeon-ai-kr-v4/yeongpul/yeong-pul.html` (904,146자)
+영풀-작업기록.md:16:- **경로**: `C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\yeongpul\yeong-pul.html`
+영풀-작업기록.md:40:기존 작업 폴더를 `yeon-ai-kr-v3`로 동결(건드리지 않음)하고, `yeon-ai-kr-v4`를 새로운 작업본으로 생성. v4에서만 수정 진행.
+영풀-작업기록.md:154:4. **폴더 전략 확정** — yeon-ai-kr-v3 동결, yeon-ai-kr-v4 작업본 분리.
+영풀-작업기록.md:181:cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+영풀-작업기록.md:184:copy "yeon-ai-kr-v4\yeongpul\yeong-pul.html" "yeongpul\yeong-pul.html"
+scratch\textbook_search.txt:51:yeon-ai-kr\supul\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+scratch\textbook_search.txt:52:yeon-ai-kr\supul\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+scratch\textbook_search.txt:53:yeon-ai-kr\supul\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+scratch\textbook_search.txt:54:yeon-ai-kr\supul\admin.html:505:              <option value="">교과서 선택</option>
+scratch\textbook_search.txt:55:yeon-ai-kr\supul\admin.html:1812:// 📚 교과서 · 단원 데이터
+scratch\textbook_search.txt:56:yeon-ai-kr\supul\admin.html:1915:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+scratch\textbook_search.txt:57:yeon-ai-kr\supul\admin.html:1992:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+scratch\textbook_search.txt:58:yeon-ai-kr\supul\admin.html:1996:  return hints[grade] || '교과서 단원 어휘';
+scratch\textbook_search.txt:59:yeon-ai-kr\supul\admin.html:2027:    teacher:'', memo:book+' 교과서 / '+units[idx],
+scratch\textbook_search.txt:60:yeon-ai-kr\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:61:yeon-ai-kr\supul\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+scratch\textbook_search.txt:62:yeon-ai-kr\supul\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+scratch\textbook_search.txt:63:yeon-ai-kr\supul\su-pul.html:2694: <!-- 월간 달력 -->
+scratch\textbook_search.txt:64:yeon-ai-kr\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:65:yeon-ai-kr\ulsan\yeon-planning\index.html:7:<meta name="description" content="스스로 올라갈 수 있는 힘. 연소사 이진우의 자기주도 학습 공부법 — 의식적 몰입·5.2.5.5 학습법·교과서 10회독·기억의 궁전.">
+scratch\textbook_search.txt:66:yeon-ai-kr\ulsan\yeon-planning\index.html:515:      <h3>교과서 10회독</h3>
+scratch\textbook_search.txt:67:yeon-ai-kr\ulsan\yeon-planning\index.html:516:      <p>교과서를 열 번 읽으면 개념이 몸에 새겨집니다. 방법이 있습니다.</p>
+scratch\textbook_search.txt:68:yeon-ai-kr\ulsan\yeon-planning\index.html:552:        <p>수능 준비생을 위한 고강도 몰입 훈련 — 기억의 궁전과 교과서 10회독을 병행합니다.</p>
+scratch\textbook_search.txt:69:yeon-ai-kr\yeongpul\admin.html:487:      <!-- 교과서 + 단원 선택 -->
+scratch\textbook_search.txt:70:yeon-ai-kr\yeongpul\admin.html:489:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+scratch\textbook_search.txt:71:yeon-ai-kr\yeongpul\admin.html:508:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+scratch\textbook_search.txt:72:yeon-ai-kr\yeongpul\admin.html:510:              <option value="">교과서 선택</option>
+scratch\textbook_search.txt:73:yeon-ai-kr\yeongpul\admin.html:2064:// 📚 교과서 · 단원 데이터
+scratch\textbook_search.txt:74:yeon-ai-kr\yeongpul\admin.html:2167:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+scratch\textbook_search.txt:75:yeon-ai-kr\yeongpul\admin.html:2244:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+scratch\textbook_search.txt:76:yeon-ai-kr\yeongpul\admin.html:2248:  return hints[grade] || '교과서 단원 어휘';
+scratch\textbook_search.txt:77:yeon-ai-kr\yeongpul\admin.html:2279:    teacher:'', memo:book+' 교과서 / '+units[idx],
+scratch\textbook_search.txt:78:yeon-ai-kr\yeongpul\config.js:323:      desc: '학생 취약점 정밀 분석 · 선생님/학부모 월간 리포트 (개발 중)',
+scratch\textbook_search.txt:79:yeon-ai-kr\yeongpul\index.html:1617:  // 월간 세션 사용량이 어느 티어 한도 안에 들어가는지 조회 (자동 과금 X, 참고용)
+scratch\textbook_search.txt:80:yeon-ai-kr\yeongpul\index.html:2687:    lines.push('• 평가 목적이 "다른 사용자에게 경고"라고 명시하셨습니다. 본 서비스는 무료 체험을 통해 누구나 1개월간 직접 확인할 수 있으며, 타인의 판단을 대신하는 경고 행위는 본 게시판의 취지와 맞지 않습니다.');
+scratch\textbook_search.txt:81:yeon-ai-kr\yeongpul\parent.html:492:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+scratch\textbook_search.txt:82:yeon-ai-kr\yeongpul\study-hub.html:156:        <div class="t">교과서 · 문제집 업로드</div>
+scratch\textbook_search.txt:83:yeon-ai-kr\yeongpul\textbook-upload.html:8:<title>영풀 교과서 업로드 — 준비 중</title>
+scratch\textbook_search.txt:84:yeon-ai-kr\yeongpul\textbook-upload.html:61:    <h1>교과서 · 문제집 업로드</h1>
+scratch\textbook_search.txt:85:yeon-ai-kr\yeongpul\textbook-upload.html:67:        <li>OCR로 교과서 본문 자동 추출</li>
+scratch\textbook_search.txt:86:yeon-ai-kr\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+scratch\textbook_search.txt:87:yeon-ai-kr\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+scratch\textbook_search.txt:88:yeon-ai-kr\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+scratch\textbook_search.txt:89:yeon-ai-kr\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+scratch\textbook_search.txt:90:yeon-ai-kr\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+scratch\textbook_search.txt:91:yeon-ai-kr\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+scratch\textbook_search.txt:92:yeon-ai-kr\yeongpul\yeong-pul.html:4947:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+scratch\textbook_search.txt:93:yeon-ai-kr\yeongpul\yeong-pul.html:5662:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+scratch\textbook_search.txt:94:yeon-ai-kr\yeongpul\yeong-pul.html:5723:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+scratch\textbook_search.txt:95:yeon-ai-kr\yeongpul\yeong-pul.html:5773:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+scratch\textbook_search.txt:96:yeon-ai-kr\yeongpul\yeong-pul.html:5794:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+scratch\textbook_search.txt:97:yeon-ai-kr\yeongpul\yeong-pul.html:10194:  {text:'교과서 범위 단어 암기 완료', done:false},
+scratch\textbook_search.txt:98:yeon-ai-kr\yeongpul\yeong-pul.html:10657:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+scratch\textbook_search.txt:99:yeon-ai-kr\yeongpul\yeong-pul.html:10765:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+scratch\textbook_search.txt:100:yeon-ai-kr\yeongpul\yeong-pul.html:11892:// ===== 교과서 출판사/단원별 어휘 =====
+scratch\textbook_search.txt:101:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+scratch\textbook_search.txt:102:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+scratch\textbook_search.txt:103:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+scratch\textbook_search.txt:104:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:505:              <option value="">교과서 선택</option>
+scratch\textbook_search.txt:105:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:1823:// 📚 교과서 · 단원 데이터
+scratch\textbook_search.txt:106:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:1926:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+scratch\textbook_search.txt:107:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2003:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+scratch\textbook_search.txt:108:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2007:  return hints[grade] || '교과서 단원 어휘';
+scratch\textbook_search.txt:109:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2038:    teacher:'', memo:book+' 교과서 / '+units[idx],
+scratch\textbook_search.txt:110:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:111:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+scratch\textbook_search.txt:112:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+scratch\textbook_search.txt:113:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\su-pul.html:2697: <!-- 월간 달력 -->
+scratch\textbook_search.txt:114:yeon-ai-kr\_deliverables\supul-v4.5-secure-api\su-pul.html:13948:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:115:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+scratch\textbook_search.txt:116:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+scratch\textbook_search.txt:117:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+scratch\textbook_search.txt:118:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:505:              <option value="">교과서 선택</option>
+scratch\textbook_search.txt:119:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1812:// 📚 교과서 · 단원 데이터
+scratch\textbook_search.txt:120:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1915:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+scratch\textbook_search.txt:121:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1992:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+scratch\textbook_search.txt:122:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1996:  return hints[grade] || '교과서 단원 어휘';
+scratch\textbook_search.txt:123:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:2027:    teacher:'', memo:book+' 교과서 / '+units[idx],
+scratch\textbook_search.txt:124:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:125:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+scratch\textbook_search.txt:126:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+scratch\textbook_search.txt:127:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\su-pul.html:2694: <!-- 월간 달력 -->
+scratch\textbook_search.txt:128:yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:129:yeon-ai-kr-new\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:130:yeon-ai-kr-new\supul\su-pul.html:2694: <!-- 월간 달력 -->
+scratch\textbook_search.txt:131:yeon-ai-kr-new\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:132:yeon-ai-kr-new\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+scratch\textbook_search.txt:133:yeon-ai-kr-new\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+scratch\textbook_search.txt:134:yeon-ai-kr-new\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+scratch\textbook_search.txt:135:yeon-ai-kr-new\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+scratch\textbook_search.txt:136:yeon-ai-kr-new\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+scratch\textbook_search.txt:137:yeon-ai-kr-new\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+scratch\textbook_search.txt:138:yeon-ai-kr-new\yeongpul\yeong-pul.html:4687:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+scratch\textbook_search.txt:139:yeon-ai-kr-new\yeongpul\yeong-pul.html:5402:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+scratch\textbook_search.txt:140:yeon-ai-kr-new\yeongpul\yeong-pul.html:5463:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+scratch\textbook_search.txt:141:yeon-ai-kr-new\yeongpul\yeong-pul.html:5513:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+scratch\textbook_search.txt:142:yeon-ai-kr-new\yeongpul\yeong-pul.html:5534:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+scratch\textbook_search.txt:143:yeon-ai-kr-new\yeongpul\yeong-pul.html:9931:  {text:'교과서 범위 단어 암기 완료', done:false},
+scratch\textbook_search.txt:144:yeon-ai-kr-new\yeongpul\yeong-pul.html:10394:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+scratch\textbook_search.txt:145:yeon-ai-kr-new\yeongpul\yeong-pul.html:10502:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+scratch\textbook_search.txt:146:yeon-ai-kr-new\yeongpul\yeong-pul.html:11629:// ===== 교과서 출판사/단원별 어휘 =====
+scratch\textbook_search.txt:147:yeon-ai-kr-v3\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:148:yeon-ai-kr-v3\supul\su-pul.html:2694: <!-- 월간 달력 -->
+scratch\textbook_search.txt:149:yeon-ai-kr-v3\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:150:yeon-ai-kr-v3\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+scratch\textbook_search.txt:151:yeon-ai-kr-v3\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+scratch\textbook_search.txt:152:yeon-ai-kr-v3\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+scratch\textbook_search.txt:153:yeon-ai-kr-v3\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+scratch\textbook_search.txt:154:yeon-ai-kr-v3\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+scratch\textbook_search.txt:155:yeon-ai-kr-v3\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+scratch\textbook_search.txt:156:yeon-ai-kr-v3\yeongpul\yeong-pul.html:4687:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+scratch\textbook_search.txt:157:yeon-ai-kr-v3\yeongpul\yeong-pul.html:5402:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+scratch\textbook_search.txt:158:yeon-ai-kr-v3\yeongpul\yeong-pul.html:5463:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+scratch\textbook_search.txt:159:yeon-ai-kr-v3\yeongpul\yeong-pul.html:5513:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+scratch\textbook_search.txt:160:yeon-ai-kr-v3\yeongpul\yeong-pul.html:5534:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+scratch\textbook_search.txt:161:yeon-ai-kr-v3\yeongpul\yeong-pul.html:9931:  {text:'교과서 범위 단어 암기 완료', done:false},
+scratch\textbook_search.txt:162:yeon-ai-kr-v3\yeongpul\yeong-pul.html:10394:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+scratch\textbook_search.txt:163:yeon-ai-kr-v3\yeongpul\yeong-pul.html:10502:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+scratch\textbook_search.txt:164:yeon-ai-kr-v3\yeongpul\yeong-pul.html:11629:// ===== 교과서 출판사/단원별 어휘 =====
+scratch\textbook_search.txt:165:yeon-ai-kr-v4\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+scratch\textbook_search.txt:166:yeon-ai-kr-v4\supul\su-pul.html:2694: <!-- 월간 달력 -->
+scratch\textbook_search.txt:167:yeon-ai-kr-v4\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+scratch\textbook_search.txt:168:yeon-ai-kr-v4\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+scratch\textbook_search.txt:169:yeon-ai-kr-v4\yeongpul\yeong-pul.html:2353:      <!-- 월간 달력 -->
+scratch\textbook_search.txt:170:yeon-ai-kr-v4\yeongpul\yeong-pul.html:2545:      <option value="school">학교/교과서</option>
+scratch\textbook_search.txt:171:yeon-ai-kr-v4\yeongpul\yeong-pul.html:2546:      <option value="textbook">내 교과서 (출판사별)</option>
+scratch\textbook_search.txt:172:yeon-ai-kr-v4\yeongpul\yeong-pul.html:2563:  <!-- 교과서 출판사/단원 선택 패널 -->
+scratch\textbook_search.txt:173:yeon-ai-kr-v4\yeongpul\yeong-pul.html:2567:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+scratch\textbook_search.txt:174:yeon-ai-kr-v4\yeongpul\yeong-pul.html:4955:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+scratch\textbook_search.txt:175:yeon-ai-kr-v4\yeongpul\yeong-pul.html:5670:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+scratch\textbook_search.txt:176:yeon-ai-kr-v4\yeongpul\yeong-pul.html:5731:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+scratch\textbook_search.txt:177:yeon-ai-kr-v4\yeongpul\yeong-pul.html:5781:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+scratch\textbook_search.txt:178:yeon-ai-kr-v4\yeongpul\yeong-pul.html:5802:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+scratch\textbook_search.txt:179:yeon-ai-kr-v4\yeongpul\yeong-pul.html:10202:  {text:'교과서 범위 단어 암기 완료', done:false},
+scratch\textbook_search.txt:180:yeon-ai-kr-v4\yeongpul\yeong-pul.html:10665:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+scratch\textbook_search.txt:181:yeon-ai-kr-v4\yeongpul\yeong-pul.html:10773:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+scratch\textbook_search.txt:182:yeon-ai-kr-v4\yeongpul\yeong-pul.html:11900:// ===== 교과서 출판사/단원별 어휘 =====
+scratch\textbook_search.txt:211:yeon-life.github.io\api\ai.js:61:- 과학의 결, 수학의 결, 한글의 결, 인공지능 월간지, 어린이 '나도 과학자'.
+y-life_v6_2026-05-18\index.html:84:.yeon-ai-badge{display:flex;align-items:center;gap:5px;padding:3px 10px 3px 8px;border:1px solid rgba(176,128,64,.35);border-radius:20px;font-size:11px;color:var(--gold);text-decoration:none;font-weight:600;letter-spacing:.03em;transition:background .15s;white-space:nowrap;}
+y-life_v6_2026-05-18\index.html:85:.yeon-ai-badge:hover{background:var(--gold-soft);}
+y-life_v6_2026-05-18\index.html:86:.yeon-ai-badge svg{flex-shrink:0;}
+y-life_v6_2026-05-18\index.html:1033:  .yeon-ai-badge{display:none;}
+y-life_v6_2026-05-18\index.html:2106:    <a class="yeon-ai-badge" href="https://yeon.ai.kr" target="_blank" rel="noopener">
+yeon-ai-kr\supul\수풀AI_코덱스_점검의뢰서.md:16:| **GitHub 레포** | `jinwooshon-coder/yeon-ai-kr` |
+yeon-ai-kr\ulsan\yeon-planning\admin\index.html:495:   이 파일: yeon-ai-kr/ulsan/yeon-planning/admin/index.html
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\수풀AI_코덱스_점검의뢰서.md:16:| **GitHub 레포** | `jinwooshon-coder/yeon-ai-kr` |
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\수풀AI_코덱스_점검의뢰서.md:16:| **GitHub 레포** | `jinwooshon-coder/yeon-ai-kr` |
+yeon-life.github.io\challenge-1801.html:469:      <div><strong>홈페이지</strong>y-life.kr · yeon-ai.kr</div>
+yeon-life.github.io\index.html:1531:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">AI</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+yeon-life.github.io\index.html:1595:          <a class="sub-item" href="/내친구인공지능_책/index.html"><div class="sub-icon">冊</div><div class="sub-text"><div class="sub-name">인공지능의 결</div><div class="sub-desc">AI 책자 · 무료로 읽기</div></div></a>
+yeon-life.github.io\index.html:2048:      <!-- 인공지능의 결 (책자) -->
+yeon-life.github.io\index.html:2052:          AI · 인공지능의 결
+yeon-life.github.io\index.html:2056:        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
+yeon-life.github.io\api\ai.js:61:- 과학의 결, 수학의 결, 한글의 결, 인공지능 월간지, 어린이 '나도 과학자'.
+yeon-life.github.io\내친구인공지능_책\index.html:1854:      '1': '1부 ✦ 인공지능의 결',
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:183:  <div class="app-tag">수풀AI · yeon-ai-kr</div>
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:193:      yeon-ai-kr-v4/supul/su-pul.html
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:228:          <span style="font-weight:600;">yeon-ai-kr-v4/supul/su-pul.html</span>
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:231:        <div class="path">C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\supul\su-pul.html</div>
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:523:      <div class="code-block">cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+_백업\v_20260516_pre_yuv갱신\수풀-작업기록.html:526:copy "yeon-ai-kr-v4\supul\su-pul.html" "supul\su-pul.html"
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:374:  <a href="#yeon-ai-kr">yeon.ai.kr</a>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:550:  <section class="section" id="yeon-ai-kr">
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:560:      <span>GitHub Pages로 운영 중. 리포: <strong>jinwooshon-coder/yeon-ai-kr</strong> → <strong>yeon.ai.kr</strong></span>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:592:      <pre><code>cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:653:      <p>배포 버전: <code>yeon-ai-kr\supul\su-pul.html</code></p>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:654:      <p>수정 작업본: <code>yeon-ai-kr-v4\supul\su-pul.html</code></p>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:721:      <p>최종 작업본: <code>yeon-ai-kr-v4\yeongpul\yeong-pul.html</code></p>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:814:├─ yeon-ai-kr\          ← 배포 중인 git 리포
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:820:├─ yeon-ai-kr-new\      ← 1차 수정본
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:821:├─ yeon-ai-kr-v3\       ← 2차 정리본 (건드리지 않음)
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:822:├─ yeon-ai-kr-v4\       ← 최종 수정 작업본
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:836:          <span><strong>yeon-ai-kr/</strong> — git push하면 yeon.ai.kr에 즉시 반영되는 폴더</span>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:840:          <span><strong>yeon-ai-kr-v3/</strong> — 수정 전 깨끗한 상태 보존용 (건드리지 않음)</span>
+_백업\v_20260516_pre_yuv갱신\연라이프-작업기록.html:844:          <span><strong>yeon-ai-kr-v4/</strong> — 현재 수정 작업 중인 폴더</span>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:404:            <span>jinwooshon-coder/yeon-ai-kr</span>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:421:      <span>yeon-academy/ 폴더의 파일들을 yeon-ai-kr/ulsan/yeon-planning/ 으로 이동하고, 상단에 <strong>플랫폼 바</strong>(yeon.ai.kr 마을 링크)를 추가하는 작업이 완료되었습니다.</span>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:732:        <div class="tl-desc">yeon-academy 파일들을 yeon-ai-kr/ulsan/yeon-planning/으로 이동. 상단에 yeon.ai.kr 마을로 돌아가는 플랫폼 바 추가. index.html 생성 (연플래닝 허브 페이지).</div>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:847:연라이프 홈페이지 제작\yeon-ai-kr\
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:865:        <code>cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr" && git push origin main</code>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:317:  <div class="app-tag">영풀 · yeon-ai-kr</div>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:327:      yeon-ai-kr-v4/yeongpul/yeong-pul.html
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:373:          <span style="font-weight:600;">yeon-ai-kr-v4/yeongpul/yeong-pul.html</span>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:379:        <div class="path">C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr-v4\yeongpul\yeong-pul.html</div>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:437:      <p>기존 작업 폴더를 <span class="highlight">yeon-ai-kr-v3</span>로 동결(건드리지 않음)하고, <span class="highlight">yeon-ai-kr-v4</span>를 새로운 작업본으로 생성. v4에서만 수정 진행.</p>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:613:        <div class="timeline-content">yeon-ai-kr-v3 동결(원본 보관용), <strong>yeon-ai-kr-v4</strong>를 작업본으로 분리.</div>
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:698:      <div class="code-block">cd "C:\Users\jinwo\OneDrive\문서\Claude\Projects\연라이프 홈페이지 제작\yeon-ai-kr"
+_백업\v_20260516_pre_yuv갱신\영풀-작업기록.html:701:copy "yeon-ai-kr-v4\yeongpul\yeong-pul.html" "yeongpul\yeong-pul.html"

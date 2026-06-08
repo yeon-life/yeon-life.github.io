@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영풀 초등 5–6학년 — 일상 문장 패턴</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-accent:#8F856B;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --touch-min:60px;
+  --card-radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 50px;}
+@media(min-width:768px){.wrap{max-width:680px;padding:30px 24px;}}
+
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo .mark{width:40px;height:40px;border-radius:11px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+.logo .nm{font-size:14px;font-weight:700;}
+.logo .nm small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;}
+.home{color:var(--color-text-light);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:10px;}
+.home:active,.home:hover{background:var(--color-surface);}
+
+.hero{text-align:center;padding:10px 8px 22px;}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px;}
+.hero p{font-size:14px;color:var(--color-text-light);}
+
+/* 학년 탭 */
+.grade-tabs{display:flex;gap:10px;margin-bottom:18px;}
+.grade-tab{
+  flex:1;background:#fff;border:2px solid var(--color-surface);
+  border-radius:14px;padding:14px 10px;text-align:center;
+  font-family:inherit;font-size:14px;font-weight:700;
+  color:var(--color-text-light);cursor:pointer;
+  transition:all .15s ease;
+}
+.grade-tab.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+
+/* Day 선택 */
+.days{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;}
+.day-pill{
+  flex-shrink:0;background:#fff;border:2px solid var(--color-surface);
+  border-radius:24px;padding:9px 16px;
+  font-family:inherit;font-size:13px;font-weight:700;
+  color:var(--color-primary);cursor:pointer;
+  transition:all .15s ease;
+}
+.day-pill.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.day-pill.done{border-color:#8F856B;}
+
+/* 패턴 카드 */
+.pattern-card{
+  background:#fff;border-radius:var(--card-radius);
+  padding:24px 22px;
+  box-shadow:0 4px 16px rgba(90,122,130,0.12);
+  margin-bottom:14px;
+}
+.pattern-label{
+  font-size:12px;color:var(--color-text-light);
+  text-transform:uppercase;letter-spacing:0.5px;
+  margin-bottom:8px;font-weight:700;
+}
+.pattern-en{
+  font-size:24px;font-weight:800;
+  color:var(--color-primary);
+  letter-spacing:0.3px;margin-bottom:6px;
+}
+.pattern-ko{
+  font-size:15px;color:var(--color-text);
+  margin-bottom:14px;
+}
+.examples{
+  background:var(--color-bg);
+  border-radius:12px;
+  padding:14px 16px;
+  margin-bottom:14px;
+}
+.example{
+  padding:8px 0;border-bottom:1px solid var(--color-surface);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+}
+.example:last-child{border-bottom:none;}
+.example .ex-en{font-size:15px;font-weight:600;color:var(--color-text);}
+.example .ex-ko{font-size:12px;color:var(--color-text-light);margin-top:2px;}
+.example .ex-speak{
+  background:none;border:none;font-size:18px;cursor:pointer;
+  padding:4px 8px;color:var(--color-primary);
+  flex-shrink:0;
+}
+
+.btn-row{display:flex;gap:10px;margin-top:8px;}
+.btn{
+  font-family:inherit;font-size:14px;font-weight:700;
+  padding:13px 18px;border-radius:13px;border:none;cursor:pointer;
+  min-height:var(--touch-min);
+  transition:transform .12s ease;
+}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:var(--color-primary);color:#fff;flex:1;}
+.btn-secondary{background:var(--color-surface);color:var(--color-primary);flex:1;}
+
+/* 영작 연습 */
+.practice{
+  background:#fff;border-radius:var(--card-radius);
+  padding:22px 20px;margin-bottom:14px;
+  box-shadow:0 2px 8px rgba(90,122,130,0.1);
+  display:none;
+}
+.practice.show{display:block;}
+.practice h3{font-size:14px;color:var(--color-primary);margin-bottom:10px;font-weight:800;}
+.practice .q{font-size:16px;font-weight:600;margin-bottom:12px;}
+.practice input{
+  width:100%;padding:14px 16px;
+  border:2px solid var(--color-surface);
+  border-radius:12px;
+  font-family:inherit;font-size:16px;
+  outline:none;
+  transition:border-color .15s ease;
+}
+.practice input:focus{border-color:var(--color-primary);}
+.practice .feedback{
+  margin-top:10px;padding:10px 14px;border-radius:10px;
+  font-size:13px;display:none;
+}
+.practice .feedback.ok{background:#E8F0E9;color:#3D6B47;display:block;}
+.practice .feedback.no{background:#F5E8E2;color:#8B4A2E;display:block;}
+
+/* 모달 */
+.modal-mask{
+  position:fixed;inset:0;background:rgba(44,62,66,0.55);
+  display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;
+}
+.modal-mask.show{display:flex;}
+.modal-card{
+  background:#fff;border-radius:20px;padding:28px 24px 24px;
+  max-width:400px;width:100%;text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+.modal-card .ico{font-size:44px;margin-bottom:8px;}
+.modal-card h2{font-size:18px;font-weight:800;margin-bottom:8px;color:var(--color-primary);}
+.modal-card p{font-size:13px;color:var(--color-text-light);margin-bottom:18px;}
+.modal-card .row{display:flex;flex-direction:column;gap:10px;}
+.modal-card .btn{width:100%;}
+
+.note{margin-top:22px;background:var(--color-surface);border-radius:12px;padding:14px 16px;font-size:12px;color:var(--color-text);line-height:1.7;}
+.note b{color:var(--color-primary);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="logo">
+      <div class="mark">영풀</div>
+      <div class="nm">초등 5–6학년<small>일상 문장 패턴</small></div>
+    </div>
+    <a class="home" href="study-hub.html">← 허브</a>
+  </div>
+
+  <div class="hero">
+    <h1>패턴으로 말하기</h1>
+    <p>한 패턴을 익히면 100문장을 만들 수 있어요</p>
+  </div>
+
+  <div class="grade-tabs">
+    <button class="grade-tab active" id="tab5" onclick="selectGrade(5)">초등 5학년</button>
+    <button class="grade-tab" id="tab6" onclick="selectGrade(6)">초등 6학년</button>
+  </div>
+
+  <div class="days" id="days"></div>
+
+  <div class="pattern-card">
+    <div class="pattern-label" id="pLabel">Day 1 · 패턴</div>
+    <div class="pattern-en" id="pEn">I like ~</div>
+    <div class="pattern-ko" id="pKo">나는 ~을 좋아해</div>
+    <div class="examples" id="examples"></div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="togglePractice()">✏️ 영작 연습</button>
+      <button class="btn btn-primary" onclick="nextDay()">다음 Day ▶</button>
+    </div>
+  </div>
+
+  <div class="practice" id="practice">
+    <h3>🇰🇷 → 🇺🇸 영어로 만들어보기</h3>
+    <div class="q" id="practiceQ">한국어 문제</div>
+    <input type="text" id="practiceInput" placeholder="영어로 써보세요..." autocomplete="off">
+    <div class="feedback" id="practiceFb"></div>
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-secondary" onclick="checkPractice()">확인</button>
+      <button class="btn btn-primary" onclick="nextPractice()">다음 ▶</button>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 <b>패턴 학습법</b>: 문장 통째 외우면 문법은 자동으로 익혀져요. 변형은 영작 연습에서.<br>
+    🔊 발음을 들으면서 따라 말해보세요. 입에 익으면 시험에서도 자연스럽게 나와요.
+  </div>
+
+</div>
+
+<!-- 플래너 복습 모달 -->
+<div class="modal-mask" id="reviewModal">
+  <div class="modal-card">
+    <div class="ico">🗂️</div>
+    <h2>오늘 배운 패턴을<br>플래너에 복습 자료로 올릴까요?</h2>
+    <p>플래너가 3일 후, 7일 후 다시 알려드려요. 한 번 외운 패턴은 평생 가요.</p>
+    <div class="row">
+      <button class="btn btn-primary" onclick="addToPlanner()">네, 복습 자료로 올리기</button>
+      <button class="btn btn-secondary" onclick="closeReview()">다음에 할게요</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// === 학년별 1주일 패턴 데이터 ===
+const PATTERNS = {
+  5: [
+    {day:1, en:"I like ~", ko:"나는 ~을 좋아해", examples:[
+      {en:"I like pizza.", ko:"나는 피자를 좋아해."},
+      {en:"I like English.", ko:"나는 영어를 좋아해."},
+      {en:"I like my sister.", ko:"나는 내 동생을 좋아해."}
+    ], practice:[
+      {ko:"나는 사과를 좋아해.", en:["I like apples.","I like apple."]},
+      {ko:"나는 학교를 좋아해.", en:["I like school.","I like the school."]}
+    ]},
+    {day:2, en:"I can ~", ko:"나는 ~할 수 있어", examples:[
+      {en:"I can swim.", ko:"나는 수영할 수 있어."},
+      {en:"I can ride a bike.", ko:"나는 자전거를 탈 수 있어."},
+      {en:"I can speak English.", ko:"나는 영어를 말할 수 있어."}
+    ], practice:[
+      {ko:"나는 노래를 부를 수 있어.", en:["I can sing.","I can sing a song."]},
+      {ko:"나는 빠르게 달릴 수 있어.", en:["I can run fast.","I can run quickly."]}
+    ]},
+    {day:3, en:"I want ~", ko:"나는 ~을 원해", examples:[
+      {en:"I want some water.", ko:"나는 물을 좀 원해."},
+      {en:"I want a new bag.", ko:"나는 새 가방을 원해."},
+      {en:"I want to go home.", ko:"나는 집에 가고 싶어."}
+    ], practice:[
+      {ko:"나는 사탕을 원해.", en:["I want candy.","I want some candy."]},
+      {ko:"나는 자고 싶어.", en:["I want to sleep."]}
+    ]},
+    {day:4, en:"It is ~", ko:"그것은 ~이야", examples:[
+      {en:"It is sunny today.", ko:"오늘은 화창해."},
+      {en:"It is my book.", ko:"그건 내 책이야."},
+      {en:"It is very cold.", ko:"굉장히 추워."}
+    ], practice:[
+      {ko:"그것은 빨간색이야.", en:["It is red.","It's red."]},
+      {ko:"오늘 비가 와.", en:["It is rainy.","It's raining.","It is raining."]}
+    ]},
+    {day:5, en:"How ~?", ko:"어떻게 ~?/얼마나 ~?", examples:[
+      {en:"How are you?", ko:"잘 지내?"},
+      {en:"How old are you?", ko:"몇 살이야?"},
+      {en:"How many books?", ko:"책이 몇 권이야?"}
+    ], practice:[
+      {ko:"잘 지내?", en:["How are you?"]},
+      {ko:"몇 살이야?", en:["How old are you?"]}
+    ]}
+  ],
+  6: [
+    {day:1, en:"I'm going to ~", ko:"나는 ~할 거야", examples:[
+      {en:"I'm going to study.", ko:"나는 공부할 거야."},
+      {en:"I'm going to call her.", ko:"나는 그녀에게 전화할 거야."},
+      {en:"I'm going to bed.", ko:"나는 자러 갈 거야."}
+    ], practice:[
+      {ko:"나는 영화를 볼 거야.", en:["I'm going to watch a movie.","I am going to watch a movie."]},
+      {ko:"나는 친구를 만날 거야.", en:["I'm going to meet my friend.","I am going to meet a friend."]}
+    ]},
+    {day:2, en:"I have to ~", ko:"나는 ~해야 해", examples:[
+      {en:"I have to go now.", ko:"나는 지금 가야 해."},
+      {en:"I have to do my homework.", ko:"나는 숙제를 해야 해."},
+      {en:"I have to wake up early.", ko:"나는 일찍 일어나야 해."}
+    ], practice:[
+      {ko:"나는 공부해야 해.", en:["I have to study."]},
+      {ko:"나는 가야 해.", en:["I have to go.","I must go."]}
+    ]},
+    {day:3, en:"Have you ever ~?", ko:"~해 본 적 있어?", examples:[
+      {en:"Have you ever been to Jeju?", ko:"제주도에 가 본 적 있어?"},
+      {en:"Have you ever tried sushi?", ko:"초밥 먹어 본 적 있어?"},
+      {en:"Have you ever seen a panda?", ko:"판다를 본 적 있어?"}
+    ], practice:[
+      {ko:"파리에 가 본 적 있어?", en:["Have you ever been to Paris?"]},
+      {ko:"눈을 본 적 있어?", en:["Have you ever seen snow?"]}
+    ]},
+    {day:4, en:"What do you ~?", ko:"너는 무엇을 ~?", examples:[
+      {en:"What do you want?", ko:"무엇을 원해?"},
+      {en:"What do you think?", ko:"어떻게 생각해?"},
+      {en:"What do you do on Sundays?", ko:"일요일에 뭐 해?"}
+    ], practice:[
+      {ko:"뭐 먹고 싶어?", en:["What do you want to eat?"]},
+      {ko:"무엇을 좋아해?", en:["What do you like?"]}
+    ]},
+    {day:5, en:"I think (that) ~", ko:"나는 ~라고 생각해", examples:[
+      {en:"I think it's a good idea.", ko:"나는 좋은 생각이라고 생각해."},
+      {en:"I think you are right.", ko:"나는 네가 맞다고 생각해."},
+      {en:"I think we should go.", ko:"나는 우리가 가야 한다고 생각해."}
+    ], practice:[
+      {ko:"나는 그가 친절하다고 생각해.", en:["I think he is kind.","I think that he is kind."]},
+      {ko:"나는 영어가 재미있다고 생각해.", en:["I think English is fun.","I think that English is fun."]}
+    ]}
+  ]
+};
+
+const STORE_KEY = "yeon_gu_state";
+let state = loadState();
+
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(STORE_KEY)||"{}");
+    return {grade: s.grade||5, day: s.day||1, doneDays: s.doneDays||{5:[],6:[]}, practiceIdx:0};
+  }catch(e){
+    return {grade:5, day:1, doneDays:{5:[],6:[]}, practiceIdx:0};
+  }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+function selectGrade(g){
+  state.grade = g;
+  state.day = 1;
+  state.practiceIdx = 0;
+  saveState();
+  renderAll();
+}
+
+function renderTabs(){
+  document.getElementById("tab5").classList.toggle("active", state.grade===5);
+  document.getElementById("tab6").classList.toggle("active", state.grade===6);
+}
+
+function renderDays(){
+  const wrap = document.getElementById("days");
+  wrap.innerHTML = "";
+  PATTERNS[state.grade].forEach(p=>{
+    const btn = document.createElement("button");
+    btn.className = "day-pill";
+    if(p.day === state.day) btn.classList.add("active");
+    if((state.doneDays[state.grade]||[]).includes(p.day)) btn.classList.add("done");
+    btn.textContent = "Day " + p.day;
+    btn.onclick = ()=>{
+      state.day = p.day;
+      state.practiceIdx = 0;
+      saveState();
+      renderAll();
+      document.getElementById("practice").classList.remove("show");
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderPattern(){
+  const p = PATTERNS[state.grade].find(x=>x.day===state.day) || PATTERNS[state.grade][0];
+  document.getElementById("pLabel").textContent = "Day " + p.day + " · 패턴";
+  document.getElementById("pEn").textContent = p.en;
+  document.getElementById("pKo").textContent = p.ko;
+  const ex = document.getElementById("examples");
+  ex.innerHTML = "";
+  p.examples.forEach(e=>{
+    const div = document.createElement("div");
+    div.className = "example";
+    div.innerHTML = `
+      <div>
+        <div class="ex-en">${e.en}</div>
+        <div class="ex-ko">${e.ko}</div>
+      </div>
+      <button class="ex-speak" onclick="speak('${e.en.replace(/'/g,"\\'")}')">🔊</button>
+    `;
+    ex.appendChild(div);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderDays();
+  renderPattern();
+}
+
+function speak(txt){
+  if("speechSynthesis" in window){
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US";
+    u.rate = 0.9;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+}
+
+function nextDay(){
+  // 현재 day 완료 처리
+  const arr = state.doneDays[state.grade] || [];
+  if(!arr.includes(state.day)){
+    arr.push(state.day);
+    state.doneDays[state.grade] = arr;
+  }
+  // 다음 day 또는 완료
+  const days = PATTERNS[state.grade].map(x=>x.day);
+  const idx = days.indexOf(state.day);
+  if(idx < days.length - 1){
+    state.day = days[idx+1];
+    state.practiceIdx = 0;
+    saveState();
+    renderAll();
+    document.getElementById("practice").classList.remove("show");
+  }else{
+    saveState();
+    renderAll();
+    showReviewPrompt();
+  }
+}
+
+// === 영작 연습 ===
+function togglePractice(){
+  const el = document.getElementById("practice");
+  el.classList.toggle("show");
+  if(el.classList.contains("show")){
+    state.practiceIdx = 0;
+    renderPractice();
+  }
+}
+function renderPractice(){
+  const p = PATTERNS[state.grade].find(x=>x.day===state.day) || PATTERNS[state.grade][0];
+  const q = p.practice[state.practiceIdx] || p.practice[0];
+  document.getElementById("practiceQ").textContent = q.ko;
+  document.getElementById("practiceInput").value = "";
+  document.getElementById("practiceFb").className = "feedback";
+  document.getElementById("practiceFb").textContent = "";
+}
+function checkPractice(){
+  const p = PATTERNS[state.grade].find(x=>x.day===state.day) || PATTERNS[state.grade][0];
+  const q = p.practice[state.practiceIdx] || p.practice[0];
+  const v = document.getElementById("practiceInput").value.trim().toLowerCase().replace(/[.,!?]/g,"");
+  const fb = document.getElementById("practiceFb");
+  const ok = q.en.some(a => a.toLowerCase().replace(/[.,!?]/g,"") === v);
+  if(ok){
+    fb.className = "feedback ok";
+    fb.textContent = "✅ 정답! 잘했어요. 정답: " + q.en[0];
+  }else{
+    fb.className = "feedback no";
+    fb.textContent = "💡 다시 시도. 모범 답안: " + q.en[0];
+  }
+}
+function nextPractice(){
+  const p = PATTERNS[state.grade].find(x=>x.day===state.day) || PATTERNS[state.grade][0];
+  state.practiceIdx = (state.practiceIdx + 1) % p.practice.length;
+  renderPractice();
+}
+
+// === 플래너 복습 연동 ===
+function showReviewPrompt(){
+  document.getElementById("reviewModal").classList.add("show");
+}
+function closeReview(){
+  document.getElementById("reviewModal").classList.remove("show");
+}
+function addToPlanner(){
+  let isMember = false;
+  try{
+    const session = JSON.parse(localStorage.getItem("yeon_session")||"null");
+    isMember = !!(session && session.userId);
+  }catch(e){}
+
+  const p = PATTERNS[state.grade].find(x=>x.day===state.day) || PATTERNS[state.grade][0];
+  const review = {
+    source: "grade-upper",
+    grade: state.grade,
+    day: p.day,
+    title: `초${state.grade} Day${p.day} · ${p.en}`,
+    pattern: p.en,
+    examples: p.examples.map(e=>e.en),
+    addedAt: new Date().toISOString(),
+    nextReviewAt: new Date(Date.now() + 3*24*60*60*1000).toISOString()
+  };
+
+  if(isMember){
+    try{
+      const list = JSON.parse(localStorage.getItem("yeon_planner_reviews")||"[]");
+      list.push(review);
+      localStorage.setItem("yeon_planner_reviews", JSON.stringify(list));
+      alert("✅ 플래너에 복습 자료로 올렸어요. 3일 후 다시 만나요.");
+      closeReview();
+    }catch(e){
+      alert("저장에 실패했어요.");
+    }
+  }else{
+    closeReview();
+    if(confirm("📒 플래너 복습 기능은 회원 전용이에요.\n지금 가입하면 학습 패턴을 자동으로 복습 일정에 넣어드려요.\n\n가입 페이지로 이동할까요?")){
+      location.href = "app.html";
+    }
+  }
+}
+
+renderAll();
+</script>
+</body>
+</html>

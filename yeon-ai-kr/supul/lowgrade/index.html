@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>영풀 초등부 — 학년을 골라주세요</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+  --touch-min:64px;
+  --card-radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:19px;
+  line-height:1.55;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  overflow-x:hidden;
+}
+.wrap{max-width:480px;margin:0 auto;padding:22px 18px 40px;min-height:100vh;}
+@media(min-width:768px){.wrap{max-width:720px;padding:36px 28px;}}
+
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo .mark{width:44px;height:44px;border-radius:12px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;}
+.logo .nm{font-size:16px;font-weight:700;}
+.logo .nm small{display:block;font-size:11px;color:var(--color-text-light);font-weight:400;}
+.home{color:var(--color-text-light);text-decoration:none;font-size:13px;padding:8px 12px;border-radius:10px;}
+.home:active{background:var(--color-surface);}
+
+.hero{text-align:center;padding:20px 10px 30px;}
+.hero .mascot{width:128px;height:128px;margin:0 auto 14px;}
+.hero h1{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;}
+.hero p{font-size:15px;color:var(--color-text-light);}
+
+.grades{display:grid;grid-template-columns:1fr;gap:14px;margin-top:10px;}
+@media(min-width:600px){.grades{grid-template-columns:repeat(3,1fr);}}
+
+.grade-card{
+  background:#fff;
+  border:2px solid var(--color-surface);
+  border-radius:var(--card-radius);
+  padding:22px 18px;
+  min-height:var(--touch-min);
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;
+  transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease;
+  text-decoration:none;color:inherit;
+  box-shadow:0 2px 8px rgba(90,122,130,0.08);
+}
+.grade-card:active{transform:scale(0.97);border-color:var(--color-primary);box-shadow:0 4px 16px rgba(90,122,130,0.18);}
+.grade-card .emoji{font-size:44px;flex-shrink:0;}
+.grade-card .body{flex:1;min-width:0;}
+.grade-card .g{font-size:20px;font-weight:800;color:var(--color-primary);}
+.grade-card .d{font-size:13px;color:var(--color-text-light);margin-top:2px;}
+.grade-card .arrow{color:var(--color-muted);flex-shrink:0;}
+@media(min-width:600px){
+  .grade-card{flex-direction:column;text-align:center;padding:26px 16px;}
+  .grade-card .arrow{display:none;}
+  .grade-card .emoji{font-size:54px;}
+}
+
+.note{margin-top:24px;background:var(--color-surface);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--color-text);line-height:1.7;}
+.note b{color:var(--color-primary);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="logo">
+      <div class="mark">영풀</div>
+      <div class="nm">초등부<small>막힌 영어를 풀다</small></div>
+    </div>
+    <a class="home" href="../deploy/index.html">← 돌아가기</a>
+  </div>
+
+  <div class="hero">
+    <!-- 마스코트: 동글이 (yeon-design 팔레트) -->
+    <svg class="mascot" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7A9AA2"/>
+          <stop offset="1" stop-color="#5A7A82"/>
+        </linearGradient>
+      </defs>
+      <!-- 몸통 -->
+      <ellipse cx="100" cy="110" rx="68" ry="62" fill="url(#body)"/>
+      <!-- 얼굴 하이라이트 -->
+      <ellipse cx="82" cy="88" rx="30" ry="20" fill="#F0F4F5" fill-opacity="0.25"/>
+      <!-- 눈 -->
+      <circle cx="78" cy="100" r="9" fill="#F0F4F5"/>
+      <circle cx="122" cy="100" r="9" fill="#F0F4F5"/>
+      <circle cx="80" cy="102" r="4" fill="#2C3E42"/>
+      <circle cx="124" cy="102" r="4" fill="#2C3E42"/>
+      <!-- 볼 -->
+      <circle cx="62" cy="118" r="7" fill="#D4A8A8" fill-opacity="0.6"/>
+      <circle cx="138" cy="118" r="7" fill="#D4A8A8" fill-opacity="0.6"/>
+      <!-- 입 -->
+      <path d="M 88 128 Q 100 138 112 128" stroke="#F0F4F5" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <!-- 더듬이 -->
+      <line x1="80" y1="50" x2="72" y2="34" stroke="#5A7A82" stroke-width="3" stroke-linecap="round"/>
+      <line x1="120" y1="50" x2="128" y2="34" stroke="#5A7A82" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="72" cy="32" r="5" fill="#8F856B"/>
+      <circle cx="128" cy="32" r="5" fill="#8F856B"/>
+    </svg>
+    <h1>학년을 골라주세요</h1>
+    <p>내 학년에 맞는 영어를 시작해요</p>
+  </div>
+
+  <div class="grades">
+    <a class="grade-card" href="grade2.html">
+      <span class="emoji">🐣</span>
+      <div class="body">
+        <div class="g">초등 2학년</div>
+        <div class="d">알파벳과 첫 단어</div>
+      </div>
+      <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    <a class="grade-card" href="grade3.html">
+      <span class="emoji">🐥</span>
+      <div class="body">
+        <div class="g">초등 3학년</div>
+        <div class="d">단어와 짧은 문장</div>
+      </div>
+      <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    <a class="grade-card" href="grade4.html">
+      <span class="emoji">🦉</span>
+      <div class="body">
+        <div class="g">초등 4학년</div>
+        <div class="d">문장 패턴과 질문</div>
+      </div>
+      <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+
+  <div class="note">
+    🔊 <b>읽어주기</b> 버튼을 누르면 선생님이 읽어줘요.<br>
+    ⭐ 맞히면 스티커를 모아요. 하루 10개가 목표!<br>
+    👨‍👩‍👧 옆에 부모님이나 선생님과 함께하면 더 재밌어요.
+  </div>
+
+</div>
+</body>
+</html>

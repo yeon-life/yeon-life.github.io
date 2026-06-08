@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영풀 교과서 업로드 — 준비 중</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F0F4F5;
+  --color-surface:#D4E0E3;
+  --color-primary:#5A7A82;
+  --color-accent:#8F856B;
+  --color-muted:#A8B5B8;
+  --color-text:#2C3E42;
+  --color-text-light:#6B8A90;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Noto Sans KR','Pretendard',sans-serif;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-size:16px;
+  line-height:1.6;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px 16px;
+}
+.card{
+  background:#fff;
+  border:2px solid var(--color-surface);
+  border-radius:20px;
+  padding:36px 28px;
+  max-width:480px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 6px 24px rgba(90,122,130,0.10);
+}
+.emoji{font-size:64px;margin-bottom:14px;}
+h1{font-size:22px;font-weight:800;color:var(--color-primary);margin-bottom:10px;}
+p{font-size:14px;color:var(--color-text-light);line-height:1.7;margin-bottom:18px;}
+.features{background:var(--color-bg);border-radius:14px;padding:16px 18px;text-align:left;margin-bottom:22px;}
+.features .t{font-size:13px;font-weight:700;color:var(--color-primary);margin-bottom:8px;}
+.features ul{list-style:none;padding:0;margin:0;}
+.features li{font-size:13px;color:var(--color-text);padding:5px 0;padding-left:20px;position:relative;}
+.features li:before{content:"✓";position:absolute;left:0;color:var(--color-primary);font-weight:800;}
+.btn-row{display:flex;gap:10px;}
+.btn{flex:1;display:inline-block;padding:13px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;text-align:center;border:none;cursor:pointer;font-family:inherit;}
+.btn.primary{background:var(--color-primary);color:#fff;}
+.btn.outline{background:#fff;color:var(--color-primary);border:2px solid var(--color-surface);}
+.btn.outline:hover{border-color:var(--color-primary);}
+.badge{display:inline-block;margin-top:14px;font-size:11px;padding:4px 10px;border-radius:12px;background:#EFE6D8;color:var(--color-accent);font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">📖</div>
+    <h1>교과서 · 문제집 업로드</h1>
+    <p>사진만 찍어 올리면<br>핵심 문장을 추출하고 학습 자료를 만들어 드려요.</p>
+
+    <div class="features">
+      <div class="t">이런 걸 해드릴게요</div>
+      <ul>
+        <li>OCR로 교과서 본문 자동 추출</li>
+        <li>학년·학교·목표에 맞는 핵심 문장 선별</li>
+        <li>단어장 자동 생성 + 예문 제공</li>
+        <li>시험 대비 학습 자료 묶음 출력</li>
+        <li>플래너 복습 자료로 바로 연동</li>
+      </ul>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn outline" href="study-hub.html">← 학습 허브로</a>
+      <a class="btn primary" href="app.html">기존 OCR 사용</a>
+    </div>
+
+    <div class="badge">🛠️ 전용 버전 준비 중 — 2026년 5월 공개 예정</div>
+  </div>
+</body>
+</html>

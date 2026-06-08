@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블로그 템플릿 10종 — y-life.kr</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink-deep:#1a2326; --ink-soft:#2a3438;
+    --teal-deep:#2a5358; --teal-mid:#4a6878;
+    --amber-quiet:#a87b3e;
+    --line-soft:#d8d3c7; --line-fine:#e8e4d9;
+    --paper-base:#f4f0e6; --paper-warm:#f6f3ec; --paper-cool:#eee9dc;
+    --surface:#fbfaf5; --surface-pure:#ffffff;
+    --text-body:#2a3438; --text-muted:#5e6a6e; --text-soft:#8a9398;
+    --font-title:"Noto Serif KR",serif;
+    --font-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+    --font-hand:"Nanum Pen Script", cursive;
+    --font-round:"Gowun Dodum", sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);color:var(--text-body);background:linear-gradient(180deg,var(--paper-warm) 0%,var(--paper-base) 60%,var(--paper-cool) 100%);min-height:100vh;line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* ===== 페이지 상단 ===== */
+  .top-mini{padding:14px 0;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--text-muted)}
+  .top-mini .wrap{display:flex;justify-content:space-between;align-items:center}
+  .top-mini a{color:var(--text-body);font-family:var(--font-title);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+  .top-mini a:hover{color:var(--teal-deep)}
+  .top-mini .ico{color:var(--teal-deep)}
+
+  .page-head{padding:64px 0 48px;border-bottom:2px solid var(--ink-deep)}
+  .page-meta{font-size:12px;color:var(--amber-quiet);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .page-meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber-quiet);margin-right:10px;vertical-align:5px}
+  .page-head h1{font-family:var(--font-title);font-size:52px;font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--ink-deep);margin-bottom:18px}
+  .page-head h1 em{font-style:italic;color:var(--teal-deep);font-weight:600}
+  .page-head .lede{font-size:17px;color:var(--text-muted);line-height:1.7;max-width:760px}
+
+  /* ===== 안내 박스 ===== */
+  .principle-strip{background:var(--surface);border:1px solid var(--line-fine);border-radius:4px;padding:24px 28px;margin:40px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .pr-card h3{font-family:var(--font-title);font-size:14px;color:var(--amber-quiet);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+  .pr-card p{font-size:13px;color:var(--text-muted);line-height:1.65}
+
+  /* ===== 갤러리 그리드 ===== */
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:48px 0 72px}
+  .tpl-card{background:var(--surface);border:1px solid var(--line-soft);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer}
+  .tpl-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(26,35,38,.1);border-color:var(--teal-deep)}
+  .tpl-num{position:absolute;top:18px;left:22px;font-family:var(--font-title);font-size:14px;font-weight:700;color:var(--amber-quiet);letter-spacing:.06em;z-index:5}
+
+  .tpl-preview{height:280px;border-bottom:1px solid var(--line-soft);position:relative;overflow:hidden}
+
+  /* === 각 템플릿 미리보기 === */
+
+  /* 01. 정직 — Editorial Quiet */
+  .prev-01{background:var(--paper-warm);padding:28px}
+  .prev-01 .cover-mini{height:60px;background:linear-gradient(135deg,var(--teal-deep),var(--amber-quiet));border-radius:2px;margin-bottom:14px;position:relative}
+  .prev-01 .av-mini{width:34px;height:34px;border-radius:50%;background:var(--paper-warm);border:3px solid var(--paper-warm);position:absolute;bottom:-12px;left:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:700;color:var(--teal-deep);font-size:14px}
+  .prev-01 .name-mini{font-family:var(--font-title);font-size:16px;font-weight:700;color:var(--ink-deep);margin:18px 0 4px 4px}
+  .prev-01 .post-mini{margin-top:14px;padding:10px 0;border-bottom:1px dashed var(--line-soft)}
+  .prev-01 .post-mini h4{font-family:var(--font-title);font-size:13px;color:var(--ink-deep);margin-bottom:3px;font-weight:600}
+  .prev-01 .post-mini .meta{font-size:9px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase}
+
+  /* 02. 여백 — Open White */
+  .prev-02{background:var(--surface-pure);padding:36px;display:flex;flex-direction:column;justify-content:center}
+  .prev-02 .name-mini{font-family:var(--font-title);font-size:24px;font-weight:300;color:var(--ink-deep);letter-spacing:-.02em;text-align:center;margin-bottom:8px}
+  .prev-02 .bio-mini{font-family:var(--font-title);font-size:11px;color:var(--text-muted);text-align:center;font-style:italic;margin-bottom:28px;letter-spacing:.04em}
+  .prev-02 .post-mini{text-align:center;padding:8px 0}
+  .prev-02 .post-mini h4{font-family:var(--font-title);font-size:13px;color:var(--ink-deep);font-weight:400}
+  .prev-02 .post-mini .meta{font-size:9px;color:var(--text-soft);margin-top:3px}
+  .prev-02 .div{width:30px;height:1px;background:var(--line-soft);margin:0 auto}
+
+  /* 03. 노트 — Notebook */
+  .prev-03{background:#f7f1de;padding:28px;background-image:repeating-linear-gradient(180deg,transparent,transparent 22px,rgba(168,123,62,.15) 22px,rgba(168,123,62,.15) 23px);position:relative}
+  .prev-03::before{content:"";position:absolute;left:32px;top:0;bottom:0;width:1px;background:rgba(168,80,80,.3)}
+  .prev-03 .name-mini{font-family:var(--font-hand);font-size:26px;color:var(--ink-deep);margin-left:24px;line-height:1.2;margin-bottom:6px}
+  .prev-03 .bio-mini{font-family:var(--font-hand);font-size:16px;color:var(--teal-deep);margin-left:24px;line-height:1.3;margin-bottom:18px}
+  .prev-03 .post-mini{margin-left:24px;margin-top:8px}
+  .prev-03 .post-mini h4{font-family:var(--font-hand);font-size:18px;color:var(--ink-deep);font-weight:400;line-height:1.2}
+  .prev-03 .post-mini .meta{font-family:var(--font-body);font-size:10px;color:var(--text-muted);margin-top:2px}
+
+  /* 04. 카드 — Stacked Cards */
+  .prev-04{background:var(--paper-cool);padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+  .prev-04 .header{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .prev-04 .av-mini{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal-mid),var(--teal-deep));color:var(--surface-pure);display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:12px;font-weight:700}
+  .prev-04 .name-mini{font-family:var(--font-title);font-size:14px;font-weight:700;color:var(--ink-deep)}
+  .prev-04 .card-mini{background:var(--surface);border-radius:4px;padding:12px;border:1px solid var(--line-fine)}
+  .prev-04 .card-mini .thumb{height:36px;background:linear-gradient(135deg,var(--paper-base),var(--paper-cool));border-radius:2px;margin-bottom:8px}
+  .prev-04 .card-mini h4{font-family:var(--font-title);font-size:11px;color:var(--ink-deep);font-weight:600;line-height:1.3}
+
+  /* 05. 장서 — Bookshelf */
+  .prev-05{background:var(--paper-warm);display:flex;height:100%}
+  .prev-05 .side{width:120px;background:var(--ink-deep);color:var(--paper-warm);padding:20px 14px;display:flex;flex-direction:column;justify-content:space-between}
+  .prev-05 .side .name{font-family:var(--font-title);font-size:14px;font-weight:700;margin-bottom:18px;line-height:1.2}
+  .prev-05 .side .cat{font-family:var(--font-title);font-size:10px;padding:5px 0;border-bottom:1px solid rgba(244,240,230,.15);color:rgba(244,240,230,.7);font-weight:500}
+  .prev-05 .side .cat.act{color:var(--amber-quiet)}
+  .prev-05 .main{flex:1;padding:24px 22px}
+  .prev-05 .main .cat-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-quiet);font-weight:700;margin-bottom:8px}
+  .prev-05 .main h3{font-family:var(--font-title);font-size:16px;font-weight:600;color:var(--ink-deep);line-height:1.35;margin-bottom:8px}
+  .prev-05 .main p{font-size:10px;color:var(--text-muted);line-height:1.55}
+
+  /* 06. 편지 — Letter */
+  .prev-06{background:linear-gradient(135deg,#faf6e9 0%,#f3ecd4 100%);padding:36px;position:relative}
+  .prev-06::before{content:"";position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:rgba(168,80,80,.7);display:flex;align-items:center;justify-content:center}
+  .prev-06::after{content:"印";position:absolute;top:14px;right:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);color:var(--paper-warm);font-size:14px;font-weight:700}
+  .prev-06 .greeting{font-family:var(--font-title);font-size:14px;color:var(--ink-deep);font-style:italic;margin-bottom:18px}
+  .prev-06 .body{font-family:"Courier New",monospace;font-size:11px;color:var(--text-body);line-height:1.7;margin-bottom:18px}
+  .prev-06 .signoff{font-family:var(--font-hand);font-size:20px;color:var(--teal-deep);text-align:right}
+
+  /* 07. 잡지 — Magazine */
+  .prev-07{background:var(--surface);padding:24px;display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+  .prev-07 .left .issue{font-size:9px;letter-spacing:.16em;color:var(--amber-quiet);font-weight:700;text-transform:uppercase;margin-bottom:6px}
+  .prev-07 .left h1{font-family:var(--font-title);font-size:24px;font-weight:900;color:var(--ink-deep);line-height:1.05;letter-spacing:-.02em;margin-bottom:10px}
+  .prev-07 .left .deck{font-size:10px;color:var(--text-muted);line-height:1.55;border-top:1px solid var(--ink-deep);padding-top:8px}
+  .prev-07 .right{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:1px solid var(--line-soft)}
+  .prev-07 .right .item h4{font-family:var(--font-title);font-size:11px;font-weight:600;color:var(--ink-deep);line-height:1.3;margin-bottom:2px}
+  .prev-07 .right .item .m{font-size:8px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase}
+
+  /* 08. 풍경 — Horizontal */
+  .prev-08{background:linear-gradient(90deg,var(--paper-warm),var(--paper-base),var(--paper-cool));padding:28px;display:flex;gap:14px;align-items:center;overflow:hidden;position:relative}
+  .prev-08::after{content:"→";position:absolute;right:14px;bottom:14px;font-size:24px;color:var(--text-soft);font-family:var(--font-title)}
+  .prev-08 .panel{min-width:110px;background:var(--surface);border:1px solid var(--line-fine);border-radius:2px;padding:14px;flex-shrink:0}
+  .prev-08 .panel.act{background:var(--ink-deep);color:var(--paper-warm);border-color:var(--ink-deep)}
+  .prev-08 .panel .n{font-family:var(--font-title);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-quiet);margin-bottom:6px;font-weight:700}
+  .prev-08 .panel.act .n{color:var(--amber-quiet)}
+  .prev-08 .panel h4{font-family:var(--font-title);font-size:12px;font-weight:600;line-height:1.3}
+  .prev-08 .panel .small{font-size:8px;opacity:.7;margin-top:4px}
+
+  /* 09. 묵화 — Ink Brush */
+  .prev-09{background:#f7f3e7;padding:28px;position:relative}
+  .prev-09::before{content:"林";position:absolute;top:20px;right:20px;width:36px;height:36px;border:2px solid var(--ink-deep);display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:18px;color:var(--ink-deep);font-weight:700;background:rgba(168,80,80,.08)}
+  .prev-09 .hanja-big{font-family:var(--font-title);font-size:42px;color:var(--ink-deep);font-weight:300;line-height:1;margin-bottom:8px;letter-spacing:.04em}
+  .prev-09 .name-mini{font-family:var(--font-title);font-size:14px;color:var(--text-muted);font-style:italic;margin-bottom:18px}
+  .prev-09 .body{padding-left:14px;border-left:2px solid var(--ink-deep)}
+  .prev-09 .body h4{font-family:var(--font-title);font-size:13px;color:var(--ink-deep);font-weight:600;margin-bottom:4px}
+  .prev-09 .body .meta{font-size:9px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase}
+
+  /* 10. 풀잎 — Botanical */
+  .prev-10{background:linear-gradient(180deg,#eef2e8 0%,#f4f0e6 100%);padding:28px;position:relative;overflow:hidden}
+  .prev-10::before{content:"";position:absolute;top:-10px;right:-10px;width:80px;height:80px;background:radial-gradient(circle,rgba(74,104,120,.2),transparent 60%);border-radius:50%}
+  .prev-10 .leaf{position:absolute;font-family:var(--font-title);color:rgba(42,83,88,.4);font-size:28px;line-height:1}
+  .prev-10 .leaf.l1{top:14px;right:24px}
+  .prev-10 .leaf.l2{bottom:20px;right:50px;font-size:20px;color:rgba(168,123,62,.3)}
+  .prev-10 .name-mini{font-family:var(--font-round);font-size:20px;color:var(--ink-deep);margin-bottom:6px;font-weight:700}
+  .prev-10 .bio-mini{font-family:var(--font-round);font-size:11px;color:var(--text-muted);margin-bottom:18px}
+  .prev-10 .post-mini{margin-top:14px}
+  .prev-10 .post-mini h4{font-family:var(--font-round);font-size:13px;color:var(--ink-deep);font-weight:700;margin-bottom:2px}
+  .prev-10 .post-mini .meta{font-size:9px;color:var(--text-muted)}
+
+  /* === 카드 메타 영역 === */
+  .tpl-body{padding:22px 24px 24px;position:relative}
+  .tpl-tag{display:inline-block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-quiet);font-weight:700;margin-bottom:8px}
+  .tpl-name{font-family:var(--font-title);font-size:22px;font-weight:700;color:var(--ink-deep);margin-bottom:8px;letter-spacing:-.01em}
+  .tpl-name .en{font-size:13px;color:var(--text-muted);font-weight:400;font-style:italic;margin-left:8px}
+  .tpl-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+  .tpl-fit{font-size:12px;color:var(--text-body);margin-bottom:14px;padding:10px 12px;background:var(--paper-warm);border-radius:2px;border-left:2px solid var(--teal-deep)}
+  .tpl-fit strong{color:var(--ink-deep);font-weight:600;display:block;margin-bottom:2px;font-family:var(--font-title);font-size:12px}
+  .tpl-controls{display:flex;flex-wrap:wrap;gap:6px}
+  .ctrl-chip{font-size:10px;padding:4px 10px;background:var(--paper-cool);border-radius:999px;color:var(--text-muted);font-weight:600;letter-spacing:.04em}
+
+  /* ===== 결정 안내 ===== */
+  .decide-box{background:var(--ink-deep);color:var(--paper-warm);padding:48px;border-radius:4px;margin:48px 0 64px}
+  .decide-box h2{font-family:var(--font-title);font-size:26px;font-weight:700;margin-bottom:14px}
+  .decide-box p{font-size:15px;opacity:.85;line-height:1.7;margin-bottom:10px}
+  .decide-box em{color:var(--amber-quiet);font-style:normal;font-weight:600}
+
+  /* 푸터 */
+  .footer{padding:30px 0;text-align:center;color:var(--text-muted);font-size:12px;border-top:1px solid var(--line-soft);background:var(--paper-warm)}
+
+  @media (max-width:1024px){
+    .gallery{grid-template-columns:1fr;gap:24px}
+    .principle-strip{grid-template-columns:1fr;gap:14px}
+    .page-head h1{font-size:36px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-mini">
+  <div class="wrap">
+    <a href="시안_v3_홈페이지.html"><span class="ico">緣</span>y-life.kr 홈으로</a>
+    <span>블로그 템플릿 갤러리</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== 페이지 헤더 ===== -->
+  <header class="page-head">
+    <div class="page-meta">y-life.kr 블로그 · 템플릿 10종 · 2026년 5월</div>
+    <h1>같은 마을, 열 개의 <em>처마</em></h1>
+    <p class="lede">
+      모든 블로그는 가입하자마자 곧바로 작동합니다. 본인은 표지와 한 줄 소개만 손대면 됩니다.
+      그래도 각자 조금씩 다른 분위기를 원할 수 있어요. 그래서 열 가지 결을 준비했습니다.
+      바깥으로는 새벽의 신뢰 팔레트로 다 같은 마을. 안쪽 결은 사람마다 다른 처마.
+    </p>
+  </header>
+
+  <!-- ===== 원칙 안내 ===== -->
+  <div class="principle-strip">
+    <div class="pr-card">
+      <h3>가입과 동시에 작동</h3>
+      <p>빈 화면을 마주하지 않습니다. 닉네임만 정하면 환영 글이 한 편 자동으로 생기고, 곧바로 사람을 들일 수 있는 상태가 됩니다.</p>
+    </div>
+    <div class="pr-card">
+      <h3>최소한의 편집</h3>
+      <p>표지 이미지, 한 줄 소개, 컬러 변형 두세 가지. 그 이상의 자유는 일부러 막아 둡니다. 마을 전체 톤이 흐트러지지 않도록.</p>
+    </div>
+    <div class="pr-card">
+      <h3>광장·가게 연동</h3>
+      <p>아골라·아곤란에 쓴 글은 자동으로 블로그에 모입니다. 가게는 켜고 끌 수 있고, 외부 결제로 안전하게 시작합니다.</p>
+    </div>
+  </div>
+
+  <!-- ===== 갤러리 ===== -->
+  <section class="gallery">
+
+    <!-- 01. 정직 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.01</span>
+        <div class="prev-01">
+          <div class="cover-mini"><div class="av-mini">林</div></div>
+          <div class="name-mini">임선생의 마당</div>
+          <div class="post-mini"><h4>'선택'이라는 말의 무게</h4><div class="meta">철학 · 2시간 전</div></div>
+          <div class="post-mini"><h4>왜요?가 많이 나오는 수업</h4><div class="meta">교실 · 5월 9일</div></div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.01 · 기본</div>
+        <h3 class="tpl-name">정직<span class="en">Editorial Quiet</span></h3>
+        <p class="tpl-desc">신문·저널의 호흡. 표지 + 원형 프로필 + 깨끗한 글 목록. 무난하면서 가장 신뢰감 있는 결.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>긴 글을 자주 쓰는 분, 누구에게 보여줘도 단정한 톤을 원하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">표지 이미지</span>
+          <span class="ctrl-chip">메인 컬러 3종</span>
+          <span class="ctrl-chip">소개 글 길이</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02. 여백 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.02</span>
+        <div class="prev-02">
+          <div class="name-mini">임 선 생</div>
+          <div class="bio-mini">천천히 묻는 사람</div>
+          <div class="div"></div>
+          <div class="post-mini"><h4>'선택'이라는 말의 무게</h4><div class="meta">5월 14일</div></div>
+          <div class="div"></div>
+          <div class="post-mini"><h4>왜요?가 많이 나오는 수업</h4><div class="meta">5월 9일</div></div>
+          <div class="div"></div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.02 · 미니멀</div>
+        <h3 class="tpl-name">여백<span class="en">Open White</span></h3>
+        <p class="tpl-desc">거의 흰 종이. 글자만으로 충분하다고 느끼는 사람의 결. 화려한 표지 없이 문장이 주인공.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>사진보다 글로 승부하는 분, 일기·시·짧은 단상을 쓰는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">정렬 (왼/가운데)</span>
+          <span class="ctrl-chip">본문 폭</span>
+          <span class="ctrl-chip">구분선 두께</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03. 노트 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.03</span>
+        <div class="prev-03">
+          <div class="name-mini">민서의 노트</div>
+          <div class="bio-mini">중학교 1학년 · 매일 한 줄</div>
+          <div class="post-mini"><h4>오늘 친구가 한 말</h4><div class="meta">5월 14일</div></div>
+          <div class="post-mini"><h4>수학 시간에 든 생각</h4><div class="meta">5월 13일</div></div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.03 · 손글씨</div>
+        <h3 class="tpl-name">노트<span class="en">Notebook</span></h3>
+        <p class="tpl-desc">줄 노트 위에 손글씨로 쓴 듯한 결. 학생이나 매일 짧게 쓰는 사람에게 친근한 분위기.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>학생 · 일기 쓰는 분 · 손글씨의 따뜻함을 좋아하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">종이 색 3종</span>
+          <span class="ctrl-chip">손글씨 폰트 on/off</span>
+          <span class="ctrl-chip">줄 굵기</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04. 카드 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.04</span>
+        <div class="prev-04">
+          <div class="header"><div class="av-mini">朴</div><div class="name-mini">박주민의 책상</div></div>
+          <div class="card-mini"><div class="thumb"></div><h4>봄날의 둑길에서</h4></div>
+          <div class="card-mini"><div class="thumb"></div><h4>다섯 사람의 이야기</h4></div>
+          <div class="card-mini"><div class="thumb"></div><h4>읽다 멈춘 문장</h4></div>
+          <div class="card-mini"><div class="thumb"></div><h4>저녁 7시의 풍경</h4></div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.04 · 카드</div>
+        <h3 class="tpl-name">카드<span class="en">Stacked Cards</span></h3>
+        <p class="tpl-desc">글마다 작은 카드. 사진이 같이 있는 글이 많은 사람에게 어울리는 결. 한눈에 둘러보기 좋음.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>여행 기록 · 동네 산책 · 음식·사진이 곁들여진 글을 쓰는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">1·2·3열</span>
+          <span class="ctrl-chip">카드 라운드</span>
+          <span class="ctrl-chip">그림자 강도</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05. 장서 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.05</span>
+        <div class="prev-05">
+          <div class="side">
+            <div>
+              <div class="name">최영재의<br>서고</div>
+              <div class="cat act">철학</div>
+              <div class="cat">교실</div>
+              <div class="cat">읽기</div>
+              <div class="cat">사색</div>
+              <div class="cat">번역</div>
+            </div>
+          </div>
+          <div class="main">
+            <div class="cat-label">철학 · No.012</div>
+            <h3>몸이 먼저 안다는 말의 동양적 뿌리</h3>
+            <p>신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.</p>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.05 · 도서관</div>
+        <h3 class="tpl-name">장서<span class="en">Bookshelf</span></h3>
+        <p class="tpl-desc">왼쪽 책장 메뉴, 오른쪽 본문. 카테고리가 많은 사람에게 정리감을 주는 결. 도서관·연구실 분위기.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>연구자 · 카테고리별 글이 많은 분 · 옛 도서관 결을 좋아하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">사이드바 색</span>
+          <span class="ctrl-chip">책등 텍스처</span>
+          <span class="ctrl-chip">번호 표기</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06. 편지 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.06</span>
+        <div class="prev-06">
+          <div class="greeting">— 어느 봄날, 누군가에게.</div>
+          <div class="body">오늘은 비가 왔습니다. 비 오는 날의 골목을 걸으며, 나는 다시 그 화두 앞에 멈췄습니다.<br>선택이란 무엇일까. 내가 선택한다고 믿는 그 순간에...</div>
+          <div class="signoff">— 임선생 드림</div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.06 · 한 사람에게</div>
+        <h3 class="tpl-name">편지<span class="en">Letter</span></h3>
+        <p class="tpl-desc">글 하나가 한 통의 편지. 받는 사람을 떠올리며 쓰는 듯한 결. 타자기 폰트와 인장.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>독자에게 직접 말 거는 톤을 좋아하는 분 · 뉴스레터 형식을 즐기는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">종이 톤</span>
+          <span class="ctrl-chip">인장 색·문자</span>
+          <span class="ctrl-chip">타자기 on/off</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07. 잡지 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.07</span>
+        <div class="prev-07">
+          <div class="left">
+            <div class="issue">Issue 12 · 2026 May</div>
+            <h1>봄의 결정 피로</h1>
+            <div class="deck">선택지가 너무 많은 시대의 청년이 길어진 화두. 다섯 사람의 이야기를 듣고 한 주를 보냈다.</div>
+          </div>
+          <div class="right">
+            <div class="item"><h4>둑길에서 만난 봄</h4><div class="m">기록 · 5월 12일</div></div>
+            <div class="item"><h4>읽다 멈춘 문장</h4><div class="m">읽기 · 5월 9일</div></div>
+            <div class="item"><h4>저녁 7시의 풍경</h4><div class="m">사진 · 5월 7일</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.07 · 다단</div>
+        <h3 class="tpl-name">잡지<span class="en">Magazine</span></h3>
+        <p class="tpl-desc">표지 같은 큰 헤드라인 + 작은 다단 본문. 작가나 정기 발행하는 사람에게 어울리는 결.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>정기 발행하는 분 · 칼럼니스트 · 잡지 결을 좋아하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">단 수 (1/2/3)</span>
+          <span class="ctrl-chip">이슈 번호 표기</span>
+          <span class="ctrl-chip">표지 컬러</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08. 풍경 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.08</span>
+        <div class="prev-08">
+          <div class="panel act">
+            <div class="n">No.01</div>
+            <h4>봄의 입구</h4>
+            <div class="small">3월의 둑길</div>
+          </div>
+          <div class="panel">
+            <div class="n">No.02</div>
+            <h4>걸어 들어가다</h4>
+            <div class="small">4월의 산책</div>
+          </div>
+          <div class="panel">
+            <div class="n">No.03</div>
+            <h4>봄의 한가운데</h4>
+            <div class="small">5월의 빛</div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.08 · 가로 스크롤</div>
+        <h3 class="tpl-name">풍경<span class="en">Horizontal Scroll</span></h3>
+        <p class="tpl-desc">글이 옆으로 흐른다. 시리즈물·연재에 어울리는 결. 걸어 들어가는 듯한 호흡.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>연재물을 쓰는 분 · 시간 순서가 중요한 글을 쓰는 분 · 사진 위주의 기록.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">스크롤 속도</span>
+          <span class="ctrl-chip">배경 그라디언트</span>
+          <span class="ctrl-chip">패널 너비</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09. 묵화 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.09</span>
+        <div class="prev-09">
+          <div class="hanja-big">不 忍 人</div>
+          <div class="name-mini">— 임선생의 서재</div>
+          <div class="body">
+            <h4>맹자의 不忍人之心</h4>
+            <div class="meta">철학 · 5월 2일</div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.09 · 동양</div>
+        <h3 class="tpl-name">묵화<span class="en">Ink Brush</span></h3>
+        <p class="tpl-desc">한자가 크게 자리하고 본문은 그 곁에 흐른다. 동양 사상·한문 인용이 많은 분의 결. 인장 포인트.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>한자·한문을 인용하는 분 · 동양철학·한국학 다루는 분 · 옛 서적 결을 좋아하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">인장 색·글자</span>
+          <span class="ctrl-chip">한자 크기</span>
+          <span class="ctrl-chip">먹빛 강도</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. 풀잎 -->
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <span class="tpl-num">No.10</span>
+        <div class="prev-10">
+          <span class="leaf l1">艸</span>
+          <span class="leaf l2">芽</span>
+          <div class="name-mini">하은이의 작은 정원</div>
+          <div class="bio-mini">초등학교 6학년 · 식물을 좋아해요</div>
+          <div class="post-mini"><h4>오늘 핀 꽃 한 송이</h4><div class="meta">5월 14일</div></div>
+          <div class="post-mini"><h4>학교 가는 길</h4><div class="meta">5월 13일</div></div>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <div class="tpl-tag">No.10 · 자연</div>
+        <h3 class="tpl-name">풀잎<span class="en">Botanical</span></h3>
+        <p class="tpl-desc">초록 기 머금은 배경, 작은 식물 모티프. 학생이나 자연을 좋아하는 분에게 따뜻한 결.</p>
+        <div class="tpl-fit"><strong>이런 분에게</strong>학생 · 자연·식물을 좋아하는 분 · 일상의 작은 발견을 기록하는 분.</div>
+        <div class="tpl-controls">
+          <span class="ctrl-chip">식물 종류</span>
+          <span class="ctrl-chip">계절 배경</span>
+          <span class="ctrl-chip">둥근 폰트 on/off</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== 결정 안내 ===== -->
+  <div class="decide-box">
+    <h2>이 중 어느 결을 먼저 빌드할까요?</h2>
+    <p>10개를 한꺼번에 다 풀로 만들기보다, 마음에 가장 끌리는 <em>3~4개</em>를 먼저 실제 작동하는 HTML로 빌드하겠습니다.</p>
+    <p>나머지는 시간을 두고 하나씩 추가할 수 있어요.</p>
+    <p style="margin-top:18px;font-size:13px;opacity:.65">현재 시안_v3_블로그.html은 <em>No.01 정직</em>의 풀 버전입니다. 다른 결을 보고 싶으시면 번호로 말씀해 주세요.</p>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="wrap">© 2026 y-life.kr — 같은 마을, 열 개의 처마. 마음에 드는 결을 골라보세요.</div>
+</footer>
+
+</body>
+</html>

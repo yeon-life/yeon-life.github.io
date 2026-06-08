@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="이진우 (연소사)">
+<meta name="copyright" content="© 2026 이진우 (연소사) · yeon.ai.kr">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#F5EFEC">
+<title>스무고개 상담카드 · 결제</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#F5EFEC;
+  --color-surface:#E8DDD8;
+  --color-surface-light:#F0E8E4;
+  --color-primary:#7A6260;
+  --color-primary-dark:#5A4845;
+  --color-muted:#B5B0AC;
+  --color-text:#3E2E2C;
+  --color-text-light:#8A7A78;
+  --color-success:#6B8F71;
+  --color-error:#8F6B6B;
+  --color-warning:#8F856B;
+  --color-gold:#E8A200;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-bg:#1E1A18;
+    --color-surface:#2E2826;
+    --color-surface-light:#3A3230;
+    --color-primary:#B8928F;
+    --color-primary-dark:#D4ABA8;
+    --color-muted:#5A5250;
+    --color-text:#E8E0DE;
+    --color-text-light:#A89895;
+    --color-success:#7AAF81;
+    --color-error:#AF7A7A;
+    --color-warning:#AFA57A;
+    --color-gold:#FFD166;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100vh}
+body{
+  font-family:'Noto Sans KR','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--color-bg);color:var(--color-text);
+  font-size:15px;line-height:1.65;
+  display:flex;flex-direction:column;align-items:center;
+}
+.wrap{max-width:480px;width:100%;padding:20px 16px 40px}
+
+/* 헤더 */
+.hdr{text-align:center;padding:28px 16px 24px}
+.hdr-icon{
+  width:56px;height:56px;border-radius:16px;
+  background:linear-gradient(135deg,#7A6260,#5a4845);
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+}
+.hdr h1{font-size:22px;font-weight:700;color:var(--color-primary-dark);margin-bottom:4px}
+.hdr p{font-size:13px;color:var(--color-text-light)}
+
+/* 상품 카드 */
+.products{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.prod{
+  background:var(--color-surface-light);border-radius:12px;padding:16px;
+  cursor:pointer;border:2px solid transparent;transition:all .2s;
+  position:relative;overflow:hidden;
+}
+.prod:hover{border-color:var(--color-muted)}
+.prod.selected{border-color:var(--color-primary);background:var(--color-surface)}
+.prod.selected::after{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:var(--color-primary);border-radius:2px;
+}
+.prod-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prod-name{font-size:16px;font-weight:700}
+.prod-price{font-size:20px;font-weight:700;color:var(--color-primary)}
+.prod-price small{font-size:12px;font-weight:400;color:var(--color-text-light)}
+.prod-desc{font-size:12px;color:var(--color-text-light);line-height:1.6}
+.prod-badge{
+  display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;
+  margin-bottom:6px;
+}
+.badge-hot{background:#7A626018;color:var(--color-primary)}
+.badge-best{background:#6B8F7118;color:var(--color-success)}
+
+/* 결제 수단 */
+.pay-section{margin-bottom:24px}
+.pay-title{font-size:13px;font-weight:700;color:var(--color-text-light);margin-bottom:10px}
+.pay-methods{display:flex;flex-direction:column;gap:8px}
+.pay-btn{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border-radius:12px;
+  background:var(--color-surface-light);border:2px solid transparent;
+  cursor:pointer;transition:all .2s;font-family:inherit;font-size:14px;
+  color:var(--color-text);width:100%;text-align:left;
+}
+.pay-btn:hover{border-color:var(--color-muted)}
+.pay-btn:disabled{opacity:0.4;cursor:not-allowed}
+.pay-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:18px;font-weight:700;
+}
+.pay-icon.kakao{background:#FEE500;color:#3C1E1E}
+.pay-icon.toss{background:#0064FF;color:#fff}
+.pay-icon.bank{background:var(--color-surface);color:var(--color-primary)}
+.pay-info{flex:1}
+.pay-name{font-weight:600;font-size:14px}
+.pay-sub{font-size:11px;color:var(--color-text-light);margin-top:1px}
+
+/* 안내 영역 */
+.notice{
+  background:var(--color-surface-light);border-radius:12px;padding:14px 16px;
+  font-size:11px;color:var(--color-text-light);line-height:1.7;margin-bottom:20px;
+}
+.notice strong{color:var(--color-text);font-weight:600}
+
+/* 모달 */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--color-bg);border-radius:16px;padding:24px 20px;
+  max-width:400px;width:100%;text-align:center;
+  box-shadow:0 8px 32px rgba(0,0,0,.15);
+}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.modal p{font-size:13px;color:var(--color-text-light);line-height:1.6;margin-bottom:16px}
+.modal .amount{font-size:28px;font-weight:700;color:var(--color-primary);margin:12px 0}
+.modal-actions{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.btn-main{
+  background:var(--color-primary);color:#fff;border:none;border-radius:10px;
+  padding:14px;font-size:15px;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:filter .2s;width:100%;
+}
+.btn-main:hover{filter:brightness(0.9)}
+.btn-main.kakao-bg{background:#FEE500;color:#3C1E1E}
+.btn-main.toss-bg{background:#0064FF;color:#fff}
+.btn-sub{
+  background:transparent;color:var(--color-text-light);border:1px solid var(--color-muted);
+  border-radius:10px;padding:12px;font-size:13px;cursor:pointer;font-family:inherit;
+  width:100%;
+}
+.btn-sub:hover{background:var(--color-surface-light)}
+
+/* 완료 화면 */
+.done{text-align:center;padding:40px 20px}
+.done-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--color-success);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+}
+.done h2{font-size:20px;font-weight:700;margin-bottom:8px}
+.done p{font-size:13px;color:var(--color-text-light);line-height:1.6}
+
+/* 계좌 복사 */
+.acct-box{
+  background:var(--color-surface);border-radius:10px;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin:12px 0;font-size:14px;font-weight:600;
+}
+.copy-btn{
+  background:var(--color-primary);color:#fff;border:none;border-radius:6px;
+  padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;
+}
+
+/* 토스트 */
+.toast{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  background:var(--color-text);color:var(--color-bg);
+  padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;
+}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- 헤더 -->
+  <div class="hdr">
+    <div class="hdr-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <h1>스무고개 상담카드</h1>
+    <p>나를 찾아가는 20가지 질문</p>
+  </div>
+
+  <!-- 상품 선택 -->
+  <div class="products" id="products">
+    <div class="prod selected" data-product="single" onclick="selectProduct('single')">
+      <span class="prod-badge badge-hot">첫 구매 추천</span>
+      <div class="prod-top">
+        <div class="prod-name">단일 검사</div>
+        <div class="prod-price">1,000<small>원</small></div>
+      </div>
+      <div class="prod-desc">
+        원하는 스무고개 1가지를 선택해서 AI 심층 분석을 받습니다.<br>
+        수채화 스타일 결과 카드 + 상세 분석 리포트 포함.
+      </div>
+    </div>
+    <div class="prod" data-product="package" onclick="selectProduct('package')">
+      <span class="prod-badge badge-best">47% 할인</span>
+      <div class="prod-top">
+        <div class="prod-name">전체 패키지 (20가지)</div>
+        <div class="prod-price">19,000<small>원</small> <span style="font-size:12px;color:var(--color-text-light);text-decoration:line-through;font-weight:400">20,000원</span></div>
+      </div>
+      <div class="prod-desc">
+        20가지 스무고개 전부 + 종합 분석 보고서.<br>
+        가족 비교 분석, 시간 경과 추적 기능 포함. 가장 인기 있는 선택입니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 결제 수단 -->
+  <div class="pay-section">
+    <div class="pay-title">결제 수단을 선택하세요</div>
+    <div class="pay-methods">
+      <button class="pay-btn" onclick="startPay('kakaopay')" id="btn-kakao">
+        <div class="pay-icon kakao">K</div>
+        <div class="pay-info">
+          <div class="pay-name">카카오페이 송금</div>
+          <div class="pay-sub">카카오톡에서 바로 결제</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="pay-btn" onclick="startPay('toss')" id="btn-toss">
+        <div class="pay-icon toss">T</div>
+        <div class="pay-info">
+          <div class="pay-name">토스 송금</div>
+          <div class="pay-sub">토스앱에서 바로 결제</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="pay-btn" onclick="startPay('bank')" id="btn-bank">
+        <div class="pay-icon bank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3"/>
+          </svg>
+        </div>
+        <div class="pay-info">
+          <div class="pay-name">계좌이체</div>
+          <div class="pay-sub">계좌번호 직접 입력 후 송금</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 안내 -->
+  <div class="notice">
+    <strong>안내 사항</strong><br>
+    · 송금 확인 후 24시간 내에 검사 이용권이 활성화됩니다<br>
+    · 송금 시 <strong>이름(학생명)</strong>을 메모에 꼭 적어주세요<br>
+    · 이용권 활성화 전 환불 요청 시 100% 환불됩니다<br>
+    · 문의: 연플래닝 담당 선생님에게 카카오톡 메시지
+  </div>
+</div>
+
+<!-- 결제 확인 모달 -->
+<div class="modal-bg" id="payModal">
+  <div class="modal">
+    <h3 id="modal-title">결제 진행</h3>
+    <div class="amount" id="modal-amount">1,000원</div>
+    <p id="modal-desc">카카오페이로 송금합니다</p>
+
+    <!-- 카카오/토스 모드 -->
+    <div id="modal-link-area">
+      <a id="modal-pay-link" href="#" target="_blank" style="text-decoration:none">
+        <div class="btn-main" id="modal-pay-btn">결제하기</div>
+      </a>
+    </div>
+
+    <!-- 계좌이체 모드 -->
+    <div id="modal-bank-area" style="display:none">
+      <div class="acct-box">
+        <span id="acct-display">카카오뱅크 3333-37-1080249</span>
+        <button class="copy-btn" onclick="copyAccount()">복사</button>
+      </div>
+      <div style="font-size:12px;color:var(--color-text-light);margin-bottom:12px">
+        예금주: <strong>이진우</strong><br>
+        송금 메모에 <strong>학생 이름</strong>을 적어주세요
+      </div>
+      <button class="btn-main" onclick="confirmBankTransfer()">송금 완료했어요</button>
+    </div>
+
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-sub" onclick="closeModal()">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- 완료 모달 -->
+<div class="modal-bg" id="doneModal">
+  <div class="modal">
+    <div class="done">
+      <div class="done-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>송금 요청 완료!</h2>
+      <p>
+        선생님이 확인하는 대로 이용권이 활성화됩니다.<br>
+        보통 <strong>24시간 이내</strong>에 처리됩니다.<br><br>
+        곧 카카오톡으로 안내 메시지를 보내드릴게요.
+      </p>
+      <button class="btn-main" style="margin-top:20px" onclick="goBack()">돌아가기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== 결제 설정 =====
+// 연소사님이 링크를 만들면 여기에 입력
+const PAY_CONFIG = {
+  KAKAOPAY_LINK: '',   // 예: https://qr.kakaopay.com/xxxxx
+  TOSS_LINK: '',       // 예: https://toss.me/이진우
+  BANK_ACCOUNT: '카카오뱅크 3333-37-1080249',
+  BANK_HOLDER: '이진우',
+  PRODUCTS: {
+    single:  { name: '단일 검사', price: 1000, display: '1,000원' },
+    package: { name: '전체 패키지 (20가지)', price: 19000, display: '19,000원' }
+  }
+};
+
+// 외부 config.js 연동 (있으면 덮어쓰기)
+if(typeof window.YEON_CONFIG !== 'undefined'){
+  const c = window.YEON_CONFIG;
+  if(c.PAYMENT && c.PAYMENT.MANUAL){
+    if(c.PAYMENT.MANUAL.KAKAOPAY_SEND_LINK) PAY_CONFIG.KAKAOPAY_LINK = c.PAYMENT.MANUAL.KAKAOPAY_SEND_LINK;
+    if(c.PAYMENT.MANUAL.TOSS_SEND_LINK) PAY_CONFIG.TOSS_LINK = c.PAYMENT.MANUAL.TOSS_SEND_LINK;
+  }
+  if(c.DEPOSIT_INFO){
+    PAY_CONFIG.BANK_ACCOUNT = (c.DEPOSIT_INFO.BANK||'카카오뱅크')+' '+c.DEPOSIT_INFO.ACCOUNT;
+    PAY_CONFIG.BANK_HOLDER = c.DEPOSIT_INFO.ACCOUNT_HOLDER||'이진우';
+  }
+}
+
+// URL 파라미터로 상품/사용자 정보 받기
+const params = new URLSearchParams(location.search);
+const presetProduct = params.get('product'); // 'single' or 'package'
+const userName = params.get('name') || '';
+const userId = params.get('uid') || '';
+
+let selectedProduct = presetProduct || 'single';
+
+// 상품 선택
+function selectProduct(id){
+  selectedProduct = id;
+  document.querySelectorAll('.prod').forEach(el=>{
+    el.classList.toggle('selected', el.dataset.product===id);
+  });
+}
+
+// 초기 상품 선택 반영
+if(presetProduct){
+  selectProduct(presetProduct);
+}
+
+// 결제 시작
+function startPay(method){
+  const prod = PAY_CONFIG.PRODUCTS[selectedProduct];
+  const modal = document.getElementById('payModal');
+  const linkArea = document.getElementById('modal-link-area');
+  const bankArea = document.getElementById('modal-bank-area');
+  const title = document.getElementById('modal-title');
+  const amount = document.getElementById('modal-amount');
+  const desc = document.getElementById('modal-desc');
+  const payBtn = document.getElementById('modal-pay-btn');
+  const payLink = document.getElementById('modal-pay-link');
+
+  amount.textContent = prod.display;
+
+  if(method === 'kakaopay'){
+    if(!PAY_CONFIG.KAKAOPAY_LINK){
+      showToast('카카오페이 송금 링크 준비 중입니다. 계좌이체를 이용해주세요.');
+      return;
+    }
+    title.textContent = '카카오페이 송금';
+    desc.textContent = prod.name + ' · 카카오페이로 ' + prod.display + '을 송금합니다';
+    payBtn.textContent = '카카오페이로 송금하기';
+    payBtn.className = 'btn-main kakao-bg';
+    payLink.href = PAY_CONFIG.KAKAOPAY_LINK;
+    linkArea.style.display = 'block';
+    bankArea.style.display = 'none';
+  } else if(method === 'toss'){
+    if(!PAY_CONFIG.TOSS_LINK){
+      showToast('토스 송금 링크 준비 중입니다. 계좌이체를 이용해주세요.');
+      return;
+    }
+    title.textContent = '토스 송금';
+    desc.textContent = prod.name + ' · 토스로 ' + prod.display + '을 송금합니다';
+    payBtn.textContent = '토스로 송금하기';
+    payBtn.className = 'btn-main toss-bg';
+    payLink.href = PAY_CONFIG.TOSS_LINK;
+    linkArea.style.display = 'block';
+    bankArea.style.display = 'none';
+  } else {
+    title.textContent = '계좌이체';
+    desc.textContent = prod.name + ' · 아래 계좌로 ' + prod.display + '을 송금해주세요';
+    document.getElementById('acct-display').textContent = PAY_CONFIG.BANK_ACCOUNT;
+    linkArea.style.display = 'none';
+    bankArea.style.display = 'block';
+  }
+
+  modal.classList.add('open');
+
+  // 결제 기록 저장
+  recordPayment(method, prod);
+}
+
+function closeModal(){
+  document.getElementById('payModal').classList.remove('open');
+}
+
+function copyAccount(){
+  const text = PAY_CONFIG.BANK_ACCOUNT.replace(/\s/g,'');
+  // 숫자만 추출
+  const nums = text.replace(/[^0-9-]/g,'');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(nums).then(()=>showToast('계좌번호가 복사되었습니다'));
+  } else {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = nums;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('계좌번호가 복사되었습니다');
+  }
+}
+
+function confirmBankTransfer(){
+  closeModal();
+  document.getElementById('doneModal').classList.add('open');
+}
+
+// 카카오/토스 송금 링크 클릭 후 완료 처리
+document.getElementById('modal-pay-link').addEventListener('click', function(){
+  setTimeout(function(){
+    closeModal();
+    document.getElementById('doneModal').classList.add('open');
+  }, 500);
+});
+
+function goBack(){
+  document.getElementById('doneModal').classList.remove('open');
+  // 스무고개 앱으로 돌아가기
+  if(params.get('return')){
+    location.href = params.get('return');
+  } else if(document.referrer){
+    history.back();
+  }
+}
+
+// 결제 기록 (localStorage + 서버 전송)
+function recordPayment(method, prod){
+  const record = {
+    ts: Date.now(),
+    date: new Date().toISOString().slice(0,10),
+    time: new Date().toISOString(),
+    product: selectedProduct,
+    productName: prod.name,
+    amount: prod.price,
+    method: method,
+    userName: userName,
+    userId: userId,
+    status: 'pending'  // pending → confirmed (관리자 확인 후)
+  };
+
+  // localStorage 저장
+  try {
+    const key = 'smg_payments';
+    const arr = JSON.parse(localStorage.getItem(key)||'[]');
+    arr.push(record);
+    localStorage.setItem(key, JSON.stringify(arr));
+  } catch(e){}
+
+  // 서버 전송 (Apps Script)
+  if(typeof window.YEON_CONFIG !== 'undefined' && window.YEON_CONFIG.APPS_SCRIPT_URL){
+    fetch(window.YEON_CONFIG.APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'smgPayment', ...record })
+    }).catch(function(){});
+  }
+
+  // Netlify Function
+  fetch('/.netlify/functions/api', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ action:'smgPayment', ...record })
+  }).catch(function(){});
+}
+
+// 토스트
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// 링크 미설정 시 버튼 비활성화 안내
+(function(){
+  if(!PAY_CONFIG.KAKAOPAY_LINK){
+    document.getElementById('btn-kakao').querySelector('.pay-sub').textContent = '링크 준비 중 · 곧 오픈';
+  }
+  if(!PAY_CONFIG.TOSS_LINK){
+    document.getElementById('btn-toss').querySelector('.pay-sub').textContent = '링크 준비 중 · 곧 오픈';
+  }
+})();
+</script>
+</body>
+</html>

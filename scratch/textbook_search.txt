@@ -1,0 +1,228 @@
+3단폴더_바로가기_설계.html:515:    <li><strong>월간 자동 정리</strong> — AI가 분할·병합 제안</li>
+index.html:1334:      <button class="nav-link" type="button" aria-haspopup="true">결 시리즈 <svg class="caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+index.html:1339:        <a href="/#magazines">결 시리즈 전체<span class="d">살아있는 교과서</span></a>
+index.html:1431:          <div class="cat-name">결 시리즈</div>
+index.html:1432:          <div class="cat-desc">살아있는 교과서 · 과학·수학·한글의 결</div>
+index.html:1526:        <div class="col-2-title">결 시리즈 · 살아있는 교과서</div>
+index.html:1532:          <a class="sub-item" href="#magazines"><div class="sub-icon">刊</div><div class="sub-text"><div class="sub-name">결 시리즈 전체 보기</div><div class="sub-desc">살아있는 교과서 한자리에</div></div></a>
+index.html:1652:          <div class="featured-tag">결 시리즈 · 살아있는 교과서</div>
+index.html:1653:          <div class="featured-title">교과서보다 살아있게, 한 식구로</div>
+index.html:2006:  <!-- ===== 결 시리즈 · 살아있는 교과서 — 연라이프 월간지 모음 ===== -->
+index.html:2009:      <h2 style="font-family:'Noto Serif KR',serif;font-size:clamp(21px,3vw,30px);font-weight:700;color:#2a2723;margin:0">결 시리즈 · 살아있는 교과서</h2>
+index.html:2010:      <span style="font-size:13px;color:#8a8275">교과서보다 살아있게 · AI 필진이 쓰고 사람이 검수합니다</span>
+index.html:2012:    <p style="font-size:13.5px;color:#6b655c;line-height:1.7;margin:0 2px 16px;max-width:680px">과학·수학·한글… 모든 과목이 한 식구입니다. 매주 월요일 새벽 새 호로 채워지는 <b>연라이프 월간지</b>를 한자리에 모았습니다.</p>
+index.html:2032:        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">교과서보다 살아있게,<br>한 줄도 틀리지 않게</h3>
+index.html:2061:      <a href="/구독.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#2f5d57;color:#fff;font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:999px;box-shadow:0 8px 22px rgba(47,93,87,.22)">결 시리즈 구독하기 · 월 3,000원부터 →</a>
+index.html:2064:    <p style="font-size:12.5px;color:#9a948b;margin:14px 2px 0">결 시리즈는 계속 자랍니다 — 모든 과목이 ‘살아있는 교과서’로 한자리에 모입니다.</p>
+개인_생각의지도_스크랩시스템_설계.html:351:        <td><strong>월간 요약</strong></td>
+개인_생각의지도_스크랩시스템_설계.html:453:    <li>월간 요약 자동 메일 발송</li>
+개인_생각의지도_스크랩시스템_설계.html:469:      <tr><td>월간 요약 (Claude Haiku)</td><td>~1,000원</td><td>회원 500명 × 월 1회</td></tr>
+검토사항_AI엔진_도입_보류중.md:124:11. **스마트폴더_AI자동분류_설계.html** — 스크랩하면 AI가 폴더 자동 제안·생성, 5가지 보기(전체·폴더·지도·태그·타임라인), 월간 자동 정리, 데이터 구조
+내보내기시스템_4가지형식_설계.html:504:      <tr><td>자동 월간 백업 이메일</td><td>~월 500원 (전송 비용)</td></tr>
+디자인_레퍼런스_2026.md:10:**한 줄:** "긴 호흡으로 읽는 철학 매거진"의 교과서.
+보안대책_종합가이드.html:425:  <h3>월간 보안 점검</h3>
+블로그_페르소나_상점.html:270:   각 페르소나마다 월간·테마·연감 묶음 세 종 정도가 자동 생성됩니다.
+블로그_페르소나_상점.html:277:      kind:'월간',
+블로그_페르소나_상점.html:280:      desc:`매일 발행된 칼럼을 묶은 월간 e-book. PDF·EPUB·MOBI 3종 포함. 페르소나 ${persona.name}의 한 달 동안의 결을 따라갑니다.`,
+블로그_페르소나_상점.html:411:          <div style="font-size:13px;color:var(--txt-soft);line-height:1.7">월간 + 테마 선집 + 연감(예약) 세 권을 함께. 발행 즉시 모두 받기.</div>
+스마트폴더_AI자동분류_설계.html:292:  <div class="ai-flow">[월간 자동 정리 알림 · 6월 1일]
+스마트폴더_AI자동분류_설계.html:507:      <tr><td>월간 자동 정리 분석</td><td>Gemini Flash</td><td>회원당 월 1회</td><td>~500원</td></tr>
+스마트폴더_AI자동분류_설계.html:536:        <td>AI 폴더 매칭<br>새 폴더 제안 모달<br>월간 자동 정리 알림</td>
+스마트폴더_AI자동분류_설계.html:540:        <td>내보내기·월간 요약</td>
+시스템_AI페르소나_자동화_설계.html:242:        <tr><td>문화</td><td>씨네21 · 아트인사이트 · 월간미술</td><td>—</td></tr>
+시스템_AI페르소나_자동화_설계.html:386:      <li>매월 1일 → 페르소나별 “월간 e-book” 자동 묶음 (PDF · EPUB · MOBI) — 상점 페이지에 자동 등록</li>
+시스템_AI페르소나_자동화_설계.html:447:        <tr><td>4주차</td><td>발행·RSS·이메일·SNS 카드·아카이브</td><td>실제 발행 시작 · 월간 e-book 자동 묶음 1회 확인</td><td>≈ 5,000원</td></tr>
+연라이프_작가와_기자단_지침서_v1.1.md:45:| **장이도 (張怡道)** | AI 기자 | 문화·예술 | "작품 한 점, 무대 한 회를 한 사람의 시간으로 옮깁니다." | 매일 11:00 발행 / 2,500자 ± 200 | 씨네21, 아트인사이트, 월간미술, 한겨레 문화, 경향 문화 |
+연플래닝-작업기록.html:638:        <div class="method-name">② 교과서 10회독</div>
+연플래닝-작업기록.html:639:        <p>같은 교과서를 열 번 읽는 훈련. 처음엔 낯설지만 회독이 쌓일수록 구조가 보이고, 개념이 자신의 언어가 된다.</p>
+연플래닝-작업기록.html:684:        <p>체계적 학습 관리. 5.2.5.5 복습·교과서 10회독·기록과 점검의 흐름을 일과 안에 안정적으로 자리잡게 한다.</p>
+연플래닝-작업기록.md:113:### ② 교과서 10회독
+연플래닝-작업기록.md:114:같은 교과서를 열 번 읽는 훈련. 처음엔 낯설지만 회독이 쌓일수록 구조가 보이고, 개념이 자신의 언어가 된다.
+연플래닝-작업기록.md:145:체계적 학습 관리. 5.2.5.5 복습·교과서 10회독·기록과 점검의 흐름을 일과 안에 안정적으로 자리잡게 한다.
+이용약관.html:191:      <li>칼럼집 e-book(월간·테마·연감) 판매.</li>
+이용약관.html:236:      <li>칼럼집(월간·테마·연감)은 e-book(PDF·EPUB·MOBI) 형태로 판매됩니다.</li>
+저작권_인용정책.html:151:        <tr><td>문화</td><td>씨네21, 아트인사이트, 월간미술</td><td>—</td></tr>
+홍보전략_지침.html:391:        <tr><td>월간 UV (방문자)</td><td>5,000</td><td>30,000</td><td>100,000</td><td class="highlight">500,000</td></tr>
+홍보전략_지침.html:392:        <tr><td>월간 PV</td><td>25,000</td><td>150,000</td><td>500,000</td><td class="highlight">2.5M</td></tr>
+홍보전략_지침.md:253:| 월간 UV (방문자) | 5,000 | 30,000 | 100,000 | 500,000 |
+홍보전략_지침.md:254:| 월간 PV (페이지뷰) | 25,000 | 150,000 | 500,000 | 2.5M |
+data\personas.js:199:    sources:['씨네21', '아트인사이트', '월간미술', '한겨레 문화', '경향 문화'],
+data\personas.js:258:    bio:'박서연은 교육 정책·학교 현장·입시·교과서 개정을 매일 큐레이션하고, 학생과 학부모 양쪽이 함께 읽을 수 있는 톤으로 해설하는 AI 기자입니다.',
+yeon-ai-kr\supul\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+yeon-ai-kr\supul\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+yeon-ai-kr\supul\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+yeon-ai-kr\supul\admin.html:505:              <option value="">교과서 선택</option>
+yeon-ai-kr\supul\admin.html:1812:// 📚 교과서 · 단원 데이터
+yeon-ai-kr\supul\admin.html:1915:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+yeon-ai-kr\supul\admin.html:1992:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+yeon-ai-kr\supul\admin.html:1996:  return hints[grade] || '교과서 단원 어휘';
+yeon-ai-kr\supul\admin.html:2027:    teacher:'', memo:book+' 교과서 / '+units[idx],
+yeon-ai-kr\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr\supul\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+yeon-ai-kr\supul\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+yeon-ai-kr\supul\su-pul.html:2694: <!-- 월간 달력 -->
+yeon-ai-kr\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr\ulsan\yeon-planning\index.html:7:<meta name="description" content="스스로 올라갈 수 있는 힘. 연소사 이진우의 자기주도 학습 공부법 — 의식적 몰입·5.2.5.5 학습법·교과서 10회독·기억의 궁전.">
+yeon-ai-kr\ulsan\yeon-planning\index.html:515:      <h3>교과서 10회독</h3>
+yeon-ai-kr\ulsan\yeon-planning\index.html:516:      <p>교과서를 열 번 읽으면 개념이 몸에 새겨집니다. 방법이 있습니다.</p>
+yeon-ai-kr\ulsan\yeon-planning\index.html:552:        <p>수능 준비생을 위한 고강도 몰입 훈련 — 기억의 궁전과 교과서 10회독을 병행합니다.</p>
+yeon-ai-kr\yeongpul\admin.html:487:      <!-- 교과서 + 단원 선택 -->
+yeon-ai-kr\yeongpul\admin.html:489:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+yeon-ai-kr\yeongpul\admin.html:508:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+yeon-ai-kr\yeongpul\admin.html:510:              <option value="">교과서 선택</option>
+yeon-ai-kr\yeongpul\admin.html:2064:// 📚 교과서 · 단원 데이터
+yeon-ai-kr\yeongpul\admin.html:2167:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+yeon-ai-kr\yeongpul\admin.html:2244:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+yeon-ai-kr\yeongpul\admin.html:2248:  return hints[grade] || '교과서 단원 어휘';
+yeon-ai-kr\yeongpul\admin.html:2279:    teacher:'', memo:book+' 교과서 / '+units[idx],
+yeon-ai-kr\yeongpul\config.js:323:      desc: '학생 취약점 정밀 분석 · 선생님/학부모 월간 리포트 (개발 중)',
+yeon-ai-kr\yeongpul\index.html:1617:  // 월간 세션 사용량이 어느 티어 한도 안에 들어가는지 조회 (자동 과금 X, 참고용)
+yeon-ai-kr\yeongpul\index.html:2687:    lines.push('• 평가 목적이 "다른 사용자에게 경고"라고 명시하셨습니다. 본 서비스는 무료 체험을 통해 누구나 1개월간 직접 확인할 수 있으며, 타인의 판단을 대신하는 경고 행위는 본 게시판의 취지와 맞지 않습니다.');
+yeon-ai-kr\yeongpul\parent.html:492:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+yeon-ai-kr\yeongpul\study-hub.html:156:        <div class="t">교과서 · 문제집 업로드</div>
+yeon-ai-kr\yeongpul\textbook-upload.html:8:<title>영풀 교과서 업로드 — 준비 중</title>
+yeon-ai-kr\yeongpul\textbook-upload.html:61:    <h1>교과서 · 문제집 업로드</h1>
+yeon-ai-kr\yeongpul\textbook-upload.html:67:        <li>OCR로 교과서 본문 자동 추출</li>
+yeon-ai-kr\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+yeon-ai-kr\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+yeon-ai-kr\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+yeon-ai-kr\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+yeon-ai-kr\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+yeon-ai-kr\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+yeon-ai-kr\yeongpul\yeong-pul.html:4947:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+yeon-ai-kr\yeongpul\yeong-pul.html:5662:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+yeon-ai-kr\yeongpul\yeong-pul.html:5723:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+yeon-ai-kr\yeongpul\yeong-pul.html:5773:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+yeon-ai-kr\yeongpul\yeong-pul.html:5794:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+yeon-ai-kr\yeongpul\yeong-pul.html:10194:  {text:'교과서 범위 단어 암기 완료', done:false},
+yeon-ai-kr\yeongpul\yeong-pul.html:10657:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+yeon-ai-kr\yeongpul\yeong-pul.html:10765:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+yeon-ai-kr\yeongpul\yeong-pul.html:11892:// ===== 교과서 출판사/단원별 어휘 =====
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:505:              <option value="">교과서 선택</option>
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:1823:// 📚 교과서 · 단원 데이터
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:1926:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2003:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2007:  return hints[grade] || '교과서 단원 어휘';
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\admin.html:2038:    teacher:'', memo:book+' 교과서 / '+units[idx],
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\su-pul.html:2697: <!-- 월간 달력 -->
+yeon-ai-kr\_deliverables\supul-v4.5-secure-api\su-pul.html:13948:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:482:      <!-- 교과서 + 단원 선택 -->
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:484:        <h4>📚 교과서 · 단원 선택 <span class="badge" style="background:#F3E5F5;color:#7B1FA2;">수업 범위 설정</span></h4>
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:503:            <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">교과서</label>
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:505:              <option value="">교과서 선택</option>
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1812:// 📚 교과서 · 단원 데이터
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1915:  tbSelect.innerHTML = '<option value="">교과서 선택</option>';
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1992:    '중1':'교과서 필수 어휘 25~30개','중2':'교과서 + 추가 어휘 30~35개',
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:1996:  return hints[grade] || '교과서 단원 어휘';
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\admin.html:2027:    teacher:'', memo:book+' 교과서 / '+units[idx],
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\parent.html:490:          학년/교과서 정보를 등록하면 학년별 데이터베이스에서
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\problemBank.js:55:  'auto-modified':  '교과서/문제집 자동 변형',
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\su-pul.html:2694: <!-- 월간 달력 -->
+yeon-ai-kr\수풀AI_v4.5_코덱스점검패키지\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr-new\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr-new\supul\su-pul.html:2694: <!-- 월간 달력 -->
+yeon-ai-kr-new\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr-new\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+yeon-ai-kr-new\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+yeon-ai-kr-new\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+yeon-ai-kr-new\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+yeon-ai-kr-new\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+yeon-ai-kr-new\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+yeon-ai-kr-new\yeongpul\yeong-pul.html:4687:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+yeon-ai-kr-new\yeongpul\yeong-pul.html:5402:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+yeon-ai-kr-new\yeongpul\yeong-pul.html:5463:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+yeon-ai-kr-new\yeongpul\yeong-pul.html:5513:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+yeon-ai-kr-new\yeongpul\yeong-pul.html:5534:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+yeon-ai-kr-new\yeongpul\yeong-pul.html:9931:  {text:'교과서 범위 단어 암기 완료', done:false},
+yeon-ai-kr-new\yeongpul\yeong-pul.html:10394:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+yeon-ai-kr-new\yeongpul\yeong-pul.html:10502:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+yeon-ai-kr-new\yeongpul\yeong-pul.html:11629:// ===== 교과서 출판사/단원별 어휘 =====
+yeon-ai-kr-v3\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr-v3\supul\su-pul.html:2694: <!-- 월간 달력 -->
+yeon-ai-kr-v3\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:2349:      <!-- 월간 달력 -->
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:2541:      <option value="school">학교/교과서</option>
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:2542:      <option value="textbook">내 교과서 (출판사별)</option>
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:2559:  <!-- 교과서 출판사/단원 선택 패널 -->
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:2563:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:4687:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:5402:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:5463:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:5513:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:5534:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:9931:  {text:'교과서 범위 단어 암기 완료', done:false},
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:10394:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:10502:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+yeon-ai-kr-v3\yeongpul\yeong-pul.html:11629:// ===== 교과서 출판사/단원별 어휘 =====
+yeon-ai-kr-v4\supul\config.js:294:      desc: '학생 취약점 정밀 분석 · 선생님/부모님 월간 리포트 자동 발송',
+yeon-ai-kr-v4\supul\su-pul.html:2694: <!-- 월간 달력 -->
+yeon-ai-kr-v4\supul\su-pul.html:13907:    system: '당신은 수학 시험 출제 전문가입니다. 교과서에 맞는 정확한 문제를 출제하세요. 보기는 매력적인 오답(함정)을 포함해야 합니다.',
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:1795:/* 교과서 선택 */
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:2353:      <!-- 월간 달력 -->
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:2545:      <option value="school">학교/교과서</option>
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:2546:      <option value="textbook">내 교과서 (출판사별)</option>
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:2563:  <!-- 교과서 출판사/단원 선택 패널 -->
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:2567:      <strong style="font-size:14px;color:#2E7D32;">내 교과서 단원별 어휘</strong>
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:4955:  // 영어 비율 20% 이상 OR 영어 단어 5개 이상 (한글이 많은 교과서/문제집 지원)
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:5670:        summary: '"영어 해봤는데 분석하기가 안되요" — 한글 많은 교과서/문제집에서 enforceEnglishOnly() 임계값(40%)이 너무 엄격해 분석 차단되는 치명적 버그 발견.',
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:5731:        body: '대시보드 상단에 "학습 허브" 진입 버튼이 생겼어요. 학년, 주제, 상황에 맞춰 바로 시작할 수 있는 학습 자료 5종을 모아뒀습니다: 초1 지구본 영어 / 초5-6 패턴 / 중1-고3 좋은 문장 / 상황별 회화 / 교과서 OCR(예고편).',
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:5781:        body: '영어 교과서/문제집은 한글 설명이 많은데, 기존에는 영어 비율이 낮으면 차단되어 분석이 안 됐습니다. 임계값을 크게 낮춰서 대부분의 실제 문제지에서 분석이 잘 됩니다.',
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:5802:        body: '기존 학년별 + 교과서 카테고리에 더해 동물 / 사람·가족·직업 / 건물·장소 / 자연·날씨 / 음식 / 놀이·스포츠 추가.'
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:10202:  {text:'교과서 범위 단어 암기 완료', done:false},
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:10665:// ===== 교과서 출판사별 고등부 단원 어휘 =====
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:10773:    desc: '고1 교과서에 반복 출현하는 핵심 300단어',
+yeon-ai-kr-v4\yeongpul\yeong-pul.html:11900:// ===== 교과서 출판사/단원별 어휘 =====
+yeon-life.github.io\index.html:1334:      <button class="nav-link" type="button" aria-haspopup="true">결 시리즈 <svg class="caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+yeon-life.github.io\index.html:1339:        <a href="/#magazines">결 시리즈 전체<span class="d">살아있는 교과서</span></a>
+yeon-life.github.io\index.html:1431:          <div class="cat-name">결 시리즈</div>
+yeon-life.github.io\index.html:1432:          <div class="cat-desc">살아있는 교과서 · 과학·수학·한글의 결</div>
+yeon-life.github.io\index.html:1526:        <div class="col-2-title">결 시리즈 · 살아있는 교과서</div>
+yeon-life.github.io\index.html:1532:          <a class="sub-item" href="#magazines"><div class="sub-icon">刊</div><div class="sub-text"><div class="sub-name">결 시리즈 전체 보기</div><div class="sub-desc">살아있는 교과서 한자리에</div></div></a>
+yeon-life.github.io\index.html:1652:          <div class="featured-tag">결 시리즈 · 살아있는 교과서</div>
+yeon-life.github.io\index.html:1653:          <div class="featured-title">교과서보다 살아있게, 한 식구로</div>
+yeon-life.github.io\index.html:2006:  <!-- ===== 결 시리즈 · 살아있는 교과서 — 연라이프 월간지 모음 ===== -->
+yeon-life.github.io\index.html:2009:      <h2 style="font-family:'Noto Serif KR',serif;font-size:clamp(21px,3vw,30px);font-weight:700;color:#2a2723;margin:0">결 시리즈 · 살아있는 교과서</h2>
+yeon-life.github.io\index.html:2010:      <span style="font-size:13px;color:#8a8275">교과서보다 살아있게 · AI 필진이 쓰고 사람이 검수합니다</span>
+yeon-life.github.io\index.html:2012:    <p style="font-size:13.5px;color:#6b655c;line-height:1.7;margin:0 2px 16px;max-width:680px">과학·수학·한글… 모든 과목이 한 식구입니다. 매주 월요일 새벽 새 호로 채워지는 <b>연라이프 월간지</b>를 한자리에 모았습니다.</p>
+yeon-life.github.io\index.html:2032:        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">교과서보다 살아있게,<br>한 줄도 틀리지 않게</h3>
+yeon-life.github.io\index.html:2061:      <a href="/구독.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#2f5d57;color:#fff;font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:999px;box-shadow:0 8px 22px rgba(47,93,87,.22)">결 시리즈 구독하기 · 월 3,000원부터 →</a>
+yeon-life.github.io\index.html:2064:    <p style="font-size:12.5px;color:#9a948b;margin:14px 2px 0">결 시리즈는 계속 자랍니다 — 모든 과목이 ‘살아있는 교과서’로 한자리에 모입니다.</p>
+yeon-life.github.io\블로그_페르소나_상점.html:273:   각 페르소나마다 월간·테마·연감 묶음 세 종 정도가 자동 생성됩니다.
+yeon-life.github.io\블로그_페르소나_상점.html:280:      kind:'월간',
+yeon-life.github.io\블로그_페르소나_상점.html:283:      desc:`매일 발행된 칼럼을 묶은 월간 e-book. PDF·EPUB·MOBI 3종 포함. 페르소나 ${persona.name}의 한 달 동안의 결을 따라갑니다.`,
+yeon-life.github.io\블로그_페르소나_상점.html:414:          <div style="font-size:13px;color:var(--txt-soft);line-height:1.7">월간 + 테마 선집 + 연감(예약) 세 권을 함께. 발행 즉시 모두 받기.</div>
+yeon-life.github.io\시스템_AI페르소나_자동화_설계.html:242:        <tr><td>문화</td><td>씨네21 · 아트인사이트 · 월간미술</td><td>—</td></tr>
+yeon-life.github.io\시스템_AI페르소나_자동화_설계.html:386:      <li>매월 1일 → 페르소나별 “월간 e-book” 자동 묶음 (PDF · EPUB · MOBI) — 상점 페이지에 자동 등록</li>
+yeon-life.github.io\시스템_AI페르소나_자동화_설계.html:447:        <tr><td>4주차</td><td>발행·RSS·이메일·SNS 카드·아카이브</td><td>실제 발행 시작 · 월간 e-book 자동 묶음 1회 확인</td><td>≈ 5,000원</td></tr>
+yeon-life.github.io\연라이프_작가와_기자단_지침서_v1.1.md:45:| **장이도 (張怡道)** | AI 기자 | 문화·예술 | "작품 한 점, 무대 한 회를 한 사람의 시간으로 옮깁니다." | 매일 11:00 발행 / 2,500자 ± 200 | 씨네21, 아트인사이트, 월간미술, 한겨레 문화, 경향 문화 |
+yeon-life.github.io\이용약관.html:191:      <li>칼럼집 e-book(월간·테마·연감) 판매.</li>
+yeon-life.github.io\이용약관.html:236:      <li>칼럼집(월간·테마·연감)은 e-book(PDF·EPUB·MOBI) 형태로 판매됩니다.</li>
+yeon-life.github.io\저작권_인용정책.html:151:        <tr><td>문화</td><td>씨네21, 아트인사이트, 월간미술</td><td>—</td></tr>
+yeon-life.github.io\홍보전략_지침.html:391:        <tr><td>월간 UV (방문자)</td><td>5,000</td><td>30,000</td><td>100,000</td><td class="highlight">500,000</td></tr>
+yeon-life.github.io\홍보전략_지침.html:392:        <tr><td>월간 PV</td><td>25,000</td><td>150,000</td><td>500,000</td><td class="highlight">2.5M</td></tr>
+yeon-life.github.io\api\ai.js:61:- 과학의 결, 수학의 결, 한글의 결, 인공지능 월간지, 어린이 '나도 과학자'.
+yeon-life.github.io\data\personas.js:199:    sources:['씨네21', '아트인사이트', '월간미술', '한겨레 문화', '경향 문화'],
+yeon-life.github.io\data\personas.js:258:    bio:'박서연은 교육 정책·학교 현장·입시·교과서 개정을 매일 큐레이션하고, 학생과 학부모 양쪽이 함께 읽을 수 있는 톤으로 해설하는 AI 기자입니다.',
+yeon-life.github.io\내친구인공지능_책\index.html:1252:        <p>인공지능한테 그냥 "숙제 좀 도와줘"라고 심심하게 소원을 말하면, 교과서 같은 딱딱하고 재미없는 말만 들려올 뿐이야. 알라딘의 요술램프 지니에게 소원을 빌 듯이, 정확하게 지시하는 네 가지 마법 단서를 기억해 줘.</p>
+_백업\v_20260516_pre_yuv갱신\3단폴더_바로가기_설계.html:510:    <li><strong>월간 자동 정리</strong> — AI가 분할·병합 제안</li>
+_백업\v_20260516_pre_yuv갱신\개인_생각의지도_스크랩시스템_설계.html:346:        <td><strong>월간 요약</strong></td>
+_백업\v_20260516_pre_yuv갱신\개인_생각의지도_스크랩시스템_설계.html:448:    <li>월간 요약 자동 메일 발송</li>
+_백업\v_20260516_pre_yuv갱신\개인_생각의지도_스크랩시스템_설계.html:464:      <tr><td>월간 요약 (Claude Haiku)</td><td>~1,000원</td><td>회원 500명 × 월 1회</td></tr>
+_백업\v_20260516_pre_yuv갱신\내보내기시스템_4가지형식_설계.html:499:      <tr><td>자동 월간 백업 이메일</td><td>~월 500원 (전송 비용)</td></tr>
+_백업\v_20260516_pre_yuv갱신\보안대책_종합가이드.html:420:  <h3>월간 보안 점검</h3>
+_백업\v_20260516_pre_yuv갱신\스마트폴더_AI자동분류_설계.html:287:  <div class="ai-flow">[월간 자동 정리 알림 · 6월 1일]
+_백업\v_20260516_pre_yuv갱신\스마트폴더_AI자동분류_설계.html:502:      <tr><td>월간 자동 정리 분석</td><td>Gemini Flash</td><td>회원당 월 1회</td><td>~500원</td></tr>
+_백업\v_20260516_pre_yuv갱신\스마트폴더_AI자동분류_설계.html:531:        <td>AI 폴더 매칭<br>새 폴더 제안 모달<br>월간 자동 정리 알림</td>
+_백업\v_20260516_pre_yuv갱신\스마트폴더_AI자동분류_설계.html:535:        <td>내보내기·월간 요약</td>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:638:        <div class="method-name">② 교과서 10회독</div>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:639:        <p>같은 교과서를 열 번 읽는 훈련. 처음엔 낯설지만 회독이 쌓일수록 구조가 보이고, 개념이 자신의 언어가 된다.</p>
+_백업\v_20260516_pre_yuv갱신\연플래닝-작업기록.html:684:        <p>체계적 학습 관리. 5.2.5.5 복습·교과서 10회독·기록과 점검의 흐름을 일과 안에 안정적으로 자리잡게 한다.</p>
+연라이프_캔바_디자인_의뢰\연라이프_디자인_의뢰_패키지\01_디자인시스템\디자인_레퍼런스_2026.md:10:**한 줄:** "긴 호흡으로 읽는 철학 매거진"의 교과서.

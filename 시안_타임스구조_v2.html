@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>y-life.kr 시안 v2 — 광장·칼럼·세상·어디로 가볼까</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+    --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+    --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+    --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+    --yp-text-primary:var(--yp-ink); --yp-text-secondary:#536060;
+    --yp-text-muted:#6a7676; --yp-text-soft:#7b8686;
+    --yp-bg-page:
+      radial-gradient(circle at top left, rgba(195,141,86,.08), transparent 22%),
+      radial-gradient(circle at bottom right, rgba(66,122,113,.10), transparent 24%),
+      linear-gradient(180deg, #f8f5ef 0%, #f4f0e9 100%);
+    --yp-font-title:"Noto Serif KR", serif;
+    --yp-font-body:"Pretendard", "Apple SD Gothic Neo", sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--yp-font-body);color:var(--yp-text-primary);background:var(--yp-bg-page);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* ===== MASTHEAD ===== */
+  .masthead{border-bottom:2px solid var(--yp-ink);padding:22px 0 16px}
+  .masthead-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--yp-text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  .masthead-top .left{display:flex;gap:18px}
+  .masthead-top .left span+span::before{content:"·";margin-right:18px;color:var(--yp-line)}
+  .masthead-top .right{display:flex;gap:14px}
+  .masthead-top .right a:hover{color:var(--yp-deep)}
+  .masthead-title{display:flex;align-items:baseline;justify-content:space-between;gap:32px}
+  .brand{font-family:var(--yp-font-title);font-size:54px;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--yp-ink)}
+  .brand .yeon{color:var(--yp-deep);font-size:46px;margin-right:8px}
+  .tagline{font-family:var(--yp-font-title);font-size:15px;color:var(--yp-text-secondary);text-align:right;line-height:1.5;font-style:italic;max-width:320px}
+
+  /* ===== SECTION NAV ===== */
+  .section-nav{border-bottom:1px solid var(--yp-line);background:rgba(255,253,248,.92);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50}
+  .section-nav-inner{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:24px}
+  .nav-links{display:flex;gap:24px;font-size:14px;font-weight:600}
+  .nav-item{position:relative;padding:6px 0;cursor:pointer;color:var(--yp-text-primary);transition:color .2s}
+  .nav-item:hover{color:var(--yp-deep)}
+  .nav-item.active{color:var(--yp-deep)}
+  .nav-item.active::after{content:"";position:absolute;bottom:-13px;left:0;right:0;height:2px;background:var(--yp-deep)}
+  .nav-item.has-drop::before{content:"";display:inline-block;width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-left:4px;vertical-align:2px}
+  .dropdown{position:absolute;top:100%;left:-12px;margin-top:12px;background:var(--yp-card);border:1px solid var(--yp-line);border-radius:8px;padding:10px;min-width:180px;box-shadow:0 12px 28px rgba(0,0,0,.08);opacity:0;visibility:hidden;transition:all .2s;z-index:60}
+  .nav-item:hover .dropdown{opacity:1;visibility:visible}
+  .dropdown a{display:block;padding:8px 12px;border-radius:6px;font-size:13px;color:var(--yp-text-secondary)}
+  .dropdown a:hover{background:var(--yp-mist);color:var(--yp-deep)}
+
+  .nav-right{display:flex;align-items:center;gap:10px}
+  .search-box{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--yp-mist);border:1px solid var(--yp-line);border-radius:999px;font-size:13px;color:var(--yp-text-muted);min-width:200px;cursor:text;transition:all .2s}
+  .search-box:hover,.search-box:focus-within{border-color:var(--yp-deep);background:var(--yp-white)}
+  .search-box svg{width:14px;height:14px;flex-shrink:0}
+  .search-box input{border:none;background:transparent;outline:none;font-family:inherit;font-size:13px;color:var(--yp-text-primary);flex:1;min-width:0}
+  .btn-ghost,.btn-primary{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+  .btn-ghost{border:1px solid var(--yp-line);background:transparent;color:var(--yp-text-primary)}
+  .btn-ghost:hover{border-color:var(--yp-deep);color:var(--yp-deep)}
+  .btn-primary{background:var(--yp-deep);color:var(--yp-white);border:none}
+  .btn-primary:hover{background:var(--yp-ink)}
+  .nav-user-link{font-size:13px;color:var(--yp-text-secondary);display:inline-flex;align-items:center;gap:4px}
+  .nav-user-link:hover{color:var(--yp-deep)}
+
+  /* ===== BADGES ===== */
+  .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:1px}
+  .badge-now{background:rgba(195,141,86,.15);color:var(--yp-accent)}
+  .badge-now::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--yp-accent);animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .badge-deep{background:rgba(66,122,113,.15);color:var(--yp-deep)}
+  .badge-new{background:rgba(31,42,42,.85);color:var(--yp-white)}
+  .badge-this-week{background:rgba(243,231,221,.7);color:var(--yp-accent);font-weight:700}
+
+  /* ===== HERO ===== */
+  .hero{display:grid;grid-template-columns:1.6fr 1fr;gap:48px;padding:52px 0 60px;border-bottom:1px solid var(--yp-line)}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--yp-accent);margin-bottom:16px}
+  .kicker::before{content:"";width:24px;height:1px;background:var(--yp-accent)}
+  .hero-label{font-family:var(--yp-font-title);font-size:13px;color:var(--yp-text-muted);letter-spacing:.04em;margin-bottom:14px}
+  .hero-quote{font-family:var(--yp-font-title);font-size:44px;font-weight:500;line-height:1.35;letter-spacing:-.02em;color:var(--yp-ink);margin-bottom:22px}
+  .hero-quote em{font-style:italic;color:var(--yp-deep)}
+  .hero-byline{font-size:14px;color:var(--yp-text-secondary);font-style:italic;margin-bottom:28px}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .btn-lead,.btn-lead-warm{padding:13px 22px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+  .btn-lead{background:var(--yp-deep);color:var(--yp-white);border:none}
+  .btn-lead:hover{background:var(--yp-ink);transform:translateY(-1px)}
+  .btn-lead-warm{background:transparent;color:var(--yp-accent);border:1px solid var(--yp-accent)}
+  .btn-lead-warm:hover{background:var(--yp-accent);color:var(--yp-white)}
+  .editorial{border-left:1px solid var(--yp-line);padding-left:36px;padding-top:4px}
+  .editorial .kicker{color:var(--yp-pine)}
+  .editorial .kicker::before{background:var(--yp-pine)}
+  .editorial h2{font-family:var(--yp-font-title);font-size:22px;font-weight:700;line-height:1.4;margin-bottom:14px;color:var(--yp-ink)}
+  .editorial p{font-size:15px;line-height:1.7;color:var(--yp-text-secondary);margin-bottom:16px}
+  .editorial-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px solid var(--yp-line)}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--yp-pine),var(--yp-deep));color:var(--yp-white);display:flex;align-items:center;justify-content:center;font-family:var(--yp-font-title);font-weight:700;font-size:16px;flex-shrink:0}
+  .author-info{font-size:13px}
+  .author-info strong{color:var(--yp-ink);font-weight:700}
+  .author-info .role{color:var(--yp-text-muted)}
+
+  /* ===== 3-COL ===== */
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;padding:52px 0;border-bottom:1px solid var(--yp-line)}
+  .col-header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--yp-ink);padding-bottom:10px;margin-bottom:18px}
+  .col-title{font-family:var(--yp-font-title);font-size:20px;font-weight:700;color:var(--yp-ink);display:flex;align-items:baseline;gap:8px}
+  .col-title .hanja{font-size:14px;color:var(--yp-accent);font-weight:400}
+  .col-link{font-size:12px;color:var(--yp-text-muted);font-weight:600}
+  .col-link:hover{color:var(--yp-deep)}
+  .col-subtitle{font-size:13px;color:var(--yp-text-secondary);margin-bottom:16px;line-height:1.5;font-style:italic}
+  .post-list{display:flex;flex-direction:column;gap:18px}
+  .post-item{padding-bottom:16px;border-bottom:1px dashed var(--yp-line);cursor:pointer;transition:transform .25s}
+  .post-item:hover{transform:translateX(3px)}
+  .post-item:last-child{border-bottom:none;padding-bottom:0}
+  .post-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--yp-text-muted);margin-bottom:6px;flex-wrap:wrap}
+  .post-meta .author{display:inline-flex;align-items:center;gap:6px;color:var(--yp-deep);font-weight:600}
+  .post-meta .author .dot{width:18px;height:18px;border-radius:50%;background:var(--yp-sand);color:var(--yp-ink);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--yp-font-title)}
+  .post-title{font-family:var(--yp-font-title);font-size:17px;font-weight:500;line-height:1.45;color:var(--yp-ink);margin-bottom:4px}
+  .post-snippet{font-size:13px;color:var(--yp-text-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+  .vote-row{display:flex;gap:14px;font-size:11px;color:var(--yp-text-muted)}
+  .vote-btn{display:inline-flex;align-items:center;gap:4px;color:var(--yp-text-muted);background:none;border:none;cursor:pointer;font-family:inherit;font-size:11px;padding:2px 0;transition:color .2s}
+  .vote-btn:hover{color:var(--yp-deep)}
+  .vote-btn.depth:hover{color:var(--yp-accent)}
+  .vote-btn .ico{display:inline-block;width:12px;height:12px;line-height:1}
+
+  /* Insight column */
+  .insight-list{display:flex;flex-direction:column;gap:16px}
+  .insight-item{display:grid;grid-template-columns:28px 1fr;gap:14px;padding-bottom:14px;border-bottom:1px dashed var(--yp-line);cursor:pointer}
+  .insight-item:last-child{border-bottom:none;padding-bottom:0}
+  .insight-rank{font-family:var(--yp-font-title);font-size:28px;font-weight:900;color:var(--yp-accent);line-height:1}
+  .insight-title{font-family:var(--yp-font-title);font-size:15px;font-weight:500;line-height:1.45;margin-bottom:5px;color:var(--yp-ink)}
+  .insight-byline{font-size:11px;color:var(--yp-text-muted)}
+
+  /* ===== BAND HEADERS ===== */
+  .band{padding:48px 0;border-bottom:1px solid var(--yp-line)}
+  .band-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;flex-wrap:wrap;gap:8px}
+  .band-title{font-family:var(--yp-font-title);font-size:28px;font-weight:700;color:var(--yp-ink);letter-spacing:-.01em}
+  .band-title .hanja{font-size:16px;color:var(--yp-accent);margin-right:6px;font-weight:400}
+  .band-subtitle{font-size:13px;color:var(--yp-text-muted);font-style:italic}
+
+  /* ===== COLUMNISTS BAND (신설) ===== */
+  .columnist-band{padding:48px 0;border-bottom:1px solid var(--yp-line);background:linear-gradient(180deg,rgba(243,231,221,.25),transparent)}
+  .columnist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .columnist-card{cursor:pointer;transition:transform .25s}
+  .columnist-card:hover{transform:translateY(-3px)}
+  .columnist-portrait{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--yp-sand),var(--yp-peach));color:var(--yp-ink);display:flex;align-items:center;justify-content:center;font-family:var(--yp-font-title);font-weight:700;font-size:22px;margin-bottom:12px}
+  .columnist-name{font-family:var(--yp-font-title);font-size:15px;font-weight:700;color:var(--yp-ink);margin-bottom:2px}
+  .columnist-role{font-size:11px;color:var(--yp-text-muted);letter-spacing:.04em;margin-bottom:12px}
+  .columnist-headline{font-family:var(--yp-font-title);font-size:17px;font-weight:500;line-height:1.45;color:var(--yp-ink);margin-bottom:6px}
+  .columnist-deck{font-size:13px;color:var(--yp-text-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* ===== SESANG (WORLD/NEWS) BAND ===== */
+  .news-tabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+  .news-tab{padding:8px 16px;background:transparent;border:1px solid var(--yp-line);border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;color:var(--yp-text-secondary)}
+  .news-tab:hover{border-color:var(--yp-deep);color:var(--yp-deep)}
+  .news-tab.active{background:var(--yp-ink);color:var(--yp-white);border-color:var(--yp-ink)}
+  .news-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:24px}
+  .news-card{cursor:pointer;transition:transform .25s}
+  .news-card:hover{transform:translateY(-2px)}
+  .news-thumb{width:100%;aspect-ratio:16/10;background:linear-gradient(135deg,var(--yp-sand),var(--yp-peach));border-radius:4px;margin-bottom:14px;position:relative;overflow:hidden}
+  .news-thumb.lead{aspect-ratio:4/3}
+  .news-thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 40%, rgba(66,122,113,.25), transparent 60%)}
+  .news-cat{display:inline-block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--yp-accent);font-weight:700;margin-bottom:6px}
+  .news-headline{font-family:var(--yp-font-title);font-size:18px;font-weight:600;line-height:1.4;color:var(--yp-ink);margin-bottom:6px}
+  .news-card.lead .news-headline{font-size:28px;font-weight:700;line-height:1.3}
+  .news-deck{font-size:13px;color:var(--yp-text-secondary);line-height:1.55}
+
+  /* ===== EODILO 가볼까 BAND (신설) ===== */
+  .where-band{padding:52px 0;border-bottom:1px solid var(--yp-line);background:linear-gradient(180deg,transparent,rgba(223,232,222,.35))}
+  .where-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px}
+  .where-card{background:var(--yp-card);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .25s;border:1px solid rgba(31,42,42,.06)}
+  .where-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(37,49,49,.08)}
+  .where-thumb{width:100%;aspect-ratio:16/10;background:linear-gradient(135deg,var(--yp-sage),var(--yp-peach));position:relative}
+  .where-card.featured .where-thumb{aspect-ratio:4/3;background:linear-gradient(135deg,#d4d8c4,var(--yp-peach))}
+  .where-thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 60%, rgba(195,141,86,.25), transparent 60%)}
+  .where-body{padding:18px}
+  .where-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--yp-text-muted);margin-bottom:8px;letter-spacing:.04em}
+  .where-meta .pin{color:var(--yp-deep);font-weight:700}
+  .where-title{font-family:var(--yp-font-title);font-size:18px;font-weight:600;line-height:1.4;color:var(--yp-ink);margin-bottom:8px}
+  .where-card.featured .where-title{font-size:24px;font-weight:700}
+  .where-snippet{font-size:13px;color:var(--yp-text-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px}
+  .where-quote{font-family:var(--yp-font-title);font-size:13px;color:var(--yp-text-secondary);font-style:italic;padding-top:10px;border-top:1px dashed var(--yp-line)}
+  .where-quote .who{color:var(--yp-deep);font-style:normal;font-weight:700;margin-right:6px}
+
+  /* ===== FUTURE NEWS BAND (신설) ===== */
+  .future-band{padding:48px 0;border-bottom:1px solid var(--yp-line)}
+  .future-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .future-card{background:var(--yp-card);border:1px solid rgba(31,42,42,.06);border-radius:8px;padding:24px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+  .future-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--yp-deep),var(--yp-accent))}
+  .future-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(37,49,49,.08)}
+  .future-time{font-family:var(--yp-font-title);font-size:13px;color:var(--yp-accent);font-weight:700;letter-spacing:.04em;margin-bottom:10px}
+  .future-headline{font-family:var(--yp-font-title);font-size:19px;font-weight:600;line-height:1.45;color:var(--yp-ink);margin-bottom:10px}
+  .future-deck{font-size:13px;color:var(--yp-text-secondary);line-height:1.55;margin-bottom:14px}
+  .future-sources{font-size:11px;color:var(--yp-text-muted);padding-top:10px;border-top:1px dashed var(--yp-line)}
+
+  /* ===== JOURNAL ===== */
+  .journal-band{padding:48px 0;border-bottom:1px solid var(--yp-line)}
+  .journal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .journal-card{background:var(--yp-card);border:1px solid rgba(31,42,42,.06);border-radius:8px;padding:22px;cursor:pointer;transition:all .25s;box-shadow:0 4px 12px rgba(37,49,49,.04)}
+  .journal-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(37,49,49,.08)}
+  .verify-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:12px}
+  .verify-done{background:rgba(66,122,113,.15);color:var(--yp-deep)}
+  .verify-progress{background:rgba(195,141,86,.18);color:var(--yp-accent)}
+  .verify-pending{background:rgba(107,118,118,.12);color:var(--yp-text-muted)}
+  .journal-title{font-family:var(--yp-font-title);font-size:18px;font-weight:600;line-height:1.45;color:var(--yp-ink);margin-bottom:10px}
+  .journal-meta{font-size:12px;color:var(--yp-text-muted)}
+
+  /* ===== ECOSYSTEM ===== */
+  .ecosystem-band{padding:48px 0}
+  .ecosystem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+  .eco-card{padding:20px;background:var(--yp-card);border:1px solid rgba(31,42,42,.06);border-radius:12px;transition:all .25s;cursor:pointer}
+  .eco-card:hover{border-color:var(--yp-deep);transform:translateY(-2px)}
+  .eco-name{font-family:var(--yp-font-title);font-size:15px;font-weight:700;color:var(--yp-ink);margin-bottom:4px}
+  .eco-desc{font-size:12px;color:var(--yp-text-muted)}
+
+  /* ===== FOOTER ===== */
+  .footer{padding:30px 0;border-top:2px solid var(--yp-ink);text-align:center;color:var(--yp-text-muted);font-size:12px}
+
+  /* Animations */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease-out,transform .7s ease-out}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* Responsive */
+  @media (max-width:1024px){
+    .hero{grid-template-columns:1fr;gap:32px}
+    .editorial{border-left:none;padding-left:0;border-top:1px solid var(--yp-line);padding-top:24px}
+    .three-col{grid-template-columns:1fr;gap:36px}
+    .news-grid,.where-grid,.journal-grid,.future-grid{grid-template-columns:1fr 1fr}
+    .columnist-grid{grid-template-columns:1fr 1fr}
+    .ecosystem-grid{grid-template-columns:1fr 1fr}
+    .brand{font-size:40px}.brand .yeon{font-size:32px}
+    .hero-quote{font-size:32px}
+    .search-box{display:none}
+  }
+  @media (max-width:640px){
+    .container{padding:0 20px}
+    .nav-links{display:none}
+    .masthead-title{flex-direction:column;align-items:flex-start;gap:12px}
+    .tagline{text-align:left}
+    .news-grid,.where-grid,.journal-grid,.future-grid,.columnist-grid,.ecosystem-grid{grid-template-columns:1fr}
+    .hero-quote{font-size:26px}.band-title{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== MASTHEAD ===== -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-top">
+      <div class="left">
+        <span>2026년 5월 14일 목요일</span>
+        <span>19주차</span>
+        <span>울산 · 디지털 마을</span>
+      </div>
+      <div class="right">
+        <a href="#">내 생각책</a>
+        <a href="#">QR로 보기</a>
+        <a href="#">설정</a>
+        <a href="#">로그인</a>
+      </div>
+    </div>
+    <div class="masthead-title">
+      <div class="brand"><span class="yeon">緣</span>y-life.kr</div>
+      <div class="tagline">삶 · 인연 · 소통,<br>그 깊은 연(緣)으로 잇다</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SECTION NAV with SEARCH ===== -->
+<nav class="section-nav">
+  <div class="container">
+    <div class="section-nav-inner">
+      <div class="nav-links">
+        <a href="#hwadu" class="nav-item active">화두</a>
+        <a href="#agora" class="nav-item has-drop">광장
+          <div class="dropdown">
+            <a href="#agora">아골라 — 어른 토론</a>
+            <a href="#agonran">아곤란 — 학생 질문</a>
+            <a href="#">이번 주 베스트</a>
+          </div>
+        </a>
+        <a href="#columns" class="nav-item">칼럼</a>
+        <a href="#sesang" class="nav-item has-drop">세상
+          <div class="dropdown">
+            <a href="#sesang">오늘의 뉴스</a>
+            <a href="#sesang">시사</a>
+            <a href="#sesang">세계 흐름</a>
+            <a href="#future">미래 뉴스</a>
+          </div>
+        </a>
+        <a href="#where" class="nav-item">어디로 가볼까</a>
+        <a href="#journal" class="nav-item">시민 저널</a>
+        <a href="#bridge" class="nav-item">인연의 다리</a>
+      </div>
+      <div class="nav-right">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+          <input type="text" placeholder="화두·글·동네 검색">
+        </div>
+        <button class="btn-ghost">가입</button>
+        <button class="btn-primary">글쓰기</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hwadu">
+  <div class="hero-lead reveal">
+    <div class="kicker">This Week · 이 주의 화두</div>
+    <div class="hero-label">
+      <span class="badge badge-now">지금 깊어지는 중</span>
+      話頭 · 2026년 5월 11일 — 5월 17일
+    </div>
+    <h1 class="hero-quote">
+      사람은 자신이 의식적으로 <em>선택한다</em>고 믿지만,<br>
+      그 이전에 이미 몸이 먼저 움직이기 시작한다.<br>
+      그렇다면 '나'는 누구인가?
+    </h1>
+    <div class="hero-byline">— 연소사 제안 · Libet 실험에서 영감 · 글 23편 · 좋은 물음 187</div>
+    <div class="hero-actions">
+      <button class="btn-lead">아골라에서 토론하기</button>
+      <button class="btn-lead-warm">아곤란에서 생각 나누기</button>
+    </div>
+  </div>
+
+  <aside class="editorial reveal" id="editorial">
+    <div class="kicker">Editorial · 이번 주 사설</div>
+    <h2>믿음의 틈을 여는 것이 광장의 일이다</h2>
+    <p>사람은 무의식적 최면 상태에서의 행동을 자신인 것으로 착각하며 산다. 그래서 종교·정치 같은 믿음 체계가 가장 위험하다. 여기에 욕심이 덧붙여지면 사이비가 된다.</p>
+    <p>y-life.kr은 그 틈을 여는 공간이다.</p>
+    <div class="editorial-author">
+      <div class="avatar">蓮</div>
+      <div class="author-info">
+        <strong>연소사</strong><br>
+        <span class="role">y-life.kr 편집인 · 2026년 5월</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<!-- ===== 3-COL ===== -->
+<section class="three-col">
+  <!-- 아골라 -->
+  <div class="reveal" id="agora">
+    <div class="col-header">
+      <div class="col-title">아골라 <span class="hanja">阿閣羅</span></div>
+      <a href="#" class="col-link">전체 보기 →</a>
+    </div>
+    <p class="col-subtitle">어른의 토론. 답이 아니라 더 좋은 물음을 찾는 곳.</p>
+    <div class="post-list">
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="badge badge-now">지금</span>
+          <span class="author"><span class="dot">林</span>임선생</span>
+          <span>·</span><span>2시간 전</span>
+        </div>
+        <h3 class="post-title">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h3>
+        <p class="post-snippet">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 24</button>
+          <span>댓글 7</span>
+        </div>
+      </div>
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="badge badge-deep">깊어짐</span>
+          <span class="author"><span class="dot">朴</span>박주민</span>
+          <span>·</span><span>어제</span>
+        </div>
+        <h3 class="post-title">기록되지 않은 결정은 정말 내 결정인가</h3>
+        <p class="post-snippet">한 주 동안 내가 한 '결정'들을 거꾸로 적어보았다. 70%는 결정이 아니라 흐름이었다.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 48</button>
+          <span>댓글 12</span>
+        </div>
+      </div>
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="author"><span class="dot">崔</span>최영재</span>
+          <span>·</span><span>2일 전</span>
+        </div>
+        <h3 class="post-title">"몸이 먼저 안다"는 말의 동양적 뿌리</h3>
+        <p class="post-snippet">신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 29</button>
+          <span>댓글 3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 아곤란 -->
+  <div class="reveal" id="agonran">
+    <div class="col-header">
+      <div class="col-title">아곤란 <span class="hanja">阿昆蘭</span></div>
+      <a href="#" class="col-link">전체 보기 →</a>
+    </div>
+    <p class="col-subtitle">학생의 마당. 서툰 질문이 가장 빛나는 자리.</p>
+    <div class="post-list">
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="badge badge-new">새 글</span>
+          <span class="author"><span class="dot">민</span>민서</span>
+          <span>·</span><span>중1</span>
+        </div>
+        <h3 class="post-title">내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</h3>
+        <p class="post-snippet">친구들이 좋아하니까 좋아진 건지, 원래 내가 좋아한 건지 헷갈려요.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 36</button>
+          <span>댓글 9</span>
+        </div>
+      </div>
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="author"><span class="dot">하</span>하은</span>
+          <span>·</span><span>초6</span>
+        </div>
+        <h3 class="post-title">생각이 너무 빨라서 멈출 수가 없어요</h3>
+        <p class="post-snippet">자기 전에 생각이 막 떠올라요. 그 생각도 제가 선택한 건 아닌 것 같아요.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 18</button>
+          <span>댓글 5</span>
+        </div>
+      </div>
+      <div class="post-item">
+        <div class="post-meta">
+          <span class="author"><span class="dot">준</span>준호</span>
+          <span>·</span><span>고2</span>
+        </div>
+        <h3 class="post-title">습관은 나인가, 내가 아닌가</h3>
+        <p class="post-snippet">매일 같은 시간에 핸드폰을 보는데, 그건 제가 한 행동인가요 습관이 한 행동인가요.</p>
+        <div class="vote-row">
+          <button class="vote-btn depth">◐ 좋은 물음 22</button>
+          <span>댓글 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 인사이트 -->
+  <div class="reveal">
+    <div class="col-header">
+      <div class="col-title">이 주의 인사이트</div>
+      <a href="#" class="col-link">더 보기 →</a>
+    </div>
+    <p class="col-subtitle">광장에서 가장 깊은 울림을 준 글들.</p>
+    <div class="insight-list">
+      <div class="insight-item">
+        <div class="insight-rank">1</div>
+        <div><h4 class="insight-title">기록되지 않은 결정은 정말 내 결정인가</h4><div class="insight-byline">박주민 · 아골라 · 좋은 물음 48</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-rank">2</div>
+        <div><h4 class="insight-title">내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</h4><div class="insight-byline">민서 · 아곤란 · 좋은 물음 36</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-rank">3</div>
+        <div><h4 class="insight-title">"몸이 먼저 안다"는 말의 동양적 뿌리</h4><div class="insight-byline">최영재 · 아골라 · 좋은 물음 29</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-rank">4</div>
+        <div><h4 class="insight-title">습관은 나인가, 내가 아닌가</h4><div class="insight-byline">준호 · 아곤란 · 좋은 물음 22</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLUMNISTS BAND (신설) ===== -->
+<section class="columnist-band reveal" id="columns">
+  <div class="band-header">
+    <h2 class="band-title"><span class="hanja">柱</span>이번 주 칼럼</h2>
+    <span class="band-subtitle">네 사람의 시선, 네 가지 호흡</span>
+  </div>
+  <div class="columnist-grid">
+    <div class="columnist-card">
+      <div class="columnist-portrait">蓮</div>
+      <div class="columnist-name">연소사</div>
+      <div class="columnist-role">교육 · 사유</div>
+      <h3 class="columnist-headline">학생이 묻기를 멈출 때 어른은 무엇을 잃는가</h3>
+      <p class="columnist-deck">교실에서 사라진 질문은 어른 사회에서 어떻게 다시 나타나는지에 관한 한 주의 기록.</p>
+    </div>
+    <div class="columnist-card">
+      <div class="columnist-portrait" style="background:linear-gradient(135deg,#b0cfc8,#dfe6d3)">林</div>
+      <div class="columnist-name">임선생</div>
+      <div class="columnist-role">철학 · 동서양</div>
+      <h3 class="columnist-headline">동양의 '無爲'와 서양의 자유의지</h3>
+      <p class="columnist-deck">행하지 않음으로 행한다는 말이 신경과학과 만나는 자리.</p>
+    </div>
+    <div class="columnist-card">
+      <div class="columnist-portrait" style="background:linear-gradient(135deg,#dbd2a4,#e7d9bf)">朴</div>
+      <div class="columnist-name">박주민</div>
+      <div class="columnist-role">사회 · 지역</div>
+      <h3 class="columnist-headline">울산의 봄은 어떤 사람들의 봄인가</h3>
+      <p class="columnist-deck">태화강 둑길에서 만난 다섯 사람의 봄 이야기.</p>
+    </div>
+    <div class="columnist-card">
+      <div class="columnist-portrait" style="background:linear-gradient(135deg,#b2a7b8,#d4cdc1)">玄</div>
+      <div class="columnist-name">현지영</div>
+      <div class="columnist-role">청년 · 미래</div>
+      <h3 class="columnist-headline">스무 살이 본 '결정의 무게'</h3>
+      <p class="columnist-deck">선택지가 너무 많은 시대의 청년이 길어진 화두.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 세상 (NEWS + 시사·세계) ===== -->
+<section class="band reveal" id="sesang">
+  <div class="band-header">
+    <h2 class="band-title"><span class="hanja">世</span>세상 — 오늘·시사·세계</h2>
+    <span class="band-subtitle">매일 다섯 건 · 내 생각 한 줄</span>
+  </div>
+  <div class="news-tabs">
+    <button class="news-tab active">오늘의 뉴스</button>
+    <button class="news-tab">시사</button>
+    <button class="news-tab">세계 흐름</button>
+    <button class="news-tab">우리동네</button>
+    <button class="news-tab">하늘·땅·바다</button>
+  </div>
+  <div class="news-grid">
+    <div class="news-card lead">
+      <div class="news-thumb lead"></div>
+      <div class="news-cat">오늘의 뉴스 · 사회</div>
+      <h3 class="news-headline">"느린 뉴스"는 정말 가능한가 — 일주일 단위 저널리즘 실험</h3>
+      <p class="news-deck">속보가 아니라 한 주를 통째로 읽는 매체들이 한국에 어떻게 자리잡고 있는지 짚는다.</p>
+    </div>
+    <div class="news-card">
+      <div class="news-thumb"></div>
+      <div class="news-cat">시사 · 정책</div>
+      <h3 class="news-headline">AI 시대 교실, 어디까지 와 있나</h3>
+      <p class="news-deck">지자체별 시범 사업 현황 정리.</p>
+    </div>
+    <div class="news-card">
+      <div class="news-thumb"></div>
+      <div class="news-cat">세계 흐름 · 일본</div>
+      <h3 class="news-headline">도쿄 '슬로 카페' 열풍, 한 잔에 1시간</h3>
+      <p class="news-deck">속도를 늦추는 도시의 시도.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 어디로 가볼까 (신설) ===== -->
+<section class="where-band reveal" id="where">
+  <div class="band-header">
+    <h2 class="band-title">어디로 가볼까 — <span style="color:var(--yp-pine);font-weight:500;">우리 동네 맛집·멋집</span></h2>
+    <span class="band-subtitle">주민이 직접 다녀온 곳, 한 줄로 남긴 마음</span>
+  </div>
+  <div class="where-grid">
+    <article class="where-card featured">
+      <div class="where-thumb"></div>
+      <div class="where-body">
+        <div class="where-meta">
+          <span class="pin">울산 중구 · 우정동</span><span>·</span><span>맛집</span>
+        </div>
+        <h3 class="where-title">할매 손칼국수 — 50년 된 골목 안의 따뜻함</h3>
+        <p class="where-snippet">반죽 두께가 손마다 다른 칼국수. 멸치 육수가 깊고 김치가 한 그릇이다. 점심에는 줄을 서지만 그 시간만큼 기다릴 만하다.</p>
+        <div class="where-quote"><span class="who">— 임선생</span>비 오는 날 가면 더 좋아요. 창 너머 골목이 다 보입니다.</div>
+      </div>
+    </article>
+    <article class="where-card">
+      <div class="where-thumb"></div>
+      <div class="where-body">
+        <div class="where-meta">
+          <span class="pin">울산 남구 · 신정동</span><span>·</span><span>멋집</span>
+        </div>
+        <h3 class="where-title">책방 '잎새' — 조용히 앉아서 한 시간</h3>
+        <p class="where-snippet">독립서점 + 작은 카페. 주인이 직접 고른 책만 둔다.</p>
+        <div class="where-quote"><span class="who">— 박주민</span>혼자 가도 어색하지 않은 곳.</div>
+      </div>
+    </article>
+    <article class="where-card">
+      <div class="where-thumb"></div>
+      <div class="where-body">
+        <div class="where-meta">
+          <span class="pin">울산 울주군 · 언양</span><span>·</span><span>둘레길</span>
+        </div>
+        <h3 class="where-title">반구대 가는 흙길 — 봄에 가장 좋다</h3>
+        <p class="where-snippet">사람이 적고 새소리가 크다. 걷는 시간 자체가 화두가 되는 길.</p>
+        <div class="where-quote"><span class="who">— 현지영</span>이어폰을 빼고 걸어보세요.</div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 미래 뉴스 (신설) ===== -->
+<section class="future-band reveal" id="future">
+  <div class="band-header">
+    <h2 class="band-title"><span class="hanja">来</span>미래 뉴스</h2>
+    <span class="band-subtitle">아직 오지 않은 일을 미리 묻기 — 트렌드 · 신호 · 가설</span>
+  </div>
+  <div class="future-grid">
+    <article class="future-card">
+      <div class="future-time">2027–2030</div>
+      <h3 class="future-headline">AI가 쓴 칼럼과 사람이 쓴 칼럼, 독자는 구별할 수 있을까</h3>
+      <p class="future-deck">생성형 AI의 한국어 글이 인간 작가 평균 수준에 도달하면 매체의 신뢰는 어디에서 다시 생겨날지.</p>
+      <div class="future-sources">출처 · KAIST 연구소 보고서 · MIT Tech Review</div>
+    </article>
+    <article class="future-card">
+      <div class="future-time">2028 전후</div>
+      <h3 class="future-headline">지방 소도시가 디지털 마을로 다시 모이는 시대</h3>
+      <p class="future-deck">인구 감소 도시에서 온라인 공동체가 오프라인 광장의 역할을 대신 맡기 시작하면 무엇이 바뀔까.</p>
+      <div class="future-sources">출처 · 통계청 인구 추계 · 일본 사례</div>
+    </article>
+    <article class="future-card">
+      <div class="future-time">2030 너머</div>
+      <h3 class="future-headline">'느리게 읽는' 미디어가 다시 비싸지는 시대</h3>
+      <p class="future-deck">짧은 영상이 포화되면 긴 글과 깊은 토론이 프리미엄이 된다는 가설.</p>
+      <div class="future-sources">출처 · Substack 데이터 · The Atlantic 분석</div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 시민 저널 ===== -->
+<section class="journal-band reveal" id="journal">
+  <div class="band-header">
+    <h2 class="band-title">시민 저널 — <span style="color:var(--yp-pine);font-weight:500;">누구나 기자</span></h2>
+    <span class="band-subtitle">사실 검증 6단계 · 같이 묻고 같이 본다</span>
+  </div>
+  <div class="journal-grid">
+    <div class="journal-card">
+      <div class="verify-badge verify-done">✓ 6단계 검증 완료</div>
+      <h3 class="journal-title">울산 태화강 봄철 수질 현황 — 주민 직접 측정 리포트</h3>
+      <div class="journal-meta">2026.05.13 · 연마을 주민</div>
+    </div>
+    <div class="journal-card">
+      <div class="verify-badge verify-progress">◑ 3/6 검증 진행</div>
+      <h3 class="journal-title">울산 쇠부리축제 — 예산 대비 시민 만족도 분석</h3>
+      <div class="journal-meta">2026.05.12 · 시민기자 A</div>
+    </div>
+    <div class="journal-card">
+      <div class="verify-badge verify-pending">◯ 검증 대기</div>
+      <h3 class="journal-title">언양 지석묘군 훼손 현장 — 현지 답사 기록</h3>
+      <div class="journal-meta">2026.05.11 · 시민기자 B</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 인연의 다리 ===== -->
+<section class="ecosystem-band reveal" id="bridge">
+  <div class="band-header">
+    <h2 class="band-title">인연의 다리</h2>
+    <span class="band-subtitle">y-life.kr이 잇는 공간들</span>
+  </div>
+  <div class="ecosystem-grid">
+    <a href="https://yeon.ai.kr" class="eco-card"><div class="eco-name">연마을 yeon.ai.kr</div><div class="eco-desc">지금 운영 중인 마을</div></a>
+    <a href="#" class="eco-card"><div class="eco-name">수풀AI · 영풀</div><div class="eco-desc">완전학습 교육 AI</div></a>
+    <a href="#" class="eco-card"><div class="eco-name">사이트 빌더</div><div class="eco-desc">코딩 없이, 나만의 홈페이지</div></a>
+    <a href="#" class="eco-card"><div class="eco-name">자서전 공방</div><div class="eco-desc">2027 예정</div></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    © 2026 y-life.kr — 연라이프. 인연으로 오고, 인연으로 간다. 울산에서 시작.
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  document.querySelectorAll('.news-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.news-tab').forEach((t) => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

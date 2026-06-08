@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스마트 폴더 시스템 — AI 자동 분류 설계</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048; --green:#5a8a72; --purple:#6858c0;
+    --line:#d8d3c7; --fine:#e8e4d9; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm)}
+  .top .in{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 36px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:12px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:780px;line-height:1.7}
+
+  h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:48px 0 18px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-56px;top:0;font-family:var(--serif);font-size:24px;font-weight:300;color:var(--amber)}
+  h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);margin:28px 0 10px;letter-spacing:-.01em}
+  h4{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--teal);margin:18px 0 6px}
+  p{margin-bottom:12px;font-size:14px}
+
+  /* Vision 박스 */
+  .vision{background:var(--ink);color:var(--warm);padding:36px;border-radius:8px;margin:32px 0}
+  .vision .tag{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .vision h3{font-family:var(--serif);font-size:22px;color:var(--warm);margin:0 0 12px;border:none;padding:0}
+  .vision p{font-size:14px;color:rgba(244,240,230,.88);line-height:1.85;margin-bottom:10px}
+  .vision strong{color:var(--amber)}
+
+  /* 폴더 트리 시각화 */
+  .folder-mock{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:14px 0;font-family:var(--sans)}
+  .folder-mock .head-row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+  .folder-mock .head-row h4{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin:0}
+  .folder-mock .head-row .meta-r{font-size:11px;color:var(--muted)}
+  .folder-tree{font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:2;color:var(--ink)}
+  .folder-tree .ft-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:2px 0}
+  .folder-tree .ft-name{display:flex;align-items:center;gap:6px}
+  .folder-tree .ft-emoji{font-size:14px}
+  .folder-tree .ft-count{font-family:var(--sans);font-size:11px;color:var(--muted);background:var(--cool);padding:2px 8px;border-radius:999px;font-weight:600}
+  .folder-tree .ft-indent-1{padding-left:28px;color:var(--soft);font-size:12px}
+  .folder-tree .ft-indent-1 .ft-emoji{font-size:12px}
+  .folder-tree .leaf{padding-left:56px;color:var(--muted);font-size:11px;line-height:1.7;font-style:italic;font-family:var(--serif)}
+  .folder-tree .leaf::before{content:"└ ";opacity:.5}
+
+  /* 두 가지 뷰 비교 */
+  .view-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+  .view-box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 24px}
+  .view-box .view-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .view-box h4{font-family:var(--serif);font-size:17px;color:var(--ink);font-weight:700;margin:0 0 8px}
+  .view-box p{font-size:13px;color:var(--muted);line-height:1.7}
+  .view-box .demo{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--soft);background:var(--warm);padding:10px 14px;border-radius:4px;margin-top:10px;line-height:1.85;white-space:pre}
+
+  /* AI 흐름 */
+  .ai-flow{background:linear-gradient(135deg,var(--ink),#0c1820);color:var(--warm);padding:28px 32px;border-radius:8px;margin:24px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:2;white-space:pre;overflow-x:auto}
+
+  /* 스크랩 → 폴더 흐름 카드 */
+  .step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;position:relative;text-align:center}
+  .step:not(:last-child)::after{content:"→";position:absolute;top:50%;right:-12px;transform:translateY(-50%);color:var(--amber);font-size:18px;font-weight:700;z-index:5}
+  .step-num{font-family:var(--serif);font-size:12px;color:var(--amber);font-weight:700;letter-spacing:.14em;margin-bottom:6px}
+  .step-title{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .step-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+  /* 추천 모달 미리보기 */
+  .modal-mock{background:white;border:1px solid var(--line);border-radius:8px;padding:24px;margin:14px 0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .modal-mock .mh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .modal-mock .mh h4{font-family:var(--serif);font-size:16px;color:var(--ink);margin:0}
+  .modal-mock .mh .close{color:var(--muted);font-size:14px}
+  .modal-mock .content-preview{background:var(--cool);padding:12px 14px;border-radius:4px;font-family:var(--serif);font-size:13px;color:var(--soft);font-style:italic;margin-bottom:14px;line-height:1.6}
+  .modal-mock .ai-suggest{font-size:12px;color:var(--amber);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .folder-option{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;margin-bottom:6px;cursor:pointer;font-size:13px;transition:border-color .15s}
+  .folder-option:hover{border-color:var(--teal);background:var(--warm)}
+  .folder-option.primary{border-color:var(--amber);background:#FFF8E1}
+  .folder-option .fo-icon{font-size:14px}
+  .folder-option .fo-name{flex:1;font-weight:600;color:var(--ink)}
+  .folder-option .fo-count{font-size:11px;color:var(--muted)}
+  .folder-option .fo-confidence{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;background:var(--amber);color:white;font-weight:700;margin-left:6px}
+  .folder-option-new{border:1px dashed var(--teal);background:rgba(42,83,88,.05);color:var(--teal);font-style:italic}
+
+  /* 표 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:var(--surface);border-radius:4px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+  th{font-family:var(--serif);font-size:12px;background:var(--ink);color:var(--warm);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  td.center{text-align:center}
+
+  /* 박스들 */
+  .note{background:rgba(42,83,88,.06);border-left:3px solid var(--teal);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+  .note strong{color:var(--teal);font-family:var(--serif);font-weight:700;display:block;margin-bottom:4px}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:14px 18px;font-size:13px;line-height:1.7;margin:14px 0;border-radius:0 4px 4px 0}
+
+  /* 데이터 구조 */
+  .schema{background:var(--ink);color:#e8e4d9;padding:18px 22px;border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.85;margin:14px 0;overflow-x:auto;white-space:pre}
+  .schema .c{color:#7a8a8e}
+  .schema .k{color:#e4c89a}
+  .schema .v{color:#c4e4d8}
+
+  /* 뷰 카드 */
+  .view-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+  .vc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;text-align:center}
+  .vc .icon{font-size:24px;margin-bottom:6px}
+  .vc h5{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .vc p{font-size:11px;color:var(--muted);line-height:1.5}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:768px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:28px}
+    h2 .num{position:static;display:block;margin-bottom:6px}
+    .view-grid,.step-grid{grid-template-columns:1fr}
+    .step:not(:last-child)::after{display:none}
+    .view-card-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in"><a href="개인_생각의지도_스크랩시스템_설계.html">← 스크랩 시스템</a><span>스마트 폴더 · AI 자동 분류</span></div></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Smart Folder System · 2026.05.16.</div>
+    <h1>스마트 폴더 — <em>AI가 정리해주는 자기 서랍장</em></h1>
+    <p class="lede">
+      별자리 지도는 시각적 사유의 자리. 그 옆에 정리된 서랍장이 같이 있으면 더 좋아요.
+      스크랩을 하면 AI가 가장 어울리는 폴더를 자동으로 제안하고, 새 분류가 필요한 순간이 오면
+      새 폴더도 자동으로 만들어집니다. 전체 보기·폴더 보기·태그 보기·지도 보기 — 본인의 마음에 맞는 결로.
+    </p>
+  </header>
+
+  <!-- ========== Vision ========== -->
+  <div class="vision">
+    <div class="tag">설계 원칙</div>
+    <h3>"가지런하되 갇히지 않는다"</h3>
+    <p>폴더가 너무 강하면 답답하고, 폴더가 없으면 어지럽습니다. 좋은 정리는 <strong>강제하지 않으면서 길을 안내하는 것</strong>입니다.</p>
+    <p>이 시스템은 그래서 — 폴더는 AI가 부드럽게 제안만 하고, 같은 별이 동시에 여러 폴더에 있을 수도 있고, 폴더 무시하고 전체로 펼쳐 볼 수도 있고, 별자리 지도로 펼쳐 볼 수도 있습니다.</p>
+    <p>주민은 자기 결에 맞는 보기 방식을 매번 고르면 됩니다.</p>
+  </div>
+
+  <!-- ========== 1. 스크랩 → 폴더 흐름 ========== -->
+  <h2><span class="num">01</span>스크랩 → 폴더 한 번의 흐름</h2>
+
+  <div class="step-grid">
+    <div class="step">
+      <div class="step-num">①</div>
+      <div class="step-title">스크랩</div>
+      <div class="step-desc">한 문장 선택 + 호박색 버튼 클릭</div>
+    </div>
+    <div class="step">
+      <div class="step-num">②</div>
+      <div class="step-title">AI 분석</div>
+      <div class="step-desc">내용 본 후 폴더 매칭 점수 계산</div>
+    </div>
+    <div class="step">
+      <div class="step-num">③</div>
+      <div class="step-title">제안 모달</div>
+      <div class="step-desc">"이 폴더 어때요?" 1~3개 제안</div>
+    </div>
+    <div class="step">
+      <div class="step-num">④</div>
+      <div class="step-title">선택/거절</div>
+      <div class="step-desc">한 번 클릭으로 저장 또는 새 폴더</div>
+    </div>
+  </div>
+
+  <h3>AI 제안 모달 — 실제 어떻게 보일까</h3>
+
+  <div class="modal-mock">
+    <div class="mh">
+      <h4>+ 별이 되었어요 — 어디에 둘까요?</h4>
+      <span class="close">×</span>
+    </div>
+    <div class="content-preview">"의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까."</div>
+    <div class="ai-suggest">✦ AI 추천 · 어울리는 폴더 두 곳</div>
+    <div class="folder-option primary">
+      <span class="fo-icon">📁</span>
+      <span class="fo-name">철학·사상 / 자유의지</span>
+      <span class="fo-count">11개</span>
+      <span class="fo-confidence">92%</span>
+    </div>
+    <div class="folder-option">
+      <span class="fo-icon">📁</span>
+      <span class="fo-name">교실의 순간들 / 수업 단상</span>
+      <span class="fo-count">12개</span>
+      <span class="fo-confidence" style="background:var(--teal)">68%</span>
+    </div>
+    <div class="folder-option folder-option-new">
+      <span class="fo-icon">+</span>
+      <span>새 폴더 만들기...</span>
+    </div>
+    <div style="margin-top:14px;font-size:11px;color:var(--muted);text-align:center;font-style:italic">한 번에 여러 폴더에 둘 수도 있어요 · "그냥 저장" 누르면 폴더 없이 저장</div>
+  </div>
+
+  <div class="note">
+    <strong>가벼운 결정만 묻습니다</strong>
+    매번 모달이 떠서 귀찮으면 "그냥 저장" 버튼이 있어요. 별은 일단 들어가고, 나중에 자동 정리 시간에 AI가 알아서 분류합니다.
+  </div>
+
+  <!-- ========== 2. 폴더 구조의 자동 생성 ========== -->
+  <h2><span class="num">02</span>최적 폴더 구조의 자동 생성</h2>
+
+  <h3>처음 시작 — 가입 직후 (별 0개)</h3>
+  <p>처음엔 폴더 없음. 첫 5~10개 스크랩은 "정리되지 않음" 임시 폴더로.</p>
+
+  <div class="folder-mock">
+    <div class="head-row">
+      <h4>이 단계 폴더 구조 — 텅 빈 상태</h4>
+      <span class="meta-r">별 0~10개</span>
+    </div>
+    <div class="folder-tree">
+      <div class="ft-row"><div class="ft-name"><span class="ft-emoji">📂</span>정리되지 않음</div><span class="ft-count">0</span></div>
+      <div class="leaf">아직 폴더 없음. 자유롭게 별을 모아보세요.</div>
+    </div>
+  </div>
+
+  <h3>분류 임계점 — 별 10개 도달</h3>
+  <p>별 10개가 모이면 AI가 처음으로 폴더 구조를 제안합니다.</p>
+
+  <div class="ai-flow">[AI 알림 도착]
+
+"별 10개를 모으셨네요. ✨
+
+지금까지의 스크랩을 보니 세 갈래의 관심이 보입니다:
+
+  ① 자유의지·신경과학 (별 4개)
+  ② 교실에서 받은 학생 질문 (별 3개)
+  ③ 동네 둘레길 풍경 (별 3개)
+
+이 세 갈래로 폴더를 만들어 드릴까요?
+나중에 자유롭게 바꾸실 수 있어요."
+
+  [네, 만들어주세요]   [내가 직접 만들게요]   [지금은 그대로]</div>
+
+  <h3>안정기 — 별 50~200개</h3>
+
+  <div class="folder-mock">
+    <div class="head-row">
+      <h4>임선생의 폴더 — 안정기 예시</h4>
+      <span class="meta-r">별 73개 · 5개 폴더 · 자동 정리됨</span>
+    </div>
+    <div class="folder-tree">
+      <div class="ft-row"><div class="ft-name"><span class="ft-emoji">📁</span><strong>철학·사상</strong></div><span class="ft-count">24</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>자유의지</div><span class="ft-count">11</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>동서양 비교</div><span class="ft-count">8</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>마음 이론</div><span class="ft-count">5</span></div>
+
+      <div class="ft-row" style="margin-top:6px"><div class="ft-name"><span class="ft-emoji">📁</span><strong>교실의 순간들</strong></div><span class="ft-count">18</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>학생 질문</div><span class="ft-count">12</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>수업 단상</div><span class="ft-count">6</span></div>
+
+      <div class="ft-row" style="margin-top:6px"><div class="ft-name"><span class="ft-emoji">📁</span><strong>마을 발견</strong></div><span class="ft-count">14</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>둘레길</div><span class="ft-count">9</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>우리 동네</div><span class="ft-count">5</span></div>
+
+      <div class="ft-row" style="margin-top:6px"><div class="ft-name"><span class="ft-emoji">📁</span><strong>깊은 광장</strong></div><span class="ft-count">10</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>아골라 인상깊은 글</div><span class="ft-count">7</span></div>
+      <div class="ft-row ft-indent-1"><div class="ft-name"><span class="ft-emoji">📁</span>아곤란 좋은 질문</div><span class="ft-count">3</span></div>
+
+      <div class="ft-row" style="margin-top:6px"><div class="ft-name"><span class="ft-emoji">📁</span><strong>책상 위</strong></div><span class="ft-count">5</span></div>
+      <div class="leaf">읽다 멈춘 자리·내 단상</div>
+
+      <div class="ft-row" style="margin-top:6px"><div class="ft-name"><span class="ft-emoji">📂</span>정리되지 않음</div><span class="ft-count">2</span></div>
+      <div class="leaf">아직 분류 안 된 새 별</div>
+    </div>
+  </div>
+
+  <h3>성장기 — 분할 제안</h3>
+  <p>폴더 안에 별이 30개 넘으면 AI가 분할을 제안합니다.</p>
+
+  <div class="ai-flow">[월간 자동 정리 알림 · 6월 1일]
+
+"한 달 살펴보니 정돈할 자리가 보입니다.
+
+📁 '자유의지' 폴더가 32개로 두꺼워졌어요.
+세 갈래로 나눠보면 어떨까요?
+
+  ① 자유의지 · 리벳 계열 (11개)
+  ② 자유의지 · 노자 계열 (10개)
+  ③ 자유의지 · 칸트 계열 (11개)
+
+📁 '둘레길' 폴더에 안 어울리는 별 하나 발견:
+  "도쿄 슬로 카페 열풍" (이건 '도시 풍경'으로 옮길까요?)"
+
+  [제안대로 정리]   [한 번에 하나씩]   [지금은 그대로]</div>
+
+  <!-- ========== 3. 다섯 가지 보기 ========== -->
+  <h2><span class="num">03</span>다섯 가지 보기 — 한 자료, 다섯 가지 결</h2>
+
+  <p>같은 별들을 본인 마음에 맞는 결로 볼 수 있어요. 한 번 클릭으로 보기 전환.</p>
+
+  <div class="view-card-grid">
+    <div class="vc">
+      <div class="icon">🌟</div>
+      <h5>전체 보기</h5>
+      <p>폴더 무시, 모든 별 한 화면<br>날짜·출처·태그로 정렬</p>
+    </div>
+    <div class="vc">
+      <div class="icon">📁</div>
+      <h5>폴더 보기</h5>
+      <p>트리 구조<br>폴더별 펼침/접기</p>
+    </div>
+    <div class="vc">
+      <div class="icon">✨</div>
+      <h5>별자리 지도</h5>
+      <p>시각적 우주<br>연결과 관계가 보임</p>
+    </div>
+    <div class="vc">
+      <div class="icon">🏷️</div>
+      <h5>태그 구름</h5>
+      <p>키워드 중심<br>자주 쓴 태그가 크게</p>
+    </div>
+    <div class="vc">
+      <div class="icon">📅</div>
+      <h5>타임라인</h5>
+      <p>시간 흐름순<br>일기처럼 펼쳐짐</p>
+    </div>
+    <div class="vc">
+      <div class="icon">🎯</div>
+      <h5>AI 큐레이션</h5>
+      <p>"요즘 이 주제에 자주 머무세요" — 자동 추천</p>
+    </div>
+  </div>
+
+  <h3>전체 보기 vs 폴더 보기 — 핵심 두 가지</h3>
+
+  <div class="view-grid">
+
+    <div class="view-box">
+      <div class="view-tag">★ 자주 쓰는 보기 1</div>
+      <h4>전체 보기 (All View)</h4>
+      <p>폴더가 있어도 신경 안 쓰고 모든 별을 한 줄로. 마음 가는 별을 그냥 찾고 싶을 때.</p>
+      <div class="demo">┌──────────────────────────┐
+│ 전체 73개 별            │
+│ [날짜순 ▼] [출처 ▼] [태그▼]│
+├──────────────────────────┤
+│ ◐ "선택이라는 말의 무게" │
+│  📁 자유의지 · 어제      │
+│                          │
+│ ◑ "왜요?가 많이 나오는..." │
+│  📁 학생 질문 · 5월 14일 │
+│                          │
+│ ◯ "할매 손칼국수" — 임선생│
+│  📁 둘레길 · 5월 13일    │
+└──────────────────────────┘</div>
+    </div>
+
+    <div class="view-box">
+      <div class="view-tag">★ 자주 쓰는 보기 2</div>
+      <h4>폴더 보기 (Folder View)</h4>
+      <p>주제별로 가지런히 모인 자료실. 폴더를 펼쳤다 접었다 하며 자료 정리.</p>
+      <div class="demo">┌──────────────────────────┐
+│ 📁 임선생의 폴더         │
+├──────────────────────────┤
+│ ▼ 📁 철학·사상   (24개)  │
+│   ▶ 📁 자유의지  (11개)  │
+│   ▼ 📁 동서양    (8개)   │
+│       ◐ 不忍人之心        │
+│       ◐ 無爲의 두 얼굴    │
+│       ◐ 거울 뉴런        │
+│       ...                │
+│   ▶ 📁 마음 이론  (5개)   │
+│ ▶ 📁 교실의 순간들 (18개)│
+│ ▶ 📁 마을 발견   (14개)  │
+└──────────────────────────┘</div>
+    </div>
+
+  </div>
+
+  <!-- ========== 4. AI 자동 분류 로직 ========== -->
+  <h2><span class="num">04</span>AI 자동 분류 — 어떻게 가장 좋은 폴더를 찾나</h2>
+
+  <h3>매번 스크랩 시 (실시간)</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:2">
+    <li>새 스크랩의 임베딩 벡터 계산 (Gemini 임베딩, 무료)</li>
+    <li>각 기존 폴더의 "대표 벡터"와 코사인 유사도 비교</li>
+    <li>가장 높은 두 폴더가 제안됨 (유사도 % 함께)</li>
+    <li>모두 60% 미만이면 → "새 폴더 만들기" 제안</li>
+    <li>사용자가 선택한 폴더 → 그 폴더 대표 벡터 갱신</li>
+  </ol>
+
+  <h3>매월 자동 정리 (배치)</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:2">
+    <li>전체 별들을 K-means 또는 HDBSCAN으로 자동 군집화</li>
+    <li>현재 폴더 구조와 비교 → 차이점 찾기
+      <ul style="margin-top:4px;font-size:13px">
+        <li>한 폴더 안에 두 군집 → "분할 제안"</li>
+        <li>두 폴더가 한 군집 → "병합 제안"</li>
+        <li>고립된 별들 → "정리되지 않음으로 이동" 제안</li>
+      </ul>
+    </li>
+    <li>AI가 자연어로 제안 작성 (Claude Haiku로 풀어쓰기)</li>
+    <li>월 1회 알림 메일·대시보드 배너로 안내</li>
+  </ol>
+
+  <h3>좋은 폴더 이름 짓기</h3>
+  <p>AI는 단순히 분류만 하는 게 아니라 폴더 이름도 짓습니다. 좋은 이름의 조건:</p>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>짧고 구체적</strong> — "자유의지" (좋음) vs "철학적 사유" (모호함)</li>
+    <li><strong>연라이프 정서</strong> — "학생 질문" 보다 "교실의 순간들" 같은 결</li>
+    <li><strong>본인이 이미 쓴 표현</strong> — 스크랩 안에 자주 나오는 단어</li>
+    <li><strong>거부할 수 있음</strong> — "이 이름 별로예요" → 본인이 다시 짓기</li>
+  </ul>
+
+  <!-- ========== 5. 데이터 구조 ========== -->
+  <h2><span class="num">05</span>데이터 구조</h2>
+
+  <p>D1 테이블 추가. 기존 scraps 테이블에 folder_id 필드 추가 + 새 folders 테이블.</p>
+
+  <div class="schema"><span class="c">// 폴더 테이블</span>
+<span class="k">CREATE TABLE</span> folders (
+  id <span class="k">TEXT PRIMARY KEY</span>,
+  user_id <span class="k">TEXT NOT NULL</span>,
+  parent_id <span class="k">TEXT</span>,                  <span class="c">-- NULL이면 최상위 폴더</span>
+  name <span class="k">TEXT NOT NULL</span>,
+  emoji <span class="k">TEXT</span>,                       <span class="c">-- 📁, 📂, 📦, 📚 등</span>
+  color <span class="k">TEXT</span>,                       <span class="c">-- 팔레트 안 색</span>
+  order_idx <span class="k">INTEGER</span>,                <span class="c">-- 표시 순서</span>
+  representative_vector <span class="k">BLOB</span>,        <span class="c">-- 폴더 임베딩 (자동 갱신)</span>
+  created_at <span class="k">DATETIME DEFAULT CURRENT_TIMESTAMP</span>,
+  created_by <span class="k">TEXT</span>                    <span class="c">-- 'user' or 'ai'</span>
+);
+
+<span class="c">// scraps에 폴더 연결 (다대다 — 한 별이 여러 폴더에)</span>
+<span class="k">CREATE TABLE</span> scrap_folders (
+  scrap_id <span class="k">TEXT NOT NULL</span>,
+  folder_id <span class="k">TEXT NOT NULL</span>,
+  is_primary <span class="k">BOOLEAN DEFAULT</span> <span class="v">1</span>,        <span class="c">-- 주 폴더 (지도 색 결정용)</span>
+  added_at <span class="k">DATETIME DEFAULT CURRENT_TIMESTAMP</span>,
+  added_by <span class="k">TEXT</span>,                     <span class="c">-- 'user' or 'ai_auto' or 'ai_suggested'</span>
+  <span class="k">PRIMARY KEY</span> (scrap_id, folder_id)
+);
+
+<span class="c">// 인덱스</span>
+<span class="k">CREATE INDEX</span> idx_folders_user <span class="k">ON</span> folders(user_id, parent_id);
+<span class="k">CREATE INDEX</span> idx_sf_scrap <span class="k">ON</span> scrap_folders(scrap_id);
+<span class="k">CREATE INDEX</span> idx_sf_folder <span class="k">ON</span> scrap_folders(folder_id);</div>
+
+  <div class="note">
+    <strong>왜 다대다(N:M) 관계인가</strong>
+    한 별이 동시에 여러 폴더에 있을 수 있어야 자연스러워요. "동서양 비교" 별이 "철학" 폴더에도 있고 "교실의 순간들" 폴더에도 있을 수 있죠. 단, "주 폴더" 하나는 정해서 지도에서 별 색깔의 기준으로 씁니다.
+  </div>
+
+  <!-- ========== 6. UI 디테일 ========== -->
+  <h2><span class="num">06</span>UI 디테일 — 새벽의 신뢰 결로</h2>
+
+  <h3>폴더 아이콘 — 단정한 한 톤</h3>
+  <p>이모지를 쓰되 자극적이지 않게. 폴더 이모지는 다섯 가지로 제한.</p>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>📁 일반 폴더 (기본)</li>
+    <li>📂 정리되지 않음 (임시)</li>
+    <li>📚 책처럼 묶인 모음 (자서전 후보)</li>
+    <li>🔖 즐겨찾기·핵심 폴더</li>
+    <li>🗂 사용자 직접 만든 폴더</li>
+  </ul>
+
+  <h3>폴더 색 — 새벽의 신뢰 팔레트 안</h3>
+  <p>5가지만:</p>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>딥 틸 (#2A5358) — 사유·철학</li>
+    <li>잿빛 푸름 (#4A6878) — 사회·관계</li>
+    <li>호박 (#A87B3E) — 강조·즐겨찾기</li>
+    <li>먹빛 (#1A2326) — 기본·정돈</li>
+    <li>연한 회색 (#8A9398) — 임시·정리되지 않음</li>
+  </ul>
+
+  <h3>드래그·드롭 — 단순하게</h3>
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>별을 드래그해서 다른 폴더로 이동</li>
+    <li>별을 드래그해서 새 폴더 만들기 (다른 별 위로 떨어뜨림)</li>
+    <li>폴더 자체를 드래그해서 순서 변경</li>
+    <li>폴더 더블 클릭으로 이름 변경</li>
+  </ul>
+
+  <h3>검색 — 폴더 무시하고 전체</h3>
+  <p>검색은 항상 전체 별을 대상으로. 결과에 폴더 정보가 함께 표시됨 (어디서 찾았는지).</p>
+
+  <!-- ========== 7. AI 비용 ========== -->
+  <h2><span class="num">07</span>AI 비용 — 거의 무료</h2>
+
+  <table>
+    <thead><tr><th>작업</th><th>모델</th><th>빈도</th><th>월 비용 (500명 기준)</th></tr></thead>
+    <tbody>
+      <tr><td>실시간 폴더 매칭</td><td>Gemini 임베딩</td><td>스크랩마다 1회</td><td>무료</td></tr>
+      <tr><td>새 폴더 이름 제안</td><td>Gemini Flash</td><td>드물게</td><td>무료</td></tr>
+      <tr><td>월간 자동 정리 분석</td><td>Gemini Flash</td><td>회원당 월 1회</td><td>~500원</td></tr>
+      <tr><td>분할·병합 제안 자연어</td><td>Claude Haiku</td><td>월 1~2회</td><td>~1,000원</td></tr>
+      <tr><td colspan="3"><strong>총 추가</strong></td><td><strong>월 약 1,500원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p>이미 운영 중인 최종 추천 셋(월 8,000원)에 약 1,500원만 추가됩니다. 즉 폴더 시스템 포함해도 회원 500명까지 월 1만원 이내.</p>
+
+  <!-- ========== 8. 구현 단계 ========== -->
+  <h2><span class="num">08</span>구현 단계 — 스크랩 시스템 9주에 통합</h2>
+
+  <p>이전 "9주 구현 계획"의 1·2·3단계에 폴더 시스템을 자연스럽게 녹여 넣습니다.</p>
+
+  <table>
+    <thead><tr><th>단계</th><th>스크랩 작업</th><th>+ 폴더 작업</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>1단계<br>(2주)</strong></td>
+        <td>기본 스크랩<br>스크랩 버튼 5자리<br>D1 테이블·리스트 뷰</td>
+        <td>folders·scrap_folders 테이블 추가<br>"정리되지 않음" 임시 폴더 가동<br>"그냥 저장" 동작</td>
+      </tr>
+      <tr>
+        <td><strong>2단계<br>(3주)</strong></td>
+        <td>별자리 지도 시각화</td>
+        <td>폴더 트리 뷰<br>드래그·드롭<br>폴더 이름·색·아이콘 설정</td>
+      </tr>
+      <tr>
+        <td><strong>3단계<br>(2주)</strong></td>
+        <td>AI 자동 태그·연결 제안</td>
+        <td>AI 폴더 매칭<br>새 폴더 제안 모달<br>월간 자동 정리 알림</td>
+      </tr>
+      <tr>
+        <td><strong>4단계<br>(2주)</strong></td>
+        <td>내보내기·월간 요약</td>
+        <td>폴더 단위 내보내기<br>"이 폴더를 책으로" 옵션</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>총 기간 동일 — 9주. AI 비용 약간 추가 — 월 1,500원.</p>
+
+  <!-- ========== 9. 약속과 안전장치 ========== -->
+  <h2><span class="num">09</span>약속 — 폴더가 갇히지 않도록</h2>
+
+  <ul style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li><strong>모든 AI 제안은 거부 가능</strong> — "이번엔 그대로 두기" 버튼 항상</li>
+    <li><strong>한 별을 여러 폴더에</strong> — 강제 분류 X</li>
+    <li><strong>"전체 보기"가 기본</strong> — 폴더는 옵션, 보고 싶을 때만</li>
+    <li><strong>폴더 무시 검색</strong> — 검색은 항상 전체 대상</li>
+    <li><strong>되돌리기</strong> — 30일 이내 어떤 변경도 되돌릴 수 있음</li>
+    <li><strong>본인 폴더 구조 항상 공개</strong> — 어떤 AI가 무슨 기준으로 분류했는지 설명 가능</li>
+  </ul>
+
+  <div class="warn">
+    <strong>"폴더 너무 많아져요" 처방</strong>
+    AI가 폴더를 너무 자주 만들면 답답해질 수 있어요. 그래서: (1) 한 폴더에 별이 3개 이상 모이기 전엔 새 폴더 만들지 않음, (2) 한 사용자당 최대 30개 폴더(2단계 깊이까지), (3) 6개월 안 쓴 폴더는 자동 보관함으로 이동 제안.
+  </div>
+
+  <!-- ========== 마무리 ========== -->
+  <div class="vision" style="margin-top:48px">
+    <div class="tag">정리</div>
+    <h3>"별이 모이고, 별이 정돈되고, 별이 다시 흩어집니다"</h3>
+    <p>스크랩 시스템 = <strong>별을 모으는 일</strong></p>
+    <p>스마트 폴더 = <strong>별을 정돈하는 일</strong> (AI가 도움)</p>
+    <p>별자리 지도 = <strong>별이 다시 흩어져 별자리가 되는 일</strong></p>
+    <p>세 가지가 함께 있을 때 — 주민의 사유가 모이고, 정돈되고, 다시 자유롭게 펼쳐지는 자기 우주가 만들어집니다.</p>
+    <p style="margin-top:18px"><strong>회원 1년 사용 후</strong> — 평균 500개 별 · 15개 폴더 · 자기만의 우주 한 권. 이게 자서전 공방(2027)으로 이어집니다.</p>
+  </div>
+
+  <h3 style="margin-top:32px">검토 사항 목록 갱신</h3>
+  <ol style="margin-left:22px;font-size:14px;line-height:1.85">
+    <li>디자인 적용 (진행 중)</li>
+    <li>AI 챗봇·모더레이션 (4주)</li>
+    <li>자동 뉴스 수집 (1주)</li>
+    <li>보안 강화 (1주)</li>
+    <li><strong>개인 생각의 지도 + 스마트 폴더 (9주) — 폴더 시스템 통합</strong></li>
+  </ol>
+
+</div>
+
+<footer class="footer">
+  <p>"가지런하되 갇히지 않는다."</p>
+  <p style="margin-top:6px">스마트 폴더 AI 자동 분류 설계 v1.0 · 2026년 5월 16일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>

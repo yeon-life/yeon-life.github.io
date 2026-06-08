@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캔바 AI 프롬프트 모음 — 연라이프</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+  /* ⭐ YUV 3.2 표준 토큰 (2026-05-16 갱신) */
+  --yp-ink:#1f2a2a; --yp-deep:#2f5d62; --yp-pine:#427a71; --yp-accent:#c38d56;
+  --yp-sage:#dfe8de; --yp-mist:#f4f1eb; --yp-sand:#e7d9bf; --yp-peach:#f3e7dd;
+  --yp-line:#d7d1c5; --yp-card:#fffdf8; --yp-white:#ffffff;
+  /* 호환성 — 기존 변수명을 YUV 토큰으로 별칭 */
+    --ink:#1a2326; --soft:#2a3438; --teal:#2a5358; --teal-mid:#4a6878;
+    --amber:#a87b3e; --red:#a85048;
+    --line:#d8d3c7; --muted:#5e6a6e;
+    --paper:#f4f0e6; --warm:#f6f3ec; --cool:#eee9dc; --surface:#fbfaf5;
+    --serif:"Noto Serif KR",serif; --sans:"Pretendard",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--warm);color:var(--soft);line-height:1.75;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+
+  .top{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--warm);position:sticky;top:0;z-index:10}
+  .top .in{max-width:980px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center}
+  .top a{color:var(--ink);font-family:var(--serif);font-weight:600}
+
+  .head{padding:48px 0 32px;border-bottom:2px solid var(--ink)}
+  .meta{font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+  .meta::before{content:"";display:inline-block;width:24px;height:1px;background:var(--amber);margin-right:10px;vertical-align:5px}
+  h1{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.15;margin-bottom:14px}
+  h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:15px;color:var(--muted);max-width:760px;line-height:1.7}
+
+  .how-to{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 24px;margin:32px 0;font-size:13px;line-height:1.85}
+  .how-to strong{font-family:var(--serif);font-size:14px;color:var(--ink);display:block;margin-bottom:6px}
+
+  h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:64px 0 20px;border-bottom:1px solid var(--ink);padding-bottom:12px;letter-spacing:-.015em;position:relative}
+  h2 .num{position:absolute;left:-56px;top:0;font-family:var(--serif);font-size:32px;font-weight:300;color:var(--amber);letter-spacing:-.02em}
+
+  h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);margin:28px 0 8px;letter-spacing:-.01em}
+  h3 .what{display:inline-block;font-size:11px;font-family:var(--sans);background:var(--ink);color:var(--warm);padding:3px 8px;border-radius:3px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;margin-right:8px;vertical-align:3px}
+  h3 .what.write{background:var(--teal)}
+  h3 .what.media{background:var(--amber)}
+
+  p{margin-bottom:12px;font-size:14px;line-height:1.8}
+  .ctx{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:10px}
+
+  /* 프롬프트 박스 — 복붙용 */
+  .prompt{background:var(--ink);color:#e8e4d9;padding:20px 24px;border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.75;margin:10px 0 20px;border:1px solid #3a4348;position:relative;user-select:text;cursor:text;white-space:pre-wrap}
+  .prompt::before{content:"⬇ 아래 박스 전체 선택해서 복사 (Ctrl+A → Ctrl+C 또는 트리플 클릭)";display:block;font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed rgba(168,123,62,.3);user-select:none}
+  .prompt:hover{border-color:var(--amber)}
+
+  /* 한국어 버전 표시 */
+  .ko-version{background:#2a3438;color:#dfe6d3;padding:16px 22px;border-radius:6px;font-family:var(--sans);font-size:13px;line-height:1.85;margin:8px 0 20px;border:1px solid #3a4348;white-space:pre-wrap}
+  .ko-version::before{content:"🇰🇷 한국어 버전 (영어가 잘 안 통할 때 시도)";display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(168,123,62,.3)}
+
+  /* 카테고리 헤더 */
+  .cat{background:var(--ink);color:var(--warm);padding:36px;border-radius:6px;margin:48px 0 24px;position:relative}
+  .cat-num{font-family:var(--serif);font-size:14px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+  .cat-name{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px}
+  .cat-desc{font-size:13px;opacity:.8;line-height:1.7}
+
+  .tip{background:rgba(42,83,88,.08);border-left:3px solid var(--teal);padding:12px 18px;font-size:13px;line-height:1.7;margin:12px 0 16px;border-radius:0 4px 4px 0}
+  .tip strong{color:var(--teal);font-weight:700}
+  .warn{background:rgba(168,123,62,.08);border-left:3px solid var(--amber);padding:12px 18px;font-size:13px;line-height:1.7;margin:12px 0 16px;border-radius:0 4px 4px 0}
+
+  ol,ul{margin:8px 0 12px 22px;font-size:14px;line-height:1.8}
+  li{margin-bottom:4px}
+
+  .footer{padding:48px 0 32px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:64px}
+
+  @media (max-width:640px){
+    .wrap,.top .in{padding:0 20px}
+    h1{font-size:30px}
+    h2 .num{position:static;display:block;margin-bottom:8px}
+    .prompt{font-size:12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="in">
+    <a href="시안_v4_홈페이지.html">緣 y-life.kr</a>
+    <span>캔바 AI 프롬프트 모음 · 복붙용</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="meta">y-life.kr · Canva AI Prompt Pack · v1.0</div>
+    <h1>캔바 AI에게 그대로 <em>넘길</em> 프롬프트 모음</h1>
+    <p class="lede">
+      모든 화면 · 모든 AI 기능별로 준비된 프롬프트입니다.
+      검은 박스 전체를 선택해서 캔바 AI 입력창에 그대로 붙여 넣으세요.
+      영어가 기본이지만(캔바 AI는 영어에서 결과가 좋음), 한국어 버전도 함께 드립니다.
+    </p>
+  </header>
+
+  <div class="how-to">
+    <strong>사용 방법</strong>
+    1. 캔바에서 새 디자인 시작 → 좌측 메뉴 "Magic" 또는 "Magic Studio" 클릭<br>
+    2. 아래에서 만들고 싶은 화면을 찾고 <strong>검은 박스 전체 선택 → 복사</strong> (Ctrl+A → Ctrl+C, 또는 트리플 클릭)<br>
+    3. 캔바 AI 입력창에 붙여넣기 (Ctrl+V) → Generate<br>
+    4. 결과 3~4개 중 가장 맘에 드는 걸 골라 직접 다듬기<br>
+    <br>
+    <strong>아이콘 의미</strong><br>
+    🎨 <strong>Magic Design</strong> — 페이지 레이아웃 생성<br>
+    ✍️ <strong>Magic Write</strong> — 텍스트 생성<br>
+    🖼️ <strong>Magic Media</strong> — 이미지 생성 (Text-to-Image)
+  </div>
+
+  <!-- ========== 카테고리 1: 메인 홈페이지 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 01</div>
+    <div class="cat-name">메인 홈페이지</div>
+    <div class="cat-desc">y-life.kr 첫 화면 — 가장 중요한 작업. 캔바 사이즈 1440 × 4800px (긴 세로).</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>메인 홈페이지 — 전체 레이아웃</h3>
+  <p class="ctx">캔바에서 "맞춤형 크기 1440 × 4800px"로 새 디자인 → Magic Design에 붙여넣기</p>
+
+  <div class="prompt">A long-scrolling editorial homepage for "y-life.kr", a Korean philosophical discussion platform. Aesthetic name: "early morning trust" — quiet, contemplative, like a newspaper just delivered at 6am.
+
+Color palette: warm ivory background #F4F0E6, deep ink text #1A2326, deep teal accents #2A5358, restrained amber highlights #A87B3E only for time markers.
+
+Typography: Noto Serif KR for all headlines and quotes, Pretendard for body text.
+
+Layout from top to bottom:
+(1) thin meta bar with date "2026.05.14." and "내 블로그" pill button on the right
+(2) tall masthead with giant serif logo "緣 y-life.kr" — the 緣 character in deep teal, "y-life.kr" in ink black — plus a small italic tagline on the right, plus a "차림표" menu button on the far right
+(3) HERO SECTION: a giant philosophical quote in serif on the left (44-50px), small italic byline below, two action buttons (deep teal "아골라에서 토론하기" filled button + amber outline "아곤란에서 생각 나누기" button) — on the right side a smaller editorial column with title, paragraph, author card
+(4) BIG CENTRAL "광장 (Plaza)" SECTION with centered header "廣場 광장" — 3 equal columns below: Agora posts, Agonran posts, Insights ranking. This section should take up nearly half the page height
+(5) smaller supporting bands below for columnists (4 author cards), news tabs, citizen journalism
+
+Tone: warm, slow, sophisticated. Korean newspaper meets quiet literary journal. No bright colors. No stock photography of smiling people. Generous whitespace. Serif headlines do the heavy lifting.</div>
+
+  <div class="ko-version">한국어 철학·토론 플랫폼 y-life.kr의 메인 홈페이지를 만들어줘. 콘셉트는 "새벽 6시의 신뢰감" — 신문이 막 도착한 듯한 조용하고 사색적인 분위기.
+
+색감: 따뜻한 아이보리 배경(#F4F0E6), 깊은 먹빛 본문(#1A2326), 새벽 딥 틸 강조(#2A5358), 절제된 호박색 액센트(#A87B3E)는 "이 주의" 같은 시간 표식에만.
+
+폰트: 제목과 인용은 Noto Serif KR, 본문은 Pretendard.
+
+세로 긴 페이지로 구성. 위에서 아래로: 미니 상단바(날짜·내 블로그 버튼) → 큰 마스트헤드(緣 y-life.kr 로고 + 슬로건 + 차림표 메뉴) → 히어로(큰 화두 인용문 좌측, 사설 우측, 2열) → 광장 섹션(廣場 광장 큰 제목, 3열 그리드 — 아골라/아곤란/인사이트, 페이지의 거의 절반 차지) → 칼럼 4인 카드 → 뉴스 탭 → 시민 저널.
+
+조용하고 깊이 있는 느낌. 자극적인 색이나 웃는 사람 사진 금지. 여백 충분히. 세리프 헤드라인이 시각의 중심.</div>
+
+  <h3><span class="what write">✍️ Write</span>"이 주의 화두" 본문 생성</h3>
+  <p class="ctx">캔바 텍스트 박스 클릭 → Magic Write</p>
+
+  <div class="prompt">Write a profound Korean philosophical question for "this week's hwadu" (central question of the week) for a contemplative discussion forum. Format: 2 sentences, total 30-40 Korean characters. Theme: free will, the nature of choice, neuroscience and Libet's experiment. Tone: literary, slow, makes the reader pause. Should be in serif-friendly Korean. End with a question mark. Do not use comparison frames like "X가 아니라 Y".</div>
+
+  <h3><span class="what media">🖼️ Media</span>히어로 배경용 — 절제된 분위기 이미지</h3>
+  <p class="ctx">필요할 때만. 우리 디자인은 텍스트 중심이라 이미지 거의 안 쓰지만 가끔 배경에 옅게 깔 때.</p>
+
+  <div class="prompt">A subtle, abstract texture of warm ivory paper at dawn, with a barely visible blue-gray gradient suggesting early morning light. Minimalist, no people, no objects, no text. Soft, contemplative atmosphere. Editorial newspaper aesthetic. Very low contrast. Slight grain like vintage paper.</div>
+
+  <!-- ========== 카테고리 2: 광장 글 상세 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 02</div>
+    <div class="cat-name">광장 글 상세 페이지</div>
+    <div class="cat-desc">아골라·아곤란의 글 한 편을 펼쳐 읽는 화면. 캔바 사이즈 1440 × 3600px.</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>광장 글 상세 — 전체 레이아웃</h3>
+
+  <div class="prompt">A long-form editorial article page for a Korean philosophical discussion forum (y-life.kr).
+
+Same color palette: warm ivory #F4F0E6 background, deep ink #1A2326 text, deep teal #2A5358 accents, amber #A87B3E for time badges only. Same typography: Noto Serif KR for headlines and quotes, Pretendard for body.
+
+Layout:
+(1) thin breadcrumb navigation at top (홈 › 광장 › 아골라 › current article title)
+(2) small meta line with category "阿閣羅 · 아골라", time, and amber pulsing "지금 깊어지는 중" badge
+(3) very large serif headline (44-50px, deep ink black, generous line-height)
+(4) italic deck/subtitle in muted gray (19px) with a thin line border below
+(5) author byline card: 52px circular avatar (gradient background) on left, name and meta in middle, "팔로우" outline button on right
+(6) ARTICLE BODY: drop-cap first letter (64px serif), 18px body text with 1.95 line-height, generous paragraph spacing, one italic teal blockquote in the middle with quotation marks
+(7) END CARD: cream surface box with amber-bordered "이 글의 좋은 물음" label, italic question, dark "좋은 물음입니다 ◐ 24" vote button below
+(8) COMMENT SECTION: header with count, sort options, new comment box, then 4-5 comments. Each comment has: avatar, name, role badge, time, body text in serif. One comment is a "reply" indented and on cream background
+
+Right SIDEBAR (320px wide, sticky):
+- Black deep-ink card with amber tag "話頭 #19" and italic quote
+- Related posts list (3 items)
+- Author mini-card with link to their blog
+- Small italic "광장의 약속" note
+
+Overall feel: like reading a quiet literary magazine. Serif body, generous spacing, very calm.</div>
+
+  <div class="ko-version">한국어 철학·토론 사이트의 글 한 편 읽기 페이지를 만들어줘. 색감과 폰트는 메인과 동일(아이보리 배경, 먹빛 본문, 딥 틸 강조, 호박색은 시간 표식만).
+
+레이아웃: 빵부스러기 내비 → 메타(카테고리·시간·"지금 깊어지는 중" 배지) → 매우 큰 세리프 헤드라인 → 이탤릭 부제 → 글쓴이 카드(원형 아바타+이름+팔로우 버튼) → 본문(첫 글자 드롭캡, 17~18px, 행간 1.95, 가운데에 인용구 한 번) → "이 글의 좋은 물음" 박스(어두운 투표 버튼) → 댓글 영역(답글은 들여쓰기).
+
+우측 사이드(320px): "話頭 #19" 검은 카드, 관련 글 3건, 글쓴이 미니 카드.
+
+조용한 문학 매거진을 읽는 느낌. 세리프 본문, 충분한 여백.</div>
+
+  <h3><span class="what write">✍️ Write</span>본문 더미 텍스트 생성</h3>
+
+  <div class="prompt">Write a thoughtful Korean philosophical essay of 4-5 paragraphs (about 600-800 Korean characters total) discussing Libet's experiment on free will from the perspective of a Korean philosophy/ethics teacher. Tone: contemplative, weaves Eastern philosophy (Mencius, Zhuangzi, Laozi) with Western neuroscience. First paragraph should have a strong opening line. Include one blockquote-worthy sentence. End with a personal reflection or call to introspection, not a definitive conclusion. Style: like an essay in Aeon magazine but in Korean.</div>
+
+  <!-- ========== 카테고리 3: 블로그 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 03</div>
+    <div class="cat-name">블로그 템플릿 10종</div>
+    <div class="cat-desc">주민 한 사람의 자기 마당. 캔바 사이즈 1080 × 3000px. 10종 결을 차례로 만드세요.</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>블로그 공통 베이스 (먼저 만들기)</h3>
+  <p class="ctx">모든 블로그 템플릿의 출발점. 이걸 만든 후 복사해서 결마다 변형.</p>
+
+  <div class="prompt">A personal blog page on a Korean philosophical community platform. Page width 1080px, length variable.
+
+Color palette: same as main site — warm ivory #F4F0E6 background, deep ink #1A2326 text, deep teal #2A5358 accents, amber #A87B3E for tags only. Typography: Noto Serif KR for headlines, Pretendard for body.
+
+Layout from top to bottom:
+(1) thin top bar with "← 緣 y-life.kr 홈으로" link and date
+(2) wide cover image area (height 200-280px, gradient placeholder from teal to amber)
+(3) profile section: 120px circular avatar with hanja initial (overlapping the cover by ~50px), large serif name, monospace handle (@username), italic bio paragraph, stats row (글 수, 독자 수, 광장 활동, 가게 상품 수)
+(4) horizontal tab nav: 소개 · 글 · 광장 활동 · 가게 (with counts) — sticky, underline indicator
+(5) main content area centered max 720px:
+  - 소개 section: small amber label "— 소개", 2-3 paragraphs of italic-mixed serif bio
+  - 최근 글 section: 3-4 articles with date, large serif title, italic deck, depth-vote counter
+  - 광장 활동 section: cream box with 4 items showing where they wrote (아골라/아곤란/시민저널)
+  - 내 가게 section: 2-3 product cards with kind label, name, story, price
+
+Tone: like a quiet personal newsletter page. Calm, literary, lots of breathing room.</div>
+
+  <h3><span class="what">🎨 Design</span>No.01 정직 (Editorial Quiet)</h3>
+  <div class="prompt">Same blog base but in pure editorial style: dashed dividers between sections, classic newspaper grid, no decorations, all serif headlines, very clean and trustworthy.</div>
+
+  <h3><span class="what">🎨 Design</span>No.02 여백 (Open White)</h3>
+  <div class="prompt">Same blog base but ultra-minimal: almost pure white background, all content centered, narrow column max 680px, tiny meta text, dividers are just 40px wide thin lines centered. Maximum breathing room. Cover image removed.</div>
+
+  <h3><span class="what">🎨 Design</span>No.03 노트 (Notebook)</h3>
+  <div class="prompt">Same blog base but in notebook style: warm cream background #F7F1DE with subtle horizontal ruled lines every 32px (rgba amber 15%), red vertical margin line 60px from left edge, handwritten Nanum Pen Script font for headlines and section labels, sticky note element with rotation showing a quote. Looks like a student's journal page.</div>
+
+  <h3><span class="what">🎨 Design</span>No.04 카드 (Stacked Cards)</h3>
+  <div class="prompt">Same blog base but posts are shown as photo-driven 3-column card grid: each card has colored gradient placeholder image (3:4 ratio), category label, title, deck, footer with depth-vote and date. Pinterest-style browsing. Mix of gradient colors per card (teal-amber, sage-peach, gray-blue, mauve-beige).</div>
+
+  <h3><span class="what">🎨 Design</span>No.05 장서 (Bookshelf)</h3>
+  <div class="prompt">Different layout: dark left sidebar (280px wide, deep ink #1A2326 background, cream text) containing brand name, handle, italic bio, category list like book spines (철학·교실·읽기·사색·번역·잡문) with numbers. Right side: cream paper background with category header and book list. Each book entry has a large hanja character on left (擇·心·無·敬), title and description on right, like a library catalog. Add small bottom stats panel in the dark sidebar.</div>
+
+  <h3><span class="what">🎨 Design</span>No.06 편지 (Letter)</h3>
+  <div class="prompt">Same blog base but in personal letter style: aged warm paper gradient #FAF6E9 to #F3ECD4, postage stamp graphic in top right (red dashed border, large hanja "蓮" inside, "No.012" below), typewriter monospace "Courier New" font for body, handwritten Nanum Pen Script for greeting ("받는 그대에게,") and signoff, dashed border dividers, red wax seal on PS note. Looks like a hand-written newsletter from 1950s.</div>
+
+  <h3><span class="what">🎨 Design</span>No.07 잡지 (Magazine)</h3>
+  <div class="prompt">Magazine style: bold 3px ink masthead border, "Issue 12 · 2026 May" small label in amber, GIANT bold serif headline (64-70px) for cover story, italic deck below with thin ink line border. Below: 2-column layout — left column has "발행인의 말" intro with drop cap, right column has "이번 호 기사" article list. Author info on cover side with 80px round avatar, name, role, italic bio, stats. Looks like a small print magazine cover.</div>
+
+  <h3><span class="what">🎨 Design</span>No.08 풍경 (Horizontal Scroll)</h3>
+  <div class="prompt">Different layout: top has compact header (avatar + name + stats horizontal). Below has a SERIES intro section centered with "Spring Walks" tag, large serif title, italic deck. Then the main visual is HORIZONTAL SCROLLING PANELS: 5 panels in a row each 340px wide × 480px tall, each panel has gradient placeholder image at top, then "No.01" tag in amber, title, description, footer. One panel is "active" with deep ink background and cream text. Arrow indicator suggests horizontal scroll.</div>
+
+  <h3><span class="what">🎨 Design</span>No.09 묵화 (Ink Brush)</h3>
+  <div class="prompt">Different aesthetic: cream-yellow paper #F7F3E7 with subtle radial gradients (very soft red-orange in corners). Header: tall thin red ink seal in top right (2.5px solid border, hanja "林" inside, slight rotation). Center: GIANT hanja characters as visual anchor (110px serif weight 300, e.g. "不 忍 人"). Then small italic name below. Section headers use BIG hanja with small Korean label below (序·文·議·廛). Book entries each have one large hanja on left (擇·心·無·敬). Classic East Asian printed book aesthetic, like a calligraphy practice book.</div>
+
+  <h3><span class="what">🎨 Design</span>No.10 풀잎 (Botanical)</h3>
+  <div class="prompt">Soft botanical aesthetic: gradient background from #EEF2E8 (greenish ivory) to #F4F0E6, small floating hanja leaf characters (艸·芽·葉·花) as decorative elements in corners with low opacity. Use rounded sans-serif "Gowun Dodum" instead of Pretendard. Green accents (#5A8A72) instead of teal. Round corners on cards (16px). Profile section has a green-tinted circular avatar. Post cards have small leaf icon badges. Friendly, fresh, like a small garden journal. Target audience: students who love nature.</div>
+
+  <div class="tip">
+    <strong>10종 효율적으로 만드는 팁</strong>
+    공통 베이스를 먼저 완벽하게 만든 후, 캔바에서 "디자인 복제 (Duplicate)" 5번 해두세요. 그 다음 각 복제본마다 위 프롬프트를 "이 디자인을 다음 스타일로 변경:" 같은 형태로 캔바 AI에게 추가 요청하거나 직접 수정. 직접 수정이 더 빠를 때가 많아요.
+  </div>
+
+  <!-- ========== 카테고리 4: 모바일 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 04</div>
+    <div class="cat-name">모바일 화면</div>
+    <div class="cat-desc">폰에서 보이는 모습. 사이즈 375 × 8000px (긴 세로).</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>모바일 홈페이지</h3>
+
+  <div class="prompt">Mobile version of a Korean philosophical platform homepage (y-life.kr). Page width 375px, long scroll.
+
+Same color palette and typography as desktop.
+
+Layout:
+(1) ultra-thin top bar (only date, no extra meta — tagline removed)
+(2) compact masthead: just "緣 y-life.kr" logo and small "차림표" menu button (hamburger icon) on the right
+(3) HERO with this week's hwadu — single column, quote takes most of screen width, action buttons stack vertically
+(4) PLAZA SECTION (still the biggest): "廣場 광장" centered header smaller than desktop (28px), then aGORA · 아곤란 · 인사이트 as horizontal tabs at top, only ONE column visible at a time (active tab content shown)
+(5) supporting sections: each compressed to single column, smaller headers, cards stack vertically
+
+Mobile rules:
+- All multi-column desktop layouts → single column
+- Touch targets minimum 44px height
+- Body text stays at 17px (don't shrink — readability)
+- Section padding reduced from 56px to 28px
+- Floor card hover effects (mobile has no hover)
+
+Maintain the calm, slow aesthetic. Korean newspaper for mobile reading.</div>
+
+  <h3><span class="what">🎨 Design</span>모바일 — 메가 메뉴 열린 상태</h3>
+
+  <div class="prompt">Mobile mega menu screen (375 × 800px) for a Korean philosophical site. Full screen takeover when "차림표" button tapped.
+
+Layout:
+(1) Top header: brand logo on left, amber "차림표 · Menu" label, X close button on right
+(2) Search input below header: rounded pill, placeholder "화두 · 글 · 사람 검색"
+(3) Accordion-style category list — each category is a row with: serif name + small subtitle + right arrow indicator. When tapped, expands inline to show sub-items with small icon boxes (hanja character) + name + brief description.
+(4) One category shown "active/expanded" — 광장 — showing sub-items: 議 아골라 (어른의 토론), 問 아곤란 (학생의 질문), 深 이 주의 인사이트
+(5) Other categories collapsed below
+
+Warm ivory background, ink text, calm aesthetic. Mobile-optimized touch targets.</div>
+
+  <!-- ========== 카테고리 5: 컴포넌트 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 05</div>
+    <div class="cat-name">컴포넌트 시트</div>
+    <div class="cat-desc">버튼·카드·배지를 한 페이지에 모음. 사이즈 1440 × 2400px. 마지막에 만드세요.</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>컴포넌트 시트</h3>
+
+  <div class="prompt">A design system component library sheet for a Korean philosophical platform (y-life.kr). Single 1440 × 2400px canvas, warm ivory #F4F0E6 background. Header at top: "緣 y-life.kr · 컴포넌트 시트" with amber tag "Design System v1.0".
+
+Divided into labeled sections from top to bottom:
+
+BUTTONS section:
+- Primary button (deep teal #2A5358 background, white text, "아골라에서 토론하기")
+- Secondary outlined button (amber border, amber text, "아곤란에서 생각 나누기")
+- Ghost button (transparent, ink border, "팔로우")
+- Icon-only buttons (search, QR, settings, login) — 32px circular
+Show 3 states each: default, hover, active.
+
+CARDS section:
+- Post card (아골라 글 1건 with meta, title, snippet, vote row)
+- News card (with thumbnail placeholder, category, headline, deck)
+- Blog card (with avatar, name, role, recent post title)
+- Product card (with kind, name, story, price)
+
+BADGES section:
+- "지금 깊어지는 중" amber pulsing badge
+- "깊어짐" teal badge
+- "새 글" dark badge
+- "✓ 6단계 검증 완료" teal badge
+- "◑ 3/6 검증 진행" amber badge
+- "◯ 검증 대기" gray badge
+
+AVATARS section: row of 8 circular avatars with different hanja characters (蓮·林·朴·崔·玄·民·하·준), each with different gradient backgrounds. Sizes: 24px, 32px, 48px, 64px, 96px.
+
+FORM ELEMENTS:
+- Text input with label
+- Textarea with placeholder
+- Rounded pill search input
+
+TYPOGRAPHY SCALE:
+- H1 48px serif
+- H2 32px serif
+- H3 22px serif bold
+- Quote 26px serif italic teal
+- Body 17px sans regular
+- Meta 12px sans uppercase tracking
+
+All labeled. Same calm aesthetic throughout.</div>
+
+  <!-- ========== 카테고리 6: 보너스 ========== -->
+  <div class="cat">
+    <div class="cat-num">Category 06 · Bonus</div>
+    <div class="cat-name">추가 자료 — SNS·홍보용</div>
+    <div class="cat-desc">사이트가 자라면 필요할 부수적인 자료들. 여유 있을 때 만드세요.</div>
+  </div>
+
+  <h3><span class="what">🎨 Design</span>인스타 카드 — 이 주의 화두</h3>
+  <p class="ctx">사이즈 1080 × 1080px (정사각)</p>
+
+  <div class="prompt">Instagram square post (1080x1080) sharing this week's philosophical question from y-life.kr. Warm ivory background #F4F0E6, no photos. Top: small amber "話頭 #19 · 이 주의 화두" label. Center: large serif quote (Noto Serif KR, 60-72px, deep ink color) — short philosophical question, 1-2 lines. Below: small italic byline "— 연소사 제안". Bottom: thin ink line border with "緣 y-life.kr · 연라이프" footer. Calm, literary, like a quote card from a poetry collection. No decoration. Quote is everything.</div>
+
+  <h3><span class="what">🎨 Design</span>오픈 그래프 카드</h3>
+  <p class="ctx">사이즈 1200 × 630px — 카톡 공유 시 미리보기로 뜸</p>
+
+  <div class="prompt">Open Graph preview image (1200x630) for y-life.kr Korean philosophical platform. Warm ivory background. Left side (60% width): giant serif logo "緣 y-life.kr" stacked, small italic tagline "삶 · 인연 · 소통 / 그 깊은 연(緣)으로 잇다", small URL "y-life.kr" at bottom in monospace. Right side (40% width): subtle gradient panel from teal to amber, with one centered hanja character "緣" in large size. Whole thing feels like a quiet book cover.</div>
+
+  <h3><span class="what">🎨 Design</span>회원가입 환영 카드</h3>
+  <p class="ctx">사이즈 1080 × 1080px — 가입 직후 보이는 이미지</p>
+
+  <div class="prompt">Welcome card for new members of y-life.kr (Korean philosophical community). 1080x1080 warm ivory. Center: large serif text "환영합니다." in deep ink (50px). Below in smaller italic: "당신의 첫 마당이 만들어졌습니다." Below that: small amber "@당신의닉네임" placeholder. Bottom: small "y-life.kr" logo. Whole thing feels like the first page of a new notebook — quiet, expectant, warm.</div>
+
+  <!-- ========== 마지막 ========== -->
+  <h2><span class="num">+</span>중요한 주의사항</h2>
+
+  <div class="warn">
+    <strong>⚠ 캔바 AI가 잘못 만드는 흔한 실수</strong>
+    캔바 AI에게 우리 프롬프트를 줘도 가끔 다음과 같이 잘못 만들어요:<br>
+    · 화려한 색을 마구 씀 → "no bright colors, restrained palette only" 강조 추가<br>
+    · 사진을 마구 넣음 → "no photography, no people, text-driven design" 추가<br>
+    · 영어 폰트를 씀 → 결과 받은 후 모든 텍스트를 한국어 폰트로 일괄 변경<br>
+    · "광장이 중심" 원칙을 못 살림 → 직접 비율 조정 필요
+  </div>
+
+  <div class="tip">
+    <strong>💡 결과를 향상시키는 한 줄 요령</strong>
+    프롬프트 끝에 이 한 줄을 항상 붙이세요:<br>
+    <code style="background:var(--ink);color:var(--warm);padding:6px 10px;border-radius:3px;font-size:12px;display:inline-block;margin-top:6px">Aesthetic reference: Aeon magazine, The School of Life, Substack publications. Quiet Korean editorial style.</code>
+  </div>
+
+  <h2><span class="num">∞</span>되돌아갈 자료</h2>
+  <ul>
+    <li><strong>의뢰서</strong>: 연라이프_디자인_의뢰서.docx — 전체 결정 정리</li>
+    <li><strong>실전 가이드</strong>: 캔바AI_실전작업_가이드.html — 작업 순서</li>
+    <li><strong>시안 HTML</strong>: 시안_v4_홈페이지.html · 단계2_광장글_상세페이지.html · 시안_v3_블로그.html 외 9개 블로그</li>
+    <li><strong>디자인 시스템</strong>: 디자인시스템_새벽의신뢰.html — 색·폰트 시각화</li>
+    <li><strong>모바일 시안</strong>: 시안_v4_모바일.html</li>
+  </ul>
+
+</div>
+
+<footer class="footer">
+  <p>"연라이프는 천천히 자라는 마을입니다."</p>
+  <p style="margin-top:6px">캔바 AI 프롬프트 모음 v1.0 · 2026년 5월 14일 · y-life.kr</p>
+</footer>
+
+</body>
+</html>
