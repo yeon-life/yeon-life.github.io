@@ -1193,6 +1193,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 @media (max-width: 600px) {
+  .container { padding: 0 20px; }
   .gates { grid-template-columns: 1fr; }
   .gate-card { border-right: none; border-bottom: 1px solid var(--border); }
   .gate-card:last-child { border-bottom: none; }
