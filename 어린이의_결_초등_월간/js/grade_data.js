@@ -14,8 +14,20 @@ var GRADE_DATA = {
           "지렁이가 화단에서 다 사라지면 꽃들은 어떻게 될까요?"
         ],
         "app_verdict": "1학년 통합교과 봄/여름 '동네 동물' 단원과 연계됩니다. 지렁이의 친근한 역할에 초점을 맞추었습니다.",
-        "sources": [{"name": "어린이 식물 도감", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "어린이 식물 도감",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Cute children illustration of a happy cartoon earthworm with big eyes wearing a tiny yellow straw hat in soft brown soil, green sprout nearby, watercolor pastel style",
         "aiRole": "동물 친구들의 마음을 전해주는 다정한 숲속 요정 선생님",
@@ -25,8 +37,14 @@ var GRADE_DATA = {
           "지렁이는 무얼 먹고 살아요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "흙 속에 뚫린 길로, 물과 공기가 지나가요."},
-          {"word": "배설물 (Excretions)", "desc": "몸속에서 소화되고 남은 똥이나 오줌이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "흙 속에 뚫린 길로, 물과 공기가 지나가요."
+          },
+          {
+            "word": "배설물 (Excretions)",
+            "desc": "몸속에서 소화되고 남은 똥이나 오줌이에요."
+          }
         ]
       },
       {
@@ -41,8 +59,20 @@ var GRADE_DATA = {
           "책이 동그란 모양이라면 책장에 어떻게 꽂아야 할까요?"
         ],
         "app_verdict": "1학년 1학기 수학 '여러 가지 모양' 단원 연계.",
-        "sources": [{"name": "EBS 초등 수학", "url": "https://www.ebs.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBS 초등 수학",
+            "url": "https://www.ebs.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Whimsical children drawing of cute colorful shapes with smiling faces, a circle, a triangle, and a square playing together, pastel background",
         "aiRole": "모양 퍼즐 맞추기를 좋아하는 장난꾸러기 모양 요정",
@@ -51,8 +81,14 @@ var GRADE_DATA = {
           "네모 바퀴 자전거도 만들 수 있나요?"
         ],
         "vocabulary": [
-          {"word": "둥글둥글 (Round)", "desc": "뾰족한 곳 없이 부드럽게 굴러가는 모양이에요."},
-          {"word": "차곡차곡 (Pile up)", "desc": "물건을 흐트러지지 않게 잘 쌓아 올리는 모습이에요."}
+          {
+            "word": "둥글둥글 (Round)",
+            "desc": "뾰족한 곳 없이 부드럽게 굴러가는 모양이에요."
+          },
+          {
+            "word": "차곡차곡 (Pile up)",
+            "desc": "물건을 흐트러지지 않게 잘 쌓아 올리는 모습이에요."
+          }
         ]
       },
       {
@@ -67,8 +103,20 @@ var GRADE_DATA = {
           "내가 가장 좋아하는 귀여운 동물 소리는 무엇인가요?"
         ],
         "app_verdict": "1학년 국어 '재미있는 말놀이' 단원 연계.",
-        "sources": [{"name": "국어 사전", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국어 사전",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A cute white rabbit jumping happily through a green flower garden, speech bubbles with colorful Korean letters, soft watercolor",
         "aiRole": "말랑말랑한 예쁜 한글을 가꾸는 아기 말 나무",
@@ -77,8 +125,14 @@ var GRADE_DATA = {
           "새싹이 자라나는 모양을 나타내는 말은 뭐예요?"
         ],
         "vocabulary": [
-          {"word": "의성어 (Onomatopoeia)", "desc": "사물이나 자연의 소리를 흉내 낸 말이에요."},
-          {"word": "의태어 (Mimetic Word)", "desc": "움직임이나 모양을 따라 표현한 말이에요."}
+          {
+            "word": "의성어 (Onomatopoeia)",
+            "desc": "사물이나 자연의 소리를 흉내 낸 말이에요."
+          },
+          {
+            "word": "의태어 (Mimetic Word)",
+            "desc": "움직임이나 모양을 따라 표현한 말이에요."
+          }
         ]
       },
       {
@@ -93,8 +147,20 @@ var GRADE_DATA = {
           "왜 나라마다 동물들이 우는 소리가 다르게 적혀 있을까요?"
         ],
         "app_verdict": "초등 1학년 영어 친근감 형성용. 소리와 동물 이모지 매치.",
-        "sources": [{"name": "영한 아동 사전", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "영한 아동 사전",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A cute cartoon puppy and a kitten wearing detective magnifying glasses, colorful english speech bubbles, warm cream background",
         "aiRole": "영어로 말놀이하는 명랑한 꼬마 미국 강아지 버디",
@@ -103,18 +169,56 @@ var GRADE_DATA = {
           "원어민처럼 꽥꽥 발음하는 법 알려줘!"
         ],
         "vocabulary": [
-          {"word": "원어민 (Native)", "desc": "태어날 때부터 그 나라 말을 쓴 사람이에요."},
-          {"word": "울음소리 (Voice)", "desc": "동물들이 목소리를 내어 우는 소리예요."}
+          {
+            "word": "원어민 (Native)",
+            "desc": "태어날 때부터 그 나라 말을 쓴 사람이에요."
+          },
+          {
+            "word": "울음소리 (Voice)",
+            "desc": "동물들이 목소리를 내어 우는 소리예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🐶", "caption": "미국 꼬마 강아지가 등원했어요!"},
-          {"cut": 2, "emoji": "🗣️", "caption": "'Bow-wow!' (바우와우 짖기)"},
-          {"cut": 3, "emoji": "🐱", "caption": "귀여운 고양이 친구를 만나요!"},
-          {"cut": 4, "emoji": "🐈", "caption": "'Meow, meow!' (미아우 미아우)"},
-          {"cut": 5, "emoji": "🦆", "caption": "연못 속 오리 부부도 인사해요!"},
-          {"cut": 6, "emoji": "🌊", "caption": "'Quack-quack!' (꽥꽥 물장구)"},
-          {"cut": 7, "emoji": "🐷", "caption": "분홍 돼지 꿀꿀이도 말해요!"},
-          {"cut": 8, "emoji": "🎵", "caption": "'Oink-oink!' (영어가 귀에 쏙쏙!)"}
+          {
+            "cut": 1,
+            "emoji": "🐶",
+            "caption": "미국 꼬마 강아지가 등원했어요!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🗣️",
+            "caption": "'Bow-wow!' (바우와우 짖기)"
+          },
+          {
+            "cut": 3,
+            "emoji": "🐱",
+            "caption": "귀여운 고양이 친구를 만나요!"
+          },
+          {
+            "cut": 4,
+            "emoji": "🐈",
+            "caption": "'Meow, meow!' (미아우 미아우)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🦆",
+            "caption": "연못 속 오리 부부도 인사해요!"
+          },
+          {
+            "cut": 6,
+            "emoji": "🌊",
+            "caption": "'Quack-quack!' (꽥꽥 물장구)"
+          },
+          {
+            "cut": 7,
+            "emoji": "🐷",
+            "caption": "분홍 돼지 꿀꿀이도 말해요!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🎵",
+            "caption": "'Oink-oink!' (영어가 귀에 쏙쏙!)"
+          }
         ]
       },
       {
@@ -129,8 +233,20 @@ var GRADE_DATA = {
           "로봇을 부르는 나만의 비밀 별명은 무엇으로 하고 싶나요?"
         ],
         "app_verdict": "초등 저학년 정보 보호 윤리 교육 연계. 정보 유출 방지 기본 인식 확립.",
-        "sources": [{"name": "한국정보진흥원", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "한국정보진흥원",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A friendly small white robot with digital eyes showing a padlock heart symbol on screen, child smiling, pastel warm colors",
         "aiRole": "어린이의 안전을 지키는 수호천사 기계 로봇 삐뽀",
@@ -139,18 +255,56 @@ var GRADE_DATA = {
           "안전한 비밀번호 만드는 꿀팁 알려줘!"
         ],
         "vocabulary": [
-          {"word": "로봇 (Robot)", "desc": "머리속에 똑똑한 컴퓨터를 가진 기계예요."},
-          {"word": "비밀번호 (Secret)", "desc": "나와 가족만 아는 꽁꽁 숨겨진 비밀 약속이에요."}
+          {
+            "word": "로봇 (Robot)",
+            "desc": "머리속에 똑똑한 컴퓨터를 가진 기계예요."
+          },
+          {
+            "word": "비밀번호 (Secret)",
+            "desc": "나와 가족만 아는 꽁꽁 숨겨진 비밀 약속이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🤖", "caption": "나의 방에 꼬마 인공지능 친구 등장!"},
-          {"cut": 2, "emoji": "👋", "caption": "\"안녕! 나는 똑똑이 로봇이야!\""},
-          {"cut": 3, "emoji": "🔒", "caption": "하지만 꼭 지켜야 하는 비밀 약속!"},
-          {"cut": 4, "emoji": "🤐", "caption": "진짜 이름이나 주소는 말하지 않기!"},
-          {"cut": 5, "emoji": "🌟", "caption": "대신 멋진 별명을 만들어줘요!"},
-          {"cut": 6, "emoji": "👑", "caption": "\"나는 번개 탐험가야!\" 라고 해요."},
-          {"cut": 7, "emoji": "👍", "caption": "로봇도 기쁘게 수락하며 공부해요."},
-          {"cut": 8, "emoji": "💚", "caption": "개인정보 보물 상자는 꽁꽁 지켰어요!"}
+          {
+            "cut": 1,
+            "emoji": "🤖",
+            "caption": "나의 방에 꼬마 인공지능 친구 등장!"
+          },
+          {
+            "cut": 2,
+            "emoji": "👋",
+            "caption": "\"안녕! 나는 똑똑이 로봇이야!\""
+          },
+          {
+            "cut": 3,
+            "emoji": "🔒",
+            "caption": "하지만 꼭 지켜야 하는 비밀 약속!"
+          },
+          {
+            "cut": 4,
+            "emoji": "🤐",
+            "caption": "진짜 이름이나 주소는 말하지 않기!"
+          },
+          {
+            "cut": 5,
+            "emoji": "🌟",
+            "caption": "대신 멋진 별명을 만들어줘요!"
+          },
+          {
+            "cut": 6,
+            "emoji": "👑",
+            "caption": "\"나는 번개 탐험가야!\" 라고 해요."
+          },
+          {
+            "cut": 7,
+            "emoji": "👍",
+            "caption": "로봇도 기쁘게 수락하며 공부해요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "개인정보 보물 상자는 꽁꽁 지켰어요!"
+          }
         ]
       },
       {
@@ -165,8 +319,20 @@ var GRADE_DATA = {
           "구름이는 왜 달콤한 솜사탕 대신 비가 되어 내리기로 마음먹었을까요?"
         ],
         "app_verdict": "양보와 타인에 대한 배려 등 아동 정서 지능 발달용 동화.",
-        "sources": [{"name": "창작동화선집", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "창작동화선집",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A cute small white cloud with a smiling face floating above crying little flower buds, gentle raindrops falling down, soft drawing",
         "aiRole": "하늘 위에서 둥실둥실 상상을 그리는 다정한 아기 구름이",
@@ -175,18 +341,56 @@ var GRADE_DATA = {
           "새싹들이 춤추는 노래 하나 들려줘!"
         ],
         "vocabulary": [
-          {"word": "보슬보슬 (Drizzle)", "desc": "비가 부드럽고 가볍게 내리는 예쁜 모습이에요."},
-          {"word": "보배 (Treasure)", "desc": "세상에서 아주 귀하고 가치 있는 소중한 물건이에요."}
+          {
+            "word": "보슬보슬 (Drizzle)",
+            "desc": "비가 부드럽고 가볍게 내리는 예쁜 모습이에요."
+          },
+          {
+            "word": "보배 (Treasure)",
+            "desc": "세상에서 아주 귀하고 가치 있는 소중한 물건이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "하늘 나라 꼬마 구름이의 등원!"},
-          {"cut": 2, "emoji": "🍭", "caption": "\"나도 달콤한 솜사탕이 될 수 있을까?\""},
-          {"cut": 3, "emoji": "☀️", "caption": "어느 더운 날, 햇볕이 쨍쨍 내리쬐요."},
-          {"cut": 4, "emoji": "🥀", "caption": "아기 새싹들이 물이 없어 울고 있어요."},
-          {"cut": 5, "emoji": "🥺", "caption": "\"친구들이 너무 더워하고 힘들어해!\""},
-          {"cut": 6, "emoji": "⛈️", "caption": "몸을 부풀려 시원한 비구름으로 변신!"},
-          {"cut": 7, "emoji": "☔", "caption": "새싹들에게 촉촉한 비를 졸졸 보슬보슬!"},
-          {"cut": 8, "emoji": "🌱", "caption": "아름다운 초록 새싹들이 기뻐서 춤춰요!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "하늘 나라 꼬마 구름이의 등원!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍭",
+            "caption": "\"나도 달콤한 솜사탕이 될 수 있을까?\""
+          },
+          {
+            "cut": 3,
+            "emoji": "☀️",
+            "caption": "어느 더운 날, 햇볕이 쨍쨍 내리쬐요."
+          },
+          {
+            "cut": 4,
+            "emoji": "🥀",
+            "caption": "아기 새싹들이 물이 없어 울고 있어요."
+          },
+          {
+            "cut": 5,
+            "emoji": "🥺",
+            "caption": "\"친구들이 너무 더워하고 힘들어해!\""
+          },
+          {
+            "cut": 6,
+            "emoji": "⛈️",
+            "caption": "몸을 부풀려 시원한 비구름으로 변신!"
+          },
+          {
+            "cut": 7,
+            "emoji": "☔",
+            "caption": "새싹들에게 촉촉한 비를 졸졸 보슬보슬!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🌱",
+            "caption": "아름다운 초록 새싹들이 기뻐서 춤춰요!"
+          }
         ]
       },
       {
@@ -201,8 +405,20 @@ var GRADE_DATA = {
           "스티커 보물지도를 완성하면 스스로에게 어떤 칭찬을 해주고 싶나요?"
         ],
         "app_verdict": "아동 행동 자율성 및 동기 부여용 습관 지침.",
-        "sources": [{"name": "아동발달과 교육", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "아동발달과 교육",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A colorful treasure map drawn with crayons, shiny star stickers on checked spots, child hands placing a sticker, warm atmosphere",
         "aiRole": "매일 한 발자국씩 자라나는 습관 나무 정원사 선생님",
@@ -211,8 +427,59 @@ var GRADE_DATA = {
           "자존감이 튼튼해지면 좋은 점이 뭐예요?"
         ],
         "vocabulary": [
-          {"word": "보물상자 (Box)", "desc": "스스로 지켜낸 착한 약속들을 모으는 마음 주머니예요."},
-          {"word": "자존감 (Self-love)", "desc": "내 자신을 아주 사랑하고 자랑스러워하는 멋진 마음이에요."}
+          {
+            "word": "보물상자 (Box)",
+            "desc": "스스로 지켜낸 착한 약속들을 모으는 마음 주머니예요."
+          },
+          {
+            "word": "자존감 (Self-love)",
+            "desc": "내 자신을 아주 사랑하고 자랑스러워하는 멋진 마음이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
@@ -232,8 +499,20 @@ var GRADE_DATA = {
           "땅속에서 고생하는 지렁이 농부에게 전하고 싶은 칭찬 한마디는 무엇인가요?"
         ],
         "app_verdict": "2학년 과학 통합교과 및 식물 생태 교육 연계. 흙의 통기성과 식물 성장의 관계 학습.",
-        "sources": [{"name": "어린이 과학 동아", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "어린이 과학 동아",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Warm colored watercolor of tiny earthworms working in a rich brown soil cross section under a sunny school garden, plants growing tall, children design",
         "aiRole": "화단의 꽃과 나무를 지키는 꼬마 식물원 관장님",
@@ -242,8 +521,14 @@ var GRADE_DATA = {
           "지렁이가 화단 흙을 얼마나 많이 갈아엎어 주나요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "지렁이가 지나다니며 만들어진 공기와 물의 이동로예요."},
-          {"word": "영양분 (Nutrition)", "desc": "식물들이 쑥쑥 크게 튼튼하게 자라나도록 돕는 밥 같은 성분이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "지렁이가 지나다니며 만들어진 공기와 물의 이동로예요."
+          },
+          {
+            "word": "영양분 (Nutrition)",
+            "desc": "식물들이 쑥쑥 크게 튼튼하게 자라나도록 돕는 밥 같은 성분이에요."
+          }
         ]
       },
       {
@@ -258,8 +543,20 @@ var GRADE_DATA = {
           "바퀴가 찌그러진 타원 모양이라면 자동차가 달릴 때 어떤 소리가 날까요?"
         ],
         "app_verdict": "2학년 1학기 여러 가지 도형 기초 단원 연계.",
-        "sources": [{"name": "EBS 초등 수학", "url": "https://www.ebsmath.co.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBS 초등 수학",
+            "url": "https://www.ebsmath.co.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Whimsical drawing of basic shapes building a playground, slides are long triangles, wheels are circular donuts, kids pastel art",
         "aiRole": "재미있는 수수께끼 모양 판사님",
@@ -268,8 +565,14 @@ var GRADE_DATA = {
           "네모 상자는 왜 공간 낭비가 가장 적어요?"
         ],
         "vocabulary": [
-          {"word": "둥글둥글 (Round)", "desc": "모서리가 전혀 없이 곡선으로 둥글게 둘러싸인 형태예요."},
-          {"word": "차곡차곡 (Pile up)", "desc": "비뚤어지지 않고 층층이 똑바로 잘 쌓아 포개는 모습이에요."}
+          {
+            "word": "둥글둥글 (Round)",
+            "desc": "모서리가 전혀 없이 곡선으로 둥글게 둘러싸인 형태예요."
+          },
+          {
+            "word": "차곡차곡 (Pile up)",
+            "desc": "비뚤어지지 않고 층층이 똑바로 잘 쌓아 포개는 모습이에요."
+          }
         ]
       },
       {
@@ -284,8 +587,20 @@ var GRADE_DATA = {
           "친구를 칭찬할 때 사용하고 싶은 예쁜 흉내말은 어떤 것이 있나요?"
         ],
         "app_verdict": "2학년 국어 의성어/의태어 중심 문장 쓰기 훈련 연계.",
-        "sources": [{"name": "국립국어원", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국립국어원",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Soft forest background, cute cartoon animals whispering Korean characters, pastel trees, dreamy paper cut layout",
         "aiRole": "우리말 씨앗을 소중히 모아 가꾸는 꼬마 한글 요정",
@@ -294,8 +609,14 @@ var GRADE_DATA = {
           "의성어와 의태어가 왜 문해력을 높여주는지 궁금해"
         ],
         "vocabulary": [
-          {"word": "흉내 (Mimic)", "desc": "다른 사람이나 사물의 동작, 소리를 본떠 따라 하는 짓이에요."},
-          {"word": "말놀이 (Word game)", "desc": "재미있는 말이나 흉내말을 섞어가며 글의 재미를 느끼는 놀이예요."}
+          {
+            "word": "흉내 (Mimic)",
+            "desc": "다른 사람이나 사물의 동작, 소리를 본떠 따라 하는 짓이에요."
+          },
+          {
+            "word": "말놀이 (Word game)",
+            "desc": "재미있는 말이나 흉내말을 섞어가며 글의 재미를 느끼는 놀이예요."
+          }
         ]
       },
       {
@@ -310,8 +631,20 @@ var GRADE_DATA = {
           "고맙다는 말을 들었을 때 어떤 대답이 가장 기분을 좋게 만들어 주나요?"
         ],
         "app_verdict": "초등 2학년 수준 생활 회화 입문 및 감정 리듬 교육 연계.",
-        "sources": [{"name": "영한 아동 회화 사전", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "영한 아동 회화 사전",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Two cheerful young boys (one Korean, one American) doing a high five outside a primary school building, speech bubbles with hello, pastel crayon style",
         "aiRole": "인사와 하이파이브를 사랑하는 상냥한 어린이 통역사 요정",
@@ -320,18 +653,56 @@ var GRADE_DATA = {
           "원어민 같은 자연스러운 영어 리듬을 가르쳐주세요!"
         ],
         "vocabulary": [
-          {"word": "원어민 (Native)", "desc": "그 언어를 태어날 때부터 모국어로 쓰는 현지 사람들이에요."},
-          {"word": "울음소리 (Voice)", "desc": "동물이나 사람이 감정을 전달하기 위해 소리치는 고유의 말소리예요."}
+          {
+            "word": "원어민 (Native)",
+            "desc": "그 언어를 태어날 때부터 모국어로 쓰는 현지 사람들이에요."
+          },
+          {
+            "word": "울음소리 (Voice)",
+            "desc": "동물이나 사람이 감정을 전달하기 위해 소리치는 고유의 말소리예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🏫", "caption": "영어 소리나라 학교에 아침이 밝았어요!"},
-          {"cut": 2, "emoji": "🙋", "caption": "\"Hi Logan! Good morning!\" 인사하기"},
-          {"cut": 3, "emoji": "🤝", "caption": "미국 친구와 친밀하게 다가가기"},
-          {"cut": 4, "emoji": "🙌", "caption": "'Give me five!' (손을 위로 들고 짝!)"},
-          {"cut": 5, "emoji": "🍎", "caption": "친구가 빨간 사과 간식을 선물해요."},
-          {"cut": 6, "emoji": "🙏", "caption": "\"Thank you!\" 기분 좋게 감사를 전해요."},
-          {"cut": 7, "emoji": "👌", "caption": "'Okey-dokey!' (귀엽고 재미나게 끄덕이기!)"},
-          {"cut": 8, "emoji": "🕺", "caption": "노래 부르듯 즐겁게 리듬을 타고 등원해요!"}
+          {
+            "cut": 1,
+            "emoji": "🏫",
+            "caption": "영어 소리나라 학교에 아침이 밝았어요!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🙋",
+            "caption": "\"Hi Logan! Good morning!\" 인사하기"
+          },
+          {
+            "cut": 3,
+            "emoji": "🤝",
+            "caption": "미국 친구와 친밀하게 다가가기"
+          },
+          {
+            "cut": 4,
+            "emoji": "🙌",
+            "caption": "'Give me five!' (손을 위로 들고 짝!)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🍎",
+            "caption": "친구가 빨간 사과 간식을 선물해요."
+          },
+          {
+            "cut": 6,
+            "emoji": "🙏",
+            "caption": "\"Thank you!\" 기분 좋게 감사를 전해요."
+          },
+          {
+            "cut": 7,
+            "emoji": "👌",
+            "caption": "'Okey-dokey!' (귀엽고 재미나게 끄덕이기!)"
+          },
+          {
+            "cut": 8,
+            "emoji": "🕺",
+            "caption": "노래 부르듯 즐겁게 리듬을 타고 등원해요!"
+          }
         ]
       },
       {
@@ -346,8 +717,20 @@ var GRADE_DATA = {
           "로봇과 함께 공부할 때, 로봇이 이상한 엉뚱한 대답을 하면 우리는 어떻게 해야 할까요?"
         ],
         "app_verdict": "2학년 대상 컴퓨터 리터러시 및 사생활 보안 윤리 교육 연계.",
-        "sources": [{"name": "지능정보사회진흥원 아동 윤리", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "지능정보사회진흥원 아동 윤리",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Cute watercolor of a smiling girl sitting in front of a computer, screen showing a friendly baby robot waving, yellow stars and safe lock key",
         "aiRole": "디지털 세계를 안전하게 순찰하는 씩씩한 로봇 경찰 아저씨",
@@ -356,18 +739,56 @@ var GRADE_DATA = {
           "보안 비밀번호는 왜 숫자와 한글을 섞어 써야 안전해요?"
         ],
         "vocabulary": [
-          {"word": "로봇 (Robot)", "desc": "머리속 컴퓨터 뇌를 활용해 스스로 생각하고 일하는 똑똑한 기계예요."},
-          {"word": "비밀번호 (Secret)", "desc": "컴퓨터나 나의 소중한 정보 상자를 꼭꼭 걸어 잠그는 비밀 열쇠예요."}
+          {
+            "word": "로봇 (Robot)",
+            "desc": "머리속 컴퓨터 뇌를 활용해 스스로 생각하고 일하는 똑똑한 기계예요."
+          },
+          {
+            "word": "비밀번호 (Secret)",
+            "desc": "컴퓨터나 나의 소중한 정보 상자를 꼭꼭 걸어 잠그는 비밀 열쇠예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🖥️", "caption": "인공지능 공부방에 자리를 잡고 앉아요."},
-          {"cut": 2, "emoji": "🤖", "caption": "화면에 눈을 껌뻑이며 등장한 꼬마 AI 로봇"},
-          {"cut": 3, "emoji": "🔐", "caption": "\"나의 이름은 비밀봇이야! 친구 정보가 필요해!\""},
-          {"cut": 4, "emoji": "🙅", "caption": "\"안 돼! 개인정보는 나만의 비밀 보물상자에 있어!\""},
-          {"cut": 5, "emoji": "🎭", "caption": "대신 \"나는 달님 사냥꾼이야\" 라고 별명을 지어요."},
-          {"cut": 6, "emoji": "💡", "caption": "로봇은 안전한 별명을 확인하고 다정한 인사를 건네고,"},
-          {"cut": 7, "emoji": "📐", "caption": "오늘의 수학 도형 퀴즈를 안전하게 내기 시작해요."},
-          {"cut": 8, "emoji": "🎉", "caption": "안전하게 비밀을 지키면서 AI와 짝궁이 되었답니다!"}
+          {
+            "cut": 1,
+            "emoji": "🖥️",
+            "caption": "인공지능 공부방에 자리를 잡고 앉아요."
+          },
+          {
+            "cut": 2,
+            "emoji": "🤖",
+            "caption": "화면에 눈을 껌뻑이며 등장한 꼬마 AI 로봇"
+          },
+          {
+            "cut": 3,
+            "emoji": "🔐",
+            "caption": "\"나의 이름은 비밀봇이야! 친구 정보가 필요해!\""
+          },
+          {
+            "cut": 4,
+            "emoji": "🙅",
+            "caption": "\"안 돼! 개인정보는 나만의 비밀 보물상자에 있어!\""
+          },
+          {
+            "cut": 5,
+            "emoji": "🎭",
+            "caption": "대신 \"나는 달님 사냥꾼이야\" 라고 별명을 지어요."
+          },
+          {
+            "cut": 6,
+            "emoji": "💡",
+            "caption": "로봇은 안전한 별명을 확인하고 다정한 인사를 건네고,"
+          },
+          {
+            "cut": 7,
+            "emoji": "📐",
+            "caption": "오늘의 수학 도형 퀴즈를 안전하게 내기 시작해요."
+          },
+          {
+            "cut": 8,
+            "emoji": "🎉",
+            "caption": "안전하게 비밀을 지키면서 AI와 짝궁이 되었답니다!"
+          }
         ]
       },
       {
@@ -382,8 +803,20 @@ var GRADE_DATA = {
           "구름이가 솜사탕이 되는 것보다 비가 되어 내린 걸 더 기뻐한 이유는 무엇일까요?"
         ],
         "app_verdict": "어린이의 공감 능력 및 자존감 자각을 위한 창작 교육 동화.",
-        "sources": [{"name": "연라이프 창작 문학", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "연라이프 창작 문학",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Smiling cloud raining light drizzle on colorful woodland sprouts and small flowers, happy mood, bright watercolor, paper texture",
         "aiRole": "아이들의 예쁜 생각을 동화로 그려주는 다정한 꿈나무 작가 요정",
@@ -392,18 +825,56 @@ var GRADE_DATA = {
           "꽃밭의 다른 곤충 친구들은 구름이에게 어떤 선물을 주었나요?"
         ],
         "vocabulary": [
-          {"word": "보슬보슬 (Drizzle)", "desc": "비가 새싹들에게 상처 주지 않고 부드럽고 가볍게 춤추듯 흩뿌리는 모습이에요."},
-          {"word": "보배 (Treasure)", "desc": "세상에서 마음을 따뜻하게 가득 채워주는 보물 같은 귀한 보석이에요."}
+          {
+            "word": "보슬보슬 (Drizzle)",
+            "desc": "비가 새싹들에게 상처 주지 않고 부드럽고 가볍게 춤추듯 흩뿌리는 모습이에요."
+          },
+          {
+            "word": "보배 (Treasure)",
+            "desc": "세상에서 마음을 따뜻하게 가득 채워주는 보물 같은 귀한 보석이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "하늘 위 솜사탕 꿈을 꾸는 아기 구름이"},
-          {"cut": 2, "emoji": "🍯", "caption": "\"나도 달콤하고 알록달록 향이 나고 싶어!\""},
-          {"cut": 3, "emoji": "🌬️", "caption": "바람이 불어 모양이 쪼개져 엉엉 울고 말았죠."},
-          {"cut": 4, "emoji": "🌻", "caption": "마당 화단에 꽃들과 새싹들이 고개를 숙여요."},
-          {"cut": 5, "emoji": "😢", "caption": "\"목이 말라요, 구름님 비를 내려주세요!\""},
-          {"cut": 6, "emoji": "🌪️", "caption": "아기 구름 친구들을 꼭 안고 시원한 비구름 완성!"},
-          {"cut": 7, "emoji": "🌧️", "caption": "새싹들에게 졸졸 부드럽게 보슬보슬 비를 내려요."},
-          {"cut": 8, "emoji": "💚", "caption": "파릇파릇 춤추는 새싹을 보며 구름이도 솜사탕 미소!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "하늘 위 솜사탕 꿈을 꾸는 아기 구름이"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍯",
+            "caption": "\"나도 달콤하고 알록달록 향이 나고 싶어!\""
+          },
+          {
+            "cut": 3,
+            "emoji": "🌬️",
+            "caption": "바람이 불어 모양이 쪼개져 엉엉 울고 말았죠."
+          },
+          {
+            "cut": 4,
+            "emoji": "🌻",
+            "caption": "마당 화단에 꽃들과 새싹들이 고개를 숙여요."
+          },
+          {
+            "cut": 5,
+            "emoji": "😢",
+            "caption": "\"목이 말라요, 구름님 비를 내려주세요!\""
+          },
+          {
+            "cut": 6,
+            "emoji": "🌪️",
+            "caption": "아기 구름 친구들을 꼭 안고 시원한 비구름 완성!"
+          },
+          {
+            "cut": 7,
+            "emoji": "🌧️",
+            "caption": "새싹들에게 졸졸 부드럽게 보슬보슬 비를 내려요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "파릇파릇 춤추는 새싹을 보며 구름이도 솜사탕 미소!"
+          }
         ]
       },
       {
@@ -418,8 +889,20 @@ var GRADE_DATA = {
           "스티커가 가득 찬 나만의 보물상자에는 어떤 특별한 성취가 담겨 있나요?"
         ],
         "app_verdict": "스스로 공부하는 자율적 습관 촉진 및 내적 가치 형성을 돕는 지침서.",
-        "sources": [{"name": "부모와 아이의 대화법", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "부모와 아이의 대화법",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A little Korean boy placing a shiny gold star sticker onto a colorful calendar chart on the wall, proud smiling face, soft crayons",
         "aiRole": "아이의 마음속 자아를 지켜주고 응원하는 따뜻한 육아 멘토 요정",
@@ -428,8 +911,59 @@ var GRADE_DATA = {
           "스스로 결정하는 습관은 머리를 어떻게 똑똑하게 만들어요?"
         ],
         "vocabulary": [
-          {"word": "보물상자 (Box)", "desc": "내가 약속을 성실히 수행할 때마다 자신감이 쌓이는 소중한 상상 속 보관함이에요."},
-          {"word": "자존감 (Self-love)", "desc": "남들의 눈치나 평가에 휘둘리지 않고 스스로를 아끼고 자랑스러워하는 마음의 근육이에요."}
+          {
+            "word": "보물상자 (Box)",
+            "desc": "내가 약속을 성실히 수행할 때마다 자신감이 쌓이는 소중한 상상 속 보관함이에요."
+          },
+          {
+            "word": "자존감 (Self-love)",
+            "desc": "남들의 눈치나 평가에 휘둘리지 않고 스스로를 아끼고 자랑스러워하는 마음의 근육이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
@@ -449,8 +983,20 @@ var GRADE_DATA = {
           "지렁이가 지나다니며 통로를 뚫는 모습은 인류의 터널 뚫기 기술과 어떤 점이 유사한가요?"
         ],
         "app_verdict": "3학년 2학기 과학 '지표의 변화' 및 '동물의 생활' 단원과 연계됩니다. 토양의 가치와 생태계 생물들의 상호작용 개념을 주입합니다.",
-        "sources": [{"name": "네이버 지식백과 - 흙 속의 생태계", "url": "https://terms.naver.com/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "네이버 지식백과 - 흙 속의 생태계",
+            "url": "https://terms.naver.com/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Warm watercolor pastel of a curious child holding a magnifying glass over a garden soil path, detailed roots and friendly earthworms visible in underground layers, warm sun, paper texture",
         "aiRole": "땅속 신기한 생물들의 삶을 연구하는 다정한 생태학자 선생님",
@@ -459,9 +1005,18 @@ var GRADE_DATA = {
           "미생물들은 흙 속의 낙엽을 어떻게 분해하나요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "흙 속에 지렁이가 기어 다니며 뚫어놓은 공기와 물의 귀중한 이동 경로예요."},
-          {"word": "배설물 (Excretions)", "desc": "음식물을 섭취하여 영양분을 소화한 뒤 몸 밖으로 버려진 기름진 천연 흙비료예요."},
-          {"word": "분해 (Decomposition)", "desc": "커다란 나뭇잎이나 나뭇가지를 미세한 미생물들이 잘게 부수어 자연의 흙으로 돌리는 과정이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "흙 속에 지렁이가 기어 다니며 뚫어놓은 공기와 물의 귀중한 이동 경로예요."
+          },
+          {
+            "word": "배설물 (Excretions)",
+            "desc": "음식물을 섭취하여 영양분을 소화한 뒤 몸 밖으로 버려진 기름진 천연 흙비료예요."
+          },
+          {
+            "word": "분해 (Decomposition)",
+            "desc": "커다란 나뭇잎이나 나뭇가지를 미세한 미생물들이 잘게 부수어 자연의 흙으로 돌리는 과정이에요."
+          }
         ]
       },
       {
@@ -476,8 +1031,20 @@ var GRADE_DATA = {
           "둥근 모양의 원형 물건들이 실생활에서 굴러가지 말아야 할 땐 어떻게 고정할 수 있을까요?"
         ],
         "app_verdict": "3학년 1학기 평면도형 단원 및 실생활 물리학 연계. 도형의 형태적 장점을 유도.",
-        "sources": [{"name": "EBSMath - 도형의 발견", "url": "https://www.ebsmath.co.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBSMath - 도형의 발견",
+            "url": "https://www.ebsmath.co.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Warm pastel watercolor illustration of elementary shapes constructing a small forest bridge, animals crossing it safely, high quality paper print texturing",
         "aiRole": "도형들의 성질로 세상을 짓는 수학 건축 요정",
@@ -486,9 +1053,18 @@ var GRADE_DATA = {
           "세모 구조(트러스 구조)를 우리 주변에서 또 어디서 찾아볼 수 있나요?"
         ],
         "vocabulary": [
-          {"word": "모서리 (Edge)", "desc": "도형에서 선과 선이 만나는 모퉁이나 선부분으로, 세모는 3개, 네모는 4개의 모서리가 있어요."},
-          {"word": "삼각형 (Triangle)", "desc": "세 개의 선분과 세 개의 모서리를 가진 다각형으로, 찌그러지지 않는 가장 튼튼한 건축 뼈대예요."},
-          {"word": "평행사변형 (Parallelogram)", "desc": "마주 보는 두 쌍의 변이 서로 평행(나란히 마주함)을 이루는 사각형 도형이에요."}
+          {
+            "word": "모서리 (Edge)",
+            "desc": "도형에서 선과 선이 만나는 모퉁이나 선부분으로, 세모는 3개, 네모는 4개의 모서리가 있어요."
+          },
+          {
+            "word": "삼각형 (Triangle)",
+            "desc": "세 개의 선분과 세 개의 모서리를 가진 다각형으로, 찌그러지지 않는 가장 튼튼한 건축 뼈대예요."
+          },
+          {
+            "word": "평행사변형 (Parallelogram)",
+            "desc": "마주 보는 두 쌍의 변이 서로 평행(나란히 마주함)을 이루는 사각형 도형이에요."
+          }
         ]
       },
       {
@@ -503,8 +1079,20 @@ var GRADE_DATA = {
           "의성어와 의태어를 사용하지 않고 자연의 가을 소리를 설명하려면 왜 더 장황하고 힘들어질까요?"
         ],
         "app_verdict": "3학년 국어 '말의 재미와 문장의 생동감' 단원 연계. 한글의 시청각적 아름다움 파악.",
-        "sources": [{"name": "국립국어원 표준대사전", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국립국어원 표준대사전",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Dreamy child watercolor illustration of a magical forest where letters grow on leaves, warm cozy colors, Korean story book design",
         "aiRole": "세상의 모든 신기한 소리와 몸짓을 낱말로 수집하는 낱말 수집기 비행기 요정",
@@ -513,8 +1101,14 @@ var GRADE_DATA = {
           "의성어와 의태어가 한글 문해력을 높여주는 이유는 무엇인가요?"
         ],
         "vocabulary": [
-          {"word": "의성어 (Onomatopoeia)", "desc": "자연의 소리나 사물의 소리를 흉내 내어 표현하는 예쁜 말이에요. (예: 졸졸졸, 우르릉)"},
-          {"word": "의태어 (Mimetic Word)", "desc": "사람이나 사물의 모양, 뜀박질 등 움직임을 흉내 내어 표현하는 다정한 말이에요. (예: 깡충깡충, 반짝반짝)"}
+          {
+            "word": "의성어 (Onomatopoeia)",
+            "desc": "자연의 소리나 사물의 소리를 흉내 내어 표현하는 예쁜 말이에요. (예: 졸졸졸, 우르릉)"
+          },
+          {
+            "word": "의태어 (Mimetic Word)",
+            "desc": "사람이나 사물의 모양, 뜀박질 등 움직임을 흉내 내어 표현하는 다정한 말이에요. (예: 깡충깡충, 반짝반짝)"
+          }
         ]
       },
       {
@@ -529,8 +1123,20 @@ var GRADE_DATA = {
           "영어 단어를 말할 때 멜로디처럼 높고 낮은 강세를 넣으면 왜 훨씬 이해하기 쉬운 발음이 될까요?"
         ],
         "app_verdict": "3학년 공교육 영어 입문 시기에 맞춤한 조음 기법 및 리듬 지칭 교육 연계. 8컷 카드 탑재.",
-        "sources": [{"name": "미국 유아 발음 교육 지침", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "미국 유아 발음 교육 지침",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A cheerful young Korean child squeezing a big yellow lemon, musical notes and alphabets hovering in a warm cozy sunlight, pastel tones",
         "aiRole": "미국 초등학교 3학년 친구 마이크 (정통 캘리포니아 영어 리듬 코치)",
@@ -539,18 +1145,56 @@ var GRADE_DATA = {
           "미국 초등학생들이 잘 쓰는 귀엽고 재밌는 슬랭이나 낱말 주문 알려줘!"
         ],
         "vocabulary": [
-          {"word": "강세 (Stress)", "desc": "영어 말소리를 낼 때 단어의 특정 음절을 다른 음절보다 더 힘주어 세고 길게 발음하는 영어 특유의 힘이에요."},
-          {"word": "조음 (Articulation)", "desc": "입술, 이, 혀, 입천장 등의 발음 기관을 움직여서 우리 목소리를 자음이나 모음의 말소리로 바꾸는 활동이에요."}
+          {
+            "word": "강세 (Stress)",
+            "desc": "영어 말소리를 낼 때 단어의 특정 음절을 다른 음절보다 더 힘주어 세고 길게 발음하는 영어 특유의 힘이에요."
+          },
+          {
+            "word": "조음 (Articulation)",
+            "desc": "입술, 이, 혀, 입천장 등의 발음 기관을 움직여서 우리 목소리를 자음이나 모음의 말소리로 바꾸는 활동이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🧩", "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"},
-          {"cut": 2, "emoji": "🍋", "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"},
-          {"cut": 3, "emoji": "🏃", "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"},
-          {"cut": 4, "emoji": "🙌", "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"},
-          {"cut": 5, "emoji": "🍪", "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"},
-          {"cut": 6, "emoji": "💃", "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"},
-          {"cut": 7, "emoji": "👅", "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"},
-          {"cut": 8, "emoji": "🎵", "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"}
+          {
+            "cut": 1,
+            "emoji": "🧩",
+            "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍋",
+            "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"
+          },
+          {
+            "cut": 3,
+            "emoji": "🏃",
+            "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"
+          },
+          {
+            "cut": 4,
+            "emoji": "🙌",
+            "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🍪",
+            "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"
+          },
+          {
+            "cut": 6,
+            "emoji": "💃",
+            "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"
+          },
+          {
+            "cut": 7,
+            "emoji": "👅",
+            "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🎵",
+            "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"
+          }
         ]
       },
       {
@@ -565,8 +1209,20 @@ var GRADE_DATA = {
           "사육사 선생님 역할을 준 것과 그냥 질문한 것 사이에 AI의 태도는 어떻게 달라질까요?"
         ],
         "app_verdict": "3학년 교과 과정 내의 코딩 개념 및 데이터 프라이버시, 프롬프트 엔지니어링 기본 개념 학습.",
-        "sources": [{"name": "NIA 지능정보윤리센터", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "NIA 지능정보윤리센터",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Watercolor drawing of a cute small robot with heart eyes showing prompt rules in korean on screens, a kid holding a golden key, pastel soft sky",
         "aiRole": "어린이에게 프롬프트의 지혜를 가르쳐주는 똑똑하고 씩씩한 꼬마봇 친구 아두",
@@ -575,19 +1231,60 @@ var GRADE_DATA = {
           "어린이 AI 질문에 가장 잘 작동하는 꿀단지 프롬프트를 1개 만들어줘!"
         ],
         "vocabulary": [
-          {"word": "인공지능 (AI)", "desc": "사람처럼 스스로 생각하고 공부하며 똑똑하게 일하는 기능을 갖춘 컴퓨터 프로그램이나 시스템이에요."},
-          {"word": "프롬프트 (Prompt)", "desc": "인공지능 로봇 친구에게 원하는 일을 시키거나 대답을 유도하기 위해 컴퓨터 입력창에 건네는 대화문이에요."},
-          {"word": "개인정보 (Privacy)", "desc": "나의 진짜 이름, 집 주소, 부모님 연락처처럼 나를 다른 사람과 구별할 수 있는 아주 소중한 비밀정보예요."}
+          {
+            "word": "인공지능 (AI)",
+            "desc": "사람처럼 스스로 생각하고 공부하며 똑똑하게 일하는 기능을 갖춘 컴퓨터 프로그램이나 시스템이에요."
+          },
+          {
+            "word": "프롬프트 (Prompt)",
+            "desc": "인공지능 로봇 친구에게 원하는 일을 시키거나 대답을 유도하기 위해 컴퓨터 입력창에 건네는 대화문이에요."
+          },
+          {
+            "word": "개인정보 (Privacy)",
+            "desc": "나의 진짜 이름, 집 주소, 부모님 연락처처럼 나를 다른 사람과 구별할 수 있는 아주 소중한 비밀정보예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🤖", "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"},
-          {"cut": 2, "emoji": "🧑‍🏫", "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"},
-          {"cut": 3, "emoji": "💬", "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."},
-          {"cut": 4, "emoji": "📜", "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"},
-          {"cut": 5, "emoji": "📝", "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."},
-          {"cut": 6, "emoji": "🛡️", "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"},
-          {"cut": 7, "emoji": "🔒", "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"},
-          {"cut": 8, "emoji": "📚", "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"}
+          {
+            "cut": 1,
+            "emoji": "🤖",
+            "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🧑‍🏫",
+            "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"
+          },
+          {
+            "cut": 3,
+            "emoji": "💬",
+            "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."
+          },
+          {
+            "cut": 4,
+            "emoji": "📜",
+            "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"
+          },
+          {
+            "cut": 5,
+            "emoji": "📝",
+            "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."
+          },
+          {
+            "cut": 6,
+            "emoji": "🛡️",
+            "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"
+          },
+          {
+            "cut": 7,
+            "emoji": "🔒",
+            "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "📚",
+            "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"
+          }
         ]
       },
       {
@@ -602,8 +1299,20 @@ var GRADE_DATA = {
           "내가 친구나 동생에게 베푼 작은 나눔 중에서 가장 내 마음을 기쁘게 채워주었던 따뜻한 경험이 있나요?"
         ],
         "app_verdict": "도덕적 감수성과 양보, 타인 지향적 자존감 고양에 초점을 둔 어린이 창작 단편 동화입니다. YUV3.2 가독성 충족.",
-        "sources": [{"name": "연라이프 창작 동화 연구소", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "연라이프 창작 동화 연구소",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Watercolor and pastel sketch of a cute smiling cloud raining down soft droplets onto a patch of little green sprouts in a warm friendly forest",
         "aiRole": "그림책 속에 담긴 교훈과 상상을 해설해 주는 다정한 도서관 요정",
@@ -612,18 +1321,56 @@ var GRADE_DATA = {
           "남과 나를 비교할 때 속상해지는 마음을 이기는 요령은 무엇인가요?"
         ],
         "vocabulary": [
-          {"word": "밍밍하다 (Bland)", "desc": "음식 맛이 싱겁고 아무런 특별한 맛이나 향이 느껴지지 않아 심심한 상태를 뜻하는 말이에요."},
-          {"word": "이타성 (Altruism)", "desc": "나의 이익보다 남을 먼저 생각하고, 목마른 친구나 어려운 이웃을 따뜻하게 도와주려는 다정한 마음이에요."}
+          {
+            "word": "밍밍하다 (Bland)",
+            "desc": "음식 맛이 싱겁고 아무런 특별한 맛이나 향이 느껴지지 않아 심심한 상태를 뜻하는 말이에요."
+          },
+          {
+            "word": "이타성 (Altruism)",
+            "desc": "나의 이익보다 남을 먼저 생각하고, 목마른 친구나 어려운 이웃을 따뜻하게 도와주려는 다정한 마음이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."},
-          {"cut": 2, "emoji": "🍭", "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"},
-          {"cut": 3, "emoji": "🤍", "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."},
-          {"cut": 4, "emoji": "🌱", "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."},
-          {"cut": 5, "emoji": "💧", "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"},
-          {"cut": 6, "emoji": "⛈️", "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"},
-          {"cut": 7, "emoji": "☔", "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."},
-          {"cut": 8, "emoji": "💚", "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."
+          },
+          {
+            "cut": 2,
+            "emoji": "🍭",
+            "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"
+          },
+          {
+            "cut": 3,
+            "emoji": "🤍",
+            "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."
+          },
+          {
+            "cut": 4,
+            "emoji": "🌱",
+            "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."
+          },
+          {
+            "cut": 5,
+            "emoji": "💧",
+            "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"
+          },
+          {
+            "cut": 6,
+            "emoji": "⛈️",
+            "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"
+          },
+          {
+            "cut": 7,
+            "emoji": "☔",
+            "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"
+          }
         ]
       },
       {
@@ -638,8 +1385,20 @@ var GRADE_DATA = {
           "누군가 억지로 감시하며 공부를 시킬 때와, 내가 목표를 세워 몰입해서 끝마쳤을 때 성과와 기분은 어떻게 다른가요?"
         ],
         "app_verdict": "초등 중학년의 자기주도적 습관 및 메타인지 형성을 촉진하기 위한 내적 동기 부여 교육 요강 연계.",
-        "sources": [{"name": "아동 뇌 발달 학회", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "아동 뇌 발달 학회",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A smiling young Korean girl with pencils, proudly ticking off checklist tasks on a wooden desk, warm room, watercolor illustration",
         "aiRole": "아이의 자율성이 쑥쑥 자라도록 돕는 다정한 지혜의 공부 요정",
@@ -648,8 +1407,59 @@ var GRADE_DATA = {
           "부모님이 억지로 시켜서 하기 싫을 때, 지혜롭게 이겨내는 대화법은 있나요?"
         ],
         "vocabulary": [
-          {"word": "성취감 (Achievement)", "desc": "내 힘으로 어떠한 목표를 끝까지 노력해서 이루어 냈을 때 내 마음속에서 차오르는 뿌듯한 감정이에요."},
-          {"word": "자율성 (Autonomy)", "desc": "남이 억지로 시켜서 하는 것이 아니라, 내 스스로 필요성을 깨닫고 직접 결정하고 행동하는 멋진 힘이에요."}
+          {
+            "word": "성취감 (Achievement)",
+            "desc": "내 힘으로 어떠한 목표를 끝까지 노력해서 이루어 냈을 때 내 마음속에서 차오르는 뿌듯한 감정이에요."
+          },
+          {
+            "word": "자율성 (Autonomy)",
+            "desc": "남이 억지로 시켜서 하는 것이 아니라, 내 스스로 필요성을 깨닫고 직접 결정하고 행동하는 멋진 힘이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
@@ -669,8 +1479,20 @@ var GRADE_DATA = {
           "지렁이가 기어 다니는 활동이 토양의 산성화를 막고 정화 작용을 돕는 비결은 무엇일까요?"
         ],
         "app_verdict": "4학년 과학 '식물의 한살이' 및 '동물의 생활' 단원 심화 보강. 토양 생리학 기초 유도.",
-        "sources": [{"name": "농촌진흥청 토양 정보 시스템", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "농촌진흥청 토양 정보 시스템",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Scientific watercolor cross-section of garden soil showing plant roots absorbing glowing water drops and tiny bubbles, friendly earthworms visible, warm colors",
         "aiRole": "땅속 토양 환경과 식물의 비밀을 파헤치는 명랑한 꼬마 토양 과학자",
@@ -679,9 +1501,18 @@ var GRADE_DATA = {
           "지렁이 배설물이 천연 비료로 최고인 화학적 성질은 뭔가요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "지렁이의 굴착 활동을 통해 생긴, 물과 공기가 원활하게 소통할 수 있는 땅속 관형 통로예요."},
-          {"word": "배설물 (Excretions)", "desc": "유기물이 함유된 흙을 지렁이가 삼켜 소화 효소와 결합하여 배출한 영양 덩어리 흙이에요."},
-          {"word": "분해 (Decomposition)", "desc": "유기물 쓰레기를 작은 곤충이나 곰팡이, 박테리아 등 미생물이 더 작은 분자 상태로 쪼개어 정화하는 작용이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "지렁이의 굴착 활동을 통해 생긴, 물과 공기가 원활하게 소통할 수 있는 땅속 관형 통로예요."
+          },
+          {
+            "word": "배설물 (Excretions)",
+            "desc": "유기물이 함유된 흙을 지렁이가 삼켜 소화 효소와 결합하여 배출한 영양 덩어리 흙이에요."
+          },
+          {
+            "word": "분해 (Decomposition)",
+            "desc": "유기물 쓰레기를 작은 곤충이나 곰팡이, 박테리아 등 미생물이 더 작은 분자 상태로 쪼개어 정화하는 작용이에요."
+          }
         ]
       },
       {
@@ -696,8 +1527,20 @@ var GRADE_DATA = {
           "사각 상자가 많은 짐을 쌓기에 적합한 이유는 도형의 어떤 면적적 특성 때문일까요?"
         ],
         "app_verdict": "4학년 1학기 평면도형 및 2학기 다각형 단원 연계. 기하학 기초 상식 함양.",
-        "sources": [{"name": "EBSMath - 수학의 힘", "url": "https://www.ebsmath.co.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBSMath - 수학의 힘",
+            "url": "https://www.ebsmath.co.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Modern pastel sketch of railway track stretching to the horizon, parallel lines, geometric shapes building structures, kids math book layout",
         "aiRole": "직선과 각도의 비밀을 정밀하게 측정하는 다정한 건축 설계사 요정",
@@ -706,9 +1549,18 @@ var GRADE_DATA = {
           "실생활에서 삼각형을 엮어 강한 구조를 만든 대표적 예시를 알려주세요."
         ],
         "vocabulary": [
-          {"word": "모서리 (Edge)", "desc": "도형에서 평면과 평면이 만나거나 선과 선이 마주쳐 형성된 단단한 뼈대 부분이에요."},
-          {"word": "삼각형 (Triangle)", "desc": "동일 평면상에 세 꼭짓점을 세 선분으로 결합하여 만든, 하중 지지력이 뛰어난 다각형이에요."},
-          {"word": "평행사변형 (Parallelogram)", "desc": "마주 보는 두 대변이 각각 나란하게(평행하게) 평평한 관계를 이루는 사각형 도형이에요."}
+          {
+            "word": "모서리 (Edge)",
+            "desc": "도형에서 평면과 평면이 만나거나 선과 선이 마주쳐 형성된 단단한 뼈대 부분이에요."
+          },
+          {
+            "word": "삼각형 (Triangle)",
+            "desc": "동일 평면상에 세 꼭짓점을 세 선분으로 결합하여 만든, 하중 지지력이 뛰어난 다각형이에요."
+          },
+          {
+            "word": "평행사변형 (Parallelogram)",
+            "desc": "마주 보는 두 대변이 각각 나란하게(평행하게) 평평한 관계를 이루는 사각형 도형이에요."
+          }
         ]
       },
       {
@@ -723,8 +1575,20 @@ var GRADE_DATA = {
           "표현력이 뛰어난 어휘를 섞은 글이 밋밋하고 딱딱한 글보다 독자의 흥미를 자극하는 이유는 무엇인가요?"
         ],
         "app_verdict": "4학년 국어 어휘력 및 문장의 표현성 증대 교육 과정 연계. 의성어/의태어의 적합한 융합 유도.",
-        "sources": [{"name": "국립국어원 사전", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국립국어원 사전",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Pastel sketch of a Korean boy sitting in a treehouse, writing in a diary with floating colorful sound word clouds, warm green nature around",
         "aiRole": "세상의 모든 기쁜 감정을 예쁜 한글 단어로 꽃피우는 시인 요정",
@@ -733,8 +1597,14 @@ var GRADE_DATA = {
           "어휘력을 풍부하게 늘리기 좋은 말놀이 훈련법을 소개해줘!"
         ],
         "vocabulary": [
-          {"word": "의성어 (Onomatopoeia)", "desc": "사물이나 동물 등이 내는 실제의 소리를 흉내 내어 글과 말로 묘사한 예쁜 낱말이에요."},
-          {"word": "의태어 (Mimetic Word)", "desc": "소리는 안 나지만 시각적인 몸짓이나 모양, 움직임의 태도를 재미있게 표현한 낱말이에요."}
+          {
+            "word": "의성어 (Onomatopoeia)",
+            "desc": "사물이나 동물 등이 내는 실제의 소리를 흉내 내어 글과 말로 묘사한 예쁜 낱말이에요."
+          },
+          {
+            "word": "의태어 (Mimetic Word)",
+            "desc": "소리는 안 나지만 시각적인 몸짓이나 모양, 움직임의 태도를 재미있게 표현한 낱말이에요."
+          }
         ]
       },
       {
@@ -749,8 +1619,20 @@ var GRADE_DATA = {
           "친구와 기쁘게 손바닥을 마주치며 'Give me five!'라고 인사할 때 신나는 손동작과 박자를 함께 곁들여 볼까요?"
         ],
         "app_verdict": "4학년 수준 구어 리듬(Stress-timed rhythm)과 조음 음소 훈련 접목. 미국 8컷 카툰 활용.",
-        "sources": [{"name": "영미 아동 음성학 가이드", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "영미 아동 음성학 가이드",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Watercolor drawing of Logan, a cheerful boy, talking with english word bubbles and sound bars, lemon tree background, soft paper texture",
         "aiRole": "영어 발음과 노래 리듬을 기가 막히게 조율하는 꼬마 영어 리더 로건",
@@ -759,18 +1641,56 @@ var GRADE_DATA = {
           "미국 어린이들이 하이파이브를 나누며 기분 좋을 때 하는 우정의 리듬 놀이가 더 있나요?"
         ],
         "vocabulary": [
-          {"word": "강세 (Stress)", "desc": "말소리를 낼 때 단어의 일정한 위치에 힘을 주어 길고 뚜렷하게 발음하는 기법이에요."},
-          {"word": "조음 (Articulation)", "desc": "말소리를 만들 때 혀, 입술 등의 발음 기관이 상호작용하여 정확한 소리를 만들어내는 과정이에요."}
+          {
+            "word": "강세 (Stress)",
+            "desc": "말소리를 낼 때 단어의 일정한 위치에 힘을 주어 길고 뚜렷하게 발음하는 기법이에요."
+          },
+          {
+            "word": "조음 (Articulation)",
+            "desc": "말소리를 만들 때 혀, 입술 등의 발음 기관이 상호작용하여 정확한 소리를 만들어내는 과정이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🧩", "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"},
-          {"cut": 2, "emoji": "🍋", "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"},
-          {"cut": 3, "emoji": "🏃", "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"},
-          {"cut": 4, "emoji": "🙌", "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"},
-          {"cut": 5, "emoji": "🍪", "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"},
-          {"cut": 6, "emoji": "💃", "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"},
-          {"cut": 7, "emoji": "👅", "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"},
-          {"cut": 8, "emoji": "🎵", "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"}
+          {
+            "cut": 1,
+            "emoji": "🧩",
+            "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍋",
+            "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"
+          },
+          {
+            "cut": 3,
+            "emoji": "🏃",
+            "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"
+          },
+          {
+            "cut": 4,
+            "emoji": "🙌",
+            "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🍪",
+            "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"
+          },
+          {
+            "cut": 6,
+            "emoji": "💃",
+            "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"
+          },
+          {
+            "cut": 7,
+            "emoji": "👅",
+            "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🎵",
+            "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"
+          }
         ]
       },
       {
@@ -785,8 +1705,20 @@ var GRADE_DATA = {
           "로봇 친구에게 집 주소를 건네주었을 때 정보 유출을 수사하는 가상의 보안 상황을 그려본다면?"
         ],
         "app_verdict": "4학년 수준 정보 보안의 필요성 인지 및 개인정보 침해 예방 수칙 연계 교육안.",
-        "sources": [{"name": "한국지능정보사회진흥원 보안센터", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "한국지능정보사회진흥원 보안센터",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A little Korean boy sitting with a friendly small blue helper robot checking a safe digital lock on a laptop screen, stars, soft watercolor",
         "aiRole": "디지털 세계의 악당 해커들을 퇴치하는 멋진 보안 요정 요원",
@@ -795,19 +1727,60 @@ var GRADE_DATA = {
           "AI 대화에서 유출되면 위험한 내 핵심 사생활 목록을 골라줘!"
         ],
         "vocabulary": [
-          {"word": "인공지능 (AI)", "desc": "사람의 생각과 대화 방식을 방대한 컴퓨터 데이터로 연구하여 응답하는 시스템이에요."},
-          {"word": "프롬프트 (Prompt)", "desc": "인공지능에게 원하는 정보를 구체적으로 시키거나 이끌어내기 위해 입력창에 타이핑하는 문장이에요."},
-          {"word": "개인정보 (Privacy)", "desc": "나의 주소, 주민번호처럼 함부로 공개될 경우 위험에 노출될 수 있는 비밀 정보들이에요."}
+          {
+            "word": "인공지능 (AI)",
+            "desc": "사람의 생각과 대화 방식을 방대한 컴퓨터 데이터로 연구하여 응답하는 시스템이에요."
+          },
+          {
+            "word": "프롬프트 (Prompt)",
+            "desc": "인공지능에게 원하는 정보를 구체적으로 시키거나 이끌어내기 위해 입력창에 타이핑하는 문장이에요."
+          },
+          {
+            "word": "개인정보 (Privacy)",
+            "desc": "나의 주소, 주민번호처럼 함부로 공개될 경우 위험에 노출될 수 있는 비밀 정보들이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🤖", "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"},
-          {"cut": 2, "emoji": "🧑‍🏫", "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"},
-          {"cut": 3, "emoji": "💬", "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."},
-          {"cut": 4, "emoji": "📜", "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"},
-          {"cut": 5, "emoji": "📝", "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."},
-          {"cut": 6, "emoji": "🛡️", "caption": "3단계 안전 지키기: 진짜 이름 and 집 주소는 절대 말하지 않기!"},
-          {"cut": 7, "emoji": "🔒", "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"},
-          {"cut": 8, "emoji": "📚", "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"}
+          {
+            "cut": 1,
+            "emoji": "🤖",
+            "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🧑‍🏫",
+            "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"
+          },
+          {
+            "cut": 3,
+            "emoji": "💬",
+            "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."
+          },
+          {
+            "cut": 4,
+            "emoji": "📜",
+            "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"
+          },
+          {
+            "cut": 5,
+            "emoji": "📝",
+            "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."
+          },
+          {
+            "cut": 6,
+            "emoji": "🛡️",
+            "caption": "3단계 안전 지키기: 진짜 이름 and 집 주소는 절대 말하지 않기!"
+          },
+          {
+            "cut": 7,
+            "emoji": "🔒",
+            "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "📚",
+            "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"
+          }
         ]
       },
       {
@@ -822,8 +1795,20 @@ var GRADE_DATA = {
           "남에게 내 소중한 것을 양보하거나 배려하여 뿌듯한 평온을 느꼈던 나만의 에피소드가 있나요?"
         ],
         "app_verdict": "4학년 도덕 교과 인성 발달 및 이타성의 자각, 친사회적 관계 훈련을 위한 동화.",
-        "sources": [{"name": "어린이 정서 발달 문학", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "어린이 정서 발달 문학",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A soft pastel painting of a cute white cloud raining happy drops over dry garden soil with colorful flowers and green sprouts, warm sunlight",
         "aiRole": "동화책 속 이야기의 이면을 탐색하여 깊은 가치를 끌어내는 다정한 질문 요정",
@@ -832,18 +1817,56 @@ var GRADE_DATA = {
           "새싹들이 구름이에게 바치는 고마움의 춤곡은 어떤 리듬일까요?"
         ],
         "vocabulary": [
-          {"word": "밍밍하다 (Bland)", "desc": "음식에 아무런 풍미나 독특한 양념이 없어 입맛을 돋우지 못하고 헛헛하고 싱거운 느낌을 뜻해요."},
-          {"word": "이타성 (Altruism)", "desc": "자기 개인의 편익보다 타인의 난처함과 슬픔을 먼저 보살피고 도우려는 고귀하고 상냥한 도덕적 품성이에요."}
+          {
+            "word": "밍밍하다 (Bland)",
+            "desc": "음식에 아무런 풍미나 독특한 양념이 없어 입맛을 돋우지 못하고 헛헛하고 싱거운 느낌을 뜻해요."
+          },
+          {
+            "word": "이타성 (Altruism)",
+            "desc": "자기 개인의 편익보다 타인의 난처함과 슬픔을 먼저 보살피고 도우려는 고귀하고 상냥한 도덕적 품성이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."},
-          {"cut": 2, "emoji": "🍭", "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"},
-          {"cut": 3, "emoji": "🤍", "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."},
-          {"cut": 4, "emoji": "🌱", "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."},
-          {"cut": 5, "emoji": "💧", "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"},
-          {"cut": 6, "emoji": "⛈️", "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"},
-          {"cut": 7, "emoji": "☔", "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."},
-          {"cut": 8, "emoji": "💚", "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."
+          },
+          {
+            "cut": 2,
+            "emoji": "🍭",
+            "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"
+          },
+          {
+            "cut": 3,
+            "emoji": "🤍",
+            "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."
+          },
+          {
+            "cut": 4,
+            "emoji": "🌱",
+            "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."
+          },
+          {
+            "cut": 5,
+            "emoji": "💧",
+            "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"
+          },
+          {
+            "cut": 6,
+            "emoji": "⛈️",
+            "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"
+          },
+          {
+            "cut": 7,
+            "emoji": "☔",
+            "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"
+          }
         ]
       },
       {
@@ -858,8 +1881,20 @@ var GRADE_DATA = {
           "공부 미션을 계획하고 하나하나 직접 성취해 나갈 때, 내가 진짜 공부의 주인이라는 생각이 드나요?"
         ],
         "app_verdict": "4학년 수준 플래너 사용 동기화 및 목표 통제, 자율 주도적 공부 습관 기틀 마련용 지침서.",
-        "sources": [{"name": "아동 심리 인지 연구소", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "아동 심리 인지 연구소",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "A warm watercolor of a boy checking a colorful weekly study planner with bright stickers, light wood desk, cozy library in background",
         "aiRole": "어린이가 스스로 공부 플래너를 지키도록 돕는 든든한 멘토 선생님 요정",
@@ -868,8 +1903,59 @@ var GRADE_DATA = {
           "어려운 공부를 해냈을 때 뇌에 어떤 기분 좋은 물질이 나와요?"
         ],
         "vocabulary": [
-          {"word": "성취감 (Achievement)", "desc": "내 손으로 한 약속을 극복해 내어 목표를 달성했을 때 마음속 깊이 뿜어져 나오는 행복하고 가슴 벅찬 감정이에요."},
-          {"word": "자율성 (Autonomy)", "desc": "간섭 없이 내가 필요성을 자각하여 스스로 목표를 수립하고 실행에 옮길 줄 아는 주도적인 능력이에요."}
+          {
+            "word": "성취감 (Achievement)",
+            "desc": "내 손으로 한 약속을 극복해 내어 목표를 달성했을 때 마음속 깊이 뿜어져 나오는 행복하고 가슴 벅찬 감정이에요."
+          },
+          {
+            "word": "자율성 (Autonomy)",
+            "desc": "간섭 없이 내가 필요성을 자각하여 스스로 목표를 수립하고 실행에 옮길 줄 아는 주도적인 능력이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
@@ -889,8 +1975,20 @@ var GRADE_DATA = {
           "지렁이가 만드는 땅속 굴착 활동은 도시의 지하 하수도 배수망 설계에 어떤 환경 공학적 힌트를 제공할까요?"
         ],
         "app_verdict": "5학년 1학기 과학 '생물과 환경' 단원과 직결됩니다. 먹이사슬과 생태계 물질 순환, 분해자의 가치를 입증합니다.",
-        "sources": [{"name": "농진청 토양 과학원", "url": "https://terms.naver.com/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "농진청 토양 과학원",
+            "url": "https://terms.naver.com/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Detailed scientific botanical watercolor showing decomposition cycle of leaves in forest soil layers, earthworms tunneling, warm paper texture",
         "aiRole": "생태계의 그물망 같은 연결 고리를 정교하게 탐색하는 자연 과학 요정",
@@ -899,9 +1997,18 @@ var GRADE_DATA = {
           "토양 산성화를 지렁이 배설물이 어떻게 예방하고 토질을 중화하나요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "지렁이의 섭식 이동 활동을 통해 점토와 유기물이 혼합되며 생긴, 토양 속 통기 및 통수용 통로 구조예요."},
-          {"word": "배설물 (Excretions)", "desc": "소화 효소 및 토양 세균과 버무려져 지렁이의 장관을 거쳐 배출된, 활성 유기 비료 성분이 풍부한 기름진 흙덩이에요."},
-          {"word": "분해 (Decomposition)", "desc": "동식물의 유기 사체와 노폐물을 유기물에서 더 이상 쪼개질 수 없는 단순 무기 화합물과 영양소로 잘게 부수어 자연으로 회수하는 화학 작용이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "지렁이의 섭식 이동 활동을 통해 점토와 유기물이 혼합되며 생긴, 토양 속 통기 및 통수용 통로 구조예요."
+          },
+          {
+            "word": "배설물 (Excretions)",
+            "desc": "소화 효소 및 토양 세균과 버무려져 지렁이의 장관을 거쳐 배출된, 활성 유기 비료 성분이 풍부한 기름진 흙덩이에요."
+          },
+          {
+            "word": "분해 (Decomposition)",
+            "desc": "동식물의 유기 사체와 노폐물을 유기물에서 더 이상 쪼개질 수 없는 단순 무기 화합물과 영양소로 잘게 부수어 자연으로 회수하는 화학 작용이에요."
+          }
         ]
       },
       {
@@ -916,8 +2023,20 @@ var GRADE_DATA = {
           "공간을 벽면에 알차게 수납할 때 사각형 물품 가구들이 독점적으로 쓰이는 수학적 당위성은 무엇일까요?"
         ],
         "app_verdict": "5학년 1학기 '다각형의 둘레와 넓이' 단원 심화. 기하학의 공학적 응용 유도.",
-        "sources": [{"name": "EBSMath - 기하와 구조 역학", "url": "https://www.ebsmath.co.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBSMath - 기하와 구조 역학",
+            "url": "https://www.ebsmath.co.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Modern architectural sketch of a truss iron bridge, geometric triangle structures, blue and terracotta ink details, high quality watercolor texture",
         "aiRole": "도시의 복잡한 마천루를 완벽한 설계 공식으로 세우는 기하학 마스터 요정",
@@ -926,9 +2045,18 @@ var GRADE_DATA = {
           "사각형 상자가 둥근 원형 통보다 공간 적재 시 빈 여백 공간을 극소화하는 이유는 무엇인가요?"
         ],
         "vocabulary": [
-          {"word": "모서리 (Edge)", "desc": "입체도형에서 두 면이 만나서 만나 생긴 교선 부분 또는 다각형의 선분 경계 부위를 의미해요."},
-          {"word": "삼각형 (Triangle)", "desc": "서로 동일 선상에 있지 않은 세 개의 점을 세 선분으로 결합하여 닫힌 공간을 이루는 최소 다각형이에요."},
-          {"word": "평행사변형 (Parallelogram)", "desc": "서로 마주 보는 두 쌍의 변이 각자 끝없이 뻗어 나가도 결코 교차하지 않도록 평행을 유지하는 사각형이에요."}
+          {
+            "word": "모서리 (Edge)",
+            "desc": "입체도형에서 두 면이 만나서 만나 생긴 교선 부분 또는 다각형의 선분 경계 부위를 의미해요."
+          },
+          {
+            "word": "삼각형 (Triangle)",
+            "desc": "서로 동일 선상에 있지 않은 세 개의 점을 세 선분으로 결합하여 닫힌 공간을 이루는 최소 다각형이에요."
+          },
+          {
+            "word": "평행사변형 (Parallelogram)",
+            "desc": "서로 마주 보는 두 쌍의 변이 각자 끝없이 뻗어 나가도 결코 교차하지 않도록 평행을 유지하는 사각형이에요."
+          }
         ]
       },
       {
@@ -943,8 +2071,20 @@ var GRADE_DATA = {
           "고운 의성어와 의태어가 글 속에서 독자의 우뇌를 자극하여 상상력과 논리적 연상 작용을 유도하는 기전은 무엇인가요?"
         ],
         "app_verdict": "5학년 국어 어휘의 활용 및 상황에 맞는 다채로운 문장 표현 교육안 직결. 맞춤법 검수 완료.",
-        "sources": [{"name": "국립국어원 사전 검색", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국립국어원 사전 검색",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Watercolor drawing of an open Korean storybook with tree branches growing out of pages with beautiful Hangul glyphs, soft pine and accent colors",
         "aiRole": "머릿속 생각을 고운 우리말 잉크로 종이에 번지게 해주는 한글 캘리그래피 정령",
@@ -953,8 +2093,14 @@ var GRADE_DATA = {
           "의성어/의태어가 어린이 문해력 발달 과정에서 중요한 뇌과학적 근거는 무엇인가요?"
         ],
         "vocabulary": [
-          {"word": "의성어 (Onomatopoeia)", "desc": "사람, 사물 혹은 대자연에서 유래하는 실제 소리 현상을 언어로써 가장 가깝게 본떠 모사한 말이에요."},
-          {"word": "의태어 (Mimetic Word)", "desc": "소리는 수반되지 않으나 시각적 형상, 동작 혹은 상황의 질감을 유려한 몸짓 말로 구현한 어휘예요."}
+          {
+            "word": "의성어 (Onomatopoeia)",
+            "desc": "사람, 사물 혹은 대자연에서 유래하는 실제 소리 현상을 언어로써 가장 가깝게 본떠 모사한 말이에요."
+          },
+          {
+            "word": "의태어 (Mimetic Word)",
+            "desc": "소리는 수반되지 않으나 시각적 형상, 동작 혹은 상황의 질감을 유려한 몸짓 말로 구현한 어휘예요."
+          }
         ]
       },
       {
@@ -969,8 +2115,20 @@ var GRADE_DATA = {
           "친구와 환호하며 나풀거리는 하이파이브 'Give me five!' 주문에 얽힌 서양식 제스처 문화의 유래는 무엇인가요?"
         ],
         "app_verdict": "5학년 공교육 기초 영어 구어 리듬 훈련을 돕는 음성학 교안 적용. 카툰 데이터 동시 연계.",
-        "sources": [{"name": "영미 초등 음소 지도 지침", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "영미 초등 음소 지도 지침",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Korean child practicing English speaking with friendly american friend Logan, lemon tree watercolor garden, high quality graphic design",
         "aiRole": "아이의 영어 발음을 멋진 미국 소리로 교정해주는 상냥한 영어 전문 요정 레오",
@@ -979,18 +2137,56 @@ var GRADE_DATA = {
           "영어 문장에서 어느 단어에 엑센트(강세)를 싣고 읽어야 하는지 명확한 꿀팁을 제시해줘!"
         ],
         "vocabulary": [
-          {"word": "강세 (Stress)", "desc": "영어 말하기에서 특정 단어나 음절을 다른 위치보다 유난히 세게, 높게, 길게 발음하여 강조를 부여하는 힘이에요."},
-          {"word": "조음 (Articulation)", "desc": "입술, 혀, 턱, 연구개 등 발음 기관들의 공간적 정밀 조정을 통해 개별 자모의 음소를 깨끗이 형성하는 기전이에요."}
+          {
+            "word": "강세 (Stress)",
+            "desc": "영어 말하기에서 특정 단어나 음절을 다른 위치보다 유난히 세게, 높게, 길게 발음하여 강조를 부여하는 힘이에요."
+          },
+          {
+            "word": "조음 (Articulation)",
+            "desc": "입술, 혀, 턱, 연구개 등 발음 기관들의 공간적 정밀 조정을 통해 개별 자모의 음소를 깨끗이 형성하는 기전이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🧩", "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"},
-          {"cut": 2, "emoji": "🍋", "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"},
-          {"cut": 3, "emoji": "🏃", "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"},
-          {"cut": 4, "emoji": "🙌", "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"},
-          {"cut": 5, "emoji": "🍪", "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"},
-          {"cut": 6, "emoji": "💃", "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"},
-          {"cut": 7, "emoji": "👅", "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"},
-          {"cut": 8, "emoji": "🎵", "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"}
+          {
+            "cut": 1,
+            "emoji": "🧩",
+            "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍋",
+            "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"
+          },
+          {
+            "cut": 3,
+            "emoji": "🏃",
+            "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"
+          },
+          {
+            "cut": 4,
+            "emoji": "🙌",
+            "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🍪",
+            "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"
+          },
+          {
+            "cut": 6,
+            "emoji": "💃",
+            "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"
+          },
+          {
+            "cut": 7,
+            "emoji": "👅",
+            "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🎵",
+            "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"
+          }
         ]
       },
       {
@@ -1005,8 +2201,20 @@ var GRADE_DATA = {
           "로봇과 협업하여 숙제를 안전하게 마치기 위해 나만의 '가상 디지털 별명'을 창의적으로 조립한다면?"
         ],
         "app_verdict": "5학년 실과 정보통신 기술 교육 과정 및 디지털 사생활 침해 예방, 개인정보 보호 3단계 수칙 접목.",
-        "sources": [{"name": "지능정보사회진흥원 AI 가이드", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "지능정보사회진흥원 AI 가이드",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Modern watercolor style child on laptop, a holographic shielding circle around computer, safe padlock and neon keys, warm soft background",
         "aiRole": "디지털 바다의 숨겨진 보물 데이터들을 지키는 용감한 사이버 정보 보안 수사관",
@@ -1015,19 +2223,60 @@ var GRADE_DATA = {
           "AI 대화 시 필터링해서 절대 치지 말아야 할 개인정보의 엄격한 가이드라인을 알려줘!"
         ],
         "vocabulary": [
-          {"word": "인공지능 (AI)", "desc": "컴퓨터 알고리즘을 통해 인간처럼 언어를 이해하고 학습하며 문제를 독창적으로 해결하는 시스템이에요."},
-          {"word": "프롬프트 (Prompt)", "desc": "인공지능 로봇 친구에게 작업 조건과 지시 사항을 건네주기 위해 컴퓨터 화면창에 쳐넣는 명령어들이에요."},
-          {"word": "개인정보 (Privacy)", "desc": "전화번호, 주소 등 남에게 노출되었을 경우 나의 안전과 자산을 심각하게 위협할 수 있는 중요한 정보예요."}
+          {
+            "word": "인공지능 (AI)",
+            "desc": "컴퓨터 알고리즘을 통해 인간처럼 언어를 이해하고 학습하며 문제를 독창적으로 해결하는 시스템이에요."
+          },
+          {
+            "word": "프롬프트 (Prompt)",
+            "desc": "인공지능 로봇 친구에게 작업 조건과 지시 사항을 건네주기 위해 컴퓨터 화면창에 쳐넣는 명령어들이에요."
+          },
+          {
+            "word": "개인정보 (Privacy)",
+            "desc": "전화번호, 주소 등 남에게 노출되었을 경우 나의 안전과 자산을 심각하게 위협할 수 있는 중요한 정보예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🤖", "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"},
-          {"cut": 2, "emoji": "🧑‍🏫", "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"},
-          {"cut": 3, "emoji": "💬", "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."},
-          {"cut": 4, "emoji": "📜", "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"},
-          {"cut": 5, "emoji": "📝", "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."},
-          {"cut": 6, "emoji": "🛡️", "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"},
-          {"cut": 7, "emoji": "🔒", "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"},
-          {"cut": 8, "emoji": "📚", "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"}
+          {
+            "cut": 1,
+            "emoji": "🤖",
+            "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🧑‍🏫",
+            "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"
+          },
+          {
+            "cut": 3,
+            "emoji": "💬",
+            "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."
+          },
+          {
+            "cut": 4,
+            "emoji": "📜",
+            "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"
+          },
+          {
+            "cut": 5,
+            "emoji": "📝",
+            "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."
+          },
+          {
+            "cut": 6,
+            "emoji": "🛡️",
+            "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"
+          },
+          {
+            "cut": 7,
+            "emoji": "🔒",
+            "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "📚",
+            "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"
+          }
         ]
       },
       {
@@ -1042,8 +2291,20 @@ var GRADE_DATA = {
           "내가 친구에게 베푼 작은 배려로 인해 나조차 기쁨과 치유를 얻었던 기억이 있나요?"
         ],
         "app_verdict": "5학년 도덕 교과 인성 가치, 자존감 정립, 이타적 태도 확립 연계 동화.",
-        "sources": [{"name": "어린이 정서 도서관", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "어린이 정서 도서관",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Impressionist watercolor, smiling friendly cloud pouring soft rain over lush green sprouts and bright flowers in a sunny forest",
         "aiRole": "동화의 핵심 주제를 탐색하여 인격의 성장을 돕는 다정한 문학 토론 선생님 요정",
@@ -1052,18 +2313,56 @@ var GRADE_DATA = {
           "양보를 통해 자존감이 더 굳건하게 형성되는 뇌과학적 원리가 뭐야?"
         ],
         "vocabulary": [
-          {"word": "밍밍하다 (Bland)", "desc": "음식 고유의 독특한 향미가 부족하고 아무런 조미료가 섞이지 않아 밋밋하고 싱거운 맛을 의미해요."},
-          {"word": "이타성 (Altruism)", "desc": "나 자신의 영리와 안위보다 곤경에 처한 타인의 고통을 덜어주기 위해 선의를 베푸는 마음가짐이에요."}
+          {
+            "word": "밍밍하다 (Bland)",
+            "desc": "음식 고유의 독특한 향미가 부족하고 아무런 조미료가 섞이지 않아 밋밋하고 싱거운 맛을 의미해요."
+          },
+          {
+            "word": "이타성 (Altruism)",
+            "desc": "나 자신의 영리와 안위보다 곤경에 처한 타인의 고통을 덜어주기 위해 선의를 베푸는 마음가짐이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."},
-          {"cut": 2, "emoji": "🍭", "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"},
-          {"cut": 3, "emoji": "🤍", "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."},
-          {"cut": 4, "emoji": "🌱", "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."},
-          {"cut": 5, "emoji": "💧", "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"},
-          {"cut": 6, "emoji": "⛈️", "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"},
-          {"cut": 7, "emoji": "☔", "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."},
-          {"cut": 8, "emoji": "💚", "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."
+          },
+          {
+            "cut": 2,
+            "emoji": "🍭",
+            "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"
+          },
+          {
+            "cut": 3,
+            "emoji": "🤍",
+            "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."
+          },
+          {
+            "cut": 4,
+            "emoji": "🌱",
+            "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."
+          },
+          {
+            "cut": 5,
+            "emoji": "💧",
+            "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"
+          },
+          {
+            "cut": 6,
+            "emoji": "⛈️",
+            "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"
+          },
+          {
+            "cut": 7,
+            "emoji": "☔",
+            "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"
+          }
         ]
       },
       {
@@ -1078,8 +2377,20 @@ var GRADE_DATA = {
           "간섭 속에서 하는 억지 과제와 자율적으로 돌파하는 챌린지 중 어떤 것이 내 미래 자존감 형성에 더 도움이 될까요?"
         ],
         "app_verdict": "5학년 수준 메타인지 학습 플래너 사용 연동 및 내적 학습 동기 고양 교육 지침.",
-        "sources": [{"name": "아동 심리 의학 회보", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "아동 심리 의학 회보",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Cozy room, a young Korean girl checking off tasks in a beautifully decorated study planner, bright smiling eyes, warm watercolor",
         "aiRole": "어린이의 자기주도적 성장을 축복하고 다독여주는 인재 양성 정원사 요정",
@@ -1088,8 +2399,59 @@ var GRADE_DATA = {
           "공부가 정말 하기 싫은 무기력한 극복하는 행동 팁이 있나요?"
         ],
         "vocabulary": [
-          {"word": "성취감 (Achievement)", "desc": "내 힘과 노력을 동원하여 주도적으로 목표를 실현해 냈을 때 마음속 깊이 뿜어 오르는 대단한 감동과 보람이에요."},
-          {"word": "자율성 (Autonomy)", "desc": "외부의 지시나 조종을 배제하고 자신의 자유 의지와 양심을 토대로 행동 방향을 결정해 나가는 고차원적 의지력이에요."}
+          {
+            "word": "성취감 (Achievement)",
+            "desc": "내 힘과 노력을 동원하여 주도적으로 목표를 실현해 냈을 때 마음속 깊이 뿜어 오르는 대단한 감동과 보람이에요."
+          },
+          {
+            "word": "자율성 (Autonomy)",
+            "desc": "외부의 지시나 조종을 배제하고 자신의 자유 의지와 양심을 토대로 행동 방향을 결정해 나가는 고차원적 의지력이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
@@ -1109,8 +2471,20 @@ var GRADE_DATA = {
           "지렁이가 토양의 투수성과 투기성을 조절하는 역학을 친환경 도시의 빗물 정화 보도블록 설계에 어떻게 대입할 수 있을까요?"
         ],
         "app_verdict": "6학년 과학 '생물과 환경' 및 중등 과학 '생태계의 평형과 순환'의 가교 역할을 돕는 고난도 생태 환경 과학 교안.",
-        "sources": [{"name": "환경부 국립생태원 토양물리학 학술지", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "환경부 국립생태원 토양물리학 학술지",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Intricate botanical cross section watercolor of forest soil layers, molecules of nutrients flowing into root capillaries, earthworms tunneling, warm rich colors",
         "aiRole": "생태계 속 보이지 않는 원자들의 화학적 정화 메커니즘을 규명하는 뇌섹 박사 요정",
@@ -1119,9 +2493,18 @@ var GRADE_DATA = {
           "피부 호흡을 지속하기 위해 필요한 토양의 이상적인 수분 포화율은 어느 정도인가요?"
         ],
         "vocabulary": [
-          {"word": "터널 (Tunnel)", "desc": "지렁이의 굴진 섭식 이동으로 발생한 기하학적 통기 통로로, 수분의 급속 침투와 뿌리 호흡을 돕는 필수 인프라 구조예요."},
-          {"word": "배설물 (Excretions)", "desc": "소화관 속 유기산 및 유용 미생물총과 혼화되어 나온 분변토로, 미네랄과 킬레이트 영양소가 농축된 최상급 토양 개량제예요."},
-          {"word": "분해 (Decomposition)", "desc": "복잡한 고분자 유기 화합물을 미생물 및 곤충의 대사 메커니즘을 통해 식물이 즉시 재흡수 가능한 이온 무기 화합물로 환원하는 화학적 소화 작용이에요."}
+          {
+            "word": "터널 (Tunnel)",
+            "desc": "지렁이의 굴진 섭식 이동으로 발생한 기하학적 통기 통로로, 수분의 급속 침투와 뿌리 호흡을 돕는 필수 인프라 구조예요."
+          },
+          {
+            "word": "배설물 (Excretions)",
+            "desc": "소화관 속 유기산 및 유용 미생물총과 혼화되어 나온 분변토로, 미네랄과 킬레이트 영양소가 농축된 최상급 토양 개량제예요."
+          },
+          {
+            "word": "분해 (Decomposition)",
+            "desc": "복잡한 고분자 유기 화합물을 미생물 및 곤충의 대사 메커니즘을 통해 식물이 즉시 재흡수 가능한 이온 무기 화합물로 환원하는 화학적 소화 작용이에요."
+          }
         ]
       },
       {
@@ -1136,8 +2519,20 @@ var GRADE_DATA = {
           "에펠탑이나 영도다리 교량이 얇은 철 프레임의 삼각형 얽힘만으로도 엄청난 하중을 견뎌낼 수 있는 원리를 설명해 보세요."
         ],
         "app_verdict": "6학년 2학기 '원주의 넓이와 둘레' 및 중등 기하학 트러스 하중 분석 기초 지식 연계. 이과적 재능 유도.",
-        "sources": [{"name": "EBSMath - 세상을 바꾸는 기하학", "url": "https://www.ebsmath.co.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "EBSMath - 세상을 바꾸는 기하학",
+            "url": "https://www.ebsmath.co.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Detailed technical architectural sketch of steel truss bridge, geometric vector overlay of force vectors, mathematical formulas, pastel tone",
         "aiRole": "우주선과 대교의 뼈대를 오차 한계 제로의 공식으로 계산해 내는 수학 엔지니어 요정",
@@ -1146,9 +2541,18 @@ var GRADE_DATA = {
           "고대 기하학에서 원주율을 계산해내기 위해 어떠한 다각형 근사법을 썼는지 역사적 배경을 말해줘!"
         ],
         "vocabulary": [
-          {"word": "모서리 (Edge)", "desc": "입체 도형의 경계를 이루는 두 면이 만나서 생기는 기하학적인 교선 혹은 다각형의 변 경계 영역을 지칭해요."},
-          {"word": "삼각형 (Triangle)", "desc": "동일 평면에서 세 개의 꼭짓점을 서로 교차하지 않는 세 선분으로 결합하여 닫은, 외력에 가장 안정한 기본 다각형이에요."},
-          {"word": "평행사변형 (Parallelogram)", "desc": "서로 마주 대하는 두 쌍의 대변이 각각 무한히 평행을 유지하여, 내부 마주 보는 각과 변의 길이가 같은 사각형 도형이에요."}
+          {
+            "word": "모서리 (Edge)",
+            "desc": "입체 도형의 경계를 이루는 두 면이 만나서 생기는 기하학적인 교선 혹은 다각형의 변 경계 영역을 지칭해요."
+          },
+          {
+            "word": "삼각형 (Triangle)",
+            "desc": "동일 평면에서 세 개의 꼭짓점을 서로 교차하지 않는 세 선분으로 결합하여 닫은, 외력에 가장 안정한 기본 다각형이에요."
+          },
+          {
+            "word": "평행사변형 (Parallelogram)",
+            "desc": "서로 마주 대하는 두 쌍의 대변이 각각 무한히 평행을 유지하여, 내부 마주 보는 각과 변의 길이가 같은 사각형 도형이에요."
+          }
         ]
       },
       {
@@ -1163,8 +2567,20 @@ var GRADE_DATA = {
           "고도의 어휘력을 갖춘 의성어/의태어 사용이 뇌과학적으로 우뇌의 영상 연상 및 좌뇌의 논리 이해력을 어떻게 융합 발달시키나요?"
         ],
         "app_verdict": "6학년 국어 '표현의 다양성' 및 문장력 증폭 훈련 연계. 어휘의 깊은 뉘앙스 이해.",
-        "sources": [{"name": "국립국어원 표준국어원 학술 데이터", "url": "https://stdict.korean.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "국립국어원 표준국어원 학술 데이터",
+            "url": "https://stdict.korean.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Beautiful surreal watercolor of giant Hangul characters blooming into flowers in an autumn library forest, warm cozy atmosphere, fine details",
         "aiRole": "한글의 풍부한 소리 파장을 한 문장의 문학적 선율로 직조해내는 시인 요정",
@@ -1173,8 +2589,14 @@ var GRADE_DATA = {
           "국어 문해력이 성인이 되었을 때 비판적 사고에 미치는 지대한 뇌과학적 원인을 설명해줘!"
         ],
         "vocabulary": [
-          {"word": "의성어 (Onomatopoeia)", "desc": "사람, 사물 또는 자연계 전체에서 발생하는 물리적 음파를 한글의 표음 문자 체계로 본떠 적은 예쁜 낱말이에요."},
-          {"word": "의태어 (Mimetic Word)", "desc": "음향 현상은 배제되나 사물의 모션, 태도, 변화의 기하학적 질감을 고도의 연상 능력을 띄게 표현한 시각 어휘예요."}
+          {
+            "word": "의성어 (Onomatopoeia)",
+            "desc": "사람, 사물 또는 자연계 전체에서 발생하는 물리적 음파를 한글의 표음 문자 체계로 본떠 적은 예쁜 낱말이에요."
+          },
+          {
+            "word": "의태어 (Mimetic Word)",
+            "desc": "음향 현상은 배제되나 사물의 모션, 태도, 변화의 기하학적 질감을 고도의 연상 능력을 띄게 표현한 시각 어휘예요."
+          }
         ]
       },
       {
@@ -1189,8 +2611,20 @@ var GRADE_DATA = {
           "글로벌 친구들과 조우 시 손을 부딪치며 외치는 하이파이브 'Give me five!' 제스처 문화에 담긴 인류학적 우정의 기원은 무엇일까요?"
         ],
         "app_verdict": "6학년 수준 구어 스피치 교정 및 영어의 고유 음향학적 원리 해설. 미국 카툰 카드 연계.",
-        "sources": [{"name": "영미 음성학 협회 발음 가이드라인", "url": "https://dictionary.cambridge.org/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "영미 음성학 협회 발음 가이드라인",
+            "url": "https://dictionary.cambridge.org/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Logan, a young American boy, teaching English pronunciation on a wooden stage with graphical sound wave overlays, clean watercolor style",
         "aiRole": "음향학적 정밀 발음 센서를 지니고 언어의 장벽을 부숴주는 영어 대사 정령",
@@ -1199,18 +2633,56 @@ var GRADE_DATA = {
           "영어의 강세 중심 언어적 특성이 왜 영어 리스닝(듣기)의 핵심 장벽이 되는지 그 연관 메커니즘을 알려줘!"
         ],
         "vocabulary": [
-          {"word": "강세 (Stress)", "desc": "발화 과정에서 단어나 문장의 특정한 위치에 유난히 강하고 높은 성조의 물리 에너지를 실어 발음하는 조음 기법이에요."},
-          {"word": "조음 (Articulation)", "desc": "혀, 입술, 입천장 등 발음 조절 기관들이 협동하여 구강 내 기류를 변형시켜 특정한 자모 음소를 생성하는 생리적 작용이에요."}
+          {
+            "word": "강세 (Stress)",
+            "desc": "발화 과정에서 단어나 문장의 특정한 위치에 유난히 강하고 높은 성조의 물리 에너지를 실어 발음하는 조음 기법이에요."
+          },
+          {
+            "word": "조음 (Articulation)",
+            "desc": "혀, 입술, 입천장 등 발음 조절 기관들이 협동하여 구강 내 기류를 변형시켜 특정한 자모 음소를 생성하는 생리적 작용이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🧩", "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"},
-          {"cut": 2, "emoji": "🍋", "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"},
-          {"cut": 3, "emoji": "🏃", "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"},
-          {"cut": 4, "emoji": "🙌", "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"},
-          {"cut": 5, "emoji": "🍪", "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"},
-          {"cut": 6, "emoji": "💃", "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"},
-          {"cut": 7, "emoji": "👅", "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"},
-          {"cut": 8, "emoji": "🎵", "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"}
+          {
+            "cut": 1,
+            "emoji": "🧩",
+            "caption": "퀴즈를 한번에 풀었을 때 '너무너무 쉬웠어!'"
+          },
+          {
+            "cut": 2,
+            "emoji": "🍋",
+            "caption": "'Easy peasy lemon squeezy!' (레몬을 꽉 짜듯 쉬워!)"
+          },
+          {
+            "cut": 3,
+            "emoji": "🏃",
+            "caption": "친구가 멋진 골을 넣거나 시험을 잘 보았을 때"
+          },
+          {
+            "cut": 4,
+            "emoji": "🙌",
+            "caption": "'Give me five!' (손바닥을 맞춰 하이파이브)"
+          },
+          {
+            "cut": 5,
+            "emoji": "🍪",
+            "caption": "엄마가 맛있는 간식을 주겠다고 하실 때"
+          },
+          {
+            "cut": 6,
+            "emoji": "💃",
+            "caption": "'Okey-dokey!' (귀엽고 애교 섞인 엉덩이 춤과 함께!)"
+          },
+          {
+            "cut": 7,
+            "emoji": "👅",
+            "caption": "L 발음할 때 혀끝을 윗니 뒤에 꾹 붙이며 시작하기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "🎵",
+            "caption": "노래처럼 리듬을 타고 흐르듯이 말하면 나도 영어 박사!"
+          }
         ]
       },
       {
@@ -1225,8 +2697,20 @@ var GRADE_DATA = {
           "AI 로봇과 개인정보 위협 없이 안심하고 소통하기 위해 나만의 독창적인 '보안용 가상 캐릭터 별명'을 설계한다면?"
         ],
         "app_verdict": "6학년 정보 보안 교육 가이드라인 및 디지털 프라이버시 침해 방지, 데이터 보안 3대 규칙 연계.",
-        "sources": [{"name": "NIA 지능정보사회진흥원 AI 보안지침", "url": "https://www.nia.or.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "NIA 지능정보사회진흥원 AI 보안지침",
+            "url": "https://www.nia.or.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Intricate watercolor child on computer, glowing abstract shield wall protecting binary code streams, golden keys, futuristic cyber security theme",
         "aiRole": "글로벌 네트워크 속의 핵심 데이터 자산을 지켜내는 천재 화이트 해커 요정",
@@ -1235,19 +2719,60 @@ var GRADE_DATA = {
           "개인정보 식별 데이터를 자동으로 가려주는 안심 개인정보 보안 프롬프트 예시를 알려줘!"
         ],
         "vocabulary": [
-          {"word": "인공지능 (AI)", "desc": "인간 고유의 신경 학습망을 컴퓨터 칩셋 상에 물리적으로 구현하여 정보 분류 및 추론을 독창적으로 수행하는 기계 두뇌예요."},
-          {"word": "프롬프트 (Prompt)", "desc": "인공지능 로봇 친구에게 수행시킬 일의 맥락과 조건, 필터링 규칙을 전달하기 위해 입력창에 넣는 구체적인 명령문이에요."},
-          {"word": "개인정보 (Privacy)", "desc": "휴대폰 번호, 생년월일 등 고유 식별력을 가져 악의적 목적으로 유출 시 심각한 물적/정신적 손실을 유발하는 비밀 정보예요."}
+          {
+            "word": "인공지능 (AI)",
+            "desc": "인간 고유의 신경 학습망을 컴퓨터 칩셋 상에 물리적으로 구현하여 정보 분류 및 추론을 독창적으로 수행하는 기계 두뇌예요."
+          },
+          {
+            "word": "프롬프트 (Prompt)",
+            "desc": "인공지능 로봇 친구에게 수행시킬 일의 맥락과 조건, 필터링 규칙을 전달하기 위해 입력창에 넣는 구체적인 명령문이에요."
+          },
+          {
+            "word": "개인정보 (Privacy)",
+            "desc": "휴대폰 번호, 생년월일 등 고유 식별력을 가져 악의적 목적으로 유출 시 심각한 물적/정신적 손실을 유발하는 비밀 정보예요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "🤖", "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"},
-          {"cut": 2, "emoji": "🧑‍🏫", "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"},
-          {"cut": 3, "emoji": "💬", "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."},
-          {"cut": 4, "emoji": "📜", "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"},
-          {"cut": 5, "emoji": "📝", "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."},
-          {"cut": 6, "emoji": "🛡️", "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"},
-          {"cut": 7, "emoji": "🔒", "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"},
-          {"cut": 8, "emoji": "📚", "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"}
+          {
+            "cut": 1,
+            "emoji": "🤖",
+            "caption": "로봇 친구의 생각을 이해하는 똑똑한 백과사전 사무원!"
+          },
+          {
+            "cut": 2,
+            "emoji": "🧑‍🏫",
+            "caption": "1단계 역할을 줘요: '나는 초등학생을 가르치는 선생님이야'"
+          },
+          {
+            "cut": 3,
+            "emoji": "💬",
+            "caption": "그러면 AI가 진짜 초등학교 선생님 역할을 맡고 대답해요."
+          },
+          {
+            "cut": 4,
+            "emoji": "📜",
+            "caption": "2단계 규칙을 줘요: '핵심 내용만 짧게 요약해줘!'"
+          },
+          {
+            "cut": 5,
+            "emoji": "📝",
+            "caption": "어려운 이야기도 세 줄로 줄여서 간단히 보여줘요."
+          },
+          {
+            "cut": 6,
+            "emoji": "🛡️",
+            "caption": "3단계 안전 지키기: 진짜 이름과 집 주소는 절대 말하지 않기!"
+          },
+          {
+            "cut": 7,
+            "emoji": "🔒",
+            "caption": "나의 개인정보 상자는 비밀 자물쇠로 꽁꽁 잠그기!"
+          },
+          {
+            "cut": 8,
+            "emoji": "📚",
+            "caption": "AI 답변이 맞는지 교과서나 책에서 한번 더 확인해요!"
+          }
         ]
       },
       {
@@ -1262,8 +2787,20 @@ var GRADE_DATA = {
           "내가 친구에게 베푼 작은 배려로 인해 나조차 기쁨과 치유를 얻었던 기억이 있나요?"
         ],
         "app_verdict": "6학년 도덕 및 국어 비평적 읽기 단원 연계. 타인 지향적 가치 고찰.",
-        "sources": [{"name": "어린이 정서 도서관 문학집", "url": "https://y-life.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 0, "links_ok": 0, "dead_links": []},
+        "sources": [
+          {
+            "name": "어린이 정서 도서관 문학집",
+            "url": "https://y-life.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 0,
+          "links_ok": 0,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Impressionist watercolor style, friendly cloud raining soft drops over colorful garden, bright flowers and green sprouts, warm sunlight",
         "aiRole": "동화의 핵심 주제를 탐색하여 인격의 성장을 돕는 다정한 문학 토론 선생님 요정",
@@ -1272,18 +2809,56 @@ var GRADE_DATA = {
           "양보를 통해 자존감이 더 굳건하게 형성되는 뇌과학적 원리가 뭐야?"
         ],
         "vocabulary": [
-          {"word": "밍밍하다 (Bland)", "desc": "음식 고유의 독특한 향미가 부족하고 아무런 조미료가 섞이지 않아 밋밋하고 싱거운 맛을 의미해요."},
-          {"word": "이타성 (Altruism)", "desc": "나 자신의 영리와 안위보다 곤경에 처한 타인의 고통을 덜어주기 위해 선의를 베푸는 마음가짐이에요."}
+          {
+            "word": "밍밍하다 (Bland)",
+            "desc": "음식 고유의 독특한 향미가 부족하고 아무런 조미료가 섞이지 않아 밋밋하고 싱거운 맛을 의미해요."
+          },
+          {
+            "word": "이타성 (Altruism)",
+            "desc": "나 자신의 영리와 안위보다 곤경에 처한 타인의 고통을 덜어주기 위해 선의를 베푸는 마음가짐이에요."
+          }
         ],
         "cartoonCuts": [
-          {"cut": 1, "emoji": "☁️", "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."},
-          {"cut": 2, "emoji": "🍭", "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"},
-          {"cut": 3, "emoji": "🤍", "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."},
-          {"cut": 4, "emoji": "🌱", "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."},
-          {"cut": 5, "emoji": "💧", "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"},
-          {"cut": 6, "emoji": "⛈️", "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"},
-          {"cut": 7, "emoji": "☔", "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."},
-          {"cut": 8, "emoji": "💚", "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"}
+          {
+            "cut": 1,
+            "emoji": "☁️",
+            "caption": "구름 마을의 보드라운 꼬마 구름 '구름이'의 하루."
+          },
+          {
+            "cut": 2,
+            "emoji": "🍭",
+            "caption": "'나도 알록달록 달콤하고 예쁜 솜사탕이 되고 싶어!'"
+          },
+          {
+            "cut": 3,
+            "emoji": "🤍",
+            "caption": "몸을 꼬며 솜사탕 모양을 만들어 봐도 밍밍한 구름이었죠."
+          },
+          {
+            "cut": 4,
+            "emoji": "🌱",
+            "caption": "어느 더운 날 목마른 새싹들이 울고 있는 걸 보았어요."
+          },
+          {
+            "cut": 5,
+            "emoji": "💧",
+            "caption": "'예쁜 솜사탕보다 시들어가는 아기 새싹들을 구할래'"
+          },
+          {
+            "cut": 6,
+            "emoji": "⛈️",
+            "caption": "아기 구름 친구들을 꼭 안고 어두운 비구름으로 변신!"
+          },
+          {
+            "cut": 7,
+            "emoji": "☔",
+            "caption": "새싹들에게 시원하고 기쁜 비를 졸졸졸졸 내렸어요."
+          },
+          {
+            "cut": 8,
+            "emoji": "💚",
+            "caption": "기쁘게 춤추는 새싹들을 보며 구름이는 참 행복했답니다!"
+          }
         ]
       },
       {
@@ -1298,8 +2873,20 @@ var GRADE_DATA = {
           "공부를 잘해내기 위해 매일 자율적으로 등원하여 약속을 지키는 훈련은 내 생각의 지도를 어떻게 굳건하게 만들까요?"
         ],
         "app_verdict": "6학년 메타인지 역량 강화 및 학습 성취 자각, 주도적인 시간 관리 기법 전수용 바이블.",
-        "sources": [{"name": "아동 뇌인지 행동 의학회", "url": "https://www.me.go.kr/"}],
-        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "sources": [
+          {
+            "name": "아동 뇌인지 행동 의학회",
+            "url": "https://www.me.go.kr/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
         "corrected": 0,
         "imgPrompt": "Warm colored watercolor of a mature young student in a cozy library desk with a study planner, golden clock and star stickers, soft shadows",
         "aiRole": "어린이가 메타인지 날개를 달고 자기 성장을 이룩하도록 격려하는 지혜의 정령 멘토 요정",
@@ -1308,8 +2895,59 @@ var GRADE_DATA = {
           "공부 피로를 극복하고 최적의 몰입감을 이끌어내는 시간 관리(뽀모도로 기법)를 가르쳐줘!"
         ],
         "vocabulary": [
-          {"word": "성취감 (Achievement)", "desc": "내 자유 의지를 발휘해 목표를 기획하고 끈질기게 수행하여 약속을 완수했을 때 피어오르는 찬란한 뿌듯함이에요."},
-          {"word": "자율성 (Autonomy)", "desc": "타인의 조종과 보상을 무시하고, 내면의 필요와 도덕성을 따라 주체적으로 행동 계획을 집행해 나가는 자립적 성격이에요."}
+          {
+            "word": "성취감 (Achievement)",
+            "desc": "내 자유 의지를 발휘해 목표를 기획하고 끈질기게 수행하여 약속을 완수했을 때 피어오르는 찬란한 뿌듯함이에요."
+          },
+          {
+            "word": "자율성 (Autonomy)",
+            "desc": "타인의 조종과 보상을 무시하고, 내면의 필요와 도덕성을 따라 주체적으로 행동 계획을 집행해 나가는 자립적 성격이에요."
+          }
+        ]
+      },
+      {
+        "key": "record",
+        "title": "📝 기록 탐험 · 생각의 그물",
+        "headline": "내 머릿속 생각을 붙잡는 마법의 그물, 기록! — 오늘부터 시작하는 나만의 생각 보물찾기",
+        "dek": "흘러가기 쉬운 소중한 나의 아이디어와 오늘의 배움을 손글씨로 튼튼하게 남기는 힘을 배워요.",
+        "body_md": "## 우리의 머릿속 생각을 담는 마법의 그물, 기록!\n\n우리의 머릿속은 매일 수많은 반짝이는 생각과 아이디어로 가득 차 있어요. 하지만 이 생각들은 마치 하늘을 스쳐 지나가는 '무지개'나 밤하늘의 '별똥별' 같아서, 제때 붙잡지 않으면 눈 깜짝할 사이에 잊히고 만답니다.\n어떻게 하면 이 소중한 생각들을 평생 나의 소중한 보물로 간직할 수 있을까요? 그 비밀은 바로 **'기록(Writing)'**이라는 마법의 그물에 있어요.\n\n### 1. 역사 속 위대한 인물들의 공통 비밀\n우리가 존경하는 이순신 장군님은 나라가 어려운 전쟁 속에서도 매일 날씨와 군사들의 일기, 그리고 자신의 생각을 꼼꼼히 적은 **'난중일기'**를 남기셨어요.\n또한 세상을 바꾼 천재 과학자 에디슨과 예술가 레오나르도 다 빈치는 평생 수천 권의 아이디어 노트를 쓰며 사소한 생각도 놓치지 않고 다 적었답니다. 그들이 원래부터 기억력이 엄청나게 좋은 컴퓨터 같아서 대단해진 것일까요? 아니에요! 그들은 기억보다 **'기록의 정직한 힘'**을 믿었기 때문에 훌륭한 역사와 발명을 남길 수 있었던 거예요.\n\n### 2. 기록하면 어떤 좋은 마법이 일어날까요?\n*   **첫째, 뇌에 여유 공간이 생겨요**: 머릿속에 할 일이나 생각을 억지로 가득 담아두면 뇌가 지쳐요. 하지만 종이에 생각을 **적어두는 순간**, 뇌는 안심하고 새로운 상상을 펼칠 수 있는 맑고 깨끗한 여유 공간을 가지게 돼요.\n*   **둘째, 생각의 자람이 한눈에 보여요**: 한 달 전에 내가 쓴 노트를 다시 읽어보면, \"와, 내가 그때 이런 생각을 했었구나! 그 사이에 내가 이만큼 더 깊고 튼튼하게 자라났네!\" 하며 나의 성장을 직접 느끼고 기뻐할 수 있어요.\n*   **셋째, 세상에 단 하나뿐인 나만의 보물이 돼요**: 내가 적은 단 한 줄의 생각, 내가 그린 작고 서툰 그림 하나가 모이면 훗날 그 어떤 값비싼 책보다 귀한 나만의 소중한 일대기(보물책)가 된답니다.\n\n### 3. 오늘 수업 시간에 함께 실천하는 '기록 탐험가'의 약속\n*   **약속 1: 내 곁에 언제나 '생각 수첩' 두기**\n    오늘부터 연삼산점 수업 시간에 나만의 작은 수첩이나 연습장을 준비해 보세요. 선생님 말씀이나 책을 읽다 번뜩 떠오른 재미있는 생각을 자유롭게 적어 보세요.\n*   **약속 2: 욕심내지 않고 딱 한 줄만 적기**\n    기록은 어렵고 길게 쓸 필요가 없어요. \"오늘 점심에 먹은 사과가 정말 달콤했다\", \"오늘 지렁이에 대해 새로 배웠다\"처럼 아주 짧고 정직한 한 문장으로 시작하는 것이 기록의 첫걸음이랍니다.",
+        "future_note": "오늘 연삼산점 수업이 모두 끝난 후에, 오늘 가장 신기했던 단어 하나와 내 기분을 나의 생각 수첩에 딱 한 줄로 남기는 기록의 첫걸음을 떼어 보세요.",
+        "thoughtQuestions": [
+          "만약 내가 10년 후에 지금 내가 쓴 생각 수첩을 다시 펼쳐 본다면, 10년 뒤의 나는 지금의 나에게 어떤 말을 건네고 싶어할까요?",
+          "오늘 수업 시간이나 일상 속에서 흘려보내지 않고 내 생각 수첩에 꼭꼭 묶어두고 싶은 예쁜 기억이나 생각은 무엇인가요?"
+        ],
+        "app_verdict": "아동의 주도적 성찰 능력인 메타인지(Metacognition)를 함양하고 지속 가능한 자기 기록 습관을 기를 수 있도록 설계된 교육 콘텐츠입니다. 삼산 연아카데미 수업 지도 교재 연계.",
+        "sources": [
+          {
+            "name": "연삼산점 학습 습관 코칭 가이드",
+            "url": "https://yeon-samsan.pages.dev/"
+          }
+        ],
+        "critique": {
+          "fact_verdict": "clean",
+          "false_claims": [],
+          "readability": 5,
+          "links_checked": 1,
+          "links_ok": 1,
+          "dead_links": []
+        },
+        "corrected": 0,
+        "imgPrompt": "Warm pastel watercolor of a happy Korean child sitting at a wooden desk with a vintage inkwell and quill, writing in a leather journal, floating letters and stars in the air, warm and bright cream background",
+        "aiRole": "모든 아이디어를 기록하여 보물로 만들어주는 꼼꼼하고 다정한 기록 보관소 요정",
+        "aiSuggestions": [
+          "기록을 재미있게 매일 지속할 수 있는 요정의 꿀팁은?",
+          "일기 쓸거리가 없을 때는 노트에 무엇을 적어야 할까요?",
+          "이순신 장군님은 난중일기에 어떤 사소한 것까지 적으셨나요?"
+        ],
+        "vocabulary": [
+          {
+            "word": "기록 (Record)",
+            "desc": "어떤 사실이나 생각을 잊지 않도록 글로 적거나 적어 두는 일이에요."
+          },
+          {
+            "word": "메타인지 (Metacognition)",
+            "desc": "내가 무엇을 알고 무엇을 모르는지 스스로 생각하고 아는 능력이에요."
+          }
         ]
       }
     ]
