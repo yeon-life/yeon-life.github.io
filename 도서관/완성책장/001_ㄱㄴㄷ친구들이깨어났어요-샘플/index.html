@@ -115,6 +115,9 @@
   <div class="badge" id="st-badge"></div>
   <h1 id="st-title"></h1>
   <div class="sub" id="st-sub"></div>
+  <div id="startCoverContainer" style="display:none; margin: 12px auto; max-width: 160px; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(47,72,88,0.15); border: 1px solid var(--line);">
+    <img id="startCoverImg" src="" style="width: 100%; height: 100%; object-fit: cover;">
+  </div>
   <div class="grow-card" id="growCard" onclick="this.classList.toggle('open')">
     <div class="grow-head">📖 이 책이 길러주는 것 <span class="grow-toggle">▾</span></div>
     <div class="grow-body" id="growBody"></div>
@@ -229,7 +232,7 @@ function sendChat(){const i=document.getElementById('chatInput'); const v=i.valu
 const bookEl=document.getElementById('book');
 function buildBook(){ let leaves=[];
   for(let i=0;i<total;i++){ let front;
-    if(i===0){ front=`<div class="face cover-face"><div><div class="ct">${M.title||''}</div><div class="cs">${M.sub||''}</div><div class="cmeta">${M.badge||''}</div></div></div>`; }
+    if(i===0){ front=`<div class="face cover-face" id="flipCoverFace" style="display:flex; align-items:center; justify-content:center; text-align:center;"><div id="flipCoverInner" style="padding: 16px; border-radius: 12px; width: 100%;"><div class="ct">${M.title||''}</div><div class="cs">${M.sub||''}</div><div class="cmeta">${M.badge||''}</div></div></div>`; }
     else { const p=BOOK.pages[i-1]; front=`<div class="face"><div class="page-pad"></div><div class="scene">${scene(p, i)}</div><div class="txt"><div class="label">${i} · ${L(p,'label')}</div><div class="line">${wrapWords(L(p,'line'))}</div></div><div class="pgno">${i} / ${total-1}</div></div>`; }
     leaves.push(`<div class="leaf" style="z-index:${total-i}" data-i="${i}">${front}<div class="face back"><div class="scene" style="background:linear-gradient(180deg,#f3ece0,#efe6d6)"></div></div></div>`); }
   bookEl.innerHTML=leaves.join(''); updateProg(); }
@@ -238,7 +241,7 @@ function flipNext(){if(idx>=total-1)return; const l=bookEl.querySelector(`.leaf[
 function flipPrev(){if(idx<=0)return; idx--; const l=bookEl.querySelector(`.leaf[data-i="${idx}"]`); l.classList.remove('flipped'); l.style.zIndex=total-idx; updateProg();}
 
 /* 홈페이지 */
-function buildSite(){ const EN=edition==='en'; let s=`<div class="site-cover"><div style="font-size:13px;opacity:.9;letter-spacing:2px;">${M.badge||''}</div><h1>${M.title||''}</h1><p>${M.sub||''}</p></div>`;
+function buildSite(){ const EN=edition==='en'; let s=`<div class="site-cover" id="siteCoverBar" style="position:relative; overflow:hidden;"><div id="siteCoverInner" style="position:relative; z-index:2; width:100%; height:100%;"><div style="font-size:13px;opacity:.9;letter-spacing:2px;">${M.badge||''}</div><h1>${M.title||''}</h1><p>${M.sub||''}</p></div></div>`;
   s+=`<div class="toc"><b>${EN?'Contents':'차례'}</b>`; BOOK.pages.forEach((p,i)=>s+=`<a href="#p${i}">${i+1}. ${L(p,'label')}</a>`); s+=`</div>`;
   BOOK.pages.forEach((p,i)=>{ s+=`<div class="spread" id="p${i}"><div class="scene">${scene(p, i + 1)}</div><div class="txt"><div class="label" style="color:var(--warm);font-weight:800;font-size:12px;">${i+1} · ${L(p,'label')}</div><div class="line" style="font-size:18px;line-height:1.8;white-space:pre-line;margin-top:6px;word-break:keep-all;">${wrapWords(L(p,'line'))}</div></div></div>`; });
   const gb=curActByGrade(); const gk=Object.keys(gb);
