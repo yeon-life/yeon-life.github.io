@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>연라이프</title>
+    <link>https://y-life.kr</link>
+    <description>스스로 생각하고 자라는 연라이프</description>
+    <language>ko</language>
+    <pubDate>Tue, 09 Jun 2026 10:47:00 +0900</pubDate>
+    <item>
+      <title>연라이프 홈</title>
+      <link>https://y-life.kr/</link>
+      <description>연라이프 통합 플랫폼 공식 홈페이지</description>
+      <pubDate>Tue, 09 Jun 2026 10:47:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>연플래닝아카데미 시청점</title>
+      <link>https://y-life.kr/korea/ulsan/yeon-planning/</link>
+      <description>연플래닝아카데미 시청본원 홈페이지</description>
+      <pubDate>Tue, 09 Jun 2026 10:47:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>연플래닝아카데미 강동점</title>
+      <link>https://y-life.kr/korea/ulsan/yeon-planning/gangdong/</link>
+      <description>연플래닝아카데미 강동점 홈페이지</description>
+      <pubDate>Tue, 09 Jun 2026 10:47:00 +0900</pubDate>
+    </item>
+  </channel>
+</rss>
