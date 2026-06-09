@@ -125,7 +125,7 @@
     </ul>
   </div>
 
-  <div class="step">① 요금제 고르기 — 차이는 ‘맞춤출제’ 문제 수뿐, 나머지는 모두 같아요</div>
+  <div class="step">① 요금제 고르기 — 모든 앱과 학습 기록은 무료, 가격은 AI가 도와주는 깊이(간단/꼼꼼/깊은 코칭)의 차이입니다</div>
   <div style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--teal-deep);margin:20px 2px 10px;">실속 요금제 (Basic Tiers)</div>
   <div class="tiers" id="tiersBasic"></div>
   <div style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--gold);margin:30px 2px 10px;">프리미엄 요금제 (Premium Tiers)</div>
@@ -191,13 +191,13 @@
  */
 const PAY = {
   tiers: [
-    { key:'무료', price:0, q:'AI 월 10질문', best:false, desc:'스스로 기록하는 학습자', isPremium:false },
-    { key:'가볍게', price:3000, q:'간단 풀이 무제한 · 꼼꼼 주 3~4회', best:false, desc:'가끔 물어봄', isPremium:false },
-    { key:'기본', price:5000, q:'꼼꼼 하루 2~3회 · 약점 자동 정리', best:false, desc:'자주 물어봄', isPremium:false },
-    { key:'입문', price:10000, q:'꼼꼼 하루 5회 · 깊은 분석 가끔', best:true, desc:'매일 꾸준히', isPremium:false },
-    { key:'프리미엄', price:100000, q:'꼼꼼 무제한 · 깊은 분석 하루 3회', best:false, desc:'학원 한 곳 대체', isPremium:true },
-    { key:'마스터', price:300000, q:'깊은 분석 무제한 · 실시간 코칭', best:false, desc:'학원+과외 대체', isPremium:true },
-    { key:'언리미티드', price:500000, q:'모든 것 무제한 · 전담 매니저', best:false, desc:'최상위 집중', isPremium:true }
+    { key:'무료', price:0, q:'모든 앱·기록 평생 무제한 · 자동 약점·복습 코칭 · 가입 1주 전체 체험 · 그 후 AI에게 월 10번 질문 · 광고 약간', best:false, desc:'스스로 기록하는 학습자', isPremium:false },
+    { key:'가볍게', price:3000, q:'광고 없음 · 간단·빠른 풀이 무제한 · 꼼꼼한 풀이 주 3~4번', best:false, desc:'가끔 물어봄 · 부모 결제 연습', isPremium:false },
+    { key:'기본', price:5000, q:'꼼꼼한 풀이 하루 2~3번 · 약점 자동 정리', best:false, desc:'자주 물어봄', isPremium:false },
+    { key:'입문', price:10000, q:'꼼꼼한 풀이 하루 5번 · 깊은 분석 가끔 · 시험 대비 모드', best:true, desc:'매일 꾸준히', isPremium:false },
+    { key:'프리미엄', price:100000, q:'꼼꼼한 풀이 무제한 · 깊은 분석 하루 3번 · 주 1회 코칭 리포트 · 가족 2명', best:false, desc:'학원 한 곳 대체', isPremium:true },
+    { key:'마스터', price:300000, q:'깊은 분석 사실상 무제한 · 실시간 즉답 코칭 · 가족 3명', best:false, desc:'학원+과외 대체', isPremium:true },
+    { key:'언리미티드', price:500000, q:'모든 것 무제한 · 전담 학습 매니저 · 가족 다수', best:false, desc:'최상위 집중', isPremium:true }
   ],
   bank:  { name:'카카오뱅크', number:'3333-37-1080249', holder:'이진우(연라이프)' },
   kakao: '', toss: '',
@@ -208,14 +208,17 @@ const PAY = {
 /* 자동이체 5% 할인가 */
 function discount(p){ return Math.round(p*0.95).toLocaleString(); }
 
-/* 요금제 카드 + 선택지 */
-(function(){
+/* 요금제 카드 + 선택지 렌더링 */
+function renderTiers() {
   // 가장 저렴한 유료 요금제 가격(3,000)을 '월 3,000원부터' 표기에 사용
   document.getElementById('fromPrice').textContent = PAY.tiers[1].price.toLocaleString();
   
   var boxBasic=document.getElementById('tiersBasic'),
       boxPremium=document.getElementById('tiersPremium'),
       sel=document.getElementById('tierSel');
+  
+  // 기존 드롭다운 옵션 초기화
+  sel.innerHTML = '';
   var htmlBasic='', htmlPremium='';
   
   PAY.tiers.forEach(function(t,i){
@@ -228,7 +231,7 @@ function discount(p){ return Math.round(p*0.95).toLocaleString(); }
       + '<div class="bt">'+t.key+'</div>'
       + '<div class="bp">'+priceText+'</div>'
       + '<div class="auto">'+autoText+'</div>'
-      + '<div class="bq">' + (t.desc ? '<span style="font-size:11.5px;color:var(--mut);display:block;margin-bottom:4px;">' + t.desc + '</span>' : '') + '맞춤출제 <b>'+t.q+'</b></div>'
+      + '<div class="bq">' + (t.desc ? '<span style="font-size:11.5px;color:var(--mut);display:block;margin-bottom:4px;">' + t.desc + '</span>' : '') + '혜택: <b>'+t.q+'</b></div>'
       + '<div class="pick">' + (t.price === 0 ? '체험하기' : '이 요금제로 신청') + '</div></div>';
       
     if (t.isPremium) {
@@ -247,7 +250,47 @@ function discount(p){ return Math.round(p*0.95).toLocaleString(); }
   document.querySelectorAll('.tiers .tier').forEach(function(el){
     el.onclick=function(){ sel.value=PAY.tiers[el.dataset.i].key; document.getElementById('subForm').scrollIntoView({behavior:'smooth',block:'start'}); sel.focus(); };
   });
-})();
+}
+
+// 1. 초기 렌더링 (동적 fetch 완료 전 fallback 데이터 사용)
+renderTiers();
+
+// 2. pricing.json fetch하여 동적 업데이트
+fetch('pricing.json')
+  .then(function(res) {
+    if (!res.ok) throw new Error('HTTP error ' + res.status);
+    return res.json();
+  })
+  .then(function(data) {
+    if (data && data.tiers) {
+      var newTiers = [];
+      data.tiers.basic.forEach(function(t) {
+        newTiers.push({
+          key: t.name,
+          price: t.price,
+          q: t.features.join(' · '),
+          best: !!t.best,
+          desc: t.for,
+          isPremium: false
+        });
+      });
+      data.tiers.premium.forEach(function(t) {
+        newTiers.push({
+          key: t.name,
+          price: t.price,
+          q: t.features.join(' · '),
+          best: !!t.best,
+          desc: t.for,
+          isPremium: true
+        });
+      });
+      PAY.tiers = newTiers;
+      renderTiers();
+    }
+  })
+  .catch(function(err) {
+    console.warn('pricing.json fetch failed, using fallback pricing config:', err);
+  });
 
 document.getElementById('bankName').textContent=PAY.bank.name;
 document.getElementById('bankNo').textContent=PAY.bank.number;

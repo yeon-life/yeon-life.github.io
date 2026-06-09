@@ -332,49 +332,18 @@
                 </div>
             </div>
 
-            <!-- Top-up Store -->
-            <div class="glass-panel store-card">
+            <!-- v4 Pricing Notice -->
+            <div class="glass-panel store-card" style="border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.02);">
                 <div class="panel-title">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <h2>추가 질문권 충전소 (Top-up)</h2>
+                    <i class="fa-solid fa-circle-info" style="color: #10b981;"></i>
+                    <h2>단일 구독 요금제(v4) 적용 안내</h2>
                 </div>
-                <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem;">
-                    기본 제공되는 일일/월간 AI 한도를 모두 소모했을 때 충전하여 사용하는 단독 질문 추가 서비스입니다.
+                <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem; line-height: 1.6;">
+                    연아카데미 통합 가격정책 v4에 따라 복잡한 <strong>'개별 질문권 충전(Top-up)'</strong> 방식은 더 이상 운영되지 않습니다.<br><br>
+                    모든 학습 앱과 기록은 평생 무료이며, AI 질문 한도가 더 필요한 경우 <strong>가볍게(3,000원), 기본(5,000원), 입문(10,000원)</strong> 등 자신에게 알맞은 구독 멤버십으로 상향하여 원활하게 학습을 이어갈 수 있습니다.
                 </p>
-                <div class="store-grid">
-                    <!-- Pack 1 -->
-                    <div class="store-item">
-                        <div class="store-info">
-                            <div class="name">꼼꼼한 풀이 30회권</div>
-                            <div class="desc">기간 제한 없이 필요할 때 소모 (Sonnet)</div>
-                        </div>
-                        <div class="store-action">
-                            <div class="store-price">3,000원</div>
-                            <button class="btn btn-primary btn-sm" onclick="showToast('꼼꼼한 풀이 30회권 충전창으로 이동합니다.')">구매</button>
-                        </div>
-                    </div>
-                    <!-- Pack 2 -->
-                    <div class="store-item">
-                        <div class="store-info">
-                            <div class="name">꼼꼼한 풀이 110회권</div>
-                            <div class="desc">10회 보너스 질문 추가 증정</div>
-                        </div>
-                        <div class="store-action">
-                            <div class="store-price">10,000원</div>
-                            <button class="btn btn-primary btn-sm" onclick="showToast('꼼꼼한 풀이 110회권 충전창으로 이동합니다.')">구매</button>
-                        </div>
-                    </div>
-                    <!-- Pack 3 -->
-                    <div class="store-item">
-                        <div class="store-info">
-                            <div class="name">24H 무제한 부스터 패스</div>
-                            <div class="desc">24시간 동안 모든 AI 질문 무제한 제공</div>
-                        </div>
-                        <div class="store-action">
-                            <div class="store-price">2,000원</div>
-                            <button class="btn btn-outline btn-sm" onclick="showToast('24시간 무제한 부스터 패스 구매창으로 이동합니다.')">구매</button>
-                        </div>
-                    </div>
+                <div style="background: rgba(16, 185, 129, 0.05); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.1); font-size: 0.85rem; color: #047857;">
+                    <i class="fa-solid fa-shield-halved"></i> 부모님과 충분히 대화한 뒤, 위 요금제 카드를 눌러 구독을 신청해 주세요!
                 </div>
             </div>
         </section>
@@ -585,5 +554,6 @@
         // Initialize Calculator
         updateCalculator();
     </script>
+    <script src="../yeon-alert.js"></script>
 </body>
 </html>
