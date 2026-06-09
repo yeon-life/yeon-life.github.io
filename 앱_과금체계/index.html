@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="연플래너, 수풀, 과풀, 영풀 등 모든 학생용 앱을 아우르는 통합 AI 요금제 및 이용 가이드 페이지입니다.">
+    <title>연아카데미 통합 AI 요금제 & 이용 가이드</title>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom StyleSheet -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <span class="badge badge-glow">ALL-IN-ONE STUDENT SUITE (v4)</span>
+            <h1 class="title-grad">학습을 더 스마트하게,<br>통합 AI 요금제</h1>
+            <p class="subtitle">연플래너, 수풀, 과풀, 영풀 등 모든 학생용 앱을 하나의 계정으로 자유롭게 이용하고, AI 도움 수준에 따른 합리적인 플랜을 선택하세요.</p>
+        </header>
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle">
+            <button class="toggle-btn active" id="btn-general" onclick="switchTab('general')">
+                <i class="fa-solid fa-graduation-cap"></i> 일반 학생 요금제
+            </button>
+            <button class="toggle-btn" id="btn-library" onclick="switchTab('library')">
+                <i class="fa-solid fa-book-open"></i> 연도서관 패스 (v1.1)
+            </button>
+            <button class="toggle-btn" id="btn-academy" onclick="switchTab('academy')">
+                <i class="fa-solid fa-star"></i> 아카데미 수강생 혜택
+            </button>
+        </div>
+
+        <!-- Pricing Grid (General Basic Tiers) -->
+        <section class="pricing-grid" id="general-pricing-grid">
+            <!-- Free Card -->
+            <div class="glass-panel price-card">
+                <div class="card-title" style="color: #a7f3d0; display: flex; align-items: center; gap: 8px;">
+                    <span>🌱 무료 (평생)</span>
+                </div>
+                <p class="card-desc">스스로 기록하는 학습자를 위한 평생 무제한 무료 요금제</p>
+                <div class="card-price">
+                    <span class="amount">0원</span>
+                    <span class="period">/ 평생</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>모든 앱 및 학습 기록 평생 무제한</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>자동 약점·복습 코칭 (룰베이스)</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>가입 후 1주일간 전체 기능 무료 체험</span></li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <span>체험 후 가벼운 AI 월 10회 질문 (Haiku)</span></li>
+                    <li><i class="fa-solid fa-circle-info"></i> <span>학습에 방해되지 않는 부드러운 광고</span></li>
+                </ul>
+                <button class="btn btn-outline" onclick="showToast('체험판 사용이 시작되었습니다!')">지금 시작하기</button>
+            </div>
+
+            <!-- Light Card -->
+            <div class="glass-panel price-card">
+                <div class="card-title" style="color: #e2e8f0;">🤍 가볍게</div>
+                <p class="card-desc">가끔 물어보는 학생과 부모님 결제 연습용 보급 요금제</p>
+                <div class="card-price">
+                    <span class="amount">3,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>모든 앱 광고 제거 및 무제한 이용</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>간단하고 빠른 AI 풀이 무제한 (Haiku)</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>꼼꼼한 풀이 / 설명 주 3~4회 지원</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>자녀의 올바른 디지털 결제 실습 지원</span></li>
+                </ul>
+                <button class="btn btn-outline" onclick="showToast('가볍게 요금제 구독이 신청되었습니다.')">가볍게 구독</button>
+            </div>
+
+            <!-- Basic Card -->
+            <div class="glass-panel price-card">
+                <div class="card-title" style="color: #bae6fd;">🩵 기본</div>
+                <p class="card-desc">자주 질문하고 스스로 약점을 정리하는 표준 학습 단계</p>
+                <div class="card-price">
+                    <span class="amount">5,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>'가볍게' 요금제의 모든 혜택 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>간단하고 빠른 AI 풀이 무제한</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>꼼꼼한 상세 설명 하루 2~3회 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>약점 자동 분류 및 메타인지 피드백</span></li>
+                </ul>
+                <button class="btn btn-outline" onclick="showToast('기본 요금제 구독이 신청되었습니다.')">기본 구독</button>
+            </div>
+
+            <!-- Starter Card (Popular) -->
+            <div class="glass-panel price-card popular">
+                <div class="popular-badge">강력 추천</div>
+                <div class="card-title" style="color: #a7f3d0;">🟢 입문</div>
+                <p class="card-desc">매일 꾸준히 학습 질문을 하며 본격적인 실천을 돕는 추천 모델</p>
+                <div class="card-price">
+                    <span class="amount">10,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>'기본' 요금제의 모든 혜택 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>꼼꼼한 상세 설명 하루 5회 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>깊은 분석 및 설명 가끔 지원 (월 2~3회)</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>완벽 성취를 돕는 시험 대비 모드 지원</span></li>
+                </ul>
+                <button class="btn btn-primary" onclick="showToast('입문 요금제 구독이 신청되었습니다!')">입문 구독</button>
+            </div>
+        </section>
+
+        <!-- Premium Section Toggle -->
+        <div class="premium-toggle-container" id="premium-toggle-wrapper">
+            <button class="btn btn-premium-toggle" id="btn-premium-toggle" onclick="togglePremiumPlans()">
+                <i class="fa-solid fa-gem" style="color: #fbbf24;"></i> 프리미엄 (아카데미 대체) 요금제 보기 <i class="fa-solid fa-chevron-down arrow-icon" id="premium-arrow"></i>
+            </button>
+        </div>
+
+        <!-- Premium Pricing Grid (Initially Hidden) -->
+        <section class="pricing-grid premium-grid" id="premium-pricing-grid" style="display: none; margin-bottom: 60px;">
+            <!-- Premium Card -->
+            <div class="glass-panel price-card premium-card-yellow">
+                <div class="card-title" style="color: #fde047;">🟡 프리미엄 (Premium)</div>
+                <p class="card-desc">아카데미 한 곳을 대체하는 일일 맞춤형 AI 과외 및 코칭 리포트</p>
+                <div class="card-price">
+                    <span class="amount">100,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>꼼꼼한 풀이 / 설명 무제한 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>깊은 분석 및 코칭 하루 3회 제공</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>어려운 문항 깊은 추론 가능 (Extended Thinking)</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>주 1회 자녀 학습 1:1 맞춤 코칭 리포트</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>가족 구성원 최대 2명 사용량 공유 가능</span></li>
+                </ul>
+                <button class="btn btn-outline-yellow" onclick="showToast('프리미엄 요금제 구독이 신청되었습니다.')">프리미엄 신청</button>
+            </div>
+
+            <!-- Master Card -->
+            <div class="glass-panel price-card premium-card-orange">
+                <div class="card-title" style="color: #fed7aa;">🟠 마스터 (Master)</div>
+                <p class="card-desc">아카데미 수업과 고액 과외를 결합한 전과목 실시간 코칭 시스템</p>
+                <div class="card-price">
+                    <span class="amount">300,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>깊은 분석·코칭 사실상 무제한 (하루 15회)</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>실시간 즉답 코칭 및 전과목 피드백 지원</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>어려운 문항 깊은 추론 무제한 이용</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>가족 구성원 최대 3명 등록 공유 가능</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>전 학년 · 전 교과 학습 콘텐츠 연동</span></li>
+                </ul>
+                <button class="btn btn-outline-orange" onclick="showToast('마스터 요금제 구독이 신청되었습니다.')">마스터 신청</button>
+            </div>
+
+            <!-- Unlimited Card -->
+            <div class="glass-panel price-card premium-card-red">
+                <div class="card-title" style="color: #fca5a5;">🔴 언리미티드 (Unlimited)</div>
+                <p class="card-desc">모든 기능과 한계를 해제한 전문 학습 매니저 연동 최상위 솔루션</p>
+                <div class="card-price">
+                    <span class="amount">500,000원</span>
+                    <span class="period">/ 월</span>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> <span>모든 분석, 풀이, 추론 무제한 이용</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>1:1 전담 전문 학습 매니저 밀착 관리</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>가족 구성원 다수 등록 및 완벽 공유</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span>모든 정식 및 실험실 AI 기능 즉시 오픈</span></li>
+                </ul>
+                <button class="btn btn-outline-red" onclick="showToast('언리미티드 요금제 구독이 신청되었습니다.')">언리미티드 신청</button>
+            </div>
+        </section>
+
+        <!-- Yeon Library Pass Container (v1.1) -->
+        <section id="library-pricing-container" style="display: none; animation: fadeIn 0.5s ease; margin-bottom: 60px;">
+            <!-- Brief explanation banner -->
+            <div class="glass-panel price-card" style="padding: 24px 32px; margin-bottom: 28px; border-color: rgba(99, 102, 241, 0.3); background: linear-gradient(135deg, rgba(15, 18, 37, 0.8) 0%, rgba(99, 102, 241, 0.05) 100%);">
+                <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between;">
+                    <div>
+                        <span class="badge badge-glow" style="margin-bottom: 8px;">DIGITAL LIBRARY PASS</span>
+                        <h2 style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">연도서관 패스 (Yeon Library Pass)</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 6px; line-height: 1.5;">
+                            《내 친구 인공지능》 등 연도서관의 모든 학습 자료와 AI 에이전트를 모바일/PC에 다운로드하여 이용하는 통합 플랜입니다.<br>
+                            학부모님과 자녀가 함께 디지털 결제 및 정기 구독 승인 과정을 연습해볼 수 있는 <strong>학습용 금융 샌드박스</strong>의 가치를 담고 있습니다.
+                        </p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.03); padding: 12px 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">삼산 연아카데미 수강생</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent-emerald); margin-top: 4px;">정규 과정 포함 (기본 무료)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two pricing cards -->
+            <div class="pricing-grid">
+                <!-- Standard Pass Card -->
+                <div class="glass-panel price-card">
+                    <div class="card-title">스탠다드 패스 (Standard)</div>
+                    <p class="card-desc">연도서관 전체 도서 열람 및 기본 AI 비서 혜택 (유지 보수 및 API 기본료)</p>
+                    <div class="card-price">
+                        <span class="amount">3,000원</span>
+                        <span class="period">/ 월</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> <span>《내 친구 인공지능》 등 연도서관 책자 무제한 열람</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>PWA 기술 기반 전 기기 설치 & 오프라인 학습 지원</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>기본 AI 튜터 연동 (Haiku 기반 문맥 질문)</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>자녀 학습을 위한 부모님 결제 및 정기 구독 연습용</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>아카데미 비수강생 및 일반 외부 독자도 신청 가능</span></li>
+                    </ul>
+                    <button class="btn btn-outline" onclick="showToast('연도서관 스탠다드 패스 구독이 신청되었습니다.')">스탠다드 패스 구독</button>
+                </div>
+
+                <!-- Premium Tutor Pass Card -->
+                <div class="glass-panel price-card popular">
+                    <div class="popular-badge">강력 추천</div>
+                    <div class="card-title">프리미엄 튜터 패스 (Premium)</div>
+                    <p class="card-desc">고성능 AI 튜터 결합 및 상세 맞춤 분석 리포트를 제공하는 상위 통합 플랜</p>
+                    <div class="card-price">
+                        <span class="amount">9,900원</span>
+                        <span class="period">/ 월</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> <span>스탠다드 패스의 모든 혜택 포함</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>고성능 AI 튜터 연동 (Claude 3.5 Sonnet 등)</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>더 깊이 있는 학업 질문 대화 및 일일 쿼리 한도 확장</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>주간 맞춤형 학습 분석 리포트 알림톡 제공</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span>보너스 AI 질문 기회 추가 제공</span></li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="showToast('연도서관 프리미엄 튜터 패스 구독이 신청되었습니다!')">프리미엄 튜터 패스 구독</button>
+                </div>
+            </div>
+
+            <!-- Financial Sandbox Notice -->
+            <div class="glass-panel price-card" style="padding: 24px 32px; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.02); margin-top: 28px;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #fbbf24; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-shield-halved"></i> 부모님과 함께하는 디지털 결제 연습 의의 (v1.1 정책)
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    연도서관 패스는 미성년 자녀가 무분별하게 인공지능 API를 사용하기보다, <strong>부모님과의 대화를 통해 월 기본 비용(3,000원)을 승인받고 결제하는 과정</strong>을 실습하도록 설계되었습니다.<br>
+                    이 구독료는 도서관 콘텐츠 이용 뿐 아니라 실제 발생하는 <strong>인공지능 API 호출 및 시스템 유지 보수 최소화 비용</strong>으로 합리적으로 사용됩니다. 학부모님은 자녀의 AI 활용 내역을 정기적으로 리포트받아 디지털 교육 지도를 수행할 수 있습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Academy VIP Container -->
+        <section class="academy-vip-container" id="academy-vip-container">
+            <div class="glass-panel price-card academy-vip-card">
+                <div class="academy-vip-badge">🌟 아카데미 정회원 VIP</div>
+                <div class="vip-header">
+                    <div>
+                        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: #fbbf24;">아카데미 온·오프라인 수강생 특별 혜택</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 4px;">아카데미에 등록하고 수업을 듣는 학생들에게 주어지는 압도적인 프리미엄 혜택입니다.</p>
+                    </div>
+                    <div class="vip-price">
+                        0원 <span style="font-size:1rem; font-weight:400; color:var(--text-muted);">/ 월 (수강료에 포함)</span>
+                    </div>
+                </div>
+                
+                <div class="vip-grid">
+                    <div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; color: var(--text-primary);">제공되는 특별 혜택 리스트</h3>
+                        <ul class="features-list vip-features">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>꼼꼼한 풀이 하루 10회 & 깊은 코칭 일 1회 제공</strong>&nbsp;(입문 등급의 2배 이상!)</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>수풀·영풀 앱 및 학습지 일일 해설 한도 자동 완화</strong>&nbsp;(원활한 숙제 해결)</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>해결 안 된 문제는 아카데미 강사 1:1 전송 및 오프라인 피드백 연동</strong></li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>학부모용 AI 진단 + 아카데미 통합 분석 리포트 알림톡 제공</strong></li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>연플래너, 수풀, 과풀, 영풀 등 모든 학생용 앱 프리미엄 기능 무료 오픈</strong></li>
+                        </ul>
+                    </div>
+                    <div class="vip-verification-box">
+                        <h4>정회원 인증하기</h4>
+                        <p>아카데미에서 발급받은 수강생 인증 코드를 입력하면 즉시 VIP 혜택이 적용됩니다. (테스트 코드: YEON-VIP-GOLD)</p>
+                        <div class="verification-input-group">
+                            <input type="text" class="vip-input" id="vip-code" placeholder="예: YEON-VIP-GOLD">
+                            <button class="btn btn-primary btn-vip" style="width:auto; padding:0 24px;" onclick="verifyAcademyCode()">인증</button>
+                        </div>
+                        <div id="vip-status" style="margin-top: 14px; font-size: 0.85rem; display: none; line-height: 1.4;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Calculator & Store Grid -->
+        <section class="dashboard-grid">
+            <!-- AI Usage & Recommended Tier Calculator -->
+            <div class="glass-panel calculator-card">
+                <div class="panel-title">
+                    <i class="fa-solid fa-calculator"></i>
+                    <h2>AI 사용량 & 추천 요금제 계산기</h2>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem;">
+                    일일 예상 AI 질문 및 분석 빈도를 설정하면, 내 공부 패턴에 맞는 최적의 추천 요금제를 실시간으로 시뮬레이션해 줍니다.
+                </p>
+
+                <!-- Sonnet Solves Slider -->
+                <div class="simulator-row">
+                    <div class="simulator-label">
+                        <span>꼼꼼하고 깊은 해설 질문 (Sonnet 등)</span>
+                        <span>하루 <span class="val" id="math-count-val">2</span>회</span>
+                    </div>
+                    <input type="range" class="custom-slider" id="math-range" min="0" max="15" value="2">
+                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>0회</span>
+                        <span>15회 (학습량 많은 경우)</span>
+                    </div>
+                </div>
+
+                <!-- Haiku Queries Slider -->
+                <div class="simulator-row">
+                    <div class="simulator-label">
+                        <span>간단하고 빠른 개념 질문 (Haiku)</span>
+                        <span>하루 <span class="val" id="chat-count-val">5</span>회</span>
+                    </div>
+                    <input type="range" class="custom-slider" id="chat-range" min="0" max="30" value="5">
+                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>0회</span>
+                        <span>30회</span>
+                    </div>
+                </div>
+
+                <!-- Calculator Output -->
+                <div class="calc-output">
+                    <div class="calc-stat-box">
+                        <div class="lbl">월간 예상 AI 질문 횟수</div>
+                        <div class="num" id="calc-monthly-credits" style="font-size: 1.15rem; margin-top: 8px;">Haiku 150회 / Sonnet 60회</div>
+                    </div>
+                    <div class="calc-stat-box">
+                        <div class="lbl">나에게 추천하는 요금제</div>
+                        <div class="num highlight" id="calc-recommended-tier" style="font-size: 1.4rem; margin-top: 8px;">기본</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top-up Store -->
+            <div class="glass-panel store-card">
+                <div class="panel-title">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h2>추가 질문권 충전소 (Top-up)</h2>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem;">
+                    기본 제공되는 일일/월간 AI 한도를 모두 소모했을 때 충전하여 사용하는 단독 질문 추가 서비스입니다.
+                </p>
+                <div class="store-grid">
+                    <!-- Pack 1 -->
+                    <div class="store-item">
+                        <div class="store-info">
+                            <div class="name">꼼꼼한 풀이 30회권</div>
+                            <div class="desc">기간 제한 없이 필요할 때 소모 (Sonnet)</div>
+                        </div>
+                        <div class="store-action">
+                            <div class="store-price">3,000원</div>
+                            <button class="btn btn-primary btn-sm" onclick="showToast('꼼꼼한 풀이 30회권 충전창으로 이동합니다.')">구매</button>
+                        </div>
+                    </div>
+                    <!-- Pack 2 -->
+                    <div class="store-item">
+                        <div class="store-info">
+                            <div class="name">꼼꼼한 풀이 110회권</div>
+                            <div class="desc">10회 보너스 질문 추가 증정</div>
+                        </div>
+                        <div class="store-action">
+                            <div class="store-price">10,000원</div>
+                            <button class="btn btn-primary btn-sm" onclick="showToast('꼼꼼한 풀이 110회권 충전창으로 이동합니다.')">구매</button>
+                        </div>
+                    </div>
+                    <!-- Pack 3 -->
+                    <div class="store-item">
+                        <div class="store-info">
+                            <div class="name">24H 무제한 부스터 패스</div>
+                            <div class="desc">24시간 동안 모든 AI 질문 무제한 제공</div>
+                        </div>
+                        <div class="store-action">
+                            <div class="store-price">2,000원</div>
+                            <button class="btn btn-outline btn-sm" onclick="showToast('24시간 무제한 부스터 패스 구매창으로 이동합니다.')">구매</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referral Section -->
+        <section class="glass-panel referral-card">
+            <div class="referral-content">
+                <div class="referral-text">
+                    <span class="badge" style="background: rgba(168, 85, 247, 0.2); color:#c084fc; border-color: rgba(168, 85, 247, 0.3)">친구 추천 보상</span>
+                    <h3>친구와 함께 공부하고<br>무료 질문권 & 월 구독료 할인 받기</h3>
+                    <p>내 추천 코드로 가입한 친구와 나 모두에게 즉시 꼼꼼한 풀이 30회 질문권을 선물합니다. 친구가 첫 유료 구독을 시작하면 다음 달 나의 월 구독료가 2,000원씩 지속적으로 할인됩니다!</p>
+                </div>
+                <div class="referral-box">
+                    <div class="prog-labels">
+                        <span>추천 코드 생성</span>
+                    </div>
+                    <div class="referral-code-wrapper">
+                        <input type="text" class="referral-input" id="ref-code" value="YEON-FRIEND-777" readonly>
+                        <button class="btn btn-primary btn-sm" style="width: auto; padding: 0 20px;" onclick="copyReferralCode()">복사</button>
+                    </div>
+                    <div class="prog-container">
+                        <div class="prog-labels">
+                            <span>초대 성공 수: 3명 / 5명</span>
+                            <span>5명 달성 시 입문 요금제 무료</span>
+                        </div>
+                        <div class="prog-bar">
+                            <div class="prog-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification element -->
+    <div id="toast-box" class="toast">성공적으로 처리되었습니다!</div>
+
+    <!-- Interactive Scripting -->
+    <script>
+        // DOM Elements
+        const mathRange = document.getElementById('math-range');
+        const mathCountVal = document.getElementById('math-count-val');
+        const chatRange = document.getElementById('chat-range');
+        const chatCountVal = document.getElementById('chat-count-val');
+
+        const calcMonthlyCredits = document.getElementById('calc-monthly-credits');
+        const calcRecommendedTier = document.getElementById('calc-recommended-tier');
+
+        // AI Usage Calculator Logic (v4 Pricing Rules)
+        function updateCalculator() {
+            const mathVal = parseInt(mathRange.value); // Daily Sonnet questions
+            const chatVal = parseInt(chatRange.value); // Daily Haiku questions
+
+            mathCountVal.innerText = mathVal;
+            chatCountVal.innerText = chatVal;
+
+            const monthlyHaiku = chatVal * 30;
+            const monthlySonnet = mathVal * 30;
+
+            calcMonthlyCredits.innerText = `Haiku ${monthlyHaiku.toLocaleString()}회 / Sonnet ${monthlySonnet.toLocaleString()}회`;
+
+            // Recommended Tier Logic based on v4:
+            // 무료: 월 10회 AI 질문 (Haiku)
+            // 가볍게 (3천원): Haiku 무제한, Sonnet 주 3~4회 (월 ~15회)
+            // 기본 (5천원): Haiku 무제한, Sonnet 일 2~3회 (월 ~90회)
+            // 입문 (1만원): Haiku 무제한, Sonnet 일 5회 (월 ~150회)
+            // 프리미엄 (10만원~): 그 이상 혹은 학원 대체 목적
+            
+            let recommendedTier = "무료 (평생)";
+            let recommendedClass = "num";
+
+            if (monthlyHaiku === 0 && monthlySonnet === 0) {
+                recommendedTier = "무료 (평생)";
+                recommendedClass = "num";
+            } else if (monthlyHaiku <= 10 && monthlySonnet === 0) {
+                recommendedTier = "무료 (평생)";
+                recommendedClass = "num";
+            } else if (monthlyHaiku > 0 && monthlySonnet <= 15) {
+                recommendedTier = "가볍게 (3,000원)";
+                recommendedClass = "num highlight";
+            } else if (monthlySonnet <= 3 * 30) {
+                recommendedTier = "기본 (5,000원)";
+                recommendedClass = "num highlight";
+            } else if (monthlySonnet <= 5 * 30) {
+                recommendedTier = "입문 (10,000원)";
+                recommendedClass = "num highlight";
+            } else {
+                recommendedTier = "프리미엄 (10만원~)";
+                recommendedClass = "num warning";
+            }
+
+            calcRecommendedTier.innerText = recommendedTier;
+            calcRecommendedTier.className = recommendedClass;
+        }
+
+        mathRange.addEventListener('input', updateCalculator);
+        chatRange.addEventListener('input', updateCalculator);
+
+        // Copy Referral Code
+        function copyReferralCode() {
+            const refCode = document.getElementById('ref-code');
+            refCode.select();
+            document.execCommand('copy');
+            showToast('추천 코드가 클립보드에 복사되었습니다!');
+        }
+
+        // Tab switching logic
+        function switchTab(tab) {
+            const btnGeneral = document.getElementById('btn-general');
+            const btnLibrary = document.getElementById('btn-library');
+            const btnAcademy = document.getElementById('btn-academy');
+            const generalGrid = document.getElementById('general-pricing-grid');
+            const premiumToggleWrapper = document.getElementById('premium-toggle-wrapper');
+            const premiumPricingGrid = document.getElementById('premium-pricing-grid');
+            const libraryContainer = document.getElementById('library-pricing-container');
+            const academyContainer = document.getElementById('academy-vip-container');
+
+            // Reset active classes
+            btnGeneral.classList.remove('active');
+            btnLibrary.classList.remove('active');
+            btnAcademy.classList.remove('active');
+
+            // Hide all containers
+            generalGrid.style.display = 'none';
+            premiumToggleWrapper.style.display = 'none';
+            premiumPricingGrid.style.display = 'none';
+            if (libraryContainer) libraryContainer.style.display = 'none';
+            academyContainer.style.display = 'none';
+
+            // Show selected container
+            if (tab === 'general') {
+                btnGeneral.classList.add('active');
+                generalGrid.style.display = 'grid';
+                premiumToggleWrapper.style.display = 'flex';
+                // keep the premium panel hidden unless clicked or previously open
+                const btnToggle = document.getElementById('btn-premium-toggle');
+                if (btnToggle.classList.contains('active')) {
+                    premiumPricingGrid.style.display = 'grid';
+                }
+            } else if (tab === 'library') {
+                btnLibrary.classList.add('active');
+                if (libraryContainer) libraryContainer.style.display = 'block';
+            } else if (tab === 'academy') {
+                btnAcademy.classList.add('active');
+                academyContainer.style.display = 'block';
+            }
+        }
+
+        // Toggle Premium Plans
+        function togglePremiumPlans() {
+            const premiumGrid = document.getElementById('premium-pricing-grid');
+            const btnToggle = document.getElementById('btn-premium-toggle');
+            const arrowIcon = document.getElementById('premium-arrow');
+
+            if (premiumGrid.style.display === 'none' || premiumGrid.style.display === '') {
+                premiumGrid.style.display = 'grid';
+                btnToggle.classList.add('active');
+                arrowIcon.style.transform = 'rotate(180deg)';
+                showToast('프리미엄 요금제를 불러왔습니다.');
+                // Smooth scroll to premium section
+                setTimeout(() => {
+                    premiumGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            } else {
+                premiumGrid.style.display = 'none';
+                btnToggle.classList.remove('active');
+                arrowIcon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Academy Verification logic (v4 updated)
+        function verifyAcademyCode() {
+            const codeInput = document.getElementById('vip-code');
+            const statusDiv = document.getElementById('vip-status');
+            const code = codeInput.value.trim().toUpperCase();
+
+            if (code === 'YEON-VIP-GOLD' || code === '수강생인증') {
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = '#10b981';
+                statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> 인증 성공! 연아카데미 수강생 VIP 혜택(프리미엄 요금제 수준 혜택)이 적용되었습니다.';
+                showToast('아카데미 VIP 정회원 인증이 완료되었습니다!');
+                
+                // Adjust sliders to show high-tier usage simulation
+                mathRange.value = 10;
+                chatRange.value = 20;
+                updateCalculator();
+            } else if (code === '') {
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = '#f43f5e';
+                statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> 인증 코드를 입력해 주세요.';
+            } else {
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = '#f43f5e';
+                statusDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> 유효하지 않은 코드입니다. 아카데미 행정실 또는 온라인 고객센터에 문의해 주세요.';
+            }
+        }
+
+        // Toast Message Logic
+        function showToast(message) {
+            const toast = document.getElementById('toast-box');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize Calculator
+        updateCalculator();
+    </script>
+</body>
+</html>

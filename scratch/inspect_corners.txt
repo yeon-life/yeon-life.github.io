@@ -1,0 +1,42 @@
+Corner 0: key=science, title=🔬 과학 놀이터 · 호기심 탐험
+  headline: 꿈틀꿈틀 지렁이 친구야, 정말 고마워!
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 609
+  body snippet: '## 흙 속의 꼬마 농부, 지렁이 친구를 소개해요!\n\n화단이나 놀이터 흙 속에서 꼼지락꼼지락 움직이는 지렁이를 본 적이 있나요?\n지렁이는 다리도 없고 털도 없지만, 우리 땅을 건강'
+--------------------------------------------------
+Corner 1: key=math, title=📐 수학 놀이터 · 모양 놀이
+  headline: 동그라미, 세모, 네모! 모양 나라 놀이공원
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 617
+  body snippet: '## 모양 나라 놀이공원에 오신 것을 환영해요!\n\n우리 방이나 놀이터를 자세히 둘러보면 재미있는 모양 친구들이 가득 숨어 있어요.\n가장 친한 세 친구를 만나볼까요?\n\n### 1. '
+--------------------------------------------------
+Corner 2: key=hangeul, title=✍️ 우리말 보물 · 흉내 내는 말
+  headline: 깡충깡충 졸졸졸! 말놀이 보물찾기
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 599
+  body snippet: '## 소리와 몸짓을 담은 예쁜 말 상자!\n\n우리말에는 소리나 모양을 그대로 흉내 내는 귀여운 말들이 참 많아요.\n귀를 기울이고 몸을 움직이며 따라 해보세요!\n\n### 1. 귀가 쫑'
+--------------------------------------------------
+Corner 3: key=english, title=🆎 영어 소리나라 · 영어 놀이터
+  headline: 미국 아기 강아지는 어떻게 짖을까요?
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 617
+  body snippet: '## 멍멍이와 오리 친구의 영어 목소리!\n\n한국 강아지는 "멍멍!" 짖고, 오리는 "꽥꽥!" 하고 울지요.\n그런데 미국의 동물 친구들은 다른 소리로 영어 공부를 한대요!\n\n### '
+--------------------------------------------------
+Corner 4: key=future, title=🤖 미래와 AI · 어린이와 AI
+  headline: 삐뽀 로봇 친구와 친해지는 안전 비밀번호
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 633
+  body snippet: '## 로봇 친구 삐뽀를 만났어요!\n\n장난감 백화점이나 도서관에서 말하는 로봇이나 태블릿 친구를 만난 적이 있나요?\n삐뽀는 아는 것이 아주 많은 똑똑이 친구예요.\n하지만 삐뽀와 놀 '
+--------------------------------------------------
+Corner 5: key=fairytale, title=☁️ 상상 동화방 · 상상 글놀이
+  headline: 하늘나라 솜사탕이 되고 싶었던 꼬마 구름이
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions', 'cartoonCuts']
+  body length: 746
+  body snippet: "## 둥실둥실 아기 구름 구름이 이야기\n\n구름 나라에 아주 하얗고 폭신폭신한 아기 구름 '구름이'가 살았어요.\n구름이는 공원 놀이터에서 아이들이 먹는 달콤하고 예쁜 **솜사탕**을"
+--------------------------------------------------
+Corner 6: key=parents, title=🏡 공부 습관 & 부모 대화 · 부모님 서재
+  headline: 칭찬 스티커 보물지도 만들기 & 우리 아이 자존감 높이는 칭찬 꿀팁
+  keys in corner: ['key', 'title', 'headline', 'dek', 'body_md', 'future_note', 'thoughtQuestions', 'app_verdict', 'sources', 'critique', 'corrected', 'imgPrompt', 'aiRole', 'aiSuggestions']
+  body length: 768
+  body snippet: '## 즐거운 모험처럼 배우는 공부 습관!\n\n어린이에게 "공부해라!" 하고 다그치기보다, 재미있는 모험처럼 기획해 주면 성취감과 기쁨이 두 배로 자라나요.\n거실 벽에 우리 아이만의 '
+--------------------------------------------------

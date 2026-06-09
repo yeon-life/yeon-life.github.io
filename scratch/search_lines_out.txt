@@ -1,0 +1,10 @@
+Line 1589: <a class="sub-item"><div class="sub-icon">📱</div><div class="sub-text"><div class="sub-name">연아카데미 앱 모음</div><div class="sub-desc">수풀·영풀·연플래너·스무고개 →</div></div></a>
+Line 1708: <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">數</span><span class="ql-name">수풀 · 수학 AI</span></a>
+Line 1709: <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">英</span><span class="ql-name">영풀 · 영어 AI</span></a>
+Line 2307: <!-- 수풀AI·영풀 -->
+Line 2313: <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+Line 2314: <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+Line 2316: <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+Line 3009: title: '수풀AI · 영풀 — 한 사람의 학생이 한 사람의 어른이 되는 길',
+Line 3013: { ico:'學', name:'수풀AI 소개 보기', href:'#' },
+Line 3014: { ico:'英', name:'영풀 — 영어 완전학습', href:'#' },

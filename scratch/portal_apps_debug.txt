@@ -1,0 +1,313 @@
+Keyword '수풀': found 8 matches
+  Match at index 87705:
+div></a>
+          <a class="sub-item"><div class="sub-icon">📱</div><div class="sub-text"><div class="sub-name">연아카데미 앱 모음</div><div class="sub-desc">수풀·영풀·연플래너·스무고개 →</div></div></a>
+        </div>
+      </div>
+
+      <div class="mega-col-2-pane" data-pane="bridge">
+        <div class="col-2-title">인
+--------------------------------------------------------------------------------
+  Match at index 94301:
+a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">數</span><span class="ql-name">수풀 · 수학 AI</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico"
+--------------------------------------------------------------------------------
+  Match at index 129764:
+
+          <div class="nl">오늘의 한 마디 — "공부보다 습관을, 정답보다 질문을"</div>
+        </div>
+        <span class="eco-cta">아카데미 보기 →</span>
+      </a>
+
+      <!-- 수풀AI·영풀 -->
+      <a class="eco-card eco-supul" href="yp/samsan/">
+        <div class="eco-top">
+          <div class="eco-icon">學</div>
+          <span
+--------------------------------------------------------------------------------
+  Match at index 130008:
+">
+          <div class="eco-icon">學</div>
+          <span class="eco-status beta">이전 중</span>
+        </div>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class=
+--------------------------------------------------------------------------------
+  Match at index 130077:
+-status beta">이전 중</span>
+        </div>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <
+--------------------------------------------------------------------------------
+  Match at index 130165:
+span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차례차례 이전 중</b></div>
+          <div class="nl">신규 — 과학 AI · 사회·역사 AI 준비 중</div>
+       
+--------------------------------------------------------------------------------
+  Match at index 162910:
+f:'#' },
+          { ico:'問', name:'마을 자주 묻는 말', href:'#' }
+        ]
+      },
+      supulai: {
+        tag: '연라이프 생태계 · 완전학습 교육 AI',
+        title: '수풀AI · 영풀 — 한 사람의 학생이 한 사람의 어른이 되는 길',
+        deck: '연아카데미가 9년간 운영해 온 완전학습 철학을 그대로 담은 AI 학습 동반자. 점수가 아니라 이해를 묻고, 정답이 아니라 한 단계 더 좋은 물음을 키웁니다.',
+        
+--------------------------------------------------------------------------------
+  Match at index 163150:
+학습 동반자. 점수가 아니라 이해를 묻고, 정답이 아니라 한 단계 더 좋은 물음을 키웁니다.',
+        meta: ['현재 베타 운영 중', '연아카데미 학생·학부모 우선 초대'],
+        quick: [
+          { ico:'學', name:'수풀AI 소개 보기', href:'#' },
+          { ico:'英', name:'영풀 — 영어 완전학습', href:'#' },
+          { ico:'試', name:'베타 신청하기 (준비 중)', href:'javascript:void(0)', di
+--------------------------------------------------------------------------------
+Keyword '영풀': found 8 matches
+  Match at index 87708:
+></a>
+          <a class="sub-item"><div class="sub-icon">📱</div><div class="sub-text"><div class="sub-name">연아카데미 앱 모음</div><div class="sub-desc">수풀·영풀·연플래너·스무고개 →</div></div></a>
+        </div>
+      </div>
+
+      <div class="mega-col-2-pane" data-pane="bridge">
+        <div class="col-2-title">인연의 
+--------------------------------------------------------------------------------
+  Match at index 94484:
+a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">英</span><span class="ql-name">영풀 · 영어 AI</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico"
+--------------------------------------------------------------------------------
+  Match at index 129769:
+      <div class="nl">오늘의 한 마디 — "공부보다 습관을, 정답보다 질문을"</div>
+        </div>
+        <span class="eco-cta">아카데미 보기 →</span>
+      </a>
+
+      <!-- 수풀AI·영풀 -->
+      <a class="eco-card eco-supul" href="yp/samsan/">
+        <div class="eco-top">
+          <div class="eco-icon">學</div>
+          <span clas
+--------------------------------------------------------------------------------
+  Match at index 130011:
+          <div class="eco-icon">學</div>
+          <span class="eco-status beta">이전 중</span>
+        </div>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl
+--------------------------------------------------------------------------------
+  Match at index 130080:
+atus beta">이전 중</span>
+        </div>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차
+--------------------------------------------------------------------------------
+  Match at index 130170:
+</h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차례차례 이전 중</b></div>
+          <div class="nl">신규 — 과학 AI · 사회·역사 AI 준비 중</div>
+        </di
+--------------------------------------------------------------------------------
+  Match at index 162917:
+,
+          { ico:'問', name:'마을 자주 묻는 말', href:'#' }
+        ]
+      },
+      supulai: {
+        tag: '연라이프 생태계 · 완전학습 교육 AI',
+        title: '수풀AI · 영풀 — 한 사람의 학생이 한 사람의 어른이 되는 길',
+        deck: '연아카데미가 9년간 운영해 온 완전학습 철학을 그대로 담은 AI 학습 동반자. 점수가 아니라 이해를 묻고, 정답이 아니라 한 단계 더 좋은 물음을 키웁니다.',
+        meta: [
+--------------------------------------------------------------------------------
+  Match at index 163202:
+,
+        meta: ['현재 베타 운영 중', '연아카데미 학생·학부모 우선 초대'],
+        quick: [
+          { ico:'學', name:'수풀AI 소개 보기', href:'#' },
+          { ico:'英', name:'영풀 — 영어 완전학습', href:'#' },
+          { ico:'試', name:'베타 신청하기 (준비 중)', href:'javascript:void(0)', disabled:true }
+        ]
+      },
+      builder: {
+  
+--------------------------------------------------------------------------------
+Keyword '과풀': found 0 matches
+Keyword '연플래너': found 4 matches
+  Match at index 87711:
+a>
+          <a class="sub-item"><div class="sub-icon">📱</div><div class="sub-text"><div class="sub-name">연아카데미 앱 모음</div><div class="sub-desc">수풀·영풀·연플래너·스무고개 →</div></div></a>
+        </div>
+      </div>
+
+      <div class="mega-col-2-pane" data-pane="bridge">
+        <div class="col-2-title">인연의 다리</d
+--------------------------------------------------------------------------------
+  Match at index 94667:
+a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">劃</span><span class="ql-name">연플래너 · 자기관리</span></a>
+          <a class="quick-link" aria-disabled="true" style="opacity:.6;cursor:not-allowed;" title="연라이프 이전 중"><span class="ql-ico">
+--------------------------------------------------------------------------------
+  Match at index 130083:
+s beta">이전 중</span>
+        </div>
+        <h3>연아카데미 앱 모음<span class="han">수풀·영풀</span></h3>
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차례차례 이
+--------------------------------------------------------------------------------
+  Match at index 130175:
+
+        <p class="eco-deck">점수가 아니라 이해를 묻는 학습 동반자. 수풀·영풀·연플래너·스무고개를 연라이프 안에서.</p>
+        <div class="eco-news">
+          <div class="nl">수풀 · 영풀 · 연플래너 · 스무고개</div>
+          <div class="nl">연라이프 안으로 <b>차례차례 이전 중</b></div>
+          <div class="nl">신규 — 과학 AI · 사회·역사 AI 준비 중</div>
+        </div>
+    
+--------------------------------------------------------------------------------
+Keyword 'curiosity': found 0 matches
+Keyword 'y-life': found 14 matches
+  Match at index 327:
+nt="98b74314fc8a151fcefd4daf4264c56d0331f0a2" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>y-life.kr — 같은 사건, 세 시선으로.</title>
+<!-- PWA (YLV-4 §24) -->
+<meta name="theme-color" content="#2f5d62">
+<link rel="manifest" href="manifest.json">
+<link rel
+--------------------------------------------------------------------------------
+  Match at index 945:
+ard (YLV-4) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="연라이프 · y-life.kr">
+<meta property="og:title" content="연라이프 — 같은 사건, 세 시선으로.">
+<meta property="og:description" content="매일 15편의 칼럼과 신뢰 가능한 해설. AI 작가 3명·기자 12명·초대 필자
+--------------------------------------------------------------------------------
+  Match at index 1157:
+ 시선으로.">
+<meta property="og:description" content="매일 15편의 칼럼과 신뢰 가능한 해설. AI 작가 3명·기자 12명·초대 필자 4분이 함께 씁니다.">
+<meta property="og:url" content="https://y-life.kr/index.html">
+<meta property="og:image" content="https://y-life.kr/assets/img/og-share.png">
+<meta property="og:image:width" content="2048">
+<meta 
+--------------------------------------------------------------------------------
+  Match at index 1223:
+능한 해설. AI 작가 3명·기자 12명·초대 필자 4분이 함께 씁니다.">
+<meta property="og:url" content="https://y-life.kr/index.html">
+<meta property="og:image" content="https://y-life.kr/assets/img/og-share.png">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1152">
+<meta name="twitter:car
+--------------------------------------------------------------------------------
+  Match at index 1584:
+itle" content="연라이프 — 같은 사건, 세 시선으로.">
+<meta name="twitter:description" content="매일 15편의 칼럼과 신뢰 가능한 해설.">
+<meta name="twitter:image" content="https://y-life.kr/assets/img/og-share.png">
+<link rel="canonical" href="https://y-life.kr/index.html">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Ser
+--------------------------------------------------------------------------------
+  Match at index 1656:
+content="매일 15편의 칼럼과 신뢰 가능한 해설.">
+<meta name="twitter:image" content="https://y-life.kr/assets/img/og-share.png">
+<link rel="canonical" href="https://y-life.kr/index.html">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link hre
+--------------------------------------------------------------------------------
+  Match at index 44989:
+nd-sub{
+    font-size:11px;color:var(--text-muted);letter-spacing:.08em;
+    font-weight:500;line-height:1;padding-left:2px;
+  }
+
+  /* ===== 형제 브랜드 — y-life.kr / 연마을 ===== */
+  .gate-brand{
+    margin-left:24px;padding-left:24px;
+    border-left:1px solid var(--line-soft);
+    transition:opacity .2s ease,
+--------------------------------------------------------------------------------
+  Match at index 66318:
+play:none}
+    .my-blog-pill{padding:5px 7px}
+    .diagnosis-pill span:not(.dp-icon){display:none}
+    .diagnosis-pill{padding:5px 10px}
+    /* 연마을 — y-life.kr 큰 글씨 숨기고 "연마을" 한글만 표시 */
+    .gate-brand{margin-left:14px;padding-left:14px}
+    .gate-brand .brand-gate{display:none}
+    .gate-brand .gate-sub{
+
+--------------------------------------------------------------------------------
+  Match at index 66698:
+-left:0;
+    }
+    .gate-brand .gate-sub::after{
+      content:" ↗";font-size:11px;color:var(--teal-deep);opacity:.7;
+    }
+    /* 연라이프 부제도 숨김 (어차피 緣 y-life.kr이 보임) */
+    .brand-link:not(.gate-brand) .brand-sub{display:none}
+  }
+  /* 768px 이하 */
+  @media (max-width:768px){
+    .masthead-inner{gap:10px}
+ 
+--------------------------------------------------------------------------------
+  Match at index 68005:
+ad-inner">
+      <div class="masthead-left">
+        <a href="index.html" class="brand-link">
+          <div class="brand"><span class="yeon">緣</span>y-life.kr</div>
+          <div class="brand-sub">연라이프</div>
+        </a>
+      </div>
+      <div class="tagline item-hide">삶 · 인연 · 소통<br>그 깊은 연(緣)으로 잇다</di
+--------------------------------------------------------------------------------
+  Match at index 73422:
+     <a href="index.html" class="brand-sm" id="megaBrand" title="홈으로 — 차림표 닫기" style="cursor:pointer;text-decoration:none"><span class="yeon">緣</span>y-life.kr</a>
+      <div class="label">차림표 · Menu</div>
+    </div>
+    <div class="mega-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7
+--------------------------------------------------------------------------------
+  Match at index 106641:
+itorial · 이번 주 사설</div>
+      <h2>믿음의 틈을 여는 것이 광장의 일이다</h2>
+      <p>사람은 무의식적 최면 상태에서의 행동을 자신인 것으로 착각하며 산다. 그래서 종교·정치 같은 믿음 체계가 가장 위험하다.</p>
+      <p>y-life.kr은 그 틈을 여는 공간이다.</p>
+      <div class="ed-author">
+        <div class="avatar">蓮</div>
+        <div class="ed-author-info"><strong>연소사</strong><br><
+--------------------------------------------------------------------------------
+  Match at index 135864:
+오늘의_연라이프_2026-05-18.html" style="color:var(--text-soft);text-decoration:none">오늘의 연라이프</a>
+    </div>
+    <div style="line-height:1.75">
+      © 2026 y-life.kr · 연라이프 · 울산에서 시작 · 운영자 <a href="mailto:jinwooshon@gmail.com" style="color:var(--text-soft)">연소사</a><br>
+      <small style="font-size:11.5px">AI 페
+--------------------------------------------------------------------------------
+  Match at index 136990:
+rlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  // 메가 헤더 좌측 로고(緣 y-life.kr) → 홈 — 같은 페이지면 메뉴만 닫고 빠져나감
+  const megaBrand = document.getElementById('megaBrand');
+  if (megaBrand) {
+    megaBrand.addEventListener('click', e 
+--------------------------------------------------------------------------------

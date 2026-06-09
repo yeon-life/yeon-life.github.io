@@ -1,0 +1,26 @@
+{
+  "version": "v4",
+  "effectiveDate": "2026-06-06",
+  "updatedAt": "2026-06-06",
+  "currency": "KRW",
+  "philosophy": "모든 앱·기록은 평생 무료. 가격은 AI가 얼마나 거들어 주는가의 차이.",
+  "demoMode": true,
+  "freeMonthlyAiQuestions": 10,
+  "trialDays": 7,
+  "lowIncomeFreeTier": "starter",
+  "engineByTierNote": "무료/저가=빠른·간단(Haiku), 입문=꼼꼼(Sonnet), 프리미엄~=깊은 분석(Opus/Extended). 화면에 모델명 노출 금지.",
+  "payment": { "payer": "parent", "studentSignup": "academyCode+nickname+pin", "crossApp": true },
+  "tiers": {
+    "basic": [
+      { "id": "free",    "name": "무료",   "price": 0,     "per": "평생", "for": "스스로 기록하는 학습자",          "features": ["모든 앱·기록 평생 무제한", "자동 약점·복습 코칭", "가입 1주 전체 체험", "그 후 AI에게 월 10번 질문", "광고 약간"] },
+      { "id": "light",   "name": "가볍게", "price": 3000,  "per": "월",   "for": "가끔 물어봄 · 부모 결제 연습",    "features": ["광고 없음", "간단·빠른 풀이 무제한", "꼼꼼한 풀이 주 3~4번"] },
+      { "id": "basic",   "name": "기본",   "price": 5000,  "per": "월",   "for": "자주 물어봄",                    "features": ["꼼꼼한 풀이 하루 2~3번", "약점 자동 정리"] },
+      { "id": "starter", "name": "입문",   "price": 10000, "per": "월",   "for": "매일 꾸준히", "best": true,       "features": ["꼼꼼한 풀이 하루 5번", "깊은 분석 가끔", "시험 대비 모드"] }
+    ],
+    "premium": [
+      { "id": "premium",   "name": "프리미엄",   "price": 100000, "per": "월", "for": "학원 한 곳 대체",   "features": ["꼼꼼한 풀이 무제한", "깊은 분석 하루 3번", "주 1회 코칭 리포트", "가족 2명"] },
+      { "id": "master",    "name": "마스터",     "price": 300000, "per": "월", "for": "학원+과외 대체",    "features": ["깊은 분석 사실상 무제한", "실시간 즉답 코칭", "가족 3명"] },
+      { "id": "unlimited", "name": "언리미티드", "price": 500000, "per": "월", "for": "최상위 집중",       "features": ["모든 것 무제한", "전담 학습 매니저", "가족 다수"] }
+    ]
+  }
+}

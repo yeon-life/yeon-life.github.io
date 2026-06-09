@@ -1,0 +1,42 @@
+File length: 88256 characters.
+START OF JS:
+var GRADE_DATA = {
+  "1": {
+    "issue": "1학년 과정",
+    "corners": [
+      {
+        "key": "cover",
+        "title": "🔬 1일차: 과학 탐험",
+        "headline": "지렁이 똥은 마법의 흙! — 고마운 땅속 친구",
+        "dek": "지렁이가 흙을 먹고 똥을 누면 화단의 식물들이 쑥쑥 자라나요.",
+        "body_md": "우리 마당의 **흙** 속에는 아주 귀여운 꼬마 친구가 살고 있어요. 바로 **지렁이**랍니다!\n\n### 1. 땅속을 청소하는 지렁이\n지렁이는 눈도 귀도 없지만 땅속을 기어 다니며 낙엽이나 흙을 맛있게 먹어요. 지렁이가 지나간 자리에는 길고 둥근 **터널**이 생겨요. 이 터널 속으로 시원한 바람(공기)과 물이 솔솔 들어가서 나무뿌리가 튼튼해져요.\n\n### 2. 마법의 영양분 똥\n지렁이가 흙을 다 먹고 나면 몸 밖으로 똥을 누어요. 이 똥을 **배설물**이라고 하는데, 냄새가 나지 않고 기름진 **마법의 흙**이 된답니다. 이 흙 속에 식물이 좋아하는 밥(영양분)이 가득 들어있어요.",
+        "future_note": "비가 온 날 화단에서 지렁이를 만나면 \"땅속을 청소해 줘서 고마워\" 하고 인사해 봐요.",
+        "thoughtQuestions": [
+          "지렁이가 땅속에서 꼬물꼬물 길을 만들면 나무뿌리는 왜 기분이 좋아질까요?",
+          "지렁이가 화단에서 다 사라지면 꽃들은 어떻게 될까요?"
+        ],
+        "app_verdict": "1학년 통합교과 봄/여름 '동네 동물' 단원과 연계됩니다. 지렁이의 친근한 역할에 초점을 맞추었습니다.",
+        "sources": [{"name": "어린이 식물 도감", "url": "https://www.me.go.kr/"}],
+        "critique": {"fact_verdict": "clean", "false_claims": [], "readability": 5, "links_checked": 1, "links_ok": 1, "dead_links": []},
+        "corrected": 0,
+        "imgPrompt": "Cute children illustration of a happy cartoon earthworm with big eyes wearing a tiny yellow straw hat in soft brown soil, green sprout nearby, watercolor pastel style",
+        "aiRole": "동물 친구들의 마음을 전해주는 다정한 숲속 요정 선생님",
+        "aiSuggestions": [
+          "지렁이는 다리가 왜 없어요?",
+          "지렁이 똥은 정말 더럽지 않나요?",
+          "지렁이는 무얼 먹고 살아요?"
+        ],
+        "vocabulary": [
+          {"word": "터널 (Tunnel)", "desc": "흙 속에 뚫린 길로, 물과 공기가 지나가요."},
+          {"word": "배설물 (Excretions)", "desc": "몸속에서 소화되고 남은 똥이나 오줌이에요."}
+        ]
+      },
+      {
+        "key": "math",
+        "title": "📐 2일차: 수학 놀이터",
+        "headline": "모양 나라 숨바꼭질! — 동그라미 세모 네모",
+        "dek": "내 주변 물건 속에 숨어 있는 모양 친구들을 찾아보아요.",
+        "body_md": "동글동글 **동그라미**, 뾰족뾰족 **세모**, 반듯반듯 **네모**!\n우리 방 안에는 재미있는 모양들이 가득 숨어 있어요.\n\n### 1. 떼굴떼굴 동그라미\n공이나 자전거 바퀴는 모두 동글동글해요. 뾰족한 곳이 없어서 멈추지
+
+Variable declarations:
+var GRADE_DATA =
