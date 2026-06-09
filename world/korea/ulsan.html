@@ -699,7 +699,20 @@ section{padding:72px 0;}
 /* 섹션 상단 사진 배너 */
 .sec-photo{margin:0 0 30px;}
 .sec-photo img{width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.14);display:block;background:#ddd;}
-.sec-photo figcaption{font-size:11.5px;color:var(--ink-soft);text-align:right;margin-top:7px;}
+.sec-photo figcaption{font-size:11.5px;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-top:7px;}
+.sec-photo figcaption .caption-text{margin-left:auto;}
+.sec-photo figcaption .warning-text{color:#a84a4a;font-weight:500;}
+@media (max-width: 620px) {
+  .sec-photo figcaption {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .sec-photo figcaption .warning-text {
+    text-align: right;
+    font-size: 10.5px;
+  }
+}
 .sec-photo figcaption .ai{background:rgba(29,29,27,.5);color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
 .sec-photo figcaption .real{background:#2e7d4f;color:#fff;border-radius:999px;padding:1px 8px;font-size:10px;margin-left:6px;}
 /* 3단 드릴다운 (대분류→소분류→사진) */
@@ -935,7 +948,7 @@ section{padding:72px 0;}
 <!-- ─── § 3 Three Pillars ─── -->
 <section class="pillars" id="pillars" role="region" aria-labelledby="pillars-heading">
   <div class="wrap">
-    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/ulsan-aerial.webp" alt="울산 전경"><figcaption>울산 전경 · 태화강과 도시<span class="ai">AI 그림</span></figcaption></figure>
+    <figure class="sec-photo"><img loading="lazy" src="../../img/ulsan/ulsan-aerial.webp" alt="울산 전경"><figcaption><span class="warning-text">※ 본 이미지는 울산 태화강과 도심의 조화를 시각적으로 전달하기 위해 주요 랜드마크 위주로 단순화하여 그린 가상 조감도입니다.</span><span class="caption-text">울산 전경 · 태화강과 도시<span class="ai">AI 그림</span></span></figcaption></figure>
     <div class="section-header fade-in">
       <span class="s-num">THREE PILLARS</span>
       <h2 id="pillars-heading" class="s-title">울산을 이해하는 세 가지 열쇠</h2>
