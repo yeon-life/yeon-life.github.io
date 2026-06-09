@@ -18,7 +18,7 @@ warnings = []
 
 # 검증에서 제외할 폴더 및 파일
 EXCLUDE_DIRS = {".git", "node_modules", ".vercel", "_samsan_backup_deleted", "내친구인공지능_책"}
-EXCLUDE_FILES = {"index_backup_before_length_fix.html", "index_옛_20260507_v5배포전.html"}
+EXCLUDE_FILES = {"index_backup_before_length_fix.html", "index_옛_20260507_v5배포전.html", "_INDEX_현재까지_완성된것.html", "아곤란_미리보기.html", "아골라_미리보기.html", "index_before_any_childrens_gyul_f5b7f75.html", "index_before_split_01aad8c.html"}
 
 def log_error(file_path, line_no, message):
     errors.append(f"[ERROR] {os.path.basename(file_path)}:L{line_no} - {message}")

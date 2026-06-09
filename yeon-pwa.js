@@ -606,8 +606,8 @@
           <div class="mega-col-2-pane" data-pane="bridge">
             <div class="col-2-title">인연의 다리</div>
             <div class="sub-list">
-              <a class="sub-item" href="/korea/ulsan/" target="_blank" rel="noopener"><div class="sub-icon">村</div><div class="sub-text"><div class="sub-name">연마을 (울산)</div><div class="sub-desc">울산 소식 마당</div></div></a>
-              <a class="sub-item" href="/korea/ulsan/yeon-planning/" target="_blank" rel="noopener"><div class="sub-icon">學</div><div class="sub-text"><div class="sub-name">수풀AI · 영풀</div><div class="sub-desc">완전학습 교육 AI ↗</div></div></a>
+              <a class="sub-item" href="https://yeon.ai.kr" target="_blank" rel="noopener"><div class="sub-icon">村</div><div class="sub-text"><div class="sub-name">연마을 yeon.ai.kr</div><div class="sub-desc">지금 운영 중인 마을 ↗</div></div></a>
+              <a class="sub-item" href="https://yeon.ai.kr/supul" target="_blank" rel="noopener"><div class="sub-icon">學</div><div class="sub-text"><div class="sub-name">수풀AI · 영풀</div><div class="sub-desc">완전학습 교육 AI ↗</div></div></a>
               <a class="sub-item" href="/builder.html"><div class="sub-icon">作</div><div class="sub-text"><div class="sub-name">사이트 빌더</div><div class="sub-desc">코딩 없이 만드는 페이지</div></div></a>
               <a class="sub-item" href="/challenge-diagnosis.html"><div class="sub-icon">📋</div><div class="sub-text"><div class="sub-name">지원사업 자가진단</div><div class="sub-desc">정부 및 울산시 맞춤형 지원 매칭</div></div></a>
             </div>
