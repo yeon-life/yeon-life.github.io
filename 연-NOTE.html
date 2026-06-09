@@ -1,0 +1,3149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연-NOTE 사색 집필실 — AI 글쓰기 지원 & Thought Journal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <style>
+    :root {
+      /* 연라이프 새벽의 신뢰 컬러 팔레트 배이스 */
+      --yp-ink: #1f2a2a;
+      --yp-deep: #2f5d62;
+      --yp-pine: #427a71;
+      --yp-accent: #c38d56; /* 따뜻한 모래빛 / 골드 하이라이트 */
+      --yp-sage: #dfe8de;
+      --yp-mist: #f4f1eb;   /* 한지 느낌의 따뜻한 연회색 배경 */
+      --yp-sand: #e7d9bf;
+      --yp-peach: #f3e7dd;
+      --yp-line: #d7d1c5;   /* 얇은 테두리 선 */
+      --yp-card: #fffdf8;   /* 아이보리 종이 느낌의 카드 배경 */
+      --yp-white: #ffffff;
+      
+      /* 전통 인장 색상 */
+      --stamp-red: #a85048;
+      --stamp-border: #943d35;
+      
+      /* UI 상태 색상 */
+      --record-red: #ef4444;
+      --record-glow: rgba(239, 68, 68, 0.2);
+      --ai-glow: rgba(195, 141, 86, 0.08); /* 따뜻한 모래빛 비평가 글로우 */
+      --ai-purple: #6366f1;
+
+      --sans: "Pretendard", sans-serif;
+      --serif: "Noto Serif KR", serif;
+
+      /* 다크모드 대응 */
+      --bg-app: var(--yp-mist);
+      --bg-sidebar: var(--yp-card);
+      --bg-main: var(--yp-white);
+      --text-main: var(--yp-ink);
+      --text-muted: #5a6b6b;
+      --border-color: var(--yp-line);
+      --card-shadow: 0 4px 16px rgba(31, 42, 42, 0.04);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: var(--yp-line);
+    }
+
+    .dark-mode {
+      --bg-app: #182222;
+      --bg-sidebar: #1e2828;
+      --bg-main: #233030;
+      --text-main: #f4f1eb;
+      --text-muted: #94a8a8;
+      --border-color: #384d4d;
+      --yp-card: #283838;
+      --yp-white: #2e3f3f;
+      --yp-line: #3d5454;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      --glass-bg: rgba(35, 48, 48, 0.85);
+      --glass-border: #3d5454;
+      --ai-glow: rgba(195, 141, 86, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--sans);
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    #app {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-main);
+      position: relative;
+    }
+
+    /* 사이드바 */
+    .sidebar {
+      width: 320px;
+      height: 100%;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--yp-deep);
+      text-decoration: none;
+    }
+    
+    .dark-mode .logo {
+      color: var(--yp-sand);
+    }
+
+    /* 전통 붉은 인장 로고 */
+    .seal-logo {
+      width: 28px;
+      height: 28px;
+      background-color: var(--stamp-red);
+      color: #fffdf8;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px solid var(--stamp-border);
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.15), 0 2px 4px rgba(168,80,72,0.15);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .btn-new-note {
+      margin: 16px 20px 10px;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--yp-pine) 0%, var(--yp-deep) 100%);
+      color: var(--yp-mist);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(66, 122, 113, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .btn-new-note:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(66, 122, 113, 0.25);
+      filter: brightness(1.05);
+    }
+
+    .search-box {
+      padding: 0 20px 12px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 32px;
+      background-color: var(--yp-mist);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .dark-mode .search-input {
+      background-color: #243434;
+    }
+
+    .search-input:focus {
+      border-color: var(--yp-pine);
+      box-shadow: 0 0 0 2px rgba(66, 122, 113, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 30px;
+      top: 9px;
+      color: var(--text-muted);
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+    }
+
+    /* 태그 필터 영역 */
+    .tag-filter-container {
+      padding: 0 20px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tag-filter-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background-color: var(--yp-mist);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .dark-mode .tag-filter-pill {
+      background-color: #243434;
+    }
+
+    .tag-filter-pill:hover {
+      border-color: var(--yp-pine);
+      color: var(--text-main);
+    }
+
+    .tag-filter-pill.active {
+      background-color: var(--yp-pine);
+      color: var(--yp-white);
+      border-color: var(--yp-pine);
+    }
+    
+    .dark-mode .tag-filter-pill.active {
+      background-color: var(--yp-accent);
+      color: var(--yp-ink);
+      border-color: var(--yp-accent);
+    }
+
+    .note-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .note-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .note-list::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .note-item {
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      position: relative;
+      background-color: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .note-item:hover {
+      background-color: var(--yp-mist);
+    }
+    
+    .dark-mode .note-item:hover {
+      background-color: #243434;
+    }
+
+    .note-item.active {
+      background-color: var(--yp-white);
+      border-color: var(--yp-line);
+      box-shadow: var(--card-shadow);
+    }
+
+    .note-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      bottom: 14px;
+      width: 3px;
+      background-color: var(--yp-pine);
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .dark-mode .note-item.active::before {
+      background-color: var(--yp-accent);
+    }
+
+    .note-item-title {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note-item-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .note-item-preview {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note-item-badge {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background-color: var(--yp-sage);
+      color: var(--yp-deep);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .dark-mode .note-item-badge {
+      background-color: #384d4d;
+      color: var(--yp-sand);
+    }
+
+    .sidebar-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-sidebar);
+    }
+
+    .btn-icon-footer {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .btn-icon-footer:hover {
+      background-color: var(--yp-mist);
+      color: var(--text-main);
+    }
+    .dark-mode .btn-icon-footer:hover {
+      background-color: #243434;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--yp-accent) 0%, var(--yp-sand) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--yp-ink);
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    /* 메인 영역 */
+    .main-content {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-main);
+      position: relative;
+    }
+
+    .main-header {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 90px;
+      background-color: var(--bg-main);
+    }
+
+    .note-title-container {
+      flex: 1;
+      max-width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .note-title-input {
+      width: 100%;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      border: none;
+      background: transparent;
+      outline: none;
+      padding: 2px 0;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .note-title-input:focus {
+      border-color: var(--yp-pine);
+    }
+
+    .note-meta-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* 태그 입력 에디터 */
+    .note-tags-editor {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .note-tag-pill {
+      font-size: 11px;
+      background-color: var(--yp-mist);
+      border: 1px solid var(--border-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dark-mode .note-tag-pill {
+      background-color: #243434;
+    }
+
+    .btn-delete-tag {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .btn-delete-tag:hover {
+      color: var(--stamp-red);
+    }
+
+    .input-add-tag {
+      font-family: var(--sans);
+      font-size: 11px;
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 70px;
+      color: var(--text-main);
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-header {
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      transition: all 0.15s;
+    }
+
+    .btn-header:hover {
+      background-color: var(--yp-mist);
+      border-color: var(--yp-pine);
+    }
+    
+    .dark-mode .btn-header:hover {
+      background-color: #243434;
+    }
+
+    .btn-header.ai-btn {
+      background: linear-gradient(135deg, var(--yp-pine) 0%, var(--yp-deep) 100%);
+      color: var(--yp-mist);
+      border: none;
+      box-shadow: 0 2px 8px rgba(66, 122, 113, 0.2);
+    }
+
+    .btn-header.ai-btn:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 4px 12px rgba(66, 122, 113, 0.3);
+    }
+
+    .btn-header.danger-btn {
+      border-color: rgba(168, 80, 72, 0.3);
+      color: var(--stamp-red);
+    }
+
+    .btn-header.danger-btn:hover {
+      background-color: rgba(168, 80, 72, 0.05);
+      border-color: var(--stamp-red);
+    }
+
+    /* 탭 디자인 (책갈피 분할 탭) */
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 32px;
+      background-color: var(--bg-main);
+    }
+
+    .tab-btn {
+      padding: 14px 18px;
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.15s;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      color: var(--yp-pine);
+    }
+    .dark-mode .tab-btn.active {
+      color: var(--yp-sand);
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 18px;
+      right: 18px;
+      height: 2.5px;
+      background-color: var(--yp-pine);
+      border-radius: 2px 2px 0 0;
+    }
+    
+    .dark-mode .tab-btn.active::after {
+      background-color: var(--yp-sand);
+    }
+
+    /* 탭 콘텐츠 컨테이너 */
+    .tab-content-container {
+      flex: 1;
+      overflow-y: auto;
+      position: relative;
+      padding-bottom: 110px; /* 대시보드 데크 높이 여유 */
+      background-color: var(--bg-app); /* 한지 텍스처 느낌의 배경 배합 */
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 32px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* 수수 저널 가죽/종이 카드 테두리 */
+    .journal-card-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .paper-card {
+      background-color: var(--yp-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+
+    /* 중요 대목 형광펜 효과 인디케이터 */
+    .paper-card.highlight-card {
+      background-color: #fffdf0;
+      border-left: 3px solid var(--yp-accent);
+    }
+    .dark-mode .paper-card.highlight-card {
+      background-color: #2b3834;
+      border-left-color: var(--yp-accent);
+    }
+
+    .paper-card-title {
+      font-family: var(--serif);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--yp-pine);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px dashed var(--border-color);
+      padding-bottom: 6px;
+    }
+    .dark-mode .paper-card-title {
+      color: var(--yp-sand);
+    }
+
+    .paper-card-headline {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .quote-box {
+      font-family: var(--serif);
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text-main);
+      padding-left: 16px;
+      border-left: 2px solid var(--yp-accent);
+      font-style: italic;
+    }
+
+    .journal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .journal-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .journal-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--yp-pine);
+    }
+    .dark-mode .journal-list li::before {
+      color: var(--yp-sand);
+    }
+
+    .action-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 12px;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .action-item:hover {
+      border-color: var(--yp-pine);
+      background-color: var(--ai-glow);
+    }
+
+    .action-item input[type="checkbox"] {
+      margin-top: 3px;
+      width: 14px;
+      height: 14px;
+      accent-color: var(--yp-pine);
+      cursor: pointer;
+    }
+
+    .action-item span {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .action-item.completed {
+      opacity: 0.5;
+    }
+    .action-item.completed span {
+      text-decoration: line-through;
+    }
+
+    /* 받아쓰기 타임라인 스타일 */
+    .timeline-layout {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .timeline-block {
+      display: flex;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+      position: relative;
+      border: 1px solid transparent;
+      align-items: flex-start;
+    }
+
+    .timeline-block:hover {
+      background-color: var(--yp-card);
+      border-color: var(--border-color);
+    }
+
+    /* 하이라이트 문장 색상 (형광펜 효과) */
+    .timeline-block.bookmarked {
+      background-color: rgba(195, 141, 86, 0.07);
+      border: 1px dashed var(--yp-accent);
+    }
+
+    .timeline-block.highlight {
+      background-color: var(--ai-glow);
+      border-left: 3px solid var(--yp-pine);
+    }
+    
+    .dark-mode .timeline-block.highlight {
+      border-left-color: var(--yp-accent);
+    }
+
+    .time-badge-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .timestamp-btn {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--yp-pine);
+      background-color: var(--yp-sage);
+      border: none;
+      padding: 3px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    
+    .dark-mode .timestamp-btn {
+      color: var(--yp-sand);
+      background-color: #384d4d;
+    }
+
+    .timestamp-btn:hover {
+      background-color: var(--yp-pine);
+      color: var(--yp-white);
+    }
+
+    /* 북마크 별 아이콘 */
+    .btn-bookmark {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+
+    .btn-bookmark:hover,
+    .timeline-block.bookmarked .btn-bookmark {
+      color: var(--yp-accent);
+    }
+
+    /* 문장 텍스트 영역 */
+    .transcript-text-container {
+      flex: 1;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-main);
+      position: relative;
+    }
+
+    .transcript-display-text {
+      cursor: pointer;
+      border-bottom: 1px dashed transparent;
+      transition: all 0.15s;
+    }
+    .transcript-display-text:hover {
+      background-color: rgba(66, 122, 113, 0.05);
+      border-bottom-color: var(--yp-pine);
+    }
+
+    .transcript-edit-area {
+      width: 100%;
+      font-family: var(--sans);
+      font-size: 13.5px;
+      line-height: 1.6;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--yp-pine);
+      border-radius: 4px;
+      padding: 6px;
+      outline: none;
+      resize: vertical;
+    }
+
+    /* AI 칼럼/비평 카드 스타일 */
+    .column-author-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .column-body-text {
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-main);
+      text-align: justify;
+      white-space: pre-wrap;
+    }
+
+    .critique-body-text {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--text-main);
+      white-space: pre-wrap;
+    }
+
+    /* 하단 고정형 대시보드 데크 */
+    .bottom-dashboard-deck {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background-color: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 180px 0 32px; /* 180px on the right to prevent overlapping with PWA install button */
+      z-index: 100;
+    }
+
+    .deck-timer-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 100px;
+    }
+
+    .rec-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--record-red);
+      display: none;
+    }
+
+    .rec-indicator.active {
+      display: block;
+      animation: recPulse 1s infinite alternate;
+      box-shadow: 0 0 6px var(--record-red);
+    }
+
+    .deck-timer {
+      font-family: var(--sans);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .deck-visualizer-area {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      max-width: 500px;
+    }
+
+    #wave-canvas {
+      width: 100%;
+      height: 30px;
+    }
+
+    .deck-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-deck-action {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--yp-white);
+      color: var(--yp-ink);
+      transition: all 0.15s;
+    }
+
+    .btn-deck-action:hover {
+      transform: scale(1.03);
+      border-color: var(--yp-pine);
+    }
+
+    .btn-deck-action.rec-btn {
+      background: linear-gradient(135deg, var(--stamp-red) 0%, #a83a30 100%);
+      color: #fff;
+      border: none;
+    }
+    
+    .btn-deck-action.rec-btn.recording {
+      background: var(--yp-ink);
+      color: var(--yp-mist);
+    }
+    .dark-mode .btn-deck-action.rec-btn.recording {
+      background: #fff;
+      color: var(--yp-ink);
+    }
+
+    /* 오디오 플레이어 */
+    .deck-player {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 16px;
+    }
+
+    .player-slider-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .player-progress-bar {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      background: var(--yp-line);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .player-progress-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--yp-pine);
+      cursor: pointer;
+    }
+    .dark-mode .player-progress-bar::-webkit-slider-thumb {
+      background: var(--yp-accent);
+    }
+
+    /* 로딩 스피너 */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 설정 모달 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(31, 42, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 480px;
+      background-color: var(--bg-sidebar);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .btn-close-modal {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close-modal:hover {
+      background-color: var(--yp-mist);
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 8px 12px;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--yp-pine);
+    }
+
+    .form-help {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .modal-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn-modal {
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-modal.cancel {
+      background-color: transparent;
+      color: var(--text-muted);
+    }
+    .btn-modal.cancel:hover {
+      background-color: var(--yp-mist);
+    }
+
+    .btn-modal.save {
+      background-color: var(--yp-pine);
+      color: #fff;
+    }
+
+    .btn-modal.save:hover {
+      filter: brightness(1.05);
+    }
+
+    /* 토스트 메시지 */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background-color: var(--yp-ink);
+      color: var(--yp-mist);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 500;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 사색 집필실 에디터 & 다듬기 스타일 */
+    .column-editor-canvas {
+      width: 100%;
+      min-height: 400px;
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text-main);
+      background-color: var(--yp-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+      outline: none;
+      resize: vertical;
+      transition: all 0.2s;
+    }
+    
+    .column-editor-canvas:focus {
+      border-color: var(--yp-pine);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02), 0 0 0 3px rgba(66, 122, 113, 0.08);
+    }
+
+    .refinement-container {
+      margin-top: 20px;
+      padding: 16px;
+      background-color: var(--yp-mist);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .dark-mode .refinement-container {
+      background-color: #243434;
+    }
+    
+    .refinement-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--yp-deep);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dark-mode .refinement-label {
+      color: var(--yp-sand);
+    }
+    
+    .refinement-input-row {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .refinement-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 13px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .refinement-input:focus {
+      border-color: var(--yp-pine);
+    }
+    
+    .btn-refine {
+      padding: 0 18px;
+      background: linear-gradient(135deg, var(--yp-pine) 0%, var(--yp-deep) 100%);
+      color: var(--yp-mist);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-refine:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+    .btn-refine:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* 글감 구성 가이드 스타일 */
+    .outline-guide-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    
+    .outline-step {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 6px;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+    }
+    
+    .outline-step-badge {
+      font-family: var(--serif);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: var(--yp-sage);
+      color: var(--yp-deep);
+      height: fit-content;
+      flex-shrink: 0;
+    }
+    .dark-mode .outline-step-badge {
+      background-color: #384d4d;
+      color: var(--yp-sand);
+    }
+    
+    .outline-step-text {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* 키워드 태그 스타일 */
+    .keyword-tag {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--yp-pine);
+      background-color: var(--yp-sage);
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+    .dark-mode .keyword-tag {
+      color: var(--yp-sand);
+      background-color: #384d4d;
+    }
+
+    /* 엠프티 스테이트 (빈 화면 안내) 스타일 */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      width: 100%;
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      color: var(--yp-pine);
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+    .dark-mode .empty-state svg {
+      color: var(--yp-sand);
+    }
+
+    .empty-state h3 {
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Embedded mode styling */
+    body.embedded #app {
+      height: calc(100vh - 60px);
+      margin-top: 60px;
+    }
+    body.embedded .sidebar-header .btn-icon-footer {
+      display: none !important; /* Hide local theme toggle when embedded */
+    }
+
+    .deck-left-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 사이드바 -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="logo">
+          <div class="seal-logo">緣</div>
+          연-NOTE 사색 집필실
+        </a>
+        <button class="btn-icon-footer" onclick="toggleDarkMode()" title="테마 전환">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+
+      <button class="btn-new-note" onclick="createNewNote()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        새 사색 메모 작성
+      </button>
+
+      <div class="search-box">
+        <input type="text" class="search-input" id="search-input" placeholder="본문 및 제목 검색..." oninput="filterNotes()">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+
+      <!-- 태그 필터 -->
+      <div class="tag-filter-container" id="tag-filter-container">
+        <!-- 동적 주입 -->
+      </div>
+
+      <div class="note-list" id="note-list">
+        <!-- 동적으로 주입됨 -->
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar" id="user-avatar" style="background: linear-gradient(135deg, var(--yp-accent) 0%, var(--yp-sand) 100%);">緣</div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <span style="font-weight: 600; font-size: 12.5px;" id="user-name">연라이프 주민</span>
+            <span style="font-size: 10px; color: var(--text-muted); font-weight: 600;" id="user-membership-badge">일반 회원</span>
+          </div>
+        </div>
+        <button class="btn-icon-footer" onclick="openSettings()" title="설정">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- 메인 내용 영역 -->
+    <main class="main-content">
+      <!-- 헤더 -->
+      <header class="main-header" id="main-header">
+        <div class="note-title-container">
+          <input type="text" class="note-title-input" id="note-title" value="제목 없는 사색" onblur="updateNoteTitle(this.value)">
+          <div class="note-meta-info">
+            <span id="note-date">2026-06-09</span>
+            <span id="note-duration-badge" class="note-item-badge" style="display:none">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:2px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="note-duration-text">00:00</span>
+            </span>
+            <!-- 태그 에디터 -->
+            <div class="note-tags-editor" id="note-tags-editor">
+              <!-- 동적 태그들 -->
+            </div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-header ai-btn" onclick="generateAISummary()" id="ai-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            AI 사색 분석 실행
+          </button>
+          
+          <button class="btn-header" onclick="exportNote()" title="내보내기">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            내보내기
+          </button>
+
+          <button class="btn-header danger-btn" onclick="deleteActiveNote()" title="삭제">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            삭제
+          </button>
+        </div>
+      </header>
+
+      <!-- 탭 바 -->
+      <nav class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('summary')" id="tab-summary">사색 요약</button>
+        <button class="tab-btn" onclick="switchTab('column')" id="tab-column">AI 칼럼 집필실</button>
+        <button class="tab-btn" onclick="switchTab('transcript')" id="tab-transcript">받아쓰기 타임라인</button>
+      </nav>
+
+      <!-- 탭 본문 컨테이너 -->
+      <div class="tab-content-container" id="tab-content-container">
+        <!-- 탭 1: 사색 요약 -->
+        <div class="tab-panel active" id="panel-summary">
+          <div class="journal-card-container" id="summary-layout">
+            <!-- 요약 카드들 주입됨 -->
+          </div>
+        </div>
+
+        <!-- 탭 2: AI 칼럼 & 비평 -->
+        <div class="tab-panel" id="panel-column">
+          <div class="journal-card-container" id="column-layout">
+            <!-- 비평 및 칼럼 데이터 주입됨 -->
+          </div>
+        </div>
+
+        <!-- 탭 3: 받아쓰기 타임라인 -->
+        <div class="tab-panel" id="panel-transcript">
+          <div class="timeline-layout" id="transcript-layout">
+            <!-- 타임라인 블록 주입됨 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 하단 고정형 대시보드 데크 -->
+      <div class="bottom-dashboard-deck" id="control-bar">
+        <!-- 녹음 모드 UI (기본) -->
+        <div class="deck-left-group" id="deck-left-group">
+          <div class="deck-timer-area" id="timer-ui">
+            <span class="rec-indicator" id="rec-indicator"></span>
+            <span class="deck-timer" id="timer-text">00:00:00</span>
+          </div>
+
+          <div class="deck-buttons" id="control-buttons-ui">
+            <button class="btn-deck-action rec-btn" id="btn-record" onclick="toggleRecording()" title="사색 녹음 시작">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" id="record-svg"><circle cx="12" cy="12" r="8"/></svg>
+            </button>
+            <button class="btn-deck-action rec-stop" id="btn-stop" onclick="stopRecording()" title="사색 완료" style="display:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="deck-visualizer-area" id="visualizer-ui">
+          <canvas id="wave-canvas"></canvas>
+        </div>
+
+        <!-- 재생 모드 UI (완료 시 전환됨) -->
+        <div class="deck-player" id="player-ui" style="display: none;">
+          <button class="btn-deck-action" id="player-play-btn" onclick="toggleAudioPlayback()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" id="player-play-svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          
+          <div class="player-slider-container">
+            <span class="player-time" id="player-time-current" style="font-size:11px;">00:00</span>
+            <input type="range" class="player-progress-bar" id="player-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)">
+            <span class="player-time" id="player-time-total" style="font-size:11px;">00:00</span>
+          </div>
+
+          <button class="btn-icon-footer" onclick="resetToRecordMode()" title="새 녹음 모드로 복구" style="margin-left: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 설정 모달 -->
+    <div class="modal-overlay" id="modal-settings">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>설정</h3>
+          <button class="btn-close-modal" onclick="closeSettings()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="input-gemini-key">Gemini API Key</label>
+            <input type="password" class="form-input" id="input-gemini-key" placeholder="AI 분석을 위한 API 키를 입력하세요">
+            <p class="form-help">
+              Gemini API 키는 Google AI Studio에서 무료로 발급받을 수 있습니다. 키는 서버에 저장되지 않고 오직 본인 브라우저 로컬 저장소에만 보관됩니다.
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="select-speech-lang">음성 인식 언어</label>
+            <select class="form-input" id="select-speech-lang">
+              <option value="ko-KR">한국어 (Korean)</option>
+              <option value="en-US">영어 (English)</option>
+              <option value="ja-JP">일본어 (Japanese)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="select-membership-type">멤버십 유형 (유료 기능 테스트용)</label>
+            <select class="form-input" id="select-membership-type">
+              <option value="free">일반 회원 (무료 요금제)</option>
+              <option value="basic">기본 회원 (유료 - 월 3,000원)</option>
+              <option value="standard">표준 회원 (유료 - 월 5,000원)</option>
+              <option value="premium">주민 작가 (유료 - 월 19,000원)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="input-prompt">AI 칼럼 및 비평 분석 지침 (Prompt)</label>
+            <textarea class="form-input" id="input-prompt" rows="6" style="resize: vertical; font-size: 11px; line-height: 1.4;"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-modal cancel" onclick="closeSettings()">취소</button>
+          <button class="btn-modal save" onclick="saveSettings()">설정 저장</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 유료 구독 안내 모달 -->
+    <div class="modal-overlay" id="modal-subscription">
+      <div class="modal-card" style="width: 440px;">
+        <div class="modal-header">
+          <h3 style="color: var(--yp-pine); font-family: var(--serif); font-size: 16px; font-weight: 700;">緣 연라이프 주민 작가 구독</h3>
+          <button class="btn-close-modal" onclick="closeSubscriptionModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+          <div style="font-size: 32px; color: var(--yp-accent);">🎙️</div>
+          <h2 style="font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--text-main);">음성 사색 받아쓰기는 유료 기능입니다</h2>
+          <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted); text-align: center; margin: 0;">
+            실시간 음성 받아쓰기 및 AI 사색 칼럼 분석 기능은 <strong>[연라이프 주민 작가 구독 요금제]</strong> 전용 옵션입니다.<br>
+            유료 요금제를 구독하시면 실시간 음성 전사, AI 피드백, 2차 다듬기 등 모든 집필실 도구를 제한 없이 사용할 수 있습니다.
+          </p>
+          
+          <!-- 요금제 카드 -->
+          <div style="background-color: var(--yp-mist); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 13.5px; color: var(--yp-deep);">주민 작가 요금제 (Premium)</span>
+              <span style="font-size: 11px; font-weight: 700; color: var(--stamp-red); background-color: rgba(168,80,72,0.1); padding: 2px 6px; border-radius: 4px;">추천</span>
+            </div>
+            <div style="font-size: 18px; font-weight: 700; font-family: var(--serif); color: var(--text-main);">월 19,000원</div>
+            <ul style="font-size: 11.5px; color: var(--text-muted); padding-left: 16px; margin-top: 4px; display: flex; flex-direction: column; gap: 4px; list-style-type: disc;">
+              <li>실시간 오디오 무제한 녹음 및 저장</li>
+              <li>Web Speech API 기반 실시간 자막 전사 및 텍스트화</li>
+              <li>Gemini AI 기반 사색 분석, 칼럼 작성 및 무제한 다듬기</li>
+              <li>내 생각을 광장 생각의 지도에 실시간 자동 연결</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: var(--bg-sidebar); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+          <button class="btn-modal cancel" onclick="closeSubscriptionModal()">다음에 하기</button>
+          <button class="btn-modal save" onclick="subscribePremium()" style="background: linear-gradient(135deg, var(--yp-pine) 0%, var(--yp-deep) 100%); color: #fff;">지금 구독하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">저장되었습니다.</div>
+
+  <!-- 비디오/오디오 처리를 위한 IndexedDB & 로직 자바스크립트 -->
+  <script>
+    // ===== IndexedDB 설정 =====
+    const DB_NAME = 'YeonNoteAudioDB';
+    const STORE_NAME = 'audioStore';
+
+    function openAudioDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function saveAudioBlob(id, blob) {
+      const db = await openAudioDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.put({ id, audioBlob: blob });
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function getAudioBlob(id) {
+      try {
+        const db = await openAudioDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.get(id);
+          request.onsuccess = () => resolve(request.result ? request.result.audioBlob : null);
+          request.onerror = () => reject(request.error);
+        });
+      } catch (err) {
+        return null;
+      }
+    }
+
+    async function deleteAudioBlob(id) {
+      try {
+        const db = await openAudioDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.delete(id);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      } catch (err) {}
+    }
+
+
+    // ===== 전역 상태 =====
+    let notes = [];
+    let activeNoteId = null;
+    let activeTagFilter = '전체';
+    
+    // 녹음 관련 상태
+    let isRecording = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recognition = null;
+    let recordingStartTime = 0;
+    let accumulatedTime = 0;
+    let timerInterval = null;
+    
+    // 비주얼라이저 상태
+    let audioCtx = null;
+    let analyser = null;
+    let canvasStreamSource = null;
+    let dataArray = null;
+    let bufferLength = 0;
+    let visualizerId = null;
+    
+    // 오디오 플레이어 상태
+    let audioPlayer = new Audio();
+    let isAudioPlaying = false;
+    let activeTab = 'summary'; // 'summary' | 'column' | 'transcript'
+
+    // 기본 요약 프롬프트 (칼럼 및 비평가 추가)
+    const DEFAULT_PROMPT = `당신은 대화와 사색 메모의 받아쓰기 결과를 분석하여 깊이 있는 칼럼을 집필하고 사색을 비평해주는 인문학 비서입니다.
+다음 받아쓰기 텍스트를 정밀 분석하여, 지정된 JSON 형식으로 결과를 출력해 주세요. 다른 텍스트는 포함하지 말고 오직 유효한 JSON만 반환해야 합니다.
+
+출력 JSON 형식:
+{
+  "aiTitle": "대화 내용 및 사색을 관통하는 우아한 한국어 제목",
+  "oneLineSummary": "대화 전체의 사상을 핵심적으로 아우르는 철학적 한줄 요약 (50자 이내)",
+  "keyPoints": [
+    "대화의 핵심 사유 및 생각거리 요약 포인트 1 (문장)",
+    "대화의 핵심 사유 및 생각거리 요약 포인트 2 (문장)",
+    "대화의 핵심 사유 및 생각거리 요약 포인트 3 (문장)"
+  ],
+  "actionItems": [
+    "이 사색을 토대로 향후 성찰해 보거나 실행해야 할 행동 과제 1",
+    "이 사색을 토대로 향후 성찰해 보거나 실행해야 할 행동 과제 2"
+  ],
+  "keywords": ["키워드1", "키워드2", "키워드3", "키워드4"],
+  "columnDraft": "대화에서 드러난 깊은 통찰을 결합하여 기승전결이 있고 유려하게 서술된 에세이/칼럼 초안 (공백 포함 800자 내외, 연라이프 잡지/사색 글 양식)",
+  "critique": "대화 속 질문의 질, 사색의 깊이, 더 탐구해볼 방향을 인문학적 비평가 입장에서 조언한 지적 피드백 (300자 내외)",
+  "writingOutline": {
+    "intro": "서론: 독자의 관심을 끌고 대화의 화두를 던지는 글감 구성 가이드 (100자 내외)",
+    "body": "본론: 핵심적인 경험이나 통찰을 전개하고 발전시킬 서사 전개 가이드 (200자 내외)",
+    "conclusion": "결론: 여운을 남기며 사색을 갈무리하고 마무리하는 성찰 가이드 (100자 내외)"
+  },
+  "styleAdvice": [
+    "글의 완성도를 높이기 위해 활용할 수 있는 구체적인 문장 교정 팁 또는 단어 추천 1",
+    "글의 완성도를 높이기 위해 활용할 수 있는 구체적인 문장 교정 팁 또는 단어 추천 2"
+  ]
+}`;
+
+    // ===== 초기화 =====
+    window.addEventListener('DOMContentLoaded', () => {
+      // 멤버십 UI 초기화
+      updateMembershipUI();
+
+      // 로컬 스토리지 데이터 로드
+      const savedNotes = localStorage.getItem('yeon_notes');
+      if (savedNotes) {
+        notes = JSON.parse(savedNotes);
+      }
+      
+      // 다크 모드 설정
+      if (localStorage.getItem('yeon_dark_mode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+
+      // 프롬프트 초기화
+      if (!localStorage.getItem('yeon_note_summary_prompt')) {
+        localStorage.setItem('yeon_note_summary_prompt', DEFAULT_PROMPT);
+      }
+
+      // 받아쓰기 지원체크
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast('⚠ 이 브라우저는 실시간 받아쓰기 API를 지원하지 않습니다. 크롬 브라우저를 사용해 주세요.');
+      }
+
+      // 사이드바 및 필터 렌더링
+      renderTagFilters();
+      renderNoteList();
+
+      if (notes.length > 0) {
+        selectNote(notes[0].id);
+      } else {
+        createNewNote();
+      }
+
+      // 플레이어 바인딩
+      audioPlayer.addEventListener('timeupdate', updateAudioProgress);
+      audioPlayer.addEventListener('ended', () => {
+        isAudioPlaying = false;
+        document.getElementById('player-play-svg').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+        updateAudioProgress();
+      });
+    });
+
+
+    // ===== 테마 전환 =====
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('yeon_dark_mode', isDark);
+    }
+
+
+    // ===== 사색 노트 관리 (CRUD & 필터) =====
+    function createNewNote() {
+      if (isRecording) stopRecording();
+
+      const newId = 'note_' + Date.now();
+      const today = new Date().toISOString().split('T')[0];
+      
+      const newNote = {
+        id: newId,
+        title: '새 사색 메모',
+        createdAt: today,
+        durationStr: '00:00',
+        tags: ['사색'],
+        transcript: [],
+        summary: null
+      };
+
+      notes.unshift(newNote);
+      saveNotesToLocalStorage();
+      renderTagFilters();
+      renderNoteList();
+      selectNote(newId);
+      
+      document.getElementById('note-title').focus();
+      document.getElementById('note-title').select();
+    }
+
+    function saveNotesToLocalStorage() {
+      localStorage.setItem('yeon_notes', JSON.stringify(notes));
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage('yeon-note-changed', '*');
+      }
+    }
+
+    // 모든 노트에서 중복 없이 유효한 태그 목록 추출
+    function getUniqueTags() {
+      const tags = new Set();
+      notes.forEach(n => {
+        if (n.tags && Array.isArray(n.tags)) {
+          n.tags.forEach(t => {
+            if (t.trim()) tags.add(t.trim());
+          });
+        }
+      });
+      return ['전체', ...Array.from(tags)];
+    }
+
+    function renderTagFilters() {
+      const container = document.getElementById('tag-filter-container');
+      const tags = getUniqueTags();
+      container.innerHTML = '';
+      
+      tags.forEach(t => {
+        const pill = document.createElement('span');
+        pill.className = `tag-filter-pill ${activeTagFilter === t ? 'active' : ''}`;
+        pill.textContent = t;
+        pill.onclick = () => {
+          activeTagFilter = t;
+          renderTagFilters();
+          renderNoteList();
+        };
+        container.appendChild(pill);
+      });
+    }
+
+    function renderNoteList() {
+      const listEl = document.getElementById('note-list');
+      const query = document.getElementById('search-input').value.toLowerCase();
+      
+      listEl.innerHTML = '';
+      
+      let filtered = notes;
+      
+      // 태그 필터링
+      if (activeTagFilter !== '전체') {
+        filtered = filtered.filter(n => n.tags && n.tags.includes(activeTagFilter));
+      }
+
+      // 검색어 필터링
+      if (query) {
+        filtered = filtered.filter(n => 
+          n.title.toLowerCase().includes(query) || 
+          (n.transcript && n.transcript.some(t => t.text.toLowerCase().includes(query))) ||
+          (n.tags && n.tags.some(t => t.toLowerCase().includes(query)))
+        );
+      }
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div style="text-align:center; padding:30px 10px; color:var(--text-muted); font-size:12px;">
+            일치하는 노트가 없습니다.
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(note => {
+        const itemEl = document.createElement('div');
+        itemEl.className = `note-item ${note.id === activeNoteId ? 'active' : ''}`;
+        itemEl.onclick = () => selectNote(note.id);
+        
+        const lastPhrase = note.transcript.length > 0 
+          ? note.transcript[note.transcript.length - 1].text 
+          : '사색을 기록할 준비가 되었습니다.';
+
+        itemEl.innerHTML = `
+          <div class="note-item-title">${escapeHTML(note.title)}</div>
+          <div class="note-item-preview">${escapeHTML(lastPhrase)}</div>
+          <div class="note-item-meta">
+            <span>${note.createdAt}</span>
+            <span class="note-item-badge">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:2px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${note.durationStr || '00:00'}
+            </span>
+          </div>
+        `;
+        listEl.appendChild(itemEl);
+      });
+    }
+
+    async function selectNote(id) {
+      activeNoteId = id;
+      
+      audioPlayer.pause();
+      isAudioPlaying = false;
+      document.getElementById('player-play-svg').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+
+      if (isRecording) cleanupRecordingResources();
+
+      // UI 포커스
+      document.querySelectorAll('.note-item').forEach(el => el.classList.remove('active'));
+      renderNoteList();
+
+      const note = notes.find(n => n.id === id);
+      if (!note) return;
+
+      document.getElementById('note-title').value = note.title;
+      document.getElementById('note-date').textContent = note.createdAt;
+      
+      if (note.durationStr && note.durationStr !== '00:00') {
+        document.getElementById('note-duration-badge').style.display = 'inline-flex';
+        document.getElementById('note-duration-text').textContent = note.durationStr;
+      } else {
+        document.getElementById('note-duration-badge').style.display = 'none';
+      }
+
+      // 태그 편집기 렌더링
+      renderTagsEditor();
+
+      // 화면 패널들 렌더링
+      renderTranscript();
+      renderSummary();
+      renderColumnTab();
+
+      // IndexedDB 오디오 여부 검출 및 세팅
+      const audioBlob = await getAudioBlob(id);
+      if (audioBlob) {
+        const audioUrl = URL.createObjectURL(audioBlob);
+        audioPlayer.src = audioUrl;
+        
+        document.getElementById('timer-ui').style.display = 'none';
+        document.getElementById('visualizer-ui').style.display = 'none';
+        document.getElementById('control-buttons-ui').style.display = 'none';
+        document.getElementById('player-ui').style.display = 'flex';
+        document.getElementById('player-time-total').textContent = note.durationStr;
+      } else {
+        resetToRecordMode();
+      }
+
+      switchTab(activeTab);
+    }
+
+    function updateNoteTitle(newVal) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+      note.title = newVal.trim() || '제목 없는 사색';
+      saveNotesToLocalStorage();
+      renderNoteList();
+    }
+
+    async function deleteActiveNote() {
+      if (!activeNoteId) return;
+      if (!confirm('이 사색 노트를 완전히 삭제할까요? (음성 파일 및 AI 요약이 모두 지워집니다)')) return;
+
+      const idx = notes.findIndex(n => n.id === activeNoteId);
+      await deleteAudioBlob(activeNoteId);
+
+      notes.splice(idx, 1);
+      saveNotesToLocalStorage();
+
+      activeNoteId = null;
+      activeTagFilter = '전체';
+      renderTagFilters();
+
+      if (notes.length > 0) {
+        selectNote(notes[0].id);
+      } else {
+        createNewNote();
+      }
+    }
+
+
+    // ===== 태그 에디터 =====
+    function renderTagsEditor() {
+      const container = document.getElementById('note-tags-editor');
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      container.innerHTML = '';
+      
+      // 태그 아이콘
+      container.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      `;
+
+      if (note.tags && Array.isArray(note.tags)) {
+        note.tags.forEach((tag, idx) => {
+          const pill = document.createElement('div');
+          pill.className = 'note-tag-pill';
+          pill.innerHTML = `
+            <span>${escapeHTML(tag)}</span>
+            <button class="btn-delete-tag" onclick="removeTag(${idx})" title="태그 삭제">×</button>
+          `;
+          container.appendChild(pill);
+        });
+      }
+
+      // 새 태그 추가 인풋
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'input-add-tag';
+      input.placeholder = '+ 태그 입력';
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          addTag(input.value);
+          input.value = '';
+        }
+      };
+      container.appendChild(input);
+    }
+
+    function addTag(val) {
+      const text = val.trim();
+      if (!text) return;
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      if (!note.tags) note.tags = [];
+      if (!note.tags.includes(text)) {
+        note.tags.push(text);
+        saveNotesToLocalStorage();
+        renderTagsEditor();
+        renderTagFilters();
+      }
+    }
+
+    function removeTag(idx) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      note.tags.splice(idx, 1);
+      saveNotesToLocalStorage();
+      renderTagsEditor();
+      renderTagFilters();
+    }
+
+
+    // ===== 음성 녹음 & Web Speech API =====
+    async function toggleRecording() {
+      const membership = localStorage.getItem('yeon_membership_type') || 'free';
+      if (membership === 'free') {
+        openSubscriptionModal();
+        return;
+      }
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          startRecordingWithStream(stream);
+        } catch (err) {
+          showToast('⚠ 마이크에 접근할 수 없습니다. 마이크 설정 권한을 확인해 주세요.');
+        }
+      } else {
+        stopRecording();
+      }
+    }
+
+    function startRecordingWithStream(stream) {
+      isRecording = true;
+      audioChunks = [];
+      recordingStartTime = Date.now();
+      
+      document.getElementById('rec-indicator').classList.add('active');
+      document.getElementById('btn-record').classList.add('recording');
+      document.getElementById('record-svg').innerHTML = '<rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />';
+      document.getElementById('btn-stop').style.display = 'flex';
+      
+      document.getElementById('timer-text').textContent = '00:00:00';
+      timerInterval = setInterval(updateTimer, 500);
+
+      // MediaRecorder 가동
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunks.push(e.data);
+      };
+      mediaRecorder.start();
+
+      // 파형 비주얼라이저 가동
+      startCanvasVisualizer(stream);
+
+      // Speech Recognition 가동
+      startSpeechRecognition();
+
+      switchTab('transcript');
+      showToast('✍ 사색 음성 기록을 시작합니다...');
+    }
+
+    function updateTimer() {
+      const elapsed = Date.now() - recordingStartTime;
+      document.getElementById('timer-text').textContent = formatTimerTime(elapsed);
+    }
+
+    function formatTimerTime(ms) {
+      const totalSecs = Math.floor(ms / 1000);
+      const hours = Math.floor(totalSecs / 3600);
+      const mins = Math.floor((totalSecs % 3600) / 60);
+      const secs = totalSecs % 60;
+      return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function startSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return;
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = localStorage.getItem('yeon_note_speech_lang') || 'ko-KR';
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        const note = notes.find(n => n.id === activeNoteId);
+        if (!note) return;
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const phrase = event.results[i][0].transcript.trim();
+          if (event.results[i].isFinal) {
+            if (phrase) {
+              const elapsed = (Date.now() - recordingStartTime) / 1000;
+              note.transcript.push({
+                text: phrase,
+                time: elapsed,
+                timestampStr: formatSecondsToMMSS(elapsed),
+                isBookmarked: false
+              });
+              saveNotesToLocalStorage();
+              renderTranscript();
+            }
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+
+        renderInterimText(interimTranscript);
+      };
+
+      recognition.onend = () => {
+        if (isRecording && recognition) {
+          try {
+            recognition.start();
+          } catch(e) {}
+        }
+      };
+
+      recognition.start();
+    }
+
+    function renderInterimText(text) {
+      let liveBox = document.getElementById('live-speaking-box');
+      if (!text) {
+        if (liveBox) liveBox.remove();
+        return;
+      }
+
+      if (!liveBox) {
+        liveBox = document.createElement('div');
+        liveBox.id = 'live-speaking-box';
+        liveBox.className = 'speaking-block';
+        document.getElementById('transcript-layout').appendChild(liveBox);
+      }
+
+      liveBox.innerHTML = `
+        <div class="speaking-indicator">
+          <div class="speaking-dot"></div>
+          <div class="speaking-dot"></div>
+          <div class="speaking-dot"></div>
+        </div>
+        <div class="transcript-text-container" style="font-style: italic;">${text}</div>
+      `;
+
+      const container = document.getElementById('tab-content-container');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function stopRecording() {
+      if (!isRecording) return;
+      
+      showToast('💾 사색 음성을 저장하는 중...');
+
+      if (recognition) {
+        recognition.onend = null;
+        recognition.stop();
+        recognition = null;
+      }
+
+      clearInterval(timerInterval);
+      const finalDurationMs = Date.now() - recordingStartTime;
+      const finalDurationStr = formatTimerTime(finalDurationMs).substring(3); // MM:SS 추출
+      
+      if (mediaRecorder) {
+        mediaRecorder.onstop = async () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          await saveAudioBlob(activeNoteId, blob);
+          
+          const note = notes.find(n => n.id === activeNoteId);
+          if (note) {
+            note.durationStr = finalDurationStr;
+            saveNotesToLocalStorage();
+            selectNote(activeNoteId);
+          }
+        };
+        mediaRecorder.stop();
+      }
+
+      cleanupRecordingResources();
+    }
+
+    function cleanupRecordingResources() {
+      isRecording = false;
+      document.getElementById('rec-indicator').classList.remove('active');
+      document.getElementById('btn-record').classList.remove('recording');
+      document.getElementById('record-svg').innerHTML = '<circle cx="12" cy="12" r="8"/>';
+      document.getElementById('btn-stop').style.display = 'none';
+      
+      stopCanvasVisualizer();
+      
+      if (mediaRecorder && mediaRecorder.stream) {
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      }
+    }
+
+
+    // ===== 비주얼라이저 구현 (Teal-to-Sand 그라데이션) =====
+    function startCanvasVisualizer(stream) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+
+      canvasStreamSource = audioCtx.createMediaStreamSource(stream);
+      canvasStreamSource.connect(analyser);
+
+      const canvas = document.getElementById('wave-canvas');
+      const ctx = canvas.getContext('2d');
+
+      const resizeCanvas = () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 30;
+      };
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      function draw() {
+        visualizerId = requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 1.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          barHeight = (dataArray[i] / 255) * canvas.height * 0.9;
+          
+          // 연라이프 새벽의 신뢰 그라데이션 (청록 -> 모래빛)
+          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          gradient.addColorStop(0, '#427a71'); // Teal
+          gradient.addColorStop(0.5, '#c38d56'); // Sand Gold
+          gradient.addColorStop(1, '#427a71');
+
+          ctx.fillStyle = gradient;
+          const y = (canvas.height - barHeight) / 2;
+          ctx.beginPath();
+          ctx.roundRect(x, y, barWidth - 2, barHeight, 2);
+          ctx.fill();
+
+          x += barWidth;
+        }
+      }
+
+      draw();
+    }
+
+    function stopCanvasVisualizer() {
+      if (visualizerId) cancelAnimationFrame(visualizerId);
+      if (audioCtx) audioCtx.close();
+      audioCtx = null;
+      analyser = null;
+      
+      const canvas = document.getElementById('wave-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+
+    // ===== 오디오 재생 제어 및 텍스트 하이라이트 싱크 =====
+    function toggleAudioPlayback() {
+      if (isAudioPlaying) {
+        audioPlayer.pause();
+        isAudioPlaying = false;
+        document.getElementById('player-play-svg').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+      } else {
+        audioPlayer.play();
+        isAudioPlaying = true;
+        document.getElementById('player-play-svg').innerHTML = '<rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />';
+      }
+    }
+
+    function seekAudio(percent) {
+      if (audioPlayer.duration) {
+        audioPlayer.currentTime = (percent / 100) * audioPlayer.duration;
+      }
+    }
+
+    function updateAudioProgress() {
+      const currentSec = audioPlayer.currentTime;
+      const totalSec = audioPlayer.duration || 0;
+      
+      document.getElementById('player-time-current').textContent = formatSecondsToMMSS(currentSec);
+      if (totalSec) {
+        const pct = (currentSec / totalSec) * 100;
+        document.getElementById('player-seek').value = pct;
+      }
+
+      syncTranscriptHighlight(currentSec);
+    }
+
+    function syncTranscriptHighlight(currentTime) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note || note.transcript.length === 0) return;
+
+      let activeIndex = -1;
+      for (let i = 0; i < note.transcript.length; i++) {
+        if (note.transcript[i].time <= currentTime) {
+          activeIndex = i;
+        } else {
+          break;
+        }
+      }
+
+      document.querySelectorAll('.timeline-block').forEach((el, idx) => {
+        if (idx === activeIndex) {
+          el.classList.add('highlight');
+        } else {
+          el.classList.remove('highlight');
+        }
+      });
+    }
+
+    function jumpToTime(seconds) {
+      audioPlayer.currentTime = seconds;
+      if (!isAudioPlaying) toggleAudioPlayback();
+    }
+
+    function resetToRecordMode() {
+      audioPlayer.src = '';
+      document.getElementById('player-ui').style.display = 'none';
+      document.getElementById('timer-ui').style.display = 'flex';
+      document.getElementById('visualizer-ui').style.display = 'flex';
+      document.getElementById('control-buttons-ui').style.display = 'flex';
+      document.getElementById('timer-text').textContent = '00:00:00';
+    }
+
+
+    // ===== 받아쓰기 타임라인 렌더링 & 개별 편집 & 북마크 =====
+    function renderTranscript() {
+      const layout = document.getElementById('transcript-layout');
+      const note = notes.find(n => n.id === activeNoteId);
+      
+      layout.innerHTML = '';
+
+      if (!note || note.transcript.length === 0) {
+        layout.innerHTML = `
+          <div class="empty-state">
+            <h3>대화 받아쓰기 기록이 비어있습니다</h3>
+            <p>녹음 버튼을 눌러 발화를 시작하면 텍스트 타임라인이 펼쳐집니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      note.transcript.forEach((block, idx) => {
+        const blockEl = document.createElement('div');
+        blockEl.className = `timeline-block ${block.isBookmarked ? 'bookmarked' : ''}`;
+        
+        blockEl.innerHTML = `
+          <div class="time-badge-row">
+            <button class="timestamp-btn" onclick="jumpToTime(${block.time})">
+              ${block.timestampStr}
+            </button>
+            <button class="btn-bookmark" onclick="toggleBookmark(${idx})" title="형광펜 북마크 설정">
+              ${block.isBookmarked 
+                ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+                : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+              }
+            </button>
+          </div>
+          <div class="transcript-text-container">
+            <div class="transcript-display-text" id="text-display-${idx}" onclick="enableTextEdit(${idx})">
+              ${escapeHTML(block.text)}
+            </div>
+          </div>
+        `;
+        layout.appendChild(blockEl);
+      });
+    }
+
+    function toggleBookmark(idx) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      note.transcript[idx].isBookmarked = !note.transcript[idx].isBookmarked;
+      saveNotesToLocalStorage();
+      renderTranscript();
+      renderSummary(); // 요약 탭의 북마크 리스트 동기화
+    }
+
+    // 인라인 개별 텍스트 편집 활성화
+    function enableTextEdit(idx) {
+      const displayEl = document.getElementById(`text-display-${idx}`);
+      const currentText = displayEl.textContent.trim();
+      const parentEl = displayEl.parentElement;
+
+      parentEl.innerHTML = `
+        <textarea class="transcript-edit-area" id="text-edit-${idx}" rows="2">${escapeHTML(currentText)}</textarea>
+      `;
+
+      const textarea = document.getElementById(`text-edit-${idx}`);
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+
+      // 편집 완료 이벤트 바인딩 (blur 또는 Ctrl+Enter)
+      textarea.onblur = () => finishTextEdit(idx, textarea.value);
+      textarea.onkeydown = (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+          finishTextEdit(idx, textarea.value);
+        }
+      };
+    }
+
+    function finishTextEdit(idx, newText) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      const text = newText.trim();
+      if (text) {
+        note.transcript[idx].text = text;
+        saveNotesToLocalStorage();
+      }
+
+      renderTranscript();
+      renderNoteList();
+    }
+
+
+    // ===== 사색 요약 탭 렌더링 =====
+    function renderSummary() {
+      const layout = document.getElementById('summary-layout');
+      const note = notes.find(n => n.id === activeNoteId);
+      
+      layout.innerHTML = '';
+
+      if (!note || !note.summary) {
+        layout.innerHTML = `
+          <div class="empty-state">
+            <h3>작성된 사색 요약이 없습니다</h3>
+            <p>우측 상단의 'AI 사색 분석 실행' 버튼을 눌러 정밀 분석을 돌려보세요.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const s = note.summary;
+      const checkedSet = new Set(s.checkedActionItems || []);
+
+      // 중요 북마크 대목 수집 (동적 렌더링)
+      const bookmarkedBlocks = note.transcript.filter(b => b.isBookmarked);
+      let bookmarksHTML = '';
+      if (bookmarkedBlocks.length > 0) {
+        bookmarksHTML = `
+          <div class="paper-card highlight-card">
+            <div class="paper-card-title">★ 내가 별표 표시한 중요 대목</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              ${bookmarkedBlocks.map(b => `
+                <div style="display:flex; gap:10px; font-size:13px; line-height:1.5; border-bottom:1px dashed var(--border-color); padding-bottom:8px;">
+                  <span style="font-weight:700; color:var(--yp-pine); flex-shrink:0;">[${b.timestampStr}]</span>
+                  <span style="color:var(--text-main); font-style:italic;">"${escapeHTML(b.text)}"</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let keyPointsHTML = '';
+      if (s.keyPoints && s.keyPoints.length > 0) {
+        keyPointsHTML = `
+          <div class="paper-card">
+            <div class="paper-card-title">✦ 핵심 사유 요약</div>
+            <ul class="journal-list">
+              ${s.keyPoints.map(p => `<li>${escapeHTML(p)}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
+      let actionItemsHTML = '';
+      if (s.actionItems && s.actionItems.length > 0) {
+        actionItemsHTML = `
+          <div class="paper-card">
+            <div class="paper-card-title">✔ 사색 실천 과제</div>
+            <div class="action-items">
+              ${s.actionItems.map((item, idx) => `
+                <div class="action-item ${checkedSet.has(idx) ? 'completed' : ''}" onclick="toggleActionItem(${idx})">
+                  <input type="checkbox" ${checkedSet.has(idx) ? 'checked' : ''} onclick="event.stopPropagation(); toggleActionItem(${idx})">
+                  <span>${escapeHTML(item)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let keywordsHTML = '';
+      if (s.keywords && s.keywords.length > 0) {
+        keywordsHTML = `
+          <div class="paper-card">
+            <div class="paper-card-title"># 사유 태그 키워드</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              ${s.keywords.map(k => `<span class="keyword-tag">#${escapeHTML(k)}</span>`).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let outlineHTML = '';
+      if (s.writingOutline) {
+        outlineHTML = `
+          <div class="paper-card">
+            <div class="paper-card-title" style="color:var(--yp-pine);">✍ 나만의 글쓰기 구성안 가이드 (서론-본론-결론)</div>
+            <div class="outline-guide-container">
+              <div class="outline-step">
+                <span class="outline-step-badge">서론</span>
+                <span class="outline-step-text">${escapeHTML(s.writingOutline.intro || '')}</span>
+              </div>
+              <div class="outline-step">
+                <span class="outline-step-badge">본론</span>
+                <span class="outline-step-text">${escapeHTML(s.writingOutline.body || '')}</span>
+              </div>
+              <div class="outline-step">
+                <span class="outline-step-badge">결론</span>
+                <span class="outline-step-text">${escapeHTML(s.writingOutline.conclusion || '')}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      layout.innerHTML = `
+        <div class="journal-card-container">
+          <!-- 별표 북마크 수집 (가장 상위 노출) -->
+          ${bookmarksHTML}
+
+          <!-- AI 추천 제목 -->
+          <div class="paper-card">
+            <div class="paper-card-title" style="color:var(--yp-accent);">✨ AI 추천 제목</div>
+            <div class="paper-card-headline">${escapeHTML(s.aiTitle || '제목 분석 없음')}</div>
+          </div>
+
+          <!-- 한줄 요약 -->
+          <div class="paper-card">
+            <div class="paper-card-title">✏ 사색의 화두 (한줄 성찰)</div>
+            <div class="quote-box">
+              "${escapeHTML(s.oneLineSummary || '요약 분석 없음')}"
+            </div>
+          </div>
+
+          <!-- 글감 구성 가이드 -->
+          ${outlineHTML}
+
+          <!-- 요약 포인트 -->
+          ${keyPointsHTML}
+
+          <!-- 실천 과제 -->
+          ${actionItemsHTML}
+
+          <!-- 키워드 -->
+          ${keywordsHTML}
+        </div>
+      `;
+    }
+
+    function toggleActionItem(idx) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note || !note.summary) return;
+
+      if (!note.summary.checkedActionItems) note.summary.checkedActionItems = [];
+
+      const checkIdx = note.summary.checkedActionItems.indexOf(idx);
+      if (checkIdx === -1) {
+        note.summary.checkedActionItems.push(idx);
+      } else {
+        note.summary.checkedActionItems.splice(checkIdx, 1);
+      }
+
+      saveNotesToLocalStorage();
+      renderSummary();
+    }
+
+
+    // ===== AI 칼럼 및 비평 탭 렌더링 =====
+    function renderColumnTab() {
+      const layout = document.getElementById('column-layout');
+      const note = notes.find(n => n.id === activeNoteId);
+      
+      layout.innerHTML = '';
+
+      if (!note || !note.summary) {
+        layout.innerHTML = `
+          <div class="empty-state">
+            <h3>작성된 비평 및 칼럼이 없습니다</h3>
+            <p>우측 상단의 'AI 사색 분석 실행' 버튼을 눌러 인문학 분석을 가동해 보세요.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const s = note.summary;
+
+      let styleAdviceHTML = '';
+      if (s.styleAdvice && s.styleAdvice.length > 0) {
+        styleAdviceHTML = `
+          <div class="paper-card">
+            <div class="paper-card-title" style="color:var(--yp-pine);">💡 문장 표현 및 필치 개선 조언</div>
+            <ul class="journal-list">
+              ${s.styleAdvice.map(a => `<li>${escapeHTML(a)}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
+      layout.innerHTML = `
+        <div class="journal-card-container">
+          <!-- 칼럼 집필 에디터 -->
+          <div class="paper-card">
+            <div class="paper-card-title">✍ 나만의 사색 칼럼 집필실 (직접 편집 가능)</div>
+            <div class="column-author-badge">
+              <div class="avatar" style="background-color:var(--yp-pine); color:#fff;">緣</div>
+              <span>연라이프 주민과 AI 공동 집필실</span>
+            </div>
+            
+            <textarea class="column-editor-canvas" id="column-editor" oninput="updateColumnDraft(this.value)" placeholder="이곳에 나만의 생각과 문장을 덧붙여 글을 완성해 보세요.">${escapeHTML(s.columnDraft || '')}</textarea>
+            
+            <!-- AI 원고 다듬기 요청 상자 -->
+            <div class="refinement-container">
+              <div class="refinement-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                <span>AI 글쓰기 동반자에게 문장 다듬기 요청</span>
+              </div>
+              <div class="refinement-input-row">
+                <input type="text" class="refinement-input" id="refine-input" placeholder="예: '더 감성적인 어조로 다듬어줘', '맞춤법 검사하고 다듬어줘', '서론을 좀 더 길게 서술해줘'" onkeydown="if(event.key === 'Enter') refineColumnDraft()">
+                <button class="btn-refine" id="btn-refine" onclick="refineColumnDraft()">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  다듬기
+                </button>
+              </div>
+            </div>
+
+            <button class="btn-header" style="margin-top:20px; width:100%; justify-content:center; border-color:var(--yp-pine); color:var(--yp-pine);" onclick="copyColumnText()">
+              📋 칼럼 원고 복사하기
+            </button>
+          </div>
+
+          <!-- AI 비평가의 비평 -->
+          <div class="paper-card" style="background-color:rgba(195, 141, 86, 0.04); border-left:3px solid var(--yp-accent);">
+            <div class="paper-card-title" style="color:var(--yp-accent);">🧐 AI 비평가 피드백</div>
+            <div class="critique-body-text">${escapeHTML(s.critique || '비평가 피드백이 없습니다.')}</div>
+          </div>
+
+          <!-- 문장 표현 및 필치 개선 조언 -->
+          ${styleAdviceHTML}
+        </div>
+      `;
+    }
+
+    function updateColumnDraft(newVal) {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note || !note.summary) return;
+      note.summary.columnDraft = newVal;
+      saveNotesToLocalStorage();
+    }
+
+    async function refineColumnDraft() {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note || !note.summary) return;
+
+      const apiKey = localStorage.getItem('yeon_note_gemini_api_key');
+      const inputEl = document.getElementById('refine-input');
+      const btnEl = document.getElementById('btn-refine');
+      const editorEl = document.getElementById('column-editor');
+      
+      const instruction = inputEl.value.trim();
+      const currentDraft = editorEl.value;
+
+      if (!instruction) {
+        showToast('⚠ AI에게 요청할 다듬기 지시어를 입력해 주세요.');
+        return;
+      }
+
+      btnEl.disabled = true;
+      const originalText = btnEl.innerHTML;
+      btnEl.innerHTML = `
+        <svg style="animation: spin 1s infinite linear; width:12px; height:12px; margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M12 2v4"/></svg>
+        다듬는 중...
+      `;
+      showToast('⚡ AI 동반자가 칼럼 원고를 다듬어 고쳐 쓰고 있습니다...');
+
+      if (!apiKey) {
+        // 모의 다듬기
+        setTimeout(() => {
+          let refinedText = currentDraft;
+          if (instruction.includes('감성') || instruction.includes('시적')) {
+            refinedText = `[모의 감성 다듬기 완료]\n\n새벽빛이 창가를 비출 때, 우리는 마음 한구석에 숨겨둔 생각의 실타래를 풀기 시작했다.\n\n` + currentDraft + `\n\n이 사색의 끝에서 우리는 서로의 결을 느끼며, 고요한 평온 속에 우리의 삶을 다시금 돌아본다.`;
+          } else if (instruction.includes('맞춤법') || instruction.includes('교정')) {
+            refinedText = `[모의 맞춤법 교정 완료]\n\n` + currentDraft.replace(/같다/g, '다').replace(/하고/g, '하며');
+          } else {
+            refinedText = `[모의 다듬기 완료 - 지시어: "${instruction}"]\n\n` + currentDraft + `\n\n(실제 Gemini API 키가 설정되면 입력하신 지시사항에 맞춰 문장이 완벽하게 재작성됩니다.)`;
+          }
+          editorEl.value = refinedText;
+          note.summary.columnDraft = refinedText;
+          saveNotesToLocalStorage();
+          
+          btnEl.disabled = false;
+          btnEl.innerHTML = originalText;
+          inputEl.value = '';
+          showToast('💡 API 설정이 없어 모의로 원고를 다듬었습니다!');
+        }, 1500);
+        return;
+      }
+
+      const refinementSystemPrompt = `당신은 작가의 칼럼 초안을 지정된 요청에 맞추어 유려하고 정돈되게 다듬어 주는 전문 편집자이자 수필가입니다.
+주어진 초안의 핵심 내용은 그대로 유지하면서, 작성자의 지시 사항에 따라 문장을 윤색하고 다듬어 주세요.
+주의: 작가의 요청 사항에만 완벽하게 맞추어 글을 작성해야 합니다.
+반드시 다른 설명, 인사말, 안내문, 마크다운 코드 블록 선언(\`\`\` 등)은 제외하고, 오직 수정이 완료된 한국어 칼럼 본문 텍스트만 그대로 출력해 주세요.`;
+
+      const completePrompt = `${refinementSystemPrompt}\n\n[원본 칼럼 초안]:\n${currentDraft}\n\n[지시 사항]:\n${instruction}\n\n[수정된 칼럼 본문]:`;
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: completePrompt }] }]
+          })
+        });
+
+        if (!response.ok) throw new Error('API Error');
+
+        const data = await response.json();
+        let rawText = data.candidates[0].content.parts[0].text.trim();
+        rawText = rawText.replace(/```markdown/g, '').replace(/```html/g, '').replace(/```/g, '').trim();
+
+        if (rawText) {
+          editorEl.value = rawText;
+          note.summary.columnDraft = rawText;
+          saveNotesToLocalStorage();
+          showToast('✨ AI 동반자가 원고 수정을 마쳤습니다!');
+          inputEl.value = '';
+        }
+      } catch (err) {
+        showToast('❌ 원고 다듬기 실패. API 키 유효성을 확인해 주세요.');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+      }
+    }
+
+    function copyColumnText() {
+      const text = document.getElementById('column-editor').value;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 칼럼 원고가 클립보드에 복사되었습니다!');
+      });
+    }
+
+
+    // ===== Gemini AI 칼럼/비평/요약 통합 생성 로직 =====
+    async function generateAISummary() {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      if (note.transcript.length === 0) {
+        showToast('⚠ 받아쓰기 텍스트가 존재하지 않아 AI 분석을 진행할 수 없습니다.');
+        return;
+      }
+
+      const apiKey = localStorage.getItem('yeon_note_gemini_api_key');
+      const aiBtn = document.getElementById('ai-btn');
+      const originalHTML = aiBtn.innerHTML;
+      
+      aiBtn.disabled = true;
+      aiBtn.innerHTML = `
+        <svg style="animation: spin 1s infinite linear; width:12px; height:12px; margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M12 2v4"/></svg>
+        AI 성찰 중...
+      `;
+      showToast('⚡ Gemini API로 대화의 심층 칼럼과 요약을 생성하는 중입니다...');
+
+      const fullTranscript = note.transcript.map(t => `[${t.timestampStr}] ${t.text}`).join('\n');
+
+      if (!apiKey) {
+        // API 키 미제공 시 모의 데이터 생성
+        setTimeout(() => {
+          generateMockSummary(note);
+          aiBtn.disabled = false;
+          aiBtn.innerHTML = originalHTML;
+          showToast('💡 API 설정이 없어 체험용 데모 칼럼과 요약을 작성했습니다!');
+        }, 1500);
+        return;
+      }
+
+      const promptSystem = localStorage.getItem('yeon_note_summary_prompt') || DEFAULT_PROMPT;
+      const completePrompt = `${promptSystem}\n\n대화 받아쓰기 텍스트:\n"""\n${fullTranscript}\n"""`;
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: completePrompt }] }]
+          })
+        });
+
+        if (!response.ok) throw new Error('API Error');
+
+        const data = await response.json();
+        let rawText = data.candidates[0].content.parts[0].text;
+        rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        const summaryObj = JSON.parse(rawText);
+        summaryObj.checkedActionItems = [];
+
+        note.summary = summaryObj;
+
+        // 제목 자동 추천
+        if (summaryObj.aiTitle && (note.title === '새 사색 메모' || note.title === '새 음성 메모')) {
+          note.title = summaryObj.aiTitle;
+          document.getElementById('note-title').value = summaryObj.aiTitle;
+        }
+
+        saveNotesToLocalStorage();
+        renderNoteList();
+        renderSummary();
+        renderColumnTab();
+        switchTab('summary');
+        showToast('✨ AI 사색 비평 및 칼럼 집필이 완성되었습니다!');
+      } catch (err) {
+        showToast('❌ AI 분석 실패. API 키 유효성을 확인해 주세요.');
+        generateMockSummary(note);
+      } finally {
+        aiBtn.disabled = false;
+        aiBtn.innerHTML = originalHTML;
+      }
+    }
+
+    function generateMockSummary(note) {
+      const allText = note.transcript.map(t => t.text).join(' ');
+      const words = allText.split(/\s+/).filter(w => w.length >= 2);
+      const uniqueWords = [...new Set(words)].slice(0, 5);
+
+      const mockSummary = {
+        aiTitle: `${note.title} (체험용 사색 분석)`,
+        oneLineSummary: `로컬 텍스트의 총 ${note.transcript.length}개 텍스트 흐름을 파헤쳐 분석한 사색의 발자취입니다.`,
+        keyPoints: [
+          `음성 녹음 시간은 총 ${note.durationStr} 분량으로 저장되어 연라이프 보관소에 저장되었습니다.`,
+          `대화에서 관찰된 핵심 단어 흐름: [ ${uniqueWords.join(', ')} ]`,
+          `브라우저 Web Speech API 인스턴스가 텍스트화를 정상 보조 완료했습니다.`
+        ],
+        actionItems: [
+          '설정 메뉴에서 실제 Gemini API 키를 연동해 인문학 비평 받기',
+          'timeline 타임스탬프를 클릭하여 오디오 재생 싱크 테스트해보기',
+          '내보내기 클릭하여 칼럼 초안 마크다운(.md) 파일 획득하기'
+        ],
+        keywords: uniqueWords.length > 0 ? uniqueWords : ['대화', '사색노트', '받아쓰기'],
+        columnDraft: `제목: ${note.title}에 관한 단상\n\n우리가 무심히 흘려보내는 일상의 언어 속에는 사실 사색의 씨앗들이 숨겨져 있다. 오늘 나눈 대화는 단순한 의사소통을 넘어, 마음의 지평을 확인하는 과정이었다. \n\n우리는 대화 속에서 '${uniqueWords.join(', ')}' 등 일상적인 단어를 꺼냈지만, 그 깊숙한 저변에는 삶을 향한 더 나은 질문들이 꿈틀대고 있었다. 기록하지 않은 사유는 휘발되지만, 이렇게 텍스트로 박제된 대화는 언제고 다시 꺼내 읽어볼 수 있는 한 편의 영혼의 칼럼이 된다. 연라이프 주민으로서 우리는 더 질문하고, 기록하며, 스스로의 성찰을 넓혀갈 것이다. 본 원고는 Gemini API Key를 연동하면 받아쓰기 전체 문장을 종합 분석하여 실제 잡지에 기고할 수 있는 분량과 기승전결을 갖춘 완성형 칼럼 초안으로 고도화되어 자동 생산된다.`,
+        critique: `[AI 비평가의 조언]\n이 대화는 일상적 대화이지만, 후반부로 갈수록 사색의 질문들이 성숙해지는 경향을 보입니다. 다만 다룬 핵심 단어의 스펙트럼이 다소 분산되어 있으므로, 하나의 관점을 관통하는 정돈된 질문을 추가로 배치하면 인문학적 가치가 배가될 것입니다. 별표 북마크 기능을 적극 활용하여 사색을 체계적으로 묶어보십시오.`,
+        writingOutline: {
+          intro: `대화 중에 화두가 된 [${uniqueWords[0] || '사색'}]에 대해 일상적인 질문을 던지며 글을 열어보세요. 독자들의 공감을 이끌어내기 좋습니다.`,
+          body: `대화 중 언급되었던 [${uniqueWords.slice(1).join(', ') || '생각들'}]의 구체적인 에피소드를 본문에서 갈등이나 깨달음의 과정과 함께 전개해 보세요.`,
+          conclusion: `마지막으로 일상에서 이 화두를 어떻게 실천하고 마음공부로 연결할 것인지 스스로의 결심과 함께 여운이 남는 명조체 감각의 문장으로 맺어주세요.`
+        },
+        styleAdvice: [
+          `'~인 것 같다'는 추측형 종결어미 대신 '~이다', '~한다' 등 확신에 찬 어조로 글의 품격을 높여 보세요.`,
+          `일상적인 어휘 대신 '사색', '화두', '단상', '결'과 같이 연라이프 고유의 정서가 담긴 어휘를 활용해 보세요.`
+        ]
+      };
+
+      note.summary = mockSummary;
+      saveNotesToLocalStorage();
+      renderSummary();
+      renderColumnTab();
+      switchTab('summary');
+    }
+
+
+    // ===== 설정 팝업 =====
+    function openSettings() {
+      const modal = document.getElementById('modal-settings');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('active'), 10);
+      
+      document.getElementById('input-gemini-key').value = localStorage.getItem('yeon_note_gemini_api_key') || '';
+      document.getElementById('select-speech-lang').value = localStorage.getItem('yeon_note_speech_lang') || 'ko-KR';
+      document.getElementById('select-membership-type').value = localStorage.getItem('yeon_membership_type') || 'free';
+      document.getElementById('input-prompt').value = localStorage.getItem('yeon_note_summary_prompt') || DEFAULT_PROMPT;
+    }
+
+    function closeSettings() {
+      const modal = document.getElementById('modal-settings');
+      modal.classList.remove('active');
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+
+    function saveSettings() {
+      const key = document.getElementById('input-gemini-key').value.trim();
+      const lang = document.getElementById('select-speech-lang').value;
+      const membership = document.getElementById('select-membership-type').value;
+      const prompt = document.getElementById('input-prompt').value;
+
+      localStorage.setItem('yeon_note_gemini_api_key', key);
+      localStorage.setItem('yeon_note_speech_lang', lang);
+      localStorage.setItem('yeon_membership_type', membership);
+      localStorage.setItem('yeon_note_summary_prompt', prompt);
+
+      updateMembershipUI();
+      closeSettings();
+      showToast('⚙ 설정이 성공적으로 저장되었습니다.');
+    }
+
+    // ===== 유료 구독 안내 팝업 및 연동 =====
+    function openSubscriptionModal() {
+      const modal = document.getElementById('modal-subscription');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('active'), 10);
+    }
+
+    function closeSubscriptionModal() {
+      const modal = document.getElementById('modal-subscription');
+      modal.classList.remove('active');
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+
+    function subscribePremium() {
+      localStorage.setItem('yeon_membership_type', 'premium');
+      updateMembershipUI();
+      closeSubscriptionModal();
+      showToast('🎉 연라이프 주민 작가 구독이 완료되었습니다! 음성 받아쓰기가 활성화되었습니다.');
+    }
+
+    function updateMembershipUI() {
+      const membership = localStorage.getItem('yeon_membership_type') || 'free';
+      const badge = document.getElementById('user-membership-badge');
+      const avatar = document.getElementById('user-avatar');
+      
+      if (membership !== 'free') {
+        let label = '주민 작가 (유료)';
+        if (membership === 'basic') label = '기본 회원 (유료)';
+        if (membership === 'standard') label = '표준 회원 (유료)';
+        if (membership === 'premium') label = '주민 작가 (유료)';
+
+        badge.textContent = label;
+        badge.style.color = 'var(--yp-accent)';
+        if (avatar) {
+          avatar.style.background = 'linear-gradient(135deg, var(--stamp-red) 0%, var(--yp-accent) 100%)';
+          avatar.style.boxShadow = '0 0 8px rgba(195,141,86,0.3)';
+        }
+      } else {
+        badge.textContent = '일반 회원';
+        badge.style.color = 'var(--text-muted)';
+        if (avatar) {
+          avatar.style.background = 'linear-gradient(135deg, var(--yp-accent) 0%, var(--yp-sand) 100%)';
+          avatar.style.boxShadow = 'none';
+        }
+      }
+    }
+
+
+    // ===== 마크다운 및 텍스트 내보내기 =====
+    function exportNote() {
+      const note = notes.find(n => n.id === activeNoteId);
+      if (!note) return;
+
+      let mdText = `# ${note.title}\n\n`;
+      mdText += `**사색 기록일**: ${note.createdAt} | **녹음 분량**: ${note.durationStr}\n`;
+      mdText += `**분류 태그**: ${note.tags.join(', ')}\n\n`;
+      
+      if (note.summary) {
+        mdText += `## 1. AI 분석 사색 요약\n`;
+        mdText += `### 화두: ${note.summary.aiTitle}\n\n`;
+        mdText += `> ${note.summary.oneLineSummary}\n\n`;
+        
+        mdText += `### 핵심 생각 일람\n`;
+        note.summary.keyPoints.forEach(p => { mdText += `- ${p}\n`; });
+        mdText += `\n`;
+
+        mdText += `### 실천 행동 과제\n`;
+        note.summary.actionItems.forEach((item, idx) => {
+          const checked = note.summary.checkedActionItems && note.summary.checkedActionItems.includes(idx);
+          mdText += `- [${checked ? 'x' : ' '}] ${item}\n`;
+        });
+        mdText += `\n`;
+
+        mdText += `## 2. 대화록 기반 집필 칼럼 초안\n`;
+        mdText += `${note.summary.columnDraft}\n\n`;
+
+        mdText += `## 3. AI 비평가 피드백\n`;
+        mdText += `> ${note.summary.critique}\n\n`;
+      }
+
+      mdText += `## 4. 받아쓰기 타임라인 전문\n`;
+      note.transcript.forEach(block => {
+        mdText += `[${block.timestampStr}]${block.isBookmarked ? ' ★' : ''} ${block.text}\n\n`;
+      });
+
+      // 클립보드 복사
+      navigator.clipboard.writeText(mdText).then(() => {
+        showToast('📋 마크다운 회의록/칼럼이 클립보드에 복사되었습니다!');
+      });
+
+      // 다운로드 파일 다운
+      const blob = new Blob([mdText], { type: 'text/markdown;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${note.title.replace(/\s+/g, '_')}_사색록.md`;
+      link.click();
+    }
+
+
+    // ===== 탭 전환 및 유틸리티 =====
+    function switchTab(tab) {
+      activeTab = tab;
+      
+      document.getElementById('tab-summary').classList.remove('active');
+      document.getElementById('tab-column').classList.remove('active');
+      document.getElementById('tab-transcript').classList.remove('active');
+      
+      document.getElementById('panel-summary').classList.remove('active');
+      document.getElementById('panel-column').classList.remove('active');
+      document.getElementById('panel-transcript').classList.remove('active');
+
+      if (tab === 'summary') {
+        document.getElementById('tab-summary').classList.add('active');
+        document.getElementById('panel-summary').classList.add('active');
+      } else if (tab === 'column') {
+        document.getElementById('tab-column').classList.add('active');
+        document.getElementById('panel-column').classList.add('active');
+      } else {
+        document.getElementById('tab-transcript').classList.add('active');
+        document.getElementById('panel-transcript').classList.add('active');
+      }
+    }
+
+    function formatSecondsToMMSS(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // iframe 환경 여부 감지하여 body에 클래스 부여
+    if (window.parent && window.parent !== window) {
+      document.body.classList.add('embedded');
+    }
+
+    // 부모 창으로부터 테마 변경 메시지 수신하여 연동
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'set-theme') {
+        const isDark = event.data.theme === 'night';
+        if (isDark) {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+        localStorage.setItem('yeon_dark_mode', isDark);
+      }
+    });
+  </script>
+</body>
+</html>

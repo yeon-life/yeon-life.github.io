@@ -375,6 +375,11 @@
     .yl-view { padding: 6px 11px; font-size: 12px; }
     .yl-brand-strip { top: 96px; }
   }
+
+  /* 사색 집필실 뷰에서 윗쪽 브랜드 스트립 숨김 (겹침 방지) */
+  body[data-active-view="yeon-note"] .yl-brand-strip {
+    display: none !important;
+  }
 </style>
 </head>
 <body>
@@ -384,6 +389,7 @@
   <button class="yl-view active" data-view="map"><span class="yl-view-ico">◉</span>지도</button>
   <button class="yl-view" data-view="analytics"><span class="yl-view-ico">▦</span>분석</button>
   <button class="yl-view" data-view="my-data"><span class="yl-view-ico">⊞</span>내 자료</button>
+  <button class="yl-view" data-view="yeon-note"><span class="yl-view-ico">✍</span>사색 집필실</button>
 </div>
 
 <!-- 페이지 식별 — 緣 y-life.kr 클릭 시 홈으로 -->
@@ -480,7 +486,7 @@
     <div class="yl-section-head">처리 비용</div>
     <p style="color: rgba(240,237,226,.7); font-size: 13px; line-height: 1.75;">
       <strong style="color:#4a9060;">텍스트 위주 자료는 무료</strong>입니다 — 학생들이 평소 쓰는 노트·문서·PDF·웹 스크랩은 거의 다 텍스트라 무료 한도(월 100문서) 안에서 처리됩니다.
-      <strong style="color:#c4923e;">이미지 OCR·음성 전사·무제한·깊이 분석은 유료</strong>로 1만~3만원/월 등급이 있습니다.
+      <strong style="color:#c4923e;">이미지 OCR·음성 전사·무제한·깊이 분석은 유료</strong>로 **주민 작가 요금제(월 19,000원)** 등의 등급이 있습니다.
       학생들은 학원 패키지에 포함시켜 학생 단가를 낮출 수 있습니다.
     </p>
 
@@ -494,6 +500,11 @@
       <a href="내_자료/5_생각_분석차트/_폴더안내.md">📂 생각 분석 차트 폴더 안내</a>
     </div>
   </div>
+</div>
+
+<!-- 4. 사색 집필실 (연-NOTE) -->
+<div id="yeon-note" class="hidden" style="width: 100vw; height: 100vh; border: none; overflow: hidden; position: relative;">
+  <iframe src="연-NOTE.html" style="width: 100%; height: 100%; border: none;" id="yeon-note-iframe"></iframe>
 </div>
 
 <!-- 외부 라이브러리 -->
@@ -570,13 +581,104 @@ let mapInstance = null;
 let analyticsInstance = null;
 let currentView = 'map';
 
+function getDynamicPlazaData() {
+  const data = {
+    nodes: [...PLAZA.nodes],
+    edges: [...PLAZA.edges],
+    categories: {
+      ...PLAZA.categories,
+      '내 사색': { color: '#c4923e', label: '내 사색', tooltip: '연-NOTE 사색 집필실에서 작성한 나의 사색 노트' }
+    }
+  };
+
+  const savedNotes = localStorage.getItem('yeon_notes');
+  if (savedNotes) {
+    try {
+      const userNotes = JSON.parse(savedNotes);
+      userNotes.forEach((note, index) => {
+        const nodeId = 'user_' + note.id;
+        const label = note.title || '새 사색 메모';
+        
+        // Spreading them in a nice circle around the perimeter
+        const angle = (index / Math.max(1, userNotes.length)) * 2 * Math.PI;
+        const radius = 0.3 + (index % 2) * 0.08;
+        const x = 0.5 + Math.cos(angle) * radius;
+        const y = 0.5 + Math.sin(angle) * radius;
+
+        let body = '';
+        if (note.summary && note.summary.oneLineSummary) {
+          body = note.summary.oneLineSummary;
+        } else if (note.transcript && note.transcript.length > 0) {
+          body = note.transcript.map(t => t.text).join(' ').substring(0, 100) + '...';
+        } else {
+          body = '사색의 기록이 아직 비어있습니다.';
+        }
+
+        data.nodes.push({
+          id: nodeId,
+          label: label,
+          cat: '내 사색',
+          depth: 10,
+          comments: 0,
+          views: 1,
+          size: 1.1,
+          x: x,
+          y: y,
+          by: '나 (주민)',
+          time: note.createdAt,
+          subject: '내 사색',
+          body: body,
+          isUserNote: true,
+          localNoteId: note.id
+        });
+
+        let connected = false;
+        const userKeywords = [];
+        if (note.tags) userKeywords.push(...note.tags);
+        if (note.summary && note.summary.keywords) userKeywords.push(...note.summary.keywords);
+
+        data.nodes.forEach(plazaNode => {
+          if (plazaNode.id !== nodeId && !plazaNode.isUserNote) {
+            const match = userKeywords.some(kw => 
+              plazaNode.label.includes(kw) || 
+              (plazaNode.body && plazaNode.body.includes(kw))
+            );
+            if (match) {
+              data.edges.push({
+                from: nodeId,
+                to: plazaNode.id,
+                type: 'connection'
+              });
+              connected = true;
+            }
+          }
+        });
+
+        if (!connected) {
+          data.edges.push({
+            from: nodeId,
+            to: 'h-1',
+            type: 'connection'
+          });
+        }
+      });
+    } catch (e) {
+      console.error('[사색 노트 노드 변환 실패]', e);
+    }
+  }
+
+  return data;
+}
+
 function mountMap() {
   if (mapInstance) mapInstance.destroy();
   
+  const dynamicData = getDynamicPlazaData();
+  
   mapInstance = YeonThinkMap.mount('#map', {
-    nodes: PLAZA.nodes,
-    edges: PLAZA.edges,
-    categories: PLAZA.categories,
+    nodes: dynamicData.nodes,
+    edges: dynamicData.edges,
+    categories: dynamicData.categories,
     options: {
       title: PLAZA.meta.title,
       tagline: PLAZA.meta.tagline,
@@ -584,20 +686,35 @@ function mountMap() {
     onNodeClick: (node) => {
       window.__yeonSelectedNode = node;
       console.log('[광장 노드 클릭]', node.label, node);
-      // 상세 패널 렌더 직후, 원문 보기 버튼 + Vault 카드 (YLV-4 §22) 자동 추가
       setTimeout(() => {
         const detail = document.querySelector('.ytm-detail');
         if (!detail) return;
         const actions = detail.querySelector('.ytm-detail-actions');
-        if (actions && !actions.querySelector('.yl-detail-open-source')) {
+        if (actions) {
+          const existingBtn = actions.querySelector('.yl-detail-open-source');
+          if (existingBtn) existingBtn.remove();
+
           const btn = document.createElement('a');
           btn.className = 'yl-detail-open-source';
-          btn.href = '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(node.id || '') +
-                     '&title=' + encodeURIComponent(node.label || '');
-          btn.innerHTML = '<span>原文</span><span>원문 보기 →</span>';
+          
+          if (node.isUserNote) {
+            btn.href = '#';
+            btn.onclick = (e) => {
+              e.preventDefault();
+              switchView('yeon-note');
+              const iframe = document.getElementById('yeon-note-iframe');
+              if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectNote === 'function') {
+                iframe.contentWindow.selectNote(node.localNoteId);
+              }
+            };
+            btn.innerHTML = '<span>사색</span><span>집필실에서 수정하기 →</span>';
+          } else {
+            btn.href = '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(node.id || '') +
+                       '&title=' + encodeURIComponent(node.label || '');
+            btn.innerHTML = '<span>原文</span><span>원문 보기 →</span>';
+          }
           actions.appendChild(btn);
         }
-        // Vault 4단 분류 카드 자동 삽입 (YLV-4 §22)
         if (window.YEON_RENDER_VAULT_CARD && !detail.querySelector('.ytm-vault-card')) {
           const body = detail.querySelector('.ytm-detail-body') || detail;
           body.insertAdjacentHTML('beforeend', window.YEON_RENDER_VAULT_CARD(node));
@@ -620,7 +737,15 @@ document.addEventListener('click', (e) => {
     const n = window.__yeonSelectedNode;
     if (n) {
       e.stopPropagation();
-      _yeonGoDetail(n.id, n.label);
+      if (n.isUserNote) {
+        switchView('yeon-note');
+        const iframe = document.getElementById('yeon-note-iframe');
+        if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectNote === 'function') {
+          iframe.contentWindow.selectNote(n.localNoteId);
+        }
+      } else {
+        _yeonGoDetail(n.id, n.label);
+      }
     }
     return;
   }
@@ -655,7 +780,15 @@ document.addEventListener('click', (e) => {
     const n = window.__yeonSelectedNode;
     if (n) {
       e.stopPropagation();
-      _yeonGoDetail(n.id, n.label);
+      if (n.isUserNote) {
+        switchView('yeon-note');
+        const iframe = document.getElementById('yeon-note-iframe');
+        if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectNote === 'function') {
+          iframe.contentWindow.selectNote(n.localNoteId);
+        }
+      } else {
+        _yeonGoDetail(n.id, n.label);
+      }
     }
     return;
   }
@@ -680,6 +813,25 @@ document.addEventListener('click', (e) => {
     if (deep.querySelector('.yl-deep-open-source')) return;
     const n = window.__yeonSelectedNode;
     if (!n) return;
+
+    if (n.isUserNote) {
+      const btn = document.createElement('a');
+      btn.className = 'yl-detail-open-source yl-deep-open-source';
+      btn.href = '#';
+      btn.onclick = (e) => {
+        e.preventDefault();
+        switchView('yeon-note');
+        const iframe = document.getElementById('yeon-note-iframe');
+        if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectNote === 'function') {
+          iframe.contentWindow.selectNote(n.localNoteId);
+        }
+      };
+      btn.innerHTML = '<span>사색</span><span>집필실에서 수정하기 →</span>';
+      btn.style.cssText = 'position:absolute;top:14px;right:60px;';
+      deep.appendChild(btn);
+      return;
+    }
+
     const btn = document.createElement('a');
     btn.className = 'yl-detail-open-source yl-deep-open-source';
     btn.href = '단계2_광장글_상세페이지.html?id=' + encodeURIComponent(n.id || '') +
@@ -693,10 +845,13 @@ document.addEventListener('click', (e) => {
 
 function mountAnalytics() {
   if (analyticsInstance) analyticsInstance.destroy();
+  
+  const dynamicData = getDynamicPlazaData();
+  
   analyticsInstance = YeonAnalytics.mount('#dashboard', {
-    nodes: PLAZA.nodes,
-    edges: PLAZA.edges,
-    categories: PLAZA.categories,
+    nodes: dynamicData.nodes,
+    edges: dynamicData.edges,
+    categories: dynamicData.categories,
     options: {
       title: '광장 활동 분석',
       tagline: PLAZA.meta.tagline,
@@ -706,10 +861,12 @@ function mountAnalytics() {
 
 function switchView(view) {
   currentView = view;
+  document.body.setAttribute('data-active-view', view);
   document.querySelectorAll('.yl-view').forEach(b => b.classList.toggle('active', b.dataset.view === view));
   document.getElementById('map').classList.toggle('hidden', view !== 'map');
   document.getElementById('dashboard').classList.toggle('hidden', view !== 'analytics');
   document.getElementById('my-data').classList.toggle('hidden', view !== 'my-data');
+  document.getElementById('yeon-note').classList.toggle('hidden', view !== 'yeon-note');
 
   if (view === 'map') {
     if (analyticsInstance) { analyticsInstance.destroy(); analyticsInstance = null; }
@@ -717,11 +874,35 @@ function switchView(view) {
   } else if (view === 'analytics') {
     if (mapInstance) { mapInstance.destroy(); mapInstance = null; }
     mountAnalytics();
-  } else if (view === 'my-data') {
+  } else if (view === 'my-data' || view === 'yeon-note') {
     if (mapInstance) { mapInstance.destroy(); mapInstance = null; }
     if (analyticsInstance) { analyticsInstance.destroy(); analyticsInstance = null; }
   }
+
+  if (view === 'yeon-note') {
+    const iframe = document.getElementById('yeon-note-iframe');
+    if (iframe && iframe.contentWindow && typeof iframe.contentWindow.selectNote === 'function') {
+      const activeId = iframe.contentWindow.activeNoteId;
+      if (activeId) iframe.contentWindow.selectNote(activeId);
+    }
+    // Sync current theme state to the iframe on view switch
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'day';
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'set-theme', theme: currentTheme }, '*');
+    }
+  }
 }
+
+// 실시간 사색 메모 업데이트 감지
+window.addEventListener('message', (event) => {
+  if (event.data === 'yeon-note-changed') {
+    if (currentView === 'map') {
+      mountMap();
+    } else if (currentView === 'analytics') {
+      mountAnalytics();
+    }
+  }
+});
 
 function openFolder(folderName) {
   // 폴더 안내 .md 파일을 마크다운 뷰어로 깔끔하게 보여줌
@@ -766,6 +947,12 @@ document.getElementById('yl-view-toggle').addEventListener('click', e => {
       b.classList.toggle('active', b.dataset.theme === theme)
     );
     try{ localStorage.setItem(KEY, theme); }catch(e){}
+
+    // Sync theme to yeon-note iframe
+    const iframe = document.getElementById('yeon-note-iframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'set-theme', theme: theme }, '*');
+    }
   }
   // 첫 진입 시 저장값 또는 시스템 선호로 기본 결정 (기본은 낮)
   let initial = 'day';
