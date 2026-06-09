@@ -1,0 +1,36 @@
+# Ignore Git and GitHub metadata
+.git
+.github
+
+# Ignore Firebase local config
+.firebase
+.firebaserc
+firestore.rules
+
+# Ignore backup and scratch files
+_백업
+scratch
+temp_search.txt
+*.bak
+*.zip
+*.zip.tmp
+*.docx
+*.mermaid
+*.bat
+*.sh
+*.py
+__pycache__
+
+# Ignore private or raw assets
+내_자료
+캔바업로드용_PNG
+
+# Ignore heavy directories not needed for Vercel API / basic staging
+도서관
+내친구인공지능_월간
+내친구인공지능_책
+진짜_배움_영상
+어린이의_결_월간
+어린이의_결_유치_월간
+어린이의_결_초등_월간
+

@@ -317,6 +317,41 @@
   <footer><div class="wrap">© 2026 연 작은도서관 · y-life.kr — 이름·인기가 아니라, 좋은 생각이 가장 높은 자리에.</div></footer>
 
 <script>
+  // 지점(삼산점 등) 연동을 위한 이전 페이지 파라미터 추적 및 세션 저장
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const fromParam = params.get('from');
+    if (fromParam) {
+      sessionStorage.setItem('from_branch', fromParam);
+    }
+    const fromBranch = sessionStorage.getItem('from_branch');
+    if (fromBranch === 'samsan') {
+      const samsanUrl = 'https://samsan.y-life.kr/';
+      document.addEventListener('DOMContentLoaded', () => {
+        // 로고 링크 수정
+        const logoLink = document.querySelector('.brand a[href="/index.html"]');
+        if (logoLink) {
+          logoLink.href = samsanUrl;
+          logoLink.title = '연삼산점 홈으로';
+          const ySpan = logoLink.querySelector('.y');
+          logoLink.innerHTML = (ySpan ? ySpan.outerHTML : '<span class="y">緣</span>') + ' 연삼산점';
+        }
+        // 상단 홈 버튼 수정
+        const homeNav = document.querySelector('.ynav a.homeb');
+        if (homeNav) {
+          homeNav.href = samsanUrl;
+          homeNav.textContent = '⌂ 삼산점 홈';
+        }
+        // 드로어 홈 링크 수정
+        const drawerHome = document.querySelector('#ylDrawer a[href="/index.html"]');
+        if (drawerHome) {
+          drawerHome.href = samsanUrl;
+          drawerHome.innerHTML = '<span class="han">家</span> 연삼산점 홈 <small>삼산점 화면</small>';
+        }
+      });
+    }
+  })();
+
   const COVERS=[['#2f5d62','#427a71'],['#c38d56','#a87b3e'],['#5a6e8c','#7c8db0'],['#7a6a4a','#a08a62'],['#4a6b5e','#6b8c7e']];
   let ALL=[], state={f:'all',q:''};
   const $=s=>document.querySelector(s);
@@ -355,7 +390,15 @@
       ? `background:url('${esc(coverUrl)}') center/cover no-repeat` 
       : `background:linear-gradient(135deg,${c[0]},${c[1]})`;
     const titleOverlay = hasCover ? '' : `<h3>${esc(b.title)}</h3>`;
-    return `<a class="book" href="${esc(b.url)}">
+    
+    // 지점 파라미터가 있는 경우 책 상세 페이지로도 전달
+    let targetUrl = b.url;
+    const fromBranch = sessionStorage.getItem('from_branch');
+    if (fromBranch) {
+      targetUrl = targetUrl.indexOf('?') >= 0 ? `${targetUrl}&from=${fromBranch}` : `${targetUrl}?from=${fromBranch}`;
+    }
+
+    return `<a class="book" href="${esc(targetUrl)}">
       <div class="cover" style="${bgStyle}">
         <span class="badge" style="background:${({'그림완성':'var(--pine)','그림작업중':'#c98a4b','글완성':'#9a948b'})[b.status]||'#9a948b'}">${({'그림완성':'그림까지 완성','그림작업중':'그림 작업 중','글완성':'글 검수 완료'})[b.status]||'글 검수 완료'}</span>
         ${b.deployed?'<span class="badge" style="background:rgba(47,93,98,.92);left:auto;right:8px">배포됨</span>':''}

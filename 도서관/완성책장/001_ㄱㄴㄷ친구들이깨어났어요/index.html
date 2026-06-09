@@ -644,5 +644,32 @@ document.title=M.title||'연 그림책';
 (function(){const g=curGrow(); document.getElementById('growBody').innerHTML=g?`<b>${g.theme||''}</b><br>${g.desc||''}<br><span style="color:#7b8686;">${g.grade||''}</span>`:'';})();
 buildSite();
 </script>
+<script>
+// 지점(삼산점 등) 연동을 위한 이전 페이지 파라미터 추적 및 세션 저장
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var fromParam = params.get('from');
+  if (fromParam) {
+    sessionStorage.setItem('from_branch', fromParam);
+  }
+  var fromBranch = sessionStorage.getItem('from_branch');
+  if (fromBranch === 'samsan') {
+    var samsanUrl = 'https://samsan.y-life.kr/';
+    var libBar = document.getElementById('yl-libbar');
+    if (libBar) {
+      var homeLink = libBar.querySelector('a[href*="index.html"]');
+      if (homeLink) {
+        homeLink.href = samsanUrl;
+        homeLink.title = '연삼산점 홈으로';
+        homeLink.innerHTML = '緣 연삼산점';
+      }
+      var libLink = libBar.querySelector('a[href*="도서관"]');
+      if (libLink && libLink.href.indexOf('from=samsan') === -1) {
+        libLink.href = libLink.href.indexOf('?') >= 0 ? libLink.href + '&from=samsan' : libLink.href + '?from=samsan';
+      }
+    }
+  }
+})();
+</script>
 </body>
 </html>

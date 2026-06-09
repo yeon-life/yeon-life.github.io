@@ -546,5 +546,40 @@
       </div>
     </div>
   </div>
+<script>
+// 지점(삼산점 등) 연동을 위한 이전 페이지 파라미터 추적 및 세션 저장
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var fromParam = params.get('from');
+  if (fromParam) {
+    sessionStorage.setItem('from_branch', fromParam);
+  }
+  var fromBranch = sessionStorage.getItem('from_branch');
+  if (fromBranch === 'samsan') {
+    var samsanUrl = 'https://samsan.y-life.kr/';
+    document.addEventListener('DOMContentLoaded', function() {
+      // 로고 링크 수정
+      var logoLink = document.querySelector('.brand a[href*="/index.html"]');
+      if (logoLink) {
+        logoLink.href = samsanUrl;
+        logoLink.title = '연삼산점 홈으로';
+        var ySpan = logoLink.querySelector('.y');
+        logoLink.innerHTML = (ySpan ? ySpan.outerHTML : '<span class="y">緣</span>') + ' 연삼산점';
+      }
+      // 홈네비 링크 수정
+      var homeNavs = document.querySelectorAll('.ynav a[href*="/index.html"]');
+      homeNavs.forEach(function(homeNav) {
+        homeNav.href = samsanUrl;
+        homeNav.textContent = '삼산점 홈';
+      });
+      // 도서관 링크가 있으면 지점 파라미터 전달하도록 수정
+      var libNav = document.querySelector('.ynav a[href*="/도서관/"]');
+      if (libNav && libNav.href.indexOf('from=samsan') === -1) {
+        libNav.href = libNav.href.indexOf('?') >= 0 ? libNav.href + '&from=samsan' : libNav.href + '?from=samsan';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
