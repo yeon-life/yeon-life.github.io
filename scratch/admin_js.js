@@ -2628,7 +2628,7 @@ setInterval(async ()=>{
     title: '옵시디언 활용법',
     tagline: '두 번째 뇌를 짓는 노트의 길',
     author: '연소사',
-    source: { name: '연플래닝', url: 'https://yeon.ai.kr/ulsan/yeon-planning/' },
+    source: { name: '연플래닝', url: 'https://y-life.kr/ulsan/yeon-planning/' },
     versions: [
       { version: 'v1.0', date: '2026-05-07', summary: '최초 공개 — 옵시디언을 처음 만나는 분부터, 한 걸음 더 깊이 들어가고 싶은 분까지 함께 읽을 수 있도록 풀어 썼습니다.', isLatest: true, body: '' }
     ]
