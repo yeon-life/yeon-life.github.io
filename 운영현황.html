@@ -135,6 +135,9 @@
     </div>
   </div>
 
+  <h2 class="sec">내 저장 공간 (R2 · 무료 10GB) <span style="font-size:11px;color:var(--mut);font-weight:400">· 여러 공간 준비 · 필요하면 즉시 확대</span></h2>
+  <div class="card" id="spaces"></div>
+
   <h2 class="sec">서버 현황 <span style="font-size:11px;color:var(--mut);font-weight:400">· 점=응답 확인</span></h2>
   <div class="srv" id="srv"></div>
 
@@ -176,6 +179,14 @@ var CATS=[
 ];
 /* 날짜별: 호스팅GB, 도서관GB, 비용원 */
 var CAP=[{d:'06-07',host:2.2,lib:2.2,cost:0},{d:'06-10(정리후)',host:1.2,lib:1.2,cost:3136}];
+/* 내 저장 공간(R2) — 무료 10GB(계정 전체 공유), 여러 버킷 준비 */
+var R2_FREE=10;
+var SPACES=[
+  {nm:'도서관 공간', id:'yeon-library', use:0, for:'책 그림(+향후 음성)'},
+  {nm:'잡지 공간', id:'yeon-magazines', use:0, for:'결 시리즈 그림'},
+  {nm:'블로그 공간', id:'yeon-blogs', use:0, for:'블로그·작가 그림'},
+  {nm:'음성 공간', id:'yeon-audio', use:0, for:'슈퍼톤 음성'}
+];
 var SERVERS=[
   {nm:'y-life.kr',ds:'메인 홈',url:'https://y-life.kr/',role:'Pages'},
   {nm:'과학의 결',ds:'주간 과학',url:'https://yeon-science.web.app/',role:'FB'},
@@ -268,6 +279,19 @@ function gaugeSVG(p,l){
     +CATS.map(function(c){var w=Math.max(3,c.gb/max*100);var cls=c.gb>=1?'bad':c.gb>=0.3?'warn':'';
       return '<div class="row"><span class="nm">'+esc(c.nm)+'</span><span class="track"><span class="'+cls+'" style="width:'+w+'%"></span></span><span class="v"'+(c.gb>=1?' style="color:#cf4b36"':'')+'>'+c.gb+'GB</span></div>';
     }).join('');
+})();
+
+/* ── 내 저장 공간(R2) ── */
+(function(){
+  var used=SPACES.reduce(function(a,s){return a+s.use;},0), ACC='315e09d1563028b17b1fb4b8afe0df73';
+  var pct=Math.min(100,used/R2_FREE*100);
+  document.getElementById('spaces').innerHTML=
+    '<div class="note" style="margin:0 0 8px">R2 무료 <b>'+R2_FREE+'GB</b> · 현재 사용 <b style="color:#3f9d62">'+used+'GB</b> · 여유 <b style="color:#3f9d62">'+(R2_FREE-used)+'GB</b> (전부 $0). 모자라면 <b>즉시 공간 추가</b>, 10GB 넘어도 1GB당 ~₩20로 빠르게 확대.</div>'
+    +'<div class="bar" style="margin-bottom:14px"><span style="width:'+Math.max(2,pct)+'%"></span></div>'
+    +'<div class="map">'+SPACES.map(function(s){return '<div class="mcard"><h3>'+esc(s.nm)+'</h3>'
+      +'<div class="note" style="margin:0 0 8px;font-size:11px">'+esc(s.id)+' · '+esc(s.for)+'</div>'
+      +'<div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--mut)">사용</span><b style="color:#3f9d62">'+(s.use?s.use+'GB':'0 B · 빈 공간')+'</b></div>'
+      +'<a href="https://dash.cloudflare.com/'+ACC+'/r2/default/buckets/'+s.id+'" target="_blank" rel="noopener" style="font-size:11.5px;color:var(--teal);display:block;margin-top:7px">공간 열기 →</a></div>';}).join('')+'</div>';
 })();
 
 /* ── 추세 차트 ── */
