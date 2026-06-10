@@ -91,6 +91,19 @@
   .actbtn.chat{background:#fff;color:var(--teal)}
   .actbtn.chat:hover{background:#eef5f3}
   #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#21302e;color:#fff;font-size:12.5px;padding:11px 18px;border-radius:10px;max-width:90vw;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  #fixModal{display:none;position:fixed;inset:0;background:rgba(33,48,46,.55);z-index:60;align-items:center;justify-content:center;padding:16px}
+  .fxcard{background:var(--card);border:1px solid var(--line);border-radius:16px;max-width:460px;width:100%;padding:18px 20px;box-shadow:0 16px 40px rgba(0,0,0,.25)}
+  .fxhead{display:flex;align-items:center;justify-content:space-between;font-family:var(--serif);font-size:17px;color:var(--teald);margin-bottom:10px}
+  .fxx{border:none;background:none;font-size:18px;color:var(--mut);cursor:pointer;line-height:1}
+  .fxrisk{font-size:13px;color:var(--bad);font-weight:700;background:var(--badbg);border-radius:9px;padding:8px 11px}
+  .fxprog{font-size:12.5px;color:var(--ink2);margin:10px 0 4px} .fxprog b{color:var(--teald)}
+  .fxsteps{list-style:none;margin:6px 0 0;padding:0}
+  .fx{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--mut);padding:7px 0;border-bottom:1px solid rgba(40,32,20,.05)}
+  .fx.d{color:var(--ink)} .fx .fxm{width:20px;height:20px;border-radius:50%;background:#eee6d6;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none}
+  .fx.d .fxm{background:var(--ok);color:#fff} .fx em{margin-left:auto;font-style:normal;font-size:11px;color:var(--ok);font-weight:700} .fx em.w{color:var(--warn)}
+  .fxnote{font-size:11.5px;color:var(--mut);line-height:1.7;margin:12px 0 12px;background:#f7f3ea;border-radius:9px;padding:9px 11px}
+  .fxsend{width:100%;border:none;border-radius:11px;padding:13px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;background:var(--teal);color:#fff}
+  .fxsend:hover{background:var(--teald)}
   .note{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.7}
   footer{text-align:center;font-size:11px;color:var(--mut);margin-top:24px;padding-top:16px;border-top:1px solid var(--line)} footer a{color:var(--teal)}
   @media print{.pbtn{display:none} body{padding:0} .card,.mcard,.srv a,.gauge{box-shadow:none;break-inside:avoid}}
@@ -137,6 +150,12 @@
   <footer>관리자용(noindex) · Claude가 점검 때마다 갱신 · <a href="/">홈</a></footer>
 </div>
 <div id="toast"></div>
+<div id="fixModal" onclick="if(event.target===this)closeFix()">
+  <div class="fxcard">
+    <div class="fxhead"><b>위험 처리 과정</b><button class="fxx" onclick="closeFix()">✕</button></div>
+    <div id="fixBody"></div>
+  </div>
+</div>
 
 <script>
 /* ===== 데이터 (점검 때마다 갱신) ===== */
@@ -216,7 +235,7 @@ document.getElementById('upd').textContent='갱신 '+UPDATED;
   b.innerHTML='<div class="big">'+(bad?'위험 '+risks.length+'건':'정상')+'</div>'
     +'<div class="txt"><b>'+(bad?'지금 손봐야 할 곳이 있습니다.':'특이 위험 없음.')+'</b>'
     +(bad?'<div class="lst">'+risks.map(function(x){return '<span class="x">●</span> '+esc(x);}).join('<br>')+'</div>':'')+'</div>'
-    +(bad?'<button class="banner-act" onclick="copyChat(\'운영현황 위험 지금 처리해줘\')">지금 바로 처리해줘</button>':'');
+    +(bad?'<button class="banner-act" onclick="openFix()">지금 바로 처리해줘</button>':'');
 })();
 
 /* ── 반원 게이지 ── */
@@ -294,6 +313,30 @@ var TKEY='yeon_ops_tasks';function tstate(){try{return JSON.parse(localStorage.g
 function actBtn(it){if(!it.act)return '';var a=it.act;
   if(a.kind==='link')return '<a class="actbtn" href="'+a.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">'+esc(a.label)+' →</a>';
   return '<button class="actbtn chat" onclick="copyChat(\''+esc(a.phrase)+'\')">'+esc(a.label)+'</button>';}
+/* 위험 처리 과정 패널 */
+var FIXPLAN={
+  risk:'사이트 용량(GitHub) 0.85GB — GitHub 권장 1GB의 85%',
+  steps:[
+    {t:'도서관 중복 폴더 971MB 정리', done:true},
+    {t:'미사용 원본 PNG 424MB 백업 이동', done:true},
+    {t:'Cloudflare R2 활성화 + 버킷 4개 생성', done:true},
+    {t:'이미지를 R2(yeon-library)로 이전', done:false},
+    {t:'사이트 MEDIA_BASE 연결 → 사이트 용량 거의 0', done:false}
+  ],
+  send:'이미지 옮겨줘'
+};
+function openFix(){
+  var done=FIXPLAN.steps.filter(function(s){return s.done;}).length, tot=FIXPLAN.steps.length;
+  var li=FIXPLAN.steps.map(function(s){return '<li class="fx'+(s.done?' d':'')+'"><span class="fxm">'+(s.done?'✓':'○')+'</span>'+esc(s.t)+(s.done?' <em>완료</em>':' <em class="w">다음</em>')+'</li>';}).join('');
+  document.getElementById('fixBody').innerHTML=
+    '<div class="fxrisk">⚠ '+esc(FIXPLAN.risk)+'</div>'
+    +'<div class="fxprog">처리 진행 <b>'+done+'/'+tot+'</b> · 남은 '+(tot-done)+'단계면 사이트 용량 거의 0</div>'
+    +'<ol class="fxsteps">'+li+'</ol>'
+    +'<div class="fxnote">웹 화면은 저(Claude)를 직접 실행할 수 없어, 아래 버튼이 <b>다음 단계 요청을 복사</b>합니다 → 채팅에 붙여넣기(Ctrl+V) 후 보내시면 제가 이어서 진행합니다.</div>'
+    +'<button class="fxsend" onclick="copyChat(\''+FIXPLAN.send+'\');closeFix();">다음 단계 “'+FIXPLAN.send+'” 채팅에 보내기</button>';
+  document.getElementById('fixModal').style.display='flex';
+}
+function closeFix(){document.getElementById('fixModal').style.display='none';}
 function copyChat(p){try{navigator.clipboard.writeText(p);}catch(e){}var t=document.getElementById('toast');t.textContent='복사됨 — 채팅창에 붙여넣기(Ctrl+V) 후 보내세요: "'+p+'"';t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3500);}
 (function(){var st=tstate();document.getElementById('tasks').innerHTML=TASKS.map(function(g){return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){var id=g.g+'::'+it.t;var ck=(id in st)?st[id]:!!it.done;return '<div class="tk'+(ck?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(ck?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label>'+actBtn(it)+'</div>';}).join('')+'</div>';}).join('');
   document.getElementById('tasks').addEventListener('change',function(e){var cb=e.target;if(cb.type!=='checkbox')return;var st=tstate();st[cb.dataset.id]=cb.checked;try{localStorage.setItem(TKEY,JSON.stringify(st));}catch(_){}cb.closest('.tk').classList.toggle('done',cb.checked);});})();
