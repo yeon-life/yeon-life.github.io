@@ -83,6 +83,11 @@
   .tk{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(40,32,20,.05)}
   .tk input{margin-top:3px;width:15px;height:15px;flex:none;accent-color:var(--teal)} .tk.done label{color:var(--mut);text-decoration:line-through}
   .tk .d{font-size:11px;color:var(--bad);font-weight:600}
+  .actbtn{margin-left:auto;flex:none;font-family:inherit;font-size:11px;font-weight:700;text-decoration:none;border-radius:8px;padding:4px 10px;cursor:pointer;border:1px solid var(--teal);background:var(--teal);color:#fff;white-space:nowrap}
+  .actbtn:hover{background:var(--teald)}
+  .actbtn.chat{background:#fff;color:var(--teal)}
+  .actbtn.chat:hover{background:#eef5f3}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#21302e;color:#fff;font-size:12.5px;padding:11px 18px;border-radius:10px;max-width:90vw;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.25)}
   .note{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.7}
   footer{text-align:center;font-size:11px;color:var(--mut);margin-top:24px;padding-top:16px;border-top:1px solid var(--line)} footer a{color:var(--teal)}
   @media print{.pbtn{display:none} body{padding:0} .card,.mcard,.srv a,.gauge{box-shadow:none;break-inside:avoid}}
@@ -128,6 +133,7 @@
 
   <footer>관리자용(noindex) · Claude가 점검 때마다 갱신 · <a href="/">홈</a></footer>
 </div>
+<div id="toast"></div>
 
 <script>
 /* ===== 데이터 (점검 때마다 갱신) ===== */
@@ -172,7 +178,11 @@ var MAP=[
 ];
 var TASKS=[
   {g:'완료',items:[{t:'결 시리즈+다층메뉴',done:true},{t:'구독 시스템',done:true},{t:'한글의 결 내 진도 하단',done:true},{t:'블로그 카드 한 칸 내림',done:true},{t:'연소사 사진 교체',done:true},{t:'예산 50% 알림',done:true},{t:'운영현황 대시보드',done:true}]},
-  {g:'급함 — 비용/배포',items:[{t:'도서관 2.2GB 압축',done:false,d:'빌드 막힘·과금 위험'},{t:'미디어 R2 분리',done:false,d:'카테고리 확장 대비'}]},
+  {g:'급함 — 비용/배포',items:[
+    {t:'RTDB 규칙 게시',done:false,d:'봇 차단→비용0·보안',act:{kind:'link',label:'규칙 게시 열기',url:'https://console.firebase.google.com/project/y-life-e191d/database/y-life-e191d-default-rtdb/rules'}},
+    {t:'도서관 중복 971MB 정리',done:false,d:'2.2GB→1.2GB·git복구가능',act:{kind:'chat',label:'바로 조치(Claude)',phrase:'도서관 중복 정리 진행'}},
+    {t:'미디어 R2 분리',done:false,d:'카테고리 확장 대비',act:{kind:'link',label:'Cloudflare R2 열기',url:'https://dash.cloudflare.com/?to=/:account/r2'}}
+  ]},
   {g:'다음',items:[{t:'모의투자 MVP/그래프 화면',done:false},{t:'인공지능의 결 잡지 창간',done:false},{t:'광장 상세 — 선생님 글 위로',done:false}]}
 ];
 /* 약속·점검 이력 (평가용) — 만든 시점·기준값·약속·평가일·상태 */
@@ -275,7 +285,11 @@ document.getElementById('map').innerHTML=MAP.map(function(g){return '<div class=
 
 /* ── 체크 ── */
 var TKEY='yeon_ops_tasks';function tstate(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch(e){return {};}}
-(function(){var st=tstate();document.getElementById('tasks').innerHTML=TASKS.map(function(g){return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){var id=g.g+'::'+it.t;var ck=(id in st)?st[id]:!!it.done;return '<div class="tk'+(ck?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(ck?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label></div>';}).join('')+'</div>';}).join('');
+function actBtn(it){if(!it.act)return '';var a=it.act;
+  if(a.kind==='link')return '<a class="actbtn" href="'+a.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">'+esc(a.label)+' →</a>';
+  return '<button class="actbtn chat" onclick="copyChat(\''+esc(a.phrase)+'\')">'+esc(a.label)+'</button>';}
+function copyChat(p){try{navigator.clipboard.writeText(p);}catch(e){}var t=document.getElementById('toast');t.textContent='복사됨 — 채팅창에 붙여넣기(Ctrl+V) 후 보내세요: "'+p+'"';t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3500);}
+(function(){var st=tstate();document.getElementById('tasks').innerHTML=TASKS.map(function(g){return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){var id=g.g+'::'+it.t;var ck=(id in st)?st[id]:!!it.done;return '<div class="tk'+(ck?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(ck?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label>'+actBtn(it)+'</div>';}).join('')+'</div>';}).join('');
   document.getElementById('tasks').addEventListener('change',function(e){var cb=e.target;if(cb.type!=='checkbox')return;var st=tstate();st[cb.dataset.id]=cb.checked;try{localStorage.setItem(TKEY,JSON.stringify(st));}catch(_){}cb.closest('.tk').classList.toggle('done',cb.checked);});})();
 
 /* ── 약속·점검 이력 ── */
