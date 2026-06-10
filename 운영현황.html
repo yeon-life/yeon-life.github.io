@@ -26,6 +26,9 @@
   .banner .txt{flex:1;min-width:200px}
   .banner .txt b{font-size:15px} .banner .lst{font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.7}
   .banner .lst .x{color:var(--bad);font-weight:800}
+  .banner-act{flex:none;align-self:center;margin-left:auto;border:none;border-radius:10px;padding:11px 18px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;background:var(--bad);color:#fff;white-space:nowrap;box-shadow:0 3px 10px rgba(182,84,63,.32)}
+  .banner-act:hover{background:#a8412f}
+  @media(max-width:560px){.banner-act{margin-left:0;width:100%}}
 
   h2.sec{font-family:var(--serif);font-size:15px;color:var(--ink);margin:24px 2px 10px;font-weight:800;border-left:4px solid var(--gold);padding-left:10px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
@@ -212,7 +215,8 @@ document.getElementById('upd').textContent='갱신 '+UPDATED;
   b.className='banner '+(bad?'bad':'ok');
   b.innerHTML='<div class="big">'+(bad?'위험 '+risks.length+'건':'정상')+'</div>'
     +'<div class="txt"><b>'+(bad?'지금 손봐야 할 곳이 있습니다.':'특이 위험 없음.')+'</b>'
-    +(bad?'<div class="lst">'+risks.map(function(x){return '<span class="x">●</span> '+esc(x);}).join('<br>')+'</div>':'')+'</div>';
+    +(bad?'<div class="lst">'+risks.map(function(x){return '<span class="x">●</span> '+esc(x);}).join('<br>')+'</div>':'')+'</div>'
+    +(bad?'<button class="banner-act" onclick="copyChat(\'운영현황 위험 지금 처리해줘\')">지금 바로 처리해줘</button>':'');
 })();
 
 /* ── 반원 게이지 ── */
