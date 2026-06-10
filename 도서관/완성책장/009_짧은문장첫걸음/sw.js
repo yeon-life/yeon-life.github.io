@@ -3,7 +3,6 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/images/cover.png',
   '/images/icon-192.png',
   '/images/icon-512.png',
   '/print/오므리_색칠.png',
