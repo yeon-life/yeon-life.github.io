@@ -60,8 +60,11 @@
 
   /* 서버 */
   .srv{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-  .srv a{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;text-decoration:none;color:var(--ink)}
+  .srv a{display:flex;flex-direction:column;align-items:stretch;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;text-decoration:none;color:var(--ink)}
   .srv a:hover{border-color:var(--teal)}
+  .srv-top{display:flex;align-items:center;gap:9px}
+  .lat{height:5px;background:#efe8d8;border-radius:999px;overflow:hidden}
+  .lat span{display:block;height:100%;width:0;background:#cfc7b8;transition:width .5s ease}
   .dot{width:11px;height:11px;border-radius:50%;background:#cfc7b8;flex:none}
   .dot.up{background:var(--ok)} .dot.down{background:var(--bad)} .dot.chk{background:var(--warn);animation:pl 1s infinite}
   .srv .nm{font-weight:700;font-size:13px} .srv .ds{font-size:10.5px;color:var(--mut)}
@@ -159,13 +162,13 @@ var SERVERS=[
   {nm:'생각의 지도',ds:'광장 별자리',url:'https://y-life.kr/광장_생각지도.html',role:'Pages'}
 ];
 var MAP=[
-  {h:'결 시리즈(잡지)',items:[{t:'과학의 결',u:'https://yeon-science.web.app/',s:'라이브'},{t:'수학의 결',u:'https://yeon-math.web.app/',s:'라이브'},{t:'한글의 결',u:'https://yeon-hangeul.web.app/',s:'라이브'},{t:'인공지능의 결',u:'/내친구인공지능_책/index.html',s:'책(잡지 예정)'}]},
-  {h:'광장',items:[{t:'사랑방',u:'/saranbang.html',s:''},{t:'질문 숲',u:'/question-forest.html',s:''},{t:'생각의 지도',u:'/광장_생각지도.html',s:''}]},
-  {h:'도서관',items:[{t:'연 작은도서관',u:'/도서관/',s:'2.2GB — 압축/R2 급함',x:true}]},
-  {h:'블로그(작가)',items:[{t:'작가와 기자',u:'/블로그_AI작가기자_인덱스.html',s:''},{t:'연소사 블로그',u:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',s:''}]},
-  {h:'구독·결제',items:[{t:'구독(v4)',u:'/구독.html',s:''},{t:'관리자 1클릭 승인',u:'/관리자_구독승인.html',s:''}]},
-  {h:'구상·개발',items:[{t:'모의투자(데모)',u:'/모의투자.html',s:'설계+데모'},{t:'그래프 전문 화면',u:'#',s:'제작 대기',soon:true},{t:'인공지능의 결 잡지',u:'#',s:'창간 예정',soon:true}]},
-  {h:'운영·비용',items:[{t:'호스팅 사용량',u:'https://console.firebase.google.com/project/y-life-e191d/hosting/usage',s:'Firebase'},{t:'예산 알림 50%(5천원)',u:'https://console.cloud.google.com/billing/013D68-F02E87-AEF239/budgets?organizationId=0',s:'작동'}]}
+  {h:'결 시리즈(잡지)',gr:{type:'progress',label:'라이브 잡지',v:3,total:4},items:[{t:'과학의 결',u:'https://yeon-science.web.app/',s:'라이브'},{t:'수학의 결',u:'https://yeon-math.web.app/',s:'라이브'},{t:'한글의 결',u:'https://yeon-hangeul.web.app/',s:'라이브'},{t:'인공지능의 결',u:'/내친구인공지능_책/index.html',s:'책(잡지 예정)'}]},
+  {h:'광장',gr:{type:'progress',label:'기능 운영',v:3,total:3},items:[{t:'사랑방',u:'/saranbang.html',s:''},{t:'질문 숲',u:'/question-forest.html',s:''},{t:'생각의 지도',u:'/광장_생각지도.html',s:''}]},
+  {h:'도서관',gr:{type:'storage',label:'용량(권장 0.5GB)',gb:2.2,budget:0.5},items:[{t:'연 작은도서관',u:'/도서관/',s:'2.2GB — 압축/R2 급함',x:true}]},
+  {h:'블로그(작가)',gr:{type:'progress',label:'블로그 가동',v:2,total:2},items:[{t:'작가와 기자',u:'/블로그_AI작가기자_인덱스.html',s:''},{t:'연소사 블로그',u:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',s:''}]},
+  {h:'구독·결제',gr:{type:'progress',label:'구축 단계',v:2,total:3},items:[{t:'구독(v4)',u:'/구독.html',s:''},{t:'관리자 1클릭 승인',u:'/관리자_구독승인.html',s:''}]},
+  {h:'구상·개발',gr:{type:'progress',label:'완성 단계',v:1,total:3},items:[{t:'모의투자(데모)',u:'/모의투자.html',s:'설계+데모'},{t:'그래프 전문 화면',u:'#',s:'제작 대기',soon:true},{t:'인공지능의 결 잡지',u:'#',s:'창간 예정',soon:true}]},
+  {h:'운영·비용',gr:{type:'cost',label:'이번달 비용',won:3136,cap:5000},items:[{t:'호스팅 사용량',u:'https://console.firebase.google.com/project/y-life-e191d/hosting/usage',s:'Firebase'},{t:'예산 알림 50%(5천원)',u:'https://console.cloud.google.com/billing/013D68-F02E87-AEF239/budgets?organizationId=0',s:'작동'}]}
 ];
 var TASKS=[
   {g:'완료',items:[{t:'결 시리즈+다층메뉴',done:true},{t:'구독 시스템',done:true},{t:'한글의 결 내 진도 하단',done:true},{t:'블로그 카드 한 칸 내림',done:true},{t:'연소사 사진 교체',done:true},{t:'예산 50% 알림',done:true},{t:'운영현황 대시보드',done:true}]},
@@ -252,12 +255,23 @@ function gaugeSVG(p,l){
 })();
 
 /* ── 서버 ── */
-document.getElementById('srv').innerHTML=SERVERS.map(function(s,i){return '<a href="'+s.url+'" target="_blank" rel="noopener"><span class="dot" id="dot'+i+'"></span><span><span class="nm">'+esc(s.nm)+'</span><br><span class="ds">'+esc(s.ds)+'</span></span><span class="role">'+esc(s.role)+'</span></a>';}).join('');
-function pingAll(){SERVERS.forEach(function(s,i){var d=document.getElementById('dot'+i);d.className='dot chk';fetch(s.url,{mode:'no-cors',cache:'no-store'}).then(function(){d.className='dot up';}).catch(function(){d.className='dot down';});});}
+document.getElementById('srv').innerHTML=SERVERS.map(function(s,i){return '<a href="'+s.url+'" target="_blank" rel="noopener"><span class="srv-top"><span class="dot" id="dot'+i+'"></span><span style="flex:1"><span class="nm">'+esc(s.nm)+'</span><br><span class="ds">'+esc(s.ds)+'</span></span><span class="role">'+esc(s.role)+'</span></span><span class="lat"><span id="lat'+i+'"></span></span></a>';}).join('');
+function pingAll(){SERVERS.forEach(function(s,i){var d=document.getElementById('dot'+i),L=document.getElementById('lat'+i);d.className='dot chk';if(L){L.style.width='0';}var t0=performance.now();fetch(s.url,{mode:'no-cors',cache:'no-store'}).then(function(){var ms=performance.now()-t0;d.className='dot up';if(L){L.style.width=Math.max(8,Math.min(100,100-ms/14))+'%';L.style.background=ms<350?'#3f9d62':ms<900?'#d29a2a':'#cf4b36';L.parentNode.title='응답 '+Math.round(ms)+'ms (막대 길수록 빠름)';}}).catch(function(){d.className='dot down';if(L){L.style.width='100%';L.style.background='#cf4b36';L.parentNode.title='응답 없음';}});});}
 pingAll();
 
-/* ── 작업 지도 ── */
-document.getElementById('map').innerHTML=MAP.map(function(g){return '<div class="mcard"><h3>'+esc(g.h)+'</h3>'+g.items.map(function(it){return '<a href="'+it.u+'"'+(it.soon?' class="soon"':' target="_blank" rel="noopener"')+'>'+esc(it.t)+(it.s?' <span class="s'+(it.x?' x':'')+'">· '+esc(it.s)+'</span>':'')+'</a>';}).join('')+'</div>';}).join('');
+/* ── 작업 지도 (+ 내용 맞춤 미니 그래프) ── */
+function miniGraph(gr){
+  if(!gr) return '';
+  var w,bar,txt,vtxt;
+  if(gr.type==='progress'){var p=Math.round(gr.v/gr.total*100);w=p;bar=p>=100?'#3f9d62':'#427a71';txt=p>=100?'#3f9d62':'#264a44';vtxt=gr.v+'/'+gr.total+' ('+p+'%)';}
+  else if(gr.type==='storage'){var r=gr.gb/gr.budget;w=Math.min(100,r*20);bar=gr.gb>gr.budget?'#cf4b36':'#427a71';txt=gr.gb>gr.budget?'#cf4b36':'#264a44';vtxt=gr.gb+'GB'+(gr.gb>gr.budget?' ↑초과':'');}
+  else if(gr.type==='cost'){var c=Math.round(gr.won/gr.cap*100);w=Math.min(100,c);bar=c>=100?'#cf4b36':c>=80?'#d29a2a':'#427a71';txt=c>=80?(c>=100?'#cf4b36':'#d29a2a'):'#264a44';vtxt='₩'+gr.won.toLocaleString()+' / ₩'+gr.cap.toLocaleString()+' ('+c+'%)';}
+  else return '';
+  return '<div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(40,32,20,.07)">'
+    +'<div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut);margin-bottom:4px"><span>'+esc(gr.label)+'</span><span style="font-weight:700;color:'+txt+'">'+esc(vtxt)+'</span></div>'
+    +'<div style="height:7px;background:#efe8d8;border-radius:999px;overflow:hidden"><span style="display:block;height:100%;border-radius:999px;width:'+w+'%;background:'+bar+'"></span></div></div>';
+}
+document.getElementById('map').innerHTML=MAP.map(function(g){return '<div class="mcard"><h3>'+esc(g.h)+'</h3>'+g.items.map(function(it){return '<a href="'+it.u+'"'+(it.soon?' class="soon"':' target="_blank" rel="noopener"')+'>'+esc(it.t)+(it.s?' <span class="s'+(it.x?' x':'')+'">· '+esc(it.s)+'</span>':'')+'</a>';}).join('')+miniGraph(g.gr)+'</div>';}).join('');
 
 /* ── 체크 ── */
 var TKEY='yeon_ops_tasks';function tstate(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch(e){return {};}}
