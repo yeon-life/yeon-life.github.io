@@ -3,260 +3,254 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>연라이프 운영 현황 · 작업 지도</title>
+<title>연라이프 운영 현황 · 위험 한눈에</title>
 <meta name="robots" content="noindex" />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-  :root{--paper:#f7f4ed;--card:#fffdf8;--ink:#21302e;--ink2:#3a3631;--teal:#2f5d57;--teald:#264a44;--gold:#a96f36;--pine:#427a71;--line:#e7ddc9;--mut:#8a8275;--ok:#4a9060;--warn:#c79a3a;--bad:#b6543f;--serif:'Noto Serif KR',serif;--sans:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif}
+  :root{--paper:#f7f4ed;--card:#fffdf8;--ink:#21302e;--ink2:#3a3631;--teal:#2f5d57;--teald:#264a44;--gold:#a96f36;--pine:#427a71;--line:#e7ddc9;--mut:#8a8275;
+    --ok:#3f9d62;--okbg:#e7f3ea;--warn:#d29a2a;--warnbg:#fbf0d8;--bad:#cf4b36;--badbg:#fae3de;--serif:'Noto Serif KR',serif;--sans:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;padding:0 14px 70px}
-  .wrap{max-width:1000px;margin:0 auto}
-  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:18px 2px}
-  header h1{font-family:var(--serif);font-size:clamp(20px,3vw,26px);color:var(--teald);font-weight:800}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.55;padding:0 14px 70px}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:16px 2px 6px}
+  header h1{font-family:var(--serif);font-size:clamp(19px,3vw,25px);color:var(--teald);font-weight:900}
   header .upd{font-size:12px;color:var(--mut)} header .sp{flex:1}
   .pbtn{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-  h2.sec{font-family:var(--serif);font-size:16px;color:var(--ink);margin:26px 2px 10px;font-weight:800;border-left:4px solid var(--gold);padding-left:10px}
+  .pbtn:hover{background:var(--teal);color:#fff}
+
+  /* 위험 배너 */
+  .banner{border-radius:16px;padding:18px 22px;margin:8px 0 4px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;border:1.5px solid}
+  .banner.bad{background:var(--badbg);border-color:var(--bad)} .banner.warn{background:var(--warnbg);border-color:var(--warn)} .banner.ok{background:var(--okbg);border-color:var(--ok)}
+  .banner .big{font-family:var(--serif);font-size:clamp(26px,5vw,40px);font-weight:900;line-height:1}
+  .banner.bad .big{color:var(--bad)} .banner.warn .big{color:var(--warn)} .banner.ok .big{color:var(--ok)}
+  .banner .txt{flex:1;min-width:200px}
+  .banner .txt b{font-size:15px} .banner .lst{font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.7}
+  .banner .lst .x{color:var(--bad);font-weight:800}
+
+  h2.sec{font-family:var(--serif);font-size:15px;color:var(--ink);margin:24px 2px 10px;font-weight:800;border-left:4px solid var(--gold);padding-left:10px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 
-  /* 서버 현황 */
-  .srv{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-  .srv a{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 13px;text-decoration:none;color:var(--ink)}
-  .srv a:hover{border-color:var(--teal)}
-  .dot{width:10px;height:10px;border-radius:50%;background:#cfc7b8;flex:none}
-  .dot.up{background:var(--ok)} .dot.down{background:var(--bad)} .dot.chk{background:var(--warn);animation:pl 1s infinite}
-  @keyframes pl{50%{opacity:.4}}
-  .srv .nm{font-weight:700;font-size:13.5px} .srv .ds{font-size:11px;color:var(--mut)}
-  .srv .role{margin-left:auto;font-size:10px;color:var(--mut);background:#f0ece3;border-radius:999px;padding:2px 8px}
+  /* 게이지 카드들 */
+  .gauges{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .gauge{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;position:relative}
+  .gauge.bad{border-color:var(--bad);box-shadow:0 0 0 3px var(--badbg)}
+  .gauge .lbl{font-size:12.5px;color:var(--mut);font-weight:700}
+  .gauge svg{width:150px;height:86px;display:block;margin:4px auto 0}
+  .gauge .val{font-family:var(--serif);font-size:24px;font-weight:900;margin-top:-30px}
+  .gauge .sub{font-size:11px;color:var(--mut);margin-top:18px}
+  .gauge .tag{position:absolute;top:10px;right:10px;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px}
+  .tag.bad{background:var(--bad);color:#fff} .tag.warn{background:var(--warn);color:#fff} .tag.ok{background:var(--ok);color:#fff}
+  .pulse{animation:pl 1.1s ease-in-out infinite} @keyframes pl{50%{opacity:.45}}
 
-  /* 용량 그래프 */
-  .cap-grid{display:grid;gap:14px;grid-template-columns:1.4fr 1fr}
-  @media(max-width:680px){.cap-grid{grid-template-columns:1fr}}
-  .chart svg{width:100%;height:160px;display:block}
+  /* 카테고리 막대 */
+  .bars .row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:12.5px}
+  .bars .row .nm{width:120px;flex:none;color:var(--ink2);font-weight:600}
+  .bars .row .track{flex:1;height:18px;background:#efe8d8;border-radius:6px;overflow:hidden}
+  .bars .row .track span{display:block;height:100%;border-radius:6px;background:var(--pine)}
+  .bars .row .track span.bad{background:var(--bad)} .bars .row .track span.warn{background:var(--warn)}
+  .bars .row .v{width:64px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+
+  /* 추세 차트 */
+  .chart svg{width:100%;height:170px;display:block}
   .chart .lg{font-size:11px;color:var(--mut);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
   .chart .lg i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
-  .chip{width:11px;height:3px;border-radius:2px;display:inline-block}
-  .meters .m{margin-bottom:12px}
-  .meters .mh{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
-  .meters .mh b{color:var(--teald)}
-  .bar{height:9px;background:#eee6d6;border-radius:999px;overflow:hidden}
-  .bar span{display:block;height:100%;border-radius:999px;background:var(--pine)}
-  .bar span.hot{background:var(--bad)} .bar span.warn{background:var(--warn)}
-  .cost{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--teald)}
+  .chip{width:12px;height:3px;border-radius:2px;display:inline-block}
+  .grid2{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  /* 서버 */
+  .srv{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .srv a{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;text-decoration:none;color:var(--ink)}
+  .srv a:hover{border-color:var(--teal)}
+  .dot{width:11px;height:11px;border-radius:50%;background:#cfc7b8;flex:none}
+  .dot.up{background:var(--ok)} .dot.down{background:var(--bad)} .dot.chk{background:var(--warn);animation:pl 1s infinite}
+  .srv .nm{font-weight:700;font-size:13px} .srv .ds{font-size:10.5px;color:var(--mut)}
+  .srv .role{margin-left:auto;font-size:9.5px;color:var(--mut);background:#f0ece3;border-radius:999px;padding:2px 7px}
 
   /* 작업 지도 */
-  .map{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-  .mcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
-  .mcard h3{font-family:var(--serif);font-size:14.5px;color:var(--teald);margin-bottom:7px}
-  .mcard a{display:block;font-size:12.5px;color:var(--ink2);text-decoration:none;padding:4px 0;border-bottom:1px dashed rgba(40,32,20,.06)}
-  .mcard a:hover{color:var(--teal)} .mcard a .s{font-size:10px;color:var(--mut)}
+  .map{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(235px,1fr))}
+  .mcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
+  .mcard h3{font-family:var(--serif);font-size:14px;color:var(--teald);margin-bottom:6px}
+  .mcard a{display:block;font-size:12px;color:var(--ink2);text-decoration:none;padding:4px 0;border-bottom:1px dashed rgba(40,32,20,.06)}
+  .mcard a:hover{color:var(--teal)} .mcard a .s{font-size:10px;color:var(--mut)} .mcard a .s.x{color:var(--bad);font-weight:700}
   .mcard a.soon{color:var(--mut);pointer-events:none}
 
-  /* 작업 체크 */
-  .tasks .grp{margin-bottom:14px}
-  .tasks .gh{font-family:var(--serif);font-weight:700;font-size:13px;color:var(--gold);margin-bottom:6px}
-  .tk{display:flex;align-items:flex-start;gap:9px;padding:6px 0;font-size:13.5px;border-bottom:1px solid rgba(40,32,20,.05)}
-  .tk input{margin-top:3px;width:15px;height:15px;flex:none;accent-color:var(--teal)}
-  .tk.done label{color:var(--mut);text-decoration:line-through}
-  .tk .d{font-size:11px;color:var(--mut)}
-
-  .note{font-size:12px;color:var(--mut);margin-top:8px;line-height:1.7}
-  footer{text-align:center;font-size:11px;color:var(--mut);margin-top:26px;padding-top:16px;border-top:1px solid var(--line)}
-  footer a{color:var(--teal)}
-  @media print{.pbtn{display:none} body{padding:0} .card,.mcard,.srv a{box-shadow:none;break-inside:avoid}}
-  @media print{body.eco *{background:#fff!important;color:#000!important} body.eco .srv,body.eco .map,body.eco .cap-grid{display:block}}
+  /* 체크 */
+  .tasks .grp{margin-bottom:12px} .tasks .gh{font-family:var(--serif);font-weight:700;font-size:13px;color:var(--gold);margin-bottom:5px}
+  .tk{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(40,32,20,.05)}
+  .tk input{margin-top:3px;width:15px;height:15px;flex:none;accent-color:var(--teal)} .tk.done label{color:var(--mut);text-decoration:line-through}
+  .tk .d{font-size:11px;color:var(--bad);font-weight:600}
+  .note{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.7}
+  footer{text-align:center;font-size:11px;color:var(--mut);margin-top:24px;padding-top:16px;border-top:1px solid var(--line)} footer a{color:var(--teal)}
+  @media print{.pbtn{display:none} body{padding:0} .card,.mcard,.srv a,.gauge{box-shadow:none;break-inside:avoid}}
+  @media print{body.eco *{background:#fff!important;color:#000!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>緣 연라이프 운영 현황</h1>
-    <span class="upd" id="upd"></span>
-    <span class="sp"></span>
-    <button class="pbtn" onclick="pingAll()">서버 다시 확인</button>
+    <span class="upd" id="upd"></span><span class="sp"></span>
+    <button class="pbtn" onclick="pingAll()">서버 재확인</button>
     <button class="pbtn" onclick="ylPrint(false)">인쇄</button>
     <button class="pbtn" onclick="ylPrint(true)">절약</button>
   </header>
 
-  <!-- 1. 서버 현황 -->
-  <h2 class="sec">서버 현황 <span style="font-size:11px;color:var(--mut);font-weight:400">· 점=응답 확인(녹색=응답함)</span></h2>
-  <div class="srv" id="srv"></div>
+  <div class="banner" id="banner"></div>
 
-  <!-- 2. 용량 · 비용 -->
-  <h2 class="sec">용량 · 비용 (날짜별)</h2>
-  <div class="cap-grid">
+  <h2 class="sec">자원 게이지 <span style="font-size:11px;color:var(--mut);font-weight:400">· 빨강=위험 · 노랑=주의 · 초록=정상</span></h2>
+  <div class="gauges" id="gauges"></div>
+
+  <h2 class="sec">무엇이 용량을 먹나 (카테고리별)</h2>
+  <div class="grid2">
+    <div class="card bars" id="cats"></div>
     <div class="card chart">
-      <div id="capChart"></div>
-      <div class="lg"><i><span class="chip" style="background:#b6543f"></span>호스팅 저장(GB)</i><i><span class="chip" style="background:#427a71"></span>도서관(GB)</i><i><span class="chip" style="background:#a96f36"></span>비용(천원)</i></div>
-      <div class="note">무료 한도 = 호스팅 저장 <b>10GB</b> · 대역폭 360MB/일 · Firestore 읽기5만/일. 넘으면 과금.</div>
+      <div id="trend"></div>
+      <div class="lg"><i><span class="chip" style="background:#cf4b36"></span>호스팅 저장(GB)</i><i><span class="chip" style="background:#427a71"></span>도서관(GB)</i><i><span class="chip" style="background:#a96f36"></span>비용(천원)</i></div>
+      <div class="note">빨강 점선 = 무료 한도 10GB. 그 위로 가면 과금.</div>
     </div>
-    <div class="card meters" id="meters"></div>
   </div>
 
-  <!-- 3. 작업 지도 -->
+  <h2 class="sec">서버 현황 <span style="font-size:11px;color:var(--mut);font-weight:400">· 점=응답 확인</span></h2>
+  <div class="srv" id="srv"></div>
+
   <h2 class="sec">전체 작업 지도</h2>
   <div class="map" id="map"></div>
 
-  <!-- 4. 작업 확인 -->
-  <h2 class="sec">작업 확인 (체크리스트)</h2>
+  <h2 class="sec">작업 확인</h2>
   <div class="card tasks" id="tasks"></div>
 
-  <footer>
-    연라이프 운영 현황 · 관리자용(noindex) · Claude가 점검 때마다 용량·작업을 갱신 · <a href="/">홈</a>
-  </footer>
+  <footer>관리자용(noindex) · Claude가 점검 때마다 갱신 · <a href="/">홈</a></footer>
 </div>
 
 <script>
-/* ===== 데이터 (Claude가 점검할 때마다 갱신) ===== */
-var UPDATED = '2026-06-07';
-
-var SERVERS = [
-  {nm:'y-life.kr', ds:'메인 홈', url:'https://y-life.kr/', role:'Pages'},
-  {nm:'과학의 결', ds:'주간 과학', url:'https://yeon-science.web.app/', role:'FB'},
-  {nm:'수학의 결', ds:'학년별·DeepSeek', url:'https://yeon-math.web.app/', role:'FB'},
-  {nm:'한글의 결', ds:'국문·English', url:'https://yeon-hangeul.web.app/', role:'FB'},
-  {nm:'블로그', ds:'작가들의 서재', url:'https://y-life-blog.web.app/', role:'FB'},
-  {nm:'연 작은도서관', ds:'동화책·완성책장', url:'https://y-life.kr/도서관/', role:'Pages'},
-  {nm:'구독', ds:'결 시리즈 구독', url:'https://y-life.kr/구독.html', role:'Pages'},
-  {nm:'관리자 승인', ds:'입금 1클릭 승인', url:'https://y-life.kr/관리자_구독승인.html', role:'Pages'},
-  {nm:'모의투자(데모)', ds:'미래투자 학습', url:'https://y-life.kr/모의투자.html', role:'Pages'},
-  {nm:'생각의 지도', ds:'광장 별자리', url:'https://y-life.kr/광장_생각지도.html', role:'Pages'},
-  {nm:'운영 현황', ds:'이 페이지', url:'https://y-life.kr/운영현황.html', role:'Pages'}
+/* ===== 데이터 (점검 때마다 갱신) ===== */
+var UPDATED='2026-06-07';
+/* 자원: name, 현재값, 한도, 단위, (선택)scale */
+var RES=[
+  {key:'host', nm:'호스팅 저장', cur:10.0, lim:10, unit:'GB'},
+  {key:'band', nm:'대역폭(일)', cur:0.03, lim:0.36, unit:'GB'},
+  {key:'fsread', nm:'Firestore 읽기(일)', cur:0, lim:50000, unit:''},
+  {key:'cost', nm:'이번 달 비용', cur:0, lim:10000, unit:'원'}
+];
+/* 카테고리 용량(GB) — 무엇이 호스팅을 먹나 */
+var CATS=[
+  {nm:'도서관', gb:2.2, danger:true},
+  {nm:'완성책장(내부)', gb:1.2, danger:true},
+  {nm:'내친구인공지능_월간', gb:0.063},
+  {nm:'assets(이미지)', gb:0.017},
+  {nm:'코드·HTML·JSON', gb:0.05}
+];
+/* 날짜별: 호스팅GB, 도서관GB, 비용원 */
+var CAP=[{d:'06-06',host:9.8,lib:0.14,cost:0},{d:'06-07',host:10.0,lib:2.2,cost:0}];
+var SERVERS=[
+  {nm:'y-life.kr',ds:'메인 홈',url:'https://y-life.kr/',role:'Pages'},
+  {nm:'과학의 결',ds:'주간 과학',url:'https://yeon-science.web.app/',role:'FB'},
+  {nm:'수학의 결',ds:'학년별·DeepSeek',url:'https://yeon-math.web.app/',role:'FB'},
+  {nm:'한글의 결',ds:'국문·English',url:'https://yeon-hangeul.web.app/',role:'FB'},
+  {nm:'블로그',ds:'작가들의 서재',url:'https://y-life-blog.web.app/',role:'FB'},
+  {nm:'연 작은도서관',ds:'동화책·완성책장',url:'https://y-life.kr/도서관/',role:'Pages'},
+  {nm:'구독',ds:'결 시리즈 구독',url:'https://y-life.kr/구독.html',role:'Pages'},
+  {nm:'관리자 승인',ds:'입금 1클릭',url:'https://y-life.kr/관리자_구독승인.html',role:'Pages'},
+  {nm:'모의투자(데모)',ds:'미래투자 학습',url:'https://y-life.kr/모의투자.html',role:'Pages'},
+  {nm:'생각의 지도',ds:'광장 별자리',url:'https://y-life.kr/광장_생각지도.html',role:'Pages'}
+];
+var MAP=[
+  {h:'결 시리즈(잡지)',items:[{t:'과학의 결',u:'https://yeon-science.web.app/',s:'라이브'},{t:'수학의 결',u:'https://yeon-math.web.app/',s:'라이브'},{t:'한글의 결',u:'https://yeon-hangeul.web.app/',s:'라이브'},{t:'인공지능의 결',u:'/내친구인공지능_책/index.html',s:'책(잡지 예정)'}]},
+  {h:'광장',items:[{t:'사랑방',u:'/saranbang.html',s:''},{t:'질문 숲',u:'/question-forest.html',s:''},{t:'생각의 지도',u:'/광장_생각지도.html',s:''}]},
+  {h:'도서관',items:[{t:'연 작은도서관',u:'/도서관/',s:'2.2GB — 압축/R2 급함',x:true}]},
+  {h:'블로그(작가)',items:[{t:'작가와 기자',u:'/블로그_AI작가기자_인덱스.html',s:''},{t:'연소사 블로그',u:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',s:''}]},
+  {h:'구독·결제',items:[{t:'구독(v4)',u:'/구독.html',s:''},{t:'관리자 1클릭 승인',u:'/관리자_구독승인.html',s:''}]},
+  {h:'구상·개발',items:[{t:'모의투자(데모)',u:'/모의투자.html',s:'설계+데모'},{t:'그래프 전문 화면',u:'#',s:'제작 대기',soon:true},{t:'인공지능의 결 잡지',u:'#',s:'창간 예정',soon:true}]},
+  {h:'운영·비용',items:[{t:'호스팅 사용량',u:'https://console.firebase.google.com/project/y-life-e191d/hosting/usage',s:'Firebase'},{t:'예산 알림 50%(5천원)',u:'https://console.cloud.google.com/billing/013D68-F02E87-AEF239/budgets?organizationId=0',s:'작동'}]}
+];
+var TASKS=[
+  {g:'완료',items:[{t:'결 시리즈+다층메뉴',done:true},{t:'구독 시스템',done:true},{t:'한글의 결 내 진도 하단',done:true},{t:'블로그 카드 한 칸 내림',done:true},{t:'연소사 사진 교체',done:true},{t:'예산 50% 알림',done:true},{t:'운영현황 대시보드',done:true}]},
+  {g:'급함 — 비용/배포',items:[{t:'도서관 2.2GB 압축',done:false,d:'빌드 막힘·과금 위험'},{t:'미디어 R2 분리',done:false,d:'카테고리 확장 대비'}]},
+  {g:'다음',items:[{t:'모의투자 MVP/그래프 화면',done:false},{t:'인공지능의 결 잡지 창간',done:false},{t:'광장 상세 — 선생님 글 위로',done:false}]}
 ];
 
-/* 날짜별 용량/비용 — [날짜, 호스팅GB, 도서관GB, 비용(원)] */
-var CAP = [
-  {d:'06-06', host:9.8, lib:0.14, cost:0},
-  {d:'06-07', host:10.0, lib:2.2, cost:0}
-];
-var FREE_HOST_GB = 10;
-
-var MAP = [
-  {h:'결 시리즈(잡지)', items:[
-    {t:'과학의 결',u:'https://yeon-science.web.app/',s:'라이브'},
-    {t:'수학의 결',u:'https://yeon-math.web.app/',s:'라이브'},
-    {t:'한글의 결',u:'https://yeon-hangeul.web.app/',s:'라이브'},
-    {t:'인공지능의 결',u:'/내친구인공지능_책/index.html',s:'책(잡지 창간 예정)'}
-  ]},
-  {h:'광장', items:[
-    {t:'사랑방',u:'/saranbang.html',s:''},{t:'질문 숲',u:'/question-forest.html',s:''},
-    {t:'생각의 지도',u:'/광장_생각지도.html',s:''}
-  ]},
-  {h:'도서관', items:[
-    {t:'연 작은도서관',u:'/도서관/',s:'⚠ 2.2GB — 압축/R2 예정'},
-    {t:'내 서재',u:'/도서관/내_서재.html',s:''}
-  ]},
-  {h:'블로그(작가)', items:[
-    {t:'작가와 기자',u:'/블로그_AI작가기자_인덱스.html',s:''},
-    {t:'연소사 블로그',u:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',s:''},
-    {t:'윤창영 시인',u:'https://y-life-blog.web.app/윤창영_블로그_v1/내블로그.html',s:''}
-  ]},
-  {h:'구독·결제', items:[
-    {t:'구독(요금제 v4)',u:'/구독.html',s:''},
-    {t:'관리자 1클릭 승인',u:'/관리자_구독승인.html',s:''},
-    {t:'백엔드 가이드',u:'/구독_백엔드_가이드.md',s:'Apps Script'}
-  ]},
-  {h:'구상·개발 중', items:[
-    {t:'모의투자(데모)',u:'/모의투자.html',s:'설계+데모'},
-    {t:'그래프 전문 화면',u:'#',s:'설계 완료·제작 대기',soon:true},
-    {t:'인공지능의 결 잡지',u:'#',s:'창간 예정',soon:true}
-  ]},
-  {h:'운영·비용', items:[
-    {t:'호스팅 사용량',u:'https://console.firebase.google.com/project/y-life-e191d/hosting/usage',s:'Firebase'},
-    {t:'예산 알림(50%·5천원)',u:'https://console.cloud.google.com/billing/013D68-F02E87-AEF239/budgets?organizationId=0',s:'작동 중'}
-  ]}
-];
-
-var TASKS = [
-  {g:'완료(최근)', items:[
-    {t:'결 시리즈 코너 + 다층 메뉴',done:true},{t:'구독 시스템(계좌·1클릭 승인)',done:true},
-    {t:'한글의 결 내 진도 하단·마크 링크',done:true},{t:'블로그 좌우 카드 한 칸 내림',done:true},
-    {t:'연소사 대표 사진 교체',done:true},{t:'인공지능의 결 결시리즈 편입',done:true},
-    {t:'예산 50% 알림 확인',done:true}
-  ]},
-  {g:'급함 — 비용', items:[
-    {t:'도서관 2.2GB 이미지 압축',done:false,d:'GitHub Pages 1GB 위험'},
-    {t:'미디어 R2 분리(MEDIA_BASE)',done:false,d:'카테고리 확장 대비'}
-  ]},
-  {g:'다음', items:[
-    {t:'모의투자 MVP / 그래프 전문 화면',done:false},
-    {t:'인공지능의 결 잡지 창간',done:false},
-    {t:'광장 상세페이지 — 선생님 글 위로',done:false},
-    {t:'블로그 사진 갤러리(경량)',done:false}
-  ]}
-];
-
-/* ===== 렌더 ===== */
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
-document.getElementById('upd').textContent = '마지막 갱신 '+UPDATED;
+function lvl(p){return p>=100?'bad':p>=80?'warn':'ok';}
+function lvlTxt(l){return l==='bad'?'위험':l==='warn'?'주의':'정상';}
+document.getElementById('upd').textContent='갱신 '+UPDATED;
 
-/* 서버 */
-var srvBox=document.getElementById('srv');
-srvBox.innerHTML = SERVERS.map(function(s,i){
-  return '<a href="'+s.url+'" target="_blank" rel="noopener" id="srv'+i+'"><span class="dot" id="dot'+i+'"></span><span><span class="nm">'+esc(s.nm)+'</span><br><span class="ds">'+esc(s.ds)+'</span></span><span class="role">'+esc(s.role)+'</span></a>';
-}).join('');
-function pingAll(){
-  SERVERS.forEach(function(s,i){
-    var dot=document.getElementById('dot'+i); dot.className='dot chk';
-    fetch(s.url,{mode:'no-cors',cache:'no-store'}).then(function(){dot.className='dot up';}).catch(function(){dot.className='dot down';});
-  });
-}
-pingAll();
-
-/* 용량 그래프 (SVG 라인) */
+/* ── 위험 배너 ── */
 (function(){
-  CAP.forEach(function(c){c.cost10=c.cost/1000;}); // 비용 천원 단위(선 그리기 전 계산)
-  var W=520,H=160,pad=28;
-  var maxV=Math.max(FREE_HOST_GB, Math.max.apply(null,CAP.map(function(c){return c.host;})))*1.05;
-  function x(i){return pad + i/(Math.max(1,CAP.length-1))*(W-pad*2);}
-  function y(v){return H-22 - (v/maxV)*(H-40);}
-  function line(key,color){ if(CAP.length<2) return '<circle cx="'+x(0)+'" cy="'+y(CAP[0][key])+'" r="3.5" fill="'+color+'"/>';
-    var p=CAP.map(function(c,i){return x(i)+','+y(c[key]);}).join(' ');
-    return '<polyline points="'+p+'" fill="none" stroke="'+color+'" stroke-width="2.2" stroke-linejoin="round"/>'+CAP.map(function(c,i){return '<circle cx="'+x(i)+'" cy="'+y(c[key])+'" r="3" fill="'+color+'"/>';}).join(''); }
-  var limY=y(FREE_HOST_GB);
-  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'
-    +'<line x1="'+pad+'" y1="'+limY+'" x2="'+(W-pad)+'" y2="'+limY+'" stroke="#b6543f" stroke-width="1" stroke-dasharray="4 3" opacity=".6"/>'
-    +'<text x="'+(W-pad)+'" y="'+(limY-4)+'" text-anchor="end" font-size="9" fill="#b6543f">무료 10GB</text>'
-    +line('cost10','#a96f36')+line('lib','#427a71')+line('host','#b6543f')
+  var risks=[];
+  RES.forEach(function(r){var p=r.lim?r.cur/r.lim*100:0; if(p>=100)risks.push(r.nm+' 한도 초과('+(r.key==='host'?r.cur+'/'+r.lim+'GB':Math.round(p)+'%')+')'); else if(p>=80)risks.push(r.nm+' '+Math.round(p)+'%');});
+  CATS.forEach(function(c){if(c.danger&&c.gb>=1)risks.push(c.nm+' '+c.gb+'GB 과대');});
+  var bad=risks.length>0;
+  var b=document.getElementById('banner');
+  b.className='banner '+(bad?'bad':'ok');
+  b.innerHTML='<div class="big">'+(bad?'위험 '+risks.length+'건':'정상')+'</div>'
+    +'<div class="txt"><b>'+(bad?'지금 손봐야 할 곳이 있습니다.':'특이 위험 없음.')+'</b>'
+    +(bad?'<div class="lst">'+risks.map(function(x){return '<span class="x">●</span> '+esc(x);}).join('<br>')+'</div>':'')+'</div>';
+})();
+
+/* ── 반원 게이지 ── */
+function gaugeSVG(p,l){
+  var col=l==='bad'?'#cf4b36':l==='warn'?'#d29a2a':'#3f9d62';
+  var W=150,H=86,cx=75,cy=78,r=60, a=Math.PI*(1-Math.min(p,100)/100);
+  var ex=cx+r*Math.cos(a), ey=cy-r*Math.sin(a);
+  function arc(col,frac,w){var aa=Math.PI*(1-frac);var x=cx+r*Math.cos(aa),y=cy-r*Math.sin(aa);return '<path d="M'+(cx-r)+' '+cy+' A'+r+' '+r+' 0 0 1 '+x+' '+y+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"/>';}
+  return '<svg viewBox="0 0 '+W+' '+H+'">'
+    +'<path d="M'+(cx-r)+' '+cy+' A'+r+' '+r+' 0 0 1 '+(cx+r)+' '+cy+'" fill="none" stroke="#ece4d3" stroke-width="12"/>'
+    +'<path d="M'+(cx-r)+' '+cy+' A'+r+' '+r+' 0 0 1 '+ex+' '+ey+'" fill="none" stroke="'+col+'" stroke-width="12" stroke-linecap="round"/>'
+    +'</svg>';
+}
+(function(){
+  document.getElementById('gauges').innerHTML=RES.map(function(r){
+    var p=r.lim?Math.round(r.cur/r.lim*100):0; var l=lvl(p);
+    var valTxt = r.key==='host'?r.cur+'GB' : r.key==='cost'?'₩'+r.cur.toLocaleString() : p+'%';
+    var sub = r.key==='host'?('/ '+r.lim+'GB · '+p+'%') : r.key==='cost'?('예산 ₩'+r.lim.toLocaleString()) : (r.cur.toLocaleString()+' / '+r.lim.toLocaleString()+(r.unit?r.unit:''));
+    return '<div class="gauge'+(l==='bad'?' bad pulse':'')+'"><span class="tag '+l+'">'+lvlTxt(l)+'</span>'
+      +'<div class="lbl">'+esc(r.nm)+'</div>'+gaugeSVG(p,l)
+      +'<div class="val" style="color:'+(l==='bad'?'#cf4b36':l==='warn'?'#d29a2a':'#264a44')+'">'+valTxt+'</div>'
+      +'<div class="sub">'+esc(sub)+'</div></div>';
+  }).join('');
+})();
+
+/* ── 카테고리 막대 ── */
+(function(){
+  var max=Math.max.apply(null,CATS.map(function(c){return c.gb;}));
+  document.getElementById('cats').innerHTML='<div class="note" style="margin:0 0 8px">호스팅 10GB 중 <b style="color:#cf4b36">도서관 2.2GB</b>가 압도적 — 여기가 위험원.</div>'
+    +CATS.map(function(c){var w=Math.max(3,c.gb/max*100);var cls=c.gb>=1?'bad':c.gb>=0.3?'warn':'';
+      return '<div class="row"><span class="nm">'+esc(c.nm)+'</span><span class="track"><span class="'+cls+'" style="width:'+w+'%"></span></span><span class="v"'+(c.gb>=1?' style="color:#cf4b36"':'')+'>'+c.gb+'GB</span></div>';
+    }).join('');
+})();
+
+/* ── 추세 차트 ── */
+(function(){
+  CAP.forEach(function(c){c.cost10=c.cost/1000;});
+  var W=520,H=170,pad=30, LIM=10;
+  var maxV=Math.max(LIM,Math.max.apply(null,CAP.map(function(c){return c.host;})))*1.08;
+  function x(i){return pad+i/Math.max(1,CAP.length-1)*(W-pad*2);}
+  function y(v){return H-24-(v/maxV)*(H-44);}
+  function ln(k,col){if(CAP.length<2)return '<circle cx="'+x(0)+'" cy="'+y(CAP[0][k])+'" r="3.5" fill="'+col+'"/>';
+    return '<polyline points="'+CAP.map(function(c,i){return x(i)+','+y(c[k]);}).join(' ')+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linejoin="round"/>'+CAP.map(function(c,i){return '<circle cx="'+x(i)+'" cy="'+y(c[k])+'" r="3" fill="'+col+'"/>';}).join('');}
+  var ly=y(LIM);
+  document.getElementById('trend').innerHTML='<svg viewBox="0 0 '+W+' '+H+'">'
+    +'<rect x="'+pad+'" y="0" width="'+(W-pad*2)+'" height="'+ly+'" fill="#cf4b36" opacity=".06"/>'
+    +'<line x1="'+pad+'" y1="'+ly+'" x2="'+(W-pad)+'" y2="'+ly+'" stroke="#cf4b36" stroke-width="1.2" stroke-dasharray="5 3"/>'
+    +'<text x="'+(W-pad)+'" y="'+(ly-4)+'" text-anchor="end" font-size="9.5" fill="#cf4b36" font-weight="700">무료 한도 10GB (위는 과금)</text>'
+    +ln('cost10','#a96f36')+ln('lib','#427a71')+ln('host','#cf4b36')
     +CAP.map(function(c,i){return '<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="10" fill="#8a8275">'+esc(c.d)+'</text>';}).join('')
     +'</svg>';
-  document.getElementById('capChart').innerHTML=svg;
 })();
 
-/* 미터 + 비용 */
-(function(){
-  var last=CAP[CAP.length-1];
-  var hp=Math.min(100,last.host/FREE_HOST_GB*100);
-  var box=document.getElementById('meters');
-  box.innerHTML =
-    '<div class="m"><div class="mh"><span>호스팅 저장</span><b>'+last.host+' / '+FREE_HOST_GB+'GB</b></div><div class="bar"><span class="'+(hp>90?'hot':hp>70?'warn':'')+'" style="width:'+hp+'%"></span></div></div>'
-    +'<div class="m"><div class="mh"><span>그중 도서관</span><b>'+last.lib+'GB</b></div><div class="bar"><span style="width:'+Math.min(100,last.lib/FREE_HOST_GB*100)+'%"></span></div></div>'
-    +'<div class="m" style="margin-top:14px"><div class="mh"><span>이번 달 비용</span></div><div class="cost">₩'+last.cost.toLocaleString()+'</div><div class="note">예산 ₩10,000 · 50%(5천원)에서 메일 알림</div></div>';
-})();
+/* ── 서버 ── */
+document.getElementById('srv').innerHTML=SERVERS.map(function(s,i){return '<a href="'+s.url+'" target="_blank" rel="noopener"><span class="dot" id="dot'+i+'"></span><span><span class="nm">'+esc(s.nm)+'</span><br><span class="ds">'+esc(s.ds)+'</span></span><span class="role">'+esc(s.role)+'</span></a>';}).join('');
+function pingAll(){SERVERS.forEach(function(s,i){var d=document.getElementById('dot'+i);d.className='dot chk';fetch(s.url,{mode:'no-cors',cache:'no-store'}).then(function(){d.className='dot up';}).catch(function(){d.className='dot down';});});}
+pingAll();
 
-/* 작업 지도 */
-document.getElementById('map').innerHTML = MAP.map(function(g){
-  return '<div class="mcard"><h3>'+esc(g.h)+'</h3>'+g.items.map(function(it){
-    return '<a href="'+it.u+'"'+(it.soon?' class="soon"':' target="_blank" rel="noopener"')+'>'+esc(it.t)+(it.s?' <span class="s">· '+esc(it.s)+'</span>':'')+'</a>';
-  }).join('')+'</div>';
-}).join('');
+/* ── 작업 지도 ── */
+document.getElementById('map').innerHTML=MAP.map(function(g){return '<div class="mcard"><h3>'+esc(g.h)+'</h3>'+g.items.map(function(it){return '<a href="'+it.u+'"'+(it.soon?' class="soon"':' target="_blank" rel="noopener"')+'>'+esc(it.t)+(it.s?' <span class="s'+(it.x?' x':'')+'">· '+esc(it.s)+'</span>':'')+'</a>';}).join('')+'</div>';}).join('');
 
-/* 작업 체크 (localStorage) */
-var TKEY='yeon_ops_tasks';
-function tstate(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch(e){return {};}}
-(function(){
-  var st=tstate();
-  document.getElementById('tasks').innerHTML = TASKS.map(function(g){
-    return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){
-      var id=g.g+'::'+it.t; var checked=(id in st)?st[id]:!!it.done;
-      return '<div class="tk'+(checked?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(checked?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label></div>';
-    }).join('')+'</div>';
-  }).join('');
-  document.getElementById('tasks').addEventListener('change',function(e){
-    var cb=e.target; if(cb.type!=='checkbox')return; var st=tstate(); st[cb.dataset.id]=cb.checked;
-    try{localStorage.setItem(TKEY,JSON.stringify(st));}catch(_){}
-    cb.closest('.tk').classList.toggle('done',cb.checked);
-  });
-})();
+/* ── 체크 ── */
+var TKEY='yeon_ops_tasks';function tstate(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch(e){return {};}}
+(function(){var st=tstate();document.getElementById('tasks').innerHTML=TASKS.map(function(g){return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){var id=g.g+'::'+it.t;var ck=(id in st)?st[id]:!!it.done;return '<div class="tk'+(ck?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(ck?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label></div>';}).join('')+'</div>';}).join('');
+  document.getElementById('tasks').addEventListener('change',function(e){var cb=e.target;if(cb.type!=='checkbox')return;var st=tstate();st[cb.dataset.id]=cb.checked;try{localStorage.setItem(TKEY,JSON.stringify(st));}catch(_){}cb.closest('.tk').classList.toggle('done',cb.checked);});})();
 
 function ylPrint(eco){document.body.classList.toggle('eco',!!eco);setTimeout(function(){window.print();},60);}
 window.addEventListener('afterprint',function(){document.body.classList.remove('eco');});
