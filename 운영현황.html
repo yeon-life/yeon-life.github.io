@@ -141,20 +141,19 @@ var UPDATED='2026-06-10';
 /* 자원: name, 현재값, 한도, 단위, (선택)scale */
 var RES=[
   {key:'cost', nm:'이번 달 비용(실측)', cur:3136, lim:10000, unit:'원'},
-  {key:'host', nm:'호스팅 저장', cur:10.0, lim:10, unit:'GB'},
+  {key:'host', nm:'사이트 용량(GitHub)', cur:1.2, lim:1, unit:'GB'},
   {key:'band', nm:'대역폭(일)', cur:0, lim:0.36, unit:'GB'},
   {key:'fsread', nm:'Firestore 읽기(일)', cur:0, lim:50000, unit:''}
 ];
 /* 카테고리 용량(GB) — 무엇이 호스팅을 먹나 */
 var CATS=[
-  {nm:'도서관', gb:2.2, danger:true},
-  {nm:'완성책장(내부)', gb:1.2, danger:true},
+  {nm:'도서관(완성책장)', gb:1.2, danger:true},
   {nm:'내친구인공지능_월간', gb:0.063},
   {nm:'assets(이미지)', gb:0.017},
   {nm:'코드·HTML·JSON', gb:0.05}
 ];
 /* 날짜별: 호스팅GB, 도서관GB, 비용원 */
-var CAP=[{d:'06-06',host:9.8,lib:0.14,cost:0},{d:'06-07',host:10.0,lib:2.2,cost:0},{d:'06-10',host:10.0,lib:2.2,cost:3136}];
+var CAP=[{d:'06-07',host:2.2,lib:2.2,cost:0},{d:'06-10(정리후)',host:1.2,lib:1.2,cost:3136}];
 var SERVERS=[
   {nm:'y-life.kr',ds:'메인 홈',url:'https://y-life.kr/',role:'Pages'},
   {nm:'과학의 결',ds:'주간 과학',url:'https://yeon-science.web.app/',role:'FB'},
@@ -170,7 +169,7 @@ var SERVERS=[
 var MAP=[
   {h:'결 시리즈(잡지)',gr:{type:'progress',label:'라이브 잡지',v:3,total:4},items:[{t:'과학의 결',u:'https://yeon-science.web.app/',s:'라이브'},{t:'수학의 결',u:'https://yeon-math.web.app/',s:'라이브'},{t:'한글의 결',u:'https://yeon-hangeul.web.app/',s:'라이브'},{t:'인공지능의 결',u:'/내친구인공지능_책/index.html',s:'책(잡지 예정)'}]},
   {h:'광장',gr:{type:'progress',label:'기능 운영',v:3,total:3},items:[{t:'사랑방',u:'/saranbang.html',s:''},{t:'질문 숲',u:'/question-forest.html',s:''},{t:'생각의 지도',u:'/광장_생각지도.html',s:''}]},
-  {h:'도서관',gr:{type:'storage',label:'용량(권장 0.5GB)',gb:2.2,budget:0.5},items:[{t:'연 작은도서관',u:'/도서관/',s:'2.2GB — 압축/R2 급함',x:true}]},
+  {h:'도서관',gr:{type:'storage',label:'용량(권장 1GB)',gb:1.2,budget:1},items:[{t:'연 작은도서관',u:'/도서관/',s:'1.2GB · 중복 971MB 정리 완료',x:true}]},
   {h:'블로그(작가)',gr:{type:'progress',label:'블로그 가동',v:2,total:2},items:[{t:'작가와 기자',u:'/블로그_AI작가기자_인덱스.html',s:''},{t:'연소사 블로그',u:'https://y-life-blog.web.app/내블로그홈_시안_v1/내블로그.html',s:''}]},
   {h:'구독·결제',gr:{type:'progress',label:'구축 단계',v:2,total:3},items:[{t:'구독(v4)',u:'/구독.html',s:''},{t:'관리자 1클릭 승인',u:'/관리자_구독승인.html',s:''}]},
   {h:'구상·개발',gr:{type:'progress',label:'완성 단계',v:1,total:3},items:[{t:'모의투자(데모)',u:'/모의투자.html',s:'설계+데모'},{t:'그래프 전문 화면',u:'#',s:'제작 대기',soon:true},{t:'인공지능의 결 잡지',u:'#',s:'창간 예정',soon:true}]},
@@ -180,7 +179,8 @@ var TASKS=[
   {g:'완료',items:[{t:'결 시리즈+다층메뉴',done:true},{t:'구독 시스템',done:true},{t:'한글의 결 내 진도 하단',done:true},{t:'블로그 카드 한 칸 내림',done:true},{t:'연소사 사진 교체',done:true},{t:'예산 50% 알림',done:true},{t:'운영현황 대시보드',done:true}]},
   {g:'급함 — 비용/배포',items:[
     {t:'RTDB 규칙 게시',done:false,d:'봇 차단→비용0·보안',act:{kind:'link',label:'규칙 게시 열기',url:'https://console.firebase.google.com/project/y-life-e191d/database/y-life-e191d-default-rtdb/rules'}},
-    {t:'도서관 중복 971MB 정리',done:false,d:'2.2GB→1.2GB·git복구가능',act:{kind:'chat',label:'바로 조치(Claude)',phrase:'도서관 중복 정리 진행'}},
+    {t:'도서관 중복 971MB 정리',done:true,d:'완료 ✓ 2.2GB→1.2GB'},
+    {t:'도서관 큰 PNG 압축(다음)',done:false,d:'1.2GB→0.5GB 목표',act:{kind:'chat',label:'바로 조치(Claude)',phrase:'도서관 PNG 압축 진행'}},
     {t:'미디어 R2 분리',done:false,d:'카테고리 확장 대비',act:{kind:'link',label:'Cloudflare R2 열기',url:'https://dash.cloudflare.com/?to=/:account/r2'}}
   ]},
   {g:'다음',items:[{t:'모의투자 MVP/그래프 화면',done:false},{t:'인공지능의 결 잡지 창간',done:false},{t:'광장 상세 — 선생님 글 위로',done:false}]}
@@ -192,7 +192,8 @@ var COMMITS=[
   {when:'2026-06-10 11:30 KST', dev:'원인 규명(브라우저 직접 확인)', base:'RTDB egress ₩3,094(98%)', promise:'규칙 잠금으로 0 전환', check:'게시 직후 curl', st:'wip'},
   {when:'2026-06-10 11:35 KST', dev:'RTDB 규칙 잠금(읽기 차단) 준비', base:'posts/users 공개 read+write', promise:'봇 차단→다음달 RTDB ₩0 + 개인정보 노출 차단', check:'7월 청구서', st:'wait'},
   {when:'예정', dev:'App Check + 예산알림↓', base:'—', promise:'봇 2차 차단 · 5천 전 조기경보', check:'설정 직후', st:'wait'},
-  {when:'예정', dev:'미디어 R2 분리 + 도서관 압축', base:'도서관 2.2GB', promise:'영구 ₩0 구조 + 빌드 속도 회복', check:'완료 시', st:'wait'}
+  {when:'2026-06-10 13:05 KST', dev:'도서관 중복 971MB 제거', base:'도서관 2.2GB(중복 포함)', promise:'2.2GB→1.2GB·라이브 책장 보존', check:'완료(git복구 가능)', st:'done'},
+  {when:'예정', dev:'도서관 큰 PNG 압축 + R2 분리', base:'도서관 1.2GB', promise:'1.2GB→0.5GB·영구 ₩0 구조', check:'완료 시', st:'wait'}
 ];
 
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
@@ -248,7 +249,7 @@ function gaugeSVG(p,l){
 /* ── 추세 차트 ── */
 (function(){
   CAP.forEach(function(c){c.cost10=c.cost/1000;});
-  var W=520,H=170,pad=30, LIM=10;
+  var W=520,H=170,pad=30, LIM=1;
   var maxV=Math.max(LIM,Math.max.apply(null,CAP.map(function(c){return c.host;})))*1.08;
   function x(i){return pad+i/Math.max(1,CAP.length-1)*(W-pad*2);}
   function y(v){return H-24-(v/maxV)*(H-44);}
@@ -258,7 +259,7 @@ function gaugeSVG(p,l){
   document.getElementById('trend').innerHTML='<svg viewBox="0 0 '+W+' '+H+'">'
     +'<rect x="'+pad+'" y="0" width="'+(W-pad*2)+'" height="'+ly+'" fill="#cf4b36" opacity=".06"/>'
     +'<line x1="'+pad+'" y1="'+ly+'" x2="'+(W-pad)+'" y2="'+ly+'" stroke="#cf4b36" stroke-width="1.2" stroke-dasharray="5 3"/>'
-    +'<text x="'+(W-pad)+'" y="'+(ly-4)+'" text-anchor="end" font-size="9.5" fill="#cf4b36" font-weight="700">무료 한도 10GB (위는 과금)</text>'
+    +'<text x="'+(W-pad)+'" y="'+(ly-4)+'" text-anchor="end" font-size="9.5" fill="#cf4b36" font-weight="700">GitHub 권장 1GB (위는 빌드 느림)</text>'
     +ln('cost10','#a96f36')+ln('lib','#427a71')+ln('host','#cf4b36')
     +CAP.map(function(c,i){return '<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="10" fill="#8a8275">'+esc(c.d)+'</text>';}).join('')
     +'</svg>';
