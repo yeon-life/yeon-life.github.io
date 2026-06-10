@@ -120,6 +120,9 @@
   <h2 class="sec">작업 확인</h2>
   <div class="card tasks" id="tasks"></div>
 
+  <h2 class="sec">약속·점검 이력 <span style="font-size:11px;color:var(--mut);font-weight:400">· 이 시점·약속대로 됐는지 나중에 대조</span></h2>
+  <div class="card" id="commits"></div>
+
   <footer>관리자용(noindex) · Claude가 점검 때마다 갱신 · <a href="/">홈</a></footer>
 </div>
 
@@ -168,6 +171,15 @@ var TASKS=[
   {g:'완료',items:[{t:'결 시리즈+다층메뉴',done:true},{t:'구독 시스템',done:true},{t:'한글의 결 내 진도 하단',done:true},{t:'블로그 카드 한 칸 내림',done:true},{t:'연소사 사진 교체',done:true},{t:'예산 50% 알림',done:true},{t:'운영현황 대시보드',done:true}]},
   {g:'급함 — 비용/배포',items:[{t:'도서관 2.2GB 압축',done:false,d:'빌드 막힘·과금 위험'},{t:'미디어 R2 분리',done:false,d:'카테고리 확장 대비'}]},
   {g:'다음',items:[{t:'모의투자 MVP/그래프 화면',done:false},{t:'인공지능의 결 잡지 창간',done:false},{t:'광장 상세 — 선생님 글 위로',done:false}]}
+];
+/* 약속·점검 이력 (평가용) — 만든 시점·기준값·약속·평가일·상태 */
+var COMMITS=[
+  {when:'2026-06-10 11:17 KST', dev:'운영현황 대시보드 신설', base:'비용 ₩0 오표기→₩3,136 실측', promise:'위험 시각화 + 매 점검 갱신', check:'상시', st:'done'},
+  {when:'2026-06-10 11:20 KST', dev:'비용 상한 정책', base:'이번달 ₩3,136', promise:'작업 늘어도 月 ≤ ₩5,000 · 미래분 ₩0', check:'월말 청구서', st:'wip'},
+  {when:'2026-06-10 11:30 KST', dev:'원인 규명(브라우저 직접 확인)', base:'RTDB egress ₩3,094(98%)', promise:'규칙 잠금으로 0 전환', check:'게시 직후 curl', st:'wip'},
+  {when:'2026-06-10 11:35 KST', dev:'RTDB 규칙 잠금(읽기 차단) 준비', base:'posts/users 공개 read+write', promise:'봇 차단→다음달 RTDB ₩0 + 개인정보 노출 차단', check:'7월 청구서', st:'wait'},
+  {when:'예정', dev:'App Check + 예산알림↓', base:'—', promise:'봇 2차 차단 · 5천 전 조기경보', check:'설정 직후', st:'wait'},
+  {when:'예정', dev:'미디어 R2 분리 + 도서관 압축', base:'도서관 2.2GB', promise:'영구 ₩0 구조 + 빌드 속도 회복', check:'완료 시', st:'wait'}
 ];
 
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
@@ -251,6 +263,25 @@ document.getElementById('map').innerHTML=MAP.map(function(g){return '<div class=
 var TKEY='yeon_ops_tasks';function tstate(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch(e){return {};}}
 (function(){var st=tstate();document.getElementById('tasks').innerHTML=TASKS.map(function(g){return '<div class="grp"><div class="gh">'+esc(g.g)+'</div>'+g.items.map(function(it){var id=g.g+'::'+it.t;var ck=(id in st)?st[id]:!!it.done;return '<div class="tk'+(ck?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(ck?' checked':'')+'><label>'+esc(it.t)+(it.d?' <span class="d">· '+esc(it.d)+'</span>':'')+'</label></div>';}).join('')+'</div>';}).join('');
   document.getElementById('tasks').addEventListener('change',function(e){var cb=e.target;if(cb.type!=='checkbox')return;var st=tstate();st[cb.dataset.id]=cb.checked;try{localStorage.setItem(TKEY,JSON.stringify(st));}catch(_){}cb.closest('.tk').classList.toggle('done',cb.checked);});})();
+
+/* ── 약속·점검 이력 ── */
+(function(){
+  var stMap={done:['정상·이행','#3f9d62','#e7f3ea'],wip:['진행중','#d29a2a','#fbf0d8'],wait:['대기','#8a8275','#f0ece3']};
+  var rows=COMMITS.map(function(c){var s=stMap[c.st]||stMap.wait;
+    return '<tr style="border-top:1px solid var(--line)">'
+      +'<td style="padding:8px 8px;white-space:nowrap;font-size:11.5px;color:var(--mut)">'+esc(c.when)+'</td>'
+      +'<td style="padding:8px 8px;font-weight:700;font-size:12.5px">'+esc(c.dev)+'</td>'
+      +'<td style="padding:8px 8px;font-size:11.5px;color:var(--ink2)">'+esc(c.base)+'</td>'
+      +'<td style="padding:8px 8px;font-size:12px">'+esc(c.promise)+'</td>'
+      +'<td style="padding:8px 8px;font-size:11.5px;color:var(--mut);white-space:nowrap">'+esc(c.check)+'</td>'
+      +'<td style="padding:8px 8px"><span style="font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;color:'+s[1]+';background:'+s[2]+'">'+s[0]+'</span></td></tr>';
+  }).join('');
+  document.getElementById('commits').innerHTML=
+    '<div class="note" style="margin:0 0 8px">아래 시점·약속을 기준으로, 나중에 <b>약속대로 됐는지</b> 평가하세요. 평가일에 실제값을 적어 비교합니다.</div>'
+    +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:560px">'
+    +'<thead><tr style="text-align:left;font-size:11px;color:var(--mut)"><th style="padding:4px 8px">시점</th><th style="padding:4px 8px">만든 장치</th><th style="padding:4px 8px">그때 기준값</th><th style="padding:4px 8px">약속(목표)</th><th style="padding:4px 8px">평가일</th><th style="padding:4px 8px">상태</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>';
+})();
 
 function ylPrint(eco){document.body.classList.toggle('eco',!!eco);setTimeout(function(){window.print();},60);}
 window.addEventListener('afterprint',function(){document.body.classList.remove('eco');});
