@@ -245,7 +245,7 @@ function gaugeSVG(p,l){
 /* ── 카테고리 막대 ── */
 (function(){
   var max=Math.max.apply(null,CATS.map(function(c){return c.gb;}));
-  document.getElementById('cats').innerHTML='<div class="note" style="margin:0 0 8px">호스팅 10GB 중 <b style="color:#cf4b36">도서관 2.2GB</b>가 압도적 — 여기가 위험원.</div>'
+  document.getElementById('cats').innerHTML='<div class="note" style="margin:0 0 8px">정리 후 <b style="color:#3f9d62">도서관 0.76GB</b> — 중복(971MB)·미사용 PNG(424MB) 정리 완료. 다음 = R2 분리로 거의 0.</div>'
     +CATS.map(function(c){var w=Math.max(3,c.gb/max*100);var cls=c.gb>=1?'bad':c.gb>=0.3?'warn':'';
       return '<div class="row"><span class="nm">'+esc(c.nm)+'</span><span class="track"><span class="'+cls+'" style="width:'+w+'%"></span></span><span class="v"'+(c.gb>=1?' style="color:#cf4b36"':'')+'>'+c.gb+'GB</span></div>';
     }).join('');
