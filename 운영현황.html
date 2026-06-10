@@ -125,13 +125,13 @@
 
 <script>
 /* ===== 데이터 (점검 때마다 갱신) ===== */
-var UPDATED='2026-06-07';
+var UPDATED='2026-06-10';
 /* 자원: name, 현재값, 한도, 단위, (선택)scale */
 var RES=[
+  {key:'cost', nm:'이번 달 비용(실측)', cur:3136, lim:10000, unit:'원'},
   {key:'host', nm:'호스팅 저장', cur:10.0, lim:10, unit:'GB'},
-  {key:'band', nm:'대역폭(일)', cur:0.03, lim:0.36, unit:'GB'},
-  {key:'fsread', nm:'Firestore 읽기(일)', cur:0, lim:50000, unit:''},
-  {key:'cost', nm:'이번 달 비용', cur:0, lim:10000, unit:'원'}
+  {key:'band', nm:'대역폭(일)', cur:0, lim:0.36, unit:'GB'},
+  {key:'fsread', nm:'Firestore 읽기(일)', cur:0, lim:50000, unit:''}
 ];
 /* 카테고리 용량(GB) — 무엇이 호스팅을 먹나 */
 var CATS=[
@@ -142,7 +142,7 @@ var CATS=[
   {nm:'코드·HTML·JSON', gb:0.05}
 ];
 /* 날짜별: 호스팅GB, 도서관GB, 비용원 */
-var CAP=[{d:'06-06',host:9.8,lib:0.14,cost:0},{d:'06-07',host:10.0,lib:2.2,cost:0}];
+var CAP=[{d:'06-06',host:9.8,lib:0.14,cost:0},{d:'06-07',host:10.0,lib:2.2,cost:0},{d:'06-10',host:10.0,lib:2.2,cost:3136}];
 var SERVERS=[
   {nm:'y-life.kr',ds:'메인 홈',url:'https://y-life.kr/',role:'Pages'},
   {nm:'과학의 결',ds:'주간 과학',url:'https://yeon-science.web.app/',role:'FB'},
