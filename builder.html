@@ -1561,14 +1561,14 @@ body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
 
     <!-- Step Content 1: Pricing & AI Engine -->
     <div class="speech-step-content" id="speech-step1-el">
-      <div class="speech-section-title">최고의 웹사이트를 위한 AI 엔진 및 요금제를 선택하세요.</div>
+      <div class="speech-section-title">어떤 방식으로 만들지 골라 주세요.</div>
       
       <div class="pricing-container">
         <!-- Premium Plan -->
         <div class="pricing-card premium recommended" id="plan-premium-card" onclick="selectSpeechPlan('premium')">
           <div class="recommended-badge">가장 많은 추천</div>
           <div class="plan-header">
-            <span class="plan-name">초고성능 프리미엄 AI</span>
+            <span class="plan-name">정기 플랜 · 꾸준히 가꿈</span>
             <div class="plan-price-box">
               <span class="plan-price" id="premium-price-display">10,000원</span>
               <span class="plan-period">/ 월 (구독)</span>
@@ -1578,11 +1578,11 @@ body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
           <div class="plan-features">
             <div class="feature-item">
               <span class="feature-icon">✨</span>
-              <span class="feature-text"><b>초고성능 LLM</b> (Claude 3.5 Sonnet / GPT-4o 급)</span>
+              <span class="feature-text"><b>좋은 글·디자인</b> 자동 생성 (자연스러운 한국어)</span>
             </div>
             <div class="feature-item">
               <span class="feature-icon">🌿</span>
-              <span class="feature-text"><b>감각적 테마 자동 정렬</b> (YUV 3.2 컬러 프리셋 매칭)</span>
+              <span class="feature-text"><b>감각적인 색·테마</b> 자동 맞춤</span>
             </div>
             <div class="feature-item">
               <span class="feature-icon">📝</span>
@@ -1606,25 +1606,21 @@ body.preview-mode .block-wrapper[data-anim].anim-on{opacity:1;}
         <!-- Basic Plan -->
         <div class="pricing-card basic" id="plan-basic-card" onclick="selectSpeechPlan('basic')">
           <div class="plan-header">
-            <span class="plan-name">보급형 베이직 AI</span>
+            <span class="plan-name">한 번 만들기 · 단발</span>
             <div class="plan-price-box">
               <span class="plan-price">3,000원</span>
-              <span class="plan-period">/ 회 (단발)</span>
+              <span class="plan-period">/ 회 (1회)</span>
             </div>
-            <p class="plan-desc">저렴한 AI 모델을 이용한 일회성 생성</p>
+            <p class="plan-desc">필요할 때 한 번만 만드는 방식</p>
           </div>
           <div class="plan-features">
-            <div class="feature-item alert-feature">
-              <span class="feature-icon">⚠️</span>
-              <span class="feature-text"><b>하위 등급 AI 모델 사용</b> (기본형)</span>
+            <div class="feature-item">
+              <span class="feature-icon">✍️</span>
+              <span class="feature-text"><b>한 번에 완성</b> — 결과물 그대로 받기</span>
             </div>
-            <div class="feature-item alert-feature">
-              <span class="feature-icon">⚠️</span>
-              <span class="feature-text">문맥이 다소 어색할 수 있음 (수동 수정 필요)</span>
-            </div>
-            <div class="feature-item alert-feature">
-              <span class="feature-icon">⚠️</span>
-              <span class="feature-text">테마 매칭 및 레이아웃 배치 정밀도 낮음</span>
+            <div class="feature-item">
+              <span class="feature-icon">🔧</span>
+              <span class="feature-text">이후 수정·관리는 <b>직접</b> (정기 관리 미포함)</span>
             </div>
             <div class="feature-item">
               <span class="feature-icon">🔗</span>
@@ -2622,7 +2618,7 @@ function startSpeechGeneration() {
   // 엔진 타입에 따른 텍스트 표시
   const substatusText = document.getElementById('speech-gen-substatus');
   if (_speechSelectedPlan === 'premium') {
-    substatusText.innerHTML = `🌟 <b>초고성능 프리미엄 AI 엔진</b> 작동 중 (${_speechStudentVerified ? '학생 무료 혜택 적용' : '10,000원 구독 모델'})`;
+    substatusText.innerHTML = `🌟 <b>정기 플랜</b>으로 만드는 중 (${_speechStudentVerified ? '학생 무료 혜택 적용' : '10,000원 구독'})`;
   } else {
     substatusText.innerHTML = `⚠️ <b>일반 베이직 AI 엔진</b> 작동 중 (3,000원 회당 이용, 일부 세밀한 카피라이팅이 다소 아쉬울 수 있습니다.)`;
   }
