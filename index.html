@@ -2021,17 +2021,23 @@
   /* 책 진열대 */
   .book-shelf{display:flex;gap:18px;overflow-x:auto;padding:4px 2px 20px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#d8cdb8 transparent}
   .book-shelf::-webkit-scrollbar{height:4px}.book-shelf::-webkit-scrollbar-thumb{background:#d8cdb8;border-radius:2px}
-  .book-item{flex:0 0 160px;scroll-snap-align:start;text-decoration:none;display:flex;flex-direction:column;border-radius:4px 10px 10px 4px;overflow:hidden;box-shadow:4px 6px 18px rgba(31,42,42,.18),-2px 2px 6px rgba(31,42,42,.08);transition:transform .25s,box-shadow .25s;position:relative}
+  .book-item{flex:0 0 160px;scroll-snap-align:start;text-decoration:none;display:flex;flex-direction:column;border-radius:4px 10px 10px 4px;overflow:hidden;box-shadow:4px 6px 18px rgba(31,42,42,.18),-2px 2px 6px rgba(31,42,42,.08);transition:transform .25s,box-shadow .25s;position:relative;background:#fffdf8}
   .book-item:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:6px 14px 28px rgba(31,42,42,.22)}
-  .book-cover-img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
-  .book-spine{position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(to right,rgba(0,0,0,.35),rgba(0,0,0,.08))}
-  .book-info{padding:10px 10px 12px;background:#fffdf8;border-top:1px solid #ede5d8;flex:1;min-height:0}
-  .book-label{font-size:10px;letter-spacing:.12em;color:#9a8f7c;font-weight:700;margin-bottom:3px}
-  .book-title{font-family:’Noto Serif KR’,serif;font-size:13px;font-weight:700;color:#2a2723;line-height:1.35;margin-bottom:6px}
+  /* 표지 이미지 래퍼 — 과목명 오버레이 포함 */
+  .book-cover-wrap{position:relative;width:100%;aspect-ratio:9/16;flex:none}
+  .book-cover-img{width:100%;height:100%;object-fit:cover;display:block}
+  /* 색 강한 이미지 필터 */
+  .book-cover-img.img-soften{filter:brightness(1.25) saturate(0.65)}
+  /* 과목명 오버레이 — 이미지 위 하단 */
+  .book-cover-tag{position:absolute;bottom:0;left:0;right:0;padding:28px 10px 8px;background:linear-gradient(to top,rgba(30,25,18,.72) 55%,transparent);display:flex;flex-direction:column;gap:2px}
+  .book-cover-tag .cov-label{font-size:9.5px;letter-spacing:.14em;color:rgba(255,245,220,.82);font-weight:700;text-transform:uppercase}
+  .book-cover-tag .cov-title{font-family:’Noto Serif KR’,serif;font-size:15px;font-weight:700;color:#fff;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+  .book-spine{position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(to right,rgba(0,0,0,.35),rgba(0,0,0,.08));z-index:2}
+  .book-info{padding:8px 10px 10px;background:#fffdf8;border-top:1px solid #ede5d8}
   .book-badge{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:.04em}
   .badge-live{background:#d4ede0;color:#2d6e4e}
   .badge-soon{background:#ede5d8;color:#9a8275}
-  .book-btn{margin-top:8px;font-size:11px;color:#6b655c;font-weight:600}
+  .book-btn{margin-top:6px;font-size:11px;color:#6b655c;font-weight:600}
   </style>
   <section class="reveal" id="magazines" style="margin:10px 0 4px">
     <button type="button" class="learn-card" aria-expanded="false" onclick="toggleLearn(this)">
@@ -2047,11 +2053,15 @@
 
         <!-- 과학의 결 -->
         <a class="book-item" href="https://yeon-science.web.app" target="_blank" rel="noopener">
-          <img class="book-cover-img" src="/assets/covers/cover-science.png" alt="과학의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img" src="/assets/covers/cover-science.png" alt="과학의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">과학의 결</span>
+              <span class="cov-title">과학에는<br>결이 있다</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">科 · 과학의 결</div>
-            <div class="book-title">과학에는<br>결이 있다</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2059,11 +2069,15 @@
 
         <!-- 수학의 결 -->
         <a class="book-item" href="https://yeon-math.web.app" target="_blank" rel="noopener">
-          <img class="book-cover-img" src="/assets/covers/cover-math.png" alt="수학의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img img-soften" src="/assets/covers/cover-math.png" alt="수학의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">수학의 결</span>
+              <span class="cov-title">교과서보다<br>살아있게</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">數 · 수학의 결</div>
-            <div class="book-title">교과서보다<br>살아있게</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2071,11 +2085,15 @@
 
         <!-- 한글의 결 -->
         <a class="book-item" href="https://yeon-hangeul.web.app" target="_blank" rel="noopener">
-          <img class="book-cover-img" src="/assets/covers/cover-hangeul.png" alt="한글의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img" src="/assets/covers/cover-hangeul.png" alt="한글의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">한글의 결</span>
+              <span class="cov-title">한글에는<br>결이 있다</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">한 · 한글의 결</div>
-            <div class="book-title">한글에는<br>결이 있다</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2083,11 +2101,15 @@
 
         <!-- 인공지능의 결 -->
         <a class="book-item" href="/내친구인공지능_월간/index.html">
-          <img class="book-cover-img" src="/assets/covers/cover-ai.png" alt="인공지능의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img" src="/assets/covers/cover-ai.png" alt="인공지능의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">인공지능의 결</span>
+              <span class="cov-title">인공지능의 결</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">AI · 인공지능의 결</div>
-            <div class="book-title">인공지능의 결</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2095,11 +2117,15 @@
 
         <!-- 생명과학의 결 -->
         <a class="book-item" href="https://yeon-biology.web.app" target="_blank" rel="noopener">
-          <img class="book-cover-img" src="/assets/covers/cover-biology.png" alt="생명과학의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img img-soften" src="/assets/covers/cover-biology.png" alt="생명과학의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">생명과학의 결</span>
+              <span class="cov-title">살아있는<br>것들의 이야기</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">生 · 생명과학의 결</div>
-            <div class="book-title">살아있는 것들의<br>이야기</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2107,11 +2133,15 @@
 
         <!-- 어린이의 결 -->
         <a class="book-item" href="/어린이의_결_월간/index.html">
-          <img class="book-cover-img" src="/assets/covers/cover-spare.png" alt="어린이의 결 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img img-soften" src="/assets/covers/cover-spare.png" alt="어린이의 결 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">어린이의 결</span>
+              <span class="cov-title">어린이의 결</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">어린이 · 어린이의 결</div>
-            <div class="book-title">어린이의 결</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
@@ -2124,23 +2154,31 @@
 
         <!-- 수학 교과서 -->
         <a class="book-item" href="https://yeon-math-book.web.app/" target="_blank" rel="noopener">
-          <img class="book-cover-img" src="/assets/covers/cover-mathbook.png" alt="살아있는 수학 교과서 표지" loading="lazy">
-          <div class="book-spine"></div>
+          <div class="book-cover-wrap">
+            <img class="book-cover-img" src="/assets/covers/cover-mathbook.png" alt="살아있는 수학 교과서 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">살아있는 연 교과서</span>
+              <span class="cov-title">수학 교과서</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">數 · 수학 교과서</div>
-            <div class="book-title">수학에 이야기를<br>입히다</div>
             <span class="book-badge badge-live">라이브</span>
             <div class="book-btn">펼치기 →</div>
           </div>
         </a>
 
         <!-- 영어 교과서 -->
-        <div class="book-item" style="cursor:default;opacity:.75">
-          <img class="book-cover-img" src="/assets/covers/cover-englishbook.png" alt="살아있는 영어 교과서 표지" loading="lazy">
-          <div class="book-spine"></div>
+        <div class="book-item" style="cursor:default;opacity:.72">
+          <div class="book-cover-wrap">
+            <img class="book-cover-img" src="/assets/covers/cover-englishbook.png" alt="살아있는 영어 교과서 표지" loading="lazy">
+            <div class="book-cover-tag">
+              <span class="cov-label">살아있는 연 교과서</span>
+              <span class="cov-title">영어 교과서</span>
+            </div>
+            <div class="book-spine"></div>
+          </div>
           <div class="book-info">
-            <div class="book-label">英 · 영어 교과서</div>
-            <div class="book-title">영어에 이야기를<br>입히다</div>
             <span class="book-badge badge-soon">준비 중</span>
             <div class="book-btn" style="color:#b3aa99">곧 만나요</div>
           </div>
