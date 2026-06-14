@@ -2038,6 +2038,16 @@
   .badge-live{background:#d4ede0;color:#2d6e4e}
   .badge-soon{background:#ede5d8;color:#9a8275}
   .book-btn{margin-top:6px;font-size:11px;color:#6b655c;font-weight:600}
+  /* NEW 최신호 배너 */
+  .new-issue-wrap{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,#fffdf8,#f3eee4);border:1px solid #e7ddc9;border-radius:14px;padding:14px 18px;margin-bottom:18px;text-decoration:none;transition:box-shadow .2s}
+  .new-issue-wrap:hover{box-shadow:0 6px 20px rgba(47,93,87,.12)}
+  .new-badge-lg{flex:none;background:#c55a2d;color:#fff;font-size:10px;font-weight:900;letter-spacing:.1em;padding:4px 10px;border-radius:999px}
+  .new-cover-thumb{flex:none;width:54px;aspect-ratio:9/16;object-fit:cover;border-radius:3px 7px 7px 3px;box-shadow:2px 3px 10px rgba(31,42,42,.18)}
+  .new-issue-info{flex:1;min-width:0}
+  .new-issue-kicker{font-size:10.5px;letter-spacing:.1em;color:#9a8f7c;font-weight:700;margin-bottom:3px}
+  .new-issue-title{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:800;color:#2a2723;line-height:1.3;margin-bottom:4px}
+  .new-issue-sub{font-size:12px;color:#6b655c;line-height:1.5}
+  .new-issue-cta{flex:none;font-size:12px;font-weight:700;color:#2f5d57;white-space:nowrap}
   </style>
   <section class="reveal" id="magazines" style="margin:10px 0 4px">
     <button type="button" class="learn-card" aria-expanded="false" onclick="toggleLearn(this)">
@@ -2048,6 +2058,18 @@
       <span class="lc-chev">▾</span>
     </button>
     <div class="learn-body" hidden>
+      <!-- ★ NEW 최신호 소개 (가장 최근 업데이트된 잡지 1권) -->
+      <a class="new-issue-wrap" href="https://yeon-biology.web.app" target="_blank" rel="noopener">
+        <span class="new-badge-lg">NEW</span>
+        <img class="new-cover-thumb" src="/assets/covers/cover-biology.png" alt="생명과학의 결 창간호 표지" loading="lazy">
+        <div class="new-issue-info">
+          <div class="new-issue-kicker">생명과학의 결 · 창간호 · 2026년 6월</div>
+          <div class="new-issue-title">살아있는 것들의 이야기</div>
+          <div class="new-issue-sub">세포가 말을 건다 — 세포·면역·진화까지, 생명과학의 결 창간호가 나왔습니다.</div>
+        </div>
+        <span class="new-issue-cta">바로 읽기 →</span>
+      </a>
+
       <div class="rail-head"><b>결 시리즈</b> · 월간 교과목 참고서 <span class="rail-hint">← 좌우로 넘겨 보세요 →</span></div>
       <div class="book-shelf">
 
