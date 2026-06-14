@@ -2009,108 +2009,151 @@
     </a>
   </section>
 
-  <!-- ===== 배움의 결 — 결 시리즈 & 연 교과서: 한 카드, 열면 가로 캐러셀 ===== -->
+  <!-- ===== 배움의 결 — 결 시리즈 & 연 교과서: 책 표지 진열대 ===== -->
   <style>
   .learn-card{width:100%;text-align:left;display:flex;align-items:center;gap:14px;cursor:pointer;border:1px solid #e7ddc9;background:linear-gradient(135deg,#fffdf8,#f3ecdf);border-radius:18px;padding:22px 24px;box-shadow:0 8px 24px rgba(31,42,42,.08);font-family:inherit}
-  .learn-card .lc-title{font-family:'Noto Serif KR',serif;font-size:clamp(20px,3.2vw,29px);font-weight:800;color:#2a2723;margin:0}
+  .learn-card .lc-title{font-family:’Noto Serif KR’,serif;font-size:clamp(20px,3.2vw,29px);font-weight:800;color:#2a2723;margin:0}
   .learn-card .lc-sub{font-size:13px;color:#6b655c;margin:4px 0 0}
   .learn-card .lc-chev{font-size:20px;color:#8a8275;transition:transform .3s;margin-left:auto;flex:none}
   .learn-card[aria-expanded="true"] .lc-chev{transform:rotate(180deg)}
   .learn-body{margin-top:14px}
-  .rail-head{font-size:13px;color:#6b655c;margin:6px 2px 8px}.rail-head b{font-family:'Noto Serif KR',serif;font-size:17px;color:#2a2723}.rail-hint{color:#b3aa99;font-size:11.5px;margin-left:6px}
-  .learn-rail{display:flex;gap:16px;overflow-x:auto;padding:2px 2px 14px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-  .learn-rail>a,.learn-rail>div{flex:0 0 min(300px,80vw);scroll-snap-align:start}
+  .rail-head{font-size:13px;color:#6b655c;margin:6px 2px 10px}.rail-head b{font-family:’Noto Serif KR’,serif;font-size:17px;color:#2a2723}.rail-hint{color:#b3aa99;font-size:11.5px;margin-left:6px}
+  /* 책 진열대 */
+  .book-shelf{display:flex;gap:18px;overflow-x:auto;padding:4px 2px 20px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#d8cdb8 transparent}
+  .book-shelf::-webkit-scrollbar{height:4px}.book-shelf::-webkit-scrollbar-thumb{background:#d8cdb8;border-radius:2px}
+  .book-item{flex:0 0 160px;scroll-snap-align:start;text-decoration:none;display:flex;flex-direction:column;border-radius:4px 10px 10px 4px;overflow:hidden;box-shadow:4px 6px 18px rgba(31,42,42,.18),-2px 2px 6px rgba(31,42,42,.08);transition:transform .25s,box-shadow .25s;position:relative}
+  .book-item:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:6px 14px 28px rgba(31,42,42,.22)}
+  .book-cover-img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
+  .book-spine{position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(to right,rgba(0,0,0,.35),rgba(0,0,0,.08))}
+  .book-info{padding:10px 10px 12px;background:#fffdf8;border-top:1px solid #ede5d8;flex:1;min-height:0}
+  .book-label{font-size:10px;letter-spacing:.12em;color:#9a8f7c;font-weight:700;margin-bottom:3px}
+  .book-title{font-family:’Noto Serif KR’,serif;font-size:13px;font-weight:700;color:#2a2723;line-height:1.35;margin-bottom:6px}
+  .book-badge{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:.04em}
+  .badge-live{background:#d4ede0;color:#2d6e4e}
+  .badge-soon{background:#ede5d8;color:#9a8275}
+  .book-btn{margin-top:8px;font-size:11px;color:#6b655c;font-weight:600}
   </style>
   <section class="reveal" id="magazines" style="margin:10px 0 4px">
     <button type="button" class="learn-card" aria-expanded="false" onclick="toggleLearn(this)">
       <div>
         <p class="lc-title">배움의 결 · 결 시리즈 &amp; 연 교과서</p>
-        <p class="lc-sub">월간 교과목 참고서 5종 + 정규 교과서(수학·영어)를 한자리에 — <b>눌러서 펼치기</b></p>
+        <p class="lc-sub">월간 교과목 참고서 6종 + 정규 교과서(수학·영어)를 한자리에 — <b>눌러서 펼치기</b></p>
       </div>
       <span class="lc-chev">▾</span>
     </button>
     <div class="learn-body" hidden>
       <div class="rail-head"><b>결 시리즈</b> · 월간 교과목 참고서 <span class="rail-hint">← 좌우로 넘겨 보세요 →</span></div>
-      <div class="learn-rail">
+      <div class="book-shelf">
 
-      <!-- 과학의 결 -->
-      <a href="https://yeon-science.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(38,71,79,.52),rgba(63,125,117,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(31,42,42,.14)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><circle cx="20" cy="20" r="6"/><ellipse cx="20" cy="20" rx="16" ry="7"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="16" ry="7" transform="rotate(120 20 20)"/></svg>
-          科 · 과학의 결
-        </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">과학에는 결이 있다</h3>
-        <p style="font-size:13.5px;color:#dfe8de;line-height:1.7;flex:1">일반 대중을 위한 주간 과학 잡지. 필진의 글과 편집회의, 세계 과학 데스크가 한 호로 묶입니다.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">과학의 결 펼치기 →</span></div>
-      </a>
+        <!-- 과학의 결 -->
+        <a class="book-item" href="https://yeon-science.web.app" target="_blank" rel="noopener">
+          <img class="book-cover-img" src="/assets/covers/cover-science.png" alt="과학의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">科 · 과학의 결</div>
+            <div class="book-title">과학에는<br>결이 있다</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
 
-      <!-- 수학의 결 -->
-      <a href="https://yeon-math.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(71,61,128,.52),rgba(99,87,166,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(50,40,70,.16)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2"><path d="M14 14 C14 9 25 9 30 14 C35 19 21 21 20 20 C19 19 5 21 10 26 C15 31 26 31 26 26"/></svg>
-          數 · 수학의 결
-        </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">교과서보다 살아있게,<br>한 줄도 틀리지 않게</h3>
-        <p style="font-size:13.5px;color:#e6e2f2;line-height:1.7;flex:1">학년별(중1~3) 내 진도 맞춤 + 살아있는 수학 이야기. 모든 문제·풀이·증명은 외부 AI(DeepSeek)가 검산합니다.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#473d80;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">수학의 결 펼치기 →</span></div>
-      </a>
+        <!-- 수학의 결 -->
+        <a class="book-item" href="https://yeon-math.web.app" target="_blank" rel="noopener">
+          <img class="book-cover-img" src="/assets/covers/cover-math.png" alt="수학의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">數 · 수학의 결</div>
+            <div class="book-title">교과서보다<br>살아있게</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
 
-      <!-- 한글의 결 -->
-      <a href="https://yeon-hangeul.web.app" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(41,72,125,.52),rgba(29,52,88,.55));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(29,52,88,.16)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2" stroke-linecap="round"><path d="M9 12 C16 9 24 9 31 12"/><path d="M20 12 L20 30"/><path d="M12 30 C16 26 24 26 28 30"/></svg>
-          한 · 한글의 결
-        </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">한글에는 결이 있다</h3>
-        <p style="font-size:13.5px;color:#e1e7f1;line-height:1.7;flex:1">한글의 아름다움·역사·세계화와 학년별 국어. 어문규범 검수실 ‘바름’이 출제·정답을 한 번 더 확인합니다. 국문·English.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#1d3458;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">한글의 결 펼치기 →</span></div>
-      </a>
+        <!-- 한글의 결 -->
+        <a class="book-item" href="https://yeon-hangeul.web.app" target="_blank" rel="noopener">
+          <img class="book-cover-img" src="/assets/covers/cover-hangeul.png" alt="한글의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">한 · 한글의 결</div>
+            <div class="book-title">한글에는<br>결이 있다</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
 
-      <!-- 인공지능의 결 -->
-      <a href="/내친구인공지능_월간/index.html" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(63,125,106,.5),rgba(58,90,82,.55));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(40,60,55,.16)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#e7d9bf;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#e7d9bf" stroke-width="2" stroke-linecap="round"><rect x="11" y="13" width="18" height="14" rx="4"/><path d="M20 13 V8"/><circle cx="20" cy="6" r="2"/><path d="M16 19h0M24 19h0"/></svg>
-          AI · 인공지능의 결
-        </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">인공지능의 결</h3>
-        <p style="font-size:13.5px;color:#e6efe9;line-height:1.7;flex:1">코드를 몰라도 AI와 함께 — 어른과 학생을 위한 친절한 인공지능 월간지. 매월 새 소식과 실무 활용 기법이 더해집니다.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">인공지능의 결 펼치기 →</span></div>
-      </a>
+        <!-- 인공지능의 결 -->
+        <a class="book-item" href="/내친구인공지능_월간/index.html">
+          <img class="book-cover-img" src="/assets/covers/cover-ai.png" alt="인공지능의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">AI · 인공지능의 결</div>
+            <div class="book-title">인공지능의 결</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
 
-      <!-- 어린이의 결 -->
-      <a href="/어린이의_결_월간/index.html" style="display:flex;flex-direction:column;text-decoration:none;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,rgba(168,124,83,.52),rgba(212,124,83,.52));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:clamp(22px,3vw,32px);box-shadow:0 12px 32px rgba(212,124,83,.14)">
-        <div style="display:flex;align-items:center;gap:9px;font-family:'Noto Serif KR',serif;font-size:12px;letter-spacing:.16em;color:#fbf9f4;font-weight:700">
-          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="#fbf9f4" stroke-width="2" stroke-linecap="round"><path d="M12 28 C15 24 25 24 28 28"/><circle cx="20" cy="14" r="5"/><path d="M6 30 C12 20 28 20 34 30"/></svg>
-          어린이 · 어린이의 결
-        </div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">어린이의 결</h3>
-        <p style="font-size:13.5px;color:#fdfaf4;line-height:1.7;flex:1">유치부와 초등부 어린이 종합 잡지. 하루 한 장씩 스스로 알아가고 자라나는 월간 교과목 참고서.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#b2633e;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">어린이의 결 펼치기 →</span></div>
-      </a>
+        <!-- 생명과학의 결 -->
+        <a class="book-item" href="https://yeon-biology.web.app" target="_blank" rel="noopener">
+          <img class="book-cover-img" src="/assets/covers/cover-biology.png" alt="생명과학의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">生 · 생명과학의 결</div>
+            <div class="book-title">살아있는 것들의<br>이야기</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
+
+        <!-- 어린이의 결 -->
+        <a class="book-item" href="/어린이의_결_월간/index.html">
+          <img class="book-cover-img" src="/assets/covers/cover-spare.png" alt="어린이의 결 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">어린이 · 어린이의 결</div>
+            <div class="book-title">어린이의 결</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
 
       </div>
+
       <div class="rail-head" style="margin-top:18px"><b>살아있는 연 교과서</b> · 정규 학습용 (수학·영어) <span class="rail-hint">← 좌우로 →</span></div>
-      <div class="learn-rail">
-      <a href="https://yeon-math-book.web.app/" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;background:linear-gradient(135deg,#2f5d57,#21433e);border-radius:18px;padding:24px;box-shadow:0 10px 28px rgba(47,93,87,.22)">
-        <div style="display:flex;align-items:center;gap:8px;color:#cfe4df;font-size:13px;font-weight:600">數 · 살아있는 수학 교과서 <span style="background:#fff;color:#2f5d57;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px">라이브</span></div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#fff">수학에 이야기를 입히다</h3>
-        <p style="font-size:13.5px;color:#e4efec;line-height:1.7;flex:1">초3~중3 · 코드 애니메이션과 슈퍼톤 음성, 한 문제 여러 풀이. 모든 문제·풀이는 검산을 거칩니다.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#fffdf8;color:#2f5d57;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">수학 교과서 펼치기 →</span></div>
-      </a>
-      <div style="display:flex;flex-direction:column;background:#f0ece3;border:1px dashed #d8cdb8;border-radius:18px;padding:24px">
-        <div style="display:flex;align-items:center;gap:8px;color:#9a8f7c;font-size:13px;font-weight:600">英 · 살아있는 영어 교과서 <span style="background:#e3d9c4;color:#8a7a5c;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px">준비 중</span></div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:10px 0 8px;line-height:1.3;color:#6b655c">영어에 이야기를 입히다</h3>
-        <p style="font-size:13.5px;color:#8a8275;line-height:1.7;flex:1">수학 교과서의 엔진·장치를 그대로 물려받아 콘텐츠만 영어로. 곧 만나요.</p>
-        <div style="margin-top:16px"><span style="display:inline-flex;align-items:center;gap:6px;background:#e7ddc9;color:#9a8f7c;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px">준비 중</span></div>
-      </div>
+      <div class="book-shelf">
+
+        <!-- 수학 교과서 -->
+        <a class="book-item" href="https://yeon-math-book.web.app/" target="_blank" rel="noopener">
+          <img class="book-cover-img" src="/assets/covers/cover-mathbook.png" alt="살아있는 수학 교과서 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">數 · 수학 교과서</div>
+            <div class="book-title">수학에 이야기를<br>입히다</div>
+            <span class="book-badge badge-live">라이브</span>
+            <div class="book-btn">펼치기 →</div>
+          </div>
+        </a>
+
+        <!-- 영어 교과서 -->
+        <div class="book-item" style="cursor:default;opacity:.75">
+          <img class="book-cover-img" src="/assets/covers/cover-englishbook.png" alt="살아있는 영어 교과서 표지" loading="lazy">
+          <div class="book-spine"></div>
+          <div class="book-info">
+            <div class="book-label">英 · 영어 교과서</div>
+            <div class="book-title">영어에 이야기를<br>입히다</div>
+            <span class="book-badge badge-soon">준비 중</span>
+            <div class="book-btn" style="color:#b3aa99">곧 만나요</div>
+          </div>
+        </div>
+
       </div>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px">
-        <a href="/구독.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#2f5d57;color:#fff;font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:999px;box-shadow:0 8px 22px rgba(47,93,87,.22)">결 시리즈 구독하기 · 월 3,000원부터 →</a>
+        <a href="/구독.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#2f5d57;color:#fff;font-family:’Noto Serif KR’,serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:999px;box-shadow:0 8px 22px rgba(47,93,87,.22)">결 시리즈 구독하기 · 월 3,000원부터 →</a>
         <span style="font-size:12.5px;color:#8a8275">기본 읽기·인쇄는 구독 없이도 무료 · 언제든 그만둘 수 있어요</span>
       </div>
     </div>
   </section>
-  <script>function toggleLearn(b){var body=b.parentNode.querySelector('.learn-body');var open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));body.hidden=open;}</script>
+  <script>function toggleLearn(b){var body=b.parentNode.querySelector(‘.learn-body’);var open=b.getAttribute(‘aria-expanded’)===’true’;b.setAttribute(‘aria-expanded’,String(!open));body.hidden=open;}</script>
 
   <!-- 세계는 지금 — 첫 화면 핵심 헤드라인 -->
   <section class="world-now reveal" id="world-now">
