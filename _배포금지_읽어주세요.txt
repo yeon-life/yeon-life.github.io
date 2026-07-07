@@ -1,0 +1,12 @@
+[배포 금지 / DO NOT DEPLOY]
+
+이 폴더는 y-life.kr 의 정본이 아닙니다.
+정본(표지·결시리즈 새 디자인 포함) = C:\Users\jinwo\OneDrive\문서\GitHub\yeon-life.github.io
+
+과거에 이 폴더와 정본 폴더가 둘 다 같은 Firebase 프로젝트(y-life-e191d)로
+배포되어, 나중에 배포한 쪽이 앞을 덮어쓰며 "옛날 화면으로 되돌아가는" 문제가 있었습니다.
+그래서 이 폴더의 firebase 설정을 .DISABLED 로 비활성화했습니다.
+
+y-life.kr 배포는 반드시 정본 폴더에서만:
+  cd C:\Users\jinwo\OneDrive\문서\GitHub\yeon-life.github.io
+  firebase deploy --only hosting --project y-life-e191d

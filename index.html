@@ -76,6 +76,61 @@
   .diagnosis-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--yp-pine);border:1px solid var(--yp-pine);border-radius:999px;font-size:12px;color:var(--yp-white);transition:all .2s;font-weight:600;text-decoration:none}
   .diagnosis-pill:hover{background:var(--yp-deep);border-color:var(--yp-deep)}
 
+  /* ===== 에디토리얼 마스트 카드 (Plaza Mast Card) ===== */
+  .mast-card {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px;
+    background: var(--surface-pure, #ffffff);
+    border: 1px solid var(--line-soft, #d7d1c5);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-body, #2a3438);
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(31,42,42,.02);
+  }
+  .mast-card:hover {
+    border-color: var(--teal-deep, #2f5d62);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(31,42,42,.07);
+  }
+  .mast-card .mc-tag {
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .mast-card .mc-title {
+    font-family: var(--font-title, serif);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--ink-deep, #1f2a2a);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .mast-card .mc-desc {
+    font-size: 13px;
+    color: var(--text-muted, #5e6a6e);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    flex-grow: 1;
+    text-align: justify;
+  }
+  .mast-card .mc-action {
+    font-size: 12.5px;
+    color: var(--teal-deep, #2f5d62);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--line-fine);
+    padding-top: 14px;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   /* ===== 마스트헤드 ===== */
   .masthead{border-bottom:2px solid var(--ink-deep);padding:30px 0 22px;background:var(--paper-warm);position:relative;z-index:20}
   .masthead-inner{display:flex;align-items:center;justify-content:space-between;gap:32px}
@@ -1134,13 +1189,14 @@
 
   #thinkmap-bg{
     position:fixed;inset:0;z-index:0;cursor:pointer;overflow:hidden;
-    background:
-      radial-gradient(circle at 18% 22%,rgba(195,141,86,.10),transparent 42%),
-      radial-gradient(circle at 82% 70%,rgba(66,122,113,.12),transparent 48%),
-      linear-gradient(180deg,
-        rgba(244,240,230,.55) 0%,
-        rgba(238,233,220,.50) 60%,
-        rgba(244,240,230,.55) 100%);
+    /* 아고라 광장 한지 느낌 — 크림 종이 + 은은한 금빛 점 격자 (맨 아래 바닥) */
+    background-color:#F8F2EA;
+    background-image:
+      radial-gradient(circle at 18% 22%,rgba(195,141,86,.06),transparent 42%),
+      radial-gradient(circle at 82% 70%,rgba(66,122,113,.06),transparent 48%),
+      radial-gradient(rgba(184,149,90,.09) 1px,transparent 1.6px);
+    background-size:auto,auto,32px 32px;
+    background-repeat:no-repeat,no-repeat,repeat;
   }
   #thinkmap-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.92}
 
@@ -1320,9 +1376,8 @@
         <button class="icon-btn keyhole-btn" id="btnLogin" data-tip="로그인 · 가입" aria-label="로그인 · 가입">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="9.5" r="3"/><path d="M10.6 12 L9 20 H15 L13.4 12 Z" stroke-linejoin="round"/></svg>
         </button>
-        <button type="button" class="menu-trigger" id="menuTrigger" aria-label="차림표 열기">
-          <svg viewBox="0 0 24 16"><line x1="2" y1="3" x2="22" y2="3"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="13" x2="22" y2="13"/></svg>
-          <span>차림표</span>
+        <button class="icon-btn" id="menuTrigger" data-tip="차림표 열기" aria-label="차림표 열기">
+          <svg viewBox="0 0 24 16" style="width:16px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;"><line x1="2" y1="2" x2="22" y2="2"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="14" x2="22" y2="14"/></svg>
         </button>
       </div>
     </div>
@@ -2210,64 +2265,45 @@
     </div>
     <div class="plaza-grid">
       <div class="plaza-col-agora">
-        <div class="pc-head"><div class="pc-title"><span class="accent-dot"></span>아골라<span class="hanja">阿閣羅</span></div><a href="아골라_미리보기.html" class="pc-link">이어 말하기 →</a></div>
+        <div class="pc-head"><div class="pc-title"><span class="accent-dot" style="background:#2f5d62"></span>아골라<span class="hanja">阿閣羅</span></div></div>
         <p class="pc-sub">어른의 토론. 답이 아니라 더 좋은 물음을 찾는 곳.</p>
-        <div class="pc-list">
-          <div class="pc-item">
-            <div class="pc-meta"><span class="pc-now">지금</span><span class="who"><span class="dot">林</span>임선생</span><span>·</span><span>2시간 전</span></div>
-            <h3 class="pc-title-text">'선택'이라는 말의 무게 — Libet 실험을 다시 읽다</h3>
-            <p class="pc-snip">의식과 행위 사이 0.3초의 간극이 우리에게 던지는 질문은 자유의지의 부정이 아니라, 다른 종류의 자유에 대한 초대가 아닐까.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 24</span><span class="cmt">댓글 7</span></div>
+        <a class="mast-card agora" href="아골라_미리보기.html">
+          <div class="mc-tag" style="color:#2f5d62">Adult Forum</div>
+          <h3 class="mc-title">아골라 광장</h3>
+          <p class="mc-desc">자유의지와 무의식에 관한 이번 주의 화두 등 깊은 성찰과 지혜가 오가는 어른들의 숙의 토론장으로 입장합니다.</p>
+          <div class="mc-action">
+            <span>토론 참여 · 사유 스택 보기</span>
+            <span>→</span>
           </div>
-          <div class="pc-item">
-            <div class="pc-meta"><span class="pc-deep">깊어짐</span><span class="who"><span class="dot">朴</span>박주민</span><span>·</span><span>어제</span></div>
-            <h3 class="pc-title-text">기록되지 않은 결정은 정말 내 결정인가</h3>
-            <p class="pc-snip">한 주 동안 내가 한 '결정'들을 거꾸로 적어보았다. 70%는 결정이 아니라 흐름이었다.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 48</span><span class="cmt">댓글 12</span></div>
-          </div>
-          <div class="pc-item">
-            <div class="pc-meta"><span class="who"><span class="dot">崔</span>최영재</span><span>·</span><span>2일 전</span></div>
-            <h3 class="pc-title-text">"몸이 먼저 안다"는 말의 동양적 뿌리</h3>
-            <p class="pc-snip">신경과학의 결론은 새롭지 않다. 다만 우리가 잊고 있던 것을 다른 언어로 다시 말해줄 뿐이다.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 29</span><span class="cmt">댓글 3</span></div>
-          </div>
-        </div>
+        </a>
       </div>
 
       <div class="plaza-col-agonran">
-        <div class="pc-head"><div class="pc-title"><span class="accent-dot" style="background:#c38d56"></span>아곤란<span class="hanja">阿昆蘭</span></div><a href="아곤란_미리보기.html" class="pc-link">물어보기 →</a></div>
+        <div class="pc-head"><div class="pc-title"><span class="accent-dot" style="background:#c38d56"></span>아곤란<span class="hanja">阿昆蘭</span></div></div>
         <p class="pc-sub">학생의 마당. 서툰 질문이 가장 빛나는 자리.</p>
-        <div class="pc-list">
-          <div class="pc-item">
-            <div class="pc-meta"><span class="pc-now">지금</span><span class="who"><span class="dot">민</span>민서</span><span>·</span><span>중1</span></div>
-            <h3 class="pc-title-text">내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</h3>
-            <p class="pc-snip">친구들이 좋아하니까 좋아진 건지, 원래 내가 좋아한 건지 헷갈려요.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 36</span><span class="cmt">댓글 9</span></div>
+        <a class="mast-card agonran" href="아곤란_미리보기.html">
+          <div class="mc-tag" style="color:#c38d56">Youth Hub</div>
+          <h3 class="mc-title">아곤란 마당</h3>
+          <p class="mc-desc">내가 좋아하는 것의 진정성과 생각의 속도 등 배움 과정에서 일어나는 학생들의 서툴고 반짝이는 사색의 광장으로 입장합니다.</p>
+          <div class="mc-action">
+            <span>질문 묻기 · 생각 엿보기</span>
+            <span>→</span>
           </div>
-          <div class="pc-item">
-            <div class="pc-meta"><span class="who"><span class="dot">하</span>하은</span><span>·</span><span>초6</span></div>
-            <h3 class="pc-title-text">생각이 너무 빨라서 멈출 수가 없어요</h3>
-            <p class="pc-snip">자기 전에 생각이 막 떠올라요. 그 생각도 제가 선택한 건 아닌 것 같아요.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 18</span><span class="cmt">댓글 5</span></div>
-          </div>
-          <div class="pc-item">
-            <div class="pc-meta"><span class="who"><span class="dot">준</span>준호</span><span>·</span><span>고2</span></div>
-            <h3 class="pc-title-text">습관은 나인가, 내가 아닌가</h3>
-            <p class="pc-snip">매일 같은 시간에 핸드폰을 보는데, 그건 제가 한 행동인가요 습관이 한 행동인가요.</p>
-            <div class="pc-vote"><span class="depth">좋은 물음 22</span><span class="cmt">댓글 4</span></div>
-          </div>
-        </div>
+        </a>
       </div>
 
       <div class="plaza-col-insight">
-        <div class="pc-head"><div class="pc-title"><span class="accent-dot"></span>이 주의 인사이트</div><a href="광장의_진짜_목적.html" class="pc-link">이 깊이로 닿기 →</a></div>
+        <div class="pc-head"><div class="pc-title"><span class="accent-dot" style="background:#a85048"></span>이 주의 인사이트</div></div>
         <p class="pc-sub">광장에서 가장 깊은 울림을 준 글들.</p>
-        <div class="insight-list">
-          <div class="ins-item"><div class="ins-rank">1</div><div><h4 class="ins-title">기록되지 않은 결정은 정말 내 결정인가</h4><div class="ins-byline">박주민 · 아골라 · <span class="heat">좋은 물음 48</span></div></div><div class="ins-spark"><div class="bar" style="height:30%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:75%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:100%"></div></div></div>
-          <div class="ins-item"><div class="ins-rank">2</div><div><h4 class="ins-title">내가 좋아하는 것을 진짜 내가 좋아하는 걸까요?</h4><div class="ins-byline">민서 · 아곤란 · <span class="heat">좋은 물음 36</span></div></div><div class="ins-spark"><div class="bar" style="height:40%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:75%"></div></div></div>
-          <div class="ins-item"><div class="ins-rank">3</div><div><h4 class="ins-title">"몸이 먼저 안다"는 말의 동양적 뿌리</h4><div class="ins-byline">최영재 · 아골라 · <span class="heat">좋은 물음 29</span></div></div><div class="ins-spark"><div class="bar" style="height:25%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:60%"></div></div></div>
-          <div class="ins-item"><div class="ins-rank">4</div><div><h4 class="ins-title">습관은 나인가, 내가 아닌가</h4><div class="ins-byline">준호 · 아곤란 · <span class="heat">좋은 물음 22</span></div></div><div class="ins-spark"><div class="bar" style="height:35%"></div><div class="bar" style="height:30%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:55%"></div></div></div>
-        </div>
+        <a class="mast-card insight" href="광장의_진짜_목적.html">
+          <div class="mc-tag" style="color:#a85048">Weekly Insight</div>
+          <h3 class="mc-title">주간 베스트 사색</h3>
+          <p class="mc-desc">기록되지 않은 결정의 한계부터 몸이 먼저 안다는 동양적 통찰까지, 한 주간 광장에서 가장 깊은 사유와 반향을 이끌어 낸 글들을 모아 봅니다.</p>
+          <div class="mc-action">
+            <span>주간 인사이트 목록 보기</span>
+            <span>→</span>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -3879,9 +3915,76 @@
       } catch(e) {
         console.error('Failed to load custom posts:', e);
       }
-    })();
   })();
 </script>
+
+<!-- ===== 왼쪽 고정 사이드 메뉴판 ===== -->
+<style>
+  .left-sidebar-menu {
+    position: fixed;
+    left: 24px;
+    top: 240px;
+    width: 200px;
+    background: #fffdf8;
+    border: 1px solid #d7d1c5;
+    border-radius: 14px;
+    padding: 18px 14px;
+    box-shadow: 0 8px 30px rgba(31,42,42,.05);
+    z-index: 15;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  .left-sidebar-menu h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #2f5d62;
+    margin: 0 0 14px 0;
+    border-bottom: 2px solid #2f5d62;
+    padding-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .left-sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .left-sidebar-menu li {
+    margin-bottom: 8px;
+  }
+  .left-sidebar-menu li:last-child {
+    margin-bottom: 0;
+  }
+  .left-sidebar-menu a {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #536060;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .left-sidebar-menu a:hover {
+    background: #fbf8f1;
+    color: #2f5d62;
+    font-weight: 700;
+  }
+  /* 1320px 미만 화면에서는 공간 확보를 위해 감춤 */
+  @media (max-width: 1320px) {
+    .left-sidebar-menu {
+      display: none;
+    }
+  }
+</style>
+<div class="left-sidebar-menu" aria-label="연소사 전용 메뉴판">
+  <h3><span style="color:#c38d56">緣</span> 연소사 사랑방</h3>
+  <ul>
+    <li><a href="writer-yeonsosa.html">🏡 연소사 블로그 홈</a></li>
+    <li><a href="column-yeonsosa.html">📜 친필 칼럼 (세상의 주인)</a></li>
+    <li><a href="writer-yeonsosa-youtube.html">🎬 유튜브 위젯 복습노트</a></li>
+    <li><a href="gampo-agutang/index.html">🍲 감포 아구탕 이야기</a></li>
+    <li style="border-top:1px dashed #d7d1c5; margin-top:10px; padding-top:10px;"><a href="index.html">🏛️ 연라이프 광장</a></li>
+  </ul>
+</div>
 
 </body>
 </html>

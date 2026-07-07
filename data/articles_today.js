@@ -593,6 +593,7 @@ window.YL_ARTICLES_TODAY = {
     ],
     trust: { score: 85, axes: { diversity: 80, primary: 88, verifiability: 85, time: 82, conflict: 85, factcheck: 75, freedom: 92, archive: 78 }, media: [] }
   },
+];
 
 };
 

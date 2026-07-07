@@ -667,6 +667,18 @@
     <h2>최근 쓰인 글</h2>
   </div>
   <div class="portfolio-grid">
+    <article class="portfolio-card" onclick="location.href='writer-yeonsosa-youtube.html'">
+      <div class="portfolio-meta"><span>2026.07.07</span><span>10분</span></div>
+      <h4>유튜브 자료 칼럼화 위젯 구현법</h4>
+      <p>유튜브 API를 제어해 정밀 문장 반복 재생을 지원하는 동적 칼럼 구현 원리와 HTML/JS 템플릿 코드 가이드…</p>
+      <div class="cat">철학</div>
+    </article>
+    <article class="portfolio-card" onclick="location.href='column-yeonsosa.html'">
+      <div class="portfolio-meta"><span>2017.01.22</span><span>7분</span></div>
+      <h4>우리 모두는 '세상의 주인'으로 태어났다</h4>
+      <p>정체성을 찾지 못하면 '어떻게 살 것인가'에 답할 수 없다. 선량한 관리자로 사셨던 할아버지와 아버지의 이야기…</p>
+      <div class="cat">철학</div>
+    </article>
     <article class="portfolio-card" onclick="location.href='gampo-agutang/index.html'">
       <div class="portfolio-meta"><span>2026.05.28</span><span>6분</span></div>
       <h4>그건 뭐한다꼬 문능교?</h4>
@@ -719,6 +731,8 @@
     </div>
   </div>
   <ul class="archive-list" id="archiveList">
+    <li data-cat="철학" onclick="location.href='writer-yeonsosa-youtube.html'" style="cursor:pointer;"><span class="archive-date">2026.07.07</span><span class="archive-title">유튜브 자료 칼럼화 위젯 구현법 (동적 반복 재생)</span><span class="archive-cat">철학</span></li>
+    <li data-cat="철학" onclick="location.href='column-yeonsosa.html'" style="cursor:pointer;"><span class="archive-date">2017.01.22</span><span class="archive-title">우리 모두는 '세상의 주인'으로 태어났다</span><span class="archive-cat">철학</span></li>
     <li data-cat="철학" onclick="location.href='gampo-agutang/index.html'" style="cursor:pointer;"><span class="archive-date">2026.05.28</span><span class="archive-title">그건 뭐한다꼬 문능교?</span><span class="archive-cat">철학</span></li>
     <li data-cat="자기주도"><span class="archive-date">2026.04.10</span><span class="archive-title">100일 습관에서 가장 위험한 시기는</span><span class="archive-cat">자기주도</span></li>
     <li data-cat="학부모"><span class="archive-date">2026.04.05</span><span class="archive-title">아이의 말을 들을 때 가장 먼저 버려야 할 것</span><span class="archive-cat">학부모</span></li>
@@ -803,7 +817,89 @@
     alert('편지가 도착했습니다. 읽고 천천히 답하겠습니다.');
     e.target.reset();
   }
+
+  // 현재 활성화된 페이지 링크 강조
+  (function(){
+    var path = window.location.pathname.split('/').pop() || 'writer-yeonsosa.html';
+    var links = document.querySelectorAll('.left-sidebar-menu a');
+    links.forEach(function(a){
+      var href = a.getAttribute('href');
+      if(path.indexOf(href) !== -1 || (href === 'writer-yeonsosa.html' && path === '')) {
+        a.style.background = 'rgba(47,93,98,.08)';
+        a.style.color = '#2f5d62';
+        a.style.fontWeight = '700';
+      }
+    });
+  })();
 </script>
+
+<!-- ===== 왼쪽 고정 사이드 메뉴판 ===== -->
+<style>
+  .left-sidebar-menu {
+    position: fixed;
+    left: 24px;
+    top: 200px;
+    width: 200px;
+    background: #fffdf8;
+    border: 1px solid #d7d1c5;
+    border-radius: 14px;
+    padding: 18px 14px;
+    box-shadow: 0 8px 30px rgba(31,42,42,.05);
+    z-index: 105;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  .left-sidebar-menu h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #2f5d62;
+    margin: 0 0 14px 0;
+    border-bottom: 2px solid #2f5d62;
+    padding-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .left-sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .left-sidebar-menu li {
+    margin-bottom: 8px;
+  }
+  .left-sidebar-menu li:last-child {
+    margin-bottom: 0;
+  }
+  .left-sidebar-menu a {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #536060;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .left-sidebar-menu a:hover {
+    background: #fbf8f1;
+    color: #2f5d62;
+    font-weight: 700;
+  }
+  /* 1320px 미만 화면에서는 공간 확보를 위해 감춤 */
+  @media (max-width: 1320px) {
+    .left-sidebar-menu {
+      display: none;
+    }
+  }
+</style>
+<div class="left-sidebar-menu" aria-label="연소사 전용 메뉴판">
+  <h3><span style="color:#c38d56">緣</span> 연소사 사랑방</h3>
+  <ul>
+    <li><a href="writer-yeonsosa.html">🏡 연소사 블로그 홈</a></li>
+    <li><a href="column-yeonsosa.html">📜 친필 칼럼 (세상의 주인)</a></li>
+    <li><a href="writer-yeonsosa-youtube.html">🎬 유튜브 위젯 복습노트</a></li>
+    <li><a href="gampo-agutang/index.html">🍲 감포 아구탕 이야기</a></li>
+    <li style="border-top:1px dashed #d7d1c5; margin-top:10px; padding-top:10px;"><a href="index.html">🏛️ 연라이프 광장</a></li>
+  </ul>
+</div>
 
 </body>
 </html>

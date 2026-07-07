@@ -1,0 +1,36 @@
+{
+  "hosting": {
+    "public": ".",
+    "cleanUrls": false,
+    "trailingSlash": false,
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.bak*",
+      "vercel.json",
+      "api/**",
+      "**/*.bat",
+      "**/*.exe",
+      "**/*.sh",
+      "**/*.cmd",
+      "**/*.ps1",
+      "**/*.com",
+      "**/*.zip",
+      "**/*.tar.gz",
+      "**/*.py",
+      "tool/**",
+      "내_자료/**",
+      "**/*.md"
+    ],
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      }
+    ]
+  }
+}
