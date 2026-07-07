@@ -1,0 +1,45 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="살아있는 역사 교과서 표지 — 한지 위 따뜻한 수채, 고궁 지붕 실루엣">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf4e7"/>
+      <stop offset="0.55" stop-color="#f3ead9"/>
+      <stop offset="1" stop-color="#e6eef0"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+
+  <rect width="300" height="400" fill="url(#bg)"/>
+
+  <!-- 수채 번짐 (따뜻한 파스텔) -->
+  <g filter="url(#soft)" opacity="0.55">
+    <ellipse cx="70" cy="120" rx="66" ry="52" fill="#f6d6c4"/>
+    <ellipse cx="225" cy="95" rx="58" ry="48" fill="#cfe0ee"/>
+    <ellipse cx="150" cy="210" rx="78" ry="56" fill="#d2e7d9"/>
+    <ellipse cx="235" cy="240" rx="48" ry="44" fill="#e3dcee"/>
+  </g>
+
+  <!-- 따뜻한 해 -->
+  <circle cx="232" cy="86" r="34" fill="#f4cf94" opacity="0.55"/>
+
+  <!-- 먼 산 능선 -->
+  <path d="M0 300 Q70 268 150 292 T300 280 V400 H0 Z" fill="#cfdccf" opacity="0.8"/>
+
+  <!-- 고궁 팔작지붕 실루엣 (한국사 모티프) -->
+  <g fill="#a9835a">
+    <!-- 처마(겹지붕) -->
+    <path d="M40 330 Q150 286 260 330 L246 344 Q150 308 54 344 Z"/>
+    <path d="M58 352 Q150 314 242 352 L230 366 Q150 336 70 366 Z"/>
+    <!-- 용마루 장식 -->
+    <rect x="146" y="280" width="8" height="12" rx="2"/>
+  </g>
+  <!-- 기둥/몸체 -->
+  <g fill="#bb946a" opacity="0.9">
+    <rect x="78" y="366" width="10" height="30"/>
+    <rect x="120" y="366" width="10" height="30"/>
+    <rect x="170" y="366" width="10" height="30"/>
+    <rect x="212" y="366" width="10" height="30"/>
+  </g>
+  <rect x="60" y="394" width="180" height="6" rx="3" fill="#9d7c54"/>
+</svg>
