@@ -518,7 +518,7 @@
     "1-1": {
       chunks: [
         { text: "Vincent van Gogh", role: "subj", label: "주어" },
-        { text: "was born", role: "verb", label: "수동태 동사", hl: true, why: "be + 과거분사(born): 태어나다(수동태)" },
+        { text: "was born", role: "verb", label: "수동태 동사", hl: true, why: "be + 과거분사(born): 태어나다(수동태)", gNo: 4, gName: "4. 수동태 (be동사 + 과거분사)" },
         { text: "in the village of Zundert", role: "mod", label: "장소 부사구" },
         { text: "in 1853.", role: "mod", label: "시간 부사구" }
       ]
@@ -526,7 +526,7 @@
     "1-2": {
       chunks: [
         { text: "This quiet country village", role: "subj", label: "주어" },
-        { text: "was", role: "verb", label: "be동사 과거형", hl: true, why: "주어가 3인칭 단수이므로 과거형 was 사용" },
+        { text: "was", role: "verb", label: "be동사 과거형", hl: true, why: "주어가 3인칭 단수이므로 과거형 was 사용", gNo: 1, gName: "1. 과거 시제 (be동사 was/were)" },
         { text: "in the Netherlands.", role: "mod", label: "장소 부사구" }
       ]
     },
@@ -535,14 +535,14 @@
         { text: "As a boy,", role: "mod", label: "시간 부사구" },
         { text: "Vincent", role: "subj", label: "주어" },
         { text: "enjoyed", role: "verb", label: "과거 동사" },
-        { text: "walking through the green fields.", role: "obj", label: "동명사 목적어구", hl: true, why: "enjoy는 동명사(-ing)만을 목적어로 취함" }
+        { text: "walking through the green fields.", role: "obj", label: "동명사 목적어구", hl: true, why: "enjoy는 목적어로 to부정사가 아닌 동명사(-ing)만을 취함", gNo: 3, gName: "3. 동명사 (enjoy + -ing)" }
       ]
     },
     "1-4": {
       chunks: [
         { text: "He", role: "subj", label: "주어" },
         { text: "also loved", role: "verb", label: "동사" },
-        { text: "looking at beautiful trees and quiet rivers.", role: "obj", label: "동명사 목적어구", hl: true, why: "love는 동명사와 to부정사 둘 다 목적어 가능" }
+        { text: "looking at beautiful trees and quiet rivers.", role: "obj", label: "동명사 목적어구", hl: true, why: "love는 동명사와 to부정사 둘 다 목적어 가능", gNo: 3, gName: "3. 동명사 (love + -ing)" }
       ]
     },
     "1-5": {
@@ -568,20 +568,20 @@
         { text: "At twenty-seven,", role: "mod", label: "나이 부사구" },
         { text: "he", role: "subj", label: "주어" },
         { text: "decided", role: "verb", label: "과거 동사" },
-        { text: "to become a painter.", role: "obj", label: "to부정사 명사적 용법", hl: true, why: "decide는 to부정사만을 목적어로 취함 (~하기로 결심하다)" }
+        { text: "to become a painter.", role: "obj", label: "to부정사 명사적 용법", hl: true, why: "decide는 to부정사만을 목적어로 취함 (~하기로 결심하다)", gNo: 2, gName: "2. to부정사 (decide + to-v)" }
       ]
     },
     "2-3": {
       chunks: [
         { text: "His younger brother Theo", role: "subj", label: "주어" },
         { text: "wanted", role: "verb", label: "과거 동사" },
-        { text: "to support Vincent's new dream.", role: "obj", label: "to부정사 목적어", hl: true, why: "want + to-v : ~하기를 원하다" }
+        { text: "to support Vincent's new dream.", role: "obj", label: "to부정사 목적어", hl: true, why: "want + to-v : ~하기를 원하다 (동사의 목적어)", gNo: 2, gName: "2. to부정사 (want + to-v)" }
       ]
     },
     "2-4": {
       chunks: [
         { text: "He", role: "subj", label: "주어" },
-        { text: "was supported", role: "verb", label: "수동태(was + p.p.)", hl: true, why: "빈센트가 '지원을 받았다'는 뜻의 수동태" },
+        { text: "was supported", role: "verb", label: "수동태(was + p.p.)", hl: true, why: "빈센트가 테오에게 '지원을 받았다'는 뜻의 수동태", gNo: 4, gName: "4. 수동태 (be동사 + 과거분사)" },
         { text: "by Theo", role: "mod", label: "행위자(by ~)" },
         { text: "with warm words and money.", role: "mod", label: "수단 부사구" }
       ]
@@ -607,21 +607,21 @@
       chunks: [
         { text: "He", role: "subj", label: "주어" },
         { text: "chose", role: "verb", label: "과거 동사(choose 과거)" },
-        { text: "to live in a bright yellow house there.", role: "obj", label: "to부정사 목적어", hl: true, why: "choose + to-v : ~하기로 선택하다" }
+        { text: "to live in a bright yellow house there.", role: "obj", label: "to부정사 목적어", hl: true, why: "choose + to-v : ~하기로 선택하다", gNo: 2, gName: "2. to부정사 (choose + to-v)" }
       ]
     },
     "3-3": {
       chunks: [
         { text: "He", role: "subj", label: "주어" },
         { text: "loved", role: "verb", label: "동사" },
-        { text: "painting sunflowers", role: "obj", label: "동명사 목적어", hl: true, why: "love + -ing: 해바라기 그리는 것을 사랑했다" },
+        { text: "painting sunflowers", role: "obj", label: "동명사 목적어", hl: true, why: "love + -ing: 해바라기 그리는 것을 사랑했다", gNo: 3, gName: "3. 동명사 (love + -ing)" },
         { text: "under the warm golden sunlight.", role: "mod", label: "장소 부사구" }
       ]
     },
     "3-4": {
       chunks: [
         { text: "Brilliant sunflower pictures", role: "subj", label: "복수 주어" },
-        { text: "were painted", role: "verb", label: "복수 수동태(were + p.p.)", hl: true, why: "주어 pictures가 복수이므로 were painted" },
+        { text: "were painted", role: "verb", label: "복수 수동태(were + p.p.)", hl: true, why: "주어 pictures가 복수이므로 were painted (수동태)", gNo: 4, gName: "4. 수동태 (복수 were + p.p.)" },
         { text: "by Vincent", role: "mod", label: "행위자" },
         { text: "during this time.", role: "mod", label: "시간 부사구" }
       ]
@@ -640,13 +640,13 @@
         { text: "He", role: "subj", label: "주어" },
         { text: "looked through his window", role: "verb", label: "동사구 1" },
         { text: "and started", role: "verb", label: "동사 2" },
-        { text: "drawing spinning stars and a glowing moon.", role: "obj", label: "동명사 목적어", hl: true, why: "start + -ing: 그리기 시작했다 (현재분사 spinning, glowing 수식)" }
+        { text: "drawing spinning stars and a glowing moon.", role: "obj", label: "동명사 목적어", hl: true, why: "start + -ing: 그리기 시작했다 (spinning, glowing 분사 수식)", gNo: 3, gName: "3. 동명사 (start + -ing)" }
       ]
     },
     "4-3": {
       chunks: [
         { text: "His great masterpiece The Starry Night", role: "subj", label: "주어" },
-        { text: "was created", role: "verb", label: "단수 수동태", hl: true, why: "작품이 '창작되었다'는 수동태 표현" },
+        { text: "was created", role: "verb", label: "단수 수동태", hl: true, why: "작품이 '창작되었다'는 수동태 표현 (was + p.p.)", gNo: 4, gName: "4. 수동태 (단수 was + p.p.)" },
         { text: "at this special place.", role: "mod", label: "장소 부사구" }
       ]
     },
@@ -662,21 +662,21 @@
       chunks: [
         { text: "Today", role: "mod", label: "부사" },
         { text: "his works", role: "subj", label: "복수 주어" },
-        { text: "are exhibited", role: "verb", label: "현재 수동태(are + p.p.)", hl: true, why: "현재 전시되고 있는 상태를 나타내는 수동태" },
+        { text: "are exhibited", role: "verb", label: "현재 수동태(are + p.p.)", hl: true, why: "현재 전시되고 있는 상태를 나타내는 수동태", gNo: 4, gName: "4. 수동태 (현재형 are + p.p.)" },
         { text: "in famous museums around the world.", role: "mod", label: "장소 부사구" }
       ]
     },
     "5-3": {
       chunks: [
         { text: "His passionate art", role: "subj", label: "단수 주어" },
-        { text: "has touched", role: "verb", label: "현재완료(has + p.p.)", hl: true, why: "과거부터 지금까지 지속적으로 '마음을 감동시켜 왔다'" },
+        { text: "has touched", role: "verb", label: "현재완료(has + p.p.)", hl: true, why: "과거부터 지금까지 지속적으로 '마음을 감동시켜 왔다'", gNo: 5, gName: "5. 현재완료 (has + p.p.)" },
         { text: "the hearts of millions of people.", role: "obj", label: "목적어" }
       ]
     },
     "5-4": {
       chunks: [
         { text: "His brilliant colors and emotional brushstrokes", role: "subj", label: "복수 주어" },
-        { text: "have inspired", role: "verb", label: "현재완료(have + p.p.)", hl: true, why: "복수 주어에 따른 have + inspired(영감을 주어왔다)" },
+        { text: "have inspired", role: "verb", label: "현재완료(have + p.p.)", hl: true, why: "복수 주어에 따른 have + inspired(영감을 주어왔다)", gNo: 5, gName: "5. 현재완료 (have + p.p.)" },
         { text: "generations of artists.", role: "obj", label: "목적어" }
       ]
     },
@@ -686,7 +686,7 @@
         { text: "travelers from all over the world", role: "subj", label: "복수 주어" },
         { text: "visit", role: "verb", label: "현재 동사" },
         { text: "his museum in Amsterdam", role: "obj", label: "목적어" },
-        { text: "to feel his undying passion.", role: "mod", label: "to부정사 부사적 용법(목적)", hl: true, why: "to feel: ~를 느끼기 위하여 (목적을 나타내는 to부정사)" }
+        { text: "to feel his undying passion.", role: "mod", label: "to부정사 부사적 용법(목적)", hl: true, why: "to feel: ~를 느끼기 위하여 (목적을 나타내는 to부정사)", gNo: 2, gName: "2. to부정사 (부사적 용법 - 목적)" }
       ]
     }
   };
@@ -1118,6 +1118,16 @@
 
     // Delegate click on words, scrap buttons, sentence audio buttons, paragraph audio buttons
     root.addEventListener("click", e => {
+      // 0. 문법 렌즈 활성화 상태에서 핵심 문법 형광펜(xr-hl) 클릭 -> 문법 해설 팝업 오픈!
+      const card = e.target.closest(".paragraph-card");
+      const hlChunk = e.target.closest(".xr-chunk.xr-hl");
+      if (card && card.classList.contains("lens-active") && hlChunk) {
+        e.stopPropagation();
+        e.preventDefault();
+        openGrammarSpotlightModal(hlChunk);
+        return;
+      }
+
       // 1. 단어 클릭 시 즉시 원어민 발음 듣기 & 2원화 사전 열기
       const wordEl = e.target.closest(".v-word");
       if (wordEl) {
@@ -1653,12 +1663,17 @@
       syntax.chunks.forEach(ch => {
         const hlClass = ch.hl ? " xr-hl" : "";
         const whyAttr = ch.why ? ` data-why="${escapeHtml(ch.why)}"` : "";
+        const gnoAttr = ch.gNo ? ` data-gno="${ch.gNo}"` : "";
+        const gnameAttr = ch.gName ? ` data-gname="${escapeHtml(ch.gName)}"` : "";
+        const labelAttr = ch.label ? ` data-label="${escapeHtml(ch.label)}"` : "";
+        const textAttr = ` data-text="${escapeHtml(ch.text)}"`;
+        const sidAttr = ` data-sid="${sid}"`;
         const chunkWords = ch.text.split(/(\s+)/).map(tok => {
           if (/^\s+$/.test(tok)) return tok;
           const clean = tok.replace(/[^a-zA-Z]/g, "").toLowerCase();
           return `<span class="v-word${DICT_DB[clean] ? ' is-core' : ''}" data-w="${clean || tok}">${escapeHtml(tok)}</span>`;
         }).join("");
-        html += `<span class="xr-chunk xr-${ch.role}${hlClass}" title="${ch.label}"${whyAttr}>${chunkWords}</span> `;
+        html += `<span class="xr-chunk xr-${ch.role}${hlClass}" title="${escapeHtml(ch.label)}"${sidAttr}${textAttr}${labelAttr}${whyAttr}${gnoAttr}${gnameAttr}>${chunkWords}</span> `;
       });
 
       enEl.innerHTML = html;
@@ -1776,6 +1791,25 @@
         <div class="mastery-modal-body" id="ut-modal-body"></div>
       </div>
     `;
+
+    // Grammar Spotlight Modal (X-Ray 핵심 문법 팝업)
+    const gmModal = document.createElement("div");
+    gmModal.className = "mastery-modal-overlay";
+    gmModal.id = "gm-modal-overlay";
+    gmModal.innerHTML = `
+      <div class="mastery-modal" style="max-width:500px">
+        <div class="mastery-modal-head" style="background:#fffbeb;border-bottom:1px solid #fef08a;">
+          <h3 style="color:#854d0e;">${Y_SVG.search(16)} <span id="gm-modal-title">핵심 문법 렌즈 해설</span></h3>
+          <button type="button" class="dict-drawer-close" id="btn-close-gm-modal">&times;</button>
+        </div>
+        <div class="mastery-modal-body" id="gm-modal-body" style="padding:18px 20px;"></div>
+      </div>
+    `;
+    document.body.appendChild(gmModal);
+
+    const btnCloseGm = document.getElementById("btn-close-gm-modal");
+    if (btnCloseGm) btnCloseGm.onclick = () => gmModal.classList.remove("open");
+    gmModal.onclick = e => { if (e.target === gmModal) gmModal.classList.remove("open"); };
 
     // Floating Audio Dock (하단 오디오 제어 팝업 바)
     let audioDock = document.getElementById("floating-audio-dock");
@@ -2142,60 +2176,128 @@
     modal.classList.add("open");
   }
 
-  // ── [내 문장집 & 4단계 챌린지] 열기 ──
+  // ── [내 복습 코너 : 문장집 & 핵심 문법 노트] ──
+  let sbActiveTab = "sen"; // "sen" | "grammar"
+
   function openScrapbookModal() {
     const modal = document.getElementById("sb-modal-overlay");
     const body = document.getElementById("sb-modal-body");
-    const saved = Storage.get("saved_sentences", []);
+    const savedSen = Storage.get("saved_sentences", []);
+    const savedGrammars = Storage.get("saved_grammars", []);
 
-    if (saved.length === 0) {
-      body.innerHTML = `
-        <div style="text-align:center;padding:40px 10px;color:#64748b">
-          <div style="margin-bottom:12px;color:var(--yl-pri-dk)">${Y_SVG.book(36)}</div>
-          <p style="font-size:15px;font-weight:700">아직 스크랩한 문장이 없어요!</p>
-          <p style="font-size:13px">본문 각 문장 옆의 '스크랩' 버튼을 눌러 나만의 문장집을 채워보세요.</p>
-        </div>
-      `;
-      modal.classList.add("open");
-      return;
-    }
-
-    // List view of sentences
-    let html = `<div style="display:flex;flex-direction:column;gap:10px">`;
-    saved.forEach(sid => {
-      let senObj = null;
-      B.paragraphs.forEach(p => {
-        const s = p.sentences.find(x => x.id === sid);
-        if (s) senObj = s;
-      });
-      if (!senObj) return;
-
-      const isMastered = Storage.get("mastered_" + sid, false);
-
-      html += `
-        <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span style="font-size:11px;font-weight:800;color:#0284c7">문장 ${sid}</span>
-            ${isMastered ? '<span class="mastery-stamp">' + Y_SVG.check(11) + ' 정복 완료</span>' : '<span style="font-size:11px;color:#d97706">미완료</span>'}
-          </div>
-          <div style="font-family:'Crimson Pro',serif;font-size:15px;font-weight:600;color:#1e293b;margin-bottom:2px">${senObj.en}</div>
-          <div style="font-size:12px;color:#64748b;margin-bottom:8px">${senObj.ko}</div>
-          <div style="display:flex;gap:6px">
-            <button type="button" class="btn-primary btn-start-challenge" data-sid="${sid}" style="flex:1;min-height:36px;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center;gap:5px">${Y_SVG.award(14)} <span>완전정복 4단계 도전</span></button>
-            <button type="button" class="btn-secondary btn-del-scrap" data-sid="${sid}" style="min-height:36px;font-size:12px">삭제</button>
-          </div>
-        </div>
-      `;
-    });
-    html += `
-      </div>
-      <div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:12px;color:#64748b">총 ${saved.length}개 스크랩 문장</span>
-        <button type="button" class="btn-stage-sub-tool" id="btn-sb-print" style="margin-left:0;display:inline-flex;align-items:center;gap:4px">${Y_SVG.printer(13)} <span>스크랩 문장 학습지 인쇄</span></button>
+    let html = `
+      <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;">
+        <button type="button" id="tab-sb-sen" style="flex:1;padding:8px 12px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#cbd5e1'};background:${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#fff'};color:${sbActiveTab === 'sen' ? '#fff' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:5px;">
+          ${Y_SVG.book(13)} <span>스크랩 문장 (${savedSen.length})</span>
+        </button>
+        <button type="button" id="tab-sb-grammar" style="flex:1;padding:8px 12px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'grammar' ? '#eab308' : '#cbd5e1'};background:${sbActiveTab === 'grammar' ? '#fef08a' : '#fff'};color:${sbActiveTab === 'grammar' ? '#854d0e' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:5px;">
+          ★ <span>핵심 문법 노트 (${savedGrammars.length})</span>
+        </button>
       </div>
     `;
+
+    if (sbActiveTab === "sen") {
+      if (savedSen.length === 0) {
+        html += `
+          <div style="text-align:center;padding:40px 10px;color:#64748b">
+            <div style="margin-bottom:12px;color:var(--yl-pri-dk)">${Y_SVG.book(36)}</div>
+            <p style="font-size:15px;font-weight:700">아직 스크랩한 문장이 없어요!</p>
+            <p style="font-size:13px">본문 각 문장 옆의 '스크랩' 버튼을 눌러 나만의 문장집을 채워보세요.</p>
+          </div>
+        `;
+      } else {
+        html += `<div style="display:flex;flex-direction:column;gap:10px">`;
+        savedSen.forEach(sid => {
+          let senObj = null;
+          B.paragraphs.forEach(p => {
+            const s = p.sentences.find(x => x.id === sid);
+            if (s) senObj = s;
+          });
+          if (!senObj) return;
+
+          const isMastered = Storage.get("mastered_" + sid, false);
+
+          html += `
+            <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:800;color:#0284c7">문장 ${sid}</span>
+                ${isMastered ? '<span class="mastery-stamp">' + Y_SVG.check(11) + ' 정복 완료</span>' : '<span style="font-size:11px;color:#d97706">미완료</span>'}
+              </div>
+              <div style="font-family:'Crimson Pro',serif;font-size:15px;font-weight:600;color:#1e293b;margin-bottom:2px">${senObj.en}</div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:8px">${senObj.ko}</div>
+              <div style="display:flex;gap:6px">
+                <button type="button" class="btn-primary btn-start-challenge" data-sid="${sid}" style="flex:1;min-height:36px;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center;gap:5px">${Y_SVG.award(14)} <span>완전정복 4단계 도전</span></button>
+                <button type="button" class="btn-secondary btn-del-scrap" data-sid="${sid}" style="min-height:36px;font-size:12px">삭제</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `
+          </div>
+          <div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;color:#64748b">총 ${savedSen.length}개 스크랩 문장</span>
+            <button type="button" class="btn-stage-sub-tool" id="btn-sb-print" style="margin-left:0;display:inline-flex;align-items:center;gap:4px">${Y_SVG.printer(13)} <span>스크랩 문장 학습지 인쇄</span></button>
+          </div>
+        `;
+      }
+    } else {
+      // Grammar Tab
+      if (savedGrammars.length === 0) {
+        html += `
+          <div style="text-align:center;padding:40px 10px;color:#64748b">
+            <div style="margin-bottom:12px;color:#eab308;font-size:36px;">★</div>
+            <p style="font-size:15px;font-weight:700;color:#854d0e;">아직 저장된 핵심 문법이 없어요!</p>
+            <p style="font-size:13px;line-height:1.5;">본문에서 <b>[Q 문법 렌즈 (X-Ray)]</b>를 체크한 뒤,<br>노란색 형광펜 구역을 터치하고 <b>[내 복습 코너에 저장하기]</b>를 눌러보세요.</p>
+          </div>
+        `;
+      } else {
+        html += `<div style="display:flex;flex-direction:column;gap:10px">`;
+        savedGrammars.forEach(g => {
+          html += `
+            <div style="background:#fefce8;border:1.5px solid #facc15;border-radius:10px;padding:12px 14px;box-shadow:0 1px 4px rgba(234,179,8,0.1);">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:11px;font-weight:800;color:#854d0e;background:#fef08a;padding:2px 7px;border-radius:4px;">★ ${escapeHtml(g.label)} (문장 ${g.sid})</span>
+                <span style="font-size:11px;color:#0f4c81;font-weight:700;">${escapeHtml(g.gName)}</span>
+              </div>
+              <div style="font-family:'Crimson Pro',Georgia,serif;font-size:17px;font-weight:800;color:#713f12;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+                <span>${escapeHtml(g.text)}</span>
+                <button type="button" class="btn-listen-g-item" data-text="${escapeHtml(g.text)}" style="background:#fff;border:1px solid #facc15;border-radius:5px;padding:2px 7px;font-size:11px;color:#854d0e;cursor:pointer;">${Y_SVG.speaker(12)}</button>
+              </div>
+              <div style="font-size:12.5px;color:#334155;line-height:1.5;margin-bottom:10px;background:rgba(255,255,255,0.7);padding:8px 10px;border-radius:6px;border:1px solid #fef08a;">
+                💡 <b>출제 포인트</b> : ${escapeHtml(g.why)}
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button type="button" class="btn-jump-from-scrap" data-gno="${g.gNo}" style="flex:1;min-height:34px;font-size:12px;font-weight:700;background:#0284c7;color:#fff;border:none;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;">
+                  📖 해당 문법 설명 자리로 이동
+                </button>
+                <button type="button" class="btn-del-g-scrap" data-gid="${g.id}" style="min-height:34px;font-size:12px;background:#fff;color:#dc2626;border:1px solid #fca5a5;border-radius:6px;padding:0 10px;cursor:pointer;">삭제</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `
+          </div>
+          <div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;color:#64748b">총 ${savedGrammars.length}개 핵심 문법 저장됨</span>
+            <button type="button" class="btn-stage-sub-tool" id="btn-g-print" style="margin-left:0;display:inline-flex;align-items:center;gap:4px">${Y_SVG.printer(13)} <span>문법 오답·핵심 학습지 인쇄</span></button>
+          </div>
+        `;
+      }
+    }
+
     body.innerHTML = html;
 
+    // Tab buttons
+    document.getElementById("tab-sb-sen").onclick = () => {
+      sbActiveTab = "sen";
+      openScrapbookModal();
+    };
+    document.getElementById("tab-sb-grammar").onclick = () => {
+      sbActiveTab = "grammar";
+      openScrapbookModal();
+    };
+
+    // Print buttons
     const btnSbPrint = document.getElementById("btn-sb-print");
     if (btnSbPrint) {
       btnSbPrint.onclick = () => {
@@ -2203,7 +2305,15 @@
         openPrintStudioModal();
       };
     }
+    const btnGPrint = document.getElementById("btn-g-print");
+    if (btnGPrint) {
+      btnGPrint.onclick = () => {
+        modal.classList.remove("open");
+        openPrintStudioModal();
+      };
+    }
 
+    // Sentence tab event listeners
     body.querySelectorAll(".btn-del-scrap").forEach(btn => {
       btn.onclick = () => {
         const sid = btn.getAttribute("data-sid");
@@ -2222,7 +2332,153 @@
       };
     });
 
+    // Grammar tab event listeners
+    body.querySelectorAll(".btn-listen-g-item").forEach(btn => {
+      btn.onclick = () => {
+        const txt = btn.getAttribute("data-text");
+        speak(txt, 0.85);
+      };
+    });
+
+    body.querySelectorAll(".btn-del-g-scrap").forEach(btn => {
+      btn.onclick = () => {
+        const gid = btn.getAttribute("data-gid");
+        let list = Storage.get("saved_grammars", []);
+        list = list.filter(x => x.id !== gid);
+        Storage.set("saved_grammars", list);
+        showToast("핵심 문법 노트를 삭제했습니다.");
+        openScrapbookModal();
+      };
+    });
+
+    body.querySelectorAll(".btn-jump-from-scrap").forEach(btn => {
+      btn.onclick = () => {
+        const gNo = btn.getAttribute("data-gno");
+        modal.classList.remove("open");
+        jumpToGrammarCard(gNo);
+      };
+    });
+
     modal.classList.add("open");
+  }
+
+  // ── [핵심 문법 해설 팝업 & 해당 문법 위치 점프] ──
+  function openGrammarSpotlightModal(hlChunk) {
+    const modal = document.getElementById("gm-modal-overlay");
+    const body = document.getElementById("gm-modal-body");
+    const titleEl = document.getElementById("gm-modal-title");
+    if (!modal || !body) return;
+
+    const sid = hlChunk.getAttribute("data-sid") || "";
+    const text = hlChunk.getAttribute("data-text") || hlChunk.textContent.trim();
+    const label = hlChunk.getAttribute("data-label") || "중2 핵심 문법";
+    const why = hlChunk.getAttribute("data-why") || "";
+    const gNo = hlChunk.getAttribute("data-gno") || "2";
+    const gName = hlChunk.getAttribute("data-gname") || "2. to부정사";
+
+    if (titleEl) titleEl.textContent = label;
+
+    const savedGrammars = Storage.get("saved_grammars", []);
+    const gid = `${sid}_${gNo}`;
+    const isSaved = savedGrammars.some(g => g.id === gid);
+
+    body.innerHTML = `
+      <!-- 1. 핵심 구문 카드 -->
+      <div style="background:#fefce8;border:1.5px solid #facc15;border-radius:10px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(234,179,8,0.12);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:11.5px;color:#a16207;font-weight:800;background:#fef08a;padding:2px 8px;border-radius:4px;">★ 본문 ${sid}번 문장 핵심 구문</span>
+          <button type="button" id="btn-gm-listen-chunk" style="background:#fff;border:1px solid #facc15;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;color:#854d0e;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+            ${Y_SVG.speaker(13)} <span>미국 원어민 듣기</span>
+          </button>
+        </div>
+        <div style="font-size:20px;font-weight:800;color:#713f12;font-family:'Crimson Pro',Georgia,serif;line-height:1.4;">
+          ${escapeHtml(text)}
+        </div>
+      </div>
+
+      <!-- 2. 문법 핵심 해설 카드 -->
+      <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:12.5px;font-weight:800;color:#0369a1;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
+          ${Y_SVG.lightbulb(14)} <span>출제 포인트 & 왜 쓰였을까?</span>
+        </div>
+        <div style="font-size:14px;color:#1e293b;line-height:1.6;font-weight:600;">
+          ${escapeHtml(why)}
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px dashed #cbd5e1;font-size:12px;color:#64748b;display:flex;align-items:center;justify-content:space-between;">
+          <span>연계 문법 단원: <strong style="color:#0f4c81;">${escapeHtml(gName)}</strong></span>
+          <span style="font-size:11px;color:#94a3b8;">중2 정규 영어 교과서</span>
+        </div>
+      </div>
+
+      <!-- 3. 액션 버튼 2개 -->
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button type="button" id="btn-gm-toggle-save" class="btn-primary" style="width:100%;min-height:42px;font-size:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:${isSaved ? '#059669' : '#f59e0b'};border:none;border-radius:8px;color:#fff;cursor:pointer;transition:all 0.15s ease;">
+          ${Y_SVG.bookmark(15, 'currentColor')} <span>${isSaved ? '✓ 내 복습 코너에 저장됨 (클릭 시 취소)' : '📌 내 복습 코너(문법 노트)에 저장하기'}</span>
+        </button>
+
+        <button type="button" id="btn-gm-jump-target" class="btn-secondary" style="width:100%;min-height:40px;font-size:13.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1.5px solid #0284c7;border-radius:8px;color:#0284c7;cursor:pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          <span>📖 [${escapeHtml(gName)}] 설명 코너로 바로가기</span>
+        </button>
+      </div>
+    `;
+
+    const btnListen = document.getElementById("btn-gm-listen-chunk");
+    if (btnListen) {
+      btnListen.onclick = () => {
+        speak(text, 0.85);
+      };
+    }
+
+    const btnSave = document.getElementById("btn-gm-toggle-save");
+    if (btnSave) {
+      btnSave.onclick = () => {
+        let list = Storage.get("saved_grammars", []);
+        const exists = list.some(g => g.id === gid);
+        if (exists) {
+          list = list.filter(g => g.id !== gid);
+          Storage.set("saved_grammars", list);
+          showToast("내 복습 코너에서 문법을 삭제했습니다.");
+        } else {
+          list.push({
+            id: gid,
+            sid: sid,
+            text: text,
+            label: label,
+            why: why,
+            gNo: gNo,
+            gName: gName,
+            date: new Date().toISOString()
+          });
+          Storage.set("saved_grammars", list);
+          showToast("⭐ 내 복습 코너(문법 노트)에 저장되었습니다!");
+        }
+        openGrammarSpotlightModal(hlChunk);
+      };
+    }
+
+    const btnJump = document.getElementById("btn-gm-jump-target");
+    if (btnJump) {
+      btnJump.onclick = () => {
+        modal.classList.remove("open");
+        jumpToGrammarCard(gNo);
+      };
+    }
+
+    modal.classList.add("open");
+  }
+
+  function jumpToGrammarCard(gNo) {
+    const target = document.getElementById("grammar-g-" + gNo) || document.getElementById("stage-grammar");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("grammar-target-pulse");
+      setTimeout(() => {
+        target.classList.remove("grammar-target-pulse");
+      }, 3000);
+      const titleText = target.querySelector("h3") ? target.querySelector("h3").textContent : `${gNo}번 문법`;
+      showToast(`📖 [${titleText}] 설명 위치로 이동했습니다.`);
+    }
   }
 
   // 4단계 문장 정복 챌린지 실행 엔진
