@@ -1,0 +1,2163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>중2 영어 예술가 교재 1권 — 빈센트 반 고흐 (Vincent van Gogh: The Painter of Light)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,450;0,600;0,700;1,450&family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Serif+KR:wght@500;700&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #24292e;
+    background: #525659;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 10mm;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding: 16mm 18mm 16mm 18mm;
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+
+  @media print {
+    body { background: transparent; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+      height: 297mm;
+    }
+  }
+
+  /* Page Headers and Footers */
+  .pg-header {
+    height: 9mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #d0d7de;
+    margin-bottom: 7mm;
+    font-size: 11px;
+    color: #6a737d;
+    font-weight: 600;
+  }
+  .pg-header .book-title {
+    color: #0f4c81;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+  .pg-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 18mm;
+    right: 18mm;
+    height: 7mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e1e4e8;
+    font-size: 10px;
+    color: #8c959f;
+  }
+  .pg-footer .pg-num {
+    font-weight: 700;
+    color: #0f4c81;
+    font-size: 11px;
+  }
+
+  /* Headings */
+  .sec-tag {
+    display: inline-block;
+    background: #eaf2fd;
+    color: #0366d6;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .sec-title {
+    font-size: 20px;
+    color: #1a2e4c;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.5px;
+  }
+  .sec-title::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 18px;
+    background: #0f4c81;
+    border-radius: 2px;
+  }
+
+  /* ── 프리미엄 연라이프 매거진 표지 디자인 (YeonLife Editorial Magazine Cover) ── */
+  .cover-page {
+    background: radial-gradient(ellipse at 50% 15%, #1e3553 0%, #0d1a2d 60%, #07101c 100%);
+    color: #ffffff;
+    padding: 16mm 18mm 14mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .cover-inner-border {
+    position: absolute;
+    inset: 8mm;
+    border: 1px solid rgba(212, 184, 134, 0.45);
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  .cover-inner-border::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border: 0.5px solid rgba(212, 184, 134, 0.25);
+  }
+  .cover-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid rgba(212, 184, 134, 0.5);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .cover-top-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e5c17b;
+    font-weight: 700;
+  }
+  .cover-top-right {
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 10.5px;
+  }
+  .cover-title-group {
+    text-align: center;
+    margin: 4px 0 10px;
+  }
+  .cover-series-tag {
+    display: inline-block;
+    color: #dfb877;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .cover-title-en {
+    font-family: 'Crimson Pro', serif;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+    margin: 0 0 3px;
+    text-transform: uppercase;
+  }
+  .cover-title-sub {
+    font-family: 'Crimson Pro', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: #dfb877;
+    margin: 0 0 5px;
+    letter-spacing: 0.5px;
+  }
+  .cover-title-ko {
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+  .cover-art-container {
+    width: 100%;
+    height: 120mm;
+    margin: 0 auto;
+    position: relative;
+    border: 2.5px solid #dfb877;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), inset 0 0 0 2px #0a1320;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+  }
+  .cover-art-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-art-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 28, 0.9) 100%);
+    padding: 16px 14px 6px;
+    color: #e2e8f0;
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .cover-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .cover-feature-card {
+    background: rgba(13, 26, 45, 0.75);
+    border: 1px solid rgba(212, 184, 134, 0.35);
+    border-radius: 6px;
+    padding: 7px 9px;
+    backdrop-filter: blur(2px);
+  }
+  .cover-feature-card .feat-tag {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #dfb877;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .cover-feature-card .feat-desc {
+    font-size: 10px;
+    color: #cbd5e1;
+    line-height: 1.35;
+  }
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(212, 184, 134, 0.4);
+    padding-top: 8px;
+    font-size: 11px;
+  }
+  .cover-barcode-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-barcode-box {
+    background: #ffffff;
+    color: #111;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border-radius: 2px;
+  }
+  .cover-pub-info {
+    text-align: right;
+  }
+  .cover-pub-title {
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #dfb877;
+    letter-spacing: 0.5px;
+  }
+  .cover-pub-sub {
+    font-size: 9px;
+    color: #94a3b8;
+  }
+
+  /* Reading Section */
+  .read-card {
+    background: #fbfcfd;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .read-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #edf0f2;
+    padding-bottom: 5px;
+  }
+  .read-card-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f4c81;
+  }
+  .read-content-wrap {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .read-thumb {
+    width: 68mm;
+    height: 42mm;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    border: 1px solid #d0d7de;
+  }
+  .read-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .read-texts {
+    flex: 1;
+  }
+  .sentence-pair {
+    margin-bottom: 5.5px;
+    line-height: 1.45;
+  }
+  .sen-en {
+    font-family: 'Crimson Pro', serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #1a202c;
+    letter-spacing: -0.1px;
+  }
+  .sen-num {
+    color: #0366d6;
+    font-weight: 700;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+  .sen-ko {
+    font-size: 11.5px;
+    color: #586069;
+    margin-top: 1px;
+    padding-left: 14px;
+  }
+  .art-note {
+    background: #fff9e6;
+    border-left: 3px solid #e6b422;
+    padding: 5px 10px;
+    border-radius: 0 4px 4px 0;
+    font-size: 11px;
+    color: #664d03;
+    margin-top: 6px;
+  }
+
+  /* Vocabulary Table */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px 12px;
+  }
+  .vocab-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vocab-no {
+    background: #0f4c81;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .vocab-word {
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a365d;
+  }
+  .vocab-pos {
+    font-size: 10px;
+    color: #718096;
+    background: #edf2f7;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .vocab-pron {
+    font-family: 'Crimson Pro', serif;
+    font-size: 11.5px;
+    color: #4a5568;
+  }
+  .vocab-meaning {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  /* Grammar Cards */
+  .grammar-card {
+    background: #fbfcfd;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    padding: 9px 12px;
+    margin-bottom: 9px;
+  }
+  .grammar-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0f4c81;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .grammar-rule {
+    font-size: 12px;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  .grammar-ex {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13.5px;
+    color: #1e293b;
+    font-weight: 600;
+    padding-left: 8px;
+    border-left: 2px solid #0ea5e9;
+  }
+  .grammar-ex b {
+    color: #0284c7;
+    text-decoration: underline;
+  }
+  .grammar-ex-ko {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 1px;
+    padding-left: 10px;
+  }
+
+  /* Test / Quiz items */
+  .quiz-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+  .quiz-q {
+    font-weight: 700;
+    font-size: 12.5px;
+    color: #1e293b;
+    margin-bottom: 5px;
+  }
+  .quiz-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 10px;
+    font-size: 11.5px;
+    color: #334155;
+    padding-left: 10px;
+  }
+
+  /* Dialogue Box */
+  .dialogue-sec {
+    display: flex;
+    gap: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .dialogue-img {
+    width: 60mm;
+    height: 52mm;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid #cbd5e1;
+  }
+  .dialogue-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .dialogue-turns {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .d-turn {
+    display: flex;
+    gap: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .d-speaker {
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .spk-seoa { background: #fce7f3; color: #be185d; }
+  .spk-minjun { background: #e0f2fe; color: #0369a1; }
+  .d-en {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .d-ko {
+    font-size: 10.5px;
+    color: #64748b;
+    margin-top: 1px;
+  }
+
+  /* Pronunciation Clinic */
+  .pron-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 10px;
+  }
+  .pron-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 5px 8px;
+  }
+  .pron-word {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f4c81;
+  }
+  .pron-ipa {
+    color: #d97706;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .pron-tip {
+    font-size: 10.5px;
+    color: #475569;
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  /* Back cover */
+  .back-cover {
+    background: linear-gradient(160deg, #183b56 0%, #0b192c 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24mm 22mm;
+  }
+</style>
+</head>
+<body>
+
+<div class="page cover-page">
+  <div class="cover-inner-border"></div>
+
+  <div class="cover-top-bar">
+    <div class="cover-top-left">
+      <svg width="22" height="22" viewBox="0 0 32 32" style="display:inline-block;vertical-align:middle;">
+        <circle cx="16" cy="16" r="14" fill="#0d1a2d" stroke="#dfb877" stroke-width="2"/>
+        <text x="16" y="21" font-family="'Noto Serif KR', Georgia, serif" font-size="14" font-weight="900" fill="#dfb877" text-anchor="middle">研</text>
+      </svg>
+      <span>연플래닝 아카데미 · 추천 이야기 영어 제1호</span>
+    </div>
+    <div class="cover-top-right">
+      <span>Vol. 01 · 2026 EDITION</span>
+    </div>
+  </div>
+
+  <div class="cover-title-group">
+    <div class="cover-series-tag">YEONLIFE MASTERPIECE ENGLISH SERIES</div>
+    <h1 class="cover-title-en">Vincent van Gogh</h1>
+    <div class="cover-title-sub">The Painter of Light &amp; Soul</div>
+    <p class="cover-title-ko">빈센트 반 고흐 : 빛과 영혼을 그린 불멸의 화가</p>
+  </div>
+
+  <div class="cover-art-container">
+    <img src="앱/img/S00_표지_해바라기와_별밤.webp" alt="빈센트 반 고흐 : 해바라기와 별이 빛나는 밤">
+    <div class="cover-art-caption">
+      <div>
+        <strong style="color:#dfb877;font-size:11px;">Sunflowers &amp; The Starry Night (1888-1889)</strong><br>
+        <span style="color:#cbd5e1;">Masterpieces by Vincent van Gogh · Oil on canvas</span>
+      </div>
+      <div style="font-size:9.5px;color:#94a3b8;letter-spacing:0.5px;">YEONLIFE ART ARCHIVE</div>
+    </div>
+  </div>
+
+  <div class="cover-features-grid">
+    <div class="cover-feature-card">
+      <div class="feat-tag">✦ SPECIAL STORY</div>
+      <div class="feat-desc">네덜란드에서 아를까지, 반 고흐의 치열한 삶과 불멸의 예술을 담은 5개 챕터 명화 스토리</div>
+    </div>
+    <div class="cover-feature-card">
+      <div class="feat-tag">✦ GRAMMAR X-RAY</div>
+      <div class="feat-desc">중2 필수 5대 핵심 문법(과거시제 · to부정사 · 동명사 · 수동태 · 현재완료) 실전 훈련</div>
+    </div>
+    <div class="cover-feature-card">
+      <div class="feat-tag">✦ AI SPEAKING LAB</div>
+      <div class="feat-desc">원어민 남·여 듀얼 TTS 발음 코칭, 서아·민준 실전 대화문 및 CBT 총괄평가 10문항 수록</div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-barcode-wrap">
+      <div class="cover-barcode-box">||| | |||| | ||| |||||</div>
+      <div style="font-size:10px;color:#cbd5e1;line-height:1.3;">
+        ISBN 979-11-982026-0-1 (93740)<br>
+        <span style="color:#94a3b8;">정가 14,000원 · 부록 인터랙티브 웹앱 포함</span>
+      </div>
+    </div>
+    <div class="cover-pub-info">
+      <div class="cover-pub-title">도서출판 연라이프</div>
+      <div class="cover-pub-sub" style="font-size:10px;color:#94a3b8;">YEONLIFE PUBLISHING &middot; ACADEMY PRESS</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">중2 영어 예술가 교재 1권 · 빈센트 반 고흐</span>
+    <span>Contents & Guide</span>
+  </div>
+
+  <div style="text-align:center;margin: 15px 0 25px;">
+    <span class="sec-tag">CURRICULUM OVERVIEW</span>
+    <h2 style="font-size:24px;color:#0f4c81;margin:5px 0 8px;font-weight:800;">교재 차례 및 1권 학습 안내</h2>
+    <p style="color:#586069;font-size:12px;margin:0;">네덜란드의 푸른 들판에서 프랑스 아를의 황금빛 해바라기까지, 반 고흐의 삶을 영어로 만납니다.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;">
+      <div style="font-weight:800;color:#0f4c81;font-size:13.5px;margin-bottom:8px;border-bottom:1px solid #cbd5e1;padding-bottom:4px;">
+        Part 1. 본문 집중 탐독 (Reading)
+      </div>
+      <ul style="margin:0;padding-left:18px;font-size:12px;color:#334155;line-height:1.7;">
+        <li>문단 1. 준데르트 마을과 자연의 평화 (S01)</li>
+        <li>문단 2. 화가의 결심과 테오의 헌신 (S02)</li>
+        <li>문단 3. 아를의 노란 집과 눈부신 해바라기 (S03)</li>
+        <li>문단 4. 생레미의 밤하늘과 &lt;별이 빛나는 밤&gt; (S04)</li>
+        <li>문단 5. 시대를 초월한 걸작과 전 세계인의 사랑 (S05)</li>
+      </ul>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;">
+      <div style="font-weight:800;color:#0f4c81;font-size:13.5px;margin-bottom:8px;border-bottom:1px solid #cbd5e1;padding-bottom:4px;">
+        Part 2 & 3. 어휘 및 핵심 문법 (Language Clinic)
+      </div>
+      <ul style="margin:0;padding-left:18px;font-size:12px;color:#334155;line-height:1.7;">
+        <li>단원 핵심 어휘 26선 (발음기호 · 품사 · 예문)</li>
+        <li>Grammar 1. 과거 시제 (Past Tense)</li>
+        <li>Grammar 2. to부정사의 명사적 용법 (to-Infinitive)</li>
+        <li>Grammar 3. 동명사 목적어 (Gerund)</li>
+        <li>Grammar 4. 수동태 표현 (Passive Voice)</li>
+        <li>Grammar 5. 현재완료 시제 (Present Perfect)</li>
+      </ul>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;">
+      <div style="font-weight:800;color:#0f4c81;font-size:13.5px;margin-bottom:8px;border-bottom:1px solid #cbd5e1;padding-bottom:4px;">
+        Part 4 & 5. 실전 회화 & 발음 (Speaking & Dialogue)
+      </div>
+      <ul style="margin:0;padding-left:18px;font-size:12px;color:#334155;line-height:1.7;">
+        <li>Dialogue 1. 미술관 입구에서 표 사기 (D01)</li>
+        <li>Dialogue 2. 미술관 기념품 가게에서 엽서 고르기 (D02)</li>
+        <li>AI 영어 튜터 질문 6선 및 모범 답변 코칭 (A01)</li>
+        <li>한국인이 자주 틀리는 핵심 어휘 12선 발음 클리닉</li>
+      </ul>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;">
+      <div style="font-weight:800;color:#0f4c81;font-size:13.5px;margin-bottom:8px;border-bottom:1px solid #cbd5e1;padding-bottom:4px;">
+        Part 6. 성취도 평가 & 해설 (Achievement Test)
+      </div>
+      <ul style="margin:0;padding-left:18px;font-size:12px;color:#334155;line-height:1.7;">
+        <li>어휘 완성 4문항 (유의어 · 문맥 어휘 · 뜻)</li>
+        <li>본문 사실 이해 4문항 (세부 내용 파악 · 추론)</li>
+        <li>실전 대화 완성 2문항 (응답 고르기 · 대화 내용)</li>
+        <li>전 문항 상세 해설 및 오답 분석표 수록</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:#eef6ff;border:1.5px dashed #0366d6;border-radius:8px;padding:12px 16px;">
+    <div style="font-weight:800;color:#0366d6;font-size:13px;margin-bottom:4px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>이 교재를 200% 활용하는 3단계 학습법
+    </div>
+    <div style="font-size:11.5px;color:#24292e;line-height:1.6;">
+      <strong>1단계 (듣고 읽기)</strong>: 스마트폰 앱을 켜고 속도 0.85×로 본문을 2~3회 반복 청취하며 눈으로 문장을 따라 읽습니다.<br>
+      <strong>2단계 (문법과 어휘 다지기)</strong>: 본문에 표시된 핵심 어휘 26개와 5대 문법 구조를 확인하고, 확인 문제를 스스로 풀어봅니다.<br>
+      <strong>3단계 (소리 내어 말하기)</strong>: 서아와 민준의 대화문에서 한 역할을 맡아 소리 내어 말해보고, AI 튜터 질문에 답해봅니다.
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>YeonLife Middle School English Series</span>
+    <span class="pg-num">2</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 1. Reading Comprehension</span>
+    <span>Vincent van Gogh (1)</span>
+  </div>
+
+  <span class="sec-tag">PART 1. READING</span>
+  <h2 class="sec-title">Vincent van Gogh: The Painter of Light</h2>
+
+  <!-- Paragraph 1 -->
+  <div class="read-card">
+    <div class="read-card-header">
+      <span class="read-card-title">Paragraph 1. 유년 시절과 자연이 준 평화</span>
+      <span style="font-size:11px;color:#718096;">Zundert, 1853</span>
+    </div>
+    <div class="read-content-wrap">
+      <div class="read-thumb">
+        <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/S01_어린시절_네덜란드_들판.webp" alt="어린시절 네덜란드 들판">
+      </div>
+      <div class="read-texts">
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">1-1</span>Vincent van Gogh was born in the village of Zundert in 1853.</div>
+          <div class="sen-ko">빈센트 반 고흐는 1853년 네덜란드의 준데르트 마을에서 태어났다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">1-2</span>This quiet country village was in the Netherlands.</div>
+          <div class="sen-ko">이 조용한 시골 마을은 네덜란드에 있었다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">1-3</span>As a boy, Vincent enjoyed walking through the green fields.</div>
+          <div class="sen-ko">어린 시절 빈센트는 푸른 들판을 거니는 것을 즐겼다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">1-4</span>He also loved looking at beautiful trees and quiet rivers.</div>
+          <div class="sen-ko">그는 아름다운 나무와 잔잔한 강을 바라보는 것도 무척 좋아했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">1-5</span>Nature gave him deep peace and inspired his young heart.</div>
+          <div class="sen-ko">자연은 그에게 깊은 평화를 주었고 어린 마음에 예술적 영감을 불어넣었다.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="art-note">
+      <strong>🎨 예술·문화 돋보기</strong> : 준데르트(Zundert)는 네덜란드 남부 노스브라반트주의 조용한 전원 마을입니다. 어린 빈센트는 끝없이 펼쳐진 보리밭과 개울을 산책하며 관찰력을 길렀습니다.
+    </div>
+  </div>
+
+  <!-- Paragraph 2 -->
+  <div class="read-card">
+    <div class="read-card-header">
+      <span class="read-card-title">Paragraph 2. 화가의 길과 테오의 따뜻한 지원</span>
+      <span style="font-size:11px;color:#718096;">Decision at Twenty-seven</span>
+    </div>
+    <div class="read-content-wrap">
+      <div class="read-thumb">
+        <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/S02_편지쓰는_책상.webp" alt="편지 쓰는 책상">
+      </div>
+      <div class="read-texts">
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">2-1</span>As a young man, Vincent worked as a clerk and a teacher.</div>
+          <div class="sen-ko">청년 시절 빈센트는 점원과 교사 등 여러 일을 했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">2-2</span>At twenty-seven, he decided to become a painter.</div>
+          <div class="sen-ko">스물일곱 살이 되었을 때 그는 화가가 되기로 결심했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">2-3</span>His younger brother Theo wanted to support Vincent's new dream.</div>
+          <div class="sen-ko">동생 테오는 빈센트의 새로운 꿈을 진심으로 응원하고 돕고 싶어 했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">2-4</span>He was supported by Theo with warm words and money.</div>
+          <div class="sen-ko">그는 테오의 따뜻한 격려와 경제적 지원을 받았다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">2-5</span>The two brothers shared deep friendship and wrote hundreds of letters.</div>
+          <div class="sen-ko">두 형제는 깊은 우정을 나누며 수백 통의 편지를 주고받았다.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="art-note">
+      <strong>🎨 예술·문화 돋보기</strong> : 동생 테오(Theo van Gogh)는 파리의 미술상으로 일하며 평생 형 빈센트의 든든한 후원자이자 가장 깊은 예술적 대화 상대였습니다. 두 사람이 주고받은 800여 통의 편지는 오늘날 귀중한 문학 유산입니다.
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 1. Reading</span>
+    <span class="pg-num">3</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 1. Reading Comprehension</span>
+    <span>Vincent van Gogh (2)</span>
+  </div>
+
+  <span class="sec-tag">PART 1. READING</span>
+  <h2 class="sec-title">Vincent van Gogh: The Painter of Light</h2>
+
+  <!-- Paragraph 3 -->
+  <div class="read-card">
+    <div class="read-card-header">
+      <span class="read-card-title">Paragraph 3. 아를의 노란 집과 눈부신 해바라기</span>
+      <span style="font-size:11px;color:#718096;">Arles, 1888</span>
+    </div>
+    <div class="read-content-wrap">
+      <div class="read-thumb">
+        <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/S03_아를_노란집과_해바라기.webp" alt="아를 노란집과 해바라기">
+      </div>
+      <div class="read-texts">
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">3-1</span>In 1888, Vincent moved to Arles in southern France.</div>
+          <div class="sen-ko">1888년 빈센트는 프랑스 남부의 아를로 이주했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">3-2</span>He chose to live in a bright yellow house there.</div>
+          <div class="sen-ko">그는 그곳에서 밝고 노란 집에 살기로 했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">3-3</span>He loved painting sunflowers under the warm golden sunlight.</div>
+          <div class="sen-ko">그는 따뜻한 황금빛 햇살 아래에서 해바라기 그리는 것을 참 좋아했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">3-4</span>Brilliant sunflower pictures were painted by Vincent during this time.</div>
+          <div class="sen-ko">이 시기에 눈부신 해바라기 그림들이 빈센트의 손에서 탄생했다.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="art-note">
+      <strong>🎨 예술·문화 돋보기</strong> : 프랑스 남부 아를(Arles)의 강렬한 태양 아래에서 반 고흐는 특유의 두꺼운 붓 터치(임파스토 기법)와 눈부신 크롬 옐로 색상으로 연작 &lt;해바라기&gt;를 그렸습니다.
+    </div>
+  </div>
+
+  <!-- Paragraph 4 -->
+  <div class="read-card">
+    <div class="read-card-header">
+      <span class="read-card-title">Paragraph 4. 생레미의 밤하늘과 &lt;별이 빛나는 밤&gt;</span>
+      <span style="font-size:11px;color:#718096;">Saint-Rémy, 1889</span>
+    </div>
+    <div class="read-content-wrap">
+      <div class="read-thumb">
+        <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/S04_창가_별밤_스케치.webp" alt="창가 별밤 스케치">
+      </div>
+      <div class="read-texts">
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">4-1</span>In 1889, Vincent stayed in Saint-Rémy and watched the dark night sky.</div>
+          <div class="sen-ko">1889년 빈센트는 생레미에 머물며 어두운 밤하늘을 바라보았다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">4-2</span>He looked through his window and started drawing spinning stars and a glowing moon.</div>
+          <div class="sen-ko">그는 창밖을 내다보며 소용돌이치는 별들과 빛나는 달을 그리기 시작했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">4-3</span>His great masterpiece The Starry Night was created at this special place.</div>
+          <div class="sen-ko">그의 위대한 걸작인 <별이 빛나는 밤>이 바로 이 특별한 곳에서 만들어졌다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">4-4</span>He worked as a painter for about ten years and produced many works.</div>
+          <div class="sen-ko">그는 화가로서 약 10년 동안 활동하며 수많은 작품을 남겼다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">4-5</span>Vincent passed away in 1890 at the age of thirty-seven.</div>
+          <div class="sen-ko">빈센트는 1890년 서른일곱 살의 나이로 세상을 떠났다.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="art-note">
+      <strong>🎨 예술·문화 돋보기</strong> : 생레미 요양원의 쇠창살 너머로 바라본 새벽하늘에서 영감을 얻은 &lt;별이 빛나는 밤(The Starry Night)&gt;은 소용돌이치는 별들과 사이프러스 나무로 그의 내면의 열정을 웅장하게 표현합니다.
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 1. Reading</span>
+    <span class="pg-num">4</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 1. Reading Comprehension</span>
+    <span>Vincent van Gogh (3)</span>
+  </div>
+
+  <span class="sec-tag">PART 1. READING</span>
+  <h2 class="sec-title">Vincent van Gogh: The Painter of Light</h2>
+
+  <!-- Paragraph 5 -->
+  <div class="read-card">
+    <div class="read-card-header">
+      <span class="read-card-title">Paragraph 5. 시대를 초월한 걸작과 전 세계인의 사랑</span>
+      <span style="font-size:11px;color:#718096;">Today and Forever</span>
+    </div>
+    <div class="read-content-wrap">
+      <div class="read-thumb">
+        <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/S05_오늘의_미술관.webp" alt="오늘의 미술관">
+      </div>
+      <div class="read-texts">
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">5-1</span>During his lifetime, Vincent sold only a few paintings.</div>
+          <div class="sen-ko">살아 있는 동안 빈센트는 그림을 겨우 몇 점밖에 팔지 못했다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">5-2</span>Today, many people have visited the Van Gogh Museum in Amsterdam.</div>
+          <div class="sen-ko">오늘날 많은 사람들이 암스테르담의 반 고흐 미술관을 찾고 있다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">5-3</span>People from many countries have loved his expressive colors for a long time.</div>
+          <div class="sen-ko">세계 여러 나라 사람들이 아주 오랜 시간 동안 그의 개성 넘치는 색채를 사랑해 왔다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">5-4</span>His passionate art has touched the hearts of art lovers everywhere.</div>
+          <div class="sen-ko">그의 열정적인 예술은 세상 모든 미술 애호가들의 마음에 깊은 울림을 주었다.</div>
+        </div>
+
+        <div class="sentence-pair">
+          <div class="sen-en"><span class="sen-num">5-5</span>Many travelers hope to see his wonderful works in person.</div>
+          <div class="sen-ko">많은 여행자들이 그의 멋진 작품들을 직접 눈으로 보고 싶어 한다.</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="art-note">
+      <strong>🎨 예술·문화 돋보기</strong> : 생전에는 단 한 점의 그림(&lt;아를의 붉은 포도밭&gt;)만 팔렸다고 전해지지만, 오늘날 암스테르담 반 고흐 미술관을 비롯해 전 세계 수많은 미술관에서 가장 뜨거운 찬사를 받고 있습니다.
+    </div>
+  </div>
+
+  <!-- Timeline Card -->
+  <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:12px 16px;margin-top:10px;">
+    <div style="font-size:13.5px;font-weight:800;color:#0f4c81;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+      <span>⏳ 반 고흐의 생애와 예술 연표 (Timeline)</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;font-size:11.5px;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#0f4c81;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center;">1853</span>
+        <span style="color:#1e293b;">네덜란드 준데르트 마을에서 출생 (Born in Zundert)</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#0f4c81;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center;">1880</span>
+        <span style="color:#1e293b;">스물일곱 살에 화가가 되기로 결심, 동생 테오의 지원 시작 (Decided to become a painter)</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#0f4c81;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center;">1888</span>
+        <span style="color:#1e293b;">프랑스 남부 아를의 노란 집으로 이주, &lt;해바라기&gt; 연작 제작 (Moved to Arles, painted Sunflowers)</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#0f4c81;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center;">1889</span>
+        <span style="color:#1e293b;">생레미에서 불멸의 걸작 &lt;별이 빛나는 밤&gt; 창작 (Created The Starry Night in Saint-Rémy)</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#0f4c81;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center;">1890</span>
+        <span style="color:#1e293b;">37세의 나이로 영면에 듦 (Passed away at thirty-seven)</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="background:#e6b422;color:#0b192c;padding:2px 8px;border-radius:4px;font-weight:800;font-size:11px;min-width:48px;text-align:center;">Today</span>
+        <span style="color:#1e293b;font-weight:600;">전 세계 미술관에서 가장 사랑받는 인상주의 거장으로 기억됨</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 1. Reading</span>
+    <span class="pg-num">5</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 2. Vocabulary Clinic</span>
+    <span>Essential 26 Words</span>
+  </div>
+
+  <span class="sec-tag">PART 2. VOCABULARY</span>
+  <h2 class="sec-title">단원 핵심 필수 어휘 26제</h2>
+  <p style="font-size:12px;color:#64748b;margin:0 0 12px;">본문에 등장하는 중2 개정 교육과정 핵심 단어입니다. 철자, 발음기호, 품사 및 우리말 뜻을 꼼꼼히 익혀보세요.</p>
+
+  <div class="vocab-grid">
+
+    <div class="vocab-item">
+      <span class="vocab-no">1</span>
+      <div>
+        <span class="vocab-word">village</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">마을</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">2</span>
+      <div>
+        <span class="vocab-word">quiet</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">조용한</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">3</span>
+      <div>
+        <span class="vocab-word">field</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">들판</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">4</span>
+      <div>
+        <span class="vocab-word">nature</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">자연</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">5</span>
+      <div>
+        <span class="vocab-word">peace</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">평화</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">6</span>
+      <div>
+        <span class="vocab-word">inspire</span>
+        <span class="vocab-pos">동사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">영감을 주다</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">7</span>
+      <div>
+        <span class="vocab-word">clerk</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">점원</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">8</span>
+      <div>
+        <span class="vocab-word">painter</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">화가</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">9</span>
+      <div>
+        <span class="vocab-word">support</span>
+        <span class="vocab-pos">동사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">지원하다, 돕다</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">10</span>
+      <div>
+        <span class="vocab-word">brother</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">형제, 동생</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">11</span>
+      <div>
+        <span class="vocab-word">friendship</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">우정</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">12</span>
+      <div>
+        <span class="vocab-word">letter</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">편지</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">13</span>
+      <div>
+        <span class="vocab-word">southern</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">남쪽의</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">14</span>
+      <div>
+        <span class="vocab-word">bright</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">밝은</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">15</span>
+      <div>
+        <span class="vocab-word">sunflower</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">해바라기</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">16</span>
+      <div>
+        <span class="vocab-word">sunlight</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">햇살, 햇빛</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">17</span>
+      <div>
+        <span class="vocab-word">brilliant</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">눈부신, 훌륭한</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">18</span>
+      <div>
+        <span class="vocab-word">window</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">창문</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">19</span>
+      <div>
+        <span class="vocab-word">spinning</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">소용돌이치는, 회전하는</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">20</span>
+      <div>
+        <span class="vocab-word">masterpiece</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">걸작, 명작</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">21</span>
+      <div>
+        <span class="vocab-word">produce</span>
+        <span class="vocab-pos">동사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">생산하다, 만들어내다</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">22</span>
+      <div>
+        <span class="vocab-word">lifetime</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">일생, 평생</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">23</span>
+      <div>
+        <span class="vocab-word">museum</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">미술관, 박물관</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">24</span>
+      <div>
+        <span class="vocab-word">expressive</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">표현력이 풍부한</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">25</span>
+      <div>
+        <span class="vocab-word">passionate</span>
+        <span class="vocab-pos">형용사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">열정적인</span>
+    </div>
+
+    <div class="vocab-item">
+      <span class="vocab-no">26</span>
+      <div>
+        <span class="vocab-word">traveler</span>
+        <span class="vocab-pos">명사</span>
+        <span class="vocab-pron"></span>
+      </div>
+      <span class="vocab-meaning">여행자</span>
+    </div>
+
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 2. Vocabulary Clinic</span>
+    <span class="pg-num">6</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 3. Grammar Focus</span>
+    <span>5 Key Grammar Rules</span>
+  </div>
+
+  <span class="sec-tag">PART 3. GRAMMAR</span>
+  <h2 class="sec-title">중2 핵심 문법 5가지 정밀 해설</h2>
+  <p style="font-size:12px;color:#64748b;margin:0 0 10px;">본문 속 생생한 문장과 함께 중학교 2학년 주요 문법 포인트를 완벽하게 정리합니다.</p>
+
+  <div class="grammar-card">
+    <div class="grammar-title">
+      <span>Grammar 1. 과거 시제 (Past Tense) : 과거 시제</span>
+      <span style="font-size:11px;color:#0284c7;font-weight:600;">출처: 문장 1-1</span>
+    </div>
+    <div class="grammar-rule">
+      📌 <strong>핵심 규칙</strong>: 과거 시제는 이미 지나간 과거의 일이나 동작, 상태를 나타낼 때 씁니다. 일반동사 뒤에 -(e)d를 붙이거나 불규칙하게 모양이 변하며(give-gave, write-wrote), be동사는 was나 were를 씁니다. 본문에서는 반 고흐의 생애를 전할 때 'was born', 'worked', 'moved'처럼 과거 시제를 사용했습니다. 과거의 일을 말할 때는 현재형을 그대로 쓰지 말고, 일반동사는 -ed 나 불규칙 과거형으로, be동사는 was/were 로 바꿔 써야 한다는 점에 주의합니다.
+    </div>
+    <div class="grammar-ex">
+      Vincent van Gogh was born in the village of Zundert in 1853.
+    </div>
+    <div class="grammar-ex-ko">
+      빈센트 반 고흐는 1853년 네덜란드의 준데르트 마을에서 태어났다.
+    </div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="grammar-title">
+      <span>Grammar 2. to부정사의 명사적 용법 (to-Infinitive) : to부정사</span>
+      <span style="font-size:11px;color:#0284c7;font-weight:600;">출처: 문장 2-2</span>
+    </div>
+    <div class="grammar-rule">
+      📌 <strong>핵심 규칙</strong>: to부정사는 'to + 동사원형'의 형태로 문장에서 명사, 형용사, 부사처럼 다양하게 쓰입니다. decide, want, hope 같은 동사 뒤에서 목적어로 쓰여 '~하는 것을'이라는 뜻을 나타내기도 합니다. 본문에서는 'decided to become(되기로 결심했다)', 'wanted to support(돕기를 원했다)', 'hope to see(보기를 희망한다)'로 사용되었습니다. to 뒤에는 반드시 동사의 원래 형태(원형)가 와야 하며, -ed나 -ing를 붙이지 않도록 조심해야 합니다.
+    </div>
+    <div class="grammar-ex">
+      At twenty-seven, he decided to become a painter.
+    </div>
+    <div class="grammar-ex-ko">
+      스물일곱 살이 되었을 때 그는 화가가 되기로 결심했다.
+    </div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="grammar-title">
+      <span>Grammar 3. 동명사 목적어 (Gerund as Object) : 동명사</span>
+      <span style="font-size:11px;color:#0284c7;font-weight:600;">출처: 문장 1-3</span>
+    </div>
+    <div class="grammar-rule">
+      📌 <strong>핵심 규칙</strong>: 동명사는 '동사원형 + -ing'의 형태로 문장에서 명사처럼 주어, 목적어, 보어 역할을 합니다. enjoy, love, start 같은 동사 뒤에 쓰여 '~하는 것', '~하기'라는 의미를 나타냅니다. 본문에서는 'enjoyed walking(걷는 것을 즐겼다)', 'loved looking at(보는 것을 좋아했다)', 'loved painting(그리는 것을 사랑했다)'처럼 쓰였습니다. 진행형(be + -ing)과 형태가 같지만, 동명사는 동작 자체가 아니라 명사 역할을 한다는 점을 기억해야 합니다.
+    </div>
+    <div class="grammar-ex">
+      As a boy, Vincent enjoyed walking through the green fields.
+    </div>
+    <div class="grammar-ex-ko">
+      어린 시절 빈센트는 푸른 들판을 거니는 것을 즐겼다.
+    </div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="grammar-title">
+      <span>Grammar 4. 수동태 (Passive Voice: be + p.p.) : 수동태</span>
+      <span style="font-size:11px;color:#0284c7;font-weight:600;">출처: 문장 2-4</span>
+    </div>
+    <div class="grammar-rule">
+      📌 <strong>핵심 규칙</strong>: 수동태는 주어가 어떤 동작을 직접 하는 것이 아니라 동작을 '받거나 당할 때' 쓰는 표현입니다. 형태는 'be동사 + 과거분사(p.p.)'이며, 행위자를 밝힐 때는 뒤에 'by + 행위자'를 붙입니다. 본문에서는 'was supported by Theo(테오에게 지원받았다)', 'were painted by Vincent(빈센트에 의해 그려졌다)'처럼 나타납니다. 능동태와 혼동하여 be동사를 빠뜨리고 과거분사만 쓰거나, 수동의 의미인데 능동형으로 쓰지 않도록 주의해야 합니다.
+    </div>
+    <div class="grammar-ex">
+      He was supported by Theo with warm words and money.
+    </div>
+    <div class="grammar-ex-ko">
+      그는 테오의 따뜻한 격려와 경제적 지원을 받았다.
+    </div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="grammar-title">
+      <span>Grammar 5. 현재완료 시제 (Present Perfect: have + p.p.) : 현재완료</span>
+      <span style="font-size:11px;color:#0284c7;font-weight:600;">출처: 문장 5-2</span>
+    </div>
+    <div class="grammar-rule">
+      📌 <strong>핵심 규칙</strong>: 현재완료는 과거에 일어난 일이 현재까지 영향을 미치거나 계속될 때 쓰는 시제로 'have/has + 과거분사(p.p.)' 형태로 씁니다. 과거의 특정한 한 시점만을 말하는 과거 시제와 달리, '과거부터 지금까지' 이어지는 경험, 계속, 완료, 결과를 나타냅니다. 본문에서는 'have visited(방문해 왔다)', 'have loved(사랑해 왔다)', 'has touched(감동을 주어 왔다)'로 쓰여 지금까지 이어지는 명성을 보여줍니다. yesterday, ago처럼 명백한 과거 시점을 나타내는 낱말과는 함께 쓸 수 없음을 꼭 기억해야 합니다.
+    </div>
+    <div class="grammar-ex">
+      Today, many people have visited the Van Gogh Museum in Amsterdam.
+    </div>
+    <div class="grammar-ex-ko">
+      오늘날 많은 사람들이 암스테르담의 반 고흐 미술관을 찾고 있다.
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 3. Grammar Focus</span>
+    <span class="pg-num">7</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 3. Grammar Focus</span>
+    <span>Grammar Check-up (10 Questions)</span>
+  </div>
+
+  <span class="sec-tag">PRACTICE & APPLY</span>
+  <h2 class="sec-title">문법 확인 문제 10제 (Check-up)</h2>
+  <p style="font-size:12px;color:#64748b;margin:0 0 10px;">앞서 배운 5대 핵심 문법을 알맞게 적용할 수 있는지 문제를 풀며 실력을 확인하세요.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;">
+
+    <div class="quiz-item">
+      <div class="quiz-q">1. 다음 빈칸에 들어갈 알맞은 말은?
+Vincent ____ to Arles in 1888.</div>
+      <div class="quiz-choices">
+  move</div>
+  moves</div>
+  moved</div>
+  moving</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>③</strong> | 1888년이라는 명확한 과거 시점이 있으므로 과거형 moved가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">2. 다음 빈칸에 들어갈 알맞은 be동사는?
+This quiet country village ____ in the Netherlands.</div>
+      <div class="quiz-choices">
+  is</div>
+  was</div>
+  are</div>
+  were</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | 과거의 사실을 설명하며 주어(village)가 단수이므로 was가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">3. 다음 빈칸에 들어갈 알맞은 말은?
+He decided ____ a painter at twenty-seven.</div>
+      <div class="quiz-choices">
+  become</div>
+  to become</div>
+  became</div>
+  becoming</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | decide는 목적어로 to부정사를 취하므로 to become이 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">4. 다음 빈칸에 들어갈 알맞은 말은?
+Many travelers hope ____ his wonderful works in person.</div>
+      <div class="quiz-choices">
+  see</div>
+  saw</div>
+  to see</div>
+  seeing</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>③</strong> | hope는 목적어로 to부정사를 취하므로 to see가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">5. 다음 빈칸에 들어갈 알맞은 말은?
+As a boy, Vincent enjoyed ____ through the green fields.</div>
+      <div class="quiz-choices">
+  walk</div>
+  walked</div>
+  walking</div>
+  to walking</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>③</strong> | enjoy는 목적어로 동명사를 취하므로 walking이 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">6. 다음 빈칸에 들어갈 알맞은 말은?
+He loved ____ sunflowers under the warm golden sunlight.</div>
+      <div class="quiz-choices">
+  paint</div>
+  painting</div>
+  painted</div>
+  paints</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | 자연스러운 취미나 동작을 나타내어 love의 목적어로 쓰인 동명사 painting이 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">7. 다음 빈칸에 들어갈 알맞은 말은?
+He was ____ by Theo with warm words and money.</div>
+      <div class="quiz-choices">
+  support</div>
+  supporting</div>
+  supported</div>
+  supports</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>③</strong> | 수동태 'be동사(was) + 과거분사(p.p.)' 형태이므로 supported가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">8. 다음 빈칸에 들어갈 알맞은 말은?
+Brilliant sunflower pictures ____ painted by Vincent.</div>
+      <div class="quiz-choices">
+  was</div>
+  were</div>
+  is</div>
+  are</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | 주어(pictures)가 복수이고 과거의 일이므로 복수 과거 be동사 were가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">9. 다음 빈칸에 들어갈 알맞은 말은?
+Today, many people have ____ the Van Gogh Museum.</div>
+      <div class="quiz-choices">
+  visit</div>
+  visited</div>
+  visiting</div>
+  visits</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | 현재완료 'have + 과거분사(p.p.)' 형태이므로 visited가 알맞습니다.
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">10. 다음 빈칸에 들어갈 알맞은 말은?
+His passionate art ____ touched the hearts of art lovers everywhere.</div>
+      <div class="quiz-choices">
+  have</div>
+  has</div>
+  is</div>
+  was</div>
+
+      </div>
+      <div style="margin-top:4px;font-size:10.5px;color:#0369a1;background:#f0f9ff;padding:2px 6px;border-radius:3px;">
+        정답: <strong>②</strong> | 주어(His passionate art)가 3인칭 단수이므로 현재완료 조동사 has가 알맞습니다.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 3. Grammar Focus</span>
+    <span class="pg-num">8</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 4. Daily Dialogues</span>
+    <span>At the Museum & Gift Shop</span>
+  </div>
+
+  <span class="sec-tag">PART 4. DIALOGUE</span>
+  <h2 class="sec-title">실전 회화 대화문 2편 (Daily Dialogues)</h2>
+  <p style="font-size:12px;color:#64748b;margin:0 0 10px;">미술관 현장에서 실제로 나누는 생생한 대화입니다. 서아와 민준이가 되어 역할을 나누어 읽어보세요.</p>
+
+  <!-- Dialogue 1 -->
+  <div class="dialogue-sec">
+    <div class="dialogue-img">
+      <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/D01_미술관_입구_대화.webp" alt="미술관 입구 대화">
+      <div style="text-align:center;font-size:10.5px;font-weight:700;color:#0f4c81;padding:3px 0;">Dialogue 1. 입장권 구매</div>
+    </div>
+    <div class="dialogue-turns">
+
+      <div class="d-turn">
+        <span class="d-speaker spk-seoa">서아</span>
+        <div>
+          <div class="d-en">Excuse me, two tickets for the museum, please.</div>
+          <div class="d-ko">실례합니다, 미술관 입장권 두 장 주세요.</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-minjun">민준</span>
+        <div>
+          <div class="d-en">Thank you, Seoa. How much are the two tickets?</div>
+          <div class="d-ko">고마워, 서아야. 표 두 장에 얼마야?</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-seoa">서아</span>
+        <div>
+          <div class="d-en">They are ten dollars. Which room do you want to visit first?</div>
+          <div class="d-ko">십 달러야. 너는 어느 전시실을 먼저 방문하고 싶니?</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-minjun">민준</span>
+        <div>
+          <div class="d-en">I want to see the works of our favorite painter, Vincent.</div>
+          <div class="d-ko">나는 우리가 가장 좋아하는 화가인 빈센트의 작품들을 보고 싶어.</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-seoa">서아</span>
+        <div>
+          <div class="d-en">Me, too. He loved painting sunflowers under the warm sunlight.</div>
+          <div class="d-ko">나도 그래. 그는 따뜻한 햇살 아래에서 해바라기 그리는 것을 좋아했잖아.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Dialogue 2 -->
+  <div class="dialogue-sec">
+    <div class="dialogue-img">
+      <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/D02_기념품_가게_대화.webp" alt="기념품 가게 대화">
+      <div style="text-align:center;font-size:10.5px;font-weight:700;color:#0f4c81;padding:3px 0;">Dialogue 2. 엽서 고르기</div>
+    </div>
+    <div class="dialogue-turns">
+
+      <div class="d-turn">
+        <span class="d-speaker spk-minjun">민준</span>
+        <div>
+          <div class="d-en">Look at these postcards! Which one do you like, Seoa?</div>
+          <div class="d-ko">이 엽서들 좀 봐! 서아 너는 어느 것이 마음에 드니?</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-seoa">서아</span>
+        <div>
+          <div class="d-en">I love this postcard of green fields and beautiful nature.</div>
+          <div class="d-ko">나는 푸른 들판과 아름다운 자연이 담긴 이 엽서가 아주 마음에 들어.</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-minjun">민준</span>
+        <div>
+          <div class="d-en">That is nice. I chose to buy The Starry Night.</div>
+          <div class="d-ko">그것 멋지다. 나는 <별이 빛나는 밤>을 사기로 결정했어.</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-seoa">서아</span>
+        <div>
+          <div class="d-en">Great choice! That famous masterpiece was created in Saint-Rémy.</div>
+          <div class="d-ko">좋은 선택이야! 그 유명한 걸작은 생레미에서 만들어졌지.</div>
+        </div>
+      </div>
+
+      <div class="d-turn">
+        <span class="d-speaker spk-minjun">민준</span>
+        <div>
+          <div class="d-en">I want to write a friendly letter to my brother.</div>
+          <div class="d-ko">나는 내 동생에게 다정한 편지를 한 장 쓰고 싶어.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 4. Daily Dialogues</span>
+    <span class="pg-num">9</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 5. Speaking & Pronunciation</span>
+    <span>AI Speaking Tutor</span>
+  </div>
+
+  <span class="sec-tag">PART 5. SPEAKING CLINIC</span>
+  <h2 class="sec-title">AI 영어 말하기 코칭 & 발음 클리닉</h2>
+
+  <!-- AI Tutor Intro Box -->
+  <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+    <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid #0284c7;flex-shrink:0;">
+      <img src="file:///C:/Claud-Antigravity/_안티작업물/중2영어_예술가교재_1권_반고흐_앱/앱/img/A01_AI선생님_캐릭터.webp" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div>
+      <div style="font-weight:800;color:#0369a1;font-size:12px;">AI English Tutor 코칭 질문</div>
+      <div style="font-size:11.5px;color:#334155;">안녕하세요! 여러분의 AI 영어 튜터입니다. 위대한 화가 빈센트 반 고흐에 대해 함께 이야기해 봐요. 준비되셨나요?</div>
+    </div>
+  </div>
+
+  <!-- Speaking Questions (Sample 3) -->
+  <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px;">
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+      <div style="font-weight:700;color:#0f4c81;font-size:12px;">Q. Where was Vincent van Gogh born in 1853?</div>
+      <div style="font-size:10.5px;color:#64748b;margin-bottom:3px;">(빈센트 반 고흐는 1853년에 어디에서 태어났나요?)</div>
+      <div style="font-size:11.5px;color:#047857;background:#ecfdf5;padding:2px 8px;border-radius:4px;">
+        <strong>모범 답변</strong>: He was born in the village of Zundert.
+      </div>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+      <div style="font-weight:700;color:#0f4c81;font-size:12px;">Q. What did Vincent enjoy doing when he was a boy?</div>
+      <div style="font-size:10.5px;color:#64748b;margin-bottom:3px;">(빈센트는 어릴 때 무엇을 하는 것을 즐겼나요?)</div>
+      <div style="font-size:11.5px;color:#047857;background:#ecfdf5;padding:2px 8px;border-radius:4px;">
+        <strong>모범 답변</strong>: He enjoyed walking through the green fields.
+      </div>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+      <div style="font-weight:700;color:#0f4c81;font-size:12px;">Q. When did Vincent decide to become a painter?</div>
+      <div style="font-size:10.5px;color:#64748b;margin-bottom:3px;">(빈센트는 몇 살에 화가가 되기로 결심했나요?)</div>
+      <div style="font-size:11.5px;color:#047857;background:#ecfdf5;padding:2px 8px;border-radius:4px;">
+        <strong>모범 답변</strong>: He decided to become a painter at twenty-seven.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pronunciation Clinic -->
+  <div style="font-weight:800;font-size:13.5px;color:#0f4c81;margin-bottom:6px;">
+    🗣️ 한국인 학생이 자주 틀리는 핵심 어휘 발음 클리닉 8선
+  </div>
+  <div class="pron-grid">
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">village</span>
+        <span class="pron-ipa">/ˈvɪlɪdʒ/</span>
+      </div>
+      <div class="pron-tip">첫 소리 v는 윗니로 아랫입술을 가볍게 물며 진동을 내고, 끝의 ge는 부드러운 '쥐' 소리로 발음해요.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">quiet</span>
+        <span class="pron-ipa">/ˈkwaɪət/</span>
+      </div>
+      <div class="pron-tip">qu는 '콰이'처럼 입술을 둥글게 모았다가 펴며 발음하고, 뒤의 et는 힘을 빼고 약하게 '엇'으로 소리 냅니다.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">field</span>
+        <span class="pron-ipa">/fiːld/</span>
+      </div>
+      <div class="pron-tip">f 소리는 윗니로 아랫입술을 살짝 물고 바람을 내보내며, 모음 ie는 입을 양옆으로 길게 당겨 '이-'로 길게 발음해요.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">nature</span>
+        <span class="pron-ipa">/ˈneɪtʃər/</span>
+      </div>
+      <div class="pron-tip">첫 음절은 '네이'로 강세를 두고, ture 부분은 입술을 앞으로 내밀며 '처(ㄹ)'로 부드럽게 소리 냅니다.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">brother</span>
+        <span class="pron-ipa">/ˈbrʌðər/</span>
+      </div>
+      <div class="pron-tip">th 소리는 혀끝을 윗니와 아랫니 사이에 살짝 내밀어 진동을 주며 울리는 소리를 내야 해요.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">southern</span>
+        <span class="pron-ipa">/ˈsʌðərn/</span>
+      </div>
+      <div class="pron-tip">south(/saʊθ/)와 달리 첫 모음이 짧은 '서'로 바뀌고, th 소리도 혀를 살짝 물며 유성음으로 소리 냅니다.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">sunflower</span>
+        <span class="pron-ipa">/ˈsʌnˌflaʊər/</span>
+      </div>
+      <div class="pron-tip">sun의 강한 첫소리 뒤에 flower의 f 소리를 윗니와 아랫입술을 맞닿게 하여 바람을 내뿜으며 연결해요.</div>
+    </div>
+
+    <div class="pron-card">
+      <div>
+        <span class="pron-word">brilliant</span>
+        <span class="pron-ipa">/ˈbrɪljənt/</span>
+      </div>
+      <div class="pron-tip">첫소리 br을 강하게 발음하고, liant 부분은 혀끝을 입천장에 대며 '리언트'로 부드럽게 이어 줍니다.</div>
+    </div>
+
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 5. Speaking & Pronunciation</span>
+    <span class="pg-num">10</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 6. Comprehensive Test</span>
+    <span>10 Achievement Questions</span>
+  </div>
+
+  <span class="sec-tag">PART 6. ASSESSMENT</span>
+  <h2 class="sec-title">단원 총괄 평가 10문항 (Test)</h2>
+  <p style="font-size:12px;color:#64748b;margin:0 0 10px;">본문 어휘(4문항), 독해 이해(4문항), 실전 대화(2문항)를 종합 평가하는 실전 시험지입니다.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;">
+
+    <div class="quiz-item">
+      <div class="quiz-q">1. 다음 단어의 우리말 뜻으로 가장 알맞은 것은?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>masterpiece</div>
+      <div class="quiz-choices">
+        <div>① 조용한 마을</div>
+        <div>② 걸작, 명작</div>
+        <div>③ 황금빛 햇살</div>
+        <div>④ 친절한 편지</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">2. 다음 단어의 우리말 뜻으로 가장 알맞은 것은?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>peace</div>
+      <div class="quiz-choices">
+        <div>① 들판</div>
+        <div>② 자연</div>
+        <div>③ 우정</div>
+        <div>④ 평화</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">3. 다음 문장의 빈칸에 들어갈 가장 알맞은 단어는?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>He loved painting ____ under the warm golden sunlight.</div>
+      <div class="quiz-choices">
+        <div>① sunflowers</div>
+        <div>② letters</div>
+        <div>③ windows</div>
+        <div>④ clerks</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">4. 다음 문장의 빈칸에 들어갈 가장 알맞은 단어는?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>Many ____ hope to see his wonderful works in person.</div>
+      <div class="quiz-choices">
+        <div>① villages</div>
+        <div>② brothers</div>
+        <div>③ travelers</div>
+        <div>④ trees</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">5. 본문의 내용과 일치하는 것은?</div>
+      
+      <div class="quiz-choices">
+        <div>① 빈센트는 파리의 대도시에서 태어났다.</div>
+        <div>② 빈센트는 스물일곱 살에 화가가 되기로 결심했다.</div>
+        <div>③ 동생 테오는 빈센트와 편지를 거의 주고받지 않았다.</div>
+        <div>④ 빈센트는 평생 동안 수많은 그림을 비싸게 팔았다.</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">6. 다음 질문에 대한 답으로 본문의 내용과 일치하는 것은?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>Where was the great masterpiece 'The Starry Night' created?</div>
+      <div class="quiz-choices">
+        <div>① It was created in Saint-Rémy.</div>
+        <div>② It was created in Zundert.</div>
+        <div>③ It was created in a quiet village in 1853.</div>
+        <div>④ It was created in a yellow house in 1888.</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">7. 본문을 읽고 알 수 있는 빈센트의 어린 시절 모습으로 알맞은 것은?</div>
+      
+      <div class="quiz-choices">
+        <div>① 가게 점원으로 일하는 것을 즐겼다.</div>
+        <div>② 프랑스 남부의 아를로 이주하여 살았다.</div>
+        <div>③ 푸른 들판을 거닐고 나무와 강을 보는 것을 좋아했다.</div>
+        <div>④ 동생과 함께 미술관을 세우기 위해 노력했다.</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">8. 본문 문장 중 어법상 빈칸에 들어갈 알맞은 형태는?</div>
+      <div style='font-family:Crimson Pro,serif;font-size:13px;font-weight:700;color:#0f4c81;margin:2px 0;'>Brilliant sunflower pictures were ____ by Vincent during this time.</div>
+      <div class="quiz-choices">
+        <div>① paint</div>
+        <div>② painting</div>
+        <div>③ paints</div>
+        <div>④ painted</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">9. 대화문 D1에서 민준이의 말 (d1-4) 다음에 이어질 서아의 응답으로 가장 알맞은 것은?</div>
+      
+      <div class="quiz-choices">
+        <div>① They are four dollars for two postcards.</div>
+        <div>② I want to write a friendly letter to my brother.</div>
+        <div>③ Me, too. He loved painting sunflowers under the warm sunlight.</div>
+        <div>④ Excuse me, two tickets for the museum, please.</div>
+
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-q">10. 대화문 D2의 내용과 일치하는 것은?</div>
+      
+      <div class="quiz-choices">
+        <div>① 민준이는 <별이 빛나는 밤> 엽서를 사기로 선택했다.</div>
+        <div>② 서아는 <별이 빛나는 밤> 엽서를 사기로 했다.</div>
+        <div>③ 민준이는 선생님께 보낼 편지를 쓰려고 엽서를 샀다.</div>
+        <div>④ 두 사람이 고른 엽서 두 장의 가격은 십 달러이다.</div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 6. Comprehensive Test</span>
+    <span class="pg-num">11</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="pg-header">
+    <span class="book-title">Section 6. Comprehensive Test</span>
+    <span>Answer Key & Explanations</span>
+  </div>
+
+  <span class="sec-tag">SOLUTIONS</span>
+  <h2 class="sec-title">총괄 평가 정답표 및 상세 해설</h2>
+
+  <!-- Answer Quick Table -->
+  <table style="width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11.5px;text-align:center;">
+    <thead>
+      <tr style="background:#0f4c81;color:#ffffff;">
+        <th style="padding:5px;border:1px solid #cbd5e1;">문항</th>
+<th style='padding:5px;border:1px solid #cbd5e1;'>1</th><th style='padding:5px;border:1px solid #cbd5e1;'>2</th><th style='padding:5px;border:1px solid #cbd5e1;'>3</th><th style='padding:5px;border:1px solid #cbd5e1;'>4</th><th style='padding:5px;border:1px solid #cbd5e1;'>5</th><th style='padding:5px;border:1px solid #cbd5e1;'>6</th><th style='padding:5px;border:1px solid #cbd5e1;'>7</th><th style='padding:5px;border:1px solid #cbd5e1;'>8</th><th style='padding:5px;border:1px solid #cbd5e1;'>9</th><th style='padding:5px;border:1px solid #cbd5e1;'>10</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f8fafc;font-weight:800;color:#0f4c81;">
+        <td style="padding:6px;border:1px solid #cbd5e1;">정답</td>
+<td style='padding:6px;border:1px solid #cbd5e1;'>②</td><td style='padding:6px;border:1px solid #cbd5e1;'>④</td><td style='padding:6px;border:1px solid #cbd5e1;'>①</td><td style='padding:6px;border:1px solid #cbd5e1;'>③</td><td style='padding:6px;border:1px solid #cbd5e1;'>②</td><td style='padding:6px;border:1px solid #cbd5e1;'>①</td><td style='padding:6px;border:1px solid #cbd5e1;'>③</td><td style='padding:6px;border:1px solid #cbd5e1;'>④</td><td style='padding:6px;border:1px solid #cbd5e1;'>③</td><td style='padding:6px;border:1px solid #cbd5e1;'>①</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Detailed Commentary -->
+  <div style="display:flex;flex-direction:column;gap:7px;">
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">1번 문항 [유형: vocab] — 정답: ②</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 4-3</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: masterpiece는 '걸작, 명작'이라는 뜻입니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">2번 문항 [유형: vocab] — 정답: ④</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 1-5</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: peace는 '평화'라는 뜻입니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">3번 문항 [유형: vocab] — 정답: ①</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 3-3</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 아를에서 따뜻한 햇살 아래 그린 것은 해바라기(sunflowers)입니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">4번 문항 [유형: vocab] — 정답: ③</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 5-5</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 그의 멋진 작품들을 직접 보기를 희망하는 사람들은 여행자들(travelers)입니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">5번 문항 [유형: reading] — 정답: ②</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 2-2</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 본문 문장 2-2에 따르면 빈센트는 스물일곱 살에 화가가 되기로 결심했습니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">6번 문항 [유형: reading] — 정답: ①</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 4-3</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 본문 문장 4-1과 4-3에 따르면 <별이 빛나는 밤>은 1889년 생레미(Saint-Rémy)에서 머무는 동안 창밖을 보고 창작되었습니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">7번 문항 [유형: reading] — 정답: ③</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 1-3</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 본문 문장 1-3과 1-4에 따르면 어린 시절 빈센트는 푸른 들판을 거닐고 아름다운 나무와 강을 보는 것을 좋아했습니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">8번 문항 [유형: reading] — 정답: ④</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: 3-4</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 수동태 'be동사(were) + 과거분사(p.p.)' 형태이므로 painted가 알맞습니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">9번 문항 [유형: dialogue] — 정답: ③</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: d1-5</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 민준이가 빈센트의 작품을 보고 싶다고 하자(d1-4), 서아는 나도 그렇다며 해바라기 그림을 언급하는 d1-5로 답하는 것이 가장 자연스럽습니다.
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11.5px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-weight:800;color:#0f4c81;">10번 문항 [유형: dialogue] — 정답: ①</span>
+        <span style="font-size:10px;color:#64748b;">근거 문장: d2-3</span>
+      </div>
+      <div style="color:#334155;line-height:1.45;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f4c81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><strong>상세 풀이</strong>: 대화문 D2의 d2-3에서 민준이는 'I chose to buy The Starry Night.'라고 말했습니다.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pg-footer">
+    <span>Section 6. Comprehensive Test</span>
+    <span class="pg-num">12</span>
+  </div>
+</div>
+
+<div class="page back-cover">
+  <div>
+    <span class="cover-badge">YEONLIFE ENGLISH ARTIST SERIES</span>
+    <h2 style="font-size:26px;color:#ffffff;margin:15px 0 6px;font-weight:800;">
+      눈으로 명화를 감상하고, 귀로 듣고, 입으로 말하는<br>
+      <span style="color:#ffd84d;">새로운 차원의 중학 영어 학습</span>
+    </h2>
+    <p style="font-size:12.5px;color:#cbd5e1;line-height:1.7;">
+      『중2 영어 예술가 교재』 시리즈는 세계적인 화가들의 삶과 대표작을 바탕으로<br>
+      중학교 2학년 필수 문법과 어휘를 자연스럽게 체득할 수 있도록 기획된 융합 교재입니다.
+    </p>
+  </div>
+
+  <!-- Series Info Box -->
+  <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:10px;padding:16px 20px;">
+    <div style="color:#ffd84d;font-weight:800;font-size:13.5px;margin-bottom:8px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>청소년 예술 융합 영어 교재 시리즈 라인업 (전 5권)
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:12px;color:#e2e8f0;">
+      <div>• <strong>제1권</strong> : 빈센트 반 고흐 (Vincent van Gogh) <span style="color:#38bdf8;">[완간]</span></div>
+      <div>• <strong>제2권</strong> : 구사마 야요이 (Yayoi Kusama) <span style="color:#94a3b8;">[출간 예정]</span></div>
+      <div>• <strong>제3권</strong> : 에드바르 뭉크 (Edvard Munch) <span style="color:#94a3b8;">[출간 예정]</span></div>
+      <div>• <strong>제4권</strong> : 그랜마 모지스 (Grandma Moses) <span style="color:#94a3b8;">[출간 예정]</span></div>
+      <div>• <strong>제5권</strong> : 프리다 칼로 (Frida Kahlo) <span style="color:#94a3b8;">[출간 예정]</span></div>
+    </div>
+  </div>
+
+  <!-- PWA & App Connection Guide -->
+  <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(11,25,44,0.6);border:1px solid rgba(230,180,34,0.4);border-radius:8px;padding:14px 18px;">
+    <div>
+      <div style="font-weight:800;color:#ffd84d;font-size:13px;margin-bottom:3px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>스마트폰 전용 PWA 웹 앱과 함께 공부하세요!
+      </div>
+      <div style="font-size:11.5px;color:#cbd5e1;">
+        본문 TTS 듣기(속도/구간 반복), AI 실시간 발음 평가, 10문항 자동 채점 및 카톡 학습 리포트 지원
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <span style="display:inline-block;background:#e6b422;color:#0b192c;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;">
+        PWA APP 연동
+      </span>
+    </div>
+  </div>
+
+  <!-- Publisher Footer -->
+  <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;">
+    <div style="font-size:11px;color:#94a3b8;line-height:1.5;">
+      도서출판 연라이프 | 발행인: 연소사 | 저작권자: 도서출판 연라이프<br>
+      본 교재의 무단 복제 및 전재를 금하며, 학습 목적의 출판 등록물입니다.
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:16px;font-weight:800;letter-spacing:1px;color:#ffffff;">도서출판 연라이프</div>
+      <div style="font-size:11px;color:#ffd84d;">YeonLife Publishing Co.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

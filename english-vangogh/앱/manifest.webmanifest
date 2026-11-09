@@ -1,0 +1,33 @@
+{
+  "id": "./",
+  "name": "영어 예술가 교재 1 · 빈센트 반 고흐",
+  "short_name": "영어 예술가 교재 1",
+  "description": "중2 영어 예술가 교재 1권 · 빈센트 반 고흐 학생 폰 앱",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8f9fa",
+  "theme_color": "#115e59",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
