@@ -1629,3 +1629,237 @@
   align-items: center;
   justify-content: space-between;
 }
+
+/* ── Grammar Spotlight Modal 2.0 (실전 확장 예문 & 어순 조립 영작 드릴) ── */
+.gm-tab-nav {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.gm-tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.gm-tab-btn.active {
+  background: #ffffff;
+  color: #854d0e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
+}
+.gm-tab-btn:hover:not(.active) {
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 실전 확장 예문 (Extra Examples) */
+.gm-extra-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.gm-extra-header {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0369a1;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.gm-example-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3.5px solid #0284c7;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  transition: all 0.15s ease;
+}
+.gm-example-item:last-child {
+  margin-bottom: 0;
+}
+.gm-example-item:hover {
+  border-color: #bae6fd;
+  border-left-color: #0284c7;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08);
+}
+.gm-ex-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.gm-ex-en {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+  font-family: 'Crimson Pro', Georgia, serif;
+  line-height: 1.4;
+}
+.gm-ex-ko {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.btn-gm-ex-listen {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #15803d;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.12s ease;
+}
+.btn-gm-ex-listen:hover {
+  background: #dcfce7;
+  transform: translateY(-1px);
+}
+
+/* 실전 어순 조립 영작 드릴 (Make Your Own Drill) */
+.gm-drill-container {
+  background: #ffffff;
+}
+.gm-drill-banner {
+  background: #fdfaf3;
+  border: 1px solid #fef08a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.gm-drill-ko-box {
+  font-size: 15px;
+  font-weight: 800;
+  color: #713f12;
+  margin-bottom: 4px;
+}
+.gm-drill-pattern-hint {
+  font-size: 11px;
+  color: #92400e;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fef08a;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* Slot & Pool */
+.gm-slot-box {
+  min-height: 58px;
+  background: #f8fafc;
+  border: 2px dashed #94a3b8;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+.gm-slot-box.has-chips {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+.gm-slot-placeholder {
+  color: #94a3b8;
+  font-size: 12.5px;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+.gm-pool-box {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 50px;
+  align-items: center;
+  box-sizing: border-box;
+}
+.gm-chip {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Crimson Pro', Georgia, serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.12s ease;
+}
+.gm-chip:hover {
+  border-color: #f59e0b;
+  color: #854d0e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(245, 158, 11, 0.2);
+}
+.gm-chip.in-slot {
+  background: #fef08a;
+  border-color: #eab308;
+  color: #713f12;
+}
+.gm-chip.in-slot:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+/* Drill Actions */
+.gm-drill-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Feedback cards */
+.gm-feedback-success {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  animation: fadeIn 0.2s ease;
+}
+.gm-feedback-error {
+  background: #fffbeb;
+  border: 1.5px solid #fde047;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  animation: fadeIn 0.2s ease;
+}
