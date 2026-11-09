@@ -1522,6 +1522,7 @@
         <span class="gl-tag gl-verb">동사(V)</span>
         <span class="gl-tag gl-obj">목적어(O)</span>
         <span class="gl-tag gl-mod">수식어(M)</span>
+        <span class="gl-tag gl-hl" title="to부정사·동명사·수동태 등 중2 핵심 출제 문법">★핵심문법</span>
       </div>
     `;
 

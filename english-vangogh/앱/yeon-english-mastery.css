@@ -552,6 +552,7 @@
 .gl-verb { background: var(--xr-verb); }
 .gl-obj  { background: var(--xr-obj); }
 .gl-mod  { background: var(--xr-mod); }
+.gl-hl   { background: #fef08a; color: #854d0e; border: 1px solid #eab308; }
 
 /* 렌즈 활성화 시 문장 스타일 */
 .lens-active .xr-chunk {
