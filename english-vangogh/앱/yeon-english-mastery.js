@@ -230,47 +230,69 @@
         }
       }
 
-      const enVoices = (this.voices || []).filter(v => v.lang && (v.lang.startsWith("en") || v.lang.includes("US") || v.lang.includes("GB")));
-      if (enVoices.length === 0) return null;
+      // 1. 미국식 표준 발음 (en-US / General American) 엄격 필터링 (영국식 GB/UK, 호주식 AU, 인도식 IN 등 철저 배제)
+      const usVoices = (this.voices || []).filter(v => {
+        const lang = (v.lang || "").toLowerCase();
+        const name = (v.name || "").toLowerCase();
+        if (lang.includes("gb") || lang.includes("uk") || lang.includes("au") || lang.includes("in") || lang.includes("nz")) return false;
+        if (name.includes("united kingdom") || name.includes("british") || name.includes("australia") || name.includes("george") || name.includes("hazel") || name.includes("susan") || name.includes("brian") || name.includes("daniel")) return false;
+        return lang.includes("us") || lang === "en";
+      });
 
-      const femaleKeywords = ["zira", "female", "samantha", "jenny", "karen", "victoria", "susan", "cathy", "agnes", "stephanie", "ava", "allison", "olivia", "amy", "joanna", "fiona", "tessa", "veena", "natural (female)", "google us english"];
-      const maleKeywords = ["david", "mark", "male", "george", "guy", "brian", "russell", "matthew", "justin", "alex", "daniel", "tom", "fred", "natural (male)"];
+      const candidateVoices = usVoices.length > 0 ? usVoices : (this.voices || []).filter(v => (v.lang || "").startsWith("en"));
+      if (candidateVoices.length === 0) return null;
+
+      // 2. 최고 품질의 미국식 내추럴/온라인 보이스 우선 매칭
+      const femaleKeywords = ["jenny", "aria", "natural (female)", "google us english", "samantha", "allison", "ava", "zira", "female"];
+      const maleKeywords = ["guy", "natural (male)", "matthew", "david", "mark", "male"];
 
       if (gender === "female") {
-        const fv = enVoices.find(v => femaleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
+        const fv = candidateVoices.find(v => femaleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
         if (fv) return fv;
-        const notMale = enVoices.find(v => !maleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
+        const notMale = candidateVoices.find(v => !maleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
         if (notMale) return notMale;
       } else {
-        const mv = enVoices.find(v => maleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
+        const mv = candidateVoices.find(v => maleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
         if (mv) return mv;
-        const notFemale = enVoices.find(v => !femaleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
+        const notFemale = candidateVoices.find(v => !femaleKeywords.some(kw => (v.name || "").toLowerCase().includes(kw)));
         if (notFemale) return notFemale;
       }
 
-      return enVoices[0];
+      return candidateVoices[0];
     },
 
     applyToUtterance(u, gender = this.gender) {
       const voice = this.getVoice(gender);
       if (voice) {
         u.voice = voice;
-        u.lang = voice.lang || "en-US";
+        u.lang = "en-US";
       } else {
         u.lang = "en-US";
       }
-
-      // Voice 선택과 더불어 피치(Pitch) 최적화로 음색 대비를 100% 확실하게 보장
-      if (gender === "female") {
-        u.pitch = 1.15; // 맑고 또렷한 여성 톤
-      } else {
-        u.pitch = 0.92; // 묵직하고 차분한 남성 톤
-      }
+      // 기계음 왜곡을 원천 방지하기 위해 자연스러운 미국식 표준 피치 1.0 적용
+      u.pitch = 1.0;
     }
   };
 
-  // ── 고품질 음성 낭독 (Natural Speech Synthesis) ──
+  // ── 고품질 미국식 음성 낭독 (American Studio Audio & Natural Fallback) ──
   function speak(text, rate = 0.85) {
+    const clean = (text || "").trim().toLowerCase().replace(/[^a-z]/g, "");
+    if (clean && clean.length > 1) {
+      const audioPath = `audio/vocab/v_${clean}.mp3`;
+      const audio = new Audio(audioPath);
+      audio.playbackRate = rate;
+      const p = audio.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          fallbackTTS(text, rate);
+        });
+        return;
+      }
+    }
+    fallbackTTS(text, rate);
+  }
+
+  function fallbackTTS(text, rate = 0.85) {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -1212,6 +1234,20 @@
       this.playCurrent();
     },
 
+    currentAudio: null,
+
+    stopAudioElement() {
+      if (this.currentAudio) {
+        try {
+          this.currentAudio.pause();
+          this.currentAudio.currentTime = 0;
+        } catch(e) {}
+        this.currentAudio.onended = null;
+        this.currentAudio.onerror = null;
+        this.currentAudio = null;
+      }
+    },
+
     playCurrent() {
       if (this.currentIdx < 0 || this.currentIdx >= this.allSentences.length) {
         this.stop();
@@ -1271,50 +1307,82 @@
         }
       }
 
-      // 4. SpeechSynthesis 발성
-      if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(cur.en);
-        VoiceEngine.applyToUtterance(u);
-        u.rate = this.speed;
+      // 4. 고품질 미국식 스튜디오 뉴럴 오디오 우선 재생 (실패 시 미국식 표준 TTS 자동 폴백)
+      this.stopAudioElement();
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 
-        u.onend = () => {
-          if (!this.isPlaying || this.isPaused) return;
+      const gender = VoiceEngine.gender;
+      const audioUrl = `audio/${gender}/s${cur.sid}.mp3`;
+      let hasEnded = false;
 
-          // 반복 청취 체크
-          this.repeatCurrent++;
-          if (this.repeatCurrent < this.repeatMax) {
-            setTimeout(() => this.playCurrent(), 400);
-            return;
+      const handleEnd = () => {
+        if (hasEnded) return;
+        hasEnded = true;
+        this.stopAudioElement();
+        if (!this.isPlaying || this.isPaused) return;
+
+        // 반복 청취 체크
+        this.repeatCurrent++;
+        if (this.repeatCurrent < this.repeatMax) {
+          setTimeout(() => this.playCurrent(), 400);
+          return;
+        }
+        this.repeatCurrent = 0;
+
+        // 모드별 진행
+        if (this.mode === "all") {
+          this.currentIdx++;
+          if (this.currentIdx < this.allSentences.length) {
+            setTimeout(() => this.playCurrent(), 600);
+          } else {
+            this.stop();
+            alert("1문단부터 5문단까지 본문 전체 듣기가 완료되었습니다.");
           }
-          this.repeatCurrent = 0;
-
-          // 모드별 진행
-          if (this.mode === "all") {
-            this.currentIdx++;
-            if (this.currentIdx < this.allSentences.length) {
-              setTimeout(() => this.playCurrent(), 600);
-            } else {
-              this.stop();
-              alert("1문단부터 5문단까지 본문 전체 듣기가 완료되었습니다.");
-            }
-          } else if (this.mode === "paragraph") {
-            this.currentIdx++;
-            if (this.currentIdx < this.allSentences.length && this.allSentences[this.currentIdx].pno === this.targetPno) {
-              setTimeout(() => this.playCurrent(), 600);
-            } else {
-              this.stop();
-            }
+        } else if (this.mode === "paragraph") {
+          this.currentIdx++;
+          if (this.currentIdx < this.allSentences.length && this.allSentences[this.currentIdx].pno === this.targetPno) {
+            setTimeout(() => this.playCurrent(), 600);
           } else {
             this.stop();
           }
-        };
+        } else {
+          this.stop();
+        }
+      };
 
-        u.onerror = () => {
-          if (this.isPlaying) this.stop();
-        };
+      const audio = new Audio(audioUrl);
+      this.currentAudio = audio;
+      audio.playbackRate = this.speed;
+      audio.onended = handleEnd;
 
-        window.speechSynthesis.speak(u);
+      audio.onerror = () => {
+        // 오디오 파일 로드 실패 시 고품질 미국식 TTS로 자동 대체
+        this.stopAudioElement();
+        if ("speechSynthesis" in window) {
+          const u = new SpeechSynthesisUtterance(cur.en);
+          VoiceEngine.applyToUtterance(u);
+          u.rate = this.speed;
+          u.onend = handleEnd;
+          u.onerror = () => { if (this.isPlaying) this.stop(); };
+          window.speechSynthesis.speak(u);
+        } else {
+          this.stop();
+        }
+      };
+
+      const p = audio.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          this.stopAudioElement();
+          if ("speechSynthesis" in window) {
+            const u = new SpeechSynthesisUtterance(cur.en);
+            VoiceEngine.applyToUtterance(u);
+            u.rate = this.speed;
+            u.onend = handleEnd;
+            u.onerror = () => { if (this.isPlaying) this.stop(); };
+            window.speechSynthesis.speak(u);
+          }
+        });
       }
     },
 
@@ -1327,10 +1395,12 @@
       const toggleBtn = document.getElementById("btn-dock-toggle");
       if (this.isPaused) {
         this.isPaused = false;
+        if (this.currentAudio) this.currentAudio.play();
         if ("speechSynthesis" in window) window.speechSynthesis.resume();
         if (toggleBtn) toggleBtn.innerHTML = Y_SVG.pause(14);
       } else {
         this.isPaused = true;
+        if (this.currentAudio) this.currentAudio.pause();
         if ("speechSynthesis" in window) window.speechSynthesis.pause();
         if (toggleBtn) toggleBtn.innerHTML = Y_SVG.play(14);
       }
@@ -1339,6 +1409,7 @@
     stop() {
       this.isPlaying = false;
       this.isPaused = false;
+      this.stopAudioElement();
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 
       document.querySelectorAll(".sentence-item.speaking").forEach(el => el.classList.remove("speaking"));

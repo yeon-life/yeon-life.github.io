@@ -41,7 +41,7 @@
     }, 2200);
   }
 
-  /* ── 0. 음성 합성 (speechSynthesis) 유틸 ── */
+  /* ── 0. 미국식 음성 합성 (speechSynthesis) 유틸 ── */
   function speakEnglish(text, rate = 0.85, pitch = 1.0, onEndCallback = null) {
     if (!("speechSynthesis" in window)) {
       const fb = document.getElementById("listen-fallback-msg");
@@ -53,7 +53,21 @@
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = "en-US";
     utt.rate = rate;
-    utt.pitch = pitch;
+    utt.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices() || [];
+    const usVoices = voices.filter(v => {
+      const l = (v.lang || "").toLowerCase();
+      const n = (v.name || "").toLowerCase();
+      if (l.includes("gb") || l.includes("uk") || l.includes("au") || l.includes("in")) return false;
+      if (n.includes("united kingdom") || n.includes("british") || n.includes("george") || n.includes("hazel")) return false;
+      return l.includes("us") || l === "en";
+    });
+    if (usVoices.length > 0) {
+      const natural = usVoices.find(v => v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("jenny") || v.name.toLowerCase().includes("guy") || v.name.toLowerCase().includes("google"));
+      utt.voice = natural || usVoices[0];
+    }
+
     if (onEndCallback) {
       utt.onend = onEndCallback;
       utt.onerror = onEndCallback;
