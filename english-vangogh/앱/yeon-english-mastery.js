@@ -185,7 +185,8 @@
     pause: (sz = 13) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="currentColor" class="y-icon"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>`,
     stop: (sz = 13) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="currentColor" class="y-icon"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>`,
     user: (sz = 13) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="y-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-    lightbulb: (sz = 13) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="y-icon"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>`
+    lightbulb: (sz = 13) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="y-icon"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>`,
+    grammarBadge: (sz = 10) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="y-icon y-info-icon"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>`
   };
 
   // ── 원어민 보이스 매니저 (Voice Engine: 여성 / 남성 목소리 선택 지원) ──
@@ -1314,13 +1315,13 @@
 
     // Delegate click on words, scrap buttons, sentence audio buttons, paragraph audio buttons
     root.addEventListener("click", e => {
-      // 0. 문법 렌즈 활성화 상태에서 핵심 문법 형광펜(xr-hl) 클릭 -> 문법 해설 팝업 오픈!
-      const card = e.target.closest(".paragraph-card");
-      const hlChunk = e.target.closest(".xr-chunk.xr-hl");
-      if (card && card.classList.contains("lens-active") && hlChunk) {
+      // 0. 문법 요소별 전용 설명 아이콘(xr-info-btn) 클릭 시 -> 해당 문법 해설 팝업 오픈!
+      const infoBtn = e.target.closest(".xr-info-btn");
+      if (infoBtn) {
         e.stopPropagation();
         e.preventDefault();
-        openGrammarSpotlightModal(hlChunk);
+        const chunk = infoBtn.closest(".xr-chunk");
+        if (chunk) openGrammarSpotlightModal(chunk);
         return;
       }
 
@@ -1864,12 +1865,18 @@
         const labelAttr = ch.label ? ` data-label="${escapeHtml(ch.label)}"` : "";
         const textAttr = ` data-text="${escapeHtml(ch.text)}"`;
         const sidAttr = ` data-sid="${sid}"`;
+        const roleAttr = ` data-role="${ch.role}"`;
         const chunkWords = ch.text.split(/(\s+)/).map(tok => {
           if (/^\s+$/.test(tok)) return tok;
           const clean = tok.replace(/[^a-zA-Z]/g, "").toLowerCase();
           return `<span class="v-word${DICT_DB[clean] ? ' is-core' : ''}" data-w="${clean || tok}">${escapeHtml(tok)}</span>`;
         }).join("");
-        html += `<span class="xr-chunk xr-${ch.role}${hlClass}" title="${escapeHtml(ch.label)}"${sidAttr}${textAttr}${labelAttr}${whyAttr}${gnoAttr}${gnameAttr}>${chunkWords}</span> `;
+
+        // 동일한 모양(lightbulb), 문법 요소별 맞춤 색상 전용 설명 아이콘
+        const roleClass = ch.hl ? "xr-info-hl" : `xr-info-${ch.role}`;
+        const infoBtnHtml = `<button type="button" class="xr-info-btn ${roleClass}" title="${escapeHtml(ch.label)} 문법 해설 보기" aria-label="${escapeHtml(ch.label)} 문법 해설">${Y_SVG.grammarBadge(10)}</button>`;
+
+        html += `<span class="xr-chunk xr-${ch.role}${hlClass}" title="${escapeHtml(ch.label)}"${sidAttr}${textAttr}${labelAttr}${whyAttr}${gnoAttr}${gnameAttr}${roleAttr}>${chunkWords}${infoBtnHtml}</span> `;
       });
 
       enEl.innerHTML = html;
@@ -2616,10 +2623,154 @@
     const why = hlChunk.getAttribute("data-why") || "";
     const gNo = hlChunk.getAttribute("data-gno") || "2";
     const gName = hlChunk.getAttribute("data-gname") || "2. to부정사";
-
-    if (titleEl) titleEl.textContent = `${label} (문법 X-Ray)`;
+    const role = hlChunk.getAttribute("data-role") || "subj";
+    const isCore = hlChunk.classList.contains("xr-hl") || (!!why && why !== "");
 
     const savedGrammars = Storage.get("saved_grammars", []);
+
+    // ── 일반 문법 성분 (주어 S, 동사 V, 목적어 O, 수식어 M) 역할 해설 ──
+    const ROLE_EXPLANATIONS = {
+      subj: {
+        title: "주어 (Subject : S)",
+        color: "#0284c7",
+        bg: "#f0f9ff",
+        border: "#7dd3fc",
+        badge: "주어 (S)",
+        why: "문장의 주인공(행동의 주체)입니다. '누가/무엇이'에 해당하며, 문장 맨 앞에서 핵심 서술어(동사)의 행동을 이끕니다.",
+        tip: "동사 바로 앞을 살펴 '누가 이 행동을 하는가?'를 물어보면 쉽게 주어를 찾을 수 있습니다.",
+        gNo: 1,
+        gName: "1. 문장의 4대 핵심 성분 (주어 S)"
+      },
+      verb: {
+        title: "동사 (Verb : V)",
+        color: "#dc2626",
+        bg: "#fef2f2",
+        border: "#fca5a5",
+        badge: "동사 (V)",
+        why: "문장의 핵심 서술어입니다. 주어의 동작(행동)이나 상태를 나타내며, 시제(현재/과거/미래)와 주어의 수(단수/복수)에 따라 형태가 변화합니다.",
+        tip: "영어 문장의 중심 기둥입니다. 본문에서는 역사적 사실을 전하므로 주로 과거 시제 동사(was, worked, loved 등)가 쓰였습니다.",
+        gNo: 1,
+        gName: "1. 과거 시제 및 동사의 변화 (동사 V)"
+      },
+      obj: {
+        title: "목적어 (Object : O)",
+        color: "#16a34a",
+        bg: "#f0fdf4",
+        border: "#86efac",
+        badge: "목적어 (O)",
+        why: "동사의 동작 대상이 되는 말입니다. 우리말로 '~을/를' 또는 '~에게'로 자연스럽게 해석되며, 타동사 바로 뒤에 위치합니다.",
+        tip: "일반 명사뿐만 아니라 to부정사(to-v)나 동명사(-ing)도 목적어 자리에 자주 쓰입니다.",
+        gNo: 2,
+        gName: "2. to부정사 및 동명사 목적어 (목적어 O)"
+      },
+      mod: {
+        title: "수식어구 (Modifier : M)",
+        color: "#475569",
+        bg: "#f8fafc",
+        border: "#cbd5e1",
+        badge: "수식어 (M)",
+        why: "문장의 주요 뼈대(주어·동사·목적어)에 시간, 장소, 방법, 이유 등을 덧붙여 문장의 의미를 생생하고 풍성하게 꾸며주는 부사(구)입니다.",
+        tip: "'전치사 + 명사' 형태의 전치사구(in the village, at twenty-seven 등)가 가장 대표적인 수식어구입니다.",
+        gNo: 1,
+        gName: "1. 부사 및 전치사 수식어구 (수식어 M)"
+      }
+    };
+
+    if (!isCore) {
+      const rInfo = ROLE_EXPLANATIONS[role] || ROLE_EXPLANATIONS.subj;
+      if (titleEl) titleEl.textContent = `${rInfo.title} 해설`;
+
+      const rGid = `${sid}_${role}`;
+      const isSavedRole = savedGrammars.some(g => g.id === rGid);
+
+      body.innerHTML = `
+        <!-- 1. 해당 구문 카드 (역할 색상 적용) -->
+        <div style="background:${rInfo.bg};border:1.5px solid ${rInfo.border};border-radius:10px;padding:12px 14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:11px;color:${rInfo.color};font-weight:800;background:#ffffff;padding:2px 8px;border-radius:4px;border:1px solid ${rInfo.border};">
+              ★ ${rInfo.badge} 역할 분석 (문장 ${sid})
+            </span>
+            <button type="button" id="btn-gm-listen-chunk" style="background:#ffffff;border:1px solid ${rInfo.border};border-radius:6px;padding:2px 8px;font-size:11.5px;font-weight:700;color:${rInfo.color};cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+              ${Y_SVG.speaker(12)} <span>미국 원어민 듣기</span>
+            </button>
+          </div>
+          <div style="font-size:19px;font-weight:800;color:#1e293b;font-family:'Crimson Pro',Georgia,serif;line-height:1.4;">
+            ${escapeHtml(text)}
+          </div>
+        </div>
+
+        <!-- 2. 역할 핵심 해설 카드 -->
+        <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:800;color:${rInfo.color};margin-bottom:5px;display:flex;align-items:center;gap:5px;">
+            ${Y_SVG.lightbulb(14)} <span>${rInfo.title} 핵심 역할</span>
+          </div>
+          <div style="font-size:13.5px;color:#1e293b;line-height:1.55;font-weight:600;">
+            ${escapeHtml(rInfo.why)}
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:12px;color:#475569;line-height:1.5;">
+            💡 <b>구분 요령:</b> ${rInfo.tip}
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:11.5px;color:#64748b;display:flex;align-items:center;justify-content:space-between;">
+            <span>연계 문법: <strong style="color:#0f4c81;">${escapeHtml(rInfo.gName)}</strong></span>
+            <span style="font-size:11px;color:#94a3b8;">중2 정규 영어 교과서</span>
+          </div>
+        </div>
+
+        <!-- 3. 액션 버튼 -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button type="button" id="btn-gm-toggle-save" style="width:100%;min-height:40px;font-size:13.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:${isSavedRole ? '#059669' : rInfo.color};border:none;border-radius:8px;color:#fff;cursor:pointer;transition:all 0.15s ease;">
+            ${Y_SVG.bookmark(15, 'currentColor')} <span>${isSavedRole ? '✓ 내 복습 코너에 저장됨 (클릭 시 취소)' : '📌 내 복습 코너(문법 노트)에 저장하기'}</span>
+          </button>
+          <button type="button" id="btn-gm-jump-target" style="width:100%;min-height:38px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1.5px solid ${rInfo.color};border-radius:8px;color:${rInfo.color};cursor:pointer;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            <span>📖 [${escapeHtml(rInfo.gName)}] 설명 코너로 바로가기</span>
+          </button>
+        </div>
+      `;
+
+      const btnListen = document.getElementById("btn-gm-listen-chunk");
+      if (btnListen) {
+        btnListen.onclick = () => speak(text, 0.85);
+      }
+      const btnSave = document.getElementById("btn-gm-toggle-save");
+      if (btnSave) {
+        btnSave.onclick = () => {
+          let list = Storage.get("saved_grammars", []);
+          const exists = list.some(g => g.id === rGid);
+          if (exists) {
+            list = list.filter(g => g.id !== rGid);
+            Storage.set("saved_grammars", list);
+            showToast("내 복습 코너에서 삭제했습니다.");
+          } else {
+            list.push({
+              id: rGid,
+              sid: sid,
+              text: text,
+              label: rInfo.title,
+              why: rInfo.why,
+              gNo: rInfo.gNo,
+              gName: rInfo.gName,
+              date: new Date().toISOString()
+            });
+            Storage.set("saved_grammars", list);
+            showToast(`⭐ [${rInfo.badge}] 문법 노트가 저장되었습니다!`);
+          }
+          openGrammarSpotlightModal(hlChunk);
+        };
+      }
+      const btnJump = document.getElementById("btn-gm-jump-target");
+      if (btnJump) {
+        btnJump.onclick = () => {
+          modal.classList.remove("open");
+          jumpToGrammarCard(rInfo.gNo);
+        };
+      }
+      modal.classList.add("open");
+      return;
+    }
+
+    // ── 핵심 출제 문법 (HL) 전용 2단계 입체 팝업 (해설 & 예문 2개 + 직접 만들기 드릴) ──
+    if (titleEl) titleEl.textContent = `${label} (문법 X-Ray)`;
     const gid = `${sid}_${gNo}`;
     const isSaved = savedGrammars.some(g => g.id === gid);
 
