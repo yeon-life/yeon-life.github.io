@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>빈센트 반 고흐 : The Painter of Light — 연 작은도서관</title>
+<meta name="description" content="빛과 영혼을 그린 불멸의 화가 (중2 영어 명화 교재)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,600;0,800;1,600&family=Noto+Serif+KR:wght@600;700;900&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f2a2a;
+    --deep: #1e3553;
+    --navy-mid: #0d1a2d;
+    --accent: #dfb877;
+    --gold-border: rgba(212, 184, 134, 0.4);
+    --mist: #f4f1eb;
+    --card: #fffdf8;
+    --line: #d7d1c5;
+    --muted: #5e6a6e;
+    --teal: #1f8b6f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: radial-gradient(circle at 50% 10%, #162842 0%, #0d1a2d 65%, #050a12 100%);
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 상단 고정 바 (도서관 돌아가기 & 액션) */
+  .top-nav {
+    width: 100%;
+    background: rgba(13, 26, 45, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gold-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gold-border);
+    background: rgba(223, 184, 119, 0.08);
+    transition: all 0.2s;
+  }
+  .back-btn:hover {
+    background: rgba(223, 184, 119, 0.2);
+  }
+  .book-tag {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .action-pill {
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pill-app {
+    background: var(--teal);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(31,139,111,0.4);
+  }
+  .pill-app:hover { background: #25a080; }
+  .pill-print {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--gold-border);
+    color: var(--accent);
+  }
+  .pill-print:hover { background: rgba(223,184,119,0.18); }
+
+  /* 메인 읽기 영역 */
+  .reader-wrap {
+    width: 100%;
+    max-width: 840px;
+    padding: 30px 18px 60px;
+  }
+  .book-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .series-badge {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .book-title-en {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .book-title-ko {
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-size: 18px;
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+
+  /* 챕터 카드 */
+  .chapter-card {
+    background: rgba(13, 26, 45, 0.85);
+    border: 1px solid var(--gold-border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 26px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+  }
+  .chapter-art {
+    width: 100%;
+    max-height: 380px;
+    overflow: hidden;
+    position: relative;
+  }
+  .chapter-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .chapter-art-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 16px;
+    background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 28, 0.88) 100%);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .chapter-body {
+    padding: 22px 24px;
+  }
+  .ch-label {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .ch-en {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #ffffff;
+    margin-bottom: 12px;
+    white-space: pre-line;
+  }
+  .ch-ko {
+    font-size: 14.5px;
+    color: #94a3b8;
+    line-height: 1.7;
+    white-space: pre-line;
+    border-top: 1px dashed rgba(212, 184, 134, 0.25);
+    padding-top: 12px;
+  }
+
+  /* 하단 부록 액션 바 */
+  .footer-actions {
+    background: rgba(13, 26, 45, 0.9);
+    border: 1px solid var(--gold-border);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .footer-actions h3 {
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-family: 'Noto Serif KR', Georgia, serif;
+  }
+  .footer-actions p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 18px;
+  }
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="../../index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        <span>연 작은도서관 서재</span>
+      </a>
+      <span class="book-tag">중2 영어 명화 교재 제1호</span>
+    </div>
+    <div class="nav-right">
+      <a href="앱/index.html" class="action-pill pill-app">
+        <span>📱 완전학습 앱 실행</span>
+      </a>
+      <a href="02_인쇄용_조판본.html" class="action-pill pill-print">
+        <span>📖 A4 양장 조판본</span>
+      </a>
+      <a href="02_중2영어_예술가교재_1권_반고흐_인쇄책자.pdf" class="action-pill pill-print" download>
+        <span>📄 PDF 받기</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="reader-wrap">
+    <div class="book-header">
+      <span class="series-badge">YEONLIFE MASTERPIECE ENGLISH &middot; VOL. 01</span>
+      <h1 class="book-title-en">Vincent van Gogh</h1>
+      <div class="book-title-ko">빈센트 반 고흐 : 빛과 영혼을 그린 불멸의 화가</div>
+    </div>
+
+    <!-- Chapter 1 -->
+    <div class="chapter-card">
+      <div class="chapter-art">
+        <img src="images/p01.webp" alt="어린 시절 네덜란드 들판">
+        <div class="chapter-art-caption">Chapter 1 &middot; Zundert Green Fields (1853)</div>
+      </div>
+      <div class="chapter-body">
+        <div class="ch-label">CHAPTER 1. 어린 시절과 자연의 평화</div>
+        <div class="ch-en">Vincent van Gogh was born in the Netherlands in 1853.
+As a quiet boy, he loved walking through green fields.
+Nature was his first and greatest teacher.</div>
+        <div class="ch-ko">빈센트 반 고흐는 1853년 네덜란드에서 태어났습니다.
+조용한 소년이었던 그는 초록빛 들판을 걷는 것을 무척 좋아했습니다.
+자연은 그의 첫 번째이자 가장 위대한 선생님이었습니다.</div>
+      </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter-card">
+      <div class="chapter-art">
+        <img src="images/p02.webp" alt="편지 쓰는 책상">
+        <div class="chapter-art-caption">Chapter 2 &middot; Letters to Theo</div>
+      </div>
+      <div class="chapter-body">
+        <div class="ch-label">CHAPTER 2. 화가의 결심과 테오의 편지</div>
+        <div class="ch-en">He decided to become a painter to comfort people's hearts.
+His younger brother Theo believed in him and supported him with deep love.
+They shared their dreams through hundreds of letters.</div>
+        <div class="ch-ko">그는 사람들의 마음을 위로하기 위해 화가가 되기로 결심했습니다.
+남동생 테오는 그를 굳게 믿고 깊은 사랑으로 묵묵히 지원해 주었습니다.
+두 사람은 수백 통의 편지를 주고받으며 꿈을 함께 나누었습니다.</div>
+      </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter-card">
+      <div class="chapter-art">
+        <img src="images/p03.webp" alt="아를 노란 집과 해바라기">
+        <div class="chapter-art-caption">Chapter 3 &middot; The Yellow House &amp; Sunflowers in Arles (1888)</div>
+      </div>
+      <div class="chapter-body">
+        <div class="ch-label">CHAPTER 3. 아를의 노란 집과 눈부신 해바라기</div>
+        <div class="ch-en">Vincent moved to Arles in the sunny south of France.
+He painted bright yellow sunflowers with all his passion.
+His famous paintings were created in a little yellow house.</div>
+        <div class="ch-ko">빈센트는 햇살이 눈부신 프랑스 남부의 아를로 이주했습니다.
+그는 자신의 모든 열정을 쏟아부어 찬란한 노란 해바라기를 그렸습니다.
+그의 명작들은 바로 그 작은 '노란 집'에서 탄생했습니다.</div>
+      </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="chapter-card">
+      <div class="chapter-art">
+        <img src="images/p04.webp" alt="생레미의 별이 빛나는 밤">
+        <div class="chapter-art-caption">Chapter 4 &middot; The Starry Night in Saint-Rémy (1889)</div>
+      </div>
+      <div class="chapter-body">
+        <div class="ch-label">CHAPTER 4. 생레미의 밤하늘과 별이 빛나는 밤</div>
+        <div class="ch-en">Even when he felt sick and lonely, he never stopped painting.
+Looking out of his window at night, he saw swirling golden stars.
+That was how 'The Starry Night' was born into this world.</div>
+        <div class="ch-ko">마음이 아프고 외로웠을 때조차, 그는 그림 그리기를 결코 멈추지 않았습니다.
+밤마다 창밖을 내다보며, 그는 소용돌이치는 황금빛 별들을 보았습니다.
+그렇게 불멸의 걸작 '별이 빛나는 밤'이 세상에 태어났습니다.</div>
+      </div>
+    </div>
+
+    <!-- Chapter 5 -->
+    <div class="chapter-card">
+      <div class="chapter-art">
+        <img src="images/p05.webp" alt="오늘의 미술관">
+        <div class="chapter-art-caption">Chapter 5 &middot; Timeless Masterpieces in Museums</div>
+      </div>
+      <div class="chapter-body">
+        <div class="ch-label">CHAPTER 5. 시대를 초월한 걸작과 전 세계인의 사랑</div>
+        <div class="ch-en">Van Gogh sold only one painting while he was alive.
+However, his touching art now moves millions of people across the world.
+His warm light continues to shine forever in our hearts.</div>
+        <div class="ch-ko">반 고흐는 살아생전 단 한 점의 그림밖에 팔지 못했습니다.
+하지만 그의 감동적인 예술은 이제 전 세계 수백만 사람들의 마음을 울리고 있습니다.
+그의 따뜻한 빛은 우리 가슴속에서 영원히 반짝이고 있습니다.</div>
+      </div>
+    </div>
+
+    <!-- 하단 확장 학습 액션 -->
+    <div class="footer-actions">
+      <h3>더 깊이 있는 완전학습으로 나아가기</h3>
+      <p>원어민 남·여 듀얼 음성 듣기, X-Ray 문법 렌즈, 실전 회화, CBT 총괄평가가 준비되어 있습니다.</p>
+      <div class="btn-row">
+        <a href="앱/index.html" class="action-pill pill-app" style="font-size:14px;padding:10px 22px;">📱 완전학습 스마트폰 앱 구동</a>
+        <a href="02_인쇄용_조판본.html" class="action-pill pill-print" style="font-size:14px;padding:10px 22px;">📖 A4 양장 조판본 열람 (18쪽 완본)</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="data.js"></script>
+</body>
+</html>

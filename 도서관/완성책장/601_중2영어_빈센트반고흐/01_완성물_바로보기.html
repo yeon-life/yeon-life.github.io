@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연라이프 잡지 코너 — 추천 이야기 영어 제1호 서재</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,600;0,800;1,600&family=Noto+Serif+KR:wght@600;700;900&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-navy-deep: #07101c;
+    --bg-navy-mid: #0d1a2d;
+    --bg-navy-soft: #162438;
+    --gold-primary: #dfb877;
+    --gold-dim: #9c8052;
+    --gold-glow: rgba(223, 184, 119, 0.25);
+    --gold-border: rgba(212, 184, 134, 0.38);
+    --text-white: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-sub: #cbd5e1;
+    --teal-point: #1f8b6f;
+    --teal-glow: rgba(31, 139, 111, 0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(ellipse at 50% 10%, #162842 0%, #0d1a2d 55%, #050a12 100%);
+    color: var(--text-white);
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px 48px;
+    line-height: 1.6;
+  }
+
+  /* 상단 헤더 브랜딩 */
+  .brand-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1080px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--gold-border);
+  }
+  .brand-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #0d1a2d;
+    border: 1.5px solid var(--gold-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-primary);
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-weight: 900;
+    font-size: 19px;
+    box-shadow: 0 0 14px var(--gold-glow);
+  }
+  .brand-text-block {
+    display: flex;
+    flex-direction: column;
+  }
+  .brand-title {
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--gold-primary);
+    letter-spacing: 0.5px;
+  }
+  .brand-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .brand-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--gold-primary);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gold-border);
+    background: rgba(223, 184, 119, 0.08);
+    transition: all 0.2s ease;
+  }
+  .brand-back-link:hover {
+    background: rgba(223, 184, 119, 0.2);
+    border-color: var(--gold-primary);
+    transform: translateY(-1px);
+  }
+
+  /* 쇼케이스 메인 컨테이너 */
+  .showcase-container {
+    width: 100%;
+    max-width: 1080px;
+    background: rgba(13, 26, 45, 0.85);
+    border: 1px solid var(--gold-border);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    position: relative;
+    padding: 44px 48px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* 좌측: 3D 책자 입체 쇼케이스 */
+  .book-stage {
+    perspective: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .book-3d-wrap {
+    position: relative;
+    width: 300px;
+    height: 424px;
+    transform-style: preserve-3d;
+    transform: rotateY(-18deg) rotateX(8deg);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.45s ease;
+    cursor: pointer;
+  }
+  .book-3d-wrap:hover {
+    transform: rotateY(-6deg) rotateX(2deg) translateY(-8px) scale(1.02);
+  }
+  .book-cover-front {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 18px 24px 45px rgba(0, 0, 0, 0.75), 0 0 0 1.5px var(--gold-primary);
+    background: #000;
+  }
+  .book-cover-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* 책 등 (Spine 3D 효과) */
+  .book-spine-effect {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 24px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.02) 40%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+  }
+  /* 입체 책장 그림자 */
+  .book-shadow {
+    position: absolute;
+    bottom: -22px;
+    left: 15px;
+    right: 15px;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%, transparent 75%);
+    filter: blur(8px);
+    transform: rotateX(90deg);
+  }
+  /* 3D 뱃지 오버레이 */
+  .book-gold-ribbon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: linear-gradient(135deg, #dfb877 0%, #b8955a 100%);
+    color: #07101c;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+
+  /* 우측: 잡지 상세 소개 및 실행 섹션 */
+  .info-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .issue-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .issue-badge {
+    background: rgba(223, 184, 119, 0.15);
+    color: var(--gold-primary);
+    border: 1px solid var(--gold-border);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .cert-badge {
+    background: rgba(31, 139, 111, 0.18);
+    color: #5cdbb5;
+    border: 1px solid rgba(92, 219, 181, 0.35);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .main-title-en {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 34px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .main-title-en em {
+    color: var(--gold-primary);
+    font-style: italic;
+  }
+  .main-title-ko {
+    font-family: 'Noto Serif KR', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 14px;
+    letter-spacing: -0.3px;
+  }
+  .issue-summary {
+    font-size: 13.5px;
+    color: var(--text-sub);
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+
+  /* 3대 핵심 특장점 칩 */
+  .features-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+  .feature-box {
+    background: rgba(10, 20, 35, 0.6);
+    border: 1px solid rgba(212, 184, 134, 0.25);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .feature-box-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--gold-primary);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .feature-box-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* 실행 버튼 그룹 */
+  .action-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .action-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #1f8b6f 0%, #156651 100%);
+    color: #ffffff;
+    font-size: 15.5px;
+    font-weight: 800;
+    text-decoration: none;
+    padding: 15px 22px;
+    border-radius: 12px;
+    border: 1px solid rgba(92, 219, 181, 0.4);
+    box-shadow: 0 8px 24px var(--teal-glow);
+    transition: all 0.2s ease;
+  }
+  .action-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(31, 139, 111, 0.5);
+    background: linear-gradient(135deg, #25a080 0%, #18775f 100%);
+  }
+  .action-sub-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .action-btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(22, 36, 56, 0.85);
+    color: #f1f5f9;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--gold-border);
+    transition: all 0.2s ease;
+  }
+  .action-btn-secondary:hover {
+    background: rgba(30, 48, 74, 0.95);
+    border-color: var(--gold-primary);
+    transform: translateY(-1px);
+    color: #ffffff;
+  }
+
+  /* 하단 매거진 패밀리 배너 */
+  .magazine-family-shelf {
+    width: 100%;
+    max-width: 1080px;
+    margin-top: 32px;
+    padding: 18px 24px;
+    background: rgba(9, 17, 30, 0.6);
+    border: 1px solid rgba(212, 184, 134, 0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .family-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--gold-primary);
+  }
+  .family-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .family-chip {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .family-chip.active {
+    background: rgba(223, 184, 119, 0.18);
+    border-color: var(--gold-primary);
+    color: var(--gold-primary);
+    font-weight: 700;
+  }
+  .family-chip:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  /* 저작권 및 발행 메타데이터 */
+  .colophon-footer {
+    width: 100%;
+    max-width: 1080px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    color: #64748b;
+  }
+
+  /* 반응형 모바일 */
+  @media (max-width: 860px) {
+    .showcase-container {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
+      gap: 32px;
+    }
+    .book-3d-wrap {
+      width: 250px;
+      height: 353px;
+      transform: none;
+    }
+    .book-3d-wrap:hover {
+      transform: translateY(-4px);
+    }
+    .features-strip {
+      grid-template-columns: 1fr;
+    }
+    .action-sub-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 상단 연라이프 브랜드 바 -->
+  <header class="brand-nav">
+    <div class="brand-logo-group">
+      <div class="brand-logo-circle">研</div>
+      <div class="brand-text-block">
+        <span class="brand-title">연플래닝 아카데미 · 도서출판 연라이프</span>
+        <span class="brand-subtitle">YEONLIFE MAGAZINE ARCHIVE &middot; RECOMMENDED STORY ENGLISH</span>
+      </div>
+    </div>
+    <a href="http://localhost:8080/연라이프_미디어_작업/잡지_허브_v1/index.html" class="brand-back-link" title="연라이프 잡지 허브로 이동">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      <span>잡지 허브 전체보기</span>
+    </a>
+  </header>
+
+  <!-- 메인 쇼케이스 (3D 책자 + 상세 정보) -->
+  <main class="showcase-container">
+    
+    <!-- 좌측 3D 양장본 표지 무대 -->
+    <div class="book-stage">
+      <div class="book-3d-wrap" onclick="location.href='02_인쇄용_조판본.html'" title="클릭하여 A4 양장 조판본 열람">
+        <div class="book-cover-front">
+          <img src="앱/img/S00_표지_해바라기와_별밤.webp" alt="빈센트 반 고흐 : 해바라기와 별이 빛나는 밤 교재 표지">
+          <div class="book-spine-effect"></div>
+          <div class="book-gold-ribbon">Vol. 01 · 2026</div>
+        </div>
+        <div class="book-shadow"></div>
+      </div>
+    </div>
+
+    <!-- 우측 매거진 정보 및 원터치 액션 -->
+    <div class="info-content">
+      <div class="issue-tag-row">
+        <span class="issue-badge">✦ 연라이프 잡지 코너 · 추천 이야기 영어 1호</span>
+        <span class="cert-badge">✓ 연학원 태블릿 1초 인증 기기 지원</span>
+      </div>
+
+      <h1 class="main-title-en">Vincent van Gogh<br><em>The Painter of Light &amp; Soul</em></h1>
+      <h2 class="main-title-ko">빈센트 반 고흐 : 빛과 영혼을 그린 불멸의 화가</h2>
+
+      <p class="issue-summary">
+        네덜란드의 푸른 들판에서 프랑스 아를의 황금빛 해바라기, 생레미의 눈부신 밤하늘까지. 불멸의 화가 반 고흐의 명화와 삶을 영어로 감상하며 중2 필수 5대 문법과 26개 핵심 어휘를 완벽하게 마스터합니다.
+      </p>
+
+      <!-- 3대 핵심 특장점 -->
+      <div class="features-strip">
+        <div class="feature-box">
+          <div class="feature-box-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            4단계 통문장 정복
+          </div>
+          <div class="feature-box-desc">원어민 남·여 듀얼 TTS 낭독 & 0.85× 집중 훈련</div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            X-Ray 문법 렌즈
+          </div>
+          <div class="feature-box-desc">과거시제·to부정사·동명사·수동태·현재완료</div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            학원 1초 간편 로그인
+          </div>
+          <div class="feature-box-desc">초등 저학년 기기 인증 & 학생별 분리 저장소</div>
+        </div>
+      </div>
+
+      <!-- 액션 버튼 -->
+      <div class="action-grid">
+        <a href="앱/index.html" class="action-btn-primary" id="btnLaunchApp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          <span>📱 연라이프 영어 완전학습 앱 실행하기</span>
+        </a>
+        <div class="action-sub-row">
+          <a href="02_인쇄용_조판본.html" class="action-btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>📖 A4 양장 조판본 열람</span>
+          </a>
+          <a href="02_중2영어_예술가교재_1권_반고흐_인쇄책자.pdf" class="action-btn-secondary" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>📄 완본 PDF 받기 (17.7MB)</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 하단 연라이프 잡지 패밀리 배너 (Magazine Corner Cross-links) -->
+  <aside class="magazine-family-shelf">
+    <div class="family-label">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+      <span>연라이프 잡지 코너 패밀리</span>
+    </div>
+    <div class="family-chips">
+      <span class="family-chip active">✦ 추천 이야기 영어 1호 (반 고흐)</span>
+      <a href="http://localhost:8080/연라이프_미디어_작업/잡지_허브_v1/index.html" class="family-chip">나도 과학자 (주간)</a>
+      <a href="http://localhost:8080/연라이프_미디어_작업/잡지_허브_v1/index.html" class="family-chip">텃밭 매거진 (제철)</a>
+      <a href="http://localhost:8080/연라이프_미디어_작업/잡지_허브_v1/index.html" class="family-chip">수학 매거진</a>
+      <a href="http://localhost:8080/연라이프_미디어_작업/잡지_허브_v1/index.html" class="family-chip">국어 매거진</a>
+    </div>
+  </aside>
+
+  <!-- 하단 출판 정보 및 메타데이터 -->
+  <footer class="colophon-footer">
+    도서출판 연라이프 · 연플래닝 아카데미 학술연구소 &copy; 2026 YEONLIFE All rights reserved. · ISBN 979-11-982026-0-1 (93740)
+  </footer>
+
+</body>
+</html>

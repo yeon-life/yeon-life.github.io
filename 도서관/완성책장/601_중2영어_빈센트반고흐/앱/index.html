@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>영어 예술가 교재 1 · 빈센트 반 고흐</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#23272e">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="student-gate.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="yeon-english-mastery.css">
+</head>
+<body>
+  <div class="app-container" id="app">
+    <!-- 머리말 -->
+    <header class="app-header">
+      <h1>영어 예술가 교재 1 · 빈센트 반 고흐</h1>
+      <p class="sub-title">Vincent van Gogh: The Painter of Light (중2 영어)</p>
+    </header>
+
+    <!-- 1단계: 읽기 -->
+    <section class="stage-section" id="stage-read">
+      <div class="stage-header">
+        <h2>1. 읽기</h2>
+        <span class="stage-badge">본문 5문단 · 어휘 26개</span>
+      </div>
+
+      <div class="read-toolbar">
+        <div class="read-stats" id="read-stats-display">오늘 읽은 횟수: 0회 (0초)</div>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn-primary" id="btn-toggle-timer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:6px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>읽기 시작</span></button>
+          <button type="button" class="btn-secondary" id="btn-toggle-all-ko">전체 해석 가리기</button>
+        </div>
+      </div>
+
+      <!-- 표지 그림 -->
+      <div class="stage-img-wrap">
+        <img src="img/S00_표지_해바라기와_별밤.webp" alt="표지: 해바라기와 별밤" class="stage-img" loading="lazy">
+      </div>
+
+      <!-- 5문단 컨테이너 -->
+      <div id="read-paragraphs-root"></div>
+
+      <!-- 어휘 26개 목록 -->
+      <div style="margin-top:24px">
+        <div class="stage-header">
+          <h3 style="font-size:17px;color:var(--color-primary-dark)">단원 핵심 어휘 (26개)</h3>
+          <span class="stage-badge">터치하여 듣기</span>
+        </div>
+        <div class="vocab-table-wrap">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th>단어</th>
+                <th>품사</th>
+                <th>우리말 뜻</th>
+                <th>듣기</th>
+              </tr>
+            </thead>
+            <tbody id="vocab-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2단계: 문법 -->
+    <section class="stage-section" id="stage-grammar">
+      <div class="stage-header">
+        <h2>2. 문법</h2>
+        <span class="stage-badge">핵심 문법 5개 · 확인 문제 10제</span>
+      </div>
+      <div id="grammar-cards-root"></div>
+    </section>
+
+    <!-- 3단계: 듣기 -->
+    <section class="stage-section" id="stage-listen">
+      <div class="stage-header">
+        <h2>3. 듣기</h2>
+        <span class="stage-badge">낭독 및 구간 반복</span>
+      </div>
+
+      <div class="listen-controls">
+        <div class="control-row">
+          <span class="control-label">속도:</span>
+          <div class="seg-btn-group" id="listen-speed-group">
+            <button type="button" class="seg-btn" data-rate="0.7">0.7×</button>
+            <button type="button" class="seg-btn active" data-rate="0.85">0.85×</button>
+            <button type="button" class="seg-btn" data-rate="1.0">1.0×</button>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <span class="control-label">반복 횟수:</span>
+          <div class="seg-btn-group" id="listen-repeat-group">
+            <button type="button" class="seg-btn active" data-repeat="1">1회</button>
+            <button type="button" class="seg-btn" data-repeat="2">2회</button>
+            <button type="button" class="seg-btn" data-repeat="3">3회</button>
+            <button type="button" class="seg-btn" data-repeat="5">5회</button>
+            <button type="button" class="seg-btn" data-repeat="999">무한</button>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <span class="control-label">범위:</span>
+          <select id="listen-scope-select" style="min-height:38px;padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);font:inherit">
+            <option value="all">본문 전체 (문단 1~5)</option>
+            <option value="1">문단 1 (준데르트 유년기)</option>
+            <option value="2">문단 2 (스물일곱 결심과 테오)</option>
+            <option value="3">문단 3 (아를과 해바라기)</option>
+            <option value="4">문단 4 (생레미와 별밤)</option>
+            <option value="5">문단 5 (미술관과 현대적 사랑)</option>
+          </select>
+        </div>
+
+        <div class="listen-action-bar">
+          <button type="button" class="btn-primary" id="btn-listen-play"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-1px;margin-right:4px"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>재생</span></button>
+          <button type="button" class="btn-secondary" id="btn-listen-pause"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-1px;margin-right:4px"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg><span>일시정지</span></button>
+          <button type="button" class="btn-secondary" id="btn-listen-stop"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-1px;margin-right:4px"><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>정지</span></button>
+        </div>
+      </div>
+
+      <div id="listen-fallback-msg" style="display:none;padding:12px;background:#fef2f2;color:#b91c1c;border-radius:var(--radius-sm);margin-bottom:12px">
+        이 기기는 영어 읽기를 지원하지 않아요. 브라우저 설정이나 음성 엔진을 확인해 주세요.
+      </div>
+
+      <div class="listen-display-box" id="listen-sentences-display"></div>
+    </section>
+
+    <!-- 4단계: 대화문 -->
+    <section class="stage-section" id="stage-dialogue">
+      <div class="stage-header">
+        <h2>4. 대화문</h2>
+        <span class="stage-badge">서아 & 민준 일상 영어</span>
+      </div>
+
+      <div class="dialogue-tab-bar">
+        <button type="button" class="btn-primary" id="tab-dialogue-1">대화 1: 미술관 입구</button>
+        <button type="button" class="btn-secondary" id="tab-dialogue-2">대화 2: 기념품 가게</button>
+      </div>
+
+      <div style="margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:14px;font-weight:700;color:var(--color-primary-dark)">역할 놀이 모드:</span>
+        <button type="button" class="seg-btn active" id="btn-role-all">모두 듣기</button>
+        <button type="button" class="seg-btn" id="btn-role-seoa">내가 서아</button>
+        <button type="button" class="seg-btn" id="btn-role-minjun">내가 민준</button>
+      </div>
+
+      <div id="dialogue-content-root"></div>
+    </section>
+
+    <!-- 5단계: 말하기 -->
+    <section class="stage-section" id="stage-speech">
+      <div class="stage-header">
+        <h2>5. 말하기</h2>
+        <span class="stage-badge">AI 튜터 대화 · 발음 클리닉</span>
+      </div>
+
+      <p class="speech-test-notice">지금은 시험판이에요 — 브라우저가 알아들은 말로 점검해요. 정확한 발음 평가는 다음 버전에서!</p>
+
+      <div class="ai-intro-card">
+        <img src="img/A01_AI선생님_캐릭터.webp" alt="AI 선생님 캐릭터" class="ai-avatar" loading="lazy">
+        <div class="ai-bubble">
+          <b id="ai-intro-en">Hi! I am your AI English tutor. Let's talk about the great painter Vincent van Gogh. Are you ready?</b>
+          <div style="font-size:13px;color:#524a3e;margin-top:4px" id="ai-intro-ko">안녕하세요! 여러분의 AI 영어 튜터입니다. 위대한 화가 빈센트 반 고흐에 대해 함께 이야기해 봐요. 준비되셨나요?</div>
+        </div>
+      </div>
+
+      <div id="speech-questions-root"></div>
+
+      <!-- 발음 클리닉 -->
+      <div style="margin-top:28px">
+        <div class="stage-header">
+          <h3 style="font-size:17px;color:var(--color-primary-dark)">5-2. 발음 클리닉 (12개 낱말)</h3>
+          <span class="stage-badge">원어민 발음 듣기 & 따라하기</span>
+        </div>
+        <div class="pron-grid" id="pron-cards-root"></div>
+      </div>
+    </section>
+
+    <!-- 6단계: 테스트 -->
+    <section class="stage-section" id="stage-test">
+      <div class="stage-header">
+        <h2>6. 테스트</h2>
+        <span class="stage-badge">단원 총괄 평가 10문항</span>
+      </div>
+
+      <div id="test-banner-root"></div>
+      <div id="test-questions-root"></div>
+
+      <div style="margin-top:20px;display:flex;gap:8px">
+        <button type="button" class="btn-primary" id="btn-submit-test" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg><span>채점하기</span></button>
+        <button type="button" class="btn-secondary" id="btn-retry-wrong" style="display:none">틀린 것만 다시</button>
+      </div>
+    </section>
+
+    <!-- 7단계: 요약 -->
+    <section class="stage-section" id="stage-summary">
+      <div class="stage-header">
+        <h2>7. 요약</h2>
+        <span class="stage-badge">오늘의 학습 리포트</span>
+      </div>
+
+      <div class="summary-card">
+        <h3 style="font-size:17px;color:var(--color-primary-dark);margin-bottom:12px;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>오늘 한 것 한눈에</span></h3>
+        <ul class="summary-list" id="summary-metrics-list"></ul>
+      </div>
+
+      <div class="summary-card">
+        <h3 style="font-size:17px;color:var(--color-primary-dark);margin-bottom:8px;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>학부모님께 보낼 글</span></h3>
+        <p style="font-size:13px;color:var(--color-text-sub);margin-bottom:8px">카카오톡 공유 단추를 눌러 학부모님께 오늘의 학습 성과를 전달하세요.</p>
+        <div class="parent-share-box" id="parent-share-text"></div>
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button type="button" class="btn-accent" id="btn-share-kakaotalk" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>카톡으로 보내기</span></button>
+          <button type="button" class="btn-secondary" id="btn-copy-card"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>글 복사</span></button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 단어 뜻 팝업 모달 -->
+  <div class="modal-overlay" id="word-modal" style="display:none">
+    <div class="modal-content">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 id="modal-word-en" style="font-size:20px;color:var(--color-primary-dark)">Word</h3>
+        <button type="button" id="btn-modal-close" style="background:none;border:none;font-size:22px;cursor:pointer;color:#64748b">&times;</button>
+      </div>
+      <p id="modal-word-pos" style="font-size:13px;color:#0d9488;font-weight:700;margin-bottom:6px">[명사]</p>
+      <p id="modal-word-ko" style="font-size:16px;color:#1e293b;margin-bottom:14px">우리말 뜻</p>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn-primary" id="btn-modal-listen" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg><span>듣기</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 -->
+  <div class="toast-msg" id="toast-msg" style="display:none"></div>
+
+  <!-- Firebase 및 부품 스크립트 연결 순서 -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="data.js"></script>
+  <script>window.ACTIVITY_PREFIXES = ["eng-gogh/", "앱/"];</script>
+  <script src="activity-sync.js"></script>
+  <script src="student-gate.js"></script>
+  <script src="pwa.js"></script>
+  <script src="menuset.js"></script>
+  <script src="app.js"></script>
+  <script src="yeon-english-mastery.js"></script>
+</body>
+</html>

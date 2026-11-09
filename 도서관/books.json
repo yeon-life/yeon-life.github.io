@@ -2,7 +2,7 @@
   "brand": "연 작은도서관",
   "note": "임시 배치본 — 완성본이 올라오면 해당 책 status를 '정상'으로 승격",
   "updated": "2026-06-03",
-  "total": 191,
+  "total": 192,
   "books": [
     {
       "folder": "001_ㄱㄴㄷ친구들이깨어났어요",
@@ -2676,6 +2676,20 @@
       "status": "글완성",
       "url": "완성책장/506_인공지능친구/index.html",
       "artCount": 0,
+      "deployed": true
+    },
+    {
+      "folder": "601_중2영어_빈센트반고흐",
+      "num": "601",
+      "title": "빈센트 반 고흐 : The Painter of Light",
+      "sub": "빛과 영혼을 그린 불멸의 화가 (중2 영어 명화 교재)",
+      "grade": "중2",
+      "category": "영어",
+      "bilingual": true,
+      "authorType": "AI",
+      "status": "그림완성",
+      "url": "완성책장/601_중2영어_빈센트반고흐/index.html",
+      "artCount": 8,
       "deployed": true
     }
   ],
