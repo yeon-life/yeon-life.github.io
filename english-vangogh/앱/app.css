@@ -361,10 +361,32 @@ body {
   opacity: 0.65;
 }
 
-.btn-batch-listen {
+.btn-batch-flashcard {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  padding: 7px 13px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+}
+
+.btn-batch-flashcard:hover {
+  background: #115e59;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.35);
+}
+
+.btn-batch-print {
   background: #ffffff;
-  color: #2d3748;
-  border: 1px solid #d4cdc1;
+  color: #334155;
+  border: 1px solid #cbd5e1;
   padding: 6px 12px;
   font-size: 13px;
   font-weight: 600;
@@ -376,17 +398,10 @@ body {
   transition: all 0.15s ease;
 }
 
-.btn-batch-listen:hover:not(:disabled) {
-  background: #f7f4ee;
-  border-color: #b8955a;
-  color: #1a202c;
-}
-
-.btn-batch-listen:disabled {
-  color: #aaa295;
-  border-color: #e5dfd4;
-  cursor: not-allowed;
-  opacity: 0.6;
+.btn-batch-print:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
 }
 
 .btn-batch-clear {
@@ -429,10 +444,12 @@ body {
   user-select: none;
 }
 
+.th-vocab-check,
 .th-vocab-check-listen {
   text-align: center;
 }
 
+.th-check-inner,
 .th-check-listen-inner {
   display: inline-flex;
   align-items: center;
@@ -440,6 +457,14 @@ body {
   gap: 5px;
   cursor: pointer;
   user-select: none;
+}
+
+.th-check-inner input[type="checkbox"],
+.th-check-listen-inner input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #b8955a;
 }
 
 /* 단어 클릭 셀 (발음 & 사전 연동) */
@@ -497,9 +522,20 @@ body {
   border-radius: 4px;
 }
 
-/* 체크박스 & 듣기 스피커 셀 */
+/* 체크박스 & 단어장 담기 셀 */
+.td-vocab-check,
 .td-vocab-check-listen {
   text-align: center;
+  vertical-align: middle;
+}
+
+.td-vocab-check input[type="checkbox"],
+.td-vocab-check-listen input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #b8955a;
+  vertical-align: middle;
 }
 
 .vocab-check-listen-box {

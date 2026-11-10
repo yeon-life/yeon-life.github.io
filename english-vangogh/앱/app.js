@@ -15,6 +15,9 @@
   const StorageUtil = {
     get(key, def) {
       try {
+        if (window.YeonStorage && typeof window.YeonStorage.get === "function") {
+          return window.YeonStorage.get(key, def);
+        }
         const v = localStorage.getItem("eng-gogh/" + key);
         return v === null ? def : JSON.parse(v);
       } catch (e) {
@@ -23,6 +26,9 @@
     },
     set(key, val) {
       try {
+        if (window.YeonStorage && typeof window.YeonStorage.set === "function") {
+          window.YeonStorage.set(key, val);
+        }
         localStorage.setItem("eng-gogh/" + key, JSON.stringify(val));
       } catch (e) {}
     }
@@ -299,17 +305,17 @@
     const myEmptyEl = document.getElementById("my-vocab-empty");
     const vocabTable = document.getElementById("vocab-table");
 
-    // 어휘 일괄 제어 바 (체크리스트 & 단어장에 담기)
+    // 어휘 일괄 제어 바 (체크리스트 & 단어장에 담기 & 복습 연동)
     const chkBatchMaster = document.getElementById("chk-vocab-batch-all");
     const chkColAll = document.getElementById("chk-vocab-col-all");
     const batchCountBadge = document.getElementById("vocab-batch-count-badge");
     const btnBatchAdd = document.getElementById("btn-batch-add-wordbank");
     const batchAddLabel = document.getElementById("batch-add-label");
-    const btnBatchListen = document.getElementById("btn-batch-listen");
+    const btnBatchFlashcard = document.getElementById("btn-batch-flashcard");
+    const btnBatchPrint = document.getElementById("btn-batch-print-vocab");
     const btnBatchClear = document.getElementById("btn-batch-clear");
 
     let currentVocabTab = "all";
-    let isBatchListening = false;
 
     function getCheckedVocabWords() {
       if (!vocabBody) return [];
@@ -343,15 +349,10 @@
       if (btnBatchAdd) {
         btnBatchAdd.disabled = count === 0;
         if (currentVocabTab === "my") {
-          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `선택 단어 단어장에서 제외 (${count}개)` : "체크한 단어 단어장에서 제외";
+          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `선택 단어 내 단어장에서 제외 (${count}개)` : "체크한 단어 내 단어장에서 제외";
         } else {
-          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `체크한 단어 단어장에 담기 (${count}개)` : "체크한 단어 단어장에 담기";
+          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `체크한 단어 내 단어장에 담기 (${count}개)` : "체크한 단어 내 단어장에 담기";
         }
-      }
-
-      if (btnBatchListen && !isBatchListening) {
-        btnBatchListen.disabled = count === 0;
-        btnBatchListen.title = count > 0 ? `선택한 ${count}개 단어의 발음을 차례대로 듣습니다` : "선택한 단어들의 원어민 발음을 순서대로 연속 재생합니다";
       }
 
       if (btnBatchClear) {
@@ -415,11 +416,8 @@
           </td>
           <td><span class="vocab-pos-badge">${escapeHtml(v.pos)}</span></td>
           <td>${escapeHtml(v.ko)}</td>
-          <td style="text-align:center;white-space:nowrap" class="td-vocab-check-listen">
-            <div class="vocab-check-listen-box">
-              <input type="checkbox" class="chk-vocab-row" data-word="${escapeHtml(v.en)}" id="chk-word-${idx}" title="${escapeHtml(v.en)} 단어장에 담기 선택" aria-label="${escapeHtml(v.en)} 선택">
-              <button type="button" class="btn-vocab-listen" data-en="${escapeHtml(v.en)}" title="${escapeHtml(v.en)} 발음 듣기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
-            </div>
+          <td style="text-align:center" class="td-vocab-check">
+            <input type="checkbox" class="chk-vocab-row" data-word="${escapeHtml(v.en)}" id="chk-word-${idx}" title="${escapeHtml(v.en)} 단어장에 담기 선택" aria-label="${escapeHtml(v.en)} 선택">
           </td>
           <td style="text-align:center"><button type="button" class="btn-vocab-star ${isSaved ? 'saved' : ''}" data-word="${escapeHtml(v.en)}" title="${isSaved ? '내 단어장에서 빼기' : '내 단어장에 넣기'}">${isSaved ? '⭐' : '☆'}</button></td>
         `;
@@ -472,7 +470,7 @@
           showToast(`'${words.length}개' 단어를 내 단어장에서 제외했습니다.`);
         } else {
           const added = Wordbook.addWords(words);
-          showToast(`⭐ 선택하신 ${words.length}개 단어가 내 단어장에 쏙 담겼습니다!`);
+          showToast(`⭐ 선택하신 ${words.length}개 단어가 내 단어장에 쏙 담겼습니다! [3초 깜빡이] 단추로 지금 바로 복습해 보세요.`);
         }
 
         renderVocabTable();
@@ -480,43 +478,38 @@
       });
     }
 
-    // 일괄 연속 듣기 버튼
-    if (btnBatchListen) {
-      btnBatchListen.addEventListener("click", () => {
-        const words = getCheckedVocabWords();
-        if (words.length === 0) {
-          showToast("듣고 싶은 단어의 체크박스를 먼저 선택해 주세요.");
+    // 3초 깜빡이 플래시카드 복습 버튼
+    if (btnBatchFlashcard) {
+      btnBatchFlashcard.addEventListener("click", () => {
+        const allSaved = Wordbook.getAll();
+        if (allSaved.length === 0) {
+          showToast("내 단어장에 담긴 단어가 아직 없습니다. 단어를 먼저 체크하여 담아보세요!");
           return;
         }
-        if (isBatchListening) return;
-        isBatchListening = true;
-        btnBatchListen.disabled = true;
-        showToast(`🔊 선택하신 ${words.length}개 단어를 순서대로 발음합니다.`);
-
-        let idx = 0;
-        function playCurrent() {
-          if (!isBatchListening || idx >= words.length) {
-            isBatchListening = false;
-            vocabBody.querySelectorAll("tr.vocab-row").forEach(r => r.classList.remove("is-playing"));
-            updateBatchBarState();
-            showToast("선택 단어 연속 듣기가 완료되었습니다.");
-            return;
-          }
-          const word = words[idx];
-          vocabBody.querySelectorAll("tr.vocab-row").forEach(r => r.classList.remove("is-playing"));
-          const targetTr = vocabBody.querySelector(`tr[data-word="${word}"]`);
-          if (targetTr) {
-            targetTr.classList.add("is-playing");
-            targetTr.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
-
-          const speakFn = window.speak || ((w, r, cb) => speakEnglish(w, r, 1.0, cb));
-          speakFn(word, 0.85, () => {
-            idx++;
-            setTimeout(playCurrent, 450);
-          });
+        if (window.openWordBankModal) {
+          window.openWordBankModal();
+        } else {
+          showToast("3초 깜빡이 플래시카드를 불러오는 중입니다...");
         }
-        playCurrent();
+      });
+    }
+
+    // 나만의 단어 복습장 인쇄 버튼
+    if (btnBatchPrint) {
+      btnBatchPrint.addEventListener("click", () => {
+        if (window.openPrintStudioModal) {
+          window.openPrintStudioModal();
+        } else if (window.printHandwritingWorksheet) {
+          window.printHandwritingWorksheet();
+        }
+      });
+    }
+
+    // 빈 단어장 안내문 전체 목록 버튼 연동
+    const btnGoAll = document.getElementById("btn-go-all-vocab");
+    if (btnGoAll && tabAllBtn) {
+      btnGoAll.addEventListener("click", () => {
+        tabAllBtn.click();
       });
     }
 

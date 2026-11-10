@@ -2856,6 +2856,7 @@
     renderFlashcard();
     modal.classList.add("open");
   }
+  window.openWordBankModal = openWordBankModal;
 
   // ── [내 복습 코너 : 문장집 & 핵심 문법 노트] ──
   let sbActiveTab = "sen"; // "sen" | "grammar"

@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#23272e">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="student-gate.css">
-  <link rel="stylesheet" href="app.css?v=20261110_v6">
-  <link rel="stylesheet" href="yeon-english-mastery.css?v=20261110_v6">
+  <link rel="stylesheet" href="app.css?v=20261110_v7">
+  <link rel="stylesheet" href="yeon-english-mastery.css?v=20261110_v7">
 </head>
 <body>
   <div class="app-container" id="app">
@@ -52,7 +52,7 @@
           </div>
         </div>
 
-        <!-- 단어 일괄 담기 제어 바 (체크리스트 사각 상자 선택 후 단어장에 일괄 담기) -->
+        <!-- 단어 일괄 담기 & 복습 제어 바 -->
         <div class="vocab-batch-bar" id="vocab-batch-bar">
           <div class="vocab-batch-left">
             <label class="vocab-batch-select-label" for="chk-vocab-batch-all">
@@ -63,10 +63,13 @@
           </div>
           <div class="vocab-batch-actions">
             <button type="button" class="btn-batch-add" id="btn-batch-add-wordbank" disabled>
-              <span>⭐</span> <span id="batch-add-label">체크한 단어 단어장에 담기</span>
+              <span>⭐</span> <span id="batch-add-label">체크한 단어 내 단어장에 담기</span>
             </button>
-            <button type="button" class="btn-batch-listen" id="btn-batch-listen" disabled title="선택한 단어들의 원어민 발음을 순서대로 연속 재생합니다">
-              <span>🔊</span> <span>선택 단어 연속 듣기</span>
+            <button type="button" class="btn-batch-flashcard" id="btn-batch-flashcard" title="내 단어장에 담긴 단어를 3초 깜빡이 플래시카드로 집중 암기합니다">
+              <span>🃏</span> <span>3초 깜빡이 복습</span>
+            </button>
+            <button type="button" class="btn-batch-print" id="btn-batch-print-vocab" title="내 단어장 단어들로 나만의 A4 복습 시험지를 인쇄합니다">
+              <span>🖨️</span> <span>단어장 인쇄</span>
             </button>
             <button type="button" class="btn-batch-clear" id="btn-batch-clear" style="display:none" title="선택 취소">
               <span>선택 해제</span>
@@ -78,13 +81,13 @@
           <table class="vocab-table" id="vocab-table">
             <thead>
               <tr>
-                <th style="width:28%">단어 <span style="font-size:11px;font-weight:normal;color:#8c8273">(터치 시 발음·사전)</span></th>
+                <th style="width:30%">단어 <span style="font-size:11px;font-weight:normal;color:#8c8273">(터치 시 발음·사전)</span></th>
                 <th style="width:14%">품사</th>
-                <th style="width:32%">우리말 뜻</th>
-                <th style="text-align:center;width:16%" class="th-vocab-check-listen">
-                  <div class="th-check-listen-inner" title="체크박스 선택 후 단어장에 담기">
+                <th style="width:34%">우리말 뜻</th>
+                <th style="text-align:center;width:12%" class="th-vocab-check">
+                  <div class="th-check-inner" title="체크박스 선택 후 단어장에 담기">
                     <input type="checkbox" id="chk-vocab-col-all" title="전체 선택 / 해제" aria-label="전체 단어 선택/해제">
-                    <span>선택/듣기</span>
+                    <span>체크</span>
                   </div>
                 </th>
                 <th style="text-align:center;width:10%">단어장</th>
@@ -93,8 +96,14 @@
             <tbody id="vocab-table-body"></tbody>
           </table>
           <div id="my-vocab-empty" style="display:none;padding:26px 14px;text-align:center;color:#686156;font-size:14px;background:#fcfbf9;border-radius:10px;border:1px dashed #e2ded4;margin-top:10px">
-            ⭐ <b>아직 내 단어장에 담긴 단어가 없어요.</b><br>
-            <span style="font-size:13px;color:#8c8273;margin-top:6px;display:inline-block">외우고 싶은 단어 옆의 체크박스(☑)를 찍고 '단어장에 담기'를 누르거나 별(☆)을 눌러보세요!</span>
+            <div style="font-size:24px;margin-bottom:6px">⭐</div>
+            <b style="font-size:15px;color:#1e293b">아직 내 단어장에 담긴 단어가 없어요</b><br>
+            <span style="font-size:13px;color:#8c8273;margin-top:6px;display:inline-block">
+              외우고 싶은 단어의 <b>사각 상자[ ☑ ]</b>를 체크하고 <b>[⭐ 체크한 단어 내 단어장에 담기]</b> 단추를 누르면 나만의 복습 단어장이 완성됩니다!
+            </span>
+            <div style="margin-top:12px">
+              <button type="button" class="btn-primary" id="btn-go-all-vocab" style="padding:7px 16px;font-size:13px;font-weight:700">전체 단어 목록 보러가기</button>
+            </div>
           </div>
         </div>
       </div>
@@ -286,7 +295,7 @@
   <script src="student-gate.js"></script>
   <script src="pwa.js"></script>
   <script src="menuset.js"></script>
-  <script src="app.js?v=20261110_v6"></script>
-  <script src="yeon-english-mastery.js?v=20261110_v6"></script>
+  <script src="app.js?v=20261110_v7"></script>
+  <script src="yeon-english-mastery.js?v=20261110_v7"></script>
 </body>
 </html>
