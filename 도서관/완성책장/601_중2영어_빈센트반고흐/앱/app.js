@@ -1192,6 +1192,14 @@
 
       qBox.innerHTML = html;
       qRoot.appendChild(qBox);
+
+      // 저장된 내 목소리 녹음 복원
+      getRecording(q.id, blob => {
+        if (blob) {
+          const playVoiceBtn = qBox.querySelector(`.btn-play-myvoice[data-qid="${q.id}"]`);
+          if (playVoiceBtn) playVoiceBtn.style.display = "inline-flex";
+        }
+      });
     });
 
     // 질문 오디오 듣기
@@ -1204,67 +1212,168 @@
 
     // 마이크 음성 인식 및 MediaRecorder 녹음
     if (isSpeechRecSupported) {
+      let activeRecordingQid = null;
+      let activeStream = null;
+      let activeMediaRecorder = null;
+      let activeRecognition = null;
+      let autoStopTimer = null;
+
+      function stopActiveRecording(showToastMsg = true) {
+        if (!activeRecordingQid) return;
+        const qid = activeRecordingQid;
+        activeRecordingQid = null;
+
+        if (autoStopTimer) {
+          clearTimeout(autoStopTimer);
+          autoStopTimer = null;
+        }
+
+        const btn = qRoot.querySelector(`.btn-mic[data-qid="${qid}"]`);
+        if (btn) {
+          btn.classList.remove("recording");
+          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg><span>말하기</span>';
+        }
+
+        const inputEl = document.getElementById("input-" + qid);
+        if (inputEl && !inputEl.value.trim()) {
+          inputEl.placeholder = "영어로 말하거나 여기에 직접 써보세요";
+        }
+
+        if (activeRecognition) {
+          try {
+            activeRecognition.onend = null;
+            activeRecognition.onerror = null;
+            activeRecognition.stop();
+          } catch(e) {}
+          activeRecognition = null;
+        }
+
+        if (activeMediaRecorder && activeMediaRecorder.state !== "inactive") {
+          try {
+            activeMediaRecorder.stop();
+          } catch(e) {}
+        }
+
+        if (showToastMsg) {
+          if (inputEl && inputEl.value.trim()) {
+            showToast("🎙️ 음성 인식이 완료되었습니다. [답변 확인] 단추를 눌러 채점해 보세요!");
+          } else {
+            showToast("음성이 감지되지 않았습니다. 큰 소리로 다시 말씀하시거나 직접 글을 써보세요.");
+          }
+        }
+      }
+
       qRoot.addEventListener("click", async e => {
         const btn = e.target.closest(".btn-mic");
         if (!btn) return;
         const qid = btn.getAttribute("data-qid");
         const inputEl = document.getElementById("input-" + qid);
 
-        if (btn.classList.contains("recording")) {
-          // 중지
-          if (speechRecognition) speechRecognition.stop();
-          if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-          btn.classList.remove("recording");
-          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:3px"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg><span>말하기</span>';
+        // 이미 녹음 중인 상태에서 버튼 클릭 -> 수동 중지 및 완료!
+        if (activeRecordingQid === qid) {
+          stopActiveRecording(true);
           return;
         }
 
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          audioChunks = [];
-          mediaRecorder = new MediaRecorder(stream);
-          mediaRecorder.ondataavailable = ev => {
-            if (ev.data.size > 0) audioChunks.push(ev.data);
-          };
-          mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-            saveRecording(qid, audioBlob);
-            const playVoiceBtn = document.querySelector(`.btn-play-myvoice[data-qid="${qid}"]`);
-            if (playVoiceBtn) playVoiceBtn.style.display = "inline-flex";
-            stream.getTracks().forEach(t => t.stop());
-          };
-          mediaRecorder.start();
-        } catch (err) {
-          console.warn("MediaRecorder 마이크 접근 불가 (글 입력으로 계속):", err);
+        // 다른 문항이 녹음 중이었으면 먼저 안전하게 중지
+        if (activeRecordingQid) {
+          stopActiveRecording(false);
         }
 
-        speechRecognition = new SpeechRec();
-        speechRecognition.lang = "en-US";
-        speechRecognition.interimResults = false;
-        speechRecognition.maxAlternatives = 1;
+        activeRecordingQid = qid;
 
+        // UI 즉각 반응 (스톱 버튼으로 고정 전환)
         btn.classList.add("recording");
-        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-2px;margin-right:3px"><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>듣는 중…</span>';
-        inputEl.placeholder = "말씀을 듣고 있어요…";
+        btn.innerHTML = '<span class="rec-pulsing-dot"></span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-1px;margin-right:4px"><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>녹음 중지 (말씀하세요…)</span>';
+        if (inputEl) {
+          inputEl.placeholder = "말씀을 듣고 있어요… (영어 문장을 말씀하신 뒤 '녹음 중지'를 누르세요)";
+        }
 
-        speechRecognition.onresult = ev => {
-          const transcript = ev.results[0][0].transcript;
-          inputEl.value = transcript;
-        };
+        // 1. MediaRecorder 내 목소리 녹음 시작
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          activeStream = stream;
+          audioChunks = [];
+          const mr = new MediaRecorder(stream);
+          activeMediaRecorder = mr;
 
-        speechRecognition.onend = () => {
-          btn.classList.remove("recording");
-          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:3px"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg><span>말하기</span>';
-          if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-        };
+          mr.ondataavailable = ev => {
+            if (ev.data.size > 0) audioChunks.push(ev.data);
+          };
 
-        speechRecognition.onerror = () => {
-          btn.classList.remove("recording");
-          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:3px"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg><span>말하기</span>';
-          if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-        };
+          mr.onstop = () => {
+            if (audioChunks.length > 0) {
+              const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+              saveRecording(qid, audioBlob);
+              const playVoiceBtn = document.querySelector(`.btn-play-myvoice[data-qid="${qid}"]`);
+              if (playVoiceBtn) playVoiceBtn.style.display = "inline-flex";
+            }
+            if (activeStream) {
+              activeStream.getTracks().forEach(t => t.stop());
+              activeStream = null;
+            }
+          };
 
-        speechRecognition.start();
+          mr.start();
+        } catch(err) {
+          console.warn("MediaRecorder mic access warning:", err);
+          showToast("마이크 접근이 차단되어 있을 수 있습니다. 주소창에서 권한을 확인해 보세요.");
+        }
+
+        // 2. SpeechRecognition 음성 인식 시작 (continuous: true 로 조기 종료 원천 방지)
+        try {
+          const rec = new SpeechRec();
+          activeRecognition = rec;
+          rec.lang = "en-US";
+          rec.continuous = true;       // 짧은 쉼 때문에 저절로 꺼지지 않도록 연속 모드 활성화!
+          rec.interimResults = true;    // 말하는 즉시 입력창에 글자가 실시간으로 타이핑되도록 지원!
+          rec.maxAlternatives = 1;
+
+          rec.onresult = ev => {
+            let fullTranscript = "";
+            for (let i = 0; i < ev.results.length; ++i) {
+              fullTranscript += ev.results[i][0].transcript + " ";
+            }
+            fullTranscript = fullTranscript.trim();
+            if (fullTranscript && inputEl) {
+              inputEl.value = fullTranscript;
+            }
+          };
+
+          rec.onerror = ev => {
+            console.log("SpeechRec error:", ev.error);
+            // no-speech는 잠깐 숨을 고르는 침묵이므로 녹음을 강제 종료하지 않음!
+            if (ev.error === "no-speech") {
+              return;
+            }
+            if (ev.error === "not-allowed" || ev.error === "service-not-allowed") {
+              showToast("⚠️ 마이크 사용 권한이 거부되었습니다. 브라우저 주소창에서 마이크를 허용해 주세요.");
+              stopActiveRecording(false);
+            }
+          };
+
+          rec.onend = () => {
+            // 사용자가 아직 '녹음 중지'를 누르지 않았는데 브라우저가 잠시 종료한 경우, 자동으로 재가동하여 스톱 버튼 유지!
+            if (activeRecordingQid === qid) {
+              try {
+                rec.start();
+              } catch(e) {
+                // 재가동 불가 시에도 MediaRecorder는 녹음 중이므로 사용자가 중지 누를 때까지 유지
+              }
+            }
+          };
+
+          rec.start();
+        } catch(e) {
+          console.warn("SpeechRec start error:", e);
+        }
+
+        // 3. 25초 안전 자동 종료 타이머
+        autoStopTimer = setTimeout(() => {
+          if (activeRecordingQid === qid) {
+            stopActiveRecording(true);
+          }
+        }, 25000);
       });
     }
 
