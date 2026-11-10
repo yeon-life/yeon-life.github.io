@@ -544,6 +544,198 @@
       synonyms: "tourist, visitor, explorer",
       example_en: "Every year travelers from all over the world visit his museum.",
       example_ko: "매년 전 세계에서 온 여행자들이 그의 미술관을 찾는다."
+    },
+    "born": {
+      en: "born", pron: "/bɔːrn/", pos: "동사/형용사",
+      meanings: ["태어난, 출생한"],
+      easy_en: "Existing as a result of birth.",
+      synonyms: "created, originated",
+      example_en: "Vincent van Gogh was born in the village of Zundert in 1853.",
+      example_ko: "빈센트 반 고흐는 1853년 준데르트 마을에서 태어났다."
+    },
+    "work": {
+      en: "work", pron: "/wɜːrk/", pos: "동사/명사",
+      meanings: ["일하다, 활동하다", "작품"],
+      easy_en: "To do a job, or an artistic creation.",
+      synonyms: "labor, operate, creation",
+      example_en: "Vincent worked as a clerk and a teacher.",
+      example_ko: "빈센트는 점원과 교사로 일했다."
+    },
+    "worked": {
+      en: "worked", pron: "/wɜːrkt/", pos: "동사(과거형)",
+      meanings: ["일했다, 근무했다, 활동했다"],
+      easy_en: "Did work or had a job in the past.",
+      synonyms: "labored, served",
+      example_en: "As a young man, Vincent worked as a clerk and a teacher.",
+      example_ko: "청년 시절 빈센트는 점원과 교사 등 여러 일을 했다."
+    },
+    "teacher": {
+      en: "teacher", pron: "/ˈtiːtʃər/", pos: "명사",
+      meanings: ["교사, 선생님"],
+      easy_en: "A person who teaches students in a school.",
+      synonyms: "instructor, educator, tutor",
+      example_en: "He worked as a clerk and a teacher.",
+      example_ko: "그는 점원과 교사로 일했다."
+    },
+    "move": {
+      en: "move", pron: "/muːv/", pos: "동사",
+      meanings: ["이주하다, 이사하다", "움직이다"],
+      easy_en: "To change the place where you live.",
+      synonyms: "relocate, transfer",
+      example_en: "Vincent decided to move to the south of France.",
+      example_ko: "빈센트는 프랑스 남부로 이주하기로 결정했다."
+    },
+    "moved": {
+      en: "moved", pron: "/muːvd/", pos: "동사(과거형)",
+      meanings: ["이주했다, 이사했다, 옮겨갔다"],
+      easy_en: "Went to live in a new city or country.",
+      synonyms: "relocated, went",
+      example_en: "In 1888, Vincent moved to Arles in southern France.",
+      example_ko: "1888년 빈센트는 프랑스 남부의 아를로 이주했다."
+    },
+    "arles": {
+      en: "Arles", pron: "/ɑːrl/", pos: "고유명사",
+      meanings: ["아를 (프랑스 남부 프로방스의 예술 도시)"],
+      easy_en: "A sunny historic town in southern France where Van Gogh painted sunflowers.",
+      synonyms: "city in southern France",
+      example_en: "Vincent moved to Arles in southern France.",
+      example_ko: "빈센트는 프랑스 남부의 아를로 이주했다."
+    },
+    "decide": {
+      en: "decide", pron: "/dɪˈsaɪd/", pos: "동사",
+      meanings: ["결심하다, 결정하다"],
+      easy_en: "To choose something after careful thought.",
+      synonyms: "determine, resolve",
+      example_en: "He decided to become a painter.",
+      example_ko: "그는 화가가 되기로 결심했다."
+    },
+    "decided": {
+      en: "decided", pron: "/dɪˈsaɪdɪd/", pos: "동사(과거형)",
+      meanings: ["결심했다, 결정했다"],
+      easy_en: "Made a choice to do something.",
+      synonyms: "determined, resolved",
+      example_en: "At twenty-seven, he decided to become a painter.",
+      example_ko: "스물일곱 살이 되었을 때 그는 화가가 되기로 결심했다."
+    },
+    "become": {
+      en: "become", pron: "/bɪˈkʌm/", pos: "동사",
+      meanings: ["~이 되다, 변화하다"],
+      easy_en: "To start to be something.",
+      synonyms: "turn into, grow into",
+      example_en: "He decided to become a painter.",
+      example_ko: "그는 화가가 되기로 결심했다."
+    },
+    "wanted": {
+      en: "wanted", pron: "/ˈwɑːntɪd/", pos: "동사(과거형)",
+      meanings: ["원했다, 바랐다"],
+      easy_en: "Felt a desire for something in the past.",
+      synonyms: "desired, wished",
+      example_en: "His younger brother Theo wanted to support Vincent's new dream.",
+      example_ko: "동생 테오는 빈센트의 새로운 꿈을 진심으로 돕고 싶어 했다."
+    },
+    "enjoyed": {
+      en: "enjoyed", pron: "/ɪnˈdʒɔɪd/", pos: "동사(과거형)",
+      meanings: ["즐겼다, 좋아하는 마음으로 했다"],
+      easy_en: "Got pleasure from doing something.",
+      synonyms: "relished, loved",
+      example_en: "Vincent enjoyed walking through the green fields.",
+      example_ko: "어린 시절 빈센트는 푸른 들판을 거니는 것을 즐겼다."
+    },
+    "walking": {
+      en: "walking", pron: "/ˈwɔːkɪŋ/", pos: "동명사",
+      meanings: ["걷기, 산책하기"],
+      easy_en: "Moving on foot for exercise or pleasure.",
+      synonyms: "strolling, hiking",
+      example_en: "He enjoyed walking through the fields.",
+      example_ko: "그는 들판을 거니는 것을 즐겼다."
+    },
+    "loved": {
+      en: "loved", pron: "/lʌvd/", pos: "동사(과거형)",
+      meanings: ["무척 좋아했다, 깊이 사랑했다"],
+      easy_en: "Liked something very much in the past.",
+      synonyms: "adored, cherished",
+      example_en: "He loved painting sunflowers under the warm golden sunlight.",
+      example_ko: "그는 따뜻한 황금빛 햇살 아래에서 해바라기 그리는 것을 참 좋아했다."
+    },
+    "painting": {
+      en: "painting", pron: "/ˈpeɪntɪŋ/", pos: "동명사/명사",
+      meanings: ["그림 그리기, 채색하기", "그림, 회화 작품"],
+      easy_en: "The action or art of using paint to produce pictures.",
+      synonyms: "drawing, artwork, portrait",
+      example_en: "He loved painting sunflowers.",
+      example_ko: "그는 해바라기 그리는 것을 사랑했다."
+    },
+    "painted": {
+      en: "painted", pron: "/ˈpeɪntɪd/", pos: "동사(수동/과거분사)",
+      meanings: ["그려진, 채색된"],
+      easy_en: "Made by an artist using paint.",
+      synonyms: "created, colored",
+      example_en: "Brilliant sunflower pictures were painted by Vincent.",
+      example_ko: "눈부신 해바라기 그림들이 빈센트에 의해 그려졌다."
+    },
+    "drawing": {
+      en: "drawing", pron: "/ˈdrɔːɪŋ/", pos: "동명사/명사",
+      meanings: ["그리기, 스케치, 소묘"],
+      easy_en: "Making a picture with a pen or pencil.",
+      synonyms: "sketching, art",
+      example_en: "He started drawing spinning stars and a glowing moon.",
+      example_ko: "그는 소용돌이치는 별들과 빛나는 달을 그리기 시작했다."
+    },
+    "spinning": {
+      en: "spinning", pron: "/ˈspɪnɪŋ/", pos: "분사/형용사",
+      meanings: ["소용돌이치는, 빙빙 도는, 회전하는"],
+      easy_en: "Turning round and round quickly.",
+      synonyms: "whirling, swirling, rotating",
+      example_en: "Vincent drew spinning stars in the night sky.",
+      example_ko: "빈센트는 밤하늘에 소용돌이치는 별들을 그렸다."
+    },
+    "glowing": {
+      en: "glowing", pron: "/ˈɡloʊɪŋ/", pos: "분사/형용사",
+      meanings: ["빛나는, 은은하게 타오르는"],
+      easy_en: "Producing a warm, steady light.",
+      synonyms: "shining, radiant, luminous",
+      example_en: "A glowing moon was shining in the sky.",
+      example_ko: "빛나는 달이 하늘에서 비추고 있었다."
+    },
+    "star": {
+      en: "star", pron: "/stɑːr/", pos: "명사",
+      meanings: ["별, 밤하늘의 천체"],
+      easy_en: "A tiny bright light in the sky at night.",
+      synonyms: "celestial body",
+      example_en: "He loved watching stars at night.",
+      example_ko: "그는 밤에 별들을 바라보는 것을 사랑했다."
+    },
+    "moon": {
+      en: "moon", pron: "/muːn/", pos: "명사",
+      meanings: ["달, 위성"],
+      easy_en: "The round object that shines in the night sky.",
+      synonyms: "crescent, orb",
+      example_en: "He looked at the glowing moon.",
+      example_ko: "그는 빛나는 달을 바라보았다."
+    },
+    "created": {
+      en: "created", pron: "/kriˈeɪtɪd/", pos: "동사(수동/과거분사)",
+      meanings: ["탄생한, 창작된, 만들어진"],
+      easy_en: "Brought into existence by an artist.",
+      synonyms: "produced, born, formed",
+      example_en: "The Starry Night was created at this special place.",
+      example_ko: "<별이 빛나는 밤>이 이곳에서 탄생했다."
+    },
+    "visited": {
+      en: "visited", pron: "/ˈvɪzɪtɪd/", pos: "동사(완료/과거)",
+      meanings: ["방문했다, 찾아갔다"],
+      easy_en: "Went to see a place or person.",
+      synonyms: "toured, attended",
+      example_en: "Millions of visitors have visited the museum.",
+      example_ko: "수백만 명의 방문객들이 미술관을 방문했다."
+    },
+    "countless": {
+      en: "countless", pron: "/ˈkaʊntləs/", pos: "형용사",
+      meanings: ["셀 수 없이 많은, 수많은"],
+      easy_en: "Too many to be counted.",
+      synonyms: "innumerable, myriad",
+      example_en: "His art has touched countless hearts.",
+      example_ko: "그의 예술은 수많은 사람들의 마음을 울렸다."
     }
   };
 
@@ -1685,9 +1877,10 @@
       if (textEl) textEl.textContent = cur.en;
       if (toggleBtn) toggleBtn.innerHTML = Y_SVG.pause(14);
 
-      // 2. 화면 하이라이트 (문장 & 문단)
+      // 2. 화면 하이라이트 (문장 & 문단 & 문법 예문)
       document.querySelectorAll(".sentence-item.speaking").forEach(el => el.classList.remove("speaking"));
       document.querySelectorAll(".paragraph-card.speaking").forEach(el => el.classList.remove("speaking"));
+      document.querySelectorAll(".grammar-example-item.speaking").forEach(el => el.classList.remove("speaking"));
       document.querySelectorAll(".btn-listen-sen.playing").forEach(el => {
         el.classList.remove("playing");
         el.innerHTML = Y_SVG.speaker(13);
@@ -1703,6 +1896,9 @@
           senBtn.innerHTML = Y_SVG.speaker(13);
         }
       }
+
+      const gItem = document.querySelector(`.grammar-example-item[data-sid="${cur.sid}"]`);
+      if (gItem) gItem.classList.add("speaking");
 
       const pCard = document.getElementById("read-p-" + cur.pno);
       if (pCard) pCard.classList.add("speaking");
@@ -1827,6 +2023,7 @@
 
       document.querySelectorAll(".sentence-item.speaking").forEach(el => el.classList.remove("speaking"));
       document.querySelectorAll(".paragraph-card.speaking").forEach(el => el.classList.remove("speaking"));
+      document.querySelectorAll(".grammar-example-item.speaking").forEach(el => el.classList.remove("speaking"));
       document.querySelectorAll(".btn-listen-sen.playing").forEach(el => {
         el.classList.remove("playing");
         el.innerHTML = Y_SVG.speaker(13);

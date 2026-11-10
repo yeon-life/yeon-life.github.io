@@ -679,6 +679,35 @@
   });
 
   /* ── 2. 문법 단계 ── */
+  function renderInteractiveGrammarSentence(sentenceEn, gno) {
+    const hlPatterns = {
+      1: /\b(was born|worked|moved|stayed|watched|started|passed away|sold|loved)\b/i,
+      2: /\b(decided to become|wanted to support|started drawing|hope to see)\b/i,
+      3: /\b(enjoyed walking|loved looking at|loved painting|drawing spinning)\b/i,
+      4: /\b(was supported|were painted|was created)\b/i,
+      5: /\b(have visited|have loved|has touched)\b/i
+    };
+
+    const pattern = hlPatterns[gno];
+    let targetWords = [];
+    if (pattern) {
+      const match = sentenceEn.match(pattern);
+      if (match) {
+        targetWords = match[0].toLowerCase().split(/\s+/).map(w => w.replace(/[^a-z]/g, "")).filter(Boolean);
+      }
+    }
+
+    return sentenceEn.replace(/([a-zA-Z]+(?:'[a-zA-Z]+)?)|([^a-zA-Z]+)/g, (match, word, nonWord) => {
+      if (word) {
+        const clean = word.toLowerCase().replace(/[^a-z]/g, "");
+        const isTarget = targetWords.length > 0 && targetWords.includes(clean);
+        const targetCls = isTarget ? " is-grammar-target" : "";
+        return `<span class="grammar-example-word v-word${targetCls}" data-w="${escapeHtml(clean)}" title="탭하여 단어 뜻·발음 보기">${escapeHtml(word)}</span>`;
+      }
+      return nonWord || "";
+    });
+  }
+
   function initStageGrammar() {
     const root = document.getElementById("grammar-cards-root");
     root.innerHTML = "";
@@ -691,15 +720,34 @@
       let html = `<h3>${g.no}. ${escapeHtml(g.name_ko)}</h3>
       <div class="grammar-rule">${escapeHtml(g.rule_ko)}</div>`;
 
-      // 본문 예문
-      html += `<div class="grammar-examples"><b>본문 속 예문:</b><ul style="margin:4px 0 0 18px">`;
+      // 본문 속 예문 (발음 스피커 & 단어 사전 탭)
+      html += `
+      <div class="grammar-examples">
+        <div class="grammar-examples-head">
+          <div class="grammar-examples-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#b8955a"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <b>본문 속 예문:</b>
+          </div>
+          <span class="grammar-example-hint">💡 단어 탭: 뜻·발음 사전 / 스피커: 문장 낭독</span>
+        </div>
+        <div class="grammar-examples-list">`;
       g.examples.forEach(sid => {
         const sentence = findSentenceById(sid);
         if (sentence) {
-          html += `<li style="margin-bottom:4px"><em>"${highlightGrammarExample(sentence.en, g.no)}"</em><br><small style="color:#64748b">${sentence.ko}</small></li>`;
+          html += `
+          <div class="grammar-example-item" data-sid="${sentence.id}">
+            <div class="grammar-example-row">
+              <button type="button" class="btn-grammar-example-listen" data-sid="${sentence.id}" data-en="${escapeHtml(sentence.en)}" title="[본문 ${sentence.id}] 문장 발음 듣기 (미국 표준 원어민)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              </button>
+              <span class="grammar-example-badge">[본문 ${sentence.id}]</span>
+              <div class="grammar-example-en">"${renderInteractiveGrammarSentence(sentence.en, g.no)}"</div>
+            </div>
+            <div class="grammar-example-ko">${escapeHtml(sentence.ko)}</div>
+          </div>`;
         }
       });
-      html += `</ul></div>`;
+      html += `</div></div>`;
 
       // 확인 문제 2개
       html += `<div class="grammar-checks-list">`;
@@ -720,8 +768,56 @@
       root.appendChild(card);
     });
 
-    // 선택지 클릭 이벤트
+    // 문법 카드 통합 클릭 이벤트 위임
     root.addEventListener("click", e => {
+      // 1. 예문 스피커 버튼 클릭 -> 문장 낭독 재생!
+      const listenBtn = e.target.closest(".btn-grammar-example-listen");
+      if (listenBtn) {
+        e.stopPropagation();
+        const sid = listenBtn.getAttribute("data-sid");
+        const en = listenBtn.getAttribute("data-en");
+
+        root.querySelectorAll(".grammar-example-item").forEach(el => el.classList.remove("speaking"));
+        const itemEl = listenBtn.closest(".grammar-example-item");
+        if (itemEl) itemEl.classList.add("speaking");
+
+        if (window.AudioPlaybackManager && typeof window.AudioPlaybackManager.playSentence === "function") {
+          window.AudioPlaybackManager.playSentence(sid);
+        } else if (window.speak) {
+          window.speak(en, 0.85, () => {
+            if (itemEl) itemEl.classList.remove("speaking");
+          });
+        } else {
+          speakEnglish(en, 0.85, 1.0, () => {
+            if (itemEl) itemEl.classList.remove("speaking");
+          });
+        }
+        showToast(`🔊 [본문 ${sid}] 문장 낭독을 시작합니다.`);
+        return;
+      }
+
+      // 2. 예문 내 단어 텍스트 클릭 -> 발음 재생 & 사전 열기!
+      const wordEl = e.target.closest(".grammar-example-word, .v-word");
+      if (wordEl) {
+        e.stopPropagation();
+        const rawWord = wordEl.getAttribute("data-w") || wordEl.textContent.trim();
+        if (rawWord) {
+          if (window.speak) window.speak(rawWord, 0.85);
+          else speakEnglish(rawWord, 0.85);
+
+          if (window.openYeonDict) {
+            window.openYeonDict(rawWord);
+          } else {
+            openWordModal(rawWord);
+          }
+
+          wordEl.classList.add("clicked");
+          setTimeout(() => wordEl.classList.remove("clicked"), 400);
+        }
+        return;
+      }
+
+      // 3. 문제 선택지 클릭 이벤트
       const btn = e.target.closest(".choice-btn");
       if (!btn) return;
       const itemEl = btn.closest(".grammar-check-item");
@@ -750,15 +846,6 @@
       }
     }
     return null;
-  }
-
-  function highlightGrammarExample(text, gno) {
-    if (gno === 1) return text.replace(/\b(was born|worked|moved|stayed|watched|started|passed away|sold|loved)\b/gi, "<b>$1</b>");
-    if (gno === 2) return text.replace(/\b(decided to become|wanted to support|started drawing|hope to see)\b/gi, "<b>$1</b>");
-    if (gno === 3) return text.replace(/\b(enjoyed walking|loved looking at|loved painting|drawing spinning)\b/gi, "<b>$1</b>");
-    if (gno === 4) return text.replace(/\b(was supported|were painted|was created)\b/gi, "<b>$1</b>");
-    if (gno === 5) return text.replace(/\b(have visited|have loved|has touched)\b/gi, "<b>$1</b>");
-    return text;
   }
 
   /* ── 3. 듣기 단계 ── */
