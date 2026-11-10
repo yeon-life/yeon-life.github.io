@@ -297,31 +297,43 @@
   };
 
   // ── 고품질 미국식 음성 낭독 (American Studio Audio & Natural Fallback) ──
-  function speak(text, rate = 0.85) {
+  function speak(text, rate = 0.85, onEndCallback = null) {
     const clean = (text || "").trim().toLowerCase().replace(/[^a-z]/g, "");
     if (clean && clean.length > 1) {
       const audioPath = `audio/vocab/v_${clean}.mp3`;
       const audio = new Audio(audioPath);
       audio.playbackRate = rate;
+      if (onEndCallback) {
+        audio.onended = () => { onEndCallback(); };
+        audio.onerror = () => { fallbackTTS(text, rate, onEndCallback); };
+      }
       const p = audio.play();
       if (p !== undefined) {
         p.catch(() => {
-          fallbackTTS(text, rate);
+          fallbackTTS(text, rate, onEndCallback);
         });
         return;
       }
     }
-    fallbackTTS(text, rate);
+    fallbackTTS(text, rate, onEndCallback);
   }
 
-  function fallbackTTS(text, rate = 0.85) {
-    if (!("speechSynthesis" in window)) return;
+  function fallbackTTS(text, rate = 0.85, onEndCallback = null) {
+    if (!("speechSynthesis" in window)) {
+      if (onEndCallback) onEndCallback();
+      return;
+    }
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     VoiceEngine.applyToUtterance(u);
     u.rate = rate;
+    if (onEndCallback) {
+      u.onended = () => { onEndCallback(); };
+      u.onerror = () => { onEndCallback(); };
+    }
     window.speechSynthesis.speak(u);
   }
+  window.speak = speak;
 
   // ── 단어 사전 데이터베이스 (26단어 상세 사전) ──
   const DICT_DB = {

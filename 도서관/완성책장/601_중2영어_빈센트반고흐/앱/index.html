@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#23272e">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="student-gate.css">
-  <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="yeon-english-mastery.css">
+  <link rel="stylesheet" href="app.css?v=20261110_v2">
+  <link rel="stylesheet" href="yeon-english-mastery.css?v=20261110_v2">
 </head>
 <body>
   <div class="app-container" id="app">
@@ -42,24 +42,60 @@
       <!-- 5문단 컨테이너 -->
       <div id="read-paragraphs-root"></div>
 
-      <!-- 어휘 26개 목록 -->
+      <!-- 어휘 26개 목록 & 내 단어장 -->
       <div style="margin-top:24px">
-        <div class="stage-header">
+        <div class="stage-header" style="flex-wrap:wrap;gap:8px">
           <h3 style="font-size:17px;color:var(--color-primary-dark)">단원 핵심 어휘 (26개)</h3>
-          <span class="stage-badge">터치하여 듣기</span>
+          <div class="vocab-tab-group" style="display:flex;gap:6px">
+            <button type="button" class="vocab-tab-btn active" id="tab-vocab-all">전체 (26)</button>
+            <button type="button" class="vocab-tab-btn" id="tab-vocab-my">⭐ 내 단어장 (<span id="my-vocab-count">0</span>)</button>
+          </div>
         </div>
+
+        <!-- 단어 일괄 담기 제어 바 (체크리스트 사각 상자 선택 후 단어장에 일괄 담기) -->
+        <div class="vocab-batch-bar" id="vocab-batch-bar">
+          <div class="vocab-batch-left">
+            <label class="vocab-batch-select-label" for="chk-vocab-batch-all">
+              <input type="checkbox" id="chk-vocab-batch-all" title="전체 선택 / 해제">
+              <span>전체 선택</span>
+            </label>
+            <span class="vocab-batch-count-badge" id="vocab-batch-count-badge">0개 선택됨</span>
+          </div>
+          <div class="vocab-batch-actions">
+            <button type="button" class="btn-batch-add" id="btn-batch-add-wordbank" disabled>
+              <span>⭐</span> <span id="batch-add-label">체크한 단어 단어장에 담기</span>
+            </button>
+            <button type="button" class="btn-batch-listen" id="btn-batch-listen" disabled title="선택한 단어들의 원어민 발음을 순서대로 연속 재생합니다">
+              <span>🔊</span> <span>선택 단어 연속 듣기</span>
+            </button>
+            <button type="button" class="btn-batch-clear" id="btn-batch-clear" style="display:none" title="선택 취소">
+              <span>선택 해제</span>
+            </button>
+          </div>
+        </div>
+
         <div class="vocab-table-wrap">
-          <table class="vocab-table">
+          <table class="vocab-table" id="vocab-table">
             <thead>
               <tr>
-                <th>단어</th>
-                <th>품사</th>
-                <th>우리말 뜻</th>
-                <th>듣기</th>
+                <th style="width:28%">단어 <span style="font-size:11px;font-weight:normal;color:#8c8273">(터치 시 발음·사전)</span></th>
+                <th style="width:14%">품사</th>
+                <th style="width:32%">우리말 뜻</th>
+                <th style="text-align:center;width:16%" class="th-vocab-check-listen">
+                  <div class="th-check-listen-inner" title="체크박스 선택 후 단어장에 담기">
+                    <input type="checkbox" id="chk-vocab-col-all" title="전체 선택 / 해제" aria-label="전체 단어 선택/해제">
+                    <span>선택/듣기</span>
+                  </div>
+                </th>
+                <th style="text-align:center;width:10%">단어장</th>
               </tr>
             </thead>
             <tbody id="vocab-table-body"></tbody>
           </table>
+          <div id="my-vocab-empty" style="display:none;padding:26px 14px;text-align:center;color:#686156;font-size:14px;background:#fcfbf9;border-radius:10px;border:1px dashed #e2ded4;margin-top:10px">
+            ⭐ <b>아직 내 단어장에 담긴 단어가 없어요.</b><br>
+            <span style="font-size:13px;color:#8c8273;margin-top:6px;display:inline-block">외우고 싶은 단어 옆의 체크박스(☑)를 찍고 '단어장에 담기'를 누르거나 별(☆)을 눌러보세요!</span>
+          </div>
         </div>
       </div>
     </section>
@@ -229,6 +265,10 @@
       <p id="modal-word-ko" style="font-size:16px;color:#1e293b;margin-bottom:14px">우리말 뜻</p>
       <div style="display:flex;gap:8px">
         <button type="button" class="btn-primary" id="btn-modal-listen" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg><span>듣기</span></button>
+        <button type="button" class="btn-accent" id="btn-modal-toggle-wordbook" style="flex:1.2;font-size:13.5px;display:inline-flex;align-items:center;justify-content:center;gap:4px">
+          <span id="modal-wordbook-icon">⭐</span>
+          <span id="modal-wordbook-label">내 단어장에 넣기</span>
+        </button>
       </div>
     </div>
   </div>
@@ -246,7 +286,7 @@
   <script src="student-gate.js"></script>
   <script src="pwa.js"></script>
   <script src="menuset.js"></script>
-  <script src="app.js"></script>
-  <script src="yeon-english-mastery.js"></script>
+  <script src="app.js?v=20261110_v2"></script>
+  <script src="yeon-english-mastery.js?v=20261110_v2"></script>
 </body>
 </html>

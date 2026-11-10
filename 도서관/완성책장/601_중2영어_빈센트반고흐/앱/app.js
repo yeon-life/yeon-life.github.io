@@ -116,6 +116,48 @@
       }
       return inBook;
     },
+    addWords(words) {
+      if (!Array.isArray(words) || words.length === 0) return 0;
+      let list = this.getAll();
+      let added = 0;
+      words.forEach(w => {
+        if (!w) return;
+        const clean = String(w).trim();
+        const lower = clean.toLowerCase();
+        if (!list.some(existing => typeof existing === 'string' && existing.toLowerCase() === lower)) {
+          list.push(clean);
+          added++;
+        }
+      });
+      if (added > 0) {
+        StorageUtil.set("saved_vocab", list);
+        if (window.YeonStorage && typeof window.YeonStorage.set === "function") {
+          try { window.YeonStorage.set("saved_vocab", list); } catch (e) {}
+        }
+        if (window.updateYeonCounters && typeof window.updateYeonCounters === "function") {
+          try { window.updateYeonCounters(); } catch (e) {}
+        }
+      }
+      return added;
+    },
+    removeWords(words) {
+      if (!Array.isArray(words) || words.length === 0) return 0;
+      let list = this.getAll();
+      const lowerTargets = new Set(words.map(w => String(w).trim().toLowerCase()));
+      const initialLen = list.length;
+      list = list.filter(w => !lowerTargets.has(String(w).toLowerCase()));
+      const removed = initialLen - list.length;
+      if (removed > 0) {
+        StorageUtil.set("saved_vocab", list);
+        if (window.YeonStorage && typeof window.YeonStorage.set === "function") {
+          try { window.YeonStorage.set("saved_vocab", list); } catch (e) {}
+        }
+        if (window.updateYeonCounters && typeof window.updateYeonCounters === "function") {
+          try { window.updateYeonCounters(); } catch (e) {}
+        }
+      }
+      return removed;
+    },
     count() {
       return this.getAll().length;
     }
@@ -257,7 +299,75 @@
     const myEmptyEl = document.getElementById("my-vocab-empty");
     const vocabTable = document.getElementById("vocab-table");
 
+    // 어휘 일괄 제어 바 (체크리스트 & 단어장에 담기)
+    const chkBatchMaster = document.getElementById("chk-vocab-batch-all");
+    const chkColAll = document.getElementById("chk-vocab-col-all");
+    const batchCountBadge = document.getElementById("vocab-batch-count-badge");
+    const btnBatchAdd = document.getElementById("btn-batch-add-wordbank");
+    const batchAddLabel = document.getElementById("batch-add-label");
+    const btnBatchListen = document.getElementById("btn-batch-listen");
+    const btnBatchClear = document.getElementById("btn-batch-clear");
+
     let currentVocabTab = "all";
+    let isBatchListening = false;
+
+    function getCheckedVocabWords() {
+      if (!vocabBody) return [];
+      const checkboxes = vocabBody.querySelectorAll(".chk-vocab-row:checked");
+      return Array.from(checkboxes).map(cb => cb.getAttribute("data-word")).filter(Boolean);
+    }
+
+    function updateBatchBarState() {
+      if (!vocabBody) return;
+      const allCheckboxes = vocabBody.querySelectorAll(".chk-vocab-row");
+      const checkedWords = getCheckedVocabWords();
+      const count = checkedWords.length;
+      const total = allCheckboxes.length;
+
+      if (batchCountBadge) {
+        batchCountBadge.textContent = `${count}개 선택됨`;
+      }
+
+      const isAllChecked = total > 0 && count === total;
+      const isPartiallyChecked = count > 0 && count < total;
+
+      if (chkBatchMaster) {
+        chkBatchMaster.checked = isAllChecked;
+        chkBatchMaster.indeterminate = isPartiallyChecked;
+      }
+      if (chkColAll) {
+        chkColAll.checked = isAllChecked;
+        chkColAll.indeterminate = isPartiallyChecked;
+      }
+
+      if (btnBatchAdd) {
+        btnBatchAdd.disabled = count === 0;
+        if (currentVocabTab === "my") {
+          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `선택 단어 단어장에서 제외 (${count}개)` : "체크한 단어 단어장에서 제외";
+        } else {
+          if (batchAddLabel) batchAddLabel.textContent = count > 0 ? `체크한 단어 단어장에 담기 (${count}개)` : "체크한 단어 단어장에 담기";
+        }
+      }
+
+      if (btnBatchListen && !isBatchListening) {
+        btnBatchListen.disabled = count === 0;
+        btnBatchListen.title = count > 0 ? `선택한 ${count}개 단어의 발음을 차례대로 듣습니다` : "선택한 단어들의 원어민 발음을 순서대로 연속 재생합니다";
+      }
+
+      if (btnBatchClear) {
+        btnBatchClear.style.display = count > 0 ? "inline-flex" : "none";
+      }
+    }
+
+    function setAllRowCheckboxes(checked) {
+      if (!vocabBody) return;
+      vocabBody.querySelectorAll(".chk-vocab-row").forEach(cb => {
+        cb.checked = checked;
+        const tr = cb.closest("tr");
+        if (tr) tr.classList.toggle("is-checked", checked);
+      });
+      updateBatchBarState();
+    }
 
     function updateSentenceHighlights() {
       root.querySelectorAll(".vocab-clickable").forEach(el => {
@@ -291,20 +401,33 @@
       }
 
       vocabBody.innerHTML = "";
-      list.forEach(v => {
+      list.forEach((v, idx) => {
         const isSaved = Wordbook.has(v.en);
         const tr = document.createElement("tr");
+        tr.className = "vocab-row" + (isSaved ? " is-in-wordbook" : "");
+        tr.setAttribute("data-word", v.en);
         tr.innerHTML = `
-          <td><b style="color:var(--color-primary-dark)">${escapeHtml(v.en)}</b></td>
-          <td><span style="color:var(--color-text-sub)">${escapeHtml(v.pos)}</span></td>
+          <td class="vocab-word-cell" data-word="${escapeHtml(v.en)}" title="클릭하여 원어민 발음 듣기 & 단어 사전 보기">
+            <div class="vocab-word-inner">
+              <b class="vocab-table-word">${escapeHtml(v.en)}</b>
+              <span class="vocab-word-sound-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
+            </div>
+          </td>
+          <td><span class="vocab-pos-badge">${escapeHtml(v.pos)}</span></td>
           <td>${escapeHtml(v.ko)}</td>
-          <td style="text-align:center"><button type="button" class="btn-vocab-listen" data-en="${escapeHtml(v.en)}" title="발음 듣기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button></td>
+          <td style="text-align:center;white-space:nowrap" class="td-vocab-check-listen">
+            <div class="vocab-check-listen-box">
+              <input type="checkbox" class="chk-vocab-row" data-word="${escapeHtml(v.en)}" id="chk-word-${idx}" title="${escapeHtml(v.en)} 단어장에 담기 선택" aria-label="${escapeHtml(v.en)} 선택">
+              <button type="button" class="btn-vocab-listen" data-en="${escapeHtml(v.en)}" title="${escapeHtml(v.en)} 발음 듣기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+            </div>
+          </td>
           <td style="text-align:center"><button type="button" class="btn-vocab-star ${isSaved ? 'saved' : ''}" data-word="${escapeHtml(v.en)}" title="${isSaved ? '내 단어장에서 빼기' : '내 단어장에 넣기'}">${isSaved ? '⭐' : '☆'}</button></td>
         `;
         vocabBody.appendChild(tr);
       });
 
       updateSentenceHighlights();
+      updateBatchBarState();
     }
     window.renderVocabTableGlobal = renderVocabTable;
 
@@ -323,7 +446,113 @@
       });
     }
 
+    // 마스터 체크박스 핸들러
+    if (chkBatchMaster) {
+      chkBatchMaster.addEventListener("change", () => {
+        setAllRowCheckboxes(chkBatchMaster.checked);
+      });
+    }
+    if (chkColAll) {
+      chkColAll.addEventListener("change", () => {
+        setAllRowCheckboxes(chkColAll.checked);
+      });
+    }
+
+    // 일괄 단어장에 담기 / 제외 버튼
+    if (btnBatchAdd) {
+      btnBatchAdd.addEventListener("click", () => {
+        const words = getCheckedVocabWords();
+        if (words.length === 0) {
+          showToast("단어장에 담을 단어의 체크박스를 먼저 선택해 주세요.");
+          return;
+        }
+
+        if (currentVocabTab === "my") {
+          const removed = Wordbook.removeWords(words);
+          showToast(`'${words.length}개' 단어를 내 단어장에서 제외했습니다.`);
+        } else {
+          const added = Wordbook.addWords(words);
+          showToast(`⭐ 선택하신 ${words.length}개 단어가 내 단어장에 쏙 담겼습니다!`);
+        }
+
+        renderVocabTable();
+        updateSummaryStage();
+      });
+    }
+
+    // 일괄 연속 듣기 버튼
+    if (btnBatchListen) {
+      btnBatchListen.addEventListener("click", () => {
+        const words = getCheckedVocabWords();
+        if (words.length === 0) {
+          showToast("듣고 싶은 단어의 체크박스를 먼저 선택해 주세요.");
+          return;
+        }
+        if (isBatchListening) return;
+        isBatchListening = true;
+        btnBatchListen.disabled = true;
+        showToast(`🔊 선택하신 ${words.length}개 단어를 순서대로 발음합니다.`);
+
+        let idx = 0;
+        function playCurrent() {
+          if (!isBatchListening || idx >= words.length) {
+            isBatchListening = false;
+            vocabBody.querySelectorAll("tr.vocab-row").forEach(r => r.classList.remove("is-playing"));
+            updateBatchBarState();
+            showToast("선택 단어 연속 듣기가 완료되었습니다.");
+            return;
+          }
+          const word = words[idx];
+          vocabBody.querySelectorAll("tr.vocab-row").forEach(r => r.classList.remove("is-playing"));
+          const targetTr = vocabBody.querySelector(`tr[data-word="${word}"]`);
+          if (targetTr) {
+            targetTr.classList.add("is-playing");
+            targetTr.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+
+          const speakFn = window.speak || ((w, r, cb) => speakEnglish(w, r, 1.0, cb));
+          speakFn(word, 0.85, () => {
+            idx++;
+            setTimeout(playCurrent, 450);
+          });
+        }
+        playCurrent();
+      });
+    }
+
+    // 선택 해제 버튼
+    if (btnBatchClear) {
+      btnBatchClear.addEventListener("click", () => {
+        setAllRowCheckboxes(false);
+      });
+    }
+
+    // 어휘 표 이벤트 위임 (단어 클릭 발음·사전, 별표 토글, 개별 듣기, 체크박스 토글)
     vocabBody.addEventListener("click", e => {
+      // 1. 단어 텍스트 또는 단어 셀 클릭 -> 발음 재생 & 사전 열기
+      const wordCell = e.target.closest(".vocab-word-cell, .vocab-table-word, .vocab-word-inner");
+      if (wordCell) {
+        const tr = wordCell.closest("tr");
+        const en = wordCell.getAttribute("data-word") || (tr ? tr.getAttribute("data-word") : "") || wordCell.textContent.trim();
+        if (en) {
+          if (window.speak) window.speak(en, 0.85);
+          else speakEnglish(en, 0.85);
+
+          if (window.openYeonDict) {
+            window.openYeonDict(en);
+          } else {
+            openWordModal(en);
+          }
+
+          if (tr) {
+            tr.classList.add("is-playing");
+            setTimeout(() => tr.classList.remove("is-playing"), 700);
+          }
+        }
+        return;
+      }
+
+      // 2. 별표 버튼 (단어장 개별 토글)
       const starBtn = e.target.closest(".btn-vocab-star");
       if (starBtn) {
         const word = starBtn.getAttribute("data-word");
@@ -338,10 +567,27 @@
         return;
       }
 
+      // 3. 개별 듣기 스피커 버튼
       const listenBtn = e.target.closest(".btn-vocab-listen");
       if (listenBtn) {
         const en = listenBtn.getAttribute("data-en");
-        speakEnglish(en, 0.85);
+        if (window.speak) window.speak(en, 0.85);
+        else speakEnglish(en, 0.85);
+        const tr = listenBtn.closest("tr");
+        if (tr) {
+          tr.classList.add("is-playing");
+          setTimeout(() => tr.classList.remove("is-playing"), 700);
+        }
+        return;
+      }
+    });
+
+    // 체크박스 체인지 이벤트 위임
+    vocabBody.addEventListener("change", e => {
+      if (e.target.classList.contains("chk-vocab-row")) {
+        const tr = e.target.closest("tr");
+        if (tr) tr.classList.toggle("is-checked", e.target.checked);
+        updateBatchBarState();
       }
     });
 
