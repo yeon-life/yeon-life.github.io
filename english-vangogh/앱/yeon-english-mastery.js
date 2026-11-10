@@ -3783,6 +3783,7 @@
   let pronRecordedBlob = null;
   let pronRecordedBlobUrl = null;
   let pronSampleAudio = null;
+  let pronAutoStopTimer = null;
 
   function getAllSentenceList() {
     const list = [];
@@ -3853,8 +3854,16 @@
 
   function cleanupPronRecording() {
     pronState.isRecording = false;
+    if (pronAutoStopTimer) {
+      clearTimeout(pronAutoStopTimer);
+      pronAutoStopTimer = null;
+    }
     if (pronRecognition) {
-      try { pronRecognition.abort(); } catch(e) {}
+      try {
+        pronRecognition.onend = null;
+        pronRecognition.onerror = null;
+        pronRecognition.abort();
+      } catch(e) {}
       pronRecognition = null;
     }
     if (pronMediaRecorder && pronMediaRecorder.state !== "inactive") {
@@ -4069,36 +4078,46 @@
       pronRecordedBlobUrl = null;
     }
 
-    // 1. Web Speech API Recognition
+    if (pronAutoStopTimer) {
+      clearTimeout(pronAutoStopTimer);
+      pronAutoStopTimer = null;
+    }
+
+    // 1. Web Speech API Recognition (연속 청취 및 묵음 자동종료 차단)
     if (SpeechRecognitionClass) {
       try {
         pronRecognition = new SpeechRecognitionClass();
         pronRecognition.lang = "en-US";
         pronRecognition.interimResults = true;
-        pronRecognition.continuous = false;
+        pronRecognition.continuous = true;
         pronRecognition.maxAlternatives = 1;
 
         pronRecognition.onresult = event => {
           let full = "";
           for (let i = 0; i < event.results.length; i++) {
-            full += event.results[i][0].transcript;
+            full += event.results[i][0].transcript + " ";
           }
-          pronState.transcript = full;
+          pronState.transcript = full.trim();
           const liveEl = document.getElementById("pron-live-transcript");
-          if (liveEl) liveEl.textContent = `"${full}"`;
+          if (liveEl) liveEl.textContent = `"${pronState.transcript}"`;
         };
 
         pronRecognition.onerror = event => {
           console.warn("SpeechRec error:", event.error);
-          if (event.error === "not-allowed") {
+          // 침묵이나 짧은 호흡 정지는 에러로 취급해 종료하지 않음!
+          if (event.error === "no-speech") return;
+          if (event.error === "not-allowed" || event.error === "service-not-allowed") {
             showToast("마이크 사용 권한이 필요합니다. 브라우저 주소창에서 마이크 접근을 허용해 주세요.");
             stopPronRecording();
           }
         };
 
         pronRecognition.onend = () => {
+          // 사용자가 직접 '다 읽었어요! 채점하기'를 누르기 전까지는 녹음 상태를 유지하며 재가동!
           if (pronState.isRecording) {
-            stopPronRecording();
+            try {
+              pronRecognition.start();
+            } catch (e) {}
           }
         };
 
@@ -4133,6 +4152,14 @@
       });
     }
 
+    // 35초 안전 자동 종료 타이머 (방치 시)
+    pronAutoStopTimer = setTimeout(() => {
+      if (pronState.isRecording) {
+        showToast("녹음 시간이 완료되어 채점을 진행합니다.");
+        stopPronRecording();
+      }
+    }, 35000);
+
     renderPronunciationView();
   }
 
@@ -4140,8 +4167,17 @@
     if (!pronState.isRecording) return;
     pronState.isRecording = false;
 
+    if (pronAutoStopTimer) {
+      clearTimeout(pronAutoStopTimer);
+      pronAutoStopTimer = null;
+    }
+
     if (pronRecognition) {
-      try { pronRecognition.stop(); } catch(e) {}
+      try {
+        pronRecognition.onend = null;
+        pronRecognition.onerror = null;
+        pronRecognition.stop();
+      } catch(e) {}
       pronRecognition = null;
     }
     if (pronMediaRecorder && pronMediaRecorder.state !== "inactive") {
