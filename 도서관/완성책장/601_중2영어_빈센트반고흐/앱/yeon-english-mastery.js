@@ -4028,6 +4028,7 @@
 
     renderPronunciationView();
   }
+  window.testEvaluatePronunciation = (transcript) => evaluatePronunciation(pronState.senObj, transcript);
 
   function savePronResult() {
     const sen = pronState.senObj;
