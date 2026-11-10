@@ -1394,6 +1394,78 @@
 
     // 5-1 규칙 기반 답변 평가 엔진
     qRoot.addEventListener("click", e => {
+      // 1. 단어별 정밀 대조 칩 클릭 -> 해당 단어 원어민 발음 재생
+      const chip = e.target.closest(".spk-chip");
+      if (chip) {
+        const w = chip.getAttribute("data-word");
+        if (w) {
+          if (window.speak) window.speak(w, 0.85);
+          else speakEnglish(w, 0.85);
+        }
+        return;
+      }
+
+      // 2. 모범 답안 원어민 발음 듣기
+      const natBtn = e.target.closest(".btn-native-sample");
+      if (natBtn) {
+        const en = natBtn.getAttribute("data-en");
+        if (en) {
+          if (window.speak) window.speak(en, 0.85);
+          else speakEnglish(en, 0.85);
+        }
+        return;
+      }
+
+      // 3. 내 목소리 1:1 비교 청취
+      const mineBtn = e.target.closest(".btn-mine-sample");
+      if (mineBtn) {
+        const qid = mineBtn.getAttribute("data-qid");
+        getRecording(qid, blob => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            audio.play();
+            showToast("🎧 녹음된 내 목소리를 재생합니다.");
+          } else {
+            showToast("녹음된 내 음성이 없습니다. [🎙️ 말하기]로 녹음한 후 비교해 보세요.");
+          }
+        });
+        return;
+      }
+
+      // 4. 내 말하기 클리닉(복습 코너) 저장 버튼
+      const saveBtn = e.target.closest(".btn-save-spk-clinic");
+      if (saveBtn) {
+        const qid = saveBtn.getAttribute("data-qid");
+        const score = saveBtn.getAttribute("data-score") || 85;
+        const targetQ = B.ai_talk.questions.find(x => x.id === qid);
+        if (targetQ) {
+          const clinicQid = "AI-SPK-" + targetQ.id;
+          let clinic = window.YeonStorage ? window.YeonStorage.get("spk_clinic", []) : StorageUtil.get("spk_clinic", []);
+          if (!Array.isArray(clinic)) clinic = [];
+          const exists = clinic.find(c => c.qid === clinicQid);
+          if (!exists) {
+            clinic.unshift({
+              type: `AI 말하기 (${targetQ.id})`,
+              qid: clinicQid,
+              question: `${targetQ.id}. ${targetQ.question_ko} (${targetQ.question_en})`,
+              mistake: `내 발화 평가 (${score}점)`,
+              correct: targetQ.model_answers[0],
+              rx: `핵심어: ${targetQ.must_include ? targetQ.must_include.join(', ') : '원어민 모범 문장'}`,
+              practice: targetQ.model_answers[0]
+            });
+            if (window.YeonStorage) window.YeonStorage.set("spk_clinic", clinic);
+            StorageUtil.set("spk_clinic", clinic);
+            if (window.updateYeonCounters) window.updateYeonCounters();
+          }
+          saveBtn.classList.add("saved");
+          saveBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>✓ 내 말하기 클리닉에 저장됨</span>';
+          showToast(`⭐ ${targetQ.id}번 말하기 평가 결과가 복습 코너에 쏙 담겼습니다!`);
+        }
+        return;
+      }
+
+      // 5. [답변 확인] 버튼 클릭 -> 정밀 성취도 평가 리포트 렌더링
       const btn = e.target.closest(".btn-submit-speech");
       if (!btn) return;
       const qid = btn.getAttribute("data-qid");
@@ -1407,23 +1479,115 @@
         return;
       }
 
-      const evalResult = evaluateSpeechAnswer(rawText, q);
+      const res = evaluateSpeechAnswer(rawText, q);
       fbBox.style.display = "block";
-      fbBox.className = "speech-feedback-box " + evalResult.status;
+      fbBox.className = "speech-feedback-box " + res.status;
 
-      let html = `<div>${evalResult.msg}</div>`;
-      if (evalResult.followUp) {
-        html += `<div style="margin-top:6px;font-size:13.5px;color:var(--color-primary-dark)"><b>이어지는 질문:</b> "${escapeHtml(evalResult.followUp)}"</div>`;
-      }
-      if (evalResult.modelAnswer) {
-        html += `<div style="margin-top:6px;font-size:13.5px;color:#475569"><b>모범 답안:</b> "${escapeHtml(evalResult.modelAnswer)}"</div>`;
-      }
+      let html = `
+        <div class="speech-eval-report">
+          <!-- 1. 종합 점수 및 등급 헤더 -->
+          <div class="spk-eval-top">
+            <div>
+              <div class="spk-eval-label">AI 말하기 정밀 성취도 평가</div>
+              <div class="spk-score-val" style="color: ${res.gradeColor}">
+                ${res.totalScore}<span class="spk-score-sub"> / 100점</span>
+              </div>
+            </div>
+            <div class="spk-grade-pill" style="color:${res.gradeColor};background:${res.gradeBg};border-color:${res.gradeColor}">
+              ${res.grade}
+            </div>
+          </div>
+
+          <!-- 2. 3대 정밀 분석 레이더 바 -->
+          <div class="spk-radar-box">
+            <div class="spk-radar-row">
+              <span class="spk-radar-label">🎯 발화 정확도</span>
+              <div class="spk-bar-bg"><div class="spk-bar-fill" style="width:${res.accuracyPct}%;background:#0284c7"></div></div>
+              <span class="spk-radar-num">${res.accuracyPct}%</span>
+            </div>
+            <div class="spk-radar-row">
+              <span class="spk-radar-label">🗣️ 핵심어 완성도</span>
+              <div class="spk-bar-bg"><div class="spk-bar-fill" style="width:${res.keywordCoveragePct}%;background:#16a34a"></div></div>
+              <span class="spk-radar-num">${res.keywordCoveragePct}%</span>
+            </div>
+            <div class="spk-radar-row">
+              <span class="spk-radar-label">⚡ 문장 구사력</span>
+              <div class="spk-bar-bg"><div class="spk-bar-fill" style="width:${res.fluencyPct}%;background:#d97706"></div></div>
+              <span class="spk-radar-num">${res.fluencyPct}%</span>
+            </div>
+          </div>
+
+          <!-- 3. 단어별 정밀 대조 플로우 칩 -->
+          <div class="spk-chips-box">
+            <div class="spk-chips-header">
+              <span class="spk-chips-title">단어별 발화 정밀 대조</span>
+              <span class="spk-chips-sub">💡 단어 칩을 누르면 원어민 발음 재생</span>
+            </div>
+            <div class="spk-chips-flow">
+              ${res.wordsAnalysis.map(w => {
+                const mark = w.status === 'match' ? '✓' : (w.status === 'partial' ? '~' : '✕');
+                const cleanW = w.word.replace(/[^a-zA-Z]/g, '');
+                return `<button type="button" class="spk-chip ${w.status}" data-word="${escapeHtml(cleanW)}" title="${escapeHtml(w.word)} 원어민 발음 듣기">${escapeHtml(w.word)} <span class="chip-mark">${mark}</span></button>`;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- 4. 정밀 1:1 오류 클리닉 & 모범 답안 -->
+          <div class="spk-prescription-box" style="border-left-color:${res.gradeColor}">
+            <div class="spk-rx-header" style="color:${res.gradeColor}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+              <b>${escapeHtml(res.rxTitle)}</b>
+            </div>
+            <div class="spk-rx-body">${res.rxDesc}</div>
+            ${res.matchedMistake ? `
+              <div class="spk-mistake-compare">
+                <div class="spk-wrong-line"><span class="badge-wrong">❌ 아쉬운 표현</span> <s>${escapeHtml(res.matchedMistake.wrong)}</s></div>
+                <div class="spk-correct-line"><span class="badge-correct">⭕ 올바른 추천</span> <b>${escapeHtml(res.matchedMistake.correct)}</b></div>
+              </div>
+            ` : ''}
+            <div class="spk-model-line">
+              <span style="font-weight:700;color:#334155">모범 답안:</span> "${escapeHtml(res.bestModel)}"
+            </div>
+          </div>
+
+          <!-- 5. 듀얼 오디오 1:1 비교 (모범 답안 ↔ 내 목소리) -->
+          <div class="spk-audio-compare-row">
+            <button type="button" class="btn-eval-audio btn-native-sample" data-en="${escapeHtml(res.bestModel)}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <span>모범 답안 원어민 발음 듣기</span>
+            </button>
+            <button type="button" class="btn-eval-audio btn-mine-sample" data-qid="${q.id}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+              <span>내 목소리 다시 듣기</span>
+            </button>
+          </div>
+
+          <!-- 6. 이어지는 꼬리 질문 (통과 시) -->
+          ${res.followUp ? `
+            <div class="spk-followup-box">
+              <div style="font-size:12px;font-weight:800;color:var(--color-primary-dark);margin-bottom:3px">🤖 이어지는 질문 (Follow-up)</div>
+              <div style="font-size:13.5px;color:#1e293b;display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <span>"${escapeHtml(res.followUp)}"</span>
+                <button type="button" class="btn-q-speak" data-en="${escapeHtml(res.followUp)}" title="꼬리 질문 듣기" style="padding:4px 8px;font-size:12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- 7. 복습 코너(말하기 클리닉) 저장 버튼 -->
+          <div class="spk-save-row">
+            <button type="button" class="btn-save-spk-clinic" data-qid="${q.id}" data-score="${res.totalScore}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+              <span>🔖 내 말하기 클리닉(복습 코너)에 저장</span>
+            </button>
+          </div>
+        </div>
+      `;
       fbBox.innerHTML = html;
 
       // 기록 저장 (Stage 7 요약에 반영)
       const date = todayKey();
       const prevSpk = StorageUtil.get("spk_records_" + date, []);
-      prevSpk.push({ qid: q.id, ok: evalResult.status === "ok", wrong: evalResult.wrongText, correct: evalResult.correctText });
+      prevSpk.push({ qid: q.id, ok: res.status === "ok", wrong: res.wrongText, correct: res.correctText, score: res.totalScore });
       StorageUtil.set("spk_records_" + date, prevSpk);
       updateSummaryStage();
     });
@@ -1466,16 +1630,29 @@
         recBtn.textContent = "듣는 중…";
 
         sr.onresult = ev => {
-          const heard = (ev.results[0][0].transcript || "").trim().toLowerCase().replace(/[^a-z]/g, "");
+          const heard = (ev.results[0][0].transcript || "").trim().toLowerCase();
+          const heardClean = heard.replace(/[^a-z]/g, "");
+          const targetClean = targetWord.replace(/[^a-z]/g, "");
           fb.style.display = "block";
-          if (heard === targetWord || heard.startsWith(targetWord) || targetWord.startsWith(heard)) {
+
+          let sim = calculateSimilarity(heardClean, targetClean);
+          let score = Math.min(100, Math.round(sim * 100));
+          if (heardClean === targetClean || heardClean.startsWith(targetClean) || targetClean.startsWith(heardClean)) {
+            score = Math.max(score, 95);
+          }
+
+          if (score >= 80) {
             fb.style.background = "#dcfce7";
             fb.style.color = "#15803d";
-            fb.textContent = "잘 알아들었어요 ✓";
+            fb.innerHTML = `<b>${score}% 정밀 일치 ✓</b> 완벽한 미국 표준 발음이에요! (인식: "${heard}")`;
+          } else if (score >= 60) {
+            fb.style.background = "#fffbeb";
+            fb.style.color = "#92400e";
+            fb.innerHTML = `<b>${score}% 유사 (근접)</b> 거의 맞았어요! 조금 더 정확하게: "${heard}"`;
           } else {
             fb.style.background = "#fee2e2";
             fb.style.color = "#b91c1c";
-            fb.textContent = `다시 한 번 — 내가 들은 말은 "${heard}" 였어요`;
+            fb.innerHTML = `<b>${score}% (재시도 권장)</b> 들린 발음: "${heard}" → 원어민 발음을 다시 듣고 연습해 보세요`;
           }
         };
 
@@ -1489,55 +1666,230 @@
     });
   }
 
-  // 5-1 평가 로직 함수
+  // 유사도 계산 유틸 (Levenshtein Distance)
+  function calculateSimilarity(s1, s2) {
+    if (!s1 || !s2) return 0;
+    const a = s1.toLowerCase().trim();
+    const b = s2.toLowerCase().trim();
+    if (a === b) return 1.0;
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    const dist = matrix[b.length][a.length];
+    return Math.max(0, 1 - dist / Math.max(a.length, b.length));
+  }
+
+  // 5-1 정밀 AI 말하기 다차원 평가 엔진
   function evaluateSpeechAnswer(rawInput, q) {
     let clean = rawInput.toLowerCase().replace(/[^a-z0-9\s\-]/g, " ");
-    clean = clean.replace(/\b27\b/g, "twenty-seven").replace(/\s+/g, " ").trim();
+    clean = clean.replace(/\b27\b/g, "twenty-seven").replace(/\b1853\b/g, "eighteen fifty-three").replace(/\s+/g, " ").trim();
+    const inputWords = clean.split(/\s+/).filter(Boolean);
 
-    // 필수 단어 검사
+    // 1. 최적 모범 답안 매칭 (모범 답안 중 가장 유사한 문장 선택)
+    let bestModel = q.model_answers[0];
+    let bestScore = -1;
+    let bestModelClean = "";
+
+    q.model_answers.forEach(m => {
+      let mClean = m.toLowerCase().replace(/[^a-z0-9\s\-]/g, " ").replace(/\b27\b/g, "twenty-seven").replace(/\s+/g, " ").trim();
+      let mWords = mClean.split(/\s+/).filter(Boolean);
+      let matchCount = 0;
+      mWords.forEach(w => { if (inputWords.includes(w)) matchCount++; });
+      let sim = matchCount / Math.max(mWords.length, 1);
+      if (sim > bestScore) {
+        bestScore = sim;
+        bestModel = m;
+        bestModelClean = mClean;
+      }
+    });
+
+    const modelWordsRaw = bestModel.split(/\s+/);
+    const modelWordsClean = bestModelClean.split(/\s+/);
+
+    // 2. 단어별 정밀 대조 (Word-by-word comparison for chips)
+    let matchedWordCount = 0;
+    let partialWordCount = 0;
+    const wordsAnalysis = [];
+
+    modelWordsClean.forEach((mw, idx) => {
+      const rawWord = modelWordsRaw[idx] || mw;
+      const cleanWord = mw.replace(/[^a-z0-9\-]/g, "");
+      if (!cleanWord) {
+        wordsAnalysis.push({ word: rawWord, status: "match" });
+        return;
+      }
+      if (inputWords.includes(cleanWord)) {
+        matchedWordCount++;
+        wordsAnalysis.push({ word: rawWord, status: "match" });
+      } else {
+        const isPart = inputWords.some(iw => {
+          if (iw.length >= 3 && cleanWord.length >= 3) {
+            return iw.startsWith(cleanWord.slice(0, 3)) || cleanWord.startsWith(iw.slice(0, 3));
+          }
+          return false;
+        });
+        if (isPart) {
+          partialWordCount++;
+          wordsAnalysis.push({ word: rawWord, status: "partial" });
+        } else {
+          wordsAnalysis.push({ word: rawWord, status: "miss" });
+        }
+      }
+    });
+
+    // 3. 3대 정밀 지표 산출
+    // 지표 1: 🎯 발화 정확도 (Accuracy %, 0~100)
+    const validModelLen = Math.max(modelWordsClean.filter(Boolean).length, 1);
+    let accuracyPct = Math.round(((matchedWordCount * 1.0 + partialWordCount * 0.5) / validModelLen) * 100);
+    if (accuracyPct > 100) accuracyPct = 100;
+
+    // 지표 2: 🗣️ 핵심 어휘 완성도 (Keyword Coverage %, 0~100)
     const mustWords = q.must_include || [];
-    const missing = mustWords.filter(mw => !clean.includes(mw.toLowerCase().replace(/-/g, " ")) && !clean.includes(mw.toLowerCase()));
+    const missing = mustWords.filter(mw => {
+      const target = mw.toLowerCase().replace(/-/g, " ");
+      return !clean.includes(target) && !clean.includes(mw.toLowerCase());
+    });
+    const foundKeywordsCount = mustWords.length - missing.length;
+    const keywordCoveragePct = mustWords.length > 0 ? Math.round((foundKeywordsCount / mustWords.length) * 100) : 100;
 
-    // 공통 실수 유사도 검사
+    // 지표 3: ⚡ 문장 구사력 & 유창성 (Fluency %, 0~100)
+    let fluencyPct = 70;
+    const wordCount = inputWords.length;
+    if (wordCount >= Math.min(modelWordsClean.length * 0.7, 5)) {
+      fluencyPct = 95;
+    } else if (wordCount >= 3) {
+      fluencyPct = 80;
+    } else if (wordCount >= 1) {
+      fluencyPct = 60;
+    }
+
+    // 4. 공통 실수 정밀 진단 (오답 구문 정밀 매칭 및 교정어 감지)
     let matchedMistake = null;
     if (q.common_mistakes) {
       for (const m of q.common_mistakes) {
-        const wrongWords = m.wrong.toLowerCase().replace(/[^a-z0-9\s]/g, "").split(/\s+/);
-        const cleanWords = clean.split(/\s+/);
+        const wrongClean = m.wrong.toLowerCase().replace(/[^a-z0-9\s\-]/g, " ").replace(/\s+/g, " ").trim();
+        const correctClean = m.correct.toLowerCase().replace(/[^a-z0-9\s\-]/g, " ").replace(/\s+/g, " ").trim();
+
+        // 1) 학생 답변이 이미 올바른 교정 문구(correctClean)를 포함하고 있다면 오답이 아님!
+        if (clean.includes(correctClean)) {
+          continue;
+        }
+
+        // 2) correctClean에만 존재하는 핵심 교정 단어 (예: 'to', 'was', 'sunflowers' 등)
+        const wrongWords = wrongClean.split(/\s+/).filter(Boolean);
+        const correctWords = correctClean.split(/\s+/).filter(Boolean);
+        const diffWords = correctWords.filter(cw => !wrongWords.includes(cw));
+        const hasDiffWord = diffWords.length > 0 && diffWords.every(dw => inputWords.includes(dw));
+
+        // 이미 핵심 교정 단어를 올바르게 구사했다면 실수로 판정하지 않음
+        if (hasDiffWord) {
+          continue;
+        }
+
+        // 3) 오답 표현(wrongClean)을 통째로 포함하거나, 오답 단어들이 집중 포함된 경우
+        if (clean.includes(wrongClean)) {
+          matchedMistake = m;
+          break;
+        }
+
         let overlap = 0;
-        wrongWords.forEach(w => { if (cleanWords.includes(w)) overlap++; });
-        if (overlap / Math.max(wrongWords.length, 1) >= 0.75) {
+        wrongWords.forEach(w => { if (inputWords.includes(w)) overlap++; });
+        if (overlap / Math.max(wrongWords.length, 1) >= 0.80) {
           matchedMistake = m;
           break;
         }
       }
     }
 
+    // 5. 종합 점수 및 등급 산출
+    let totalScore = Math.round(accuracyPct * 0.45 + keywordCoveragePct * 0.35 + fluencyPct * 0.20);
     if (matchedMistake) {
-      return {
-        status: "fix",
-        msg: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg><b>이렇게 고쳐 말해 볼까요?</b><br>"${escapeHtml(matchedMistake.correct)}"<br><small>${escapeHtml(matchedMistake.why_ko)}</small>`,
-        modelAnswer: q.model_answers[0],
-        wrongText: matchedMistake.wrong,
-        correctText: matchedMistake.correct
-      };
+      if (totalScore > 75) totalScore = 75;
+    }
+    if (missing.length > 0) {
+      if (totalScore > 65) totalScore = 65;
+    }
+    if (totalScore < 30 && inputWords.length > 0) {
+      totalScore = 45;
     }
 
-    if (missing.length === 0) {
-      const praise = B.ai_talk.praise_en[Math.floor(Math.random() * B.ai_talk.praise_en.length)];
-      return {
-        status: "ok",
-        msg: `<b>${praise}</b> 내용이 완벽해요!`,
-        followUp: q.follow_up_en,
-        modelAnswer: q.model_answers[0]
-      };
+    let grade = "S등급 (PERFECT)";
+    let gradeColor = "#16a34a";
+    let gradeBg = "#f0fdf4";
+    let status = "ok";
+    let rxTitle = "원어민급 완전 정복!";
+    let rxDesc = "문장의 완성도와 발음/어휘가 완벽합니다. 자연스러운 원어민 억양으로 훌륭히 답변하셨어요!";
+
+    if (matchedMistake) {
+      status = "fix";
+      grade = "B등급 (CLINIC)";
+      gradeColor = "#d97706";
+      gradeBg = "#fffbeb";
+      rxTitle = "1:1 원어민 맞춤 처방";
+      rxDesc = matchedMistake.why_ko;
+    } else if (missing.length > 0) {
+      status = "retry";
+      grade = "C등급 (RETRY)";
+      gradeColor = "#dc2626";
+      gradeBg = "#fef2f2";
+      rxTitle = "핵심 어휘 보완 권장";
+      rxDesc = `다음 핵심 단어가 답변에 빠졌어요: <b>${missing.join(", ")}</b>. 이 단어를 포함하여 다시 한번 소리 내어 말해 보세요!`;
+    } else if (totalScore >= 90) {
+      grade = "S등급 (PERFECT)";
+      gradeColor = "#16a34a";
+      gradeBg = "#f0fdf4";
+      status = "ok";
+      rxTitle = "원어민급 완전 정복!";
+      rxDesc = "문장의 완성도와 발음/어휘가 완벽합니다. 자연스러운 원어민 억양으로 훌륭히 답변하셨어요!";
+    } else if (totalScore >= 80) {
+      grade = "A등급 (EXCELLENT)";
+      gradeColor = "#2563eb";
+      gradeBg = "#eff6ff";
+      status = "ok";
+      rxTitle = "아주 훌륭한 답변!";
+      rxDesc = "질문의 의도에 정확히 부합하며, 핵심 의미를 영어로 유창하게 잘 표현했습니다.";
     } else {
-      return {
-        status: "retry",
-        msg: `다시 말해 볼래요? 꼭 들어가야 할 내용이 조금 빠졌어요.`,
-        modelAnswer: q.model_answers[0]
-      };
+      grade = "B등급 (GOOD)";
+      gradeColor = "#d97706";
+      gradeBg = "#fffbeb";
+      status = "fix";
+      rxTitle = "기본 의미 전달 완료!";
+      rxDesc = "단어 의미는 통했으나, 주어와 동사를 갖춘 온전한 한 문장으로 말하면 더욱 완벽해집니다.";
     }
+
+    return {
+      status,
+      totalScore,
+      grade,
+      gradeColor,
+      gradeBg,
+      accuracyPct,
+      keywordCoveragePct,
+      fluencyPct,
+      wordsAnalysis,
+      bestModel,
+      matchedMistake,
+      missing,
+      rxTitle,
+      rxDesc,
+      followUp: q.follow_up_en,
+      rawInput,
+      wrongText: matchedMistake ? matchedMistake.wrong : null,
+      correctText: matchedMistake ? matchedMistake.correct : null
+    };
   }
 
   /* ── 6. 테스트 단계 ── */

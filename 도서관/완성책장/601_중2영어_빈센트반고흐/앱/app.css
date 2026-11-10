@@ -1091,27 +1091,303 @@ tr.vocab-row.is-playing td {
 
 .speech-feedback-box {
   margin-top: 14px;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-size: 14.5px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 .speech-feedback-box.ok {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #166534;
+  border-top: 3px solid #16a34a;
 }
 
 .speech-feedback-box.fix {
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #92400e;
+  border-top: 3px solid #d97706;
 }
 
 .speech-feedback-box.retry {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  border-top: 3px solid #dc2626;
+}
+
+/* AI 말하기 정밀 평가 리포트 */
+.spk-eval-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.spk-eval-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.spk-score-val {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.spk-score-sub {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+.spk-grade-pill {
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 1.5px solid;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 3대 정밀 분석 레이더 바 */
+.spk-radar-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+.spk-radar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.spk-radar-row:last-child {
+  margin-bottom: 0;
+}
+.spk-radar-label {
+  width: 95px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  white-space: nowrap;
+}
+.spk-bar-bg {
+  flex: 1;
+  height: 7px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.spk-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.spk-radar-num {
+  width: 42px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+/* 단어별 발화 정밀 대조 칩 */
+.spk-chips-box {
+  margin-bottom: 12px;
+}
+.spk-chips-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.spk-chips-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+}
+.spk-chips-sub {
+  font-size: 11px;
+  color: #0284c7;
+  font-weight: 600;
+}
+.spk-chips-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.spk-chip {
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+.spk-chip.match {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #86efac;
+}
+.spk-chip.partial {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+.spk-chip.miss {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border: 1px dashed #cbd5e1;
+}
+.spk-chip:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.96);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.spk-chip .chip-mark {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* 처방전 및 모범 답안 */
+.spk-prescription-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  padding: 11px 13px;
+  margin-bottom: 12px;
+}
+.spk-rx-header {
+  font-size: 13.5px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.spk-rx-body {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.spk-mistake-compare {
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.spk-wrong-line {
+  color: #dc2626;
+  margin-bottom: 4px;
+}
+.spk-correct-line {
+  color: #16a34a;
+}
+.badge-wrong {
+  font-size: 11px;
+  font-weight: 700;
+  background: #fee2e2;
   color: #991b1b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.badge-correct {
+  font-size: 11px;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #166534;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.spk-model-line {
+  font-size: 13px;
+  color: #475569;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 7px 10px;
+  border-radius: 6px;
+}
+
+/* 듀얼 오디오 비교 */
+.spk-audio-compare-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.btn-eval-audio {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.btn-eval-audio:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+.btn-eval-audio.btn-native-sample {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+.btn-eval-audio.btn-native-sample:hover {
+  background: #dcfce7;
+}
+
+/* 꼬리 질문 & 저장 버튼 */
+.spk-followup-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 12px;
+}
+.spk-save-row {
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-save-spk-clinic {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.btn-save-spk-clinic:hover {
+  background: #115e59;
+}
+.btn-save-spk-clinic.saved {
+  background: #059669;
 }
 
 /* 발음 클리닉 */
