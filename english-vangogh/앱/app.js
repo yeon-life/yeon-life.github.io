@@ -35,11 +35,13 @@
     t.textContent = msg;
     t.style.display = "block";
     t.style.opacity = "1";
-    setTimeout(() => {
+    if (t._timer) clearTimeout(t._timer);
+    t._timer = setTimeout(() => {
       t.style.opacity = "0";
       setTimeout(() => { t.style.display = "none"; }, 300);
     }, 2200);
   }
+  window.showToast = showToast;
 
   /* ── 0. 미국식 음성 합성 (speechSynthesis) 유틸 ── */
   function speakEnglish(text, rate = 0.85, pitch = 1.0, onEndCallback = null) {
@@ -74,6 +76,51 @@
     }
     window.speechSynthesis.speak(utt);
   }
+
+  /* ── 내 단어장 관리 (saved_vocab 단일 저장소 연동) ── */
+  const Wordbook = {
+    getAll() {
+      // yeon-english-mastery와 완전히 동일한 saved_vocab 키 사용
+      let list = StorageUtil.get("saved_vocab", null);
+      if (!list) {
+        list = StorageUtil.get("my_vocab", []);
+      }
+      return Array.isArray(list) ? list : [];
+    },
+    has(word) {
+      if (!word) return false;
+      const list = this.getAll();
+      const lower = word.trim().toLowerCase();
+      return list.some(w => typeof w === 'string' && w.toLowerCase() === lower);
+    },
+    toggle(word) {
+      if (!word) return false;
+      const clean = word.trim();
+      let list = this.getAll();
+      const lower = clean.toLowerCase();
+      const idx = list.findIndex(w => typeof w === 'string' && w.toLowerCase() === lower);
+      let inBook = false;
+      if (idx >= 0) {
+        list.splice(idx, 1);
+        inBook = false;
+      } else {
+        list.push(clean);
+        inBook = true;
+      }
+      StorageUtil.set("saved_vocab", list);
+      if (window.YeonStorage && typeof window.YeonStorage.set === "function") {
+        try { window.YeonStorage.set("saved_vocab", list); } catch (e) {}
+      }
+      if (window.updateYeonCounters && typeof window.updateYeonCounters === "function") {
+        try { window.updateYeonCounters(); } catch (e) {}
+      }
+      return inBook;
+    },
+    count() {
+      return this.getAll().length;
+    }
+  };
+  window.Wordbook = Wordbook;
 
   /* ── 1. 읽기 단계 ── */
   let readTimerActive = false;
@@ -203,26 +250,102 @@
       }
     });
 
-    // 어휘 26개 표 렌더링
-    vocabBody.innerHTML = "";
-    B.vocab.forEach(v => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><b style="color:var(--color-primary-dark)">${escapeHtml(v.en)}</b></td>
-        <td><span style="color:var(--color-text-sub)">${escapeHtml(v.pos)}</span></td>
-        <td>${escapeHtml(v.ko)}</td>
-        <td><button type="button" class="btn-vocab-listen" data-en="${escapeHtml(v.en)}" title="발음 듣기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button></td>
-      `;
-      vocabBody.appendChild(tr);
-    });
+    // 내 단어장 탭 및 어휘 표 렌더링
+    const tabAllBtn = document.getElementById("tab-vocab-all");
+    const tabMyBtn = document.getElementById("tab-vocab-my");
+    const myCountEl = document.getElementById("my-vocab-count");
+    const myEmptyEl = document.getElementById("my-vocab-empty");
+    const vocabTable = document.getElementById("vocab-table");
+
+    let currentVocabTab = "all";
+
+    function updateSentenceHighlights() {
+      root.querySelectorAll(".vocab-clickable").forEach(el => {
+        const w = el.getAttribute("data-word");
+        if (Wordbook.has(w)) {
+          el.classList.add("in-wordbook");
+          el.title = "⭐ 내 단어장에 저장된 어휘 (탭하여 확인)";
+        } else {
+          el.classList.remove("in-wordbook");
+          el.title = "어휘 탭하여 뜻 보기";
+        }
+      });
+    }
+
+    function renderVocabTable() {
+      const allWords = B.vocab;
+      const savedCount = allWords.filter(v => Wordbook.has(v.en)).length;
+      if (myCountEl) myCountEl.textContent = savedCount;
+
+      let list = allWords;
+      if (currentVocabTab === "my") {
+        list = allWords.filter(v => Wordbook.has(v.en));
+      }
+
+      if (currentVocabTab === "my" && list.length === 0) {
+        if (vocabTable) vocabTable.style.display = "none";
+        if (myEmptyEl) myEmptyEl.style.display = "block";
+      } else {
+        if (vocabTable) vocabTable.style.display = "table";
+        if (myEmptyEl) myEmptyEl.style.display = "none";
+      }
+
+      vocabBody.innerHTML = "";
+      list.forEach(v => {
+        const isSaved = Wordbook.has(v.en);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><b style="color:var(--color-primary-dark)">${escapeHtml(v.en)}</b></td>
+          <td><span style="color:var(--color-text-sub)">${escapeHtml(v.pos)}</span></td>
+          <td>${escapeHtml(v.ko)}</td>
+          <td style="text-align:center"><button type="button" class="btn-vocab-listen" data-en="${escapeHtml(v.en)}" title="발음 듣기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button></td>
+          <td style="text-align:center"><button type="button" class="btn-vocab-star ${isSaved ? 'saved' : ''}" data-word="${escapeHtml(v.en)}" title="${isSaved ? '내 단어장에서 빼기' : '내 단어장에 넣기'}">${isSaved ? '⭐' : '☆'}</button></td>
+        `;
+        vocabBody.appendChild(tr);
+      });
+
+      updateSentenceHighlights();
+    }
+    window.renderVocabTableGlobal = renderVocabTable;
+
+    if (tabAllBtn && tabMyBtn) {
+      tabAllBtn.addEventListener("click", () => {
+        currentVocabTab = "all";
+        tabAllBtn.classList.add("active");
+        tabMyBtn.classList.remove("active");
+        renderVocabTable();
+      });
+      tabMyBtn.addEventListener("click", () => {
+        currentVocabTab = "my";
+        tabMyBtn.classList.add("active");
+        tabAllBtn.classList.remove("active");
+        renderVocabTable();
+      });
+    }
 
     vocabBody.addEventListener("click", e => {
-      const btn = e.target.closest(".btn-vocab-listen");
-      if (btn) {
-        const en = btn.getAttribute("data-en");
+      const starBtn = e.target.closest(".btn-vocab-star");
+      if (starBtn) {
+        const word = starBtn.getAttribute("data-word");
+        const inBook = Wordbook.toggle(word);
+        if (inBook) {
+          showToast(`⭐ '${word}' 단어가 내 단어장에 저장되었어요!`);
+        } else {
+          showToast(`'${word}' 단어를 내 단어장에서 제외했어요.`);
+        }
+        renderVocabTable();
+        updateSummaryStage();
+        return;
+      }
+
+      const listenBtn = e.target.closest(".btn-vocab-listen");
+      if (listenBtn) {
+        const en = listenBtn.getAttribute("data-en");
         speakEnglish(en, 0.85);
       }
     });
+
+    renderVocabTable();
   }
 
   // 문장 내 단어 분할 및 vocab 태깅
@@ -263,6 +386,44 @@
 
     const listenBtn = document.getElementById("btn-modal-listen");
     listenBtn.onclick = () => speakEnglish(item.en, 0.85);
+
+    const bookBtn = document.getElementById("btn-modal-toggle-wordbook");
+    const bookIcon = document.getElementById("modal-wordbook-icon");
+    const bookLabel = document.getElementById("modal-wordbook-label");
+
+    function refreshModalBookBtn() {
+      const isSaved = Wordbook.has(item.en);
+      if (isSaved) {
+        if (bookIcon) bookIcon.textContent = "⭐";
+        if (bookLabel) bookLabel.textContent = "단어장에서 빼기";
+        if (bookBtn) {
+          bookBtn.classList.remove("btn-accent");
+          bookBtn.classList.add("btn-secondary");
+        }
+      } else {
+        if (bookIcon) bookIcon.textContent = "☆";
+        if (bookLabel) bookLabel.textContent = "내 단어장에 넣기";
+        if (bookBtn) {
+          bookBtn.classList.remove("btn-secondary");
+          bookBtn.classList.add("btn-accent");
+        }
+      }
+    }
+    refreshModalBookBtn();
+
+    if (bookBtn) {
+      bookBtn.onclick = () => {
+        const inBook = Wordbook.toggle(item.en);
+        refreshModalBookBtn();
+        if (inBook) {
+          showToast(`⭐ '${item.en}' 단어가 내 단어장에 저장되었어요!`);
+        } else {
+          showToast(`'${item.en}' 단어를 내 단어장에서 제외했어요.`);
+        }
+        if (window.renderVocabTableGlobal) window.renderVocabTableGlobal();
+        updateSummaryStage();
+      };
+    }
 
     modal.style.display = "flex";
   }
@@ -1151,8 +1312,10 @@
     // 학생 이름 (공용 부품 연동, 전화번호/비번 일체 제외)
     const studentName = (window.YK && typeof window.YK.name === "function" && window.YK.name()) || "학생";
 
+    const myVocabCount = Wordbook.getAll().length;
+
     metricsList.innerHTML = `
-      <li><b>1. 읽기:</b> 오늘 ${readCount}회 완독 (${rM}분 ${rS}초 소요)</li>
+      <li><b>1. 읽기:</b> 오늘 ${readCount}회 완독 (${rM}분 ${rS}초 소요)${myVocabCount > 0 ? ` · ⭐ 내 단어장 ${myVocabCount}개 저장` : ""}</li>
       <li><b>2. 듣기:</b> ${listenedP}개 문단 청취 (최대 속도: ${maxSpeed}×)</li>
       <li><b>3. 말하기:</b> ${spkCount}문장 시도 중 ${spkOkCount}문장 내용 OK ${corrections.length > 0 ? `(교정: ${corrections.map(c => `"${c.wrong} → ${c.correct}"`).join(", ")})` : ""}</li>
       <li><b>4. 테스트:</b> ${testRes ? `${testScore}/${testTotal}점 (오답: ${wrongList.length > 0 ? wrongList.join(", ") + "번" : "없음"})` : "미응시"}</li>

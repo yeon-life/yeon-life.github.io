@@ -432,22 +432,22 @@
   gap: 8px;
 }
 
-/* ── 하단 영영 사전 시트 (Bottom Sheet) ── */
+/* ── 하단 영영/영한 사전 시트 (Bottom Sheet) ── */
 .dict-bottom-sheet {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background: #ffffff;
-  border-top: 2px solid var(--yl-pri);
-  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.14);
-  padding: 12px 18px 14px;
-  z-index: 9000;
-  transform: translateY(110%);
+  border-top: 3px solid var(--yl-pri);
+  box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.22);
+  padding: 14px 18px 16px;
+  z-index: 9200;
+  transform: translateY(115%);
   transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 auto;
-  border-radius: 14px 14px 0 0;
+  border-radius: 16px 16px 0 0;
 }
 .dict-bottom-sheet.open {
   transform: translateY(0);
@@ -456,29 +456,197 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.dict-sheet-title-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .dict-sheet-word {
-  font-size: 15px;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--yl-ink);
+}
+.dict-sheet-pron {
+  font-family: 'Crimson Pro', Georgia, serif;
+  color: var(--yl-gold);
+  font-size: 14px;
+}
+.btn-sheet-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0369a1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-sheet-audio:hover {
+  background: #e0f2fe;
+  border-color: #38bdf8;
+}
+.dict-sheet-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dict-btn-star {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dict-btn-star:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.dict-btn-star.saved {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #f59e0b;
   font-weight: 800;
-  color: var(--yl-pri-dk);
 }
 .dict-sheet-close {
   background: none;
   border: none;
-  font-size: 20px;
-  color: var(--yl-sub);
+  font-size: 24px;
+  color: #64748b;
   cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.dict-sheet-close:hover {
+  color: #0f172a;
+}
+.dict-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.dict-sheet-ko {
+  font-size: 14.5px;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.dict-sheet-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0f766e;
+  background: #ccfbf1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+.dict-sheet-meanings-text {
+  font-weight: 700;
+  color: #0f172a;
 }
 .dict-sheet-desc {
   font-size: 13px;
-  color: #334155;
-  line-height: 1.5;
+  color: #0f766e;
+  background: #f0fdfa;
+  border-left: 3px solid #14b8a6;
+  padding: 6px 10px;
+  border-radius: 4px;
+  line-height: 1.45;
 }
 .dict-sheet-desc em {
   font-style: normal;
-  color: var(--yl-gold);
+  font-weight: 800;
+  color: #0d9488;
+  margin-right: 4px;
+}
+.dict-sheet-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+.btn-sheet-star-action {
+  flex: 1.2;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff;
+  border: none;
+  font-size: 13.5px;
   font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+  transition: all 0.15s ease;
+}
+.btn-sheet-star-action:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.btn-sheet-star-action.saved {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #10b981;
+  box-shadow: none;
+}
+.btn-sheet-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-sheet-detail:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.btn-sheet-open-wordbank {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fdf4ff;
+  border: 1px solid #e879f9;
+  color: #86198f;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-sheet-open-wordbank:hover {
+  background: #fae8ff;
 }
 
 /* ── 단어 탭 스타일 (본문) ── */
@@ -1940,4 +2108,402 @@
   padding: 12px 14px;
   margin-top: 10px;
   animation: fadeIn 0.2s ease;
+}
+
+/* ==========================================================================
+   내 발음 연습 장치 (AI Pronunciation Practice Studio) & 문장/오디오 독 연동
+   ========================================================================== */
+
+/* 1. 본문 문장 앞 [🎙️ 발음] 버튼 */
+.btn-mic-sen {
+  background: #ffffff !important;
+  border: 1px solid #fecdd3 !important;
+  border-radius: 5px !important;
+  color: #be123c !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  min-height: auto !important;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  vertical-align: middle;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(244, 63, 94, 0.08);
+}
+.btn-mic-sen:hover {
+  background: #fff1f2 !important;
+  border-color: #f43f5e !important;
+  color: #e11d48 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(244, 63, 94, 0.2);
+}
+.btn-mic-sen svg {
+  display: block;
+}
+
+/* 2. 하단 오디오 제어 독 [🎙️ 발음 연습] 버튼 */
+.dock-btn.dock-btn-mic {
+  width: auto !important;
+  padding: 0 12px !important;
+  gap: 6px !important;
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.28), rgba(244, 63, 94, 0.18)) !important;
+  border: 1.5px solid #f43f5e !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.25);
+}
+.dock-btn.dock-btn-mic:hover {
+  background: linear-gradient(135deg, #e11d48, #be123c) !important;
+  border-color: #fda4af !important;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.55);
+  transform: translateY(-1px);
+}
+.dock-btn.dock-btn-mic svg {
+  display: block;
+}
+
+/* 3. AI 발음 코칭 & 낭독 연습실 모달 스타일 */
+.pron-modal-box {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.35);
+  animation: pronModalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes pronModalPop {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 연습 목표 문장 카드 */
+.pron-target-card {
+  background: linear-gradient(135deg, #fdf4ff 0%, #fff1f2 100%);
+  border: 1.5px solid #fbcfe8;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(244, 63, 94, 0.06);
+}
+.pron-target-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.pron-target-badge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #be123c;
+  background: #ffffff;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid #fecdd3;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pron-target-audio-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-pron-sample {
+  background: #ffffff;
+  border: 1px solid #fbcfe8;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #9d174d;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+.btn-pron-sample:hover {
+  background: #fdf2f8;
+  border-color: #f43f5e;
+  color: #e11d48;
+}
+
+.pron-target-en {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.45;
+  margin-bottom: 6px;
+  word-break: keep-all;
+}
+.pron-target-ko {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+/* 녹음 인터랙션 구역 */
+.pron-rec-section {
+  text-align: center;
+  padding: 12px 10px 16px;
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+.pron-rec-btn-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.pron-rec-btn {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 26px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(225, 29, 72, 0.32);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  outline: none;
+}
+.pron-rec-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.45);
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+}
+.pron-rec-btn.recording {
+  background: #dc2626 !important;
+  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  animation: pronPulse 1.4s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+@keyframes pronPulse {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { box-shadow: 0 0 0 18px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+.pron-rec-tip {
+  font-size: 12px;
+  color: #78716c;
+  line-height: 1.45;
+}
+.pron-live-transcript {
+  margin-top: 8px;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #9d174d;
+  min-height: 22px;
+  word-break: break-word;
+}
+
+/* AI 실시간 발음 평가 결과 카드 */
+.pron-eval-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  animation: fadeIn 0.2s ease;
+}
+.pron-score-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.pron-score-box {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.pron-score-num {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+}
+.pron-score-total {
+  font-size: 14px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.pron-grade-pill {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.pron-feedback-text {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #334155;
+  margin-bottom: 12px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #0ea5e9;
+}
+
+/* 단어별 정확도 분석 칩 */
+.pron-chips-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.pron-chips-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.pron-chip {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  transition: all 0.12s ease;
+}
+.pron-chip:hover {
+  transform: translateY(-1px);
+}
+.pron-chip.match {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+}
+.pron-chip.partial {
+  background: #fef3c7;
+  border: 1px solid #fde047;
+  color: #b45309;
+}
+.pron-chip.miss {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+}
+.pron-chip-mark {
+  font-size: 11px;
+  font-family: sans-serif;
+  font-weight: 800;
+}
+
+/* 오디오 비교 듀얼 플레이어 */
+.pron-audio-compare {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  background: #f1f5f9;
+  padding: 10px 12px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.btn-play-compare {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.btn-play-compare:hover:not(:disabled) {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+.btn-play-compare:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 하단 액션 툴바 (저장 / 다음 문장 이동) */
+.pron-modal-footer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+.btn-pron-save {
+  flex: 1.4;
+  min-height: 40px;
+  background: #be123c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(190, 18, 60, 0.25);
+  transition: all 0.15s ease;
+}
+.btn-pron-save:hover {
+  background: #9f1239;
+  transform: translateY(-1px);
+}
+.btn-pron-save.saved {
+  background: #059669;
+}
+.btn-pron-nav {
+  min-height: 40px;
+  padding: 0 14px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+.btn-pron-nav:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.btn-pron-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

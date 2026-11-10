@@ -137,6 +137,26 @@
   };
   window.YeonStudentAuth = YeonStudentAuth;
 
+  // 토스트 메시지 유틸
+  function showToast(msg) {
+    let t = document.getElementById("toast-msg");
+    if (!t) {
+      t = document.createElement("div");
+      t.className = "toast-msg";
+      t.id = "toast-msg";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.display = "block";
+    t.style.opacity = "1";
+    if (t._timer) clearTimeout(t._timer);
+    t._timer = setTimeout(() => {
+      t.style.opacity = "0";
+      setTimeout(() => { t.style.display = "none"; }, 300);
+    }, 2200);
+  }
+  window.showToast = showToast;
+
   // ── 저장소 유틸 (학생별 데이터 분리 격리 지원: eng-gogh/ + (sid ? sid + "/" : "") + key) ──
   const Storage = {
     getStudentKey(k) {
@@ -161,6 +181,7 @@
       } catch (e) {}
     }
   };
+  window.YeonStorage = Storage;
 
   // ── 정갈한 미니멀 라인 SVG 아이콘 시스템 (Yeon Minimal SVG Icon System) ──
   const Y_SVG = {
@@ -1114,6 +1135,8 @@
     const sCount = Storage.get("saved_sentences", []).length;
     const elV = document.getElementById("saved-vocab-count");
     const elS = document.getElementById("saved-sen-count");
+    const myCount = document.getElementById("my-vocab-count");
+    const sheetCount = document.getElementById("sheet-wordbank-count");
     if (elV) {
       elV.textContent = vCount;
       elV.style.display = vCount > 0 ? "inline-flex" : "none";
@@ -1121,6 +1144,80 @@
     if (elS) {
       elS.textContent = sCount;
       elS.style.display = sCount > 0 ? "inline-flex" : "none";
+    }
+    if (myCount) myCount.textContent = vCount;
+    if (sheetCount) sheetCount.textContent = vCount;
+  }
+  window.updateYeonCounters = updateCounters;
+
+  // 활성 단어 상태 및 토글 유틸
+  let currentActiveDictData = null;
+
+  function toggleSaveWord(word) {
+    if (!word) return false;
+    let list = Storage.get("saved_vocab", []);
+    const clean = word.trim();
+    const lower = clean.toLowerCase();
+    const idx = list.findIndex(w => typeof w === "string" && w.toLowerCase() === lower);
+    let isSavedNow = false;
+    if (idx >= 0) {
+      list.splice(idx, 1);
+      isSavedNow = false;
+      showToast(`'${clean}' 단어를 내 단어장에서 제외했어요.`);
+    } else {
+      list.push(clean);
+      isSavedNow = true;
+      showToast(`⭐ '${clean}' 단어가 내 단어장에 저장되었어요! (총 ${list.length}단어)`);
+    }
+    Storage.set("saved_vocab", list);
+    updateCounters();
+    if (window.renderVocabTableGlobal) {
+      try { window.renderVocabTableGlobal(); } catch (e) {}
+    }
+
+    // 1. 하단 시트 버튼 상태 갱신
+    refreshSheetSaveUI(isSavedNow);
+
+    // 2. 우측 서랍 버튼 상태 갱신
+    const drawerStar = document.getElementById("btn-toggle-save-word");
+    if (drawerStar && drawerStar.getAttribute("data-word") === clean) {
+      if (isSavedNow) {
+        drawerStar.classList.add("saved");
+        drawerStar.innerHTML = Y_SVG.star(13, "currentColor") + " 저장됨";
+      } else {
+        drawerStar.classList.remove("saved");
+        drawerStar.innerHTML = Y_SVG.star(13) + " 내 단어장";
+      }
+    }
+    return isSavedNow;
+  }
+
+  function refreshSheetSaveUI(isSaved) {
+    const starBtn = document.getElementById("btn-sheet-star");
+    const primBtn = document.getElementById("btn-sheet-save-primary");
+    if (starBtn) {
+      if (isSaved) {
+        starBtn.classList.add("saved");
+        starBtn.innerHTML = `<span>⭐</span> <span>단어장에 저장됨</span>`;
+        starBtn.title = "클릭하여 내 단어장에서 제외";
+      } else {
+        starBtn.classList.remove("saved");
+        starBtn.innerHTML = `<span>☆</span> <span>내 단어장에 넣기</span>`;
+        starBtn.title = "클릭하여 내 단어장에 추가";
+      }
+    }
+    if (primBtn) {
+      if (isSaved) {
+        primBtn.classList.add("saved");
+        primBtn.innerHTML = `<span>✓</span> <span>단어장에 저장됨 (클릭 시 제외)</span>`;
+      } else {
+        primBtn.classList.remove("saved");
+        primBtn.innerHTML = `<span>⭐</span> <span>내 단어장에 넣기</span>`;
+      }
+    }
+    const countEl = document.getElementById("sheet-wordbank-count");
+    if (countEl) {
+      countEl.textContent = Storage.get("saved_vocab", []).length;
     }
   }
 
@@ -1146,16 +1243,45 @@
       </div>
     `;
 
-    // Bottom Sheet (Easy English)
+    // Bottom Sheet (Easy English & Quick Save)
     const sheet = document.createElement("div");
     sheet.className = "dict-bottom-sheet";
     sheet.id = "dict-bottom-sheet";
     sheet.innerHTML = `
       <div class="dict-sheet-head">
-        <span class="dict-sheet-word" id="dict-sheet-word">Word</span>
-        <button type="button" class="dict-sheet-close" id="btn-dict-sheet-close">&times;</button>
+        <div class="dict-sheet-title-area">
+          <strong class="dict-sheet-word" id="dict-sheet-word">Word</strong>
+          <span class="dict-sheet-pron" id="dict-sheet-pron">/pron/</span>
+          <span class="dict-pos-tag" id="dict-sheet-pos">품사</span>
+          <button type="button" class="btn-sheet-audio" id="btn-sheet-audio" title="발음 다시 듣기">
+            ${Y_SVG.speaker(13)} <span>발음</span>
+          </button>
+        </div>
+        <div class="dict-sheet-head-actions">
+          <button type="button" class="dict-btn-star" id="btn-sheet-star">
+            <span>☆</span> <span>내 단어장에 넣기</span>
+          </button>
+          <button type="button" class="dict-sheet-close" id="btn-dict-sheet-close" title="닫기">&times;</button>
+        </div>
       </div>
-      <div class="dict-sheet-desc" id="dict-sheet-desc"></div>
+      <div class="dict-sheet-body">
+        <div class="dict-sheet-ko" id="dict-sheet-ko">
+          <span class="dict-sheet-label">우리말 뜻</span>
+          <span class="dict-sheet-meanings-text" id="dict-sheet-meanings"></span>
+        </div>
+        <div class="dict-sheet-desc" id="dict-sheet-desc"></div>
+      </div>
+      <div class="dict-sheet-footer">
+        <button type="button" class="btn-sheet-star-action" id="btn-sheet-save-primary">
+          <span>⭐</span> <span>내 단어장에 넣기</span>
+        </button>
+        <button type="button" class="btn-sheet-detail" id="btn-sheet-open-drawer">
+          ${Y_SVG.book(13)} <span>전체 사전·예문</span>
+        </button>
+        <button type="button" class="btn-sheet-open-wordbank" id="btn-sheet-open-wordbank">
+          ${Y_SVG.star(13)} <span>내 단어장 열기</span> (<span id="sheet-wordbank-count">0</span>)
+        </button>
+      </div>
     `;
 
     document.body.appendChild(overlay);
@@ -1168,6 +1294,25 @@
     document.getElementById("btn-drawer-close-bottom").addEventListener("click", closeDictDrawer);
     document.getElementById("btn-dict-sheet-close").addEventListener("click", () => {
       sheet.classList.remove("open");
+    });
+
+    // Sheet action handlers
+    document.getElementById("btn-sheet-audio").addEventListener("click", () => {
+      if (currentActiveDictData) speak(currentActiveDictData.en, 0.85);
+    });
+    document.getElementById("btn-sheet-star").addEventListener("click", () => {
+      if (currentActiveDictData) toggleSaveWord(currentActiveDictData.en);
+    });
+    document.getElementById("btn-sheet-save-primary").addEventListener("click", () => {
+      if (currentActiveDictData) toggleSaveWord(currentActiveDictData.en);
+    });
+    document.getElementById("btn-sheet-open-drawer").addEventListener("click", () => {
+      document.getElementById("dict-drawer").classList.add("open");
+      document.getElementById("dict-drawer-overlay").classList.add("open");
+    });
+    document.getElementById("btn-sheet-open-wordbank").addEventListener("click", () => {
+      sheet.classList.remove("open");
+      openWordBankModal();
     });
   }
 
@@ -1197,10 +1342,11 @@
       };
     }
 
-    const drawerBody = document.getElementById("dict-drawer-body");
+    currentActiveDictData = data;
     const savedList = Storage.get("saved_vocab", []);
-    const isSaved = savedList.includes(data.en);
+    const isSaved = savedList.some(w => typeof w === "string" && w.toLowerCase() === data.en.toLowerCase());
 
+    const drawerBody = document.getElementById("dict-drawer-body");
     drawerBody.innerHTML = `
       <div class="dict-word-head">
         <div>
@@ -1239,22 +1385,11 @@
     `;
 
     // Speak button
-    document.getElementById("btn-drawer-speak").onclick = () => speak(data.en, 0.8);
+    document.getElementById("btn-drawer-speak").onclick = () => speak(data.en, 0.85);
 
-    // Save toggle
+    // Save toggle in drawer
     document.getElementById("btn-toggle-save-word").onclick = function () {
-      let list = Storage.get("saved_vocab", []);
-      if (list.includes(data.en)) {
-        list = list.filter(w => w !== data.en);
-        this.classList.remove("saved");
-        this.innerHTML = Y_SVG.star(13) + " 내 단어장";
-      } else {
-        list.push(data.en);
-        this.classList.add("saved");
-        this.innerHTML = Y_SVG.star(13, 'currentColor') + " 저장됨";
-      }
-      Storage.set("saved_vocab", list);
-      updateCounters();
+      toggleSaveWord(data.en);
     };
 
     // Open Drawer & Bottom Sheet
@@ -1263,8 +1398,12 @@
 
     // Also update bottom sheet
     const sheet = document.getElementById("dict-bottom-sheet");
-    document.getElementById("dict-sheet-word").textContent = data.en + " " + data.pron;
+    document.getElementById("dict-sheet-word").textContent = data.en;
+    document.getElementById("dict-sheet-pron").textContent = data.pron || "";
+    document.getElementById("dict-sheet-pos").textContent = data.pos || "단어";
+    document.getElementById("dict-sheet-meanings").textContent = Array.isArray(data.meanings) ? data.meanings.join(", ") : (data.meanings || "");
     document.getElementById("dict-sheet-desc").innerHTML = `<em>Easy English:</em> ${data.easy_en}`;
+    refreshSheetSaveUI(isSaved);
     sheet.classList.add("open");
 
     // Pronounce word once on open
@@ -1334,6 +1473,16 @@
         return;
       }
 
+      // 1.5 내 발음 연습 (🎙️ 발음 버튼 클릭) -> AI 발음 코칭 & 낭독 연습실 팝업 오픈
+      const micBtn = e.target.closest(".btn-mic-sen");
+      if (micBtn) {
+        e.stopPropagation();
+        e.preventDefault();
+        const sid = micBtn.getAttribute("data-sid");
+        openPronunciationModal(sid);
+        return;
+      }
+
       // 2. 한 문장 듣기 (🔊 버튼 클릭) -> 하단 오디오 제어 독 팝업
       const senAudioBtn = e.target.closest(".btn-listen-sen");
       if (senAudioBtn) {
@@ -1376,6 +1525,48 @@
         });
       }
     }, 150);
+  }
+
+  // ── [화면 꺼짐 방지(Wake Lock) & 잠금화면 미디어 컨트롤러(MediaSession)] ──
+  let wakeLockSentinel = null;
+  async function acquireScreenWakeLock() {
+    if ("wakeLock" in navigator) {
+      try {
+        if (!wakeLockSentinel) {
+          wakeLockSentinel = await navigator.wakeLock.request("screen");
+          wakeLockSentinel.addEventListener("release", () => {
+            wakeLockSentinel = null;
+          });
+        }
+      } catch (e) {}
+    }
+  }
+  function releaseScreenWakeLock() {
+    if (wakeLockSentinel) {
+      try { wakeLockSentinel.release(); } catch (e) {}
+      wakeLockSentinel = null;
+    }
+  }
+
+  function updateMediaSession(title, artist) {
+    if ("mediaSession" in navigator && window.MediaMetadata) {
+      try {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: title || "빈센트 반 고흐 본문 연속 낭독",
+          artist: artist || "영어 예술가 교재 1권 (중2 영어)",
+          album: "연플래닝 추천 이야기 영어",
+          artwork: [
+            { src: "img/S00_표지_해바라기와_별밤.webp", sizes: "512x512", type: "image/webp" },
+            { src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }
+          ]
+        });
+        navigator.mediaSession.setActionHandler("play", () => AudioPlaybackManager.playCurrent());
+        navigator.mediaSession.setActionHandler("pause", () => AudioPlaybackManager.togglePlayPause());
+        navigator.mediaSession.setActionHandler("previoustrack", () => AudioPlaybackManager.prev());
+        navigator.mediaSession.setActionHandler("nexttrack", () => AudioPlaybackManager.next());
+        navigator.mediaSession.setActionHandler("stop", () => AudioPlaybackManager.stop());
+      } catch (e) {}
+    }
   }
 
   // ── [오디오 플레이백 매니저 & 하단 플로팅 플레이어 제어] ──
@@ -1464,6 +1655,8 @@
       const cur = this.allSentences[this.currentIdx];
       this.isPlaying = true;
       this.isPaused = false;
+      acquireScreenWakeLock();
+      updateMediaSession(cur.en, `[문단 ${cur.pno}] ${cur.sid} · 빈센트 반 고흐`);
 
       // 1. 하단 오디오 제어 팝업 바 즉시 오픈
       const dock = document.getElementById("floating-audio-dock");
@@ -1616,6 +1809,7 @@
     stop() {
       this.isPlaying = false;
       this.isPaused = false;
+      releaseScreenWakeLock();
       this.stopAudioElement();
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 
@@ -1658,8 +1852,17 @@
     replay() {
       this.repeatCurrent = 0;
       this.playCurrent();
+    },
+
+    getCurrentSentence() {
+      this.init();
+      if (this.currentIdx >= 0 && this.currentIdx < this.allSentences.length) {
+        return this.allSentences[this.currentIdx];
+      }
+      return this.allSentences[0] || null;
     }
   };
+  window.AudioPlaybackManager = AudioPlaybackManager;
 
   function initAudioDockEvents() {
     const dock = document.getElementById("floating-audio-dock");
@@ -1671,6 +1874,22 @@
     document.getElementById("btn-dock-prev").onclick = () => AudioPlaybackManager.prev();
     document.getElementById("btn-dock-next").onclick = () => AudioPlaybackManager.next();
     document.getElementById("btn-dock-replay").onclick = () => AudioPlaybackManager.replay();
+
+    // 현재 문장 발음 연습 버튼
+    const btnDockMic = document.getElementById("btn-dock-mic");
+    if (btnDockMic) {
+      btnDockMic.onclick = () => {
+        if (AudioPlaybackManager.isPlaying && !AudioPlaybackManager.isPaused) {
+          AudioPlaybackManager.togglePlayPause();
+        }
+        const cur = AudioPlaybackManager.getCurrentSentence();
+        if (cur) {
+          openPronunciationModal(cur.sid);
+        } else {
+          openPronunciationModal("3-3");
+        }
+      };
+    }
 
     // 목소리 선택 (여성 vs 남성)
     const voicePills = document.getElementById("dock-voice-pills");
@@ -1752,6 +1971,14 @@
         listenBtn.title = "이 문장 듣기";
         listenBtn.innerHTML = Y_SVG.speaker(13);
 
+        // 1.5 Sentence Pronunciation Practice Button (내 발음 연습)
+        const micBtn = document.createElement("button");
+        micBtn.type = "button";
+        micBtn.className = "btn-mic-sen";
+        micBtn.setAttribute("data-sid", sid);
+        micBtn.title = "내 발음 연습 (AI 음성 인식)";
+        micBtn.innerHTML = `${Y_SVG.mic(12)} <span>발음</span>`;
+
         // 2. Add scrap button to sentence
         const savedSen = Storage.get("saved_sentences", []);
         const isSaved = savedSen.includes(sid);
@@ -1761,8 +1988,8 @@
         scrapBtn.setAttribute("data-sid", sid);
         scrapBtn.innerHTML = isSaved ? `${Y_SVG.bookmark(11, 'currentColor')} <span>스크랩됨</span>` : `${Y_SVG.bookmark(11)} <span>스크랩</span>`;
 
-        // Enhance English words to be clickable and place [🔊] at the very beginning
-        enhanceSentenceText(enEl, sid, listenBtn, scrapBtn);
+        // Enhance English words to be clickable and place [🔊] and [🎙️ 발음] at the very beginning
+        enhanceSentenceText(enEl, sid, listenBtn, scrapBtn, micBtn);
       });
 
       // Grammar Lens Toggle Listener
@@ -1778,8 +2005,9 @@
     }
   }
 
-  function enhanceSentenceText(enEl, sid, optListenBtn, optScrapBtn) {
+  function enhanceSentenceText(enEl, sid, optListenBtn, optScrapBtn, optMicBtn) {
     let listenBtn = optListenBtn || enEl.querySelector(".btn-listen-sen");
+    let micBtn = optMicBtn || enEl.querySelector(".btn-mic-sen");
     let scrapBtn = optScrapBtn || enEl.querySelector(".btn-scrap-sen");
 
     if (!listenBtn) {
@@ -1789,6 +2017,14 @@
       listenBtn.setAttribute("data-sid", sid);
       listenBtn.title = "이 문장 듣기";
       listenBtn.innerHTML = Y_SVG.speaker(13);
+    }
+    if (!micBtn) {
+      micBtn = document.createElement("button");
+      micBtn.type = "button";
+      micBtn.className = "btn-mic-sen";
+      micBtn.setAttribute("data-sid", sid);
+      micBtn.title = "내 발음 연습 (AI 음성 인식)";
+      micBtn.innerHTML = `${Y_SVG.mic(12)} <span>발음</span>`;
     }
     if (!scrapBtn) {
       const savedSen = Storage.get("saved_sentences", []);
@@ -1802,7 +2038,7 @@
 
     // 버튼을 제외한 순수 영문 텍스트 추출
     const clone = enEl.cloneNode(true);
-    clone.querySelectorAll(".btn-listen-sen, .btn-scrap-sen").forEach(b => b.remove());
+    clone.querySelectorAll(".btn-listen-sen, .btn-mic-sen, .btn-scrap-sen").forEach(b => b.remove());
     const rawText = clone.textContent.trim();
 
     const tokens = rawText.split(/(\s+)/);
@@ -1823,6 +2059,7 @@
 
     enEl.innerHTML = "";
     enEl.appendChild(listenBtn); // [🔊] 문장 제일 앞에 배치
+    enEl.appendChild(micBtn);    // [🎙️ 발음] 듣기 바로 옆에 배치
     enEl.appendChild(frag);      // 본문 텍스트 (단어별 탭)
     enEl.appendChild(scrapBtn);  // [📌 스크랩] 문장 끝에 배치
   }
@@ -1837,6 +2074,7 @@
       const enEl = item.querySelector(".sentence-en");
       let scrapBtn = enEl.querySelector(".btn-scrap-sen");
       let listenBtn = enEl.querySelector(".btn-listen-sen");
+      let micBtn = enEl.querySelector(".btn-mic-sen");
 
       if (!listenBtn) {
         listenBtn = document.createElement("button");
@@ -1845,6 +2083,14 @@
         listenBtn.setAttribute("data-sid", sid);
         listenBtn.title = "이 문장 듣기";
         listenBtn.innerHTML = Y_SVG.speaker(13);
+      }
+      if (!micBtn) {
+        micBtn = document.createElement("button");
+        micBtn.type = "button";
+        micBtn.className = "btn-mic-sen";
+        micBtn.setAttribute("data-sid", sid);
+        micBtn.title = "내 발음 연습 (AI 음성 인식)";
+        micBtn.innerHTML = `${Y_SVG.mic(12)} <span>발음</span>`;
       }
       if (!scrapBtn) {
         const savedSen = Storage.get("saved_sentences", []);
@@ -1880,7 +2126,8 @@
       });
 
       enEl.innerHTML = html;
-      enEl.insertBefore(listenBtn, enEl.firstChild); // 문장 맨 앞에 [🔊]
+      enEl.insertBefore(micBtn, enEl.firstChild);
+      enEl.insertBefore(listenBtn, enEl.firstChild); // 문장 맨 앞에 [🔊] [🎙️ 발음]
       enEl.appendChild(scrapBtn);                   // 문장 맨 뒤에 [📌 스크랩]
     });
   }
@@ -2034,6 +2281,7 @@
               <button type="button" class="dock-btn" id="btn-dock-stop" title="완전 정지">${Y_SVG.stop(13)}</button>
               <button type="button" class="dock-btn" id="btn-dock-next" title="다음 문장">${Y_SVG.next(13)}</button>
               <button type="button" class="dock-btn" id="btn-dock-replay" title="문장 다시듣기">${Y_SVG.rotate(13)}</button>
+              <button type="button" class="dock-btn dock-btn-mic" id="btn-dock-mic" title="현재 문장 발음 연습 (AI 음성 인식)">${Y_SVG.mic(13)} <span>발음 연습</span></button>
             </div>
             <div class="audio-dock-options">
               <div class="dock-pill-group" id="dock-voice-pills">
@@ -2064,6 +2312,27 @@
     document.body.appendChild(printModal);
     document.body.appendChild(noiseModal);
     document.body.appendChild(utModal);
+
+    // 7. AI 발음 코칭 & 낭독 연습실 모달 (Pronunciation Practice Studio)
+    let pronModal = document.getElementById("pron-modal-overlay");
+    if (!pronModal) {
+      pronModal = document.createElement("div");
+      pronModal.className = "mastery-modal-overlay";
+      pronModal.id = "pron-modal-overlay";
+      pronModal.innerHTML = `
+        <div class="mastery-modal pron-modal-box" style="max-width:560px">
+          <div class="mastery-modal-head" style="background:#1e1b4b;border-bottom:2px solid #ec4899;display:flex;justify-content:space-between;align-items:center;">
+            <h3 style="color:#fbcfe8;display:flex;align-items:center;gap:6px;margin:0;font-size:16px;">${Y_SVG.mic(16)} <span id="pron-modal-title">AI 1:1 발음 코칭 &amp; 낭독 연습실</span></h3>
+            <button type="button" class="dict-drawer-close" id="btn-close-pron-modal" style="color:#fbcfe8;">&times;</button>
+          </div>
+          <div class="mastery-modal-body" id="pron-modal-body" style="padding:16px 18px;"></div>
+        </div>
+      `;
+      document.body.appendChild(pronModal);
+      const btnClosePron = document.getElementById("btn-close-pron-modal");
+      if (btnClosePron) btnClosePron.onclick = closePronunciationModal;
+      pronModal.onclick = e => { if (e.target === pronModal) closePronunciationModal(); };
+    }
 
     // 6. Student Authentication & Switch Modal (학원 공용 태블릿 기기 인증 및 학생 전환)
     const authModal = document.createElement("div");
@@ -2387,14 +2656,18 @@
     const body = document.getElementById("sb-modal-body");
     const savedSen = Storage.get("saved_sentences", []);
     const savedGrammars = Storage.get("saved_grammars", []);
+    const savedPron = Storage.get("saved_pronunciations", []);
 
     let html = `
-      <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;">
-        <button type="button" id="tab-sb-sen" style="flex:1;padding:8px 12px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#cbd5e1'};background:${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#fff'};color:${sbActiveTab === 'sen' ? '#fff' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:5px;">
+      <div style="display:flex;gap:6px;margin-bottom:14px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;flex-wrap:wrap;">
+        <button type="button" id="tab-sb-sen" style="flex:1;min-width:110px;padding:8px 10px;font-size:12.5px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#cbd5e1'};background:${sbActiveTab === 'sen' ? 'var(--yl-pri)' : '#fff'};color:${sbActiveTab === 'sen' ? '#fff' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:4px;">
           ${Y_SVG.book(13)} <span>스크랩 문장 (${savedSen.length})</span>
         </button>
-        <button type="button" id="tab-sb-grammar" style="flex:1;padding:8px 12px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'grammar' ? '#eab308' : '#cbd5e1'};background:${sbActiveTab === 'grammar' ? '#fef08a' : '#fff'};color:${sbActiveTab === 'grammar' ? '#854d0e' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:5px;">
-          ★ <span>핵심 문법 노트 (${savedGrammars.length})</span>
+        <button type="button" id="tab-sb-grammar" style="flex:1;min-width:120px;padding:8px 10px;font-size:12.5px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'grammar' ? '#eab308' : '#cbd5e1'};background:${sbActiveTab === 'grammar' ? '#fef08a' : '#fff'};color:${sbActiveTab === 'grammar' ? '#854d0e' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:4px;">
+          ★ <span>핵심 문법 (${savedGrammars.length})</span>
+        </button>
+        <button type="button" id="tab-sb-pron" style="flex:1;min-width:110px;padding:8px 10px;font-size:12.5px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid ${sbActiveTab === 'pron' ? '#e11d48' : '#cbd5e1'};background:${sbActiveTab === 'pron' ? '#ffe4e6' : '#fff'};color:${sbActiveTab === 'pron' ? '#be123c' : '#475569'};display:inline-flex;align-items:center;justify-content:center;gap:4px;">
+          ${Y_SVG.mic(12)} <span>발음 기록 (${savedPron.length})</span>
         </button>
       </div>
     `;
@@ -2443,7 +2716,7 @@
           </div>
         `;
       }
-    } else {
+    } else if (sbActiveTab === "grammar") {
       // Grammar Tab
       if (savedGrammars.length === 0) {
         html += `
@@ -2499,6 +2772,57 @@
           </div>
         `;
       }
+    } else if (sbActiveTab === "pron") {
+      // Pronunciation Practice Tab
+      if (savedPron.length === 0) {
+        html += `
+          <div style="text-align:center;padding:40px 10px;color:#64748b">
+            <div style="margin-bottom:12px;color:#e11d48;font-size:36px;">🎙️</div>
+            <p style="font-size:15px;font-weight:700;color:#9f1239;">아직 저장된 발음 연습 기록이 없어요!</p>
+            <p style="font-size:13px;line-height:1.5;">본문 문장의 <b>[🎙️ 발음]</b> 버튼이나 하단 오디오 독의 <b>[🎙️ 발음 연습]</b>을 눌러<br>내 목소리를 녹음하고 실시간 AI 채점을 받아보세요.</p>
+          </div>
+        `;
+      } else {
+        html += `<div style="display:flex;flex-direction:column;gap:10px">`;
+        savedPron.forEach(p => {
+          html += `
+            <div style="background:#fff1f2;border:1.5px solid #fecdd3;border-radius:10px;padding:12px 14px;box-shadow:0 1px 4px rgba(225,29,72,0.06);">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:11px;font-weight:800;color:#9f1239;background:#ffe4e6;padding:2px 8px;border-radius:4px;">
+                  🎙️ [문단 ${p.pno}] 문장 ${p.sid}
+                </span>
+                <span style="font-size:12px;font-weight:800;color:#e11d48;background:#ffffff;border:1px solid #fecdd3;padding:2px 8px;border-radius:12px;">
+                  ${p.score}점 · ${p.grade}
+                </span>
+              </div>
+              <div style="font-family:'Crimson Pro',Georgia,serif;font-size:16px;font-weight:700;color:#1e293b;margin-bottom:3px;">
+                "${escapeHtml(p.en)}"
+              </div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:8px;">${escapeHtml(p.ko)}</div>
+              <div style="background:#ffffff;border:1px solid #fed7aa;border-radius:6px;padding:6px 10px;font-size:12px;color:#334155;margin-bottom:8px;">
+                🗣️ <b>내가 낭독한 인식 결과:</b> "${escapeHtml(p.transcript)}"
+                ${p.missedWords && p.missedWords.length > 0 ? `<div style="font-size:11px;color:#dc2626;margin-top:2px;">⚠️ 발음 보완 권장: <b>${escapeHtml(p.missedWords.join(', '))}</b></div>` : ''}
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button type="button" class="btn-retry-pron-item" data-sid="${p.sid}" style="flex:1;min-height:34px;font-size:12px;font-weight:700;background:#e11d48;color:#ffffff;border:none;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;">
+                  ${Y_SVG.mic(12)} <span>다시 발음 연습하기</span>
+                </button>
+                <button type="button" class="btn-listen-pron-std" data-sid="${p.sid}" style="min-height:34px;font-size:12px;font-weight:700;background:#ffffff;color:#9f1239;border:1px solid #fecdd3;border-radius:6px;padding:0 10px;cursor:pointer;display:inline-flex;align-items:center;gap:3px;">
+                  ${Y_SVG.speaker(12)} <span>원어민 듣기</span>
+                </button>
+                <button type="button" class="btn-del-pron-item" data-sid="${p.sid}" style="min-height:34px;font-size:12px;background:#fff;color:#dc2626;border:1px solid #fca5a5;border-radius:6px;padding:0 10px;cursor:pointer;">삭제</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `
+          </div>
+          <div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;color:#64748b">총 ${savedPron.length}개 문장 발음 연습 기록</span>
+            <button type="button" class="btn-stage-sub-tool" id="btn-pron-print" style="margin-left:0;display:inline-flex;align-items:center;gap:4px">${Y_SVG.printer(13)} <span>발음 클리닉 학습지 인쇄</span></button>
+          </div>
+        `;
+      }
     }
 
     body.innerHTML = html;
@@ -2512,6 +2836,13 @@
       sbActiveTab = "grammar";
       openScrapbookModal();
     };
+    const tabPron = document.getElementById("tab-sb-pron");
+    if (tabPron) {
+      tabPron.onclick = () => {
+        sbActiveTab = "pron";
+        openScrapbookModal();
+      };
+    }
 
     // Print buttons
     const btnSbPrint = document.getElementById("btn-sb-print");
@@ -2524,6 +2855,13 @@
     const btnGPrint = document.getElementById("btn-g-print");
     if (btnGPrint) {
       btnGPrint.onclick = () => {
+        modal.classList.remove("open");
+        openPrintStudioModal();
+      };
+    }
+    const btnPronPrint = document.getElementById("btn-pron-print");
+    if (btnPronPrint) {
+      btnPronPrint.onclick = () => {
         modal.classList.remove("open");
         openPrintStudioModal();
       };
@@ -2594,6 +2932,37 @@
             openGrammarSpotlightModal(dummyChunk, "drill");
           }
         }
+      };
+    });
+
+    // Pronunciation tab event listeners
+    body.querySelectorAll(".btn-retry-pron-item").forEach(btn => {
+      btn.onclick = () => {
+        const sid = btn.getAttribute("data-sid");
+        modal.classList.remove("open");
+        openPronunciationModal(sid);
+      };
+    });
+
+    body.querySelectorAll(".btn-listen-pron-std").forEach(btn => {
+      btn.onclick = () => {
+        const sid = btn.getAttribute("data-sid");
+        const a = new Audio(`audio/${VoiceEngine.gender}/s${sid}.mp3`);
+        a.play().catch(() => {
+          const s = getAllSentenceList().find(x => x.sid === sid);
+          if (s) speak(s.en, 0.85);
+        });
+      };
+    });
+
+    body.querySelectorAll(".btn-del-pron-item").forEach(btn => {
+      btn.onclick = () => {
+        const sid = btn.getAttribute("data-sid");
+        let list = Storage.get("saved_pronunciations", []);
+        list = list.filter(p => p.sid !== sid);
+        Storage.set("saved_pronunciations", list);
+        showToast("발음 연습 기록을 삭제했습니다.");
+        openScrapbookModal();
       };
     });
 
@@ -3177,6 +3546,528 @@
       const titleText = target.querySelector("h3") ? target.querySelector("h3").textContent : `${gNo}번 문법`;
       showToast(`📖 [${titleText}] 설명 위치로 이동했습니다.`);
     }
+  }
+
+  // ── [AI 1:1 발음 코칭 & 낭독 연습실 (Pronunciation Practice Studio Engine)] ──
+  let pronState = {
+    sid: null,
+    senObj: null,
+    curPno: 1,
+    prevSen: null,
+    nextSen: null,
+    isRecording: false,
+    isEvaluated: false,
+    transcript: "",
+    score: 0,
+    grade: "",
+    gradeColor: "",
+    gradeBg: "",
+    feedbackMsg: "",
+    wordsAnalysis: [],
+    missedWords: []
+  };
+
+  let pronRecognition = null;
+  let pronMediaRecorder = null;
+  let pronMediaStream = null;
+  let pronAudioChunks = [];
+  let pronRecordedBlob = null;
+  let pronRecordedBlobUrl = null;
+  let pronSampleAudio = null;
+
+  function getAllSentenceList() {
+    const list = [];
+    if (B && B.paragraphs) {
+      B.paragraphs.forEach(p => {
+        p.sentences.forEach(s => {
+          list.push({ sid: s.id, pno: p.no, en: s.en, ko: s.ko });
+        });
+      });
+    }
+    return list;
+  }
+
+  function openPronunciationModal(targetInput) {
+    const allList = getAllSentenceList();
+    if (allList.length === 0) return;
+
+    let targetSid = "1-1";
+    if (typeof targetInput === "string") {
+      targetSid = targetInput;
+    } else if (targetInput && (targetInput.sid || targetInput.id)) {
+      targetSid = targetInput.sid || targetInput.id;
+    } else if (AudioPlaybackManager.isPlaying) {
+      const cur = AudioPlaybackManager.getCurrentSentence();
+      if (cur) targetSid = cur.sid;
+    }
+
+    const curIdx = allList.findIndex(s => s.sid === targetSid);
+    const senItem = curIdx >= 0 ? allList[curIdx] : allList[0];
+    const prevSen = curIdx > 0 ? allList[curIdx - 1] : null;
+    const nextSen = curIdx >= 0 && curIdx < allList.length - 1 ? allList[curIdx + 1] : null;
+
+    // 녹음 및 재생 상태 초기화
+    cleanupPronRecording();
+    pronState = {
+      sid: senItem.sid,
+      senObj: senItem,
+      curPno: senItem.pno,
+      prevSen,
+      nextSen,
+      isRecording: false,
+      isEvaluated: false,
+      transcript: "",
+      score: 0,
+      grade: "",
+      gradeColor: "",
+      gradeBg: "",
+      feedbackMsg: "",
+      wordsAnalysis: [],
+      missedWords: []
+    };
+
+    renderPronunciationView();
+    const modal = document.getElementById("pron-modal-overlay");
+    if (modal) modal.classList.add("open");
+  }
+  window.openPronunciationModal = openPronunciationModal;
+
+  function closePronunciationModal() {
+    cleanupPronRecording();
+    if (pronSampleAudio) {
+      try { pronSampleAudio.pause(); pronSampleAudio = null; } catch(e) {}
+    }
+    const modal = document.getElementById("pron-modal-overlay");
+    if (modal) modal.classList.remove("open");
+  }
+  window.closePronunciationModal = closePronunciationModal;
+
+  function cleanupPronRecording() {
+    pronState.isRecording = false;
+    if (pronRecognition) {
+      try { pronRecognition.abort(); } catch(e) {}
+      pronRecognition = null;
+    }
+    if (pronMediaRecorder && pronMediaRecorder.state !== "inactive") {
+      try { pronMediaRecorder.stop(); } catch(e) {}
+      pronMediaRecorder = null;
+    }
+    if (pronMediaStream) {
+      try { pronMediaStream.getTracks().forEach(t => t.stop()); } catch(e) {}
+      pronMediaStream = null;
+    }
+  }
+
+  function renderPronunciationView() {
+    const body = document.getElementById("pron-modal-body");
+    if (!body) return;
+
+    const sen = pronState.senObj;
+    const isSaved = Storage.get("saved_pronunciations", []).some(p => p.sid === sen.sid && p.score >= 80);
+
+    let html = `
+      <!-- 1. 목표 낭독 문장 카드 -->
+      <div class="pron-target-card">
+        <div class="pron-target-badge-row">
+          <span class="pron-target-badge">
+            ${Y_SVG.mic(12)} <span>문단 ${sen.pno} · 문장 ${sen.sid}</span>
+          </span>
+          <div class="pron-target-audio-group">
+            <button type="button" class="btn-pron-sample" id="btn-pron-native-std" title="원어민 표준 속도 듣기">
+              ${Y_SVG.speaker(12)} <span>원어민 표준 발음</span>
+            </button>
+            <button type="button" class="btn-pron-sample" id="btn-pron-native-slow" title="0.75배속 천천히 듣기">
+              <span>🐢 0.75× 슬로우</span>
+            </button>
+          </div>
+        </div>
+        <div class="pron-target-en">${escapeHtml(sen.en)}</div>
+        <div class="pron-target-ko">${escapeHtml(sen.ko)}</div>
+      </div>
+
+      <!-- 2. 음성 녹음 및 인터랙션 액션 버튼 -->
+      <div class="pron-rec-section">
+        <div class="pron-rec-btn-wrap">
+          <button type="button" class="pron-rec-btn ${pronState.isRecording ? 'recording' : ''}" id="btn-pron-toggle-rec">
+            ${pronState.isRecording ? `${Y_SVG.stop(20)} <span>다 읽었어요! 채점하기 (클릭)</span>` : `${Y_SVG.mic(22)} <span>마이크 켜고 소리 내어 읽기</span>`}
+          </button>
+        </div>
+        <div class="pron-rec-tip" id="pron-rec-tip-text">
+          ${pronState.isRecording ?
+            `<span style="color:#dc2626;font-weight:700">🔴 마이크가 켜졌습니다. 위 영문장을 또박또박 낭독하세요!</span>` :
+            `💡 마이크 버튼을 누르면 실시간 AI 발음 인식이 시작됩니다. 다 읽고 버튼을 누르면 즉시 채점됩니다.`}
+        </div>
+        <div class="pron-live-transcript" id="pron-live-transcript">
+          ${pronState.isRecording ? '말씀을 듣고 있어요... (낭독 중)' : (pronState.transcript ? `"${escapeHtml(pronState.transcript)}"` : '')}
+        </div>
+      </div>
+
+      <!-- 3. AI 채점 결과 카드 (녹음 및 인식 완료 시 표시) -->
+      ${pronState.isEvaluated ? `
+        <div class="pron-eval-card">
+          <div class="pron-score-header">
+            <div>
+              <div style="font-size:11px;font-weight:800;color:#64748b;margin-bottom:2px">AI 낭독 정확도 점수</div>
+              <div class="pron-score-box">
+                <span class="pron-score-num" style="color:${pronState.gradeColor}">${pronState.score}</span>
+                <span class="pron-score-total">/ 100점</span>
+              </div>
+            </div>
+            <div class="pron-grade-pill" style="color:${pronState.gradeColor};background:${pronState.gradeBg};border:1.5px solid ${pronState.gradeColor}">
+              ${Y_SVG.award(14)} <span>${pronState.grade}</span>
+            </div>
+          </div>
+
+          <div class="pron-feedback-text" style="border-left-color:${pronState.gradeColor}">
+            ${escapeHtml(pronState.feedbackMsg)}
+          </div>
+
+          <!-- 단어별 정확도 분석 칩 -->
+          <div class="pron-chips-title">
+            <span>단어별 정확도 분석 (초록색: 일치 / 주황색: 보완 권장)</span>
+            <span style="font-size:11px;color:#0ea5e9;font-weight:600">칩을 누르면 원어민 발음 재생</span>
+          </div>
+          <div class="pron-chips-flow">
+            ${pronState.wordsAnalysis.map(w => {
+              const chipClass = w.status === 'match' ? 'match' : (w.status === 'partial' ? 'partial' : 'miss');
+              const mark = w.status === 'match' ? '✓' : (w.status === 'partial' ? '~' : '?');
+              return `<button type="button" class="pron-chip ${chipClass}" data-word="${escapeHtml(w.word)}" title="클릭하여 단어 발음 듣기">${escapeHtml(w.word)} <span class="pron-chip-mark">${mark}</span></button>`;
+            }).join('')}
+          </div>
+
+          <!-- 듀얼 오디오 비교: 내 목소리 vs 원어민 표준 음성 -->
+          <div class="pron-audio-compare">
+            <span style="font-size:12px;font-weight:700;color:#334155">${Y_SVG.headphones(13)} 오디오 1:1 비교</span>
+            <div style="display:flex;gap:6px">
+              <button type="button" class="btn-play-compare" id="btn-play-student-audio" ${!pronRecordedBlobUrl ? 'disabled' : ''}>
+                ${Y_SVG.play(12)} <span>내 목소리 다시 듣기</span>
+              </button>
+              <button type="button" class="btn-play-compare" id="btn-compare-native-audio">
+                ${Y_SVG.speaker(12)} <span>원어민 표준 발음 비교</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- 4. 하단 네비게이션 & 저장 액션 툴바 -->
+      <div class="pron-modal-footer">
+        <button type="button" class="btn-pron-nav" id="btn-pron-prev" ${!pronState.prevSen ? 'disabled' : ''}>
+          ${Y_SVG.prev(12)} <span>이전 문장</span>
+        </button>
+        <button type="button" class="btn-pron-save ${isSaved ? 'saved' : ''}" id="btn-pron-save-action">
+          ${isSaved ? `${Y_SVG.bookmark(14, 'currentColor')} <span>✓ 내 발음 클리닉에 저장됨</span>` : `${Y_SVG.bookmark(14)} <span>내 발음 클리닉 &amp; 복습 코너에 저장</span>`}
+        </button>
+        <button type="button" class="btn-pron-nav" id="btn-pron-next" ${!pronState.nextSen ? 'disabled' : ''}>
+          <span>다음 문장</span> ${Y_SVG.next(12)}
+        </button>
+      </div>
+    `;
+
+    body.innerHTML = html;
+
+    // Attach listeners
+    // 1. Native sample audio buttons
+    const btnStd = document.getElementById("btn-pron-native-std");
+    if (btnStd) btnStd.onclick = () => playPronNativeAudio(0.85);
+
+    const btnSlow = document.getElementById("btn-pron-native-slow");
+    if (btnSlow) btnSlow.onclick = () => playPronNativeAudio(0.75);
+
+    // 2. Toggle recording button
+    const btnRec = document.getElementById("btn-pron-toggle-rec");
+    if (btnRec) {
+      btnRec.onclick = () => {
+        if (pronState.isRecording) {
+          stopPronRecording();
+        } else {
+          startPronRecording();
+        }
+      };
+    }
+
+    // 3. Evaluation result events
+    if (pronState.isEvaluated) {
+      body.querySelectorAll(".pron-chip").forEach(chip => {
+        chip.onclick = () => {
+          const w = chip.getAttribute("data-word");
+          if (w) speak(w, 0.85);
+        };
+      });
+
+      const btnPlayStudent = document.getElementById("btn-play-student-audio");
+      if (btnPlayStudent) {
+        btnPlayStudent.onclick = () => {
+          if (pronRecordedBlobUrl) {
+            const a = new Audio(pronRecordedBlobUrl);
+            a.play();
+          }
+        };
+      }
+
+      const btnCompareNative = document.getElementById("btn-compare-native-audio");
+      if (btnCompareNative) {
+        btnCompareNative.onclick = () => playPronNativeAudio(0.85);
+      }
+    }
+
+    // 4. Footer save & navigation
+    const btnSave = document.getElementById("btn-pron-save-action");
+    if (btnSave) {
+      btnSave.onclick = savePronResult;
+    }
+
+    const btnPrev = document.getElementById("btn-pron-prev");
+    if (btnPrev && pronState.prevSen) {
+      btnPrev.onclick = () => openPronunciationModal(pronState.prevSen.sid);
+    }
+
+    const btnNext = document.getElementById("btn-pron-next");
+    if (btnNext && pronState.nextSen) {
+      btnNext.onclick = () => openPronunciationModal(pronState.nextSen.sid);
+    }
+  }
+
+  function playPronNativeAudio(rate = 0.85) {
+    if (pronSampleAudio) {
+      try { pronSampleAudio.pause(); } catch(e) {}
+      pronSampleAudio = null;
+    }
+    const sen = pronState.senObj;
+    if (!sen) return;
+
+    const audioUrl = `audio/${VoiceEngine.gender}/s${sen.sid}.mp3`;
+    const audio = new Audio(audioUrl);
+    audio.playbackRate = rate;
+    pronSampleAudio = audio;
+
+    audio.onerror = () => {
+      speak(sen.en, rate);
+    };
+    audio.play().catch(() => {
+      speak(sen.en, rate);
+    });
+  }
+
+  function startPronRecording() {
+    const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    pronState.isRecording = true;
+    pronState.transcript = "";
+    pronAudioChunks = [];
+    if (pronRecordedBlobUrl) {
+      try { URL.revokeObjectURL(pronRecordedBlobUrl); } catch(e) {}
+      pronRecordedBlobUrl = null;
+    }
+
+    // 1. Web Speech API Recognition
+    if (SpeechRecognitionClass) {
+      try {
+        pronRecognition = new SpeechRecognitionClass();
+        pronRecognition.lang = "en-US";
+        pronRecognition.interimResults = true;
+        pronRecognition.continuous = false;
+        pronRecognition.maxAlternatives = 1;
+
+        pronRecognition.onresult = event => {
+          let full = "";
+          for (let i = 0; i < event.results.length; i++) {
+            full += event.results[i][0].transcript;
+          }
+          pronState.transcript = full;
+          const liveEl = document.getElementById("pron-live-transcript");
+          if (liveEl) liveEl.textContent = `"${full}"`;
+        };
+
+        pronRecognition.onerror = event => {
+          console.warn("SpeechRec error:", event.error);
+          if (event.error === "not-allowed") {
+            showToast("마이크 사용 권한이 필요합니다. 브라우저 주소창에서 마이크 접근을 허용해 주세요.");
+            stopPronRecording();
+          }
+        };
+
+        pronRecognition.onend = () => {
+          if (pronState.isRecording) {
+            stopPronRecording();
+          }
+        };
+
+        pronRecognition.start();
+      } catch (e) {
+        console.warn("SpeechRecognition start exception:", e);
+      }
+    } else {
+      showToast("이 브라우저는 실시간 음성 인식을 지원하지 않습니다. 마이크 녹음으로 내 목소리를 확인합니다.");
+    }
+
+    // 2. MediaRecorder for student voice replay
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        pronMediaStream = stream;
+        pronMediaRecorder = new MediaRecorder(stream);
+        pronAudioChunks = [];
+        pronMediaRecorder.ondataavailable = e => {
+          if (e.data && e.data.size > 0) pronAudioChunks.push(e.data);
+        };
+        pronMediaRecorder.onstop = () => {
+          if (pronAudioChunks.length > 0) {
+            pronRecordedBlob = new Blob(pronAudioChunks, { type: "audio/webm;codecs=opus" });
+            pronRecordedBlobUrl = URL.createObjectURL(pronRecordedBlob);
+            const btnPlayStudent = document.getElementById("btn-play-student-audio");
+            if (btnPlayStudent) btnPlayStudent.disabled = false;
+          }
+        };
+        pronMediaRecorder.start();
+      }).catch(err => {
+        console.warn("getUserMedia failed:", err);
+      });
+    }
+
+    renderPronunciationView();
+  }
+
+  function stopPronRecording() {
+    if (!pronState.isRecording) return;
+    pronState.isRecording = false;
+
+    if (pronRecognition) {
+      try { pronRecognition.stop(); } catch(e) {}
+      pronRecognition = null;
+    }
+    if (pronMediaRecorder && pronMediaRecorder.state !== "inactive") {
+      try { pronMediaRecorder.stop(); } catch(e) {}
+    }
+    if (pronMediaStream) {
+      try { pronMediaStream.getTracks().forEach(t => t.stop()); } catch(e) {}
+      pronMediaStream = null;
+    }
+
+    evaluatePronunciation(pronState.senObj, pronState.transcript);
+  }
+
+  function evaluatePronunciation(senObj, transcript) {
+    const rawWords = senObj.en.split(/\s+/);
+    const normTarget = rawWords.map(w => w.replace(/[^a-zA-Z]/g, "").toLowerCase());
+    const spokenTokens = (transcript || "").toLowerCase().replace(/[^a-z0-9\s]/g, "").split(/\s+/).filter(Boolean);
+
+    let matchCount = 0;
+    let partialCount = 0;
+    const wordsAnalysis = [];
+
+    normTarget.forEach((tw, idx) => {
+      const original = rawWords[idx];
+      if (!tw) {
+        wordsAnalysis.push({ word: original, status: "match" });
+        return;
+      }
+      if (spokenTokens.includes(tw)) {
+        matchCount++;
+        wordsAnalysis.push({ word: original, status: "match" });
+      } else {
+        const isPart = spokenTokens.some(st => {
+          if (st.length >= 3 && tw.length >= 3) {
+            return st.startsWith(tw.slice(0, 3)) || tw.startsWith(st.slice(0, 3));
+          }
+          return false;
+        });
+        if (isPart) {
+          partialCount++;
+          wordsAnalysis.push({ word: original, status: "partial" });
+        } else {
+          wordsAnalysis.push({ word: original, status: "miss" });
+        }
+      }
+    });
+
+    const validLen = normTarget.filter(Boolean).length || 1;
+    let score = 0;
+    if (!transcript || transcript.trim().length === 0) {
+      score = 0;
+    } else {
+      const raw = ((matchCount * 1.0) + (partialCount * 0.65)) / validLen * 100;
+      score = Math.min(100, Math.round(raw));
+      if (score < 45 && spokenTokens.length > 0) score = 50;
+    }
+
+    let grade = "PERFECT";
+    let gradeColor = "#059669";
+    let gradeBg = "#ecfdf5";
+    let feedbackMsg = "🎉 완벽해요! 미국 표준 원어민 수준의 자연스러운 억양과 정확한 발음입니다!";
+
+    if (score >= 90) {
+      grade = "PERFECT";
+      gradeColor = "#059669";
+      gradeBg = "#ecfdf5";
+      feedbackMsg = "🎉 완벽해요! 미국 표준 원어민 수준의 자연스러운 억양과 정확한 발음입니다!";
+    } else if (score >= 80) {
+      grade = "EXCELLENT";
+      gradeColor = "#2563eb";
+      gradeBg = "#eff6ff";
+      feedbackMsg = "👏 훌륭합니다! 자신감 있고 유창하게 문장의 호흡을 잘 살렸어요.";
+    } else if (score >= 65) {
+      grade = "GOOD";
+      gradeColor = "#d97706";
+      gradeBg = "#fffbeb";
+      feedbackMsg = "👍 의미가 충분히 전달되었습니다! 주황색 단어를 탭하여 원어민 소리를 듣고 한 번 더 읽어보세요.";
+    } else {
+      grade = "TRY AGAIN";
+      gradeColor = "#be123c";
+      gradeBg = "#fff1f2";
+      feedbackMsg = "💪 마이크를 입 가까이에 대고 조금 더 천천히 큰 소리로 따라 읽어보세요!";
+    }
+
+    pronState.isEvaluated = true;
+    pronState.score = score;
+    pronState.grade = grade;
+    pronState.gradeColor = gradeColor;
+    pronState.gradeBg = gradeBg;
+    pronState.feedbackMsg = feedbackMsg;
+    pronState.wordsAnalysis = wordsAnalysis;
+    pronState.missedWords = wordsAnalysis.filter(w => w.status === "miss").map(w => w.word.replace(/[^a-zA-Z]/g, ""));
+
+    renderPronunciationView();
+  }
+
+  function savePronResult() {
+    const sen = pronState.senObj;
+    if (!sen) return;
+
+    let list = Storage.get("saved_pronunciations", []);
+    list = list.filter(p => p.sid !== sen.sid);
+    list.unshift({
+      sid: sen.sid,
+      pno: sen.pno,
+      en: sen.en,
+      ko: sen.ko,
+      score: pronState.score || 85,
+      grade: pronState.grade || "GOOD",
+      transcript: pronState.transcript || sen.en,
+      missedWords: pronState.missedWords || [],
+      date: new Date().toISOString()
+    });
+    Storage.set("saved_pronunciations", list);
+
+    if ((pronState.score < 85 || pronState.missedWords.length > 0) && pronState.missedWords.length > 0) {
+      let clinic = Storage.get("spk_clinic", getDefaultClinicList());
+      const qid = `SPK-${sen.sid}`;
+      if (!clinic.some(c => c.qid === qid)) {
+        clinic.push({
+          type: "말하기 발음 연습",
+          qid: qid,
+          question: `문장 ${sen.sid} 낭독 연습 (${sen.ko})`,
+          mistake: `인식된 음성: "${pronState.transcript || '발음 불명확'}"`,
+          correct: sen.en,
+          rx: `연습 권장 단어: ${pronState.missedWords.join(", ")}`,
+          practice: sen.en
+        });
+        Storage.set("spk_clinic", clinic);
+      }
+    }
+
+    updateCounters();
+    showToast(`⭐ 문장 ${sen.sid} 발음 연습 결과(${pronState.score || 85}점)가 복습 코너에 저장되었습니다!`);
+    renderPronunciationView();
   }
 
   // 4단계 문장 정복 챌린지 실행 엔진
